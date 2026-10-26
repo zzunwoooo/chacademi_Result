@@ -1,13 +1,27 @@
 # Chacademi Result
 
-Source consolidation in progress. This repository is NOT yet a complete or verified operating release. Do not deploy it to production.
+차카데미(마인크래프트 서버 + 런처)의 **기준 저장소**. 2026-10-27부터 모든 작업은 여기에 모은다.
+이전 저장소(`chacademi-server`, `chacademi-magiccodex-source`, `chacademi-launcher` 의 작업 브랜치)는 참고용이며 더 이상 커밋하지 않는다.
 
-## Intended layout
-- `game/`: server plugins and client mods
-- `launcher/`: launcher application and distribution manifest
-- `deployment/`: sanitized configuration, release provenance and validation
+> **최신 기준 = 실제 서버와 런처에 깔린 것.** 이 저장소는 그 상태를 따라간다.
 
-## Required reconciliation
-The operating release contains emergency fixes that are not all present in the original development branch. These must be recovered and compared before this repository is marked complete. Existing source repositories and production servers are not modified by this consolidation.
+## 브랜치
 
-Credentials, SSH keys, database passwords, tokens and player data must not be committed.
+| 브랜치 | 담는 것 | 누가 바꾸나 |
+|---|---|---|
+| `main` | 이 안내문, 구조 설명 | Claude |
+| `rules` | 작업 규칙 (사람·AI 공통) — **작업 전에 꼭 읽기** | 오너, Claude |
+| `planning` | 기획서, 설계 문서, 인계 문서 | 오너, GPT, Claude |
+| `source` | 서버 플러그인·클라이언트 모드·대시보드 **소스 코드** (그림·폰트 같은 바이너리 제외) | Claude |
+| `resources` | 서버 대화·컷신·운영 설정 등 콘텐츠 + 바이너리 리소스 목록 | Claude |
+| `build` | 지금 서버·런처에 **실제로 배포된** 파일 목록(해시)과 작은 빌드 결과물 | Claude |
+| `inbox` → `inbox/<주제>-<날짜>` | **다른 세션·GPT 가 작업을 올리는 곳** | 누구나 |
+
+## 다른 세션·GPT 가 작업을 올릴 때
+
+1. `inbox` 브랜치에서 새 브랜치를 만든다: `inbox/<주제>-<YYYYMMDD>` (예: `inbox/ch1-gate-sorting-20261027`).
+2. 거기에만 커밋·푸시한다. **다른 브랜치에는 직접 올리지 않는다.**
+3. `NOTE.md` 에 *무엇을 왜 바꿨는지, 어떤 서버·런처 파일에 영향이 가는지* 적는다.
+4. 빌드·서버 반영·런처 배포는 하지 않는다. Claude 가 실제 서버와 대조한 뒤 `source`/`resources`/`build` 로 옮기고 배포한다.
+
+자세한 규칙은 `rules` 브랜치의 `RULES.md`.
