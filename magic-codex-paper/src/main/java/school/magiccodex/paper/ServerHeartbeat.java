@@ -77,8 +77,9 @@ final class ServerHeartbeat implements AutoCloseable {
         if (!Files.exists(folder.resolve("server-heartbeat.yml"))) plugin.saveResource("server-heartbeat.yml", false);
         var y = YamlConfiguration.loadConfiguration(folder.resolve("server-heartbeat.yml").toFile());
         if (!y.getBoolean("enabled", true)) { plugin.getLogger().info("운영 하트비트: 꺼짐 (server-heartbeat.yml enabled: false)"); return null; }
-        var settings = DatabaseSettings.load(folder.resolve("database.properties"));
-        if (!settings.mariaDb()) { plugin.getLogger().info("운영 하트비트: database.properties 가 MariaDB 가 아니라 끔"); return null; }
+        // 하트비트 전용 DB 설정 (2026-10-27): database.properties 는 다른 기능의 저장 위치도 바꾸므로 따로 둔다
+        var settings = DatabaseSettings.load(folder.resolve("heartbeat-database.properties"));
+        if (!settings.mariaDb()) { plugin.getLogger().info("운영 하트비트: heartbeat-database.properties 가 MariaDB 가 아니라 끔"); return null; }
         String id = serverId(y.getString("server-id", ""), plugin.getServer().getWorldContainer().getAbsoluteFile().toPath());
         int interval = clampInterval(y.getInt("interval-seconds", 10));
         var hb = new ServerHeartbeat(plugin, settings, id, interval, y.getBoolean("world-counts", true));
