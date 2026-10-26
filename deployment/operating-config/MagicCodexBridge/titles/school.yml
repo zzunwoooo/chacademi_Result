@@ -1,0 +1,1688 @@
+titles:
+  prefix_starlight:
+    side: prefix
+    name: 별빛을 발견한
+    color: '#96E4EC'
+  prefix_bond:
+    side: prefix
+    name: 작은 인연을 맺은
+    color: '#96E4EC'
+  prefix_forest:
+    side: prefix
+    name: 숲을 거니는
+    color: '#96E4EC'
+  prefix_miracle:
+    side: prefix
+    name: 기적을 이루는
+    color: '#96E4EC'
+  suffix_researcher:
+    side: suffix
+    name: 연구가
+    color: '#DEC58E'
+  suffix_student:
+    side: suffix
+    name: 학생
+    color: '#DEC58E'
+    initial: true
+  suffix_tamer:
+    side: suffix
+    name: 교화사
+    color: '#DEC58E'
+  suffix_explorer:
+    side: suffix
+    name: 탐험가
+    color: '#DEC58E'
+  suffix_affinity_friend:
+    side: suffix
+    name: 친구
+    color: '#DEC58E'
+  suffix_affinity_bestie:
+    side: suffix
+    name: 단짝
+    color: '#DEC58E'
+  suffix_affinity_lover:
+    side: suffix
+    name: 연인
+    color: '#DEC58E'
+  prefix_magic_feather_fall:
+    side: prefix
+    name: 가벼운
+    color: '#96E4EC'
+  prefix_magic_harvest_wind:
+    side: prefix
+    name: 넉넉한
+    color: '#96E4EC'
+  prefix_magic_light_leap:
+    side: prefix
+    name: 솟구치는
+    color: '#96E4EC'
+  prefix_magic_aerial_haul:
+    side: prefix
+    name: 떠다니는
+    color: '#96E4EC'
+  prefix_magic_vacuum_cleave:
+    side: prefix
+    name: 날선
+    color: '#96E4EC'
+  prefix_magic_gale_dash:
+    side: prefix
+    name: 재빠른
+    color: '#96E4EC'
+  prefix_magic_returning_wind:
+    side: prefix
+    name: 되받아치는
+    color: '#96E4EC'
+  prefix_magic_weightless_zone:
+    side: prefix
+    name: 끌어당기는
+    color: '#96E4EC'
+  prefix_magic_descent_command:
+    side: prefix
+    name: 내리꽂는
+    color: '#96E4EC'
+  prefix_magic_dust_duster:
+    side: prefix
+    name: 깔끔한
+    color: '#96E4EC'
+  prefix_magic_cross_breeze:
+    side: prefix
+    name: 바람든
+    color: '#96E4EC'
+  prefix_magic_pressure_press:
+    side: prefix
+    name: 짓누르는
+    color: '#96E4EC'
+  prefix_magic_lightning_needle:
+    side: prefix
+    name: 번쩍이는
+    color: '#96E4EC'
+  prefix_magic_arrested_orbit:
+    side: prefix
+    name: 퍼붓는
+    color: '#96E4EC'
+  prefix_magic_pressure_rupture:
+    side: prefix
+    name: 회오리치는
+    color: '#96E4EC'
+  prefix_magic_hearth_touch:
+    side: prefix
+    name: 따끈한
+    color: '#96E4EC'
+  prefix_magic_rekindle:
+    side: prefix
+    name: 되살아난
+    color: '#96E4EC'
+  prefix_magic_fire_curtain:
+    side: prefix
+    name: 타오르는
+    color: '#96E4EC'
+  prefix_magic_phoenix_oath:
+    side: prefix
+    name: 불사의
+    color: '#96E4EC'
+  prefix_magic_cinder_detonation:
+    side: prefix
+    name: 휘몰아치는
+    color: '#96E4EC'
+  prefix_magic_ash_brand:
+    side: prefix
+    name: 째깍이는
+    color: '#96E4EC'
+  prefix_magic_crimson_heart:
+    side: prefix
+    name: 무모한
+    color: '#96E4EC'
+  prefix_magic_charcoal_conversion:
+    side: prefix
+    name: 화끈한
+    color: '#96E4EC'
+  prefix_magic_sponge_drying:
+    side: prefix
+    name: 보송한
+    color: '#96E4EC'
+  prefix_magic_boiling_armor:
+    side: prefix
+    name: 끓어오르는
+    color: '#96E4EC'
+  prefix_magic_glaze_coating:
+    side: prefix
+    name: 무던한
+    color: '#96E4EC'
+  prefix_magic_fireproof_film:
+    side: prefix
+    name: 시원한
+    color: '#96E4EC'
+  prefix_magic_firebird_hunt:
+    side: prefix
+    name: 날개돋친
+    color: '#96E4EC'
+  prefix_magic_lava_suture:
+    side: prefix
+    name: 굳히는
+    color: '#96E4EC'
+  prefix_magic_blue_bonfire:
+    side: prefix
+    name: 푸른
+    color: '#96E4EC'
+  prefix_magic_tide_stride:
+    side: prefix
+    name: 미끄러지는
+    color: '#96E4EC'
+  prefix_magic_purifying_wave:
+    side: prefix
+    name: 맑은
+    color: '#96E4EC'
+  prefix_magic_water_mirror:
+    side: prefix
+    name: 비추는
+    color: '#96E4EC'
+  prefix_magic_eternal_ice_prison:
+    side: prefix
+    name: 차가운
+    color: '#96E4EC'
+  prefix_magic_cauldron_fill:
+    side: prefix
+    name: 가득한
+    color: '#96E4EC'
+  prefix_magic_dye_rinse:
+    side: prefix
+    name: 바랜
+    color: '#96E4EC'
+  prefix_magic_frost_rupture:
+    side: prefix
+    name: 시린
+    color: '#96E4EC'
+  prefix_magic_pressure_lance:
+    side: prefix
+    name: 꿰뚫는
+    color: '#96E4EC'
+  prefix_magic_life_distribution:
+    side: prefix
+    name: 공평한
+    color: '#96E4EC'
+  prefix_magic_moist_farmland:
+    side: prefix
+    name: 촉촉한
+    color: '#96E4EC'
+  prefix_magic_current_sorting:
+    side: prefix
+    name: 반짝이는
+    color: '#96E4EC'
+  prefix_magic_waterwheel_shield:
+    side: prefix
+    name: 휘도는
+    color: '#96E4EC'
+  prefix_magic_concrete_curing:
+    side: prefix
+    name: 단단한
+    color: '#96E4EC'
+  prefix_magic_ripple_guard:
+    side: prefix
+    name: 잔잔한
+    color: '#96E4EC'
+  prefix_magic_bouncing_droplet:
+    side: prefix
+    name: 통통튀는
+    color: '#96E4EC'
+  prefix_magic_abyssal_pressure:
+    side: prefix
+    name: 깊은
+    color: '#96E4EC'
+  prefix_magic_verdant_touch:
+    side: prefix
+    name: 풍성한
+    color: '#96E4EC'
+  prefix_magic_pebble_toss:
+    side: prefix
+    name: 소박한
+    color: '#96E4EC'
+  prefix_magic_miners_rhythm:
+    side: prefix
+    name: 부지런한
+    color: '#96E4EC'
+  prefix_magic_earth_shaping:
+    side: prefix
+    name: 빚어낸
+    color: '#96E4EC'
+  prefix_magic_earthquake:
+    side: prefix
+    name: 우르릉대는
+    color: '#96E4EC'
+  prefix_magic_seed_row:
+    side: prefix
+    name: 가지런한
+    color: '#96E4EC'
+  prefix_magic_thorn_armor:
+    side: prefix
+    name: 뾰족한
+    color: '#96E4EC'
+  prefix_magic_earth_anchor:
+    side: prefix
+    name: 묵직한
+    color: '#96E4EC'
+  prefix_magic_weathering_touch:
+    side: prefix
+    name: 낡은
+    color: '#96E4EC'
+  prefix_magic_iron_carapace:
+    side: prefix
+    name: 무쇠
+    color: '#96E4EC'
+  prefix_magic_grass_sprouting:
+    side: prefix
+    name: 푸르른
+    color: '#96E4EC'
+  prefix_magic_bark_peeling:
+    side: prefix
+    name: 매끈한
+    color: '#96E4EC'
+  prefix_magic_automatic_supply:
+    side: prefix
+    name: 알뜰한
+    color: '#96E4EC'
+  prefix_magic_counterweight:
+    side: prefix
+    name: 되갚는
+    color: '#96E4EC'
+  prefix_magic_remembering_field:
+    side: prefix
+    name: 무르익은
+    color: '#96E4EC'
+  prefix_magic_little_giant:
+    side: prefix
+    name: 커다란
+    color: '#96E4EC'
+  prefix_magic_spring_ground:
+    side: prefix
+    name: 말랑한
+    color: '#96E4EC'
+  prefix_magic_mountain_back:
+    side: prefix
+    name: 구르는
+    color: '#96E4EC'
+  prefix_magic_earth_embrace:
+    side: prefix
+    name: 포근한
+    color: '#96E4EC'
+  prefix_magic_primordial_stone:
+    side: prefix
+    name: 원초의
+    color: '#96E4EC'
+  prefix_magic_minor_heal:
+    side: prefix
+    name: 상냥한
+    color: '#96E4EC'
+  prefix_magic_true_sight:
+    side: prefix
+    name: 눈밝은
+    color: '#96E4EC'
+  prefix_magic_constellation_blessing:
+    side: prefix
+    name: 별빛의
+    color: '#96E4EC'
+  prefix_magic_dawn_ritual:
+    side: prefix
+    name: 새벽의
+    color: '#96E4EC'
+  prefix_magic_comforting_light:
+    side: prefix
+    name: 다정한
+    color: '#96E4EC'
+  prefix_magic_companion_return:
+    side: prefix
+    name: 그리운
+    color: '#96E4EC'
+  prefix_magic_flawless_moment:
+    side: prefix
+    name: 무결한
+    color: '#96E4EC'
+  prefix_magic_rainbow_collar:
+    side: prefix
+    name: 온화한
+    color: '#96E4EC'
+  prefix_magic_sharing_table:
+    side: prefix
+    name: 베푸는
+    color: '#96E4EC'
+  prefix_magic_mana_conduit:
+    side: prefix
+    name: 나누는
+    color: '#96E4EC'
+  prefix_magic_merciful_arrow:
+    side: prefix
+    name: 자비로운
+    color: '#96E4EC'
+  prefix_magic_mana_deposit:
+    side: prefix
+    name: 아끼는
+    color: '#96E4EC'
+  prefix_magic_experience_exchange:
+    side: prefix
+    name: 텅빈
+    color: '#96E4EC'
+  prefix_magic_white_night_sanctuary:
+    side: prefix
+    name: 평온한
+    color: '#96E4EC'
+  prefix_magic_starlight_reprise:
+    side: prefix
+    name: 거듭나는
+    color: '#96E4EC'
+  prefix_magic_night_sight:
+    side: prefix
+    name: 밤의
+    color: '#96E4EC'
+  prefix_magic_faint_veil:
+    side: prefix
+    name: 희미한
+    color: '#96E4EC'
+  prefix_magic_shadow_exchange:
+    side: prefix
+    name: 뒤바뀐
+    color: '#96E4EC'
+  prefix_magic_life_siphon:
+    side: prefix
+    name: 탐욕스러운
+    color: '#96E4EC'
+  prefix_magic_drowsiness:
+    side: prefix
+    name: 졸린
+    color: '#96E4EC'
+  prefix_magic_misfortune_whisper:
+    side: prefix
+    name: 맥빠진
+    color: '#96E4EC'
+  prefix_magic_hungry_shadow:
+    side: prefix
+    name: 굶주린
+    color: '#96E4EC'
+  prefix_magic_curse_transfer:
+    side: prefix
+    name: 떠넘기는
+    color: '#96E4EC'
+  prefix_magic_pain_deferral:
+    side: prefix
+    name: 느긋한
+    color: '#96E4EC'
+  prefix_magic_loosen_grasp:
+    side: prefix
+    name: 미끄러운
+    color: '#96E4EC'
+  prefix_magic_healing_seal:
+    side: prefix
+    name: 메마른
+    color: '#96E4EC'
+  prefix_magic_shadow_scales:
+    side: prefix
+    name: 기울어진
+    color: '#96E4EC'
+  prefix_magic_inverted_offering:
+    side: prefix
+    name: 뒤집힌
+    color: '#96E4EC'
+  prefix_magic_eclipse_eye:
+    side: prefix
+    name: 이지러진
+    color: '#96E4EC'
+  prefix_magic_landing_airbrake:
+    side: prefix
+    name: 순간의
+    color: '#96E4EC'
+  prefix_magic_hushed_soles:
+    side: prefix
+    name: 조용한
+    color: '#96E4EC'
+  prefix_magic_thorn_manners:
+    side: prefix
+    name: 예의바른
+    color: '#96E4EC'
+  prefix_magic_droplet_relay:
+    side: prefix
+    name: 몽글몽글한
+    color: '#96E4EC'
+  prefix_magic_thawing_heat:
+    side: prefix
+    name: 녹이는
+    color: '#96E4EC'
+  prefix_magic_water_level:
+    side: prefix
+    name: 넘실대는
+    color: '#96E4EC'
+  prefix_magic_vine_awaken:
+    side: prefix
+    name: 싹트는
+    color: '#96E4EC'
+  prefix_magic_mirror_tune:
+    side: prefix
+    name: 돌아보는
+    color: '#96E4EC'
+  prefix_magic_prism_tint:
+    side: prefix
+    name: 알록달록한
+    color: '#96E4EC'
+  prefix_magic_statue_wake:
+    side: prefix
+    name: 깨어난
+    color: '#96E4EC'
+  prefix_magic_conduit_turn:
+    side: prefix
+    name: 굽이치는
+    color: '#96E4EC'
+  prefix_magic_fox_orbit:
+    side: prefix
+    name: 여우같은
+    color: '#96E4EC'
+  prefix_magic_crystal_orbit:
+    side: prefix
+    name: 영롱한
+    color: '#96E4EC'
+  prefix_magic_venom_spit:
+    side: prefix
+    name: 독한
+    color: '#96E4EC'
+  prefix_magic_smoke_veil:
+    side: prefix
+    name: 흐릿한
+    color: '#96E4EC'
+  prefix_magic_shield_slam:
+    side: prefix
+    name: 우직한
+    color: '#96E4EC'
+  prefix_magic_chain_arrow:
+    side: prefix
+    name: 얽매인
+    color: '#96E4EC'
+  prefix_magic_mana_drain:
+    side: prefix
+    name: 목마른
+    color: '#96E4EC'
+  prefix_magic_oblivion_orbs:
+    side: prefix
+    name: 잊혀진
+    color: '#96E4EC'
+  prefix_magic_shadow_leap:
+    side: prefix
+    name: 은밀한
+    color: '#96E4EC'
+  prefix_magic_fairy_dust:
+    side: prefix
+    name: 꿈꾸는
+    color: '#96E4EC'
+  prefix_magic_gale_wings:
+    side: prefix
+    name: 거센
+    color: '#96E4EC'
+  prefix_magic_roar_leap:
+    side: prefix
+    name: 사나운
+    color: '#96E4EC'
+  prefix_magic_gravity_slam:
+    side: prefix
+    name: 육중한
+    color: '#96E4EC'
+  suffix_magic_wind_basket:
+    side: suffix
+    name: 수집가
+    color: '#DEC58E'
+  suffix_magic_wind_push:
+    side: suffix
+    name: 훼방꾼
+    color: '#DEC58E'
+  suffix_magic_flight:
+    side: suffix
+    name: 비행사
+    color: '#DEC58E'
+  suffix_magic_far_touch:
+    side: suffix
+    name: 조작꾼
+    color: '#DEC58E'
+  suffix_magic_wind_message:
+    side: suffix
+    name: 전령
+    color: '#DEC58E'
+  suffix_magic_storm_command:
+    side: suffix
+    name: 지휘자
+    color: '#DEC58E'
+  suffix_magic_wind_grooming:
+    side: suffix
+    name: 이발사
+    color: '#DEC58E'
+  suffix_magic_trajectory_acceleration:
+    side: suffix
+    name: 신기루
+    color: '#DEC58E'
+  suffix_magic_leaf_cleanup:
+    side: suffix
+    name: 정원사
+    color: '#DEC58E'
+  suffix_magic_feather_rustle:
+    side: suffix
+    name: 닭장지기
+    color: '#DEC58E'
+  suffix_magic_returning_blade:
+    side: suffix
+    name: 부메랑
+    color: '#DEC58E'
+  suffix_magic_wind_decoy:
+    side: suffix
+    name: 미끼
+    color: '#DEC58E'
+  suffix_magic_air_step:
+    side: suffix
+    name: 디딤돌
+    color: '#DEC58E'
+  suffix_magic_air_stacking:
+    side: suffix
+    name: 건축가
+    color: '#DEC58E'
+  suffix_magic_crossfire:
+    side: suffix
+    name: 처형자
+    color: '#DEC58E'
+  suffix_magic_resonant_arrow:
+    side: suffix
+    name: 사수
+    color: '#DEC58E'
+  suffix_magic_storm_crown:
+    side: suffix
+    name: 삼총사
+    color: '#DEC58E'
+  suffix_magic_ember_bolt:
+    side: suffix
+    name: 불씨
+    color: '#DEC58E'
+  suffix_magic_flame_forging:
+    side: suffix
+    name: 대장장이
+    color: '#DEC58E'
+  suffix_magic_ember_trap:
+    side: suffix
+    name: 덫꾼
+    color: '#DEC58E'
+  suffix_magic_living_furnace:
+    side: suffix
+    name: 화로
+    color: '#DEC58E'
+  suffix_magic_falling_star:
+    side: suffix
+    name: 유성
+    color: '#DEC58E'
+  suffix_magic_flame_lash:
+    side: suffix
+    name: 채찍잡이
+    color: '#DEC58E'
+  suffix_magic_palm_fireworks:
+    side: suffix
+    name: 축제꾼
+    color: '#DEC58E'
+  suffix_magic_flame_leap:
+    side: suffix
+    name: 격투가
+    color: '#DEC58E'
+  suffix_magic_wick_trimming:
+    side: suffix
+    name: 소등꾼
+    color: '#DEC58E'
+  suffix_magic_glass_firing:
+    side: suffix
+    name: 제련사
+    color: '#DEC58E'
+  suffix_magic_flame_footprints:
+    side: suffix
+    name: 발자취
+    color: '#DEC58E'
+  suffix_magic_kiln_breath:
+    side: suffix
+    name: 가마지기
+    color: '#DEC58E'
+  suffix_magic_explosive_wedge:
+    side: suffix
+    name: 폭탄마
+    color: '#DEC58E'
+  suffix_magic_heat_recovery:
+    side: suffix
+    name: 난로
+    color: '#DEC58E'
+  suffix_magic_flame_sword_dance:
+    side: suffix
+    name: 검무사
+    color: '#DEC58E'
+  suffix_magic_incandescent_break:
+    side: suffix
+    name: 파쇄자
+    color: '#DEC58E'
+  suffix_magic_crimson_breath:
+    side: suffix
+    name: 용
+    color: '#DEC58E'
+  suffix_magic_water_breath:
+    side: suffix
+    name: 아가미
+    color: '#DEC58E'
+  suffix_magic_water_bolt:
+    side: suffix
+    name: 물총
+    color: '#DEC58E'
+  suffix_magic_quench:
+    side: suffix
+    name: 소방관
+    color: '#DEC58E'
+  suffix_magic_ice_bridge:
+    side: suffix
+    name: 빙판
+    color: '#DEC58E'
+  suffix_magic_spring_unseal:
+    side: suffix
+    name: 샘
+    color: '#DEC58E'
+  suffix_magic_water_elemental:
+    side: suffix
+    name: 정령사
+    color: '#DEC58E'
+  suffix_magic_fish_lure:
+    side: suffix
+    name: 낚시꾼
+    color: '#DEC58E'
+  suffix_magic_wash_letters:
+    side: suffix
+    name: 지우개
+    color: '#DEC58E'
+  suffix_magic_healing_rain:
+    side: suffix
+    name: 무지개
+    color: '#DEC58E'
+  suffix_magic_dew_gathering:
+    side: suffix
+    name: 이슬
+    color: '#DEC58E'
+  suffix_magic_quiet_mooring:
+    side: suffix
+    name: 뱃사공
+    color: '#DEC58E'
+  suffix_magic_bubble_aria:
+    side: suffix
+    name: 가수
+    color: '#DEC58E'
+  suffix_magic_pressure_hammer:
+    side: suffix
+    name: 망치
+    color: '#DEC58E'
+  suffix_magic_waterspout:
+    side: suffix
+    name: 소용돌이
+    color: '#DEC58E'
+  suffix_magic_potion_mist:
+    side: suffix
+    name: 조향사
+    color: '#DEC58E'
+  suffix_magic_tidal_wave:
+    side: suffix
+    name: 파도
+    color: '#DEC58E'
+  suffix_magic_ore_whisper:
+    side: suffix
+    name: 탐광꾼
+    color: '#DEC58E'
+  suffix_magic_stone_wall:
+    side: suffix
+    name: 성벽
+    color: '#DEC58E'
+  suffix_magic_vine_ladder:
+    side: suffix
+    name: 사다리
+    color: '#DEC58E'
+  suffix_magic_earth_elemental:
+    side: suffix
+    name: 꼬마
+    color: '#DEC58E'
+  suffix_magic_climate_control:
+    side: suffix
+    name: 예보관
+    color: '#DEC58E'
+  suffix_magic_bee_calm:
+    side: suffix
+    name: 벌꿀
+    color: '#DEC58E'
+  suffix_magic_vein_fracture:
+    side: suffix
+    name: 광부
+    color: '#DEC58E'
+  suffix_magic_moss_coating:
+    side: suffix
+    name: 이끼
+    color: '#DEC58E'
+  suffix_magic_flint_sorting:
+    side: suffix
+    name: 돌팔매
+    color: '#DEC58E'
+  suffix_magic_compost_return:
+    side: suffix
+    name: 거름
+    color: '#DEC58E'
+  suffix_magic_thorn_seeds:
+    side: suffix
+    name: 선인장
+    color: '#DEC58E'
+  suffix_magic_pollen_matchmaking:
+    side: suffix
+    name: 중매쟁이
+    color: '#DEC58E'
+  suffix_magic_dormant_seed:
+    side: suffix
+    name: 농부
+    color: '#DEC58E'
+  suffix_magic_material_exchange:
+    side: suffix
+    name: 족쇄
+    color: '#DEC58E'
+  suffix_magic_forest_throne:
+    side: suffix
+    name: 왕
+    color: '#DEC58E'
+  suffix_magic_guiding_star:
+    side: suffix
+    name: 길잡이
+    color: '#DEC58E'
+  suffix_magic_light_mark:
+    side: suffix
+    name: 추적자
+    color: '#DEC58E'
+  suffix_magic_spatial_leap:
+    side: suffix
+    name: 여행자
+    color: '#DEC58E'
+  suffix_magic_luminous_archive:
+    side: suffix
+    name: 열쇠
+    color: '#DEC58E'
+  suffix_magic_protective_ward:
+    side: suffix
+    name: 방패
+    color: '#DEC58E'
+  suffix_magic_arcane_imprint:
+    side: suffix
+    name: 각인사
+    color: '#DEC58E'
+  suffix_magic_exorcism_flash:
+    side: suffix
+    name: 퇴마사
+    color: '#DEC58E'
+  suffix_magic_arcane_mending:
+    side: suffix
+    name: 수선공
+    color: '#DEC58E'
+  suffix_magic_solar_judgment:
+    side: suffix
+    name: 태양
+    color: '#DEC58E'
+  suffix_magic_firefly_mark:
+    side: suffix
+    name: 등불
+    color: '#DEC58E'
+  suffix_magic_sun_drying:
+    side: suffix
+    name: 무두장이
+    color: '#DEC58E'
+  suffix_magic_luminous_copy:
+    side: suffix
+    name: 필경사
+    color: '#DEC58E'
+  suffix_magic_guiding_fletching:
+    side: suffix
+    name: 명궁
+    color: '#DEC58E'
+  suffix_magic_summons_letter:
+    side: suffix
+    name: 집사
+    color: '#DEC58E'
+  suffix_magic_starlight_survey:
+    side: suffix
+    name: 측량사
+    color: '#DEC58E'
+  suffix_magic_luminous_handover:
+    side: suffix
+    name: 표적
+    color: '#DEC58E'
+  suffix_magic_guardian_oath:
+    side: suffix
+    name: 수호자
+    color: '#DEC58E'
+  suffix_magic_constellation_emissary:
+    side: suffix
+    name: 별자리
+    color: '#DEC58E'
+  suffix_magic_shadow_bind:
+    side: suffix
+    name: 실타래
+    color: '#DEC58E'
+  suffix_magic_shadow_double:
+    side: suffix
+    name: 쌍둥이
+    color: '#DEC58E'
+  suffix_magic_echo_reading:
+    side: suffix
+    name: 탐정
+    color: '#DEC58E'
+  suffix_magic_sealing_thread:
+    side: suffix
+    name: 자물쇠
+    color: '#DEC58E'
+  suffix_magic_forbidden_contract:
+    side: suffix
+    name: 계약자
+    color: '#DEC58E'
+  suffix_magic_discord:
+    side: suffix
+    name: 꼭두각시
+    color: '#DEC58E'
+  suffix_magic_night_chain:
+    side: suffix
+    name: 연결고리
+    color: '#DEC58E'
+  suffix_magic_black_harvest:
+    side: suffix
+    name: 사신
+    color: '#DEC58E'
+  suffix_magic_ink_fingertip:
+    side: suffix
+    name: 물감
+    color: '#DEC58E'
+  suffix_magic_shadow_nail:
+    side: suffix
+    name: 가시
+    color: '#DEC58E'
+  suffix_magic_night_lullaby:
+    side: suffix
+    name: 유모
+    color: '#DEC58E'
+  suffix_magic_warning_thread:
+    side: suffix
+    name: 울타리
+    color: '#DEC58E'
+  suffix_magic_wound_accounting:
+    side: suffix
+    name: 회계사
+    color: '#DEC58E'
+  suffix_magic_ghost_tool:
+    side: suffix
+    name: 손재주꾼
+    color: '#DEC58E'
+  suffix_magic_bell_of_fear:
+    side: suffix
+    name: 종지기
+    color: '#DEC58E'
+  suffix_magic_void_maw:
+    side: suffix
+    name: 아귀
+    color: '#DEC58E'
+  suffix_magic_cinder_skipring:
+    side: suffix
+    name: 고리
+    color: '#DEC58E'
+  suffix_magic_folding_tideplane:
+    side: suffix
+    name: 책갈피
+    color: '#DEC58E'
+  suffix_magic_steam_ignition:
+    side: suffix
+    name: 증기
+    color: '#DEC58E'
+  suffix_magic_stone_weight:
+    side: suffix
+    name: 짐짝
+    color: '#DEC58E'
+  suffix_magic_light_beam:
+    side: suffix
+    name: 등대
+    color: '#DEC58E'
+  suffix_magic_rewind:
+    side: suffix
+    name: 시계태엽
+    color: '#DEC58E'
+  suffix_magic_dimension_mark:
+    side: suffix
+    name: 문지기
+    color: '#DEC58E'
+  suffix_magic_curving_plumes:
+    side: suffix
+    name: 화살촉
+    color: '#DEC58E'
+  suffix_magic_domain_stomp:
+    side: suffix
+    name: 영주
+    color: '#DEC58E'
+  suffix_magic_seal_circle:
+    side: suffix
+    name: 술사
+    color: '#DEC58E'
+  suffix_magic_seal_talismans:
+    side: suffix
+    name: 쪽지
+    color: '#DEC58E'
+  suffix_magic_soul_scythe:
+    side: suffix
+    name: 망령
+    color: '#DEC58E'
+  suffix_magic_bone_grasp:
+    side: suffix
+    name: 해골
+    color: '#DEC58E'
+  suffix_magic_binding_pull:
+    side: suffix
+    name: 갈고리
+    color: '#DEC58E'
+  suffix_magic_moon_wind:
+    side: suffix
+    name: 초승달
+    color: '#DEC58E'
+  suffix_magic_feather_storm:
+    side: suffix
+    name: 폭풍
+    color: '#DEC58E'
+  suffix_magic_hunting_pounce:
+    side: suffix
+    name: 사냥꾼
+    color: '#DEC58E'
+  suffix_magic_tail_spikes:
+    side: suffix
+    name: 독침
+    color: '#DEC58E'
+  suffix_magic_fish_trap:
+    side: suffix
+    name: 어항
+    color: '#DEC58E'
+  suffix_ach_fishing_big_catch:
+    side: suffix
+    name: 대물
+    color: '#DEC58E'
+  prefix_ach_fishing_monster_catch:
+    side: prefix
+    name: 괴물같은
+    color: '#96E4EC'
+  prefix_ach_fishing_legend_fish:
+    side: prefix
+    name: 전설의
+    color: '#96E4EC'
+  prefix_ach_fishing_fish_500:
+    side: prefix
+    name: 손맛좋은
+    color: '#96E4EC'
+  suffix_ach_fishing_codex_full:
+    side: suffix
+    name: 강태공
+    color: '#DEC58E'
+  suffix_ach_fishing_treasure_10:
+    side: suffix
+    name: 보물사냥꾼
+    color: '#DEC58E'
+  prefix_ach_fishing_line_break_10:
+    side: prefix
+    name: 아쉬운
+    color: '#96E4EC'
+  suffix_ach_qudditch_goals_100:
+    side: suffix
+    name: 골잡이
+    color: '#DEC58E'
+  prefix_ach_qudditch_snitch_10:
+    side: prefix
+    name: 눈썰미좋은
+    color: '#96E4EC'
+  suffix_ach_qudditch_bludger_100:
+    side: suffix
+    name: 홈런왕
+    color: '#DEC58E'
+  prefix_ach_qudditch_mvp_10:
+    side: prefix
+    name: 주목받는
+    color: '#96E4EC'
+  prefix_ach_duel_win_streak_10:
+    side: prefix
+    name: 무패의
+    color: '#96E4EC'
+  suffix_ach_duel_wins_100:
+    side: suffix
+    name: 결투가
+    color: '#DEC58E'
+  suffix_ach_broom_legend_broom:
+    side: suffix
+    name: 에이스
+    color: '#DEC58E'
+  prefix_ach_broom_fly_100km:
+    side: prefix
+    name: 질주하는
+    color: '#96E4EC'
+  prefix_ach_broom_fall_50:
+    side: prefix
+    name: 어설픈
+    color: '#96E4EC'
+  prefix_ach_artifact_legend_pull:
+    side: prefix
+    name: 운좋은
+    color: '#96E4EC'
+  prefix_ach_artifact_unlucky_100:
+    side: prefix
+    name: 불운한
+    color: '#96E4EC'
+  suffix_ach_artifact_codex_full:
+    side: suffix
+    name: 수집광
+    color: '#DEC58E'
+  suffix_ach_alchemy_recipes_all:
+    side: suffix
+    name: 대연금술사
+    color: '#DEC58E'
+  suffix_ach_pet_tame_half:
+    side: suffix
+    name: 조련사
+    color: '#DEC58E'
+  prefix_ach_pet_variant_tame:
+    side: prefix
+    name: 특별한
+    color: '#96E4EC'
+  suffix_ach_housing_room_max:
+    side: suffix
+    name: 집주인
+    color: '#DEC58E'
+  prefix_ach_housing_guestbook_100:
+    side: prefix
+    name: 인기많은
+    color: '#96E4EC'
+  suffix_ach_magic_discover_100:
+    side: suffix
+    name: 대마법사
+    color: '#DEC58E'
+  prefix_ach_magic_discover_all:
+    side: prefix
+    name: 만능의
+    color: '#96E4EC'
+  suffix_ach_magic_reaction_1000:
+    side: suffix
+    name: 반응술사
+    color: '#DEC58E'
+  suffix_ach_farming_living_crop_50:
+    side: suffix
+    name: 서리꾼
+    color: '#DEC58E'
+  prefix_ach_farming_living_crop_1:
+    side: prefix
+    name: 깜짝놀란
+    color: '#96E4EC'
+  prefix_ach_npc_social_ai_talk_500:
+    side: prefix
+    name: 수다스러운
+    color: '#96E4EC'
+  prefix_ach_npc_social_gifts_100:
+    side: prefix
+    name: 통큰
+    color: '#96E4EC'
+  suffix_ach_npc_social_lover_3:
+    side: suffix
+    name: 바람둥이
+    color: '#DEC58E'
+  prefix_ach_dungeon_coop_clear:
+    side: prefix
+    name: 손발맞는
+    color: '#96E4EC'
+  suffix_ach_dungeon_boss_clear:
+    side: suffix
+    name: 용사
+    color: '#DEC58E'
+  suffix_ach_economy_fish_sales:
+    side: suffix
+    name: 큰손
+    color: '#DEC58E'
+  suffix_ach_story_event_ch1_clear:
+    side: suffix
+    name: 신입생
+    color: '#DEC58E'
+  prefix_ach_story_event_open_week:
+    side: prefix
+    name: 개교기념
+    color: '#96E4EC'
+  suffix_ach_story_event_last_day:
+    side: suffix
+    name: 졸업생
+    color: '#DEC58E'
+  suffix_tier_platinum:
+    side: suffix
+    name: 플래티넘
+    color: '#DEC58E'
+  suffix_tier_diamond:
+    side: suffix
+    name: 다이아몬드
+    color: '#DEC58E'
+  suffix_tier_master:
+    side: suffix
+    name: 마스터
+    color: '#DEC58E'
+  suffix_tier_challenger:
+    side: suffix
+    name: 챌린저
+    color: '#DEC58E'
+  prefix_npc_captain_bram:
+    side: prefix
+    name: 브람 선장의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_dorm_lowell:
+    side: prefix
+    name: 로웰 사감의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_ella:
+    side: prefix
+    name: 엘라의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_librarian_isolde:
+    side: prefix
+    name: 이솔데의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_luka:
+    side: prefix
+    name: 루카의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_marta:
+    side: prefix
+    name: 마르타 할머니의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_mina:
+    side: prefix
+    name: 미나의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_noel:
+    side: prefix
+    name: 노엘의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_pipi:
+    side: prefix
+    name: 피피의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_rin:
+    side: prefix
+    name: 린의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_sf_bruno:
+    side: prefix
+    name: 브루노의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_sf_dorothea:
+    side: prefix
+    name: 도로테아 아주머니의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_sf_emil:
+    side: prefix
+    name: 에밀의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_sf_hilde:
+    side: prefix
+    name: 힐데의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_st_bomi:
+    side: prefix
+    name: 보미의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_st_bongu:
+    side: prefix
+    name: 봉구의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_st_bora:
+    side: prefix
+    name: 보라의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_st_chaeyun:
+    side: prefix
+    name: 채윤의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_st_daon:
+    side: prefix
+    name: 다온의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_st_deokhee:
+    side: prefix
+    name: 덕희의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_st_dongsu:
+    side: prefix
+    name: 동수의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_st_doyun:
+    side: prefix
+    name: 도윤의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_st_eden:
+    side: prefix
+    name: 에덴의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_st_gaeun:
+    side: prefix
+    name: 가은의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_st_geonho:
+    side: prefix
+    name: 건호의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_st_gibeom:
+    side: prefix
+    name: 기범의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_st_haru:
+    side: prefix
+    name: 하루의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_st_hayul:
+    side: prefix
+    name: 하율의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_st_ian:
+    side: prefix
+    name: 이안의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_st_jaewon:
+    side: prefix
+    name: 재원의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_st_jun:
+    side: prefix
+    name: 준의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_st_kai:
+    side: prefix
+    name: 카이의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_st_lia:
+    side: prefix
+    name: 리아의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_st_mihyang:
+    side: prefix
+    name: 미향의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_st_minho:
+    side: prefix
+    name: 민호의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_st_minjae:
+    side: prefix
+    name: 민재의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_st_nari:
+    side: prefix
+    name: 나리의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_st_pilsung:
+    side: prefix
+    name: 필승의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_st_rowan:
+    side: prefix
+    name: 로완의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_st_sangmin:
+    side: prefix
+    name: 상민의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_st_seoa:
+    side: prefix
+    name: 서아의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_st_sora:
+    side: prefix
+    name: 소라의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_st_taeo:
+    side: prefix
+    name: 태오의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_st_taesik:
+    side: prefix
+    name: 태식의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_st_ujin:
+    side: prefix
+    name: 우진의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_st_vera:
+    side: prefix
+    name: 베라의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_st_yena:
+    side: prefix
+    name: 예나의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_st_yuna:
+    side: prefix
+    name: 유나의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_tc_berna:
+    side: prefix
+    name: 베르나 교수의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_tc_cedric:
+    side: prefix
+    name: 세드릭 교수의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_teacher_ellna:
+    side: prefix
+    name: 엘레나 교수의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_teacher_harva:
+    side: prefix
+    name: 하르바 교수의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_vice_gregor:
+    side: prefix
+    name: 그레고르 교감의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_vl_ben:
+    side: prefix
+    name: 벤의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_vl_bernd:
+    side: prefix
+    name: 베른트의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_vl_bert:
+    side: prefix
+    name: 베르트의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_vl_berta:
+    side: prefix
+    name: 베르타의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_vl_clara:
+    side: prefix
+    name: 클라라의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_vl_dieter:
+    side: prefix
+    name: 디터의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_vl_elsa:
+    side: prefix
+    name: 엘자의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_vl_felix:
+    side: prefix
+    name: 펠릭스의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_vl_fritz:
+    side: prefix
+    name: 프리츠의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_vl_greta:
+    side: prefix
+    name: 그레타의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_vl_gustav:
+    side: prefix
+    name: 구스타프의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_vl_hanne:
+    side: prefix
+    name: 한네의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_vl_hans:
+    side: prefix
+    name: 한스의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_vl_heinz:
+    side: prefix
+    name: 하인츠의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_vl_ingrid:
+    side: prefix
+    name: 잉그리드의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_vl_jacob:
+    side: prefix
+    name: 야코프의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_vl_jonas:
+    side: prefix
+    name: 요나스의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_vl_karl:
+    side: prefix
+    name: 칼의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_vl_kurt:
+    side: prefix
+    name: 쿠르트의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_vl_lotte:
+    side: prefix
+    name: 로테의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_vl_magda:
+    side: prefix
+    name: 마그다의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_vl_marco:
+    side: prefix
+    name: 마르코의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_vl_max:
+    side: prefix
+    name: 막스의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_vl_mia:
+    side: prefix
+    name: 미아의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_vl_nina:
+    side: prefix
+    name: 니나의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_vl_ole:
+    side: prefix
+    name: 올레의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_vl_otto:
+    side: prefix
+    name: 오토의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_vl_pim:
+    side: prefix
+    name: 핌의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_vl_rosa:
+    side: prefix
+    name: 로사의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_vl_selma:
+    side: prefix
+    name: 셀마의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_vl_tobi:
+    side: prefix
+    name: 토비의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_npc_vl_wolf:
+    side: prefix
+    name: 볼프의
+    color: '#96E4EC'
+    enabled: true
+    initial: false
+  prefix_house_arkeon:
+    side: prefix
+    name: '아르케온'
+    color: '#96E4EC'
+  prefix_house_lumina:
+    side: prefix
+    name: '루미나'
+    color: '#96E4EC'
+  prefix_house_bestiaz:
+    side: prefix
+    name: '베스티아즈'
+    color: '#96E4EC'
+  prefix_house_noxer:
+    side: prefix
+    name: '노크세르'
+    color: '#96E4EC'
