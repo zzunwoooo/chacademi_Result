@@ -20,7 +20,7 @@ school	HuskSync-Bukkit-3.8.7-a31c3c4-indev+mc.1.21.4.jar	3221460	56a5054e62557dc
 school	ItemsAdder_4.0.9.jar	3223318	a4e2fc7ca523455d41a49db6b886cbc5f6c7b0a8b26ac5e8ba3f9e787bc35458
 school	LockDiagnostic-0.2.0.jar	9424	ec1b1b71f0bbda2ab0b484f26e3e1a258b6ee7076c280ea5f1dad4ff456761d5
 school	LuckPerms-Bukkit-5.5.8.jar	1480349	beaa53dc968b99d3585559e9f9024e1e0db7160e8f4a42e8ec585e24d26a11b7
-school	magic-codex-bridge-final-20261024-school.jar	3835647	c7773813692501acf7216b18065df15581b7f5c93a02bb0830226ede23162d05
+school	magic-codex-bridge-final-20261024-school.jar	3834851	c41437c24e6ae94c7068912d486e1d99016d37957453b5fa640415e13e3e0345
 school	magic-discovery-0.3.1-integrated-20261020.1-gimmick.1-commands.1.jar	1436931	4ade68751ca44e6c43e14faa9e73aad987324160335aef739499d889167730c2
 school	Maintenance-4.3.0.jar	1561280	7bfde4d7e85a72dfbea0fa9b1267fd066410fe5187f8d2ec2aaa5320c5458460
 school	MCPets-4.1.11.jar	401265	0689ff5dce2a850958380820937a573a56ef8de8f4368def5ce84f90309a28a8
@@ -56,7 +56,7 @@ arena1	FastAsyncWorldEdit-Paper-2.13.1-SNAPSHOT-1119.jar	15965166	11e8fa8964f262
 arena1	HuskSync-Bukkit-3.8.7-a31c3c4-indev+mc.1.21.4.jar	3221460	56a5054e62557dcc837a9db9180abee2d2f5a18b118268106160b0624e5f1161
 arena1	ItemsAdder_4.0.9.jar	3223318	a4e2fc7ca523455d41a49db6b886cbc5f6c7b0a8b26ac5e8ba3f9e787bc35458
 arena1	LuckPerms-Bukkit-5.5.8.jar	1480349	beaa53dc968b99d3585559e9f9024e1e0db7160e8f4a42e8ec585e24d26a11b7
-arena1	magic-codex-bridge-final-20261024-arena.jar	3832135	f825e3cd778ddee10c28cdafdb43a6365491018a0e48a48cc7e6ed2446631789
+arena1	magic-codex-bridge-final-20261024-arena.jar	3831339	aa6a11c54c663e714e8918f89af49fce068425524dc3831d6fc16965c7b85b56
 arena1	magic-discovery-0.3.1-integrated-20261020.1-gimmick.1-commands.1.jar	1436831	feca7311ff17effa69f216248e1f71b4acd14038c4cb1e53de864e6d5b932412
 arena1	Maintenance-4.3.0.jar	1561280	7bfde4d7e85a72dfbea0fa9b1267fd066410fe5187f8d2ec2aaa5320c5458460
 arena1	MCPets-4.1.11.jar	401265	0689ff5dce2a850958380820937a573a56ef8de8f4368def5ce84f90309a28a8
@@ -92,7 +92,7 @@ arena2	FastAsyncWorldEdit-Paper-2.13.1-SNAPSHOT-1119.jar	15965166	11e8fa8964f262
 arena2	HuskSync-Bukkit-3.8.7-a31c3c4-indev+mc.1.21.4.jar	3221460	56a5054e62557dcc837a9db9180abee2d2f5a18b118268106160b0624e5f1161
 arena2	ItemsAdder_4.0.9.jar	3223318	a4e2fc7ca523455d41a49db6b886cbc5f6c7b0a8b26ac5e8ba3f9e787bc35458
 arena2	LuckPerms-Bukkit-5.5.8.jar	1480349	beaa53dc968b99d3585559e9f9024e1e0db7160e8f4a42e8ec585e24d26a11b7
-arena2	magic-codex-bridge-final-20261024-arena.jar	3832135	f825e3cd778ddee10c28cdafdb43a6365491018a0e48a48cc7e6ed2446631789
+arena2	magic-codex-bridge-final-20261024-arena.jar	3831339	aa6a11c54c663e714e8918f89af49fce068425524dc3831d6fc16965c7b85b56
 arena2	magic-discovery-0.3.1-integrated-20261020.1-gimmick.1-commands.1.jar	1436831	feca7311ff17effa69f216248e1f71b4acd14038c4cb1e53de864e6d5b932412
 arena2	Maintenance-4.3.0.jar	1561280	7bfde4d7e85a72dfbea0fa9b1267fd066410fe5187f8d2ec2aaa5320c5458460
 arena2	MCPets-4.1.11.jar	401265	0689ff5dce2a850958380820937a573a56ef8de8f4368def5ce84f90309a28a8
@@ -126,7 +126,7 @@ wild1	FastAsyncWorldEdit-Paper-2.13.1-SNAPSHOT-1119.jar	15965166	11e8fa8964f2621
 wild1	HuskSync-Bukkit-3.8.7-a31c3c4-indev+mc.1.21.4.jar	3221460	56a5054e62557dcc837a9db9180abee2d2f5a18b118268106160b0624e5f1161
 wild1	ItemsAdder_4.0.9.jar	3223318	a4e2fc7ca523455d41a49db6b886cbc5f6c7b0a8b26ac5e8ba3f9e787bc35458
 wild1	LuckPerms-Bukkit-5.5.8.jar	1480349	beaa53dc968b99d3585559e9f9024e1e0db7160e8f4a42e8ec585e24d26a11b7
-wild1	magic-codex-bridge-final-20261024-wild.jar	3835907	c62dfde9cacc1c920daeb4904a90b287eae8c7f4a0fd2a3ed62c7687dcc8fbd0
+wild1	magic-codex-bridge-final-20261024-wild.jar	3835111	dde7db3f8587a4cfed7ad27bd86af83b893bdc137ab815b89e59afa09dbd8489
 wild1	magic-discovery-0.3.1-integrated-20261020.1-gimmick.1-commands.1.jar	1436931	85c909bc1fdc34b2fbfa3c933d8dcce6a324367e15ff473127838f41efd397ce
 wild1	Maintenance-4.3.0.jar	1561280	7bfde4d7e85a72dfbea0fa9b1267fd066410fe5187f8d2ec2aaa5320c5458460
 wild1	MCPets-4.1.11.jar	401265	0689ff5dce2a850958380820937a573a56ef8de8f4368def5ce84f90309a28a8
@@ -160,7 +160,7 @@ wild2	FastAsyncWorldEdit-Paper-2.13.1-SNAPSHOT-1119.jar	15965166	11e8fa8964f2621
 wild2	HuskSync-Bukkit-3.8.7-a31c3c4-indev+mc.1.21.4.jar	3221460	56a5054e62557dcc837a9db9180abee2d2f5a18b118268106160b0624e5f1161
 wild2	ItemsAdder_4.0.9.jar	3223318	a4e2fc7ca523455d41a49db6b886cbc5f6c7b0a8b26ac5e8ba3f9e787bc35458
 wild2	LuckPerms-Bukkit-5.5.8.jar	1480349	beaa53dc968b99d3585559e9f9024e1e0db7160e8f4a42e8ec585e24d26a11b7
-wild2	magic-codex-bridge-final-20261024-wild.jar	3835907	c62dfde9cacc1c920daeb4904a90b287eae8c7f4a0fd2a3ed62c7687dcc8fbd0
+wild2	magic-codex-bridge-final-20261024-wild.jar	3835111	dde7db3f8587a4cfed7ad27bd86af83b893bdc137ab815b89e59afa09dbd8489
 wild2	magic-discovery-0.3.1-integrated-20261020.1-gimmick.1-commands.1.jar	1436931	85c909bc1fdc34b2fbfa3c933d8dcce6a324367e15ff473127838f41efd397ce
 wild2	Maintenance-4.3.0.jar	1561280	7bfde4d7e85a72dfbea0fa9b1267fd066410fe5187f8d2ec2aaa5320c5458460
 wild2	MCPets-4.1.11.jar	401265	0689ff5dce2a850958380820937a573a56ef8de8f4368def5ce84f90309a28a8
