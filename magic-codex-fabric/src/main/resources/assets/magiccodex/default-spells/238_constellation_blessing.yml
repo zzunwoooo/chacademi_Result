@@ -1,0 +1,14 @@
+id: constellation_blessing
+name: 성좌의 가호
+category: light
+description: 자신과 주변 6블록 안의 동료에게 30초 동안 이동 속도와 저항 효과를 부여합니다.
+icon: magiccodex:textures/spells/advanced/constellation_blessing.png
+permission: magic.learned.constellation_blessing
+discovery:
+  description: 이솔데 교수와(과) 친해진 뒤(호감도 30) 빛 비전 수업 듣기.
+research: 멀리 있는 별도 자신을 올려다보는 사람을 기억할까?
+cast:
+  command: 마법 constellation_blessing
+  cooldown-seconds: 90
+  mana-cost: 200
+order: 238

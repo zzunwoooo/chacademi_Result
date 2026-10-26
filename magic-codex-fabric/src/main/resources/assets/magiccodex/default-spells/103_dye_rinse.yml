@@ -1,0 +1,14 @@
+id: dye_rinse
+name: 염색 씻기
+category: water
+description: 손에 든 가죽 아이템의 염색을 지웁니다.
+icon: magiccodex:textures/spells/expansion/dye_rinse.png
+permission: magic.learned.dye_rinse
+discovery:
+  description: 가마솥으로 가죽 장비의 염색을 3번 지우기.
+research: 실수로 물든 망토를 버리기에는 아직 새 옷이었다.
+cast:
+  command: 마법 dye_rinse
+  cooldown-seconds: 5
+  mana-cost: 5
+order: 103

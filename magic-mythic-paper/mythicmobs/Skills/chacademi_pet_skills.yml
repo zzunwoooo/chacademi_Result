@@ -1,0 +1,1248 @@
+# 차카데미 동행 펫 스킬 (자동 생성: magic-mythic-paper/tools/pet_companions.py) - 손으로 고치지 마세요
+# 원래 몹 스킬(chacademi_mob_skills.yml)의 펫판: 상태이상·밀치기·이동·소환 없음, 예고 장판 없음, 펫 고정 피해(flat).
+# MagicCodexBridge PetCompanions 가 전투 중 주인(플레이어)을 시전자로, 싸우는 상대를 대상으로 시전합니다.
+
+# 꽃망울 정령 - CHA_MOB_fairy_orbs_lostasset_mob2_flowersprite 의 펫판 (피해 1)
+CHA_PET_fairy_orbs_lostasset_mob2_flowersprite:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=2;spread=50;speed=0.7;homing=0.22;range=23.4;flat=1;element=earth;vfx=fairyorb/shot_flower;hitvfx=fairyorb/hit_flower;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 꽃망울 정령 - CHA_MOB_fairy_orbs_lostasset_mob2_flowersprite_shiny 의 펫판 (피해 1)
+CHA_PET_fairy_orbs_lostasset_mob2_flowersprite_shiny:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=2;spread=50;speed=0.7;homing=0.22;range=23.4;flat=1;element=earth;vfx=fairyorb/shot_flower_s;hitvfx=fairyorb/hit_flower_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 달물결 요정 - CHA_MOB_fairy_orbs_lostasset_mob2_lakefairy 의 펫판 (피해 1)
+CHA_PET_fairy_orbs_lostasset_mob2_lakefairy:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=2;spread=50;speed=0.7;homing=0.22;range=23.4;flat=1;element=water;vfx=fairyorb/shot_lake;hitvfx=fairyorb/hit_lake;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 달물결 요정 - CHA_MOB_fairy_orbs_lostasset_mob2_lakefairy_shiny 의 펫판 (피해 1)
+CHA_PET_fairy_orbs_lostasset_mob2_lakefairy_shiny:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=2;spread=50;speed=0.7;homing=0.22;range=23.4;flat=1;element=water;vfx=fairyorb/shot_lake_s;hitvfx=fairyorb/hit_lake_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 잎새 요정 - CHA_MOB_fairy_orbs_lostasset_mob2_leaffairy 의 펫판 (피해 1)
+CHA_PET_fairy_orbs_lostasset_mob2_leaffairy:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=2;spread=50;speed=0.7;homing=0.22;range=23.4;flat=1;element=wind;vfx=fairyorb/shot_leaf;hitvfx=fairyorb/hit_leaf;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 잎새 요정 - CHA_MOB_fairy_orbs_lostasset_mob2_leaffairy_shiny 의 펫판 (피해 1)
+CHA_PET_fairy_orbs_lostasset_mob2_leaffairy_shiny:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=2;spread=50;speed=0.7;homing=0.22;range=23.4;flat=1;element=wind;vfx=fairyorb/shot_leaf_s;hitvfx=fairyorb/hit_leaf_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 포자 요정 - CHA_MOB_fairy_orbs_lostasset_mob2_mushroomfairy 의 펫판 (피해 1)
+CHA_PET_fairy_orbs_lostasset_mob2_mushroomfairy:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=2;spread=50;speed=0.7;homing=0.22;range=23.4;flat=1;element=earth;vfx=fairyorb/shot_mushroom;hitvfx=fairyorb/hit_mushroom;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 포자 요정 - CHA_MOB_fairy_orbs_lostasset_mob2_mushroomfairy_shiny 의 펫판 (피해 1)
+CHA_PET_fairy_orbs_lostasset_mob2_mushroomfairy_shiny:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=2;spread=50;speed=0.7;homing=0.22;range=23.4;flat=1;element=earth;vfx=fairyorb/shot_mushroom_s;hitvfx=fairyorb/hit_mushroom_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 약초 수호골렘 - CHA_MOB_root_bind_lostasset_mob3_herbgolem 의 펫판 (피해 2)
+CHA_PET_root_bind_lostasset_mob3_herbgolem:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=6;ticks=20;flat=2;element=earth;vfxref=6;vfxlead=2;vfx=rootbind/roots;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 약초 수호골렘 - CHA_MOB_vine_whip_lostasset_mob3_herbgolem 의 펫판 (피해 2)
+CHA_PET_vine_whip_lostasset_mob3_herbgolem:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=line;at=caster;length=10.5;width=2.5;ticks=8;flat=2;element=earth;vfxref=3.5;vfxlead=2;vfx=herbwhip/whip;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 약초 수호골렘 - CHA_MOB_vine_whip_lostasset_mob3_herbgolem_shiny 의 펫판 (피해 2)
+CHA_PET_vine_whip_lostasset_mob3_herbgolem_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=line;at=caster;length=10.5;width=2.5;ticks=8;flat=2;element=earth;vfxref=3.5;vfxlead=2;vfx=herbwhip/whip_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 약초 수호골렘 - CHA_MOB_root_bind_lostasset_mob3_herbgolem_shiny 의 펫판 (피해 2)
+CHA_PET_root_bind_lostasset_mob3_herbgolem_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=6;ticks=20;flat=2;element=earth;vfxref=6;vfxlead=2;vfx=rootbind/roots_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 숲몽둥이 오우거 - CHA_MOB_ground_quake_ogre_club 의 펫판 (피해 4)
+CHA_PET_ground_quake_ogre_club:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=10;ticks=24;flat=4;element=earth;vfxref=10;vfxlead=2;vfx=ogrequake/quake_club;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 숲몽둥이 오우거 - CHA_MOB_ground_quake_ogre_club_shiny 의 펫판 (피해 4)
+CHA_PET_ground_quake_ogre_club_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=10;ticks=24;flat=4;element=earth;vfxref=10;vfxlead=2;vfx=ogrequake/quake_club_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 벌목꾼 오우거 - CHA_MOB_ground_quake_ogre_axe 의 펫판 (피해 4)
+CHA_PET_ground_quake_ogre_axe:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=10;ticks=24;flat=4;element=earth;vfxref=10;vfxlead=2;vfx=ogrequake/quake_axe;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 벌목꾼 오우거 - CHA_MOB_ground_quake_ogre_axe_shiny 의 펫판 (피해 4)
+CHA_PET_ground_quake_ogre_axe_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=10;ticks=24;flat=4;element=earth;vfxref=10;vfxlead=2;vfx=ogrequake/quake_axe_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 산울림 오우거 - CHA_MOB_ground_quake_ogre_hammer 의 펫판 (피해 4)
+CHA_PET_ground_quake_ogre_hammer:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=10;ticks=24;flat=4;element=earth;vfxref=10;vfxlead=2;vfx=ogrequake/quake_hammer;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 산울림 오우거 - CHA_MOB_ground_quake_ogre_hammer_shiny 의 펫판 (피해 4)
+CHA_PET_ground_quake_ogre_hammer_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=10;ticks=24;flat=4;element=earth;vfxref=10;vfxlead=2;vfx=ogrequake/quake_hammer_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 유적의 창병 - CHA_MOB_spear_throw_ncr_spear_skeleton 의 펫판 (피해 3)
+CHA_PET_spear_throw_ncr_spear_skeleton:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=line;at=caster;length=20.8;width=2;ticks=20;flat=3;vfxlead=2;vfx=ruinstrike/strike_spear;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 유적의 창병 - CHA_MOB_spear_throw_ncr_spear_skeleton_shiny 의 펫판 (피해 3)
+CHA_PET_spear_throw_ncr_spear_skeleton_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=line;at=caster;length=20.8;width=2;ticks=20;flat=3;vfxlead=2;vfx=ruinstrike/strike_spear_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 유적의 검병 - CHA_MOB_dash_slash_ncr_warrior_skeleton 의 펫판 (피해 3)
+CHA_PET_dash_slash_ncr_warrior_skeleton:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=line;at=caster;length=13;width=3;ticks=16;flat=3;vfxlead=2;vfx=ruinstrike/strike_slash;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 유적의 검병 - CHA_MOB_dash_slash_ncr_warrior_skeleton_shiny 의 펫판 (피해 3)
+CHA_PET_dash_slash_ncr_warrior_skeleton_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=line;at=caster;length=13;width=3;ticks=16;flat=3;vfxlead=2;vfx=ruinstrike/strike_slash_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 유적의 궁수 - CHA_MOB_bone_arrows_ncr_archer_skeleton 의 펫판 (피해 2)
+CHA_PET_bone_arrows_ncr_archer_skeleton:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=2;interval=5;spread=0;speed=1.4;range=31.2;radius=0.5;flat=2;vfx=ruinarrow/shot_arrow;hitvfx=ruinarrow/hit_arrow;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 유적의 궁수 - CHA_MOB_aim_shot_ncr_archer_skeleton 의 펫판 (피해 4)
+CHA_PET_aim_shot_ncr_archer_skeleton:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=line;at=caster;length=31.2;width=1.5;ticks=40;flat=4;vfxlead=2;vfx=ruinstrike/strike_arrow;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 유적의 궁수 - CHA_MOB_bone_arrows_ncr_archer_skeleton_shiny 의 펫판 (피해 2)
+CHA_PET_bone_arrows_ncr_archer_skeleton_shiny:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=2;interval=5;spread=0;speed=1.4;range=31.2;radius=0.5;flat=2;vfx=ruinarrow/shot_arrow_s;hitvfx=ruinarrow/hit_arrow_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 유적의 궁수 - CHA_MOB_aim_shot_ncr_archer_skeleton_shiny 의 펫판 (피해 4)
+CHA_PET_aim_shot_ncr_archer_skeleton_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=line;at=caster;length=31.2;width=1.5;ticks=40;flat=4;vfxlead=2;vfx=ruinstrike/strike_arrow_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 망각의 해골술사 - CHA_MOB_oblivion_orbs_ncr_mage_skeleton 의 펫판 (피해 2)
+CHA_PET_oblivion_orbs_ncr_mage_skeleton:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;spread=14;speed=0.45;homing=0.08;range=26;radius=0.9;flat=2;element=dark;vfx=skelorb/shot;hitvfx=skelorb/hit;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 망각의 해골술사 - CHA_MOB_bone_grasp_ncr_mage_skeleton 의 펫판 (피해 2)
+CHA_PET_bone_grasp_ncr_mage_skeleton:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=6;ticks=16;flat=2;element=dark;vfxref=6;vfxlead=2;vfx=bonegrasp/grasp;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 망각의 해골술사 - CHA_MOB_oblivion_orbs_ncr_mage_skeleton_shiny 의 펫판 (피해 2)
+CHA_PET_oblivion_orbs_ncr_mage_skeleton_shiny:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;spread=14;speed=0.45;homing=0.08;range=26;radius=0.9;flat=2;element=dark;vfx=skelorb/shot_s;hitvfx=skelorb/hit_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 망각의 해골술사 - CHA_MOB_bone_grasp_ncr_mage_skeleton_shiny 의 펫판 (피해 2)
+CHA_PET_bone_grasp_ncr_mage_skeleton_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=6;ticks=16;flat=2;element=dark;vfxref=6;vfxlead=2;vfx=bonegrasp/grasp_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 봉인의 기사 - CHA_MOB_seal_charge_mf_warden_knight 의 펫판 (피해 4)
+CHA_PET_seal_charge_mf_warden_knight:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=line;at=caster;length=19.5;width=3;ticks=20;flat=4;element=light;vfxlead=2;vfx=sealcharge/charge;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 봉인의 기사 - CHA_MOB_seal_charge_mf_warden_knight_shiny 의 펫판 (피해 4)
+CHA_PET_seal_charge_mf_warden_knight_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=line;at=caster;length=19.5;width=3;ticks=20;flat=4;element=light;vfxlead=2;vfx=sealcharge/charge_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 봉인의 궁수 - CHA_MOB_chain_arrow_mf_warden_archer 의 펫판 (피해 2)
+CHA_PET_chain_arrow_mf_warden_archer:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=1;speed=1.3;range=28.6;radius=0.6;flat=2;element=light;vfx=chainarrow/shot_chain;hitvfx=chainarrow/hit_chain;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 봉인의 궁수 - CHA_MOB_chain_arrow_mf_warden_archer_shiny 의 펫판 (피해 2)
+CHA_PET_chain_arrow_mf_warden_archer_shiny:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=1;speed=1.3;range=28.6;radius=0.6;flat=2;element=light;vfx=chainarrow/shot_chain_s;hitvfx=chainarrow/hit_chain_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 봉인의 술사 - CHA_MOB_seal_talismans_mf_warden_mage 의 펫판 (피해 2)
+CHA_PET_seal_talismans_mf_warden_mage:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;spread=30;speed=0.8;homing=0.15;range=26;flat=2;element=light;vfx=sealtalisman/shot_seal;hitvfx=sealtalisman/hit_seal;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 봉인의 술사 - CHA_MOB_seal_circle 의 펫판 (피해 2)
+CHA_PET_seal_circle:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=7;ticks=24;flat=2;element=light;vfx=sealcircle/seal;vfxref=4;vfxlead=2;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 봉인의 술사 - CHA_MOB_seal_talismans_mf_warden_mage_shiny 의 펫판 (피해 2)
+CHA_PET_seal_talismans_mf_warden_mage_shiny:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;spread=30;speed=0.8;homing=0.15;range=26;flat=2;element=light;vfx=sealtalisman/shot_seal_s;hitvfx=sealtalisman/hit_seal_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 봉인의 술사 - CHA_MOB_seal_circle_shiny 의 펫판 (피해 2)
+CHA_PET_seal_circle_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=7;ticks=24;flat=2;element=light;vfx=sealcircle/seal_ruby;vfxref=4;vfxlead=2;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 빙핵의 수호자 - CHA_MOB_ice_shards_glacialcore 의 펫판 (피해 2)
+CHA_PET_ice_shards_glacialcore:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=8;spread=45;orbit=20;speed=0.7;range=15.6;flat=2;element=water;vfx=glacialshards/shot_glacial;hitvfx=glacialshards/hit_glacial;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 빙핵의 수호자 - CHA_MOB_frost_laser 의 펫판 (피해 4)
+CHA_PET_frost_laser:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=line;at=caster;length=31.2;width=3;ticks=24;flat=4;element=water;vfx=frostlaser/laser;vfxref=16;vfxlead=2;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 빙핵의 수호자 - CHA_MOB_ice_shards_glacialcore_shiny 의 펫판 (피해 2)
+CHA_PET_ice_shards_glacialcore_shiny:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=8;spread=45;orbit=20;speed=0.7;range=15.6;flat=2;element=water;vfx=glacialshards/shot_glacial_s;hitvfx=glacialshards/hit_glacial_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 빙핵의 수호자 - CHA_MOB_frost_laser_shiny 의 펫판 (피해 4)
+CHA_PET_frost_laser_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=line;at=caster;length=31.2;width=3;ticks=24;flat=4;element=water;vfx=frostlaser/laser_obsidian;vfxref=16;vfxlead=2;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 서리 기사 - CHA_MOB_frost_field_ice_knight 의 펫판 (피해 3)
+CHA_PET_frost_field_ice_knight:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=8;ticks=20;flat=3;element=water;vfxref=8;vfxlead=2;vfx=frostfield/frost_field;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 서리 기사 - CHA_MOB_frost_field_ice_knight_shiny 의 펫판 (피해 3)
+CHA_PET_frost_field_ice_knight_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=8;ticks=20;flat=3;element=water;vfxref=8;vfxlead=2;vfx=frostfield/frost_field_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 사막 드래곤 - CHA_MOB_dragon_breath_dragon_desert 의 펫판 (피해 2)
+CHA_PET_dragon_breath_dragon_desert:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=16;angle=60;ticks=24;flat=2;pulses=5;period=6;vfxlead=2;element=earth;status=poison:40;vfx=dragonbreath/breath_desert;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 사막 드래곤 - CHA_MOB_dragon_breath_dragon_desert_shiny 의 펫판 (피해 2)
+CHA_PET_dragon_breath_dragon_desert_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=16;angle=60;ticks=24;flat=2;pulses=5;period=6;vfxlead=2;element=earth;status=poison:40;vfx=dragonbreath/breath_desert_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 빙하 드래곤 - CHA_MOB_dragon_breath_dragon_glacial 의 펫판 (피해 2)
+CHA_PET_dragon_breath_dragon_glacial:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=16;angle=60;ticks=24;flat=2;pulses=5;period=6;vfxlead=2;element=water;vfx=dragonbreath/breath_glacial;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 빙하 드래곤 - CHA_MOB_dragon_breath_dragon_glacial_shiny 의 펫판 (피해 2)
+CHA_PET_dragon_breath_dragon_glacial_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=16;angle=60;ticks=24;flat=2;pulses=5;period=6;vfxlead=2;element=water;vfx=dragonbreath/breath_glacial_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 화산 드래곤 - CHA_MOB_dragon_breath_dragon_nether 의 펫판 (피해 2)
+CHA_PET_dragon_breath_dragon_nether:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=16;angle=60;ticks=24;flat=2;pulses=5;period=6;vfxlead=2;element=fire;status=burn:60;vfx=dragonbreath/breath_nether;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 화산 드래곤 - CHA_MOB_dragon_breath_dragon_nether_shiny 의 펫판 (피해 2)
+CHA_PET_dragon_breath_dragon_nether_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=16;angle=60;ticks=24;flat=2;pulses=5;period=6;vfxlead=2;element=fire;status=burn:60;vfx=dragonbreath/breath_nether_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 스컬크 드래곤 - CHA_MOB_dragon_breath_dragon_sculk 의 펫판 (피해 2)
+CHA_PET_dragon_breath_dragon_sculk:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=16;angle=60;ticks=24;flat=2;pulses=5;period=6;vfxlead=2;element=dark;vfx=dragonbreath/breath_sculk;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 스컬크 드래곤 - CHA_MOB_dragon_breath_dragon_sculk_shiny 의 펫판 (피해 2)
+CHA_PET_dragon_breath_dragon_sculk_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=16;angle=60;ticks=24;flat=2;pulses=5;period=6;vfxlead=2;element=dark;vfx=dragonbreath/breath_sculk_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 창공 만티코어 - CHA_MOB_roar_leap_manticore_aether 의 펫판 (피해 4)
+CHA_PET_roar_leap_manticore_aether:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=8;ticks=20;flat=4;vfxref=8;vfxlead=2;element=wind;vfx=manticoreroar/roar_aether;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 창공 만티코어 - CHA_MOB_roar_leap_manticore_aether_shiny 의 펫판 (피해 4)
+CHA_PET_roar_leap_manticore_aether_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=8;ticks=20;flat=4;vfxref=8;vfxlead=2;element=wind;vfx=manticoreroar/roar_aether_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 황혼 만티코어 - CHA_MOB_roar_leap_manticore_dusk 의 펫판 (피해 4)
+CHA_PET_roar_leap_manticore_dusk:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=8;ticks=20;flat=4;vfxref=8;vfxlead=2;element=light;vfx=manticoreroar/roar_dusk;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 황혼 만티코어 - CHA_MOB_roar_leap_manticore_dusk_shiny 의 펫판 (피해 4)
+CHA_PET_roar_leap_manticore_dusk_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=8;ticks=20;flat=4;vfxref=8;vfxlead=2;element=light;vfx=manticoreroar/roar_dusk_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 혼령 만티코어 - CHA_MOB_roar_leap_manticore_soul 의 펫판 (피해 4)
+CHA_PET_roar_leap_manticore_soul:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=8;ticks=20;flat=4;vfxref=8;vfxlead=2;element=dark;vfx=manticoreroar/roar_soul;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 혼령 만티코어 - CHA_MOB_roar_leap_manticore_soul_shiny 의 펫판 (피해 4)
+CHA_PET_roar_leap_manticore_soul_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=8;ticks=20;flat=4;vfxref=8;vfxlead=2;element=dark;vfx=manticoreroar/roar_soul_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 맹독 만티코어 - CHA_MOB_roar_leap_manticore_venom 의 펫판 (피해 4)
+CHA_PET_roar_leap_manticore_venom:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=8;ticks=20;flat=4;vfxref=8;vfxlead=2;element=earth;status=poison:40;vfx=manticoreroar/roar_venom;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 맹독 만티코어 - CHA_MOB_roar_leap_manticore_venom_shiny 의 펫판 (피해 4)
+CHA_PET_roar_leap_manticore_venom_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=8;ticks=20;flat=4;vfxref=8;vfxlead=2;element=earth;status=poison:40;vfx=manticoreroar/roar_venom_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 설원 검치호 - CHA_MOB_pounce_sabertooth_arctic 의 펫판 (피해 4)
+CHA_PET_pounce_sabertooth_arctic:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=6;ticks=20;flat=4;vfxref=6;vfxlead=2;element=water;vfx=sabertoothpounce/pounce_arctic;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 설원 검치호 - CHA_MOB_pounce_sabertooth_arctic_shiny 의 펫판 (피해 4)
+CHA_PET_pounce_sabertooth_arctic_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=6;ticks=20;flat=4;vfxref=6;vfxlead=2;element=water;vfx=sabertoothpounce/pounce_arctic_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 한밤 검치호 - CHA_MOB_pounce_sabertooth_midnight 의 펫판 (피해 4)
+CHA_PET_pounce_sabertooth_midnight:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=6;ticks=20;flat=4;vfxref=6;vfxlead=2;element=dark;vfx=sabertoothpounce/pounce_midnight;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 한밤 검치호 - CHA_MOB_pounce_sabertooth_midnight_shiny 의 펫판 (피해 4)
+CHA_PET_pounce_sabertooth_midnight_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=6;ticks=20;flat=4;vfxref=6;vfxlead=2;element=dark;vfx=sabertoothpounce/pounce_midnight_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 초원 검치호 - CHA_MOB_pounce_sabertooth_savanna 의 펫판 (피해 4)
+CHA_PET_pounce_sabertooth_savanna:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=6;ticks=20;flat=4;vfxref=6;vfxlead=2;element=earth;vfx=sabertoothpounce/pounce_savanna;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 초원 검치호 - CHA_MOB_pounce_sabertooth_savanna_shiny 의 펫판 (피해 4)
+CHA_PET_pounce_sabertooth_savanna_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=6;ticks=20;flat=4;vfxref=6;vfxlead=2;element=earth;vfx=sabertoothpounce/pounce_savanna_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 페가수스 - CHA_MOB_moon_wind_horse_pegasus 의 펫판 (피해 2)
+CHA_PET_moon_wind_horse_pegasus:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=line;at=caster;length=15;width=3;ticks=8;flat=2;element=wind;vfxref=5;vfxlead=2;vfx=pegasuscrescent/moon;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 페가수스 - CHA_MOB_gale_wings_horse_pegasus 의 펫판 (피해 2)
+CHA_PET_gale_wings_horse_pegasus:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=10;angle=180;ticks=20;flat=2;element=wind;vfxlead=2;vfx=galewings/gale;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 페가수스 - CHA_MOB_moon_wind_horse_pegasus_shiny 의 펫판 (피해 2)
+CHA_PET_moon_wind_horse_pegasus_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=line;at=caster;length=15;width=3;ticks=8;flat=2;element=wind;vfxref=5;vfxlead=2;vfx=pegasuscrescent/moon_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 페가수스 - CHA_MOB_gale_wings_horse_pegasus_shiny 의 펫판 (피해 2)
+CHA_PET_gale_wings_horse_pegasus_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=10;angle=180;ticks=20;flat=2;element=wind;vfxlead=2;vfx=galewings/gale_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 유니콘 - CHA_MOB_horn_ray_horse_unicorn 의 펫판 (피해 4)
+CHA_PET_horn_ray_horse_unicorn:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=line;at=caster;length=28.6;width=3;ticks=20;flat=4;element=light;vfxref=22;vfxlead=2;vfx=unicornray/ray;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 유니콘 - CHA_MOB_horn_ray_horse_unicorn_shiny 의 펫판 (피해 4)
+CHA_PET_horn_ray_horse_unicorn_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=line;at=caster;length=28.6;width=3;ticks=20;flat=4;element=light;vfxref=22;vfxlead=2;vfx=unicornray/ray_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 마성 키츠네 - CHA_MOB_foxfire_orbit_kitsune_demonic 의 펫판 (피해 2)
+CHA_PET_foxfire_orbit_kitsune_demonic:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;spread=30;orbit=16;speed=0.7;homing=0.2;range=26;flat=2;element=dark;vfx=kitsunefox/shot_demonic;hitvfx=kitsunefox/hit_demonic;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 마성 키츠네 - CHA_MOB_fox_charm_kitsune_demonic 의 펫판 (피해 2)
+CHA_PET_fox_charm_kitsune_demonic:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=7;ticks=20;flat=2;vfxref=7;vfxlead=2;element=dark;vfx=kitsunecharm/charm_demonic;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 마성 키츠네 - CHA_MOB_foxfire_orbit_kitsune_demonic_shiny 의 펫판 (피해 2)
+CHA_PET_foxfire_orbit_kitsune_demonic_shiny:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;spread=30;orbit=16;speed=0.7;homing=0.2;range=26;flat=2;element=dark;vfx=kitsunefox/shot_demonic_s;hitvfx=kitsunefox/hit_demonic_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 마성 키츠네 - CHA_MOB_fox_charm_kitsune_demonic_shiny 의 펫판 (피해 2)
+CHA_PET_fox_charm_kitsune_demonic_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=7;ticks=20;flat=2;vfxref=7;vfxlead=2;element=dark;vfx=kitsunecharm/charm_demonic_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 업화 키츠네 - CHA_MOB_foxfire_orbit_kitsune_inferno 의 펫판 (피해 2)
+CHA_PET_foxfire_orbit_kitsune_inferno:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;spread=30;orbit=16;speed=0.7;homing=0.2;range=26;flat=2;element=fire;vfx=kitsunefox/shot_inferno;hitvfx=kitsunefox/hit_inferno;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 업화 키츠네 - CHA_MOB_fox_charm_kitsune_inferno 의 펫판 (피해 2)
+CHA_PET_fox_charm_kitsune_inferno:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=7;ticks=20;flat=2;vfxref=7;vfxlead=2;element=fire;vfx=kitsunecharm/charm_inferno;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 업화 키츠네 - CHA_MOB_foxfire_orbit_kitsune_inferno_shiny 의 펫판 (피해 2)
+CHA_PET_foxfire_orbit_kitsune_inferno_shiny:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;spread=30;orbit=16;speed=0.7;homing=0.2;range=26;flat=2;element=fire;vfx=kitsunefox/shot_inferno_s;hitvfx=kitsunefox/hit_inferno_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 업화 키츠네 - CHA_MOB_fox_charm_kitsune_inferno_shiny 의 펫판 (피해 2)
+CHA_PET_fox_charm_kitsune_inferno_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=7;ticks=20;flat=2;vfxref=7;vfxlead=2;element=fire;vfx=kitsunecharm/charm_inferno_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 키츠네 - CHA_MOB_foxfire_orbit_kitsune_normal 의 펫판 (피해 2)
+CHA_PET_foxfire_orbit_kitsune_normal:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;spread=30;orbit=16;speed=0.7;homing=0.2;range=26;flat=2;element=fire;vfx=kitsunefox/shot_normal;hitvfx=kitsunefox/hit_normal;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 키츠네 - CHA_MOB_fox_charm_kitsune_normal 의 펫판 (피해 2)
+CHA_PET_fox_charm_kitsune_normal:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=7;ticks=20;flat=2;vfxref=7;vfxlead=2;element=fire;vfx=kitsunecharm/charm_normal;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 키츠네 - CHA_MOB_foxfire_orbit_kitsune_normal_shiny 의 펫판 (피해 2)
+CHA_PET_foxfire_orbit_kitsune_normal_shiny:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;spread=30;orbit=16;speed=0.7;homing=0.2;range=26;flat=2;element=fire;vfx=kitsunefox/shot_normal_s;hitvfx=kitsunefox/hit_normal_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 키츠네 - CHA_MOB_fox_charm_kitsune_normal_shiny 의 펫판 (피해 2)
+CHA_PET_fox_charm_kitsune_normal_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=7;ticks=20;flat=2;vfxref=7;vfxlead=2;element=fire;vfx=kitsunecharm/charm_normal_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 공허 팬텀 - CHA_MOB_soul_drain_phantom_ender 의 펫판 (피해 2)
+CHA_PET_soul_drain_phantom_ender:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=6;ticks=20;flat=2;element=dark;vfxref=6;vfxlead=2;vfx=phantomdrain/drain_ender;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 공허 팬텀 - CHA_MOB_soul_drain_phantom_ender_shiny 의 펫판 (피해 2)
+CHA_PET_soul_drain_phantom_ender_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=6;ticks=20;flat=2;element=dark;vfxref=6;vfxlead=2;vfx=phantomdrain/drain_ender_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 망령 팬텀 - CHA_MOB_soul_drain_phantom_ghost 의 펫판 (피해 2)
+CHA_PET_soul_drain_phantom_ghost:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=6;ticks=20;flat=2;element=dark;vfxref=6;vfxlead=2;vfx=phantomdrain/drain_ghost;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 망령 팬텀 - CHA_MOB_soul_drain_phantom_ghost_shiny 의 펫판 (피해 2)
+CHA_PET_soul_drain_phantom_ghost_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=6;ticks=20;flat=2;element=dark;vfxref=6;vfxlead=2;vfx=phantomdrain/drain_ghost_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 흑염 피닉스 - CHA_MOB_fire_feathers_phoenix_darkflame 의 펫판 (피해 2)
+CHA_PET_fire_feathers_phoenix_darkflame:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;spread=40;speed=0.8;homing=0.18;range=26;flat=2;element=dark;status=burn:60;vfx=phoenixfeather/shot_darkflame;hitvfx=phoenixfeather/hit_darkflame;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 흑염 피닉스 - CHA_MOB_feather_barrage_phoenix_darkflame 의 펫판 (피해 4)
+CHA_PET_feather_barrage_phoenix_darkflame:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=14;angle=55;ticks=16;flat=4;vfxlead=2;element=dark;status=burn:60;vfx=featherbarrage/feather_darkflame;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 흑염 피닉스 - CHA_MOB_fire_feathers_phoenix_darkflame_shiny 의 펫판 (피해 2)
+CHA_PET_fire_feathers_phoenix_darkflame_shiny:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;spread=40;speed=0.8;homing=0.18;range=26;flat=2;element=dark;status=burn:60;vfx=phoenixfeather/shot_darkflame_s;hitvfx=phoenixfeather/hit_darkflame_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 흑염 피닉스 - CHA_MOB_feather_barrage_phoenix_darkflame_shiny 의 펫판 (피해 4)
+CHA_PET_feather_barrage_phoenix_darkflame_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=14;angle=55;ticks=16;flat=4;vfxlead=2;element=dark;status=burn:60;vfx=featherbarrage/feather_darkflame_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 불꽃 피닉스 - CHA_MOB_fire_feathers_phoenix_flame 의 펫판 (피해 2)
+CHA_PET_fire_feathers_phoenix_flame:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;spread=40;speed=0.8;homing=0.18;range=26;flat=2;element=fire;status=burn:60;vfx=phoenixfeather/shot_flame;hitvfx=phoenixfeather/hit_flame;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 불꽃 피닉스 - CHA_MOB_feather_barrage_phoenix_flame 의 펫판 (피해 4)
+CHA_PET_feather_barrage_phoenix_flame:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=14;angle=55;ticks=16;flat=4;vfxlead=2;element=fire;status=burn:60;vfx=featherbarrage/feather_flame;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 불꽃 피닉스 - CHA_MOB_fire_feathers_phoenix_flame_shiny 의 펫판 (피해 2)
+CHA_PET_fire_feathers_phoenix_flame_shiny:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;spread=40;speed=0.8;homing=0.18;range=26;flat=2;element=fire;status=burn:60;vfx=phoenixfeather/shot_flame_s;hitvfx=phoenixfeather/hit_flame_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 불꽃 피닉스 - CHA_MOB_feather_barrage_phoenix_flame_shiny 의 펫판 (피해 4)
+CHA_PET_feather_barrage_phoenix_flame_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=14;angle=55;ticks=16;flat=4;vfxlead=2;element=fire;status=burn:60;vfx=featherbarrage/feather_flame_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 광휘 피닉스 - CHA_MOB_fire_feathers_phoenix_light 의 펫판 (피해 2)
+CHA_PET_fire_feathers_phoenix_light:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;spread=40;speed=0.8;homing=0.18;range=26;flat=2;element=light;status=burn:40;vfx=phoenixfeather/shot_light;hitvfx=phoenixfeather/hit_light;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 광휘 피닉스 - CHA_MOB_feather_barrage_phoenix_light 의 펫판 (피해 4)
+CHA_PET_feather_barrage_phoenix_light:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=14;angle=55;ticks=16;flat=4;vfxlead=2;element=light;status=burn:40;vfx=featherbarrage/feather_light;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 광휘 피닉스 - CHA_MOB_fire_feathers_phoenix_light_shiny 의 펫판 (피해 2)
+CHA_PET_fire_feathers_phoenix_light_shiny:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;spread=40;speed=0.8;homing=0.18;range=26;flat=2;element=light;status=burn:40;vfx=phoenixfeather/shot_light_s;hitvfx=phoenixfeather/hit_light_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 광휘 피닉스 - CHA_MOB_feather_barrage_phoenix_light_shiny 의 펫판 (피해 4)
+CHA_PET_feather_barrage_phoenix_light_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=14;angle=55;ticks=16;flat=4;vfxlead=2;element=light;status=burn:40;vfx=featherbarrage/feather_light_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 뇌광 피닉스 - CHA_MOB_fire_feathers_phoenix_thunder 의 펫판 (피해 2)
+CHA_PET_fire_feathers_phoenix_thunder:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;spread=40;speed=0.8;homing=0.18;range=26;flat=2;element=wind;vfx=phoenixfeather/shot_thunder;hitvfx=phoenixfeather/hit_thunder;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 뇌광 피닉스 - CHA_MOB_feather_barrage_phoenix_thunder 의 펫판 (피해 4)
+CHA_PET_feather_barrage_phoenix_thunder:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=14;angle=55;ticks=16;flat=4;vfxlead=2;element=wind;vfx=featherbarrage/feather_thunder;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 뇌광 피닉스 - CHA_MOB_fire_feathers_phoenix_thunder_shiny 의 펫판 (피해 2)
+CHA_PET_fire_feathers_phoenix_thunder_shiny:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;spread=40;speed=0.8;homing=0.18;range=26;flat=2;element=wind;vfx=phoenixfeather/shot_thunder_s;hitvfx=phoenixfeather/hit_thunder_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 뇌광 피닉스 - CHA_MOB_feather_barrage_phoenix_thunder_shiny 의 펫판 (피해 4)
+CHA_PET_feather_barrage_phoenix_thunder_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=14;angle=55;ticks=16;flat=4;vfxlead=2;element=wind;vfx=featherbarrage/feather_thunder_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 흑요 바실리스크 - CHA_MOB_venom_spit_basilisk_obsidian 의 펫판 (피해 2)
+CHA_PET_venom_spit_basilisk_obsidian:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=1;speed=0.7;rise=0.35;range=23.4;burst=2.5;flat=2;status=poison:40;element=earth;vfx=basiliskspit/shot_obsidian;hitvfx=basiliskspit/hit_obsidian;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 흑요 바실리스크 - CHA_MOB_tail_sweep_basilisk_obsidian 의 펫판 (피해 3)
+CHA_PET_tail_sweep_basilisk_obsidian:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=9;angle=180;ticks=20;flat=3;vfxlead=2;element=earth;vfx=basilisksweep/sweep_obsidian;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 흑요 바실리스크 - CHA_MOB_venom_spit_basilisk_obsidian_shiny 의 펫판 (피해 2)
+CHA_PET_venom_spit_basilisk_obsidian_shiny:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=1;speed=0.7;rise=0.35;range=23.4;burst=2.5;flat=2;status=poison:40;element=earth;vfx=basiliskspit/shot_obsidian_s;hitvfx=basiliskspit/hit_obsidian_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 흑요 바실리스크 - CHA_MOB_tail_sweep_basilisk_obsidian_shiny 의 펫판 (피해 3)
+CHA_PET_tail_sweep_basilisk_obsidian_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=9;angle=180;ticks=20;flat=3;vfxlead=2;element=earth;vfx=basilisksweep/sweep_obsidian_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 눈보라 바실리스크 - CHA_MOB_venom_spit_basilisk_snowstorm 의 펫판 (피해 2)
+CHA_PET_venom_spit_basilisk_snowstorm:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=1;speed=0.7;rise=0.35;range=23.4;burst=2.5;flat=2;element=water;status=poison:40;vfx=basiliskspit/shot_snowstorm;hitvfx=basiliskspit/hit_snowstorm;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 눈보라 바실리스크 - CHA_MOB_tail_sweep_basilisk_snowstorm 의 펫판 (피해 3)
+CHA_PET_tail_sweep_basilisk_snowstorm:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=9;angle=180;ticks=20;flat=3;vfxlead=2;element=water;vfx=basilisksweep/sweep_snowstorm;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 눈보라 바실리스크 - CHA_MOB_venom_spit_basilisk_snowstorm_shiny 의 펫판 (피해 2)
+CHA_PET_venom_spit_basilisk_snowstorm_shiny:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=1;speed=0.7;rise=0.35;range=23.4;burst=2.5;flat=2;element=water;status=poison:40;vfx=basiliskspit/shot_snowstorm_s;hitvfx=basiliskspit/hit_snowstorm_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 눈보라 바실리스크 - CHA_MOB_tail_sweep_basilisk_snowstorm_shiny 의 펫판 (피해 3)
+CHA_PET_tail_sweep_basilisk_snowstorm_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=9;angle=180;ticks=20;flat=3;vfxlead=2;element=water;vfx=basilisksweep/sweep_snowstorm_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 야생 바실리스크 - CHA_MOB_venom_spit_basilisk_wild 의 펫판 (피해 2)
+CHA_PET_venom_spit_basilisk_wild:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=1;speed=0.7;rise=0.35;range=23.4;burst=2.5;flat=2;status=poison:40;element=earth;vfx=basiliskspit/shot_wild;hitvfx=basiliskspit/hit_wild;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 야생 바실리스크 - CHA_MOB_tail_sweep_basilisk_wild 의 펫판 (피해 3)
+CHA_PET_tail_sweep_basilisk_wild:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=9;angle=180;ticks=20;flat=3;vfxlead=2;element=earth;vfx=basilisksweep/sweep_wild;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 야생 바실리스크 - CHA_MOB_venom_spit_basilisk_wild_shiny 의 펫판 (피해 2)
+CHA_PET_venom_spit_basilisk_wild_shiny:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=1;speed=0.7;rise=0.35;range=23.4;burst=2.5;flat=2;status=poison:40;element=earth;vfx=basiliskspit/shot_wild_s;hitvfx=basiliskspit/hit_wild_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 야생 바실리스크 - CHA_MOB_tail_sweep_basilisk_wild_shiny 의 펫판 (피해 3)
+CHA_PET_tail_sweep_basilisk_wild_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=9;angle=180;ticks=20;flat=3;vfxlead=2;element=earth;vfx=basilisksweep/sweep_wild_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 산악 히포그리프 - CHA_MOB_feather_storm_hippogryph_common 의 펫판 (피해 3)
+CHA_PET_feather_storm_hippogryph_common:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=8;ticks=20;flat=3;vfxref=8;vfxlead=2;element=wind;vfx=featherstorm/fstorm_common;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 산악 히포그리프 - CHA_MOB_feather_storm_hippogryph_common_shiny 의 펫판 (피해 3)
+CHA_PET_feather_storm_hippogryph_common_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=8;ticks=20;flat=3;vfxref=8;vfxlead=2;element=wind;vfx=featherstorm/fstorm_common_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 수정 히포그리프 - CHA_MOB_feather_storm_hippogryph_crystal 의 펫판 (피해 3)
+CHA_PET_feather_storm_hippogryph_crystal:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=8;ticks=20;flat=3;vfxref=8;vfxlead=2;element=light;vfx=featherstorm/fstorm_crystal;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 수정 히포그리프 - CHA_MOB_feather_storm_hippogryph_crystal_shiny 의 펫판 (피해 3)
+CHA_PET_feather_storm_hippogryph_crystal_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=8;ticks=20;flat=3;vfxref=8;vfxlead=2;element=light;vfx=featherstorm/fstorm_crystal_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 타락 히포그리프 - CHA_MOB_feather_storm_hippogryph_fallen 의 펫판 (피해 3)
+CHA_PET_feather_storm_hippogryph_fallen:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=8;ticks=20;flat=3;vfxref=8;vfxlead=2;element=dark;vfx=featherstorm/fstorm_fallen;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 타락 히포그리프 - CHA_MOB_feather_storm_hippogryph_fallen_shiny 의 펫판 (피해 3)
+CHA_PET_feather_storm_hippogryph_fallen_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=8;ticks=20;flat=3;vfxref=8;vfxlead=2;element=dark;vfx=featherstorm/fstorm_fallen_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 왕실 히포그리프 - CHA_MOB_feather_storm_hippogryph_royal 의 펫판 (피해 3)
+CHA_PET_feather_storm_hippogryph_royal:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=8;ticks=20;flat=3;vfxref=8;vfxlead=2;element=light;vfx=featherstorm/fstorm_royal;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 왕실 히포그리프 - CHA_MOB_feather_storm_hippogryph_royal_shiny 의 펫판 (피해 3)
+CHA_PET_feather_storm_hippogryph_royal_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=8;ticks=20;flat=3;vfxref=8;vfxlead=2;element=light;vfx=featherstorm/fstorm_royal_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 비취 하늘뱀 - CHA_MOB_serpent_breath_sky_serpent_jade 의 펫판 (피해 2)
+CHA_PET_serpent_breath_sky_serpent_jade:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=12;angle=55;ticks=20;flat=2;pulses=4;period=6;vfxlead=2;element=wind;vfx=serpentbreath/sbreath_jade;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 비취 하늘뱀 - CHA_MOB_serpent_breath_sky_serpent_jade_shiny 의 펫판 (피해 2)
+CHA_PET_serpent_breath_sky_serpent_jade_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=12;angle=55;ticks=20;flat=2;pulses=4;period=6;vfxlead=2;element=wind;vfx=serpentbreath/sbreath_jade_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 마그마 하늘뱀 - CHA_MOB_serpent_breath_sky_serpent_magma 의 펫판 (피해 2)
+CHA_PET_serpent_breath_sky_serpent_magma:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=12;angle=55;ticks=20;flat=2;pulses=4;period=6;vfxlead=2;element=fire;status=burn:40;vfx=serpentbreath/sbreath_magma;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 마그마 하늘뱀 - CHA_MOB_serpent_breath_sky_serpent_magma_shiny 의 펫판 (피해 2)
+CHA_PET_serpent_breath_sky_serpent_magma_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=12;angle=55;ticks=20;flat=2;pulses=4;period=6;vfxlead=2;element=fire;status=burn:40;vfx=serpentbreath/sbreath_magma_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 태양 하늘뱀 - CHA_MOB_serpent_breath_sky_serpent_solar 의 펫판 (피해 2)
+CHA_PET_serpent_breath_sky_serpent_solar:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=12;angle=55;ticks=20;flat=2;pulses=4;period=6;vfxlead=2;element=light;vfx=serpentbreath/sbreath_solar;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 태양 하늘뱀 - CHA_MOB_serpent_breath_sky_serpent_solar_shiny 의 펫판 (피해 2)
+CHA_PET_serpent_breath_sky_serpent_solar_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=12;angle=55;ticks=20;flat=2;pulses=4;period=6;vfxlead=2;element=light;vfx=serpentbreath/sbreath_solar_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 영체 하늘뱀 - CHA_MOB_serpent_breath_sky_serpent_spectral 의 펫판 (피해 2)
+CHA_PET_serpent_breath_sky_serpent_spectral:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=12;angle=55;ticks=20;flat=2;pulses=4;period=6;vfxlead=2;element=dark;vfx=serpentbreath/sbreath_spectral;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 영체 하늘뱀 - CHA_MOB_serpent_breath_sky_serpent_spectral_shiny 의 펫판 (피해 2)
+CHA_PET_serpent_breath_sky_serpent_spectral_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=12;angle=55;ticks=20;flat=2;pulses=4;period=6;vfxlead=2;element=dark;vfx=serpentbreath/sbreath_spectral_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 마성 영록 - CHA_MOB_light_horns_stag_demonic 의 펫판 (피해 2)
+CHA_PET_light_horns_stag_demonic:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;spread=16;speed=0.9;range=26;flat=2;element=dark;vfx=staghorn/shot_demonic;hitvfx=staghorn/hit_demonic;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 마성 영록 - CHA_MOB_domain_seal_stag_demonic 의 펫판 (피해 3)
+CHA_PET_domain_seal_stag_demonic:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=10;ticks=20;flat=3;vfxref=10;vfxlead=2;element=dark;vfx=domainseal/domain_demonic;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 마성 영록 - CHA_MOB_light_horns_stag_demonic_shiny 의 펫판 (피해 2)
+CHA_PET_light_horns_stag_demonic_shiny:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;spread=16;speed=0.9;range=26;flat=2;element=dark;vfx=staghorn/shot_demonic_s;hitvfx=staghorn/hit_demonic_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 마성 영록 - CHA_MOB_domain_seal_stag_demonic_shiny 의 펫판 (피해 3)
+CHA_PET_domain_seal_stag_demonic_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=10;ticks=20;flat=3;vfxref=10;vfxlead=2;element=dark;vfx=domainseal/domain_demonic_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 천상 영록 - CHA_MOB_light_horns_stag_heavenly 의 펫판 (피해 2)
+CHA_PET_light_horns_stag_heavenly:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;spread=16;speed=0.9;range=26;flat=2;element=light;vfx=staghorn/shot_heavenly;hitvfx=staghorn/hit_heavenly;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 천상 영록 - CHA_MOB_domain_seal_stag_heavenly 의 펫판 (피해 3)
+CHA_PET_domain_seal_stag_heavenly:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=10;ticks=20;flat=3;vfxref=10;vfxlead=2;element=light;vfx=domainseal/domain_heavenly;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 천상 영록 - CHA_MOB_light_horns_stag_heavenly_shiny 의 펫판 (피해 2)
+CHA_PET_light_horns_stag_heavenly_shiny:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;spread=16;speed=0.9;range=26;flat=2;element=light;vfx=staghorn/shot_heavenly_s;hitvfx=staghorn/hit_heavenly_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 천상 영록 - CHA_MOB_domain_seal_stag_heavenly_shiny 의 펫판 (피해 3)
+CHA_PET_domain_seal_stag_heavenly_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=10;ticks=20;flat=3;vfxref=10;vfxlead=2;element=light;vfx=domainseal/domain_heavenly_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 룬 영록 - CHA_MOB_light_horns_stag_rune 의 펫판 (피해 2)
+CHA_PET_light_horns_stag_rune:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;spread=16;speed=0.9;range=26;flat=2;element=light;vfx=staghorn/shot_rune;hitvfx=staghorn/hit_rune;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 룬 영록 - CHA_MOB_domain_seal_stag_rune 의 펫판 (피해 3)
+CHA_PET_domain_seal_stag_rune:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=10;ticks=20;flat=3;vfxref=10;vfxlead=2;element=light;vfx=domainseal/domain_rune;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 룬 영록 - CHA_MOB_light_horns_stag_rune_shiny 의 펫판 (피해 2)
+CHA_PET_light_horns_stag_rune_shiny:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;spread=16;speed=0.9;range=26;flat=2;element=light;vfx=staghorn/shot_rune_s;hitvfx=staghorn/hit_rune_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 룬 영록 - CHA_MOB_domain_seal_stag_rune_shiny 의 펫판 (피해 3)
+CHA_PET_domain_seal_stag_rune_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=10;ticks=20;flat=3;vfxref=10;vfxlead=2;element=light;vfx=domainseal/domain_rune_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 심연 영록 - CHA_MOB_light_horns_stag_void 의 펫판 (피해 2)
+CHA_PET_light_horns_stag_void:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;spread=16;speed=0.9;range=26;flat=2;element=dark;vfx=staghorn/shot_void;hitvfx=staghorn/hit_void;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 심연 영록 - CHA_MOB_domain_seal_stag_void 의 펫판 (피해 3)
+CHA_PET_domain_seal_stag_void:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=10;ticks=20;flat=3;vfxref=10;vfxlead=2;element=dark;vfx=domainseal/domain_void;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 심연 영록 - CHA_MOB_light_horns_stag_void_shiny 의 펫판 (피해 2)
+CHA_PET_light_horns_stag_void_shiny:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;spread=16;speed=0.9;range=26;flat=2;element=dark;vfx=staghorn/shot_void_s;hitvfx=staghorn/hit_void_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 심연 영록 - CHA_MOB_domain_seal_stag_void_shiny 의 펫판 (피해 3)
+CHA_PET_domain_seal_stag_void_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=10;ticks=20;flat=3;vfxref=10;vfxlead=2;element=dark;vfx=domainseal/domain_void_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 비전 고대 골렘 - CHA_MOB_rune_boulder_golem_arcane 의 펫판 (피해 3)
+CHA_PET_rune_boulder_golem_arcane:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=1;speed=0.7;rise=0.3;range=23.4;burst=2.5;flat=3;element=earth;fromy=2.2;vfx=golemboulder/shot_arcane;hitvfx=golemboulder/hit_arcane;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 비전 고대 골렘 - CHA_MOB_gravity_slam_golem_arcane 의 펫판 (피해 4)
+CHA_PET_gravity_slam_golem_arcane:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=11;ticks=24;flat=4;element=light;vfxref=11;vfxlead=3;vfx=gravityslam/gravity_arcane;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 비전 고대 골렘 - CHA_MOB_rune_boulder_golem_arcane_shiny 의 펫판 (피해 3)
+CHA_PET_rune_boulder_golem_arcane_shiny:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=1;speed=0.7;rise=0.3;range=23.4;burst=2.5;flat=3;element=earth;fromy=2.2;vfx=golemboulder/shot_arcane_s;hitvfx=golemboulder/hit_arcane_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 비전 고대 골렘 - CHA_MOB_gravity_slam_golem_arcane_shiny 의 펫판 (피해 4)
+CHA_PET_gravity_slam_golem_arcane_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=11;ticks=24;flat=4;element=light;vfxref=11;vfxlead=3;vfx=gravityslam/gravity_arcane_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 오염 고대 골렘 - CHA_MOB_rune_boulder_golem_corrupted 의 펫판 (피해 3)
+CHA_PET_rune_boulder_golem_corrupted:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=1;speed=0.7;rise=0.3;range=23.4;burst=2.5;flat=3;element=earth;fromy=2.2;vfx=golemboulder/shot_corrupted;hitvfx=golemboulder/hit_corrupted;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 오염 고대 골렘 - CHA_MOB_gravity_slam_golem_corrupted 의 펫판 (피해 4)
+CHA_PET_gravity_slam_golem_corrupted:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=11;ticks=24;flat=4;element=light;vfxref=11;vfxlead=3;vfx=gravityslam/gravity_corrupted;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 오염 고대 골렘 - CHA_MOB_rune_boulder_golem_corrupted_shiny 의 펫판 (피해 3)
+CHA_PET_rune_boulder_golem_corrupted_shiny:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=1;speed=0.7;rise=0.3;range=23.4;burst=2.5;flat=3;element=earth;fromy=2.2;vfx=golemboulder/shot_corrupted_s;hitvfx=golemboulder/hit_corrupted_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 오염 고대 골렘 - CHA_MOB_gravity_slam_golem_corrupted_shiny 의 펫판 (피해 4)
+CHA_PET_gravity_slam_golem_corrupted_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=11;ticks=24;flat=4;element=light;vfxref=11;vfxlead=3;vfx=gravityslam/gravity_corrupted_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 마그마 고대 골렘 - CHA_MOB_rune_boulder_golem_magma 의 펫판 (피해 3)
+CHA_PET_rune_boulder_golem_magma:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=1;speed=0.7;rise=0.3;range=23.4;burst=2.5;flat=3;element=earth;fromy=2.2;vfx=golemboulder/shot_magma;hitvfx=golemboulder/hit_magma;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 마그마 고대 골렘 - CHA_MOB_gravity_slam_golem_magma 의 펫판 (피해 4)
+CHA_PET_gravity_slam_golem_magma:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=11;ticks=24;flat=4;element=light;vfxref=11;vfxlead=3;vfx=gravityslam/gravity_magma;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 마그마 고대 골렘 - CHA_MOB_rune_boulder_golem_magma_shiny 의 펫판 (피해 3)
+CHA_PET_rune_boulder_golem_magma_shiny:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=1;speed=0.7;rise=0.3;range=23.4;burst=2.5;flat=3;element=earth;fromy=2.2;vfx=golemboulder/shot_magma_s;hitvfx=golemboulder/hit_magma_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 마그마 고대 골렘 - CHA_MOB_gravity_slam_golem_magma_shiny 의 펫판 (피해 4)
+CHA_PET_gravity_slam_golem_magma_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=11;ticks=24;flat=4;element=light;vfxref=11;vfxlead=3;vfx=gravityslam/gravity_magma_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 왕실 고대 골렘 - CHA_MOB_rune_boulder_golem_royal 의 펫판 (피해 3)
+CHA_PET_rune_boulder_golem_royal:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=1;speed=0.7;rise=0.3;range=23.4;burst=2.5;flat=3;element=earth;fromy=2.2;vfx=golemboulder/shot_royal;hitvfx=golemboulder/hit_royal;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 왕실 고대 골렘 - CHA_MOB_gravity_slam_golem_royal 의 펫판 (피해 4)
+CHA_PET_gravity_slam_golem_royal:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=11;ticks=24;flat=4;element=light;vfxref=11;vfxlead=3;vfx=gravityslam/gravity_royal;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 왕실 고대 골렘 - CHA_MOB_rune_boulder_golem_royal_shiny 의 펫판 (피해 3)
+CHA_PET_rune_boulder_golem_royal_shiny:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=1;speed=0.7;rise=0.3;range=23.4;burst=2.5;flat=3;element=earth;fromy=2.2;vfx=golemboulder/shot_royal_s;hitvfx=golemboulder/hit_royal_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 왕실 고대 골렘 - CHA_MOB_gravity_slam_golem_royal_shiny 의 펫판 (피해 4)
+CHA_PET_gravity_slam_golem_royal_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=11;ticks=24;flat=4;element=light;vfxref=11;vfxlead=3;vfx=gravityslam/gravity_royal_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 마성 터스커 - CHA_MOB_earth_stomp_tusker_demonic 의 펫판 (피해 3)
+CHA_PET_earth_stomp_tusker_demonic:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=10;ticks=24;flat=3;element=earth;vfxref=10;vfxlead=2;vfx=earthstomp/stomp_demonic;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 마성 터스커 - CHA_MOB_earth_stomp_tusker_demonic_shiny 의 펫판 (피해 3)
+CHA_PET_earth_stomp_tusker_demonic_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=10;ticks=24;flat=3;element=earth;vfxref=10;vfxlead=2;vfx=earthstomp/stomp_demonic_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 꿈빛 터스커 - CHA_MOB_earth_stomp_tusker_dreamlight 의 펫판 (피해 3)
+CHA_PET_earth_stomp_tusker_dreamlight:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=10;ticks=24;flat=3;element=earth;vfxref=10;vfxlead=2;vfx=earthstomp/stomp_dreamlight;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 꿈빛 터스커 - CHA_MOB_earth_stomp_tusker_dreamlight_shiny 의 펫판 (피해 3)
+CHA_PET_earth_stomp_tusker_dreamlight_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=10;ticks=24;flat=3;element=earth;vfxref=10;vfxlead=2;vfx=earthstomp/stomp_dreamlight_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 숲 터스커 - CHA_MOB_earth_stomp_tusker_forest 의 펫판 (피해 3)
+CHA_PET_earth_stomp_tusker_forest:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=10;ticks=24;flat=3;element=earth;vfxref=10;vfxlead=2;vfx=earthstomp/stomp_forest;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 숲 터스커 - CHA_MOB_earth_stomp_tusker_forest_shiny 의 펫판 (피해 3)
+CHA_PET_earth_stomp_tusker_forest_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=10;ticks=24;flat=3;element=earth;vfxref=10;vfxlead=2;vfx=earthstomp/stomp_forest_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 거친 울프호크 - CHA_MOB_wind_blade_wolfhawk_dire 의 펫판 (피해 2)
+CHA_PET_wind_blade_wolfhawk_dire:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=1;speed=0.9;range=28.6;radius=1.0;flat=2;element=wind;element=wind;vfx=wolfhawkblade/shot_dire;hitvfx=wolfhawkblade/hit_dire;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 거친 울프호크 - CHA_MOB_glide_dive_wolfhawk_dire 의 펫판 (피해 3)
+CHA_PET_glide_dive_wolfhawk_dire:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=line;at=caster;length=23.4;width=4;ticks=20;flat=3;vfxlead=2;element=wind;vfx=wolfhawkglide/glide_dire;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 거친 울프호크 - CHA_MOB_wind_blade_wolfhawk_dire_shiny 의 펫판 (피해 2)
+CHA_PET_wind_blade_wolfhawk_dire_shiny:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=1;speed=0.9;range=28.6;radius=1.0;flat=2;element=wind;element=wind;vfx=wolfhawkblade/shot_dire_s;hitvfx=wolfhawkblade/hit_dire_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 거친 울프호크 - CHA_MOB_glide_dive_wolfhawk_dire_shiny 의 펫판 (피해 3)
+CHA_PET_glide_dive_wolfhawk_dire_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=line;at=caster;length=23.4;width=4;ticks=20;flat=3;vfxlead=2;element=wind;vfx=wolfhawkglide/glide_dire_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 타락 울프호크 - CHA_MOB_wind_blade_wolfhawk_fallen 의 펫판 (피해 2)
+CHA_PET_wind_blade_wolfhawk_fallen:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=1;speed=0.9;range=28.6;radius=1.0;flat=2;element=wind;element=dark;vfx=wolfhawkblade/shot_fallen;hitvfx=wolfhawkblade/hit_fallen;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 타락 울프호크 - CHA_MOB_glide_dive_wolfhawk_fallen 의 펫판 (피해 3)
+CHA_PET_glide_dive_wolfhawk_fallen:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=line;at=caster;length=23.4;width=4;ticks=20;flat=3;vfxlead=2;element=dark;vfx=wolfhawkglide/glide_fallen;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 타락 울프호크 - CHA_MOB_wind_blade_wolfhawk_fallen_shiny 의 펫판 (피해 2)
+CHA_PET_wind_blade_wolfhawk_fallen_shiny:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=1;speed=0.9;range=28.6;radius=1.0;flat=2;element=wind;element=dark;vfx=wolfhawkblade/shot_fallen_s;hitvfx=wolfhawkblade/hit_fallen_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 타락 울프호크 - CHA_MOB_glide_dive_wolfhawk_fallen_shiny 의 펫판 (피해 3)
+CHA_PET_glide_dive_wolfhawk_fallen_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=line;at=caster;length=23.4;width=4;ticks=20;flat=3;vfxlead=2;element=dark;vfx=wolfhawkglide/glide_fallen_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 만월 울프호크 - CHA_MOB_wind_blade_wolfhawk_fullmoon 의 펫판 (피해 2)
+CHA_PET_wind_blade_wolfhawk_fullmoon:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=1;speed=0.9;range=28.6;radius=1.0;flat=2;element=wind;element=light;vfx=wolfhawkblade/shot_fullmoon;hitvfx=wolfhawkblade/hit_fullmoon;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 만월 울프호크 - CHA_MOB_glide_dive_wolfhawk_fullmoon 의 펫판 (피해 3)
+CHA_PET_glide_dive_wolfhawk_fullmoon:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=line;at=caster;length=23.4;width=4;ticks=20;flat=3;vfxlead=2;element=light;vfx=wolfhawkglide/glide_fullmoon;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 만월 울프호크 - CHA_MOB_wind_blade_wolfhawk_fullmoon_shiny 의 펫판 (피해 2)
+CHA_PET_wind_blade_wolfhawk_fullmoon_shiny:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=1;speed=0.9;range=28.6;radius=1.0;flat=2;element=wind;element=light;vfx=wolfhawkblade/shot_fullmoon_s;hitvfx=wolfhawkblade/hit_fullmoon_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 만월 울프호크 - CHA_MOB_glide_dive_wolfhawk_fullmoon_shiny 의 펫판 (피해 3)
+CHA_PET_glide_dive_wolfhawk_fullmoon_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=line;at=caster;length=23.4;width=4;ticks=20;flat=3;vfxlead=2;element=light;vfx=wolfhawkglide/glide_fullmoon_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 먹구름 울프호크 - CHA_MOB_wind_blade_wolfhawk_stormcloud 의 펫판 (피해 2)
+CHA_PET_wind_blade_wolfhawk_stormcloud:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=1;speed=0.9;range=28.6;radius=1.0;flat=2;element=wind;element=wind;vfx=wolfhawkblade/shot_stormcloud;hitvfx=wolfhawkblade/hit_stormcloud;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 먹구름 울프호크 - CHA_MOB_glide_dive_wolfhawk_stormcloud 의 펫판 (피해 3)
+CHA_PET_glide_dive_wolfhawk_stormcloud:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=line;at=caster;length=23.4;width=4;ticks=20;flat=3;vfxlead=2;element=wind;vfx=wolfhawkglide/glide_stormcloud;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 먹구름 울프호크 - CHA_MOB_wind_blade_wolfhawk_stormcloud_shiny 의 펫판 (피해 2)
+CHA_PET_wind_blade_wolfhawk_stormcloud_shiny:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=1;speed=0.9;range=28.6;radius=1.0;flat=2;element=wind;element=wind;vfx=wolfhawkblade/shot_stormcloud_s;hitvfx=wolfhawkblade/hit_stormcloud_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 먹구름 울프호크 - CHA_MOB_glide_dive_wolfhawk_stormcloud_shiny 의 펫판 (피해 3)
+CHA_PET_glide_dive_wolfhawk_stormcloud_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=line;at=caster;length=23.4;width=4;ticks=20;flat=3;vfxlead=2;element=wind;vfx=wolfhawkglide/glide_stormcloud_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 공허 와이번 - CHA_MOB_spike_volley_wyvern_ender 의 펫판 (피해 2)
+CHA_PET_spike_volley_wyvern_ender:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;interval=4;spread=10;speed=0.9;rise=0.18;range=23.4;burst=1.5;flat=2;element=dark;vfx=wyvernspike/shot_ender;hitvfx=wyvernspike/hit_ender;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 공허 와이번 - CHA_MOB_tail_spikes_wyvern_ender 의 펫판 (피해 6)
+CHA_PET_tail_spikes_wyvern_ender:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=4;ticks=20;flat=2;vfxref=4;vfxlead=6;element=dark;vfx=wyvernspikes/spikes_ender;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+  - delay 8
+  - chatelegraph{shape=circle;at=target;r=4;ticks=20;flat=2;vfxref=4;vfxlead=6;element=dark;vfx=wyvernspikes/spikes_ender;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+  - delay 8
+  - chatelegraph{shape=circle;at=target;r=4;ticks=20;flat=2;vfxref=4;vfxlead=6;element=dark;vfx=wyvernspikes/spikes_ender;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 공허 와이번 - CHA_MOB_spike_volley_wyvern_ender_shiny 의 펫판 (피해 2)
+CHA_PET_spike_volley_wyvern_ender_shiny:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;interval=4;spread=10;speed=0.9;rise=0.18;range=23.4;burst=1.5;flat=2;element=dark;vfx=wyvernspike/shot_ender_s;hitvfx=wyvernspike/hit_ender_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 공허 와이번 - CHA_MOB_tail_spikes_wyvern_ender_shiny 의 펫판 (피해 6)
+CHA_PET_tail_spikes_wyvern_ender_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=4;ticks=20;flat=2;vfxref=4;vfxlead=6;element=dark;vfx=wyvernspikes/spikes_ender_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+  - delay 8
+  - chatelegraph{shape=circle;at=target;r=4;ticks=20;flat=2;vfxref=4;vfxlead=6;element=dark;vfx=wyvernspikes/spikes_ender_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+  - delay 8
+  - chatelegraph{shape=circle;at=target;r=4;ticks=20;flat=2;vfxref=4;vfxlead=6;element=dark;vfx=wyvernspikes/spikes_ender_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 녹빛 와이번 - CHA_MOB_spike_volley_wyvern_green 의 펫판 (피해 2)
+CHA_PET_spike_volley_wyvern_green:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;interval=4;spread=10;speed=0.9;rise=0.18;range=23.4;burst=1.5;flat=2;element=earth;status=poison:40;vfx=wyvernspike/shot_green;hitvfx=wyvernspike/hit_green;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 녹빛 와이번 - CHA_MOB_tail_spikes_wyvern_green 의 펫판 (피해 6)
+CHA_PET_tail_spikes_wyvern_green:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=4;ticks=20;flat=2;vfxref=4;vfxlead=6;element=earth;status=poison:40;vfx=wyvernspikes/spikes_green;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+  - delay 8
+  - chatelegraph{shape=circle;at=target;r=4;ticks=20;flat=2;vfxref=4;vfxlead=6;element=earth;status=poison:40;vfx=wyvernspikes/spikes_green;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+  - delay 8
+  - chatelegraph{shape=circle;at=target;r=4;ticks=20;flat=2;vfxref=4;vfxlead=6;element=earth;status=poison:40;vfx=wyvernspikes/spikes_green;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 녹빛 와이번 - CHA_MOB_spike_volley_wyvern_green_shiny 의 펫판 (피해 2)
+CHA_PET_spike_volley_wyvern_green_shiny:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;interval=4;spread=10;speed=0.9;rise=0.18;range=23.4;burst=1.5;flat=2;element=earth;status=poison:40;vfx=wyvernspike/shot_green_s;hitvfx=wyvernspike/hit_green_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 녹빛 와이번 - CHA_MOB_tail_spikes_wyvern_green_shiny 의 펫판 (피해 6)
+CHA_PET_tail_spikes_wyvern_green_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=4;ticks=20;flat=2;vfxref=4;vfxlead=6;element=earth;status=poison:40;vfx=wyvernspikes/spikes_green_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+  - delay 8
+  - chatelegraph{shape=circle;at=target;r=4;ticks=20;flat=2;vfxref=4;vfxlead=6;element=earth;status=poison:40;vfx=wyvernspikes/spikes_green_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+  - delay 8
+  - chatelegraph{shape=circle;at=target;r=4;ticks=20;flat=2;vfxref=4;vfxlead=6;element=earth;status=poison:40;vfx=wyvernspikes/spikes_green_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 업화 와이번 - CHA_MOB_spike_volley_wyvern_inferno 의 펫판 (피해 2)
+CHA_PET_spike_volley_wyvern_inferno:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;interval=4;spread=10;speed=0.9;rise=0.18;range=23.4;burst=1.5;flat=2;element=fire;status=burn:40;vfx=wyvernspike/shot_inferno;hitvfx=wyvernspike/hit_inferno;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 업화 와이번 - CHA_MOB_tail_spikes_wyvern_inferno 의 펫판 (피해 6)
+CHA_PET_tail_spikes_wyvern_inferno:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=4;ticks=20;flat=2;vfxref=4;vfxlead=6;element=fire;status=burn:40;vfx=wyvernspikes/spikes_inferno;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+  - delay 8
+  - chatelegraph{shape=circle;at=target;r=4;ticks=20;flat=2;vfxref=4;vfxlead=6;element=fire;status=burn:40;vfx=wyvernspikes/spikes_inferno;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+  - delay 8
+  - chatelegraph{shape=circle;at=target;r=4;ticks=20;flat=2;vfxref=4;vfxlead=6;element=fire;status=burn:40;vfx=wyvernspikes/spikes_inferno;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 업화 와이번 - CHA_MOB_spike_volley_wyvern_inferno_shiny 의 펫판 (피해 2)
+CHA_PET_spike_volley_wyvern_inferno_shiny:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;interval=4;spread=10;speed=0.9;rise=0.18;range=23.4;burst=1.5;flat=2;element=fire;status=burn:40;vfx=wyvernspike/shot_inferno_s;hitvfx=wyvernspike/hit_inferno_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 업화 와이번 - CHA_MOB_tail_spikes_wyvern_inferno_shiny 의 펫판 (피해 6)
+CHA_PET_tail_spikes_wyvern_inferno_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=4;ticks=20;flat=2;vfxref=4;vfxlead=6;element=fire;status=burn:40;vfx=wyvernspikes/spikes_inferno_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+  - delay 8
+  - chatelegraph{shape=circle;at=target;r=4;ticks=20;flat=2;vfxref=4;vfxlead=6;element=fire;status=burn:40;vfx=wyvernspikes/spikes_inferno_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+  - delay 8
+  - chatelegraph{shape=circle;at=target;r=4;ticks=20;flat=2;vfxref=4;vfxlead=6;element=fire;status=burn:40;vfx=wyvernspikes/spikes_inferno_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 불사 와이번 - CHA_MOB_spike_volley_wyvern_undead 의 펫판 (피해 2)
+CHA_PET_spike_volley_wyvern_undead:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;interval=4;spread=10;speed=0.9;rise=0.18;range=23.4;burst=1.5;flat=2;element=dark;vfx=wyvernspike/shot_undead;hitvfx=wyvernspike/hit_undead;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 불사 와이번 - CHA_MOB_tail_spikes_wyvern_undead 의 펫판 (피해 6)
+CHA_PET_tail_spikes_wyvern_undead:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=4;ticks=20;flat=2;vfxref=4;vfxlead=6;element=dark;vfx=wyvernspikes/spikes_undead;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+  - delay 8
+  - chatelegraph{shape=circle;at=target;r=4;ticks=20;flat=2;vfxref=4;vfxlead=6;element=dark;vfx=wyvernspikes/spikes_undead;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+  - delay 8
+  - chatelegraph{shape=circle;at=target;r=4;ticks=20;flat=2;vfxref=4;vfxlead=6;element=dark;vfx=wyvernspikes/spikes_undead;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 불사 와이번 - CHA_MOB_spike_volley_wyvern_undead_shiny 의 펫판 (피해 2)
+CHA_PET_spike_volley_wyvern_undead_shiny:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;interval=4;spread=10;speed=0.9;rise=0.18;range=23.4;burst=1.5;flat=2;element=dark;vfx=wyvernspike/shot_undead_s;hitvfx=wyvernspike/hit_undead_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# 불사 와이번 - CHA_MOB_tail_spikes_wyvern_undead_shiny 의 펫판 (피해 6)
+CHA_PET_tail_spikes_wyvern_undead_shiny:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=4;ticks=20;flat=2;vfxref=4;vfxlead=6;element=dark;vfx=wyvernspikes/spikes_undead_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+  - delay 8
+  - chatelegraph{shape=circle;at=target;r=4;ticks=20;flat=2;vfxref=4;vfxlead=6;element=dark;vfx=wyvernspikes/spikes_undead_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+  - delay 8
+  - chatelegraph{shape=circle;at=target;r=4;ticks=20;flat=2;vfxref=4;vfxlead=6;element=dark;vfx=wyvernspikes/spikes_undead_s;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+

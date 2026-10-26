@@ -1,0 +1,14 @@
+id: boulder_charge
+name: 바위 돌진
+category: earth
+description: 몸에 바위를 둘러 앞으로 6블록 돌진합니다. 처음 부딪힌 적은 1초 동안 기절하고 밀려납니다.
+icon: ''
+permission: magic.learned.boulder_charge
+discovery:
+  description: 대지 마법으로 몬스터 100마리 처치하기.
+research: ''
+cast:
+  command: 마법 boulder_charge
+  cooldown-seconds: 18
+  mana-cost: 80
+order: 187

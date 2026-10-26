@@ -1,0 +1,10 @@
+# SpellHintsTest 전용 작은 예시 (실제 내용 파일은 src/main/resources/spell-hints.yml)
+spells:
+  light_leap:   # 바람 걸음 예시
+    1: "그 바람은 무척 빠르고 통통 튀어요…"
+    2: "통통 튀는 바람 같은 속도로 달려 보면 바람을 이해하게 될 거예요."
+  only_first:
+    1: "  어딘가 따뜻한 곳이에요.  "
+  blank_one:
+    1: ""
+    2: "   "

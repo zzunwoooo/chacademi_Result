@@ -1,0 +1,16 @@
+id: earth_elemental
+name: 그놈
+category: earth
+description: 큰 흙 골렘 1마리를 60초 동안 소환합니다. 골렘은 주인을 따라다니며 근접 공격을 돕습니다. 소환, 대기, 걷기, 공격 준비, 전방 아래로 주먹 내리치기, 충격, 복귀, 소멸 동작을 분리합니다.
+icon: magiccodex:textures/spells/advanced/earth_elemental.png
+permission: magic.learned.earth_elemental
+discovery:
+  description: 도서관에서 '정령계약서 - 지' 책을 읽습니다.
+research: '말수가 적은 땅의 정령 그놈과 계약을 맺는다.
+
+  느리게 대답하지만 한 번 한 약속은 산처럼 무겁다.'
+cast:
+  command: 마법 earth_elemental
+  cooldown-seconds: 120
+  mana-cost: 250
+order: 192

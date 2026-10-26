@@ -1,0 +1,14 @@
+id: purifying_wave
+name: 정화의 물결
+category: water
+description: 자신과 반경 5블록 안의 아군에게 걸린 독·나약함·구속을 해제합니다.
+icon: magiccodex:textures/spells/intermediate/purifying_wave.png
+permission: magic.learned.purifying_wave
+discovery:
+  description: 독에 걸린 상태에서 우유를 마시기 3회.
+research: 맑은 물은 몸에 묻은 먼지뿐 아니라 잘못된 마력도 씻어낸다.
+cast:
+  command: 마법 purifying_wave
+  cooldown-seconds: 25
+  mana-cost: 65
+order: 124

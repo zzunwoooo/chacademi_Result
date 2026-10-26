@@ -1,0 +1,14 @@
+id: spark_flick
+name: 불씨 튕기기
+category: fire
+description: 손가락으로 불씨 세 개를 앞쪽 부채꼴로 튕겨 냅니다. 가까이 붙은 적일수록 여러 발을 맞습니다.
+icon: ''
+permission: magic.learned.spark_flick
+discovery:
+  description: 파이어 볼로 몬스터 30마리 처치하기.
+research: ''
+cast:
+  command: 마법 spark_flick
+  cooldown-seconds: 4
+  mana-cost: 5
+order: 53

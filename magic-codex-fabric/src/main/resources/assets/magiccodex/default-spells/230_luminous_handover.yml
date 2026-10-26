@@ -1,0 +1,14 @@
+id: luminous_handover
+name: 빛의 교대
+category: light
+description: 주변 몬스터를 도발해 공격 목표를 자신으로 바꿉니다. 보스도 도발 대상에 포함합니다.
+icon: magiccodex:textures/spells/expansion_2/luminous_handover.png
+permission: magic.learned.luminous_handover
+discovery:
+  description: 다른 플레이어를 공격 중인 몬스터를 직접 20마리 처치하기.
+research: 여기를 봐. 아직 네 상대는 끝나지 않았어.
+cast:
+  command: 마법 luminous_handover
+  cooldown-seconds: 25
+  mana-cost: 70
+order: 230

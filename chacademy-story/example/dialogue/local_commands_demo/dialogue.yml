@@ -1,0 +1,17 @@
+# Generic client-only example; no private content or assets.
+format: 1
+id: local_commands_demo
+start: hello
+speakers:
+  guide:
+    name: Guide
+scenes:
+  hello:
+    lines:
+      - {who: guide, text: "This dialogue uses a local completion record."}
+commands:
+  endings:
+    hello:
+      - "help"
+# Commands run as the connected player, under ordinary server permissions.
+# Completion records prevent re-running commands on replay.

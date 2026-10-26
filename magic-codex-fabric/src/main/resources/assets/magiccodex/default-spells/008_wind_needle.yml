@@ -1,0 +1,14 @@
+id: wind_needle
+name: 바람 송곳
+category: wind
+description: 눈에 잘 보이지 않을 만큼 빠른 바람 바늘을 쏩니다. 멀리까지 날아가며 줄지어 선 적을 모두 꿰뚫습니다.
+icon: ''
+permission: magic.learned.wind_needle
+discovery:
+  description: 20블록 넘게 떨어진 적을 마법으로 20번 맞히기.
+research: ''
+cast:
+  command: 마법 wind_needle
+  cooldown-seconds: 3
+  mana-cost: 5
+order: 8

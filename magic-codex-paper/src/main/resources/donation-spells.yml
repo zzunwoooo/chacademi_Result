@@ -1,0 +1,1213 @@
+# Server-authoritative donation catalog. Points may be 0; donation records are globally unique.
+# Reload: /서버관리 새로고침 기증
+# 서버는 켤 때·새로고침 때 이 기본 목록에서 빠진 항목만 plugins/MagicCodexBridge/donation-spells.yml 에 덧붙입니다 (기존 항목 값은 그대로).
+spells:
+  wind_basket:
+    name: "바람 바구니"
+    permission: "magic.learned.wind_basket"
+    points: 1
+  feather_fall:
+    name: "깃털 낙하"
+    permission: "magic.learned.feather_fall"
+    points: 1
+  harvest_wind:
+    name: "수확의 바람"
+    permission: "magic.learned.harvest_wind"
+    points: 1
+  wind_push:
+    name: "윈드 푸쉬"
+    permission: "magic.learned.wind_push"
+    points: 1
+  light_leap:
+    name: "상승 기류"
+    permission: "magic.learned.light_leap"
+    points: 1
+  flight:
+    name: "비행"
+    permission: "magic.learned.flight"
+    points: 1
+  far_touch:
+    name: "손길 너머"
+    permission: "magic.learned.far_touch"
+    points: 1
+  wind_message:
+    name: "바람의 전언"
+    permission: "magic.learned.wind_message"
+    points: 1
+  storm_command:
+    name: "폭풍의 지휘"
+    permission: "magic.learned.storm_command"
+    points: 1
+  wind_vault:
+    name: "바람의 금고"
+    permission: "magic.learned.wind_vault"
+    points: 1
+  vacuum_cleave:
+    name: "윈드 커터"
+    permission: "magic.learned.vacuum_cleave"
+    points: 1
+  gale_dash:
+    name: "바람 걸음"
+    permission: "magic.learned.gale_dash"
+    points: 1
+  returning_wind:
+    name: "되받는 바람"
+    permission: "magic.learned.returning_wind"
+    points: 1
+  wind_grooming:
+    name: "바람 털빗"
+    permission: "magic.learned.wind_grooming"
+    points: 1
+  weightless_zone:
+    name: "무중력 지대"
+    permission: "magic.learned.weightless_zone"
+    points: 1
+  trajectory_acceleration:
+    name: "미라지 슈터"
+    permission: "magic.learned.trajectory_acceleration"
+    points: 1
+  dust_duster:
+    name: "클린"
+    permission: "magic.learned.dust_duster"
+    points: 1
+  leaf_cleanup:
+    name: "잎새 청소"
+    permission: "magic.learned.leaf_cleanup"
+    points: 1
+  feather_rustle:
+    name: "깃털 털기"
+    permission: "magic.learned.feather_rustle"
+    points: 1
+  cross_breeze:
+    name: "바람 화살"
+    permission: "magic.learned.cross_breeze"
+    points: 1
+  returning_blade:
+    name: "되돌이 칼날"
+    permission: "magic.learned.returning_blade"
+    points: 1
+  pressure_press:
+    name: "윈드 프레스"
+    permission: "magic.learned.pressure_press"
+    points: 1
+  wind_decoy:
+    name: "바람 미끼"
+    permission: "magic.learned.wind_decoy"
+    points: 1
+  air_step:
+    name: "허공 디딤"
+    permission: "magic.learned.air_step"
+    points: 1
+  lightning_needle:
+    name: "라이트닝 쇼크"
+    permission: "magic.learned.lightning_needle"
+    points: 1
+  air_stacking:
+    name: "허공 쌓기"
+    permission: "magic.learned.air_stacking"
+    points: 1
+  arrested_orbit:
+    name: "퍼붓는 화살"
+    permission: "magic.learned.arrested_orbit"
+    points: 1
+  crossfire:
+    name: "크로스 애로우"
+    permission: "magic.learned.crossfire"
+    points: 1
+  resonant_arrow:
+    name: "미스틱 슈터"
+    permission: "magic.learned.resonant_arrow"
+    points: 1
+  pressure_rupture:
+    name: "토네이도 스핀"
+    permission: "magic.learned.pressure_rupture"
+    points: 1
+  storm_crown:
+    name: "삼중 탄환"
+    permission: "magic.learned.storm_crown"
+    points: 1
+  hearth_touch:
+    name: "손끝의 화로"
+    permission: "magic.learned.hearth_touch"
+    points: 1
+  ember_bolt:
+    name: "파이어 볼"
+    permission: "magic.learned.ember_bolt"
+    points: 1
+  rekindle:
+    name: "다시 타오르는 불"
+    permission: "magic.learned.rekindle"
+    points: 1
+  flame_forging:
+    name: "불꽃 단조"
+    permission: "magic.learned.flame_forging"
+    points: 1
+  ember_trap:
+    name: "잿불 덫"
+    permission: "magic.learned.ember_trap"
+    points: 1
+  fire_curtain:
+    name: "플레어 월"
+    permission: "magic.learned.fire_curtain"
+    points: 1
+  phoenix_oath:
+    name: "불사조의 서약"
+    permission: "magic.learned.phoenix_oath"
+    points: 1
+  living_furnace:
+    name: "살아 있는 화로"
+    permission: "magic.learned.living_furnace"
+    points: 1
+  falling_star:
+    name: "메테오 스트라이크"
+    permission: "magic.learned.falling_star"
+    points: 1
+  flame_lash:
+    name: "화염 채찍"
+    permission: "magic.learned.flame_lash"
+    points: 1
+  palm_fireworks:
+    name: "손바닥 폭죽"
+    permission: "magic.learned.palm_fireworks"
+    points: 1
+  ash_brand:
+    name: "재의 낙인"
+    permission: "magic.learned.ash_brand"
+    points: 1
+  flame_leap:
+    name: "블레이즈 킥"
+    permission: "magic.learned.flame_leap"
+    points: 1
+  crimson_heart:
+    name: "홍련의 심장"
+    permission: "magic.learned.crimson_heart"
+    points: 1
+  wick_trimming:
+    name: "심지 줄이기"
+    permission: "magic.learned.wick_trimming"
+    points: 1
+  glass_firing:
+    name: "광석 재련"
+    permission: "magic.learned.glass_firing"
+    points: 1
+  charcoal_conversion:
+    name: "발화"
+    permission: "magic.learned.charcoal_conversion"
+    points: 1
+  sponge_drying:
+    name: "스펀지 말리기"
+    permission: "magic.learned.sponge_drying"
+    points: 1
+  boiling_armor:
+    name: "끓는 갑주"
+    permission: "magic.learned.boiling_armor"
+    points: 1
+  kiln_breath:
+    name: "가마 숨결"
+    permission: "magic.learned.kiln_breath"
+    points: 1
+  glaze_coating:
+    name: "화염의 정복자"
+    permission: "magic.learned.glaze_coating"
+    points: 1
+  explosive_wedge:
+    name: "폭발 쐐기"
+    permission: "magic.learned.explosive_wedge"
+    points: 1
+  heat_recovery:
+    name: "열량 보존"
+    permission: "magic.learned.heat_recovery"
+    points: 1
+  firebird_hunt:
+    name: "불새"
+    permission: "magic.learned.firebird_hunt"
+    points: 1
+  lava_suture:
+    name: "용암 봉합"
+    permission: "magic.learned.lava_suture"
+    points: 1
+  flame_sword_dance:
+    name: "화염 검무"
+    permission: "magic.learned.flame_sword_dance"
+    points: 1
+  incandescent_break:
+    name: "파이어 스트라이크"
+    permission: "magic.learned.incandescent_break"
+    points: 1
+  blue_bonfire:
+    name: "푸른 화톳불"
+    permission: "magic.learned.blue_bonfire"
+    points: 1
+  crimson_breath:
+    name: "홍염의 숨"
+    permission: "magic.learned.crimson_breath"
+    points: 1
+  water_breath:
+    name: "물결 숨결"
+    permission: "magic.learned.water_breath"
+    points: 1
+  tide_stride:
+    name: "물살 타기"
+    permission: "magic.learned.tide_stride"
+    points: 1
+  water_bolt:
+    name: "물방울 탄환"
+    permission: "magic.learned.water_bolt"
+    points: 1
+  quench:
+    name: "불길 씻기"
+    permission: "magic.learned.quench"
+    points: 1
+  purifying_wave:
+    name: "정화의 물결"
+    permission: "magic.learned.purifying_wave"
+    points: 1
+  ice_bridge:
+    name: "얼음 다리"
+    permission: "magic.learned.ice_bridge"
+    points: 1
+  spring_unseal:
+    name: "수맥 개방"
+    permission: "magic.learned.spring_unseal"
+    points: 1
+  water_elemental:
+    name: "물의 정령 소환"
+    permission: "magic.learned.water_elemental"
+    points: 1
+  eternal_ice_prison:
+    name: "만년빙옥"
+    permission: "magic.learned.eternal_ice_prison"
+    points: 1
+  cauldron_fill:
+    name: "가마솥 채우기"
+    permission: "magic.learned.cauldron_fill"
+    points: 1
+  dye_rinse:
+    name: "염색 씻기"
+    permission: "magic.learned.dye_rinse"
+    points: 1
+  fish_lure:
+    name: "물고기 유인"
+    permission: "magic.learned.fish_lure"
+    points: 1
+  frost_rupture:
+    name: "서리 파열"
+    permission: "magic.learned.frost_rupture"
+    points: 1
+  pressure_lance:
+    name: "수압창"
+    permission: "magic.learned.pressure_lance"
+    points: 1
+  life_distribution:
+    name: "생명의 분배"
+    permission: "magic.learned.life_distribution"
+    points: 1
+  moist_farmland:
+    name: "촉촉한 밭"
+    permission: "magic.learned.moist_farmland"
+    points: 1
+  wash_letters:
+    name: "글씨 씻기"
+    permission: "magic.learned.wash_letters"
+    points: 1
+  healing_rain:
+    name: "치유의 비"
+    permission: "magic.learned.healing_rain"
+    points: 1
+  dew_gathering:
+    name: "이슬 모으기"
+    permission: "magic.learned.dew_gathering"
+    points: 1
+  quiet_mooring:
+    name: "잔잔한 정박"
+    permission: "magic.learned.quiet_mooring"
+    points: 1
+  bubble_aria:
+    name: "물거품 아리아"
+    permission: "magic.learned.bubble_aria"
+    points: 1
+  pressure_hammer:
+    name: "수압해머"
+    permission: "magic.learned.pressure_hammer"
+    points: 1
+  waterspout:
+    name: "용오름"
+    permission: "magic.learned.waterspout"
+    points: 1
+  current_sorting:
+    name: "물살 분류"
+    permission: "magic.learned.current_sorting"
+    points: 1
+  potion_mist:
+    name: "약액 분무"
+    permission: "magic.learned.potion_mist"
+    points: 1
+  waterwheel_shield:
+    name: "물레 방패"
+    permission: "magic.learned.waterwheel_shield"
+    points: 1
+  concrete_curing:
+    name: "콘크리트 양생"
+    permission: "magic.learned.concrete_curing"
+    points: 1
+  ripple_guard:
+    name: "파문방벽"
+    permission: "magic.learned.ripple_guard"
+    points: 1
+  tidal_wave:
+    name: "해일"
+    permission: "magic.learned.tidal_wave"
+    points: 1
+  bouncing_droplet:
+    name: "도약하는 물방울"
+    permission: "magic.learned.bouncing_droplet"
+    points: 1
+  abyssal_pressure:
+    name: "심해의 압력"
+    permission: "magic.learned.abyssal_pressure"
+    points: 1
+  verdant_touch:
+    name: "풍요의 손길"
+    permission: "magic.learned.verdant_touch"
+    points: 1
+  ore_whisper:
+    name: "땅의 속삭임"
+    permission: "magic.learned.ore_whisper"
+    points: 1
+  pebble_toss:
+    name: "조약돌 던지기"
+    permission: "magic.learned.pebble_toss"
+    points: 1
+  miners_rhythm:
+    name: "광부의 박자"
+    permission: "magic.learned.miners_rhythm"
+    points: 1
+  earth_shaping:
+    name: "대지 성형"
+    permission: "magic.learned.earth_shaping"
+    points: 1
+  stone_wall:
+    name: "석벽"
+    permission: "magic.learned.stone_wall"
+    points: 1
+  earth_elemental:
+    name: "땅의 정령 소환"
+    permission: "magic.learned.earth_elemental"
+    points: 1
+  earthquake:
+    name: "지진"
+    permission: "magic.learned.earthquake"
+    points: 1
+  climate_control:
+    name: "기후 통제"
+    permission: "magic.learned.climate_control"
+    points: 1
+  seed_row:
+    name: "씨앗 줄심기"
+    permission: "magic.learned.seed_row"
+    points: 1
+  bee_calm:
+    name: "벌떼 달래기"
+    permission: "magic.learned.bee_calm"
+    points: 1
+  thorn_armor:
+    name: "가시 갑옷"
+    permission: "magic.learned.thorn_armor"
+    points: 1
+  vein_fracture:
+    name: "광맥 파쇄"
+    permission: "magic.learned.vein_fracture"
+    points: 1
+  earth_anchor:
+    name: "대지의 닻"
+    permission: "magic.learned.earth_anchor"
+    points: 1
+  weathering_touch:
+    name: "풍화의 손길"
+    permission: "magic.learned.weathering_touch"
+    points: 1
+  iron_carapace:
+    name: "철의 외피"
+    permission: "magic.learned.iron_carapace"
+    points: 1
+  moss_coating:
+    name: "이끼 입히기"
+    permission: "magic.learned.moss_coating"
+    points: 1
+  grass_sprouting:
+    name: "잔디 돋우기"
+    permission: "magic.learned.grass_sprouting"
+    points: 1
+  flint_sorting:
+    name: "돌 고르기"
+    permission: "magic.learned.flint_sorting"
+    points: 1
+  bark_peeling:
+    name: "껍질 벗기기"
+    permission: "magic.learned.bark_peeling"
+    points: 1
+  compost_return:
+    name: "퇴비 환원"
+    permission: "magic.learned.compost_return"
+    points: 1
+  thorn_seeds:
+    name: "가시 씨앗"
+    permission: "magic.learned.thorn_seeds"
+    points: 1
+  pollen_matchmaking:
+    name: "꽃가루 중매"
+    permission: "magic.learned.pollen_matchmaking"
+    points: 1
+  dormant_seed:
+    name: "동면의 씨앗"
+    permission: "magic.learned.dormant_seed"
+    points: 1
+  counterweight:
+    name: "반격의 무게추"
+    permission: "magic.learned.counterweight"
+    points: 1
+  material_exchange:
+    name: "자재 치환"
+    permission: "magic.learned.material_exchange"
+    points: 1
+  remembering_field:
+    name: "기억하는 밭"
+    permission: "magic.learned.remembering_field"
+    points: 1
+  little_giant:
+    name: "작은 거인"
+    permission: "magic.learned.little_giant"
+    points: 1
+  spring_ground:
+    name: "용수철 지반"
+    permission: "magic.learned.spring_ground"
+    points: 1
+  mountain_back:
+    name: "산맥의 등"
+    permission: "magic.learned.mountain_back"
+    points: 1
+  earth_embrace:
+    name: "대지의 품"
+    permission: "magic.learned.earth_embrace"
+    points: 1
+  forest_throne:
+    name: "숲의 왕좌"
+    permission: "magic.learned.forest_throne"
+    points: 1
+  primordial_stone:
+    name: "원초의 돌"
+    permission: "magic.learned.primordial_stone"
+    points: 1
+  guiding_star:
+    name: "길잡이 별"
+    permission: "magic.learned.guiding_star"
+    points: 1
+  minor_heal:
+    name: "작은 치유"
+    permission: "magic.learned.minor_heal"
+    points: 1
+  spatial_leap:
+    name: "공간 도약"
+    permission: "magic.learned.spatial_leap"
+    points: 1
+  true_sight:
+    name: "진실의 눈"
+    permission: "magic.learned.true_sight"
+    points: 1
+  protective_ward:
+    name: "보호 결계"
+    permission: "magic.learned.protective_ward"
+    points: 1
+  constellation_blessing:
+    name: "성좌의 가호"
+    permission: "magic.learned.constellation_blessing"
+    points: 1
+  arcane_imprint:
+    name: "마력 각인"
+    permission: "magic.learned.arcane_imprint"
+    points: 1
+  dawn_ritual:
+    name: "여명의 의식"
+    permission: "magic.learned.dawn_ritual"
+    points: 1
+  comforting_light:
+    name: "위로의 빛"
+    permission: "magic.learned.comforting_light"
+    points: 1
+  exorcism_flash:
+    name: "퇴마의 섬광"
+    permission: "magic.learned.exorcism_flash"
+    points: 1
+  arcane_mending:
+    name: "마력 봉합"
+    permission: "magic.learned.arcane_mending"
+    points: 1
+  companion_return:
+    name: "동행 귀환"
+    permission: "magic.learned.companion_return"
+    points: 1
+  flawless_moment:
+    name: "무결의 순간"
+    permission: "magic.learned.flawless_moment"
+    points: 1
+  solar_judgment:
+    name: "태양의 심판"
+    permission: "magic.learned.solar_judgment"
+    points: 1
+  firefly_mark:
+    name: "반딧불 표식"
+    permission: "magic.learned.firefly_mark"
+    points: 1
+  rainbow_collar:
+    name: "교화"
+    permission: "magic.learned.rainbow_collar"
+    points: 1
+  sun_drying:
+    name: "햇살 말림"
+    permission: "magic.learned.sun_drying"
+    points: 1
+  luminous_copy:
+    name: "빛의 필사"
+    permission: "magic.learned.luminous_copy"
+    points: 1
+  guiding_fletching:
+    name: "유도 깃"
+    permission: "magic.learned.guiding_fletching"
+    points: 1
+  sharing_table:
+    name: "나눔 식탁"
+    permission: "magic.learned.sharing_table"
+    points: 1
+  summons_letter:
+    name: "소환장"
+    permission: "magic.learned.summons_letter"
+    points: 1
+  starlight_survey:
+    name: "별빛 측량"
+    permission: "magic.learned.starlight_survey"
+    points: 1
+  luminous_handover:
+    name: "빛의 교대"
+    permission: "magic.learned.luminous_handover"
+    points: 1
+  mana_conduit:
+    name: "마력 전선"
+    permission: "magic.learned.mana_conduit"
+    points: 1
+  merciful_arrow:
+    name: "자비의 화살"
+    permission: "magic.learned.merciful_arrow"
+    points: 1
+  mana_deposit:
+    name: "마력 예금"
+    permission: "magic.learned.mana_deposit"
+    points: 1
+  guardian_oath:
+    name: "수호자의 서약"
+    permission: "magic.learned.guardian_oath"
+    points: 1
+  starlight_reprise:
+    name: "별빛 재현"
+    permission: "magic.learned.starlight_reprise"
+    points: 1
+  constellation_emissary:
+    name: "성좌의 대리인"
+    permission: "magic.learned.constellation_emissary"
+    points: 1
+  night_sight:
+    name: "밤눈"
+    permission: "magic.learned.night_sight"
+    points: 1
+  shadow_bind:
+    name: "그림자 매듭"
+    permission: "magic.learned.shadow_bind"
+    points: 1
+  faint_veil:
+    name: "옅은 은신"
+    permission: "magic.learned.faint_veil"
+    points: 1
+  shadow_double:
+    name: "그림자 분신"
+    permission: "magic.learned.shadow_double"
+    points: 1
+  echo_reading:
+    name: "잔향 읽기"
+    permission: "magic.learned.echo_reading"
+    points: 1
+  sealing_thread:
+    name: "봉인의 실"
+    permission: "magic.learned.sealing_thread"
+    points: 1
+  shadow_exchange:
+    name: "그림자 교환"
+    permission: "magic.learned.shadow_exchange"
+    points: 1
+  forbidden_contract:
+    name: "금서의 계약"
+    permission: "magic.learned.forbidden_contract"
+    points: 1
+  life_siphon:
+    name: "생명 갈취"
+    permission: "magic.learned.life_siphon"
+    points: 1
+  drowsiness:
+    name: "졸음"
+    permission: "magic.learned.drowsiness"
+    points: 1
+  misfortune_whisper:
+    name: "불운의 속삭임"
+    permission: "magic.learned.misfortune_whisper"
+    points: 1
+  hungry_shadow:
+    name: "굶주린 그림자"
+    permission: "magic.learned.hungry_shadow"
+    points: 1
+  curse_transfer:
+    name: "저주의 전가"
+    permission: "magic.learned.curse_transfer"
+    points: 1
+  discord:
+    name: "불화"
+    permission: "magic.learned.discord"
+    points: 1
+  night_chain:
+    name: "밤의 사슬"
+    permission: "magic.learned.night_chain"
+    points: 1
+  pain_deferral:
+    name: "고통 유예"
+    permission: "magic.learned.pain_deferral"
+    points: 1
+  black_harvest:
+    name: "검은 수확"
+    permission: "magic.learned.black_harvest"
+    points: 1
+  ink_fingertip:
+    name: "먹물 손끝"
+    permission: "magic.learned.ink_fingertip"
+    points: 1
+  shadow_nail:
+    name: "그림자 못"
+    permission: "magic.learned.shadow_nail"
+    points: 1
+  night_lullaby:
+    name: "밤의 자장가"
+    permission: "magic.learned.night_lullaby"
+    points: 1
+  loosen_grasp:
+    name: "손아귀 풀기"
+    permission: "magic.learned.loosen_grasp"
+    points: 1
+  healing_seal:
+    name: "회복 봉인"
+    permission: "magic.learned.healing_seal"
+    points: 1
+  shadow_scales:
+    name: "어둠의 저울"
+    permission: "magic.learned.shadow_scales"
+    points: 1
+  warning_thread:
+    name: "경고의 실"
+    permission: "magic.learned.warning_thread"
+    points: 1
+  wound_accounting:
+    name: "상처 회계"
+    permission: "magic.learned.wound_accounting"
+    points: 1
+  inverted_offering:
+    name: "뒤집힌 공물"
+    permission: "magic.learned.inverted_offering"
+    points: 1
+  ghost_tool:
+    name: "유령 도구"
+    permission: "magic.learned.ghost_tool"
+    points: 1
+  bell_of_fear:
+    name: "공포의 종"
+    permission: "magic.learned.bell_of_fear"
+    points: 1
+  eclipse_eye:
+    name: "월식의 눈"
+    permission: "magic.learned.eclipse_eye"
+    points: 1
+  void_maw:
+    name: "공허의 입"
+    permission: "magic.learned.void_maw"
+    points: 1
+  # 2026-10-21 추가: 몹 습득 마법 300~323 — 배울 수 있는 마법이라 기증 대상. 점수는 기존 마법과 같은 1점(오너가 등급별 점수를 정하면 바꿈)
+  fox_orbit:
+    name: "여우불 공전"
+    permission: "magic.learned.fox_orbit"
+    points: 1
+  curving_plumes:
+    name: "곡선 불깃털"
+    permission: "magic.learned.curving_plumes"
+    points: 1
+  crystal_orbit:
+    name: "결정 공전탄"
+    permission: "magic.learned.crystal_orbit"
+    points: 1
+  venom_spit:
+    name: "독 뱉기"
+    permission: "magic.learned.venom_spit"
+    points: 1
+  smoke_veil:
+    name: "연막 은신"
+    permission: "magic.learned.smoke_veil"
+    points: 1
+  domain_stomp:
+    name: "영역 선포"
+    permission: "magic.learned.domain_stomp"
+    points: 1
+  seal_circle:
+    name: "봉인진"
+    permission: "magic.learned.seal_circle"
+    points: 1
+  seal_talismans:
+    name: "봉인 부적"
+    permission: "magic.learned.seal_talismans"
+    points: 1
+  shield_slam:
+    name: "방패 내려찍기"
+    permission: "magic.learned.shield_slam"
+    points: 1
+  chain_arrow:
+    name: "사슬 화살"
+    permission: "magic.learned.chain_arrow"
+    points: 1
+  mana_drain:
+    name: "마나 흡수"
+    permission: "magic.learned.mana_drain"
+    points: 1
+  soul_scythe:
+    name: "영혼 낫"
+    permission: "magic.learned.soul_scythe"
+    points: 1
+  oblivion_orbs:
+    name: "망각의 탄환"
+    permission: "magic.learned.oblivion_orbs"
+    points: 1
+  bone_grasp:
+    name: "뼈의 손아귀"
+    permission: "magic.learned.bone_grasp"
+    points: 1
+  shadow_leap:
+    name: "그림자 도약"
+    permission: "magic.learned.shadow_leap"
+    points: 1
+  binding_pull:
+    name: "끌어오기"
+    permission: "magic.learned.binding_pull"
+    points: 1
+  fairy_dust:
+    name: "요정 가루"
+    permission: "magic.learned.fairy_dust"
+    points: 1
+  moon_wind:
+    name: "반달 바람날"
+    permission: "magic.learned.moon_wind"
+    points: 1
+  gale_wings:
+    name: "돌풍 날갯짓"
+    permission: "magic.learned.gale_wings"
+    points: 1
+  feather_storm:
+    name: "깃털 폭풍"
+    permission: "magic.learned.feather_storm"
+    points: 1
+  hunting_pounce:
+    name: "사냥 도약"
+    permission: "magic.learned.hunting_pounce"
+    points: 1
+  roar_leap:
+    name: "포효 도약"
+    permission: "magic.learned.roar_leap"
+    points: 1
+  gravity_slam:
+    name: "중력 강타"
+    permission: "magic.learned.gravity_slam"
+    points: 1
+  tail_spikes:
+    name: "꼬리 가시"
+    permission: "magic.learned.tail_spikes"
+    points: 1
+  # 2026-10-21 추가: 아르카나 203~214 (가격 미정이던 6종) — 배울 수 있는 마법이라 기증 대상. 점수는 기존 마법과 같은 1점(오너가 등급별 점수를 정하면 바꿈)
+  landing_airbrake:
+    name: "빗자루 차원이동"
+    permission: "magic.learned.landing_airbrake"
+    points: 1
+  hushed_soles:
+    name: "고요한 밑창"
+    permission: "magic.learned.hushed_soles"
+    points: 1
+  thorn_manners:
+    name: "가시의 예절"
+    permission: "magic.learned.thorn_manners"
+    points: 1
+  cinder_skipring:
+    name: "불꽃 줄넘기"
+    permission: "magic.learned.cinder_skipring"
+    points: 1
+  droplet_relay:
+    name: "물방울 인계"
+    permission: "magic.learned.droplet_relay"
+    points: 1
+  folding_tideplane:
+    name: "접히는 수면"
+    permission: "magic.learned.folding_tideplane"
+    points: 1
+  # 2026-10-21 추가: 아공간 수조 마법 324 — 배울 수 있는 마법이라 기증 대상. 점수는 기존 마법과 같은 1점(오너가 등급별 점수를 정하면 바꿈)
+  fish_trap:
+    name: "아공간 수조"
+    permission: "magic.learned.fish_trap"
+    points: 1
+  # 2026-10-21 추가: 던전 기믹 마법 239~250 — 배울 수 있는 마법이라 기증 대상. 점수는 기존 마법과 같은 1점(오너가 등급별 점수를 정하면 바꿈)
+  thawing_heat:
+    name: "해빙의 열기"
+    permission: "magic.learned.thawing_heat"
+    points: 1
+  steam_ignition:
+    name: "증기 점화"
+    permission: "magic.learned.steam_ignition"
+    points: 1
+  water_level:
+    name: "수위 조절"
+    permission: "magic.learned.water_level"
+    points: 1
+  stone_weight:
+    name: "무게추"
+    permission: "magic.learned.stone_weight"
+    points: 1
+  vine_awaken:
+    name: "덩굴 깨우기"
+    permission: "magic.learned.vine_awaken"
+    points: 1
+  light_beam:
+    name: "빛줄기"
+    permission: "magic.learned.light_beam"
+    points: 1
+  mirror_tune:
+    name: "반사 조율"
+    permission: "magic.learned.mirror_tune"
+    points: 1
+  prism_tint:
+    name: "프리즘 물들이기"
+    permission: "magic.learned.prism_tint"
+    points: 1
+  statue_wake:
+    name: "석상 깨우기"
+    permission: "magic.learned.statue_wake"
+    points: 1
+  rewind:
+    name: "되감기"
+    permission: "magic.learned.rewind"
+    points: 1
+  conduit_turn:
+    name: "도관 회전"
+    permission: "magic.learned.conduit_turn"
+    points: 1
+  dimension_mark:
+    name: "차원 표식"
+    permission: "magic.learned.dimension_mark"
+    points: 1
+  # 2026-10-26 신규 마법 325~387 + 생활·편의 12종 (magic-325-387 합치기, 1점)
+  spark_flick:
+    name: "불씨 튕기기"
+    permission: "magic.learned.spark_flick"
+    points: 1
+  ember_puff:
+    name: "작은 불숨"
+    permission: "magic.learned.ember_puff"
+    points: 1
+  tide_slash:
+    name: "물살 베기"
+    permission: "magic.learned.tide_slash"
+    points: 1
+  ice_shard:
+    name: "얼음 조각"
+    permission: "magic.learned.ice_shard"
+    points: 1
+  wind_needle:
+    name: "바람 송곳"
+    permission: "magic.learned.wind_needle"
+    points: 1
+  mini_twister:
+    name: "작은 회오리"
+    permission: "magic.learned.mini_twister"
+    points: 1
+  shadow_fang:
+    name: "그림자 송곳니"
+    permission: "magic.learned.shadow_fang"
+    points: 1
+  dusk_orb:
+    name: "어둠 구슬"
+    permission: "magic.learned.dusk_orb"
+    points: 1
+  prism_shot:
+    name: "프리즘 탄"
+    permission: "magic.learned.prism_shot"
+    points: 1
+  sand_flick:
+    name: "모래 한 줌"
+    permission: "magic.learned.sand_flick"
+    points: 1
+  sunlance_drop:
+    name: "햇살 꽂기"
+    permission: "magic.learned.sunlance_drop"
+    points: 1
+  flame_wheel:
+    name: "화염 원반"
+    permission: "magic.learned.flame_wheel"
+    points: 1
+  eruption_line:
+    name: "분화선"
+    permission: "magic.learned.eruption_line"
+    points: 1
+  flame_javelin:
+    name: "화염 투창"
+    permission: "magic.learned.flame_javelin"
+    points: 1
+  heat_haze:
+    name: "아지랑이"
+    permission: "magic.learned.heat_haze"
+    points: 1
+  frost_path:
+    name: "서리 길"
+    permission: "magic.learned.frost_path"
+    points: 1
+  hydro_burst:
+    name: "수류 탄환"
+    permission: "magic.learned.hydro_burst"
+    points: 1
+  crystal_coat:
+    name: "결정 갑옷"
+    permission: "magic.learned.crystal_coat"
+    points: 1
+  ice_bloom:
+    name: "얼음 꽃"
+    permission: "magic.learned.ice_bloom"
+    points: 1
+  vacuum_burst:
+    name: "진공 폭발"
+    permission: "magic.learned.vacuum_burst"
+    points: 1
+  gale_combo:
+    name: "질풍 연격"
+    permission: "magic.learned.gale_combo"
+    points: 1
+  air_choke:
+    name: "숨 막힘"
+    permission: "magic.learned.air_choke"
+    points: 1
+  storm_eye:
+    name: "폭풍의 눈"
+    permission: "magic.learned.storm_eye"
+    points: 1
+  shadow_mire:
+    name: "그림자 늪"
+    permission: "magic.learned.shadow_mire"
+    points: 1
+  dread_dream:
+    name: "악몽"
+    permission: "magic.learned.dread_dream"
+    points: 1
+  shadow_step:
+    name: "그림자 걸음"
+    permission: "magic.learned.shadow_step"
+    points: 1
+  halo_throw:
+    name: "광륜 투척"
+    permission: "magic.learned.halo_throw"
+    points: 1
+  flash_blink:
+    name: "섬광 도약"
+    permission: "magic.learned.flash_blink"
+    points: 1
+  boulder_charge:
+    name: "바위 돌진"
+    permission: "magic.learned.boulder_charge"
+    points: 1
+  air_cannon:
+    name: "공기 포탄"
+    permission: "magic.learned.air_cannon"
+    points: 1
+  hex_doll:
+    name: "저주 인형"
+    permission: "magic.learned.hex_doll"
+    points: 1
+  crimson_spiral:
+    name: "홍염 나선"
+    permission: "magic.learned.crimson_spiral"
+    points: 1
+  volcanic_barrage:
+    name: "화산탄 세례"
+    permission: "magic.learned.volcanic_barrage"
+    points: 1
+  scorch_lock:
+    name: "작열의 표적"
+    permission: "magic.learned.scorch_lock"
+    points: 1
+  freeze_field:
+    name: "빙결 지대"
+    permission: "magic.learned.freeze_field"
+    points: 1
+  ebb_mark:
+    name: "썰물"
+    permission: "magic.learned.ebb_mark"
+    points: 1
+  ice_serpent:
+    name: "얼음 뱀"
+    permission: "magic.learned.ice_serpent"
+    points: 1
+  sky_dive:
+    name: "천공 강하"
+    permission: "magic.learned.sky_dive"
+    points: 1
+  thundercloud:
+    name: "뇌운"
+    permission: "magic.learned.thundercloud"
+    points: 1
+  fate_link:
+    name: "운명의 실"
+    permission: "magic.learned.fate_link"
+    points: 1
+  prism_cage:
+    name: "빛의 감옥"
+    permission: "magic.learned.prism_cage"
+    points: 1
+  wraith_march:
+    name: "망령의 행진"
+    permission: "magic.learned.wraith_march"
+    points: 1
+  fault_rift:
+    name: "단층 붕괴"
+    permission: "magic.learned.fault_rift"
+    points: 1
+  flame_emperor:
+    name: "염제 강림"
+    permission: "magic.learned.flame_emperor"
+    points: 1
+  leviathan_rise:
+    name: "레비아탄"
+    permission: "magic.learned.leviathan_rise"
+    points: 1
+  heaven_cyclone:
+    name: "하늘의 눈"
+    permission: "magic.learned.heaven_cyclone"
+    points: 1
+  abyss_gate:
+    name: "심연의 문"
+    permission: "magic.learned.abyss_gate"
+    points: 1
+  aurora_veil:
+    name: "오로라"
+    permission: "magic.learned.aurora_veil"
+    points: 1
+  titan_stride:
+    name: "타이탄의 발걸음"
+    permission: "magic.learned.titan_stride"
+    points: 1
+  alchemy_preheat:
+    name: "연금로 예열"
+    permission: "magic.learned.alchemy_preheat"
+    points: 1
+  broom_afterburner:
+    name: "불꽃 추진"
+    permission: "magic.learned.broom_afterburner"
+    points: 1
+  signal_flare:
+    name: "봉화 신호"
+    permission: "magic.learned.signal_flare"
+    points: 1
+  water_glimpse:
+    name: "물밑 엿보기"
+    permission: "magic.learned.water_glimpse"
+    points: 1
+  calm_ripple:
+    name: "잔잔한 물결"
+    permission: "magic.learned.calm_ripple"
+    points: 1
+  treasure_scent:
+    name: "보물 냄새"
+    permission: "magic.learned.treasure_scent"
+    points: 1
+  tailwind:
+    name: "순풍"
+    permission: "magic.learned.tailwind"
+    points: 1
+  season_sense:
+    name: "계절 예보"
+    permission: "magic.learned.season_sense"
+    points: 1
+  pack_sort:
+    name: "배낭 정리"
+    permission: "magic.learned.pack_sort"
+    points: 1
+  heart_read:
+    name: "마음 읽기"
+    permission: "magic.learned.heart_read"
+    points: 1
+  insight_flash:
+    name: "영감의 섬광"
+    permission: "magic.learned.insight_flash"
+    points: 1
+  harvest_bell:
+    name: "수확제의 종"
+    permission: "magic.learned.harvest_bell"
+    points: 1
+  blessed_ribbon:
+    name: "축복의 리본"
+    permission: "magic.learned.blessed_ribbon"
+    points: 1
+  crop_snare:
+    name: "작물 붙잡기"
+    permission: "magic.learned.crop_snare"
+    points: 1
+  light_step:
+    name: "사뿐한 발걸음"
+    permission: "magic.learned.light_step"
+    points: 1
+  herding_breeze:
+    name: "몰이 바람"
+    permission: "magic.learned.herding_breeze"
+    points: 1
+  campfire_rest:
+    name: "모닥불 쉼터"
+    permission: "magic.learned.campfire_rest"
+    points: 1
+  ward_candle:
+    name: "결계 향초"
+    permission: "magic.learned.ward_candle"
+    points: 1
+  bottle_fill:
+    name: "물병 가득"
+    permission: "magic.learned.bottle_fill"
+    points: 1
+  scale_appraisal:
+    name: "비늘 감정"
+    permission: "magic.learned.scale_appraisal"
+    points: 1
+  crop_survey:
+    name: "작물 살피기"
+    permission: "magic.learned.crop_survey"
+    points: 1
+  replant_touch:
+    name: "되심기 손길"
+    permission: "magic.learned.replant_touch"
+    points: 1
+  enlighten_hint:
+    name: "깨달음의 빛"
+    permission: "magic.learned.enlighten_hint"
+    points: 1
+  memory_lantern:
+    name: "기억의 등불"
+    permission: "magic.learned.memory_lantern"
+    points: 1
+  shadow_vault:
+    name: "그림자 금고"
+    permission: "magic.learned.shadow_vault"
+    points: 1
+  sweet_sleep:
+    name: "단잠의 주문"
+    permission: "magic.learned.sweet_sleep"
+    points: 1

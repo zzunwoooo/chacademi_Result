@@ -1,0 +1,14 @@
+id: remembering_field
+name: 기억하는 밭
+category: earth
+description: 전방 일렬 5칸의 작물을 즉시 성숙시킵니다.
+icon: magiccodex:textures/spells/reviewed_20261020/remembering_field.png
+permission: magic.learned.remembering_field
+discovery:
+  description: 작물을 누적 300개 수확합니다.
+research: 수백 번의 수확 끝에, 씨앗 속에 접혀 있던 계절의 흐름을 읽었다. 손끝이 지나간 밭에는 한순간 먼저 가을이 찾아온다.
+cast:
+  command: 마법 remembering_field
+  cooldown-seconds: 30
+  mana-cost: 100
+order: 191

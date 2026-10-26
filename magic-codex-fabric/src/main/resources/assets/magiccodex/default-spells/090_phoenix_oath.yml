@@ -1,0 +1,14 @@
+id: phoenix_oath
+name: 불사조의 서약
+category: fire
+description: 300초 동안 불사조의 서약을 유지하며 치명적인 피해를 한 번 막습니다.
+icon: magiccodex:textures/spells/advanced/phoenix_oath.png
+permission: magic.learned.phoenix_oath
+discovery:
+  description: 펫 '불사조' 획득
+research: 수명이 다한 불사조는 화염으로 돌아가 다음 생을 준비한다.
+cast:
+  command: 마법 phoenix_oath
+  cooldown-seconds: 600
+  mana-cost: 300
+order: 90

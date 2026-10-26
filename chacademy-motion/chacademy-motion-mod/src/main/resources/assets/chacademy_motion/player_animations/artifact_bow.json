@@ -1,0 +1,252 @@
+{
+  "version": 3,
+  "name": "artifact_bow",
+  "author": "Chacademy",
+  "description": "두 손을 앞으로 모으고 수줍게 고개 숙여 인사하는 모션",
+  "emote": {
+    "beginTick": 3,
+    "endTick": 26,
+    "stopTick": 36,
+    "isLoop": false,
+    "returnTick": 0,
+    "nsfw": false,
+    "degrees": true,
+    "moves": [
+      {
+        "tick": 3,
+        "easing": "INOUTSINE",
+        "body": {
+          "pitch": 2,
+          "y": 0
+        }
+      },
+      {
+        "tick": 3,
+        "easing": "INOUTSINE",
+        "rightLeg": {
+          "pitch": 4
+        }
+      },
+      {
+        "tick": 3,
+        "easing": "INOUTSINE",
+        "leftLeg": {
+          "pitch": 4
+        }
+      },
+      {
+        "tick": 3,
+        "easing": "INOUTSINE",
+        "head": {
+          "pitch": -2
+        }
+      },
+      {
+        "tick": 3,
+        "easing": "INOUTSINE",
+        "rightArm": {
+          "pitch": -22,
+          "yaw": -22,
+          "roll": -6
+        }
+      },
+      {
+        "tick": 3,
+        "easing": "INOUTSINE",
+        "leftArm": {
+          "pitch": -22,
+          "yaw": 22,
+          "roll": 6
+        }
+      },
+      {
+        "tick": 9,
+        "easing": "OUTQUAD",
+        "body": {
+          "pitch": -24,
+          "y": -0.02
+        }
+      },
+      {
+        "tick": 9,
+        "easing": "OUTQUAD",
+        "rightLeg": {
+          "pitch": -22
+        }
+      },
+      {
+        "tick": 9,
+        "easing": "OUTQUAD",
+        "leftLeg": {
+          "pitch": -22
+        }
+      },
+      {
+        "tick": 9,
+        "easing": "OUTQUAD",
+        "head": {
+          "pitch": 18
+        }
+      },
+      {
+        "tick": 9,
+        "easing": "OUTQUAD",
+        "rightArm": {
+          "pitch": -22,
+          "yaw": -22,
+          "roll": -6
+        }
+      },
+      {
+        "tick": 9,
+        "easing": "OUTQUAD",
+        "leftArm": {
+          "pitch": -22,
+          "yaw": 22,
+          "roll": 6
+        }
+      },
+      {
+        "tick": 18,
+        "easing": "INOUTSINE",
+        "body": {
+          "pitch": -26,
+          "y": -0.02
+        }
+      },
+      {
+        "tick": 18,
+        "easing": "INOUTSINE",
+        "rightLeg": {
+          "pitch": -24
+        }
+      },
+      {
+        "tick": 18,
+        "easing": "INOUTSINE",
+        "leftLeg": {
+          "pitch": -24
+        }
+      },
+      {
+        "tick": 18,
+        "easing": "INOUTSINE",
+        "head": {
+          "pitch": 20
+        }
+      },
+      {
+        "tick": 18,
+        "easing": "INOUTSINE",
+        "rightArm": {
+          "pitch": -22,
+          "yaw": -22,
+          "roll": -6
+        }
+      },
+      {
+        "tick": 18,
+        "easing": "INOUTSINE",
+        "leftArm": {
+          "pitch": -22,
+          "yaw": 22,
+          "roll": 6
+        }
+      },
+      {
+        "tick": 22,
+        "easing": "INOUTSINE",
+        "body": {
+          "pitch": -8,
+          "y": 0
+        }
+      },
+      {
+        "tick": 22,
+        "easing": "INOUTSINE",
+        "rightLeg": {
+          "pitch": -6
+        }
+      },
+      {
+        "tick": 22,
+        "easing": "INOUTSINE",
+        "leftLeg": {
+          "pitch": -6
+        }
+      },
+      {
+        "tick": 22,
+        "easing": "INOUTSINE",
+        "head": {
+          "pitch": 12
+        }
+      },
+      {
+        "tick": 22,
+        "easing": "INOUTSINE",
+        "rightArm": {
+          "pitch": -22,
+          "yaw": -22,
+          "roll": -6
+        }
+      },
+      {
+        "tick": 22,
+        "easing": "INOUTSINE",
+        "leftArm": {
+          "pitch": -22,
+          "yaw": 22,
+          "roll": 6
+        }
+      },
+      {
+        "tick": 26,
+        "easing": "INOUTSINE",
+        "body": {
+          "pitch": -4,
+          "y": 0
+        }
+      },
+      {
+        "tick": 26,
+        "easing": "INOUTSINE",
+        "rightLeg": {
+          "pitch": -2
+        }
+      },
+      {
+        "tick": 26,
+        "easing": "INOUTSINE",
+        "leftLeg": {
+          "pitch": -2
+        }
+      },
+      {
+        "tick": 26,
+        "easing": "INOUTSINE",
+        "head": {
+          "pitch": 12
+        }
+      },
+      {
+        "tick": 26,
+        "easing": "INOUTSINE",
+        "rightArm": {
+          "pitch": -22,
+          "yaw": -22,
+          "roll": -6
+        }
+      },
+      {
+        "tick": 26,
+        "easing": "INOUTSINE",
+        "leftArm": {
+          "pitch": -22,
+          "yaw": 22,
+          "roll": 6
+        }
+      }
+    ]
+  }
+}

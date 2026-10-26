@@ -1,0 +1,14 @@
+id: explosive_wedge
+name: 폭발 쐐기
+category: fire
+description: 대상에 폭발 쐐기를 부착합니다. 대기 중 피격 등 지정된 발동 조건을 충족하면 폭발하며, 단순 시간 경과로 자동 폭발하지 않습니다.
+icon: magiccodex:textures/spells/expansion_2/explosive_wedge.png
+permission: magic.learned.explosive_wedge
+discovery:
+  description: 불붙은 몬스터를 근접 공격으로 20번 처치하기.
+research: 화염 내성이 높은 적도 내부에서 터지는 폭발까지는 막을 수 없다.
+cast:
+  command: 마법 explosive_wedge
+  cooldown-seconds: 30
+  mana-cost: 350
+order: 93

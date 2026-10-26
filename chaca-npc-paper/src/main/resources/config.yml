@@ -1,0 +1,213 @@
+# ============================================================
+#  ChacaNPC 설정 — 바꾼 뒤 /서버관리 새로고침 NPC (동시 요청 수·DB는 서버 재시작)
+# ============================================================
+
+openai:
+  # API 키는 school 서버 프로세스의 환경변수 CHACANPC_OPENAI_KEY 로 넣는 것을 권장합니다.
+  # 이 값이 비어 있으면 환경변수를 씁니다. 키를 이 파일에 적었다면 절대 Git에 올리지 마세요.
+  api-key: ""
+  base-url: "https://api.openai.com/v1"
+  model: "gpt-6-luna"
+  # 추론(생각) 강도. NPC 잡담은 최소가 빠르고 쌈. 모델이 안 받으면 자동으로 빼고 보냄
+  reasoning-effort: "none"
+  max-output-tokens: 250
+  # 그날 예산 80%를 쓰면 대답을 이만큼으로 줄임
+  reduced-output-tokens: 160
+  # 대답이 이 시간(초) 안에 안 오면 화면에는 고정 대사(busy)를 보여줌.
+  # 요청은 hard-timeout-seconds 까지 계속 받아서 늦게 온 응답의 비용도 정산함 (화면에는 안 보냄)
+  timeout-seconds: 8
+  hard-timeout-seconds: 45
+  # 이 시간(초) 동안 첫 글자가 없으면 "아, 잠깐만..."(stall)
+  stall-seconds: 3
+  # 동시에 보내는 요청 수 (넘으면 대기열). 서버 재시작해야 바뀜
+  max-concurrent: 20
+  # 플레이어 대화 대기열 길이. 가득 차면 그 대화는 바로 고정 대사(busy)로 넘기고 하루 횟수를 돌려줌.
+  # 대기 중 기한(timeout-seconds)이 지났거나 창을 닫은 요청은 OpenAI에 보내지 않음(과금 없음). 서버 재시작해야 바뀜
+  max-queue: 40
+  # 차단기: AI 호출이 연속으로 failures 번 실패하면 cooloff-seconds 동안 AI를 부르지 않고 고정 대사로 대답.
+  # 그 뒤 한 건씩 보내 보고 성공하면 다시 엶. failures: 0 이면 끔. 실패 집계는 /서버관리 AI 예산 에서 확인
+  circuit:
+    failures: 5
+    cooloff-seconds: 30
+  # 100만 토큰당 가격(달러). 비용 계산용 — OpenAI 가격이 바뀌면 고칠 것
+  price:
+    input-per-million: 0.10
+    cached-input-per-million: 0.01
+    output-per-million: 0.50
+  # 플레이어 입력을 OpenAI moderation으로 한 번 더 검사 (무료)
+  moderation:
+    enabled: true
+    model: "omni-moderation-latest"
+
+# DB 설정은 plugins/ChacaNPC/database.properties (MagicCodex 플러그인들과 같은 형식).
+# 파일이 없으면 SQLite: plugins/ChacaNPC/chaca-npc.db
+# 운영은 기존 MariaDB 인스턴스의 전용 스키마(예: chacademi_npc)를 권장 — database.properties.example 참고
+
+budget:
+  timezone: "Asia/Seoul"
+  # 금액 한도 사용 여부 (2026-10-21 오너 결정: 끔). false 면 아래 total-usd · test-daily-usd 로 막지 않고
+  # 플레이어 1인 하루 대화 횟수(per-player-daily-calls)만 적용합니다. 사용량·비용 기록은 그대로 남습니다.
+  limit-enabled: false
+  # (limit-enabled: true 일 때) 3주 전체 예산(달러). 플러그인이 모든 AI 호출(대화·버튼 미리 생성·NPC 잡담·분위기 요약)을
+  # 요청 전에 예약하고 끝나면 실제 사용량으로 정산해서 이 금액을 넘지 않게 관리합니다.
+  # OpenAI 프로젝트 지출 한도는 별개의 안전장치이며, 반영 지연으로 소폭 초과할 수 있습니다.
+  total-usd: 170
+  # 서버 운영 시작일과 기간. 시작 전에는 test-daily-usd 가 하루 한도
+  start-date: "2026-10-26"
+  days: 21
+  test-daily-usd: 2.0
+  # 플레이어 1명이 하루에 AI 대답을 받을 수 있는 횟수 (넘으면 'tired' 고정 대사).
+  # 같은 DB(database.properties)를 쓰는 서버끼리 합산 — DB의 오늘 횟수를 한도 미만일 때만 원자적으로 1 올림
+  per-player-daily-calls: 60
+  # 그날 한도의 몇 %를 쓰면 대답을 짧게 할지
+  reduce-at-percent: 80
+
+dialogue:
+  input-max-length: 100
+  line-max-length: 120
+  memo-max-length: 60
+  cooldown-seconds: 3
+  # 이 시간(초) 동안 말이 없으면 대화 종료
+  idle-timeout-seconds: 60
+  # NPC와 이 거리(칸)보다 멀어지면 대화 종료
+  max-distance: 8
+  # /말 로 말을 걸 수 있는 거리
+  talk-start-distance: 6
+  # 대화 중 AI에 보내는 최근 턴 수
+  recent-turns: 3
+  # 다음 대화를 위해 저장하는 '지난번 대화' 턴 수와 유효 기간
+  last-chat-turns: 4
+  last-chat-expire-days: 7
+  memo-max-lines: 5
+  # 스토리 진행도 연결 전 기본값
+  default-story-chapter: "1장"
+  # 공통 추천 버튼 (3개까지). NPC 마다 다르게 하려면 캐릭터 파일(npcs/<id>.yml)에 buttons: 를 적는다 — 적은 NPC 는 그것만 쓴다.
+  buttons:
+    - { id: daily, label: "요즘 뭐 해?" }
+    - { id: help, label: "도울 일 있어?" }
+    - { id: magic, label: "마법 얘기 해줘" }
+  # 버튼 대답을 NPC·시간대별로 미리 만들어 재사용 (0초 대답 + 비용 절약)
+  button-cache:
+    enabled: true
+    variants: 4
+    warmup: true
+
+quests:
+  min-score: 20
+  # 같은 NPC에게 다음 퀘스트를 받기까지(분)
+  cooldown-minutes: 120
+  max-active: 3
+  # 대화 한 번당 퀘스트를 꺼낼 확률 (그날 기분 좋음이면 good-mood-chance)
+  chance: 0.20
+  good-mood-chance: 0.35
+
+hints:
+  daily-per-player: 3
+
+affinity:
+  # MagicCodexBridge 연결이 없을 때만 쓰는 임시 점수 (0~100, 10 이상 아는 사이 · 30 친한 사이 · 60 단짝 · 90 특별)
+  default-score: 10
+  # 호의적 AI 대화 보상 (메모 #83): AI 가 대답마다 liked(마음에 들었는지)를 함께 정함 — 그 판정 기준 문구.
+  # liked=true 면 MagicCodexBridge 가 유저별·NPC별 하루 횟수 안에서 소량 지급 (지급량·횟수는 Bridge affinity.yml chat-reward).
+  # 비우면("") 대화 호감도 보상을 쓰지 않음. 버튼 미리 만든 대답·관리자 테스트는 지급 안 함.
+  chat-reward-criteria: "학생의 이번 말이 너의 성격·좋아하는 것에 잘 맞아 정말 기분이 좋아졌다(진심 어린 칭찬·공감·네가 좋아하는 이야기 등). 평범한 인사·질문·부탁, 무례하거나 억지스러운 말은 해당하지 않는다."
+
+# 선물 (대화 버튼 3번 "선물 줄 거 있어" → 선물 창). 하루 횟수 한도는 MagicCodexBridge affinity.yml 의 gift-daily-count
+# 선물 아이템 = lore 첫 줄 "선물", 둘째 줄 등급 (색 코드 무시). 캐릭터 파일 gift_likes.liked 에 있으면 등급 점수, 없으면 not-liked.
+# 호감도 상한(30·60·90, 그 NPC 퀘스트 미완료)이면 받지 않음 — 대사 gift_full, 아이템·횟수 그대로.
+gifts:
+  grades:
+    일반: 1
+    고급: 3
+    유일: 7
+    전설: 15   # 오너 2026-10-25: 고급 3 · 유일 7 · 전설 15
+  not-liked: -1
+  # 예전 Shift+우클릭 선물 값 (지금은 쓰지 않음)
+  loved: 6
+  liked: 3
+  disliked: -3
+  neutral: 1
+
+# 마법 발견 여부 (MagicDiscovery 가 주는 권한). %s = hints.yml 의 spell
+discovery-permission: "magic.learned.%s"
+
+strikes:
+  # window-minutes 안에 장난(탈옥 시도·금지어)이 max번 걸리면 lock-minutes 동안 그 NPC와 대화 잠금
+  window-minutes: 10
+  max: 3
+  lock-minutes: 10
+  affinity-penalty: 3
+
+movement:
+  # NPC나 목적지 이 반경(칸) 안에 플레이어가 있으면 걸어감, 없으면 순간이동
+  walk-radius: 48
+  # 일과 시간이 되면 NPC마다 0~N초 흩어서 출발
+  stagger-seconds: 20
+  # 이 반경 안에 플레이어가 있을 때만 배회
+  wander-player-radius: 32
+  wander-min-seconds: 8
+  wander-max-seconds: 15
+  speed: 1.0
+  # 한 구간을 이 시간(초) 안에 못 가면 순간이동
+  give-up-seconds: 40
+
+rumors:
+  # 사건이 소문으로 퍼지기까지 걸리는 현실 시간
+  delay-min-hours: 12
+  delay-max-hours: 24
+  max-in-prompt: 2
+  jealousy-min-score: 60
+  jealousy-chance: 0.4
+  jealousy-promise-chance: 0.8
+
+ambient:
+  # 관계 있는 NPC 둘이 같은 장소에 있고 근처에 플레이어가 있으면 가끔 잡담
+  enabled: true
+  interval-minutes: 10
+  player-radius: 16
+
+social:
+  # NPC끼리 잡담(근처 모든 플레이어에게 보임)에 소문을 섞을지.
+  # 켜도 잡담에는 서버가 만든 문장만 들어감 (예: "엘라가 어떤 학생이랑 특별한 약속을 했다더라").
+  # 플레이어 이름이나 플레이어·AI가 쓴 글은 들어가지 않음. false 면 잡담에 소문을 아예 넣지 않음
+  public-rumors: true
+
+vibe:
+  # 서버 분위기 노트 (하루 run-hours 시각에 대화 요약)
+  enabled: true
+  run-hours: [5, 17]
+  min-distinct-players: 5
+  max-notes: 10
+  expire-days: 3
+  # false면 /NPC관리 분위기노트 보기 에서 확인하고 승인해야 적용
+  # ★ 경고: true 로 바꾸지 마세요. 승인된 노트는 "모든 NPC"의 프롬프트에 들어갑니다.
+  #   노트는 플레이어들이 한 말에서 뽑히므로, 여러 명이 짜고 같은 말을 반복하면 원하는 문장을 NPC 전체에 심을 수 있습니다.
+  #   금지어 필터를 통과한 후보만 남지만, 사람이 한 번 읽고 승인하는 것이 마지막 안전장치입니다.
+  auto-approve: false
+  max-log-lines: 1500
+
+# 세계관 요약 (10~15줄). 모든 NPC 프롬프트 맨 앞에 들어감 — 준우가 채워 주세요
+world-lore: |
+  차카데미는 마법을 배우는 기숙 학교다.
+  (여기에 세계관을 적어 주세요: 학교 구조, 계열별 마법, 주요 인물, 지켜야 할 규칙 등)
+
+# 캐릭터 파일에 fallback_lines가 없을 때 쓰는 기본 고정 대사
+default-fallback-lines:
+  greeting: ["응? 무슨 일이야?", "안녕! 나한테 볼일 있어?"]
+  greeting_again: ["응, 계속 얘기해~"]
+  farewell: ["그래, 다음에 또 봐!", "잘 가~"]
+  tired: ["오늘은 너무 피곤해... 내일 또 와~"]
+  busy: ["잠깐만, 지금 좀 바빠서! 이따 다시 말 걸어줘."]
+  stall: ["아, 잠깐만... 생각 좀 해볼게~", "음..."]
+  confused: ["응? 무슨 주문이야 그게? 처음 듣는 마법인데~", "그게 무슨 말이야? 잘 모르겠어."]
+  locked: ["오늘 이상한 소리만 하네... 이따 와!"]
+  quest_thanks: ["정말? 고마워! 부탁할게~"]
+  gift_loved: ["우와… 이거 내가 제일 좋아하는 건데! 고마워!"]
+  gift_liked: ["어머, 나 주는 거야? 고마워~"]
+  gift_neutral: ["응? 고마워. 잘 쓸게!"]
+  gift_disliked: ["음… 마음만 받을게."]
+  gift_cap: ["오늘은 이미 선물 받았는걸~ 내일 또 줘!"]
+  gift_full: ["지금은 괜찮아~"]
+  quest_decline: ["그래, 괜찮아. 바쁘면 어쩔 수 없지!"]
+
+debug: false

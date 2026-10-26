@@ -1,0 +1,14 @@
+id: weightless_zone
+name: 중력지대
+category: wind
+description: 바라보는 지점에 중력지대를 만들어 반경 5블록 안의 몬스터를 중심으로 3초간 끌어당깁니다. 최대 시전 거리는 15블록입니다.
+icon: magiccodex:textures/spells/expansion/weightless_zone.png
+permission: magic.learned.weightless_zone
+discovery:
+  description: 하르바 교수와 친해진 뒤(호감도 30) 바람 비전 수업 듣기.
+research: 용이 쓰러진 자리에 남은 힘은 빛마저 휘게 했다. 그 중심을 붙잡자, 주변의 모든 것이 안쪽으로 기울었다.
+cast:
+  command: 마법 weightless_zone
+  cooldown-seconds: 80
+  mana-cost: 320
+order: 45

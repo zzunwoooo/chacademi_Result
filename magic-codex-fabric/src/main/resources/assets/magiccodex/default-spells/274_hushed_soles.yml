@@ -1,0 +1,14 @@
+id: hushed_soles
+name: 고요한 밑창
+category: dark
+description: 20초 동안 걷거나 달릴 때 생기는 스컬크 진동을 없앱니다. 착지나 블록 조작, 공격의 진동은 그대로 납니다.
+icon: magiccodex:textures/spells/reviewed_20261020/hushed_soles.png
+permission: magic.learned.hushed_soles
+discovery:
+  description: 웅크린 채 누적 1,000블록 걷기.
+research: 발소리를 삼킨 이끼 위에서는 바쁜 걸음도 숲의 잠을 깨우지 못했다.
+cast:
+  command: 마법 hushed_soles
+  cooldown-seconds: 45
+  mana-cost: 55
+order: 274

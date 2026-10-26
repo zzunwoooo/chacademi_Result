@@ -1,0 +1,14 @@
+id: true_sight
+name: 진실의 눈
+category: light
+description: 15초 동안 가까운 투명한 적의 윤곽과 조사 가능한 숨은 단서를 드러냅니다.
+icon: magiccodex:textures/spells/intermediate/true_sight.png
+permission: magic.learned.true_sight
+discovery:
+  description: 투명화 물약을 마신 채 몬스터 10마리 처치하기.
+research: 눈을 크게 뜬다고 모든 것이 보이는 것은 아니다.
+cast:
+  command: 마법 true_sight
+  cooldown-seconds: 30
+  mana-cost: 65
+order: 229

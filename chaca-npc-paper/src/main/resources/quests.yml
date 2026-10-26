@@ -1,0 +1,12 @@
+# AI NPC가 "부탁"으로 꺼낼 수 있는 퀘스트의 보조 설명.
+# 퀘스트 자체(제목·목표·보상·수락 조건)는 MagicCodex 의뢰 데이터(MagicCodexBridge quests)가 기준입니다.
+# 캐릭터 파일의 quests: 에 MagicCodex 의뢰 id 를 적고, 여기에는 AI가 자연스럽게 꺼내기 위한 설명만 적습니다.
+# 여기 없는 id 도 제안할 수 있습니다 (그때는 MagicCodex 제목만 사용).
+# AI 출력으로 명령어를 실행하는 기능은 없습니다. 수락은 MagicCodex 기존 의뢰 수락 경로로만 처리됩니다.
+quests:
+  lost_book:
+    summary: 도서관에서 빌려간 '별빛 마법 입문'이 반납되지 않았다. 기숙사 어딘가에 있을 것 같다.
+    min-score: 20
+  tea_leaves:
+    summary: 아끼는 홍차 잎이 다 떨어졌다. 정원 온실에서 찻잎을 따다 주면 좋겠다.
+    min-score: 20

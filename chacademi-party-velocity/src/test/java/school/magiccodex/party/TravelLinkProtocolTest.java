@@ -1,0 +1,6 @@
+package school.magiccodex.party;
+import org.junit.jupiter.api.Test;import static org.junit.jupiter.api.Assertions.*;import java.util.*;import school.magiccodex.protocol.TravelLinkProtocol;
+class TravelLinkProtocolTest{
+ @Test void serverTransferAndFailureRoundTrip(){var id=UUID.randomUUID();for(var m:List.<TravelLinkProtocol.Message>of(new TravelLinkProtocol.Transfer(id,42,"wild"),new TravelLinkProtocol.Failed(id,42,TravelLinkProtocol.OFFLINE,"offline"))){var bytes=TravelLinkProtocol.encode(m);assertTrue(bytes.length<=TravelLinkProtocol.MAX_BYTES);assertEquals(m,TravelLinkProtocol.decode(bytes));}}
+ @Test void malformedSpoofableAndTrailingFramesAreRejected(){var good=TravelLinkProtocol.encode(new TravelLinkProtocol.Transfer(UUID.randomUUID(),42,"school"));for(byte[] bytes:new byte[][]{null,new byte[0],new byte[]{99,1},Arrays.copyOf(good,good.length+1),new byte[513]})assertThrows(IllegalArgumentException.class,()->TravelLinkProtocol.decode(bytes));assertThrows(IllegalArgumentException.class,()->new TravelLinkProtocol.Transfer(UUID.randomUUID(),0,"school"));assertThrows(IllegalArgumentException.class,()->new TravelLinkProtocol.Transfer(UUID.randomUUID(),1,"../wild"));assertThrows(IllegalArgumentException.class,()->new TravelLinkProtocol.Failed(UUID.randomUUID(),1,99,"bad"));}
+}

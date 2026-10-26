@@ -1,0 +1,48 @@
+plugins { id 'java' }
+group = 'school.magiccodex'
+version = '0.31.3-integrated-20261020.1-gimmick.1-houses.1-commands.1-followups.1-nameplates.2-titles.1-storych1.1-nova.1'
+base { archivesName = 'magic-codex-bridge' }
+repositories {
+    if (findProperty('localDependencyRepo')) maven { url = uri(property('localDependencyRepo')) }
+    mavenCentral()
+    maven { url = 'https://repo.papermc.io/repository/maven-public/' }
+}
+dependencies {
+    // Compile against the installed API only; never shade or fork HuskSync.
+    compileOnly files('../plugins/HuskSync-3.8.7.jar')
+    compileOnly files('../plugins/jedis-6.0.0.jar')
+    testImplementation files('../plugins/jedis-6.0.0.jar')
+    testRuntimeOnly files('../plugins/commons-pool2-2.12.1.jar')
+    testRuntimeOnly files('../plugins/redis-authx-core-0.1.1-beta2.jar')
+    testImplementation files('../plugins/HuskSync-3.8.7.jar')
+    testImplementation files('../plugins/Citizens-2.0.37-b3725.jar')
+    testImplementation "com.h2database:h2:2.3.232"
+    compileOnly files('../plugins/ModelEngine-4.0.8.jar')
+    compileOnly files('../plugins/MythicMobs-5.9.0.jar')
+    compileOnly 'io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT'
+    compileOnly (findProperty('luckPermsApiJar') ? files(property('luckPermsApiJar')) : 'net.luckperms:api:5.4')
+    compileOnly files('../plugins/PlaceholderAPI-2.11.6.jar')
+    implementation files('../magic-codex-database/lib/mariadb-java-client-3.5.10.jar')
+    testImplementation 'io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT'
+    testImplementation files('../libraries/org/xerial/sqlite-jdbc/3.47.2.0/sqlite-jdbc-3.47.2.0.jar')
+    testImplementation 'org.mockito:mockito-core:5.14.2'
+    testImplementation files('../plugins/MythicMobs-5.9.0.jar','../plugins/ModelEngine-4.0.8.jar','../plugins/PlaceholderAPI-2.11.6.jar')
+    testImplementation platform('org.junit:junit-bom:5.11.4')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testRuntimeOnly (findProperty('luckPermsApiJar') ? files(property('luckPermsApiJar')) : 'net.luckperms:api:5.4')
+}
+sourceSets.main.java.srcDir '../magic-codex-protocol/src/main/java'
+sourceSets.main.java.srcDir '../magic-codex-database/src/main/java'
+jar {
+    from { zipTree('../magic-codex-database/lib/mariadb-java-client-3.5.10.jar') }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+java { toolchain.languageVersion = JavaLanguageVersion.of(21) }
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8'; options.release = 21 }
+test { useJUnitPlatform() }
+processResources {
+    filteringCharset = 'UTF-8'
+    inputs.property 'version', project.version
+    filesMatching('plugin.yml') { expand version: project.version }
+}

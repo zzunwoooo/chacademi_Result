@@ -1,0 +1,14 @@
+id: conduit_turn
+name: 도관 회전
+category: earth
+description: 설치된 마력 도관을 90도 돌려 마력이 흐르는 길을 바꿉니다.
+icon: magiccodex:textures/spells/gimmick/conduit_turn.png
+permission: magic.learned.conduit_turn
+discovery:
+  description: 장치 실습실에서 「마력 도관 설계」 책 읽기.
+research: 마력은 길을 가리지 않는다. 길을 고르는 것은 도관을 놓는 손이다.
+cast:
+  command: 마법 conduit_turn
+  cooldown-seconds: 1
+  mana-cost: 10
+order: 155

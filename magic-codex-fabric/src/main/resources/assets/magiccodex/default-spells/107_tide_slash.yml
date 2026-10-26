@@ -1,0 +1,14 @@
+id: tide_slash
+name: 물살 베기
+category: water
+description: 물살을 칼날처럼 휘둘러 앞쪽 반원을 벱니다. 맞은 적은 한 걸음쯤 밀려납니다.
+icon: ''
+permission: magic.learned.tide_slash
+discovery:
+  description: 물속에서 몬스터 20마리 처치하기.
+research: ''
+cast:
+  command: 마법 tide_slash
+  cooldown-seconds: 4
+  mana-cost: 6
+order: 107

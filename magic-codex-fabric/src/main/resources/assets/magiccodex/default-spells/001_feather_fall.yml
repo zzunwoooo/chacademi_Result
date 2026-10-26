@@ -1,0 +1,15 @@
+id: feather_fall
+name: 깃털 낙하
+category: wind
+description: 5초 동안 천천히 낙하합니다.
+icon: magiccodex:textures/spells/novice/feather_step.png
+permission: magic.learned.feather_fall
+discovery:
+  description: 낙하 피해를 받은 뒤 1회 사망하기.
+research: 높은 곳에서의 추락이 한 번의 끝을 남겼다. 그 기억을 되짚으면, 다음에는 땅으로 떨어지는 대신 바람 위에 잠깐 기대는 방법을 찾을
+  수 있을지도 모른다.
+cast:
+  command: 마법 feather_fall
+  cooldown-seconds: 5
+  mana-cost: 5
+order: 1

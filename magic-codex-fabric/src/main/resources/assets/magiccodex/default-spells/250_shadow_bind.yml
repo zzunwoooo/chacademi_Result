@@ -1,0 +1,14 @@
+id: shadow_bind
+name: 그림자 매듭
+category: dark
+description: 가까운 몬스터 한 마리를 3초 동안 느리게 만듭니다.
+icon: magiccodex:textures/spells/novice_extra/shadow_bind.png
+permission: magic.learned.shadow_bind
+discovery:
+  description: 그레고르 교감의 어둠 마법 기초 수업 듣기.
+research: 그림자의 발목을 붙잡으면 주인도 멀리 달아나지 못한다.
+cast:
+  command: 마법 shadow_bind
+  cooldown-seconds: 6
+  mana-cost: 10
+order: 250

@@ -1,0 +1,14 @@
+id: heat_haze
+name: 아지랑이
+category: fire
+description: 옆으로 미끄러지며 제자리에 일렁이는 허상을 남깁니다. 몬스터는 3초 동안 허상을 노리고, 허상은 사라질 때 작게 폭발해 화상을 입힙니다.
+icon: ''
+permission: magic.learned.heat_haze
+discovery:
+  description: 사막 바이옴에서 누적 10분 머무르기.
+research: ''
+cast:
+  command: 마법 heat_haze
+  cooldown-seconds: 20
+  mana-cost: 70
+order: 81

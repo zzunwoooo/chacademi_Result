@@ -1,0 +1,14 @@
+id: fish_trap
+name: 아공간 수조
+category: water
+description: 잡은 물고기가 헤엄치는 아공간 수조를 엽니다. 꺼내기·방생·즉시 판매·다시 넣기를 할 수 있어요.
+icon: magiccodex:textures/spells/fishing/fish_trap.png
+permission: magic.learned.fish_trap
+discovery:
+  description: 처음부터 알고 있는 마법입니다.
+research: 낚싯줄 끝에 걸린 것은 손이 아니라 작은 바다로 옮겨진다. 물결은 그 안에서도 그대로 흐른다.
+cast:
+  command: 마법 fish_trap
+  cooldown-seconds: 2
+  mana-cost: 5
+order: 106

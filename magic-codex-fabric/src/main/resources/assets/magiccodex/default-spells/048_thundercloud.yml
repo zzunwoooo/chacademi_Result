@@ -1,0 +1,14 @@
+id: thundercloud
+name: 뇌운
+category: wind
+description: 대상 머리 위에 6초 동안 먹구름을 띄웁니다. 먹구름은 대상을 따라다니며 1.5초마다 낙뢰를 떨어뜨립니다.
+icon: ''
+permission: magic.learned.thundercloud
+discovery:
+  description: 라이트닝 쇼크로 몬스터 50마리 처치하기.
+research: ''
+cast:
+  command: 마법 thundercloud
+  cooldown-seconds: 50
+  mana-cost: 300
+order: 48

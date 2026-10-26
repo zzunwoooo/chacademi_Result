@@ -1,0 +1,14 @@
+id: eternal_ice_prison
+name: 만년빙옥
+category: water
+description: 일반 적의 이동과 공격을 최대 5초 동안 봉쇄하며, 일정량의 피해를 받으면 해제됩니다. 보스에게는 감속만 적용됩니다.
+icon: magiccodex:textures/spells/advanced/eternal_ice_prison.png
+permission: magic.learned.eternal_ice_prison
+discovery:
+  description: 엘레나 교수와(과) 친해진 뒤(호감도 30) 물 비전 수업 듣기.
+research: 아무리 분노한 적도 얼음 속에서는 잠시 생각할 시간을 갖게 된다.
+cast:
+  command: 마법 eternal_ice_prison
+  cooldown-seconds: 60
+  mana-cost: 240
+order: 140

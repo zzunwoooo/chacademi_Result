@@ -1,0 +1,14 @@
+id: scale_appraisal
+name: 비늘 감정
+category: water
+description: 손에 든 물고기를 물렌즈로 들여다봅니다. 등급과 크기, 내 기록과 비교한 크기, 판매소에서 받을 값을 알려 줍니다.
+icon: ''
+permission: magic.learned.scale_appraisal
+discovery:
+  description: 물고기를 처음 팔기.
+research: ''
+cast:
+  command: 마법 scale_appraisal
+  cooldown-seconds: 5
+  mana-cost: 10
+order: 109

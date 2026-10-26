@@ -1,0 +1,14 @@
+id: solar_judgment
+name: 태양의 심판
+category: light
+description: 1.5초간 준비한 뒤 정면으로 굵은 빛줄기를 발사합니다. 경로의 적을 관통하며 벽에 닿으면 멈춥니다.
+icon: magiccodex:textures/spells/expansion/solar_judgment.png
+permission: magic.learned.solar_judgment
+discovery:
+  description: 퇴마의 섬광으로 언데드를 누적 150마리 처치하기.
+research: 흩어진 햇살을 한 줄로 모으자 그림자가 설 곳이 사라졌다.
+cast:
+  command: ''
+  cooldown-seconds: 90
+  mana-cost: 400
+order: 147

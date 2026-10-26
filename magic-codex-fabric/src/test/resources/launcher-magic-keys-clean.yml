@@ -1,0 +1,14 @@
+version: 1
+slots:
+- spell: ember_bolt
+  key: -1
+- spell: flame_sword_dance
+  key: -1
+- spell: returning_blade
+  key: -1
+- spell: pressure_hammer
+  key: -1
+- spell: falling_star
+  key: -1
+- spell: crossfire
+  key: -1

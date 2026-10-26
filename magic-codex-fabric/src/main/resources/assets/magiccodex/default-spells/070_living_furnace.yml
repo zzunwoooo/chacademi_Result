@@ -1,0 +1,16 @@
+id: living_furnace
+name: 살아 있는 화로
+category: fire
+description: '손에 든 아이템을 4개까지 구워낸다.
+
+  구울 수 없는 아이템일 경우 실패한다.'
+icon: magiccodex:textures/spells/advanced/living_furnace.png
+permission: magic.learned.living_furnace
+discovery:
+  description: 손끝의 화로를 64번 사용하기.
+research: 화력.. 화력을 더 올려!!! - 마스터 대장장이
+cast:
+  command: 마법 living_furnace
+  cooldown-seconds: 20
+  mana-cost: 50
+order: 70

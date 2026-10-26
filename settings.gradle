@@ -1,0 +1,18 @@
+rootProject.name = 'chacademi-server-workspace'
+include 'magic-codex-paper', 'magic-discovery-paper', 'creature-spawns-paper', 'tornado-event-paper', 'chaca-npc-paper', 'chaca-portrait-paper'
+include 'chacademi-party-velocity'
+
+include 'magic-mythic-paper'
+
+include "gimmick-paper"
+
+include "kyudichi-paper"
+
+include "housing-paper"
+
+include 'pet-interactions-paper'
+
+include 'housing-presence-velocity'
+
+// 운영 대시보드 (메모 #92): 게임과 따로 도는 웹 앱
+include 'ops-dashboard'

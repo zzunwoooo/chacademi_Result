@@ -1,0 +1,3190 @@
+schema: 1
+provenance: Verified approved 68 VFX ZIPs + retained v0.1.12 client assets; verified 156 original bbmodels; names only, no binary artwork
+effects:
+- claude:abyssalpressure/begin
+- claude:abyssalpressure/end
+- claude:abyssalpressure/sustain
+- claude:airstacking/place
+- claude:airstep/begin
+- claude:airstep/end
+- claude:airstep/sustain
+- claude:arcaneimprint/arcane_imprint
+- claude:arcaneimprint/arcane_imprint_begin
+- claude:arcaneimprint/arcane_imprint_end
+- claude:arcaneimprint/mine_block
+- claude:arcaneimprint/mine_face
+- claude:arcanemending/arcane_mending_complete
+- claude:arcanemending/arcane_mending_fade
+- claude:arcanemending/arcane_mending_gather
+- claude:arcanemending/arcane_mending_mend
+- claude:arrestedorbit/idle1
+- claude:arrestedorbit/idle2
+- claude:arrestedorbit/idle3
+- claude:arrestedorbit/idle4
+- claude:arrestedorbit/idle5
+- claude:arrestedorbit/impact
+- claude:arrestedorbit/projectile
+- claude:arrestedorbit/summon
+- claude:ashbrand/explode
+- claude:ashbrand/mark
+- claude:ashbrand/transfer
+- claude:automaticsupply/automatic_supply
+- claude:barkpeeling/peel
+- claude:basiliskspit/hit_obsidian
+- claude:basiliskspit/hit_obsidian_s
+- claude:basiliskspit/hit_snowstorm
+- claude:basiliskspit/hit_snowstorm_s
+- claude:basiliskspit/hit_wild
+- claude:basiliskspit/hit_wild_s
+- claude:basiliskspit/shot_obsidian
+- claude:basiliskspit/shot_obsidian_s
+- claude:basiliskspit/shot_snowstorm
+- claude:basiliskspit/shot_snowstorm_s
+- claude:basiliskspit/shot_wild
+- claude:basiliskspit/shot_wild_s
+- claude:basilisksweep/sweep_obsidian
+- claude:basilisksweep/sweep_obsidian_s
+- claude:basilisksweep/sweep_snowstorm
+- claude:basilisksweep/sweep_snowstorm_s
+- claude:basilisksweep/sweep_wild
+- claude:basilisksweep/sweep_wild_s
+- claude:bearmaul/maul_black
+- claude:bearmaul/maul_black_s
+- claude:bearmaul/maul_brown
+- claude:bearmaul/maul_brown_s
+- claude:bearmaul/maul_polar
+- claude:bearmaul/maul_polar_s
+- claude:bearswipe/swipe_black
+- claude:bearswipe/swipe_black_s
+- claude:bearswipe/swipe_brown
+- claude:bearswipe/swipe_brown_s
+- claude:bearswipe/swipe_polar
+- claude:bearswipe/swipe_polar_s
+- claude:beastbite/bite_croc
+- claude:beastbite/bite_croc_s
+- claude:beastbite/bite_nightmare
+- claude:beastbite/bite_nightmare_s
+- claude:beastbite/bite_red
+- claude:beastbite/bite_red_s
+- claude:beastbite/bite_undead
+- claude:beastbite/bite_undead_s
+- claude:beastjaw/jaw_croc
+- claude:beastjaw/jaw_croc_s
+- claude:beastjaw/jaw_nightmare
+- claude:beastjaw/jaw_nightmare_s
+- claude:beastjaw/jaw_red
+- claude:beastjaw/jaw_red_s
+- claude:beastjaw/jaw_undead
+- claude:beastjaw/jaw_undead_s
+- claude:beecalm/calm
+- claude:beecalm/hand
+- claude:beecalm/spread
+- claude:blazekick/flame_leap
+- claude:blazekick/flame_leap_hit
+- claude:bluebonfire/burn
+- claude:bluebonfire/dieout
+- claude:bluebonfire/ignite
+- claude:boilingarmor/boiling_armor
+- claude:bonegrasp/grasp
+- claude:bonegrasp/grasp_s
+- claude:bouncingdroplet/bounce
+- claude:bouncingdroplet/burst
+- claude:bouncingdroplet/form
+- claude:bouncingdroplet/hop
+- claude:broomtrails/basic
+- claude:broomtrails/basic_lite
+- claude:broomtrails/rare_gold
+- claude:broomtrails/rare_gold_lite
+- claude:broomtrails/rare_plus
+- claude:broomtrails/rare_plus_lite
+- claude:broomtrails/wave1
+- claude:broomtrails/wave1_lite
+- claude:broomtrails/wave2
+- claude:broomtrails/wave2_lite
+- claude:broomtrailslegend/l_angel
+- claude:broomtrailslegend/l_angel_lite
+- claude:broomtrailslegend/l_butterfly
+- claude:broomtrailslegend/l_butterfly_lite
+- claude:broomtrailslegend/l_darkheart
+- claude:broomtrailslegend/l_darkheart_lite
+- claude:broomtrailslegend/l_devil
+- claude:broomtrailslegend/l_devil_lite
+- claude:broomtrailslegend/l_dragon
+- claude:broomtrailslegend/l_dragon_lite
+- claude:broomtrailslegend/l_foxfire
+- claude:broomtrailslegend/l_foxfire_lite
+- claude:broomtrailslegend/l_heart
+- claude:broomtrailslegend/l_heart_lite
+- claude:broomtrailsunique/u_classic
+- claude:broomtrailsunique/u_classic_lite
+- claude:broomtrailsunique/u_crimson
+- claude:broomtrailsunique/u_crimson_lite
+- claude:broomtrailsunique/u_dark
+- claude:broomtrailsunique/u_dark_lite
+- claude:broomtrailsunique/u_emerald
+- claude:broomtrailsunique/u_emerald_lite
+- claude:broomtrailsunique/u_holo
+- claude:broomtrailsunique/u_holo_lite
+- claude:broomtrailsunique/u_sonic
+- claude:broomtrailsunique/u_sonic_lite
+- claude:broomtrailsunique/u_twin
+- claude:broomtrailsunique/u_twin_lite
+- claude:broomtrailswood/galaxy
+- claude:broomtrailswood/galaxy_lite
+- claude:broomtrailswood/leaf_bamboo
+- claude:broomtrailswood/leaf_bamboo_lite
+- claude:broomtrailswood/leaf_birch
+- claude:broomtrailswood/leaf_birch_lite
+- claude:broomtrailswood/leaf_cherry
+- claude:broomtrailswood/leaf_cherry_lite
+- claude:broomtrailswood/leaf_mahogany
+- claude:broomtrailswood/leaf_mahogany_lite
+- claude:broomtrailswood/leaf_oak
+- claude:broomtrailswood/leaf_oak_lite
+- claude:bubblearia/form
+- claude:bubblearia/impact
+- claude:bubblearia/projectile
+- claude:cauldronfill/main
+- claude:chainarrow/hit_chain
+- claude:chainarrow/hit_chain_s
+- claude:chainarrow/shot_chain
+- claude:chainarrow/shot_chain_s
+- claude:charcoalconversion/charcoal_conversion
+- claude:climatecontrol/cast
+- claude:climatecontrol/clear
+- claude:climatecontrol/rain
+- claude:comfortinglight/arrive
+- claude:comfortinglight/gather
+- claude:comfortinglight/protect
+- claude:comfortinglight/release
+- claude:comfortinglight/transfer
+- claude:companionreturn/afterglow
+- claude:companionreturn/arrive
+- claude:companionreturn/depart
+- claude:companionreturn/gather
+- claude:compostreturn/compost_return
+- claude:concretecuring/cure
+- claude:concretecuring/wet_start
+- claude:constellationblessing/constellation_blessing_bless
+- claude:constellationblessing/constellation_blessing_form
+- claude:constellationblessing/constellation_blessing_linger
+- claude:constellationblessing/constellation_blessing_release
+- claude:constellationemissary/dismiss
+- claude:constellationemissary/heal
+- claude:constellationemissary/heal_receive
+- claude:constellationemissary/idle
+- claude:constellationemissary/summon
+- claude:counterweight/block
+- claude:counterweight/ready
+- claude:counterweight/release
+- claude:counterweight/shield
+- claude:counterweight/stun
+- claude:crimsonbreath/breath
+- claude:crimsonbreath/chant
+- claude:crimsonbreath/dragon
+- claude:crimsonbreath/fade
+- claude:crimsonheart/crimsonheart
+- claude:crossbreeze/charge
+- claude:crossbreeze/hold
+- claude:crossbreeze/impact
+- claude:crossbreeze/projectile
+- claude:crossbreeze/summon
+- claude:crossfire/charge
+- claude:crossfire/strike
+- claude:crossfire/summon
+- claude:currentsorting/main
+- claude:dawnritual/afterglow
+- claude:dawnritual/cleanse
+- claude:dawnritual/cleanse_point
+- claude:dawnritual/gather
+- claude:dawnritual/release
+- claude:dawnritual/spread
+- claude:deepdarkdetect/absent
+- claude:deepdarkdetect/found
+- claude:deepdarkdetect/send
+- claude:dewgathering/dew_gathering
+- claude:domainseal/domain_demonic
+- claude:domainseal/domain_demonic_s
+- claude:domainseal/domain_heavenly
+- claude:domainseal/domain_heavenly_s
+- claude:domainseal/domain_rune
+- claude:domainseal/domain_rune_s
+- claude:domainseal/domain_void
+- claude:domainseal/domain_void_s
+- claude:dormantseed/harvest
+- claude:dormantseed/sweep
+- claude:dragonbreath/breath_desert
+- claude:dragonbreath/breath_desert_s
+- claude:dragonbreath/breath_glacial
+- claude:dragonbreath/breath_glacial_s
+- claude:dragonbreath/breath_nether
+- claude:dragonbreath/breath_nether_s
+- claude:dragonbreath/breath_sculk
+- claude:dragonbreath/breath_sculk_s
+- claude:dragontail/tail_desert
+- claude:dragontail/tail_desert_s
+- claude:dragontail/tail_glacial
+- claude:dragontail/tail_glacial_s
+- claude:dragontail/tail_nether
+- claude:dragontail/tail_nether_s
+- claude:dragontail/tail_sculk
+- claude:dragontail/tail_sculk_s
+- claude:dustduster/sweep
+- claude:dyerinse/dye_rinse
+- claude:earth_embrace/flow
+- claude:earth_embrace/restore
+- claude:earthanchor/earth_anchor
+- claude:earthanchor/earth_anchor_begin
+- claude:earthanchor/earth_anchor_end
+- claude:earthanchor/earth_anchor_hit
+- claude:earthelemental/attack
+- claude:earthelemental/dismiss
+- claude:earthelemental/idle
+- claude:earthelemental/impact
+- claude:earthelemental/summon
+- claude:earthelemental/walk
+- claude:earthquake/begin
+- claude:earthquake/end
+- claude:earthquake/sustain
+- claude:earthshaping/hitburst
+- claude:earthshaping/wave
+- claude:earthstomp/stomp_demonic
+- claude:earthstomp/stomp_demonic_s
+- claude:earthstomp/stomp_dreamlight
+- claude:earthstomp/stomp_dreamlight_s
+- claude:earthstomp/stomp_forest
+- claude:earthstomp/stomp_forest_s
+- claude:elementreactions/abyss
+- claude:elementreactions/bind
+- claude:elementreactions/crystal
+- claude:elementreactions/eclipse
+- claude:elementreactions/ember_curse
+- claude:elementreactions/flare
+- claude:elementreactions/flash
+- claude:elementreactions/magma
+- claude:elementreactions/mud
+- claude:elementreactions/rainbow
+- claude:elementreactions/sandstorm
+- claude:elementreactions/shock
+- claude:elementreactions/steam
+- claude:elementreactions/void_gust
+- claude:elementreactions/wildfire
+- claude:emberbolt/impact
+- claude:emberbolt/launch
+- claude:emberbolt/projectile
+- claude:embertrap/armed
+- claude:embertrap/dismiss
+- claude:embertrap/explode
+- claude:embertrap/install
+- claude:eternaliceprison/eternal_ice_prison
+- claude:eternaliceprison/eternal_ice_prison_begin
+- claude:eternaliceprison/eternal_ice_prison_end
+- claude:exorcismflash/burst
+- claude:exorcismflash/fade
+- claude:exorcismflash/gather
+- claude:exorcismflash/hit
+- claude:experienceexchange/exchange_absorb
+- claude:experienceexchange/exchange_convert
+- claude:experienceexchange/exchange_end
+- claude:experienceexchange/exchange_extract
+- claude:explosivewedge/wedge_attach
+- claude:explosivewedge/wedge_explode
+- claude:faintveil/veil_enter
+- claude:faintveil/veil_release
+- claude:fairydust/dust_flower
+- claude:fairydust/dust_flower_s
+- claude:fairydust/dust_lake
+- claude:fairydust/dust_lake_s
+- claude:fairydust/dust_leaf
+- claude:fairydust/dust_leaf_s
+- claude:fairydust/dust_mushroom
+- claude:fairydust/dust_mushroom_s
+- claude:fairyorb/hit_flower
+- claude:fairyorb/hit_flower_s
+- claude:fairyorb/hit_lake
+- claude:fairyorb/hit_lake_s
+- claude:fairyorb/hit_leaf
+- claude:fairyorb/hit_leaf_s
+- claude:fairyorb/hit_mushroom
+- claude:fairyorb/hit_mushroom_s
+- claude:fairyorb/shot_flower
+- claude:fairyorb/shot_flower_s
+- claude:fairyorb/shot_lake
+- claude:fairyorb/shot_lake_s
+- claude:fairyorb/shot_leaf
+- claude:fairyorb/shot_leaf_s
+- claude:fairyorb/shot_mushroom
+- claude:fairyorb/shot_mushroom_s
+- claude:fallingstar/afterglow
+- claude:fallingstar/chant
+- claude:fallingstar/impact
+- claude:fallingstar/mark
+- claude:fallingstar/meteor
+- claude:fallingstar/release
+- claude:fartouch/main
+- claude:featherbarrage/feather_darkflame
+- claude:featherbarrage/feather_darkflame_s
+- claude:featherbarrage/feather_flame
+- claude:featherbarrage/feather_flame_s
+- claude:featherbarrage/feather_light
+- claude:featherbarrage/feather_light_s
+- claude:featherbarrage/feather_thunder
+- claude:featherbarrage/feather_thunder_s
+- claude:featherfall/aura
+- claude:featherrustle/main
+- claude:featherstorm/fstorm_common
+- claude:featherstorm/fstorm_common_s
+- claude:featherstorm/fstorm_crystal
+- claude:featherstorm/fstorm_crystal_s
+- claude:featherstorm/fstorm_fallen
+- claude:featherstorm/fstorm_fallen_s
+- claude:featherstorm/fstorm_royal
+- claude:featherstorm/fstorm_royal_s
+- claude:fireball/impact
+- claude:fireball/projectile
+- claude:firebirdhunt/dissolve
+- claude:firebirdhunt/firebird
+- claude:firebirdhunt/summon
+- claude:firecurtain/begin
+- claude:firecurtain/end
+- claude:firecurtain/sustain
+- claude:fireflymark/firefly_mark_dissolve
+- claude:fireflymark/firefly_mark_follow
+- claude:fireflymark/firefly_mark_summon
+- claude:fishlure/main
+- claude:flamefootprints/stepl
+- claude:flamefootprints/stepr
+- claude:flameforging/forge
+- claude:flamelash/extend
+- claude:flamelash/pull
+- claude:flamelash/retract
+- claude:flamelash/snap
+- claude:flamelash/wrap
+- claude:flamelash/wrapbreak
+- claude:flamesworddance/dismiss1
+- claude:flamesworddance/dismiss2
+- claude:flamesworddance/dismiss3
+- claude:flamesworddance/idle1
+- claude:flamesworddance/idle2
+- claude:flamesworddance/idle3
+- claude:flamesworddance/impact
+- claude:flamesworddance/projectile
+- claude:flamesworddance/summon
+- claude:flawlessmoment/flawless_moment
+- claude:flawlessmoment/flawless_moment_begin
+- claude:flawlessmoment/flawless_moment_end
+- claude:flawlessmoment/flawless_moment_hit
+- claude:flight/main
+- claude:flintsorting/impact
+- claude:flintsorting/launch
+- claude:flintsorting/miss
+- claude:flintsorting/projectile
+- claude:flintsorting/ready1
+- claude:flintsorting/ready2
+- claude:flintsorting/ready3
+- claude:flintsorting/ready4
+- claude:flintsorting/ready5
+- claude:forestthrone/begin
+- claude:forestthrone/end
+- claude:forestthrone/strike
+- claude:forestthrone/sustain
+- claude:frostcross/cross
+- claude:frostcross/cross_s
+- claude:frostfield/frost_field
+- claude:frostfield/frost_field_s
+- claude:frostlaser/laser
+- claude:frostlaser/laser_obsidian
+- claude:frostrupture/rupture
+- claude:frostrupture/warn
+- claude:galedash/dash
+- claude:galewings/gale
+- claude:galewings/gale_s
+- claude:glacialshards/hit_glacial
+- claude:glacialshards/hit_glacial_s
+- claude:glacialshards/shot_glacial
+- claude:glacialshards/shot_glacial_s
+- claude:glassfiring/glass_firing
+- claude:glazecoating/glaze_coating
+- claude:glazecoating/glaze_coating_begin
+- claude:glazecoating/glaze_coating_end
+- claude:golemboulder/hit_arcane
+- claude:golemboulder/hit_arcane_s
+- claude:golemboulder/hit_corrupted
+- claude:golemboulder/hit_corrupted_s
+- claude:golemboulder/hit_magma
+- claude:golemboulder/hit_magma_s
+- claude:golemboulder/hit_royal
+- claude:golemboulder/hit_royal_s
+- claude:golemboulder/shot_arcane
+- claude:golemboulder/shot_arcane_s
+- claude:golemboulder/shot_corrupted
+- claude:golemboulder/shot_corrupted_s
+- claude:golemboulder/shot_magma
+- claude:golemboulder/shot_magma_s
+- claude:golemboulder/shot_royal
+- claude:golemboulder/shot_royal_s
+- claude:grasssprouting/sprout
+- claude:gravityslam/gravity_arcane
+- claude:gravityslam/gravity_arcane_s
+- claude:gravityslam/gravity_corrupted
+- claude:gravityslam/gravity_corrupted_s
+- claude:gravityslam/gravity_magma
+- claude:gravityslam/gravity_magma_s
+- claude:gravityslam/gravity_royal
+- claude:gravityslam/gravity_royal_s
+- claude:guardianoath/fade
+- claude:guardianoath/form
+- claude:guardianoath/hold
+- claude:guardianoath/relay
+- claude:guidingfletching/guiding_fletching
+- claude:guidingfletching/guiding_fletching_begin
+- claude:guidingfletching/guiding_fletching_end
+- claude:guidingfletching/impact
+- claude:guidingfletching/projectile
+- claude:guidingstar/fade
+- claude:guidingstar/form
+- claude:guidingstar/hold
+- claude:guidingstar/save
+- claude:harvestwind/main
+- claude:healingrain/begin
+- claude:healingrain/end
+- claude:healingrain/heal
+- claude:healingrain/sustain
+- claude:hearthtouch/hearth
+- claude:heatrecovery/heat_recovery
+- claude:herbpotion/hit
+- claude:herbpotion/hit_s
+- claude:herbpotion/shot
+- claude:herbpotion/shot_s
+- claude:herbwhip/whip
+- claude:herbwhip/whip_s
+- claude:hippoclaw/claw_common
+- claude:hippoclaw/claw_common_s
+- claude:hippoclaw/claw_crystal
+- claude:hippoclaw/claw_crystal_s
+- claude:hippoclaw/claw_fallen
+- claude:hippoclaw/claw_fallen_s
+- claude:hippoclaw/claw_royal
+- claude:hippoclaw/claw_royal_s
+- claude:holytaming/bless
+- claude:holytaming/channel
+- claude:holytaming/connect
+- claude:holytaming/fizzle
+- claude:holytaming/open
+- claude:holytaming/release
+- claude:holytaming/snap
+- claude:holytaming/tether
+- claude:icebridge/icebridge
+- claude:icebridge/icebridge_begin
+- claude:icebridge/icebridge_end
+- claude:icebridge/step
+- claude:incandescentbreak/beam
+- claude:incandescentbreak/impact
+- claude:incandescentbreak/impactshield
+- claude:ironcarapace/iron_carapace
+- claude:ironcarapace/iron_carapace_begin
+- claude:ironcarapace/iron_carapace_end
+- claude:ironcarapace/iron_carapace_hit
+- claude:kilnbreath/breathe
+- claude:kilnbreath/diedown
+- claude:kilnbreath/ignite
+- claude:kitsunecharm/charm_demonic
+- claude:kitsunecharm/charm_demonic_s
+- claude:kitsunecharm/charm_inferno
+- claude:kitsunecharm/charm_inferno_s
+- claude:kitsunecharm/charm_normal
+- claude:kitsunecharm/charm_normal_s
+- claude:kitsunefox/hit_demonic
+- claude:kitsunefox/hit_demonic_s
+- claude:kitsunefox/hit_inferno
+- claude:kitsunefox/hit_inferno_s
+- claude:kitsunefox/hit_normal
+- claude:kitsunefox/hit_normal_s
+- claude:kitsunefox/shot_demonic
+- claude:kitsunefox/shot_demonic_s
+- claude:kitsunefox/shot_inferno
+- claude:kitsunefox/shot_inferno_s
+- claude:kitsunefox/shot_normal
+- claude:kitsunefox/shot_normal_s
+- claude:lavasuture/suture
+- claude:leafcleanup/stream
+- claude:lifedistribution/link
+- claude:lifedistribution/range
+- claude:lifedistribution/receive
+- claude:lightleap/main
+- claude:lightmark/cast
+- claude:lightmark/fizzle
+- claude:lightmark/impact
+- claude:lightmark/projectile
+- claude:lightningneedle/strike
+- claude:littlegiant/little_giant
+- claude:littlegiant/little_giant_grow
+- claude:littlegiant/little_giant_return
+- claude:livingfurnace/furnace
+- claude:luminousarchive/attempt
+- claude:luminousarchive/attemptlock
+- claude:luminousarchive/fail
+- claude:luminousarchive/success
+- claude:luminousarchive/vanish
+- claude:luminouscopy/arrive
+- claude:luminouscopy/gather_begin
+- claude:luminouscopy/gather_loop
+- claude:luminouscopy/transfer
+- claude:luminoushandover/call
+- claude:luminoushandover/fade
+- claude:luminoushandover/notice
+- claude:manaconduit/absorb
+- claude:manaconduit/expire
+- claude:manaconduit/idle
+- claude:manaconduit/pickup
+- claude:manaconduit/release_flow
+- claude:manaconduit/summon
+- claude:manadeposit/complete
+- claude:manadeposit/condense
+- claude:manadeposit/extract
+- claude:manadeposit/finish
+- claude:manticoreclaw/claw_aether
+- claude:manticoreclaw/claw_aether_s
+- claude:manticoreclaw/claw_dusk
+- claude:manticoreclaw/claw_dusk_s
+- claude:manticoreclaw/claw_soul
+- claude:manticoreclaw/claw_soul_s
+- claude:manticoreclaw/claw_venom
+- claude:manticoreclaw/claw_venom_s
+- claude:manticoreroar/roar_aether
+- claude:manticoreroar/roar_aether_s
+- claude:manticoreroar/roar_dusk
+- claude:manticoreroar/roar_dusk_s
+- claude:manticoreroar/roar_soul
+- claude:manticoreroar/roar_soul_s
+- claude:manticoreroar/roar_venom
+- claude:manticoreroar/roar_venom_s
+- claude:materialexchange/bind_begin
+- claude:materialexchange/bind_hold
+- claude:materialexchange/bind_release
+- claude:mercifularrow/dissolve
+- claude:mercifularrow/form
+- claude:mercifularrow/heal
+- claude:mercifularrow/launch
+- claude:mercifularrow/projectile
+- claude:mercifularrow/unravel
+- claude:minersrhythm/miners_rhythm
+- claude:minersrhythm/miners_rhythm_begin
+- claude:minersrhythm/miners_rhythm_hit
+- claude:minorheal/minor_heal_fade
+- claude:minorheal/minor_heal_gather
+- claude:minorheal/minor_heal_pulse
+- claude:moistfarmland/moisten
+- claude:mountainback/contact
+- claude:mountainback/form
+- claude:mountainback/roll
+- claude:mountainback/vanish
+- claude:mountainback/wallbreak
+- claude:nightsight/night_sight_cast
+- claude:ogrequake/quake_axe
+- claude:ogrequake/quake_axe_s
+- claude:ogrequake/quake_club
+- claude:ogrequake/quake_club_s
+- claude:ogrequake/quake_hammer
+- claude:ogrequake/quake_hammer_s
+- claude:ogreswing/swing_axe
+- claude:ogreswing/swing_axe_s
+- claude:ogreswing/swing_club
+- claude:ogreswing/swing_club_s
+- claude:ogreswing/swing_hammer
+- claude:ogreswing/swing_hammer_s
+- claude:orewhisper/marker
+- claude:orewhisper/pulse
+- claude:palmfireworks/pop
+- claude:palmfireworks/rocket
+- claude:pebbletoss/impact
+- claude:pebbletoss/projectile
+- claude:pebbletoss/summon
+- claude:pegasuscrescent/moon
+- claude:pegasuscrescent/moon_s
+- claude:phantomdrain/drain_ender
+- claude:phantomdrain/drain_ender_s
+- claude:phantomdrain/drain_ghost
+- claude:phantomdrain/drain_ghost_s
+- claude:phantomscythe/reap_ender
+- claude:phantomscythe/reap_ender_s
+- claude:phantomscythe/reap_ghost
+- claude:phantomscythe/reap_ghost_s
+- claude:phoenixfeather/hit_darkflame
+- claude:phoenixfeather/hit_darkflame_s
+- claude:phoenixfeather/hit_flame
+- claude:phoenixfeather/hit_flame_s
+- claude:phoenixfeather/hit_light
+- claude:phoenixfeather/hit_light_s
+- claude:phoenixfeather/hit_thunder
+- claude:phoenixfeather/hit_thunder_s
+- claude:phoenixfeather/shot_darkflame
+- claude:phoenixfeather/shot_darkflame_s
+- claude:phoenixfeather/shot_flame
+- claude:phoenixfeather/shot_flame_s
+- claude:phoenixfeather/shot_light
+- claude:phoenixfeather/shot_light_s
+- claude:phoenixfeather/shot_thunder
+- claude:phoenixfeather/shot_thunder_s
+- claude:phoenixoath/cast
+- claude:phoenixoath/guard
+- claude:pollenmatchmaking/bloom
+- claude:pollenmatchmaking/connect
+- claude:pollenmatchmaking/hand
+- claude:pollenmatchmaking/send
+- claude:potionmist/potion_mist
+- claude:potionmist/potion_mist_ally
+- claude:potionmist/potion_mist_begin
+- claude:potionmist/potion_mist_end
+- claude:potionmist/potion_mist_stream
+- claude:pressurehammer/hammer
+- claude:pressurelance/dissolve
+- claude:pressurelance/pierce
+- claude:pressurelance/projectile
+- claude:pressurelance/splash
+- claude:pressurelance/summon
+- claude:pressurepress/gather
+- claude:pressurepress/press
+- claude:pressurepress/release
+- claude:pressurerupture/main
+- claude:primordialstone/compress
+- claude:primordialstone/dissolve
+- claude:primordialstone/gather
+- claude:primordialstone/idle
+- claude:primordialstone/impact
+- claude:primordialstone/launch
+- claude:primordialstone/projectile
+- claude:protectiveward/absorb
+- claude:protectiveward/ripple
+- claude:protectiveward/shield
+- claude:protectiveward/shield_end
+- claude:protectiveward/shield_gain
+- claude:protectiveward/ward
+- claude:protectiveward/ward_end
+- claude:protectiveward/ward_form
+- claude:purifyingwave/purify_target
+- claude:purifyingwave/wave
+- claude:quench/quench
+- claude:quietmooring/quiet_mooring
+- claude:rekindle/main
+- claude:rememberingfield/flow
+- claude:rememberingfield/grow
+- claude:resonantarrow/idle
+- claude:resonantarrow/impact
+- claude:resonantarrow/projectile
+- claude:resonantarrow/summon
+- claude:returningblade/blade
+- claude:returningblade/catch
+- claude:returningblade/launch
+- claude:returningwind/reflect
+- claude:returningwind/ward
+- claude:rippleguard/block
+- claude:rippleguard/guard
+- claude:rootbind/roots
+- claude:rootbind/roots_s
+- claude:ruinarrow/hit_arrow
+- claude:ruinarrow/hit_arrow_s
+- claude:ruinarrow/shot_arrow
+- claude:ruinarrow/shot_arrow_s
+- claude:ruinspin/spin_spear
+- claude:ruinspin/spin_spear_s
+- claude:ruinstrike/strike_arrow
+- claude:ruinstrike/strike_arrow_s
+- claude:ruinstrike/strike_slash
+- claude:ruinstrike/strike_slash_s
+- claude:ruinstrike/strike_spear
+- claude:ruinstrike/strike_spear_s
+- claude:ruintriple/tri_slash
+- claude:ruintriple/tri_slash_s
+- claude:saberclaw/claw_arctic
+- claude:saberclaw/claw_arctic_s
+- claude:saberclaw/claw_midnight
+- claude:saberclaw/claw_midnight_s
+- claude:saberclaw/claw_savanna
+- claude:saberclaw/claw_savanna_s
+- claude:sabertoothpounce/pounce_arctic
+- claude:sabertoothpounce/pounce_arctic_s
+- claude:sabertoothpounce/pounce_midnight
+- claude:sabertoothpounce/pounce_midnight_s
+- claude:sabertoothpounce/pounce_savanna
+- claude:sabertoothpounce/pounce_savanna_s
+- claude:sealcharge/charge
+- claude:sealcharge/charge_s
+- claude:sealcircle/seal
+- claude:sealcircle/seal_ruby
+- claude:sealshield/shield
+- claude:sealshield/shield_s
+- claude:sealtalisman/hit_seal
+- claude:sealtalisman/hit_seal_s
+- claude:sealtalisman/shot_seal
+- claude:sealtalisman/shot_seal_s
+- claude:seedrow/gather
+- claude:seedrow/land
+- claude:seedrow/projectile
+- claude:seedrow/seed1
+- claude:seedrow/seed2
+- claude:seedrow/seed3
+- claude:seedrow/seed4
+- claude:seedrow/seed5
+- claude:seedrow/seed6
+- claude:serpentbreath/sbreath_jade
+- claude:serpentbreath/sbreath_jade_s
+- claude:serpentbreath/sbreath_magma
+- claude:serpentbreath/sbreath_magma_s
+- claude:serpentbreath/sbreath_solar
+- claude:serpentbreath/sbreath_solar_s
+- claude:serpentbreath/sbreath_spectral
+- claude:serpentbreath/sbreath_spectral_s
+- claude:serpentcoil/coil_jade
+- claude:serpentcoil/coil_jade_s
+- claude:serpentcoil/coil_magma
+- claude:serpentcoil/coil_magma_s
+- claude:serpentcoil/coil_solar
+- claude:serpentcoil/coil_solar_s
+- claude:serpentcoil/coil_spectral
+- claude:serpentcoil/coil_spectral_s
+- claude:shadowbind/shadow_bind
+- claude:shadowbind/shadow_bind_begin
+- claude:shadowbind/shadow_bind_end
+- claude:sharingtable/deliver
+- claude:sharingtable/gather
+- claude:sharingtable/release
+- claude:sharingtable/satisfied
+- claude:shieldbash/bash_bash
+- claude:shieldbash/bash_bash_s
+- claude:skelorb/hit
+- claude:skelorb/hit_s
+- claude:skelorb/shot
+- claude:skelorb/shot_s
+- claude:smokebomb/smoke
+- claude:smokebomb/smoke_s
+- claude:solarjudgment/ground_final
+- claude:solarjudgment/ground_hit
+- claude:solarjudgment/ground_hold
+- claude:solarjudgment/laser_end
+- claude:solarjudgment/laser_final
+- claude:solarjudgment/laser_fire
+- claude:solarjudgment/laser_hold
+- claude:solarjudgment/link_break
+- claude:solarjudgment/star_link
+- claude:solarjudgment/struct_break
+- claude:solarjudgment/struct_cancel
+- claude:solarjudgment/struct_form
+- claude:solarjudgment/struct_idle
+- claude:specialkitsune/in_demonic
+- claude:specialkitsune/in_demonic_s
+- claude:specialkitsune/in_inferno
+- claude:specialkitsune/in_inferno_s
+- claude:specialkitsune/in_normal
+- claude:specialkitsune/in_normal_s
+- claude:specialkitsune/out_demonic
+- claude:specialkitsune/out_demonic_s
+- claude:specialkitsune/out_inferno
+- claude:specialkitsune/out_inferno_s
+- claude:specialkitsune/out_normal
+- claude:specialkitsune/out_normal_s
+- claude:specialphantom/in_ender
+- claude:specialphantom/in_ender_s
+- claude:specialphantom/in_ghost
+- claude:specialphantom/in_ghost_s
+- claude:specialphantom/out_ender
+- claude:specialphantom/out_ender_s
+- claude:specialphantom/out_ghost
+- claude:specialphantom/out_ghost_s
+- claude:specialseal/in
+- claude:specialseal/in_s
+- claude:specialseal/mark
+- claude:specialseal/mark_s
+- claude:specialserpent/in_jade
+- claude:specialserpent/in_jade_s
+- claude:specialserpent/in_magma
+- claude:specialserpent/in_magma_s
+- claude:specialserpent/in_solar
+- claude:specialserpent/in_solar_s
+- claude:specialserpent/in_spectral
+- claude:specialserpent/in_spectral_s
+- claude:specialserpent/mark_jade
+- claude:specialserpent/mark_jade_s
+- claude:specialserpent/mark_magma
+- claude:specialserpent/mark_magma_s
+- claude:specialserpent/mark_solar
+- claude:specialserpent/mark_solar_s
+- claude:specialserpent/mark_spectral
+- claude:specialserpent/mark_spectral_s
+- claude:specialskelmage/summon
+- claude:specialskelmage/summon_s
+- claude:specialwolfhawk/summon_dire
+- claude:specialwolfhawk/summon_dire_s
+- claude:specialwolfhawk/summon_fallen
+- claude:specialwolfhawk/summon_fallen_s
+- claude:specialwolfhawk/summon_fullmoon
+- claude:specialwolfhawk/summon_fullmoon_s
+- claude:specialwolfhawk/summon_stormcloud
+- claude:specialwolfhawk/summon_stormcloud_s
+- claude:specialwyvern/in_ender
+- claude:specialwyvern/in_ender_s
+- claude:specialwyvern/in_green
+- claude:specialwyvern/in_green_s
+- claude:specialwyvern/in_inferno
+- claude:specialwyvern/in_inferno_s
+- claude:specialwyvern/in_undead
+- claude:specialwyvern/in_undead_s
+- claude:specialwyvern/mark_ender
+- claude:specialwyvern/mark_ender_s
+- claude:specialwyvern/mark_green
+- claude:specialwyvern/mark_green_s
+- claude:specialwyvern/mark_inferno
+- claude:specialwyvern/mark_inferno_s
+- claude:specialwyvern/mark_undead
+- claude:specialwyvern/mark_undead_s
+- claude:spongedrying/dry
+- claude:springground/bounce
+- claude:springground/crumble
+- claude:springground/idle
+- claude:springground/launch
+- claude:springground/padrest
+- claude:springground/place
+- claude:springground/press
+- claude:springunseal/spring_unseal
+- claude:staghorn/hit_demonic
+- claude:staghorn/hit_demonic_s
+- claude:staghorn/hit_heavenly
+- claude:staghorn/hit_heavenly_s
+- claude:staghorn/hit_rune
+- claude:staghorn/hit_rune_s
+- claude:staghorn/hit_void
+- claude:staghorn/hit_void_s
+- claude:staghorn/shot_demonic
+- claude:staghorn/shot_demonic_s
+- claude:staghorn/shot_heavenly
+- claude:staghorn/shot_heavenly_s
+- claude:staghorn/shot_rune
+- claude:staghorn/shot_rune_s
+- claude:staghorn/shot_void
+- claude:staghorn/shot_void_s
+- claude:starlightreprise/absorb
+- claude:starlightreprise/condense
+- claude:starlightreprise/deploy
+- claude:starlightreprise/end
+- claude:starlightreprise/fizzle
+- claude:starlightreprise/ignite
+- claude:starlightsurvey/begin
+- claude:starlightsurvey/end
+- claude:starlightsurvey/sustain
+- claude:stonewall/begin
+- claude:stonewall/end
+- claude:stonewall/hit
+- claude:stonewall/sustain
+- claude:stormcommand/cast
+- claude:stormcommand/storm
+- claude:stormcrown/idle1
+- claude:stormcrown/idle2
+- claude:stormcrown/idle3
+- claude:stormcrown/impacto
+- claude:stormcrown/impactt
+- claude:stormcrown/impactv
+- claude:stormcrown/projo
+- claude:stormcrown/projt
+- claude:stormcrown/projv
+- claude:stormcrown/summon
+- claude:summonsletter/cast
+- claude:summonsletter/deathcat
+- claude:summonsletter/deathwolf
+- claude:summonsletter/summoncat
+- claude:summonsletter/summonwolf
+- claude:summonsletter/vanishcat
+- claude:summonsletter/vanishwolf
+- claude:sundrying/sun_drying_fade
+- claude:sundrying/sun_drying_finish
+- claude:sundrying/sun_drying_gather
+- claude:sundrying/sun_drying_purify
+- claude:thornarmor/thorn_armor
+- claude:thornarmor/thorn_armor_begin
+- claude:thornarmor/thorn_armor_end
+- claude:thornarmor/thorn_armor_hit
+- claude:thornseeds/cast
+- claude:thornseeds/charge1
+- claude:thornseeds/charge2
+- claude:thornseeds/charge3
+- claude:thornseeds/charge4
+- claude:thornseeds/charge5
+- claude:thornseeds/impact
+- claude:thornseeds/launch
+- claude:thornseeds/miss
+- claude:thornseeds/projectile
+- claude:tidalwave/collapse
+- claude:tidalwave/splash
+- claude:tidalwave/wave
+- claude:tidestride/tide_stride
+- claude:trajectoryacceleration/idle
+- claude:trajectoryacceleration/impact
+- claude:trajectoryacceleration/projectile
+- claude:trajectoryacceleration/summon
+- claude:truesight/true_sight_awaken
+- claude:truesight/true_sight_clue_edge
+- claude:truesight/true_sight_clue_fade
+- claude:truesight/true_sight_clue_hold
+- claude:truesight/true_sight_clue_reveal
+- claude:truesight/true_sight_enemy_fade
+- claude:truesight/true_sight_enemy_hold
+- claude:truesight/true_sight_enemy_reveal
+- claude:truesight/true_sight_eye
+- claude:truesight/true_sight_release
+- claude:tuskerupper/upper_demonic
+- claude:tuskerupper/upper_demonic_s
+- claude:tuskerupper/upper_dreamlight
+- claude:tuskerupper/upper_dreamlight_s
+- claude:tuskerupper/upper_forest
+- claude:tuskerupper/upper_forest_s
+- claude:unicornray/ray
+- claude:unicornray/ray_s
+- claude:unicornstar/star
+- claude:unicornstar/star_s
+- claude:vacuumcleave/impact
+- claude:vacuumcleave/projectile
+- claude:veinfracture/fracture
+- claude:veinfracture/mark
+- claude:verdanttouch/verdant_touch
+- claude:vineladder/begin
+- claude:vineladder/begin_2
+- claude:vineladder/end
+- claude:vineladder/end_2
+- claude:vineladder/sustain
+- claude:wardenarts/warden_bash
+- claude:wardenarts/warden_bash_s
+- claude:wardenarts/warden_chain
+- claude:wardenarts/warden_chain_s
+- claude:washletters/wash
+- claude:waterbolt/cast
+- claude:waterbolt/impact
+- claude:waterbolt/projectile
+- claude:waterbreath/water_breath
+- claude:waterelemental/attack
+- claude:waterelemental/dismiss
+- claude:waterelemental/idle
+- claude:waterelemental/impact
+- claude:waterelemental/projectile
+- claude:waterelemental/summon
+- claude:waterspout/begin
+- claude:waterspout/end
+- claude:waterspout/sustain
+- claude:waterwheelshield/burst
+- claude:waterwheelshield/deflect
+- claude:waterwheelshield/form
+- claude:waterwheelshield/subside
+- claude:waterwheelshield/wheel
+- claude:weatheringtouch/touch
+- claude:weatheringtouch/weatherbrush
+- claude:weatheringtouch/weathercrack
+- claude:weatheringtouch/weathermoss
+- claude:weightlesszone/begin
+- claude:weightlesszone/end
+- claude:weightlesszone/sustain
+- claude:wicktrimming/main
+- claude:windbasket/main
+- claude:winddecoy/begin
+- claude:winddecoy/end
+- claude:winddecoy/sustain
+- claude:windgrooming/dissolve
+- claude:windgrooming/scissors
+- claude:windmessage/main
+- claude:windpush/impact
+- claude:windpush/projectile
+- claude:windslash/main
+- claude:wolfhawkblade/hit_dire
+- claude:wolfhawkblade/hit_dire_s
+- claude:wolfhawkblade/hit_fallen
+- claude:wolfhawkblade/hit_fallen_s
+- claude:wolfhawkblade/hit_fullmoon
+- claude:wolfhawkblade/hit_fullmoon_s
+- claude:wolfhawkblade/hit_stormcloud
+- claude:wolfhawkblade/hit_stormcloud_s
+- claude:wolfhawkblade/shot_dire
+- claude:wolfhawkblade/shot_dire_s
+- claude:wolfhawkblade/shot_fallen
+- claude:wolfhawkblade/shot_fallen_s
+- claude:wolfhawkblade/shot_fullmoon
+- claude:wolfhawkblade/shot_fullmoon_s
+- claude:wolfhawkblade/shot_stormcloud
+- claude:wolfhawkblade/shot_stormcloud_s
+- claude:wolfhawkglide/glide_dire
+- claude:wolfhawkglide/glide_dire_s
+- claude:wolfhawkglide/glide_fallen
+- claude:wolfhawkglide/glide_fallen_s
+- claude:wolfhawkglide/glide_fullmoon
+- claude:wolfhawkglide/glide_fullmoon_s
+- claude:wolfhawkglide/glide_stormcloud
+- claude:wolfhawkglide/glide_stormcloud_s
+- claude:wyvernspike/hit_ender
+- claude:wyvernspike/hit_ender_s
+- claude:wyvernspike/hit_green
+- claude:wyvernspike/hit_green_s
+- claude:wyvernspike/hit_inferno
+- claude:wyvernspike/hit_inferno_s
+- claude:wyvernspike/hit_undead
+- claude:wyvernspike/hit_undead_s
+- claude:wyvernspike/shot_ender
+- claude:wyvernspike/shot_ender_s
+- claude:wyvernspike/shot_green
+- claude:wyvernspike/shot_green_s
+- claude:wyvernspike/shot_inferno
+- claude:wyvernspike/shot_inferno_s
+- claude:wyvernspike/shot_undead
+- claude:wyvernspike/shot_undead_s
+- claude:wyvernspikes/spikes_ender
+- claude:wyvernspikes/spikes_ender_s
+- claude:wyvernspikes/spikes_green
+- claude:wyvernspikes/spikes_green_s
+- claude:wyvernspikes/spikes_inferno
+- claude:wyvernspikes/spikes_inferno_s
+- claude:wyvernspikes/spikes_undead
+- claude:wyvernspikes/spikes_undead_s
+mobs:
+  CA_Wild_sabertooth_arctic:
+    model: ca_sabertooth_arctic
+    animations:
+    - ca_attack
+    - ca_hurt
+    - idle
+    - pounce
+    - run
+    - walk
+    skills:
+    - CHA_MOB_pounce_sabertooth_arctic
+    - CHA_MOB_triple_claw_sabertooth_arctic
+  CA_Wild_sabertooth_arctic_shiny:
+    model: ca_sabertooth_arctic_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - idle
+    - pounce
+    - run
+    - walk
+    skills:
+    - CHA_MOB_pounce_sabertooth_arctic_shiny
+    - CHA_MOB_triple_claw_sabertooth_arctic_shiny
+  CA_Wild_sabertooth_midnight:
+    model: ca_sabertooth_midnight
+    animations:
+    - ca_attack
+    - ca_hurt
+    - idle
+    - pounce
+    - run
+    - walk
+    skills:
+    - CHA_MOB_pounce_sabertooth_midnight
+    - CHA_MOB_triple_claw_sabertooth_midnight
+  CA_Wild_sabertooth_midnight_shiny:
+    model: ca_sabertooth_midnight_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - idle
+    - pounce
+    - run
+    - walk
+    skills:
+    - CHA_MOB_pounce_sabertooth_midnight_shiny
+    - CHA_MOB_triple_claw_sabertooth_midnight_shiny
+  CA_Wild_sabertooth_savanna:
+    model: ca_sabertooth_savanna
+    animations:
+    - ca_attack
+    - ca_hurt
+    - idle
+    - pounce
+    - run
+    - walk
+    skills:
+    - CHA_MOB_pounce_sabertooth_savanna
+    - CHA_MOB_triple_claw_sabertooth_savanna
+  CA_Wild_sabertooth_savanna_shiny:
+    model: ca_sabertooth_savanna_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - idle
+    - pounce
+    - run
+    - walk
+    skills:
+    - CHA_MOB_pounce_sabertooth_savanna_shiny
+    - CHA_MOB_triple_claw_sabertooth_savanna_shiny
+  CA_Wild_golem_arcane:
+    model: ca_golem_arcane
+    animations:
+    - ca_attack
+    - ca_hurt
+    - gravity_slam
+    - idle
+    - run
+    - walk
+    skills:
+    - CHA_MOB_gravity_slam_golem_arcane
+    - CHA_MOB_rune_boulder_golem_arcane
+  CA_Wild_golem_arcane_shiny:
+    model: ca_golem_arcane_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - gravity_slam
+    - idle
+    - run
+    - walk
+    skills:
+    - CHA_MOB_gravity_slam_golem_arcane_shiny
+    - CHA_MOB_rune_boulder_golem_arcane_shiny
+  CA_Wild_golem_corrupted:
+    model: ca_golem_corrupted
+    animations:
+    - ca_attack
+    - ca_hurt
+    - gravity_slam
+    - idle
+    - run
+    - walk
+    skills:
+    - CHA_MOB_gravity_slam_golem_corrupted
+    - CHA_MOB_rune_boulder_golem_corrupted
+  CA_Wild_golem_corrupted_shiny:
+    model: ca_golem_corrupted_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - gravity_slam
+    - idle
+    - run
+    - walk
+    skills:
+    - CHA_MOB_gravity_slam_golem_corrupted_shiny
+    - CHA_MOB_rune_boulder_golem_corrupted_shiny
+  CA_Wild_golem_magma:
+    model: ca_golem_magma
+    animations:
+    - ca_attack
+    - ca_hurt
+    - gravity_slam
+    - idle
+    - run
+    - walk
+    skills:
+    - CHA_MOB_gravity_slam_golem_magma
+    - CHA_MOB_rune_boulder_golem_magma
+  CA_Wild_golem_magma_shiny:
+    model: ca_golem_magma_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - gravity_slam
+    - idle
+    - run
+    - walk
+    skills:
+    - CHA_MOB_gravity_slam_golem_magma_shiny
+    - CHA_MOB_rune_boulder_golem_magma_shiny
+  CA_Wild_golem_royal:
+    model: ca_golem_royal
+    animations:
+    - ca_attack
+    - ca_hurt
+    - gravity_slam
+    - idle
+    - run
+    - walk
+    skills:
+    - CHA_MOB_gravity_slam_golem_royal
+    - CHA_MOB_rune_boulder_golem_royal
+  CA_Wild_golem_royal_shiny:
+    model: ca_golem_royal_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - gravity_slam
+    - idle
+    - run
+    - walk
+    skills:
+    - CHA_MOB_gravity_slam_golem_royal_shiny
+    - CHA_MOB_rune_boulder_golem_royal_shiny
+  CA_Wild_mf_warden_mage:
+    model: ca_mf_warden_mage
+    animations:
+    - attack
+    - ca_hurt
+    - death
+    - idle
+    - seal_cast
+    - tentacle
+    - walk
+    skills:
+    - CHA_MOB_seal_circle
+    - CHA_MOB_seal_talismans_mf_warden_mage
+    - CHA_MOB_seal_pull_mf_warden_mage
+  CA_Wild_mf_warden_mage_shiny:
+    model: ca_mf_warden_mage_s
+    animations:
+    - attack
+    - ca_hurt
+    - death
+    - idle
+    - seal_cast
+    - tentacle
+    - walk
+    skills:
+    - CHA_MOB_seal_circle_shiny
+    - CHA_MOB_seal_talismans_mf_warden_mage_shiny
+    - CHA_MOB_seal_pull_mf_warden_mage_shiny
+  CA_Wild_glacialcore:
+    model: ca_glacialcore
+    animations:
+    - ca_hurt
+    - death
+    - frost_laser
+    - idle
+    - skill1
+    - skill2
+    - skill3
+    - skill4
+    - skill5
+    - skill6
+    - spawn
+    - walk
+    skills:
+    - CHA_MOB_frost_laser
+    - CHA_MOB_ice_shards_glacialcore
+  CA_Wild_glacialcore_shiny:
+    model: ca_glacialcore_s
+    animations:
+    - ca_hurt
+    - death
+    - frost_laser
+    - idle
+    - skill1
+    - skill2
+    - skill3
+    - skill4
+    - skill5
+    - skill6
+    - spawn
+    - walk
+    skills:
+    - CHA_MOB_frost_laser_shiny
+    - CHA_MOB_ice_shards_glacialcore_shiny
+  CA_Wild_ice_knight:
+    model: ca_ice_knight
+    animations:
+    - ca_hurt
+    - death
+    - frost_field
+    - idle
+    - slash
+    - walk
+    skills:
+    - CHA_MOB_frost_field_ice_knight
+    - CHA_MOB_frost_cross_ice_knight
+  CA_Wild_ice_knight_shiny:
+    model: ca_ice_knight_s
+    animations:
+    - ca_hurt
+    - death
+    - frost_field
+    - idle
+    - slash
+    - walk
+    skills:
+    - CHA_MOB_frost_field_ice_knight_shiny
+    - CHA_MOB_frost_cross_ice_knight_shiny
+  CA_Wild_lostasset_mob3_herbthief:
+    model: ca_lostasset_mob3_herbthief
+    animations:
+    - attack
+    - ca_hurt
+    - death
+    - idle
+    - smoke_bomb
+    - spawn
+    - walk
+    skills:
+    - CHA_MOB_smoke_bomb_lostasset_mob3_herbthief
+    - CHA_MOB_poison_flask_lostasset_mob3_herbthief
+  CA_Wild_lostasset_mob3_herbthief_shiny:
+    model: ca_lostasset_mob3_herbthief_s
+    animations:
+    - attack
+    - ca_hurt
+    - death
+    - idle
+    - smoke_bomb
+    - spawn
+    - walk
+    skills:
+    - CHA_MOB_smoke_bomb_lostasset_mob3_herbthief_shiny
+    - CHA_MOB_poison_flask_lostasset_mob3_herbthief_shiny
+  CA_Wild_lostasset_mob3_herbgolem:
+    model: ca_lostasset_mob3_herbgolem
+    animations:
+    - attack
+    - ca_hurt
+    - death
+    - idle
+    - pattern1
+    - pattern2
+    - root_bind
+    - spawn
+    - walk
+    skills:
+    - CHA_MOB_root_bind_lostasset_mob3_herbgolem
+    - CHA_MOB_vine_whip_lostasset_mob3_herbgolem
+  CA_Wild_lostasset_mob3_herbgolem_shiny:
+    model: ca_lostasset_mob3_herbgolem_s
+    animations:
+    - attack
+    - ca_hurt
+    - death
+    - idle
+    - pattern1
+    - pattern2
+    - root_bind
+    - spawn
+    - walk
+    skills:
+    - CHA_MOB_root_bind_lostasset_mob3_herbgolem_shiny
+    - CHA_MOB_vine_whip_lostasset_mob3_herbgolem_shiny
+  CA_Wild_stag_heavenly:
+    model: ca_stag_heavenly
+    animations:
+    - ca_attack
+    - ca_hurt
+    - domain_stomp
+    - idle
+    - run
+    - walk
+    skills:
+    - CHA_MOB_domain_seal_stag_heavenly
+    - CHA_MOB_light_horns_stag_heavenly
+  CA_Wild_stag_heavenly_shiny:
+    model: ca_stag_heavenly_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - domain_stomp
+    - idle
+    - run
+    - walk
+    skills:
+    - CHA_MOB_domain_seal_stag_heavenly_shiny
+    - CHA_MOB_light_horns_stag_heavenly_shiny
+  CA_Wild_stag_demonic:
+    model: ca_stag_demonic
+    animations:
+    - ca_attack
+    - ca_hurt
+    - domain_stomp
+    - idle
+    - run
+    - walk
+    skills:
+    - CHA_MOB_domain_seal_stag_demonic
+    - CHA_MOB_light_horns_stag_demonic
+  CA_Wild_stag_demonic_shiny:
+    model: ca_stag_demonic_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - domain_stomp
+    - idle
+    - run
+    - walk
+    skills:
+    - CHA_MOB_domain_seal_stag_demonic_shiny
+    - CHA_MOB_light_horns_stag_demonic_shiny
+  CA_Wild_stag_rune:
+    model: ca_stag_rune
+    animations:
+    - ca_attack
+    - ca_hurt
+    - domain_stomp
+    - idle
+    - run
+    - walk
+    skills:
+    - CHA_MOB_domain_seal_stag_rune
+    - CHA_MOB_light_horns_stag_rune
+  CA_Wild_stag_rune_shiny:
+    model: ca_stag_rune_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - domain_stomp
+    - idle
+    - run
+    - walk
+    skills:
+    - CHA_MOB_domain_seal_stag_rune_shiny
+    - CHA_MOB_light_horns_stag_rune_shiny
+  CA_Wild_stag_void:
+    model: ca_stag_void
+    animations:
+    - ca_attack
+    - ca_hurt
+    - domain_stomp
+    - idle
+    - run
+    - walk
+    skills:
+    - CHA_MOB_domain_seal_stag_void
+    - CHA_MOB_light_horns_stag_void
+  CA_Wild_stag_void_shiny:
+    model: ca_stag_void_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - domain_stomp
+    - idle
+    - run
+    - walk
+    skills:
+    - CHA_MOB_domain_seal_stag_void_shiny
+    - CHA_MOB_light_horns_stag_void_shiny
+  CA_Wild_ogre_club:
+    model: ca_ogre_club
+    animations:
+    - attack1
+    - attack2
+    - ca_hurt
+    - death
+    - disable
+    - ground_quake
+    - idle
+    - run
+    - rush
+    - sleep
+    - wakeup
+    - walk
+    skills:
+    - CHA_MOB_ground_quake_ogre_club
+    - CHA_MOB_club_swing_ogre_club
+  CA_Wild_ogre_club_shiny:
+    model: ca_ogre_club_s
+    animations:
+    - attack1
+    - attack2
+    - ca_hurt
+    - death
+    - disable
+    - ground_quake
+    - idle
+    - run
+    - rush
+    - sleep
+    - wakeup
+    - walk
+    skills:
+    - CHA_MOB_ground_quake_ogre_club_shiny
+    - CHA_MOB_club_swing_ogre_club_shiny
+  CA_Wild_ogre_axe:
+    model: ca_ogre_axe
+    animations:
+    - attack1
+    - attack2
+    - ca_hurt
+    - death
+    - ground_quake
+    - idle
+    - leap
+    - run
+    - sleep
+    - wakeup
+    - walk
+    skills:
+    - CHA_MOB_ground_quake_ogre_axe
+    - CHA_MOB_club_swing_ogre_axe
+  CA_Wild_ogre_axe_shiny:
+    model: ca_ogre_axe_s
+    animations:
+    - attack1
+    - attack2
+    - ca_hurt
+    - death
+    - ground_quake
+    - idle
+    - leap
+    - run
+    - sleep
+    - wakeup
+    - walk
+    skills:
+    - CHA_MOB_ground_quake_ogre_axe_shiny
+    - CHA_MOB_club_swing_ogre_axe_shiny
+  CA_Wild_ogre_hammer:
+    model: ca_ogre_hammer
+    animations:
+    - attack1
+    - attack2
+    - ca_hurt
+    - death
+    - ground_quake
+    - idle
+    - jump
+    - run
+    - sleep
+    - wakeup
+    - walk
+    skills:
+    - CHA_MOB_ground_quake_ogre_hammer
+    - CHA_MOB_club_swing_ogre_hammer
+  CA_Wild_ogre_hammer_shiny:
+    model: ca_ogre_hammer_s
+    animations:
+    - attack1
+    - attack2
+    - ca_hurt
+    - death
+    - ground_quake
+    - idle
+    - jump
+    - run
+    - sleep
+    - wakeup
+    - walk
+    skills:
+    - CHA_MOB_ground_quake_ogre_hammer_shiny
+    - CHA_MOB_club_swing_ogre_hammer_shiny
+  CA_Wild_wyvern_ender:
+    model: ca_wyvern_ender
+    animations:
+    - ca_attack
+    - ca_hurt
+    - glide
+    - idle
+    - idle_fly
+    - tail_spikes
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_tail_spikes_wyvern_ender
+    - CHA_MOB_spike_volley_wyvern_ender
+    - CHA_MOB_wyvern_pull_wyvern_ender
+  CA_Wild_wyvern_ender_shiny:
+    model: ca_wyvern_ender_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - glide
+    - idle
+    - idle_fly
+    - tail_spikes
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_tail_spikes_wyvern_ender_shiny
+    - CHA_MOB_spike_volley_wyvern_ender_shiny
+    - CHA_MOB_wyvern_pull_wyvern_ender_shiny
+  CA_Wild_wyvern_green:
+    model: ca_wyvern_green
+    animations:
+    - ca_attack
+    - ca_hurt
+    - glide
+    - idle
+    - idle_fly
+    - tail_spikes
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_tail_spikes_wyvern_green
+    - CHA_MOB_spike_volley_wyvern_green
+    - CHA_MOB_wyvern_pull_wyvern_green
+  CA_Wild_wyvern_green_shiny:
+    model: ca_wyvern_green_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - glide
+    - idle
+    - idle_fly
+    - tail_spikes
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_tail_spikes_wyvern_green_shiny
+    - CHA_MOB_spike_volley_wyvern_green_shiny
+    - CHA_MOB_wyvern_pull_wyvern_green_shiny
+  CA_Wild_wyvern_inferno:
+    model: ca_wyvern_inferno
+    animations:
+    - ca_attack
+    - ca_hurt
+    - glide
+    - idle
+    - idle_fly
+    - tail_spikes
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_tail_spikes_wyvern_inferno
+    - CHA_MOB_spike_volley_wyvern_inferno
+    - CHA_MOB_wyvern_pull_wyvern_inferno
+  CA_Wild_wyvern_inferno_shiny:
+    model: ca_wyvern_inferno_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - glide
+    - idle
+    - idle_fly
+    - tail_spikes
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_tail_spikes_wyvern_inferno_shiny
+    - CHA_MOB_spike_volley_wyvern_inferno_shiny
+    - CHA_MOB_wyvern_pull_wyvern_inferno_shiny
+  CA_Wild_wyvern_undead:
+    model: ca_wyvern_undead
+    animations:
+    - ca_attack
+    - ca_hurt
+    - glide
+    - idle
+    - idle_fly
+    - tail_spikes
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_tail_spikes_wyvern_undead
+    - CHA_MOB_spike_volley_wyvern_undead
+    - CHA_MOB_wyvern_pull_wyvern_undead
+  CA_Wild_wyvern_undead_shiny:
+    model: ca_wyvern_undead_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - glide
+    - idle
+    - idle_fly
+    - tail_spikes
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_tail_spikes_wyvern_undead_shiny
+    - CHA_MOB_spike_volley_wyvern_undead_shiny
+    - CHA_MOB_wyvern_pull_wyvern_undead_shiny
+  CA_Wild_lostasset_mob2_flowersprite:
+    model: ca_lostasset_mob2_flowersprite
+    animations:
+    - attack
+    - ca_hurt
+    - death
+    - fairy_dust
+    - idle
+    - pattern1
+    - pattern2
+    - spawn
+    - walk
+    skills:
+    - CHA_MOB_fairy_dust_lostasset_mob2_flowersprite
+    - CHA_MOB_fairy_orbs_lostasset_mob2_flowersprite
+  CA_Wild_lostasset_mob2_flowersprite_shiny:
+    model: ca_lostasset_mob2_flowersprite_s
+    animations:
+    - attack
+    - ca_hurt
+    - death
+    - fairy_dust
+    - idle
+    - pattern1
+    - pattern2
+    - spawn
+    - walk
+    skills:
+    - CHA_MOB_fairy_dust_lostasset_mob2_flowersprite_shiny
+    - CHA_MOB_fairy_orbs_lostasset_mob2_flowersprite_shiny
+  CA_Wild_lostasset_mob2_lakefairy:
+    model: ca_lostasset_mob2_lakefairy
+    animations:
+    - attack
+    - ca_hurt
+    - death
+    - fairy_dust
+    - idle
+    - spawn
+    - walk
+    skills:
+    - CHA_MOB_fairy_dust_lostasset_mob2_lakefairy
+    - CHA_MOB_fairy_orbs_lostasset_mob2_lakefairy
+  CA_Wild_lostasset_mob2_lakefairy_shiny:
+    model: ca_lostasset_mob2_lakefairy_s
+    animations:
+    - attack
+    - ca_hurt
+    - death
+    - fairy_dust
+    - idle
+    - spawn
+    - walk
+    skills:
+    - CHA_MOB_fairy_dust_lostasset_mob2_lakefairy_shiny
+    - CHA_MOB_fairy_orbs_lostasset_mob2_lakefairy_shiny
+  CA_Wild_lostasset_mob2_leaffairy:
+    model: ca_lostasset_mob2_leaffairy
+    animations:
+    - attack
+    - ca_hurt
+    - death
+    - fairy_dust
+    - idle
+    - spawn
+    - walk
+    skills:
+    - CHA_MOB_fairy_dust_lostasset_mob2_leaffairy
+    - CHA_MOB_fairy_orbs_lostasset_mob2_leaffairy
+  CA_Wild_lostasset_mob2_leaffairy_shiny:
+    model: ca_lostasset_mob2_leaffairy_s
+    animations:
+    - attack
+    - ca_hurt
+    - death
+    - fairy_dust
+    - idle
+    - spawn
+    - walk
+    skills:
+    - CHA_MOB_fairy_dust_lostasset_mob2_leaffairy_shiny
+    - CHA_MOB_fairy_orbs_lostasset_mob2_leaffairy_shiny
+  CA_Wild_lostasset_mob2_mushroomfairy:
+    model: ca_lostasset_mob2_mushroomfairy
+    animations:
+    - attack
+    - ca_hurt
+    - death
+    - fairy_dust
+    - idle
+    - spawn
+    - walk
+    skills:
+    - CHA_MOB_fairy_dust_lostasset_mob2_mushroomfairy
+    - CHA_MOB_fairy_orbs_lostasset_mob2_mushroomfairy
+  CA_Wild_lostasset_mob2_mushroomfairy_shiny:
+    model: ca_lostasset_mob2_mushroomfairy_s
+    animations:
+    - attack
+    - ca_hurt
+    - death
+    - fairy_dust
+    - idle
+    - spawn
+    - walk
+    skills:
+    - CHA_MOB_fairy_dust_lostasset_mob2_mushroomfairy_shiny
+    - CHA_MOB_fairy_orbs_lostasset_mob2_mushroomfairy_shiny
+  CA_Wild_wolfhawk_dire:
+    model: ca_wolfhawk_dire
+    animations:
+    - ca_attack
+    - ca_hurt
+    - glide
+    - glide_dive
+    - idle
+    - idle_fly
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_glide_dive_wolfhawk_dire
+    - CHA_MOB_wind_blade_wolfhawk_dire
+    - CHA_MOB_pack_call_wolfhawk_dire
+  CA_Wild_wolfhawk_dire_shiny:
+    model: ca_wolfhawk_dire_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - glide
+    - glide_dive
+    - idle
+    - idle_fly
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_glide_dive_wolfhawk_dire_shiny
+    - CHA_MOB_wind_blade_wolfhawk_dire_shiny
+    - CHA_MOB_pack_call_wolfhawk_dire_shiny
+  CA_Wild_wolfhawk_fallen:
+    model: ca_wolfhawk_fallen
+    animations:
+    - ca_attack
+    - ca_hurt
+    - glide
+    - glide_dive
+    - idle
+    - idle_fly
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_glide_dive_wolfhawk_fallen
+    - CHA_MOB_wind_blade_wolfhawk_fallen
+    - CHA_MOB_pack_call_wolfhawk_fallen
+  CA_Wild_wolfhawk_fallen_shiny:
+    model: ca_wolfhawk_fallen_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - glide
+    - glide_dive
+    - idle
+    - idle_fly
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_glide_dive_wolfhawk_fallen_shiny
+    - CHA_MOB_wind_blade_wolfhawk_fallen_shiny
+    - CHA_MOB_pack_call_wolfhawk_fallen_shiny
+  CA_Wild_wolfhawk_fullmoon:
+    model: ca_wolfhawk_fullmoon
+    animations:
+    - ca_attack
+    - ca_hurt
+    - glide
+    - glide_dive
+    - idle
+    - idle_fly
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_glide_dive_wolfhawk_fullmoon
+    - CHA_MOB_wind_blade_wolfhawk_fullmoon
+    - CHA_MOB_pack_call_wolfhawk_fullmoon
+  CA_Wild_wolfhawk_fullmoon_shiny:
+    model: ca_wolfhawk_fullmoon_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - glide
+    - glide_dive
+    - idle
+    - idle_fly
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_glide_dive_wolfhawk_fullmoon_shiny
+    - CHA_MOB_wind_blade_wolfhawk_fullmoon_shiny
+    - CHA_MOB_pack_call_wolfhawk_fullmoon_shiny
+  CA_Wild_wolfhawk_stormcloud:
+    model: ca_wolfhawk_stormcloud
+    animations:
+    - ca_attack
+    - ca_hurt
+    - glide
+    - glide_dive
+    - idle
+    - idle_fly
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_glide_dive_wolfhawk_stormcloud
+    - CHA_MOB_wind_blade_wolfhawk_stormcloud
+    - CHA_MOB_pack_call_wolfhawk_stormcloud
+  CA_Wild_wolfhawk_stormcloud_shiny:
+    model: ca_wolfhawk_stormcloud_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - glide
+    - glide_dive
+    - idle
+    - idle_fly
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_glide_dive_wolfhawk_stormcloud_shiny
+    - CHA_MOB_wind_blade_wolfhawk_stormcloud_shiny
+    - CHA_MOB_pack_call_wolfhawk_stormcloud_shiny
+  CA_Wild_bear:
+    model: ca_bear
+    animations:
+    - attack
+    - ca_hurt
+    - death
+    - get_up
+    - idle
+    - idle_awake
+    - swipe
+    - walk
+    skills:
+    - CHA_MOB_paw_maul_bear
+  CA_Wild_bear_shiny:
+    model: ca_bear_s
+    animations:
+    - attack
+    - ca_hurt
+    - death
+    - get_up
+    - idle
+    - idle_awake
+    - swipe
+    - walk
+    skills:
+    - CHA_MOB_paw_maul_bear_shiny
+  CA_Wild_bear_black:
+    model: ca_bear_black
+    animations:
+    - attack
+    - ca_hurt
+    - death
+    - get_up
+    - idle
+    - idle_awake
+    - swipe
+    - walk
+    skills:
+    - CHA_MOB_paw_maul_bear_black
+  CA_Wild_bear_black_shiny:
+    model: ca_bear_black_s
+    animations:
+    - attack
+    - ca_hurt
+    - death
+    - get_up
+    - idle
+    - idle_awake
+    - swipe
+    - walk
+    skills:
+    - CHA_MOB_paw_maul_bear_black_shiny
+  CA_Wild_bear_polar:
+    model: ca_bear_polar
+    animations:
+    - attack
+    - ca_hurt
+    - death
+    - get_up
+    - idle
+    - idle_awake
+    - swipe
+    - walk
+    skills:
+    - CHA_MOB_paw_maul_bear_polar
+  CA_Wild_bear_polar_shiny:
+    model: ca_bear_polar_s
+    animations:
+    - attack
+    - ca_hurt
+    - death
+    - get_up
+    - idle
+    - idle_awake
+    - swipe
+    - walk
+    skills:
+    - CHA_MOB_paw_maul_bear_polar_shiny
+  CA_Wild_horse_unicorn:
+    model: ca_horse_unicorn
+    animations:
+    - ca_attack
+    - ca_hurt
+    - horn_ray
+    - idle
+    - run
+    - walk
+    skills:
+    - CHA_MOB_horn_ray_horse_unicorn
+    - CHA_MOB_star_fall_horse_unicorn
+  CA_Wild_horse_unicorn_shiny:
+    model: ca_horse_unicorn_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - horn_ray
+    - idle
+    - run
+    - walk
+    skills:
+    - CHA_MOB_horn_ray_horse_unicorn_shiny
+    - CHA_MOB_star_fall_horse_unicorn_shiny
+  CA_Wild_ncr_archer_skeleton:
+    model: ca_ncr_archer_skeleton
+    animations:
+    - aim_shot
+    - attack
+    - attack2
+    - attack2_parry
+    - ca_hurt
+    - death
+    - death_second
+    - idle
+    - stun
+    - walk
+    skills:
+    - CHA_MOB_aim_shot_ncr_archer_skeleton
+    - CHA_MOB_bone_arrows_ncr_archer_skeleton
+  CA_Wild_ncr_archer_skeleton_shiny:
+    model: ca_ncr_archer_skeleton_s
+    animations:
+    - aim_shot
+    - attack
+    - attack2
+    - attack2_parry
+    - ca_hurt
+    - death
+    - death_second
+    - idle
+    - stun
+    - walk
+    skills:
+    - CHA_MOB_aim_shot_ncr_archer_skeleton_shiny
+    - CHA_MOB_bone_arrows_ncr_archer_skeleton_shiny
+  CA_Wild_ncr_spear_skeleton:
+    model: ca_ncr_spear_skeleton
+    animations:
+    - attack
+    - attack_parry
+    - ca_hurt
+    - death
+    - death_second
+    - idle
+    - spear_throw
+    - stun
+    - walk
+    skills:
+    - CHA_MOB_spear_throw_ncr_spear_skeleton
+    - CHA_MOB_spear_spin_ncr_spear_skeleton
+  CA_Wild_ncr_spear_skeleton_shiny:
+    model: ca_ncr_spear_skeleton_s
+    animations:
+    - attack
+    - attack_parry
+    - ca_hurt
+    - death
+    - death_second
+    - idle
+    - spear_throw
+    - stun
+    - walk
+    skills:
+    - CHA_MOB_spear_throw_ncr_spear_skeleton_shiny
+    - CHA_MOB_spear_spin_ncr_spear_skeleton_shiny
+  CA_Wild_ncr_warrior_skeleton:
+    model: ca_ncr_warrior_skeleton
+    animations:
+    - attack
+    - attack2
+    - attack2_parry
+    - attack_parry
+    - ca_hurt
+    - dash_slash
+    - death
+    - death_second
+    - idle
+    - stun
+    - walk
+    skills:
+    - CHA_MOB_dash_slash_ncr_warrior_skeleton
+    - CHA_MOB_triple_slash_ncr_warrior_skeleton
+  CA_Wild_ncr_warrior_skeleton_shiny:
+    model: ca_ncr_warrior_skeleton_s
+    animations:
+    - attack
+    - attack2
+    - attack2_parry
+    - attack_parry
+    - ca_hurt
+    - dash_slash
+    - death
+    - death_second
+    - idle
+    - stun
+    - walk
+    skills:
+    - CHA_MOB_dash_slash_ncr_warrior_skeleton_shiny
+    - CHA_MOB_triple_slash_ncr_warrior_skeleton_shiny
+  CA_Wild_kitsune_normal:
+    model: ca_kitsune_normal
+    animations:
+    - ca_attack
+    - ca_hurt
+    - charm_cast
+    - idle
+    - run
+    - walk
+    skills:
+    - CHA_MOB_fox_charm_kitsune_normal
+    - CHA_MOB_foxfire_orbit_kitsune_normal
+    - CHA_MOB_fox_blink_kitsune_normal
+  CA_Wild_kitsune_normal_shiny:
+    model: ca_kitsune_normal_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - charm_cast
+    - idle
+    - run
+    - walk
+    skills:
+    - CHA_MOB_fox_charm_kitsune_normal_shiny
+    - CHA_MOB_foxfire_orbit_kitsune_normal_shiny
+    - CHA_MOB_fox_blink_kitsune_normal_shiny
+  CA_Wild_kitsune_demonic:
+    model: ca_kitsune_demonic
+    animations:
+    - ca_attack
+    - ca_hurt
+    - charm_cast
+    - idle
+    - run
+    - walk
+    skills:
+    - CHA_MOB_fox_charm_kitsune_demonic
+    - CHA_MOB_foxfire_orbit_kitsune_demonic
+    - CHA_MOB_fox_blink_kitsune_demonic
+  CA_Wild_kitsune_demonic_shiny:
+    model: ca_kitsune_demonic_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - charm_cast
+    - idle
+    - run
+    - walk
+    skills:
+    - CHA_MOB_fox_charm_kitsune_demonic_shiny
+    - CHA_MOB_foxfire_orbit_kitsune_demonic_shiny
+    - CHA_MOB_fox_blink_kitsune_demonic_shiny
+  CA_Wild_kitsune_inferno:
+    model: ca_kitsune_inferno
+    animations:
+    - ca_attack
+    - ca_hurt
+    - charm_cast
+    - idle
+    - run
+    - walk
+    skills:
+    - CHA_MOB_fox_charm_kitsune_inferno
+    - CHA_MOB_foxfire_orbit_kitsune_inferno
+    - CHA_MOB_fox_blink_kitsune_inferno
+  CA_Wild_kitsune_inferno_shiny:
+    model: ca_kitsune_inferno_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - charm_cast
+    - idle
+    - run
+    - walk
+    skills:
+    - CHA_MOB_fox_charm_kitsune_inferno_shiny
+    - CHA_MOB_foxfire_orbit_kitsune_inferno_shiny
+    - CHA_MOB_fox_blink_kitsune_inferno_shiny
+  CA_Wild_tusker_demonic:
+    model: ca_tusker_demonic
+    animations:
+    - ca_attack
+    - ca_hurt
+    - earth_stomp
+    - idle
+    - run
+    - walk
+    skills:
+    - CHA_MOB_earth_stomp_tusker_demonic
+    - CHA_MOB_tusk_upper_tusker_demonic
+  CA_Wild_tusker_demonic_shiny:
+    model: ca_tusker_demonic_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - earth_stomp
+    - idle
+    - run
+    - walk
+    skills:
+    - CHA_MOB_earth_stomp_tusker_demonic_shiny
+    - CHA_MOB_tusk_upper_tusker_demonic_shiny
+  CA_Wild_tusker_dreamlight:
+    model: ca_tusker_dreamlight
+    animations:
+    - ca_attack
+    - ca_hurt
+    - earth_stomp
+    - idle
+    - run
+    - walk
+    skills:
+    - CHA_MOB_earth_stomp_tusker_dreamlight
+    - CHA_MOB_tusk_upper_tusker_dreamlight
+  CA_Wild_tusker_dreamlight_shiny:
+    model: ca_tusker_dreamlight_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - earth_stomp
+    - idle
+    - run
+    - walk
+    skills:
+    - CHA_MOB_earth_stomp_tusker_dreamlight_shiny
+    - CHA_MOB_tusk_upper_tusker_dreamlight_shiny
+  CA_Wild_tusker_forest:
+    model: ca_tusker_forest
+    animations:
+    - ca_attack
+    - ca_hurt
+    - earth_stomp
+    - idle
+    - run
+    - walk
+    skills:
+    - CHA_MOB_earth_stomp_tusker_forest
+    - CHA_MOB_tusk_upper_tusker_forest
+  CA_Wild_tusker_forest_shiny:
+    model: ca_tusker_forest_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - earth_stomp
+    - idle
+    - run
+    - walk
+    skills:
+    - CHA_MOB_earth_stomp_tusker_forest_shiny
+    - CHA_MOB_tusk_upper_tusker_forest_shiny
+  CA_Wild_phantom_ender:
+    model: ca_phantom_ender
+    animations:
+    - ca_attack
+    - ca_hurt
+    - glide
+    - idle
+    - soul_drain
+    - walk
+    skills:
+    - CHA_MOB_soul_drain_phantom_ender
+    - CHA_MOB_soul_scythe_phantom_ender
+    - CHA_MOB_soul_blink_phantom_ender
+  CA_Wild_phantom_ender_shiny:
+    model: ca_phantom_ender_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - glide
+    - idle
+    - soul_drain
+    - walk
+    skills:
+    - CHA_MOB_soul_drain_phantom_ender_shiny
+    - CHA_MOB_soul_scythe_phantom_ender_shiny
+    - CHA_MOB_soul_blink_phantom_ender_shiny
+  CA_Wild_phantom_ghost:
+    model: ca_phantom_ghost
+    animations:
+    - ca_attack
+    - ca_hurt
+    - glide
+    - idle
+    - soul_drain
+    - walk
+    skills:
+    - CHA_MOB_soul_drain_phantom_ghost
+    - CHA_MOB_soul_scythe_phantom_ghost
+    - CHA_MOB_soul_blink_phantom_ghost
+  CA_Wild_phantom_ghost_shiny:
+    model: ca_phantom_ghost_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - glide
+    - idle
+    - soul_drain
+    - walk
+    skills:
+    - CHA_MOB_soul_drain_phantom_ghost_shiny
+    - CHA_MOB_soul_scythe_phantom_ghost_shiny
+    - CHA_MOB_soul_blink_phantom_ghost_shiny
+  CA_Wild_horse_pegasus:
+    model: ca_horse_pegasus
+    animations:
+    - ca_attack
+    - ca_hurt
+    - gale_wings
+    - glide
+    - idle
+    - idle_fly
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_gale_wings_horse_pegasus
+    - CHA_MOB_moon_wind_horse_pegasus
+  CA_Wild_horse_pegasus_shiny:
+    model: ca_horse_pegasus_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - gale_wings
+    - glide
+    - idle
+    - idle_fly
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_gale_wings_horse_pegasus_shiny
+    - CHA_MOB_moon_wind_horse_pegasus_shiny
+  CA_Wild_phoenix_flame:
+    model: ca_phoenix_flame
+    animations:
+    - ca_attack
+    - ca_hurt
+    - feather_barrage
+    - glide
+    - idle
+    - idle_fly
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_feather_barrage_phoenix_flame
+    - CHA_MOB_fire_feathers_phoenix_flame
+  CA_Wild_phoenix_flame_shiny:
+    model: ca_phoenix_flame_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - feather_barrage
+    - glide
+    - idle
+    - idle_fly
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_feather_barrage_phoenix_flame_shiny
+    - CHA_MOB_fire_feathers_phoenix_flame_shiny
+  CA_Wild_phoenix_darkflame:
+    model: ca_phoenix_darkflame
+    animations:
+    - ca_attack
+    - ca_hurt
+    - feather_barrage
+    - glide
+    - idle
+    - idle_fly
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_feather_barrage_phoenix_darkflame
+    - CHA_MOB_fire_feathers_phoenix_darkflame
+  CA_Wild_phoenix_darkflame_shiny:
+    model: ca_phoenix_darkflame_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - feather_barrage
+    - glide
+    - idle
+    - idle_fly
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_feather_barrage_phoenix_darkflame_shiny
+    - CHA_MOB_fire_feathers_phoenix_darkflame_shiny
+  CA_Wild_phoenix_light:
+    model: ca_phoenix_light
+    animations:
+    - ca_attack
+    - ca_hurt
+    - feather_barrage
+    - glide
+    - idle
+    - idle_fly
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_feather_barrage_phoenix_light
+    - CHA_MOB_fire_feathers_phoenix_light
+  CA_Wild_phoenix_light_shiny:
+    model: ca_phoenix_light_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - feather_barrage
+    - glide
+    - idle
+    - idle_fly
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_feather_barrage_phoenix_light_shiny
+    - CHA_MOB_fire_feathers_phoenix_light_shiny
+  CA_Wild_phoenix_thunder:
+    model: ca_phoenix_thunder
+    animations:
+    - ca_attack
+    - ca_hurt
+    - feather_barrage
+    - glide
+    - idle
+    - idle_fly
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_feather_barrage_phoenix_thunder
+    - CHA_MOB_fire_feathers_phoenix_thunder
+  CA_Wild_phoenix_thunder_shiny:
+    model: ca_phoenix_thunder_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - feather_barrage
+    - glide
+    - idle
+    - idle_fly
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_feather_barrage_phoenix_thunder_shiny
+    - CHA_MOB_fire_feathers_phoenix_thunder_shiny
+  CA_Wild_sky_serpent_jade:
+    model: ca_sky_serpent_jade
+    animations:
+    - ca_attack
+    - ca_hurt
+    - idle
+    - run
+    - serpent_breath
+    - walk
+    skills:
+    - CHA_MOB_serpent_breath_sky_serpent_jade
+    - CHA_MOB_coil_spin_sky_serpent_jade
+    - CHA_MOB_serpent_pull_sky_serpent_jade
+  CA_Wild_sky_serpent_jade_shiny:
+    model: ca_sky_serpent_jade_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - idle
+    - run
+    - serpent_breath
+    - walk
+    skills:
+    - CHA_MOB_serpent_breath_sky_serpent_jade_shiny
+    - CHA_MOB_coil_spin_sky_serpent_jade_shiny
+    - CHA_MOB_serpent_pull_sky_serpent_jade_shiny
+  CA_Wild_sky_serpent_magma:
+    model: ca_sky_serpent_magma
+    animations:
+    - ca_attack
+    - ca_hurt
+    - idle
+    - run
+    - serpent_breath
+    - walk
+    skills:
+    - CHA_MOB_serpent_breath_sky_serpent_magma
+    - CHA_MOB_coil_spin_sky_serpent_magma
+    - CHA_MOB_serpent_pull_sky_serpent_magma
+  CA_Wild_sky_serpent_magma_shiny:
+    model: ca_sky_serpent_magma_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - idle
+    - run
+    - serpent_breath
+    - walk
+    skills:
+    - CHA_MOB_serpent_breath_sky_serpent_magma_shiny
+    - CHA_MOB_coil_spin_sky_serpent_magma_shiny
+    - CHA_MOB_serpent_pull_sky_serpent_magma_shiny
+  CA_Wild_sky_serpent_solar:
+    model: ca_sky_serpent_solar
+    animations:
+    - ca_attack
+    - ca_hurt
+    - idle
+    - run
+    - serpent_breath
+    - walk
+    skills:
+    - CHA_MOB_serpent_breath_sky_serpent_solar
+    - CHA_MOB_coil_spin_sky_serpent_solar
+    - CHA_MOB_serpent_pull_sky_serpent_solar
+  CA_Wild_sky_serpent_solar_shiny:
+    model: ca_sky_serpent_solar_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - idle
+    - run
+    - serpent_breath
+    - walk
+    skills:
+    - CHA_MOB_serpent_breath_sky_serpent_solar_shiny
+    - CHA_MOB_coil_spin_sky_serpent_solar_shiny
+    - CHA_MOB_serpent_pull_sky_serpent_solar_shiny
+  CA_Wild_sky_serpent_spectral:
+    model: ca_sky_serpent_spectral
+    animations:
+    - ca_attack
+    - ca_hurt
+    - idle
+    - run
+    - serpent_breath
+    - walk
+    skills:
+    - CHA_MOB_serpent_breath_sky_serpent_spectral
+    - CHA_MOB_coil_spin_sky_serpent_spectral
+    - CHA_MOB_serpent_pull_sky_serpent_spectral
+  CA_Wild_sky_serpent_spectral_shiny:
+    model: ca_sky_serpent_spectral_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - idle
+    - run
+    - serpent_breath
+    - walk
+    skills:
+    - CHA_MOB_serpent_breath_sky_serpent_spectral_shiny
+    - CHA_MOB_coil_spin_sky_serpent_spectral_shiny
+    - CHA_MOB_serpent_pull_sky_serpent_spectral_shiny
+  CA_Wild_hippogryph_common:
+    model: ca_hippogryph_common
+    animations:
+    - ca_attack
+    - ca_hurt
+    - feather_storm
+    - glide
+    - idle
+    - idle_fly
+    - run
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_feather_storm_hippogryph_common
+    - CHA_MOB_talon_rake_hippogryph_common
+  CA_Wild_hippogryph_common_shiny:
+    model: ca_hippogryph_common_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - feather_storm
+    - glide
+    - idle
+    - idle_fly
+    - run
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_feather_storm_hippogryph_common_shiny
+    - CHA_MOB_talon_rake_hippogryph_common_shiny
+  CA_Wild_hippogryph_crystal:
+    model: ca_hippogryph_crystal
+    animations:
+    - ca_attack
+    - ca_hurt
+    - feather_storm
+    - glide
+    - idle
+    - idle_fly
+    - run
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_feather_storm_hippogryph_crystal
+    - CHA_MOB_talon_rake_hippogryph_crystal
+  CA_Wild_hippogryph_crystal_shiny:
+    model: ca_hippogryph_crystal_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - feather_storm
+    - glide
+    - idle
+    - idle_fly
+    - run
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_feather_storm_hippogryph_crystal_shiny
+    - CHA_MOB_talon_rake_hippogryph_crystal_shiny
+  CA_Wild_hippogryph_fallen:
+    model: ca_hippogryph_fallen
+    animations:
+    - ca_attack
+    - ca_hurt
+    - feather_storm
+    - glide
+    - idle
+    - idle_fly
+    - run
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_feather_storm_hippogryph_fallen
+    - CHA_MOB_talon_rake_hippogryph_fallen
+  CA_Wild_hippogryph_fallen_shiny:
+    model: ca_hippogryph_fallen_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - feather_storm
+    - glide
+    - idle
+    - idle_fly
+    - run
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_feather_storm_hippogryph_fallen_shiny
+    - CHA_MOB_talon_rake_hippogryph_fallen_shiny
+  CA_Wild_hippogryph_royal:
+    model: ca_hippogryph_royal
+    animations:
+    - ca_attack
+    - ca_hurt
+    - feather_storm
+    - glide
+    - idle
+    - idle_fly
+    - run
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_feather_storm_hippogryph_royal
+    - CHA_MOB_talon_rake_hippogryph_royal
+  CA_Wild_hippogryph_royal_shiny:
+    model: ca_hippogryph_royal_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - feather_storm
+    - glide
+    - idle
+    - idle_fly
+    - run
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_feather_storm_hippogryph_royal_shiny
+    - CHA_MOB_talon_rake_hippogryph_royal_shiny
+  CA_Wild_dragon_desert:
+    model: ca_dragon_desert
+    animations:
+    - ca_attack
+    - ca_hurt
+    - dragon_breath
+    - glide
+    - idle
+    - idle_fly
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_dragon_breath_dragon_desert
+    - CHA_MOB_tail_spin_dragon_desert
+  CA_Wild_dragon_desert_shiny:
+    model: ca_dragon_desert_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - dragon_breath
+    - glide
+    - idle
+    - idle_fly
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_dragon_breath_dragon_desert_shiny
+    - CHA_MOB_tail_spin_dragon_desert_shiny
+  CA_Wild_dragon_glacial:
+    model: ca_dragon_glacial
+    animations:
+    - ca_attack
+    - ca_hurt
+    - dragon_breath
+    - glide
+    - idle
+    - idle_fly
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_dragon_breath_dragon_glacial
+    - CHA_MOB_tail_spin_dragon_glacial
+  CA_Wild_dragon_glacial_shiny:
+    model: ca_dragon_glacial_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - dragon_breath
+    - glide
+    - idle
+    - idle_fly
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_dragon_breath_dragon_glacial_shiny
+    - CHA_MOB_tail_spin_dragon_glacial_shiny
+  CA_Wild_dragon_nether:
+    model: ca_dragon_nether
+    animations:
+    - ca_attack
+    - ca_hurt
+    - dragon_breath
+    - glide
+    - idle
+    - idle_fly
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_dragon_breath_dragon_nether
+    - CHA_MOB_tail_spin_dragon_nether
+  CA_Wild_dragon_nether_shiny:
+    model: ca_dragon_nether_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - dragon_breath
+    - glide
+    - idle
+    - idle_fly
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_dragon_breath_dragon_nether_shiny
+    - CHA_MOB_tail_spin_dragon_nether_shiny
+  CA_Wild_dragon_sculk:
+    model: ca_dragon_sculk
+    animations:
+    - ca_attack
+    - ca_hurt
+    - dragon_breath
+    - glide
+    - idle
+    - idle_fly
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_dragon_breath_dragon_sculk
+    - CHA_MOB_tail_spin_dragon_sculk
+  CA_Wild_dragon_sculk_shiny:
+    model: ca_dragon_sculk_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - dragon_breath
+    - glide
+    - idle
+    - idle_fly
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_dragon_breath_dragon_sculk_shiny
+    - CHA_MOB_tail_spin_dragon_sculk_shiny
+  CA_Wild_raptor_nightmare:
+    model: ca_raptor_nightmare
+    animations:
+    - bite
+    - ca_attack
+    - ca_hurt
+    - idle
+    - run
+    - walk
+    skills:
+    - CHA_MOB_jaw_bite_raptor_nightmare
+  CA_Wild_raptor_nightmare_shiny:
+    model: ca_raptor_nightmare_s
+    animations:
+    - bite
+    - ca_attack
+    - ca_hurt
+    - idle
+    - run
+    - walk
+    skills:
+    - CHA_MOB_jaw_bite_raptor_nightmare_shiny
+  CA_Wild_raptor_red:
+    model: ca_raptor_red
+    animations:
+    - bite
+    - ca_attack
+    - ca_hurt
+    - idle
+    - run
+    - walk
+    skills:
+    - CHA_MOB_jaw_bite_raptor_red
+  CA_Wild_raptor_red_shiny:
+    model: ca_raptor_red_s
+    animations:
+    - bite
+    - ca_attack
+    - ca_hurt
+    - idle
+    - run
+    - walk
+    skills:
+    - CHA_MOB_jaw_bite_raptor_red_shiny
+  CA_Wild_raptor_undead:
+    model: ca_raptor_undead
+    animations:
+    - bite
+    - ca_attack
+    - ca_hurt
+    - idle
+    - run
+    - walk
+    skills:
+    - CHA_MOB_jaw_bite_raptor_undead
+  CA_Wild_raptor_undead_shiny:
+    model: ca_raptor_undead_s
+    animations:
+    - bite
+    - ca_attack
+    - ca_hurt
+    - idle
+    - run
+    - walk
+    skills:
+    - CHA_MOB_jaw_bite_raptor_undead_shiny
+  CA_Wild_crocodile:
+    model: ca_crocodile
+    animations:
+    - attack_1
+    - attack_2
+    - ca_hurt
+    - croc_bite
+    - float
+    - idle
+    - land_death
+    - swim
+    - walk
+    - water_death
+    skills:
+    - CHA_MOB_jaw_bite_crocodile
+  CA_Wild_crocodile_shiny:
+    model: ca_crocodile_s
+    animations:
+    - attack_1
+    - attack_2
+    - ca_hurt
+    - croc_bite
+    - float
+    - idle
+    - land_death
+    - swim
+    - walk
+    - water_death
+    skills:
+    - CHA_MOB_jaw_bite_crocodile_shiny
+  CA_Wild_manticore_aether:
+    model: ca_manticore_aether
+    animations:
+    - ca_attack
+    - ca_hurt
+    - glide
+    - idle
+    - idle_fly
+    - roar_leap
+    - run
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_roar_leap_manticore_aether
+    - CHA_MOB_claw_roar_manticore_aether
+  CA_Wild_manticore_aether_shiny:
+    model: ca_manticore_aether_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - glide
+    - idle
+    - idle_fly
+    - roar_leap
+    - run
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_roar_leap_manticore_aether_shiny
+    - CHA_MOB_claw_roar_manticore_aether_shiny
+  CA_Wild_manticore_dusk:
+    model: ca_manticore_dusk
+    animations:
+    - ca_attack
+    - ca_hurt
+    - glide
+    - idle
+    - idle_fly
+    - roar_leap
+    - run
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_roar_leap_manticore_dusk
+    - CHA_MOB_claw_roar_manticore_dusk
+  CA_Wild_manticore_dusk_shiny:
+    model: ca_manticore_dusk_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - glide
+    - idle
+    - idle_fly
+    - roar_leap
+    - run
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_roar_leap_manticore_dusk_shiny
+    - CHA_MOB_claw_roar_manticore_dusk_shiny
+  CA_Wild_manticore_soul:
+    model: ca_manticore_soul
+    animations:
+    - ca_attack
+    - ca_hurt
+    - glide
+    - idle
+    - idle_fly
+    - roar_leap
+    - run
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_roar_leap_manticore_soul
+    - CHA_MOB_claw_roar_manticore_soul
+  CA_Wild_manticore_soul_shiny:
+    model: ca_manticore_soul_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - glide
+    - idle
+    - idle_fly
+    - roar_leap
+    - run
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_roar_leap_manticore_soul_shiny
+    - CHA_MOB_claw_roar_manticore_soul_shiny
+  CA_Wild_manticore_venom:
+    model: ca_manticore_venom
+    animations:
+    - ca_attack
+    - ca_hurt
+    - glide
+    - idle
+    - idle_fly
+    - roar_leap
+    - run
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_roar_leap_manticore_venom
+    - CHA_MOB_claw_roar_manticore_venom
+  CA_Wild_manticore_venom_shiny:
+    model: ca_manticore_venom_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - glide
+    - idle
+    - idle_fly
+    - roar_leap
+    - run
+    - walk
+    - walk_fly
+    skills:
+    - CHA_MOB_roar_leap_manticore_venom_shiny
+    - CHA_MOB_claw_roar_manticore_venom_shiny
+  CA_Wild_ncr_mage_skeleton:
+    model: ca_ncr_mage_skeleton
+    animations:
+    - attack
+    - attack2
+    - bone_grasp
+    - ca_hurt
+    - death
+    - death_second
+    - idle
+    - stun
+    - walk
+    skills:
+    - CHA_MOB_bone_grasp_ncr_mage_skeleton
+    - CHA_MOB_oblivion_orbs_ncr_mage_skeleton
+    - CHA_MOB_bone_call_ncr_mage_skeleton
+  CA_Wild_ncr_mage_skeleton_shiny:
+    model: ca_ncr_mage_skeleton_s
+    animations:
+    - attack
+    - attack2
+    - bone_grasp
+    - ca_hurt
+    - death
+    - death_second
+    - idle
+    - stun
+    - walk
+    skills:
+    - CHA_MOB_bone_grasp_ncr_mage_skeleton_shiny
+    - CHA_MOB_oblivion_orbs_ncr_mage_skeleton_shiny
+    - CHA_MOB_bone_call_ncr_mage_skeleton_shiny
+  CA_Wild_basilisk_obsidian:
+    model: ca_basilisk_obsidian
+    animations:
+    - ca_attack
+    - ca_hurt
+    - dash
+    - idle
+    - run
+    - swim_idle
+    - swim_walk
+    - tail_sweep
+    - walk
+    skills:
+    - CHA_MOB_tail_sweep_basilisk_obsidian
+    - CHA_MOB_venom_spit_basilisk_obsidian
+  CA_Wild_basilisk_obsidian_shiny:
+    model: ca_basilisk_obsidian_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - dash
+    - idle
+    - run
+    - swim_idle
+    - swim_walk
+    - tail_sweep
+    - walk
+    skills:
+    - CHA_MOB_tail_sweep_basilisk_obsidian_shiny
+    - CHA_MOB_venom_spit_basilisk_obsidian_shiny
+  CA_Wild_basilisk_snowstorm:
+    model: ca_basilisk_snowstorm
+    animations:
+    - ca_attack
+    - ca_hurt
+    - dash
+    - idle
+    - run
+    - swim_idle
+    - swim_walk
+    - tail_sweep
+    - walk
+    skills:
+    - CHA_MOB_tail_sweep_basilisk_snowstorm
+    - CHA_MOB_venom_spit_basilisk_snowstorm
+  CA_Wild_basilisk_snowstorm_shiny:
+    model: ca_basilisk_snowstorm_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - dash
+    - idle
+    - run
+    - swim_idle
+    - swim_walk
+    - tail_sweep
+    - walk
+    skills:
+    - CHA_MOB_tail_sweep_basilisk_snowstorm_shiny
+    - CHA_MOB_venom_spit_basilisk_snowstorm_shiny
+  CA_Wild_basilisk_wild:
+    model: ca_basilisk_wild
+    animations:
+    - ca_attack
+    - ca_hurt
+    - dash
+    - idle
+    - run
+    - swim_idle
+    - swim_walk
+    - tail_sweep
+    - walk
+    skills:
+    - CHA_MOB_tail_sweep_basilisk_wild
+    - CHA_MOB_venom_spit_basilisk_wild
+  CA_Wild_basilisk_wild_shiny:
+    model: ca_basilisk_wild_s
+    animations:
+    - ca_attack
+    - ca_hurt
+    - dash
+    - idle
+    - run
+    - swim_idle
+    - swim_walk
+    - tail_sweep
+    - walk
+    skills:
+    - CHA_MOB_tail_sweep_basilisk_wild_shiny
+    - CHA_MOB_venom_spit_basilisk_wild_shiny
+  CA_Wild_mf_warden_archer:
+    model: ca_mf_warden_archer
+    animations:
+    - attack
+    - ca_hurt
+    - chain_shot
+    - death
+    - idle
+    - kick
+    - walk
+    skills:
+    - CHA_MOB_chain_arrow_mf_warden_archer
+  CA_Wild_mf_warden_archer_shiny:
+    model: ca_mf_warden_archer_s
+    animations:
+    - attack
+    - ca_hurt
+    - chain_shot
+    - death
+    - idle
+    - kick
+    - walk
+    skills:
+    - CHA_MOB_chain_arrow_mf_warden_archer_shiny
+  CA_Wild_mf_warden_tank:
+    model: ca_mf_warden_tank
+    animations:
+    - attack
+    - ca_hurt
+    - death
+    - idle
+    - pillar
+    - shield_bash
+    - walk
+    skills:
+    - CHA_MOB_shield_rush_mf_warden_tank
+  CA_Wild_mf_warden_tank_shiny:
+    model: ca_mf_warden_tank_s
+    animations:
+    - attack
+    - ca_hurt
+    - death
+    - idle
+    - pillar
+    - shield_bash
+    - walk
+    skills:
+    - CHA_MOB_shield_rush_mf_warden_tank_shiny
+  CA_Wild_mf_warden_knight:
+    model: ca_mf_warden_knight
+    animations:
+    - attack
+    - ca_hurt
+    - death
+    - heavy_slash
+    - idle
+    - seal_charge
+    - walk
+    skills:
+    - CHA_MOB_seal_charge_mf_warden_knight
+    - CHA_MOB_shield_slam_mf_warden_knight
+  CA_Wild_mf_warden_knight_shiny:
+    model: ca_mf_warden_knight_s
+    animations:
+    - attack
+    - ca_hurt
+    - death
+    - heavy_slash
+    - idle
+    - seal_charge
+    - walk
+    skills:
+    - CHA_MOB_seal_charge_mf_warden_knight_shiny
+    - CHA_MOB_shield_slam_mf_warden_knight_shiny

@@ -1,0 +1,84 @@
+# Spawn with: /mm mobs spawn ChAcademiaTornado 1
+mythic-mob-id: ChAcademiaTornado
+allowed-worlds:
+  - world
+duration-ticks: 3600
+max-active: 2
+
+random-spawn:
+  enabled: true
+  # A single roll per server, only in autumn and only with an outdoor survival/adventure player.
+  check-interval-seconds: 60
+  chance-per-check: 0.06
+  minimum-distance: 48
+  maximum-distance: 80
+  duplicate-radius: 192
+  global-cooldown-seconds: 600
+  area-cooldown-seconds: 1800
+
+seasonal-spells:
+  steam: true
+  winter-ice: true
+  ice-duration-ticks: 160
+  max-ice-blocks: 64
+
+movement:
+  blocks-per-second: 4.2
+  roam-radius: 90
+  turn-every-ticks: 45
+  turn-radians: 0.45
+  ground-follow-ticks: 5
+
+pull:
+  radius: 20
+  vertical-radius: 22
+  every-ticks: 2
+  max-entities-per-scan: 48
+  inward: 0.66
+  swirl: 0.34
+  lift: 0.38
+  hold-height: 11
+  max-speed: 1.05
+
+blocks:
+  enabled: true
+  every-ticks: 10
+  probes-per-pass: 3
+  radius: 6
+  max-destroyed-per-tornado: 240
+  # Only simple terrain materials. Containers, ores and player structures are excluded.
+  allowed-materials:
+    - GRASS_BLOCK
+    - DIRT
+    - COARSE_DIRT
+    - ROOTED_DIRT
+    - PODZOL
+    - MYCELIUM
+    - MOSS_BLOCK
+    - SHORT_GRASS
+    - TALL_GRASS
+    - FERN
+    - LARGE_FERN
+    - OAK_LEAVES
+    - BIRCH_LEAVES
+    - SPRUCE_LEAVES
+    - DARK_OAK_LEAVES
+    - JUNGLE_LEAVES
+    - ACACIA_LEAVES
+    - CHERRY_LEAVES
+    - MANGROVE_LEAVES
+    - AZALEA_LEAVES
+    - FLOWERING_AZALEA_LEAVES
+    - OAK_LOG
+    - BIRCH_LOG
+    - SPRUCE_LOG
+    - DARK_OAK_LOG
+    - JUNGLE_LOG
+    - ACACIA_LOG
+    - CHERRY_LOG
+    - MANGROVE_LOG
+
+debris:
+  max-active-per-tornado: 14
+  duration-ticks: 55
+  scale: 0.45

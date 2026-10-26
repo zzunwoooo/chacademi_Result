@@ -1,0 +1,14 @@
+id: shadow_double
+name: 그림자 분신
+category: dark
+description: 시전 위치에 그림자 분신을 남깁니다. 8초 안에 다시 쓰면 분신이 있는 곳으로 돌아옵니다. 분신이 있는 동안에는 재사용 대기시간이 돌지 않습니다.
+icon: magiccodex:textures/spells/intermediate/shadow_double.png
+permission: magic.learned.shadow_double
+discovery:
+  description: 도서관에서 「그림자는 두 번 선다」 책 읽기.
+research: 밤이 깊으면 한 자리에서 예순을 세어 보라. 떠난 뒤에도 그림자는 잠시 그곳을 기억한다.
+cast:
+  command: 마법 shadow_double
+  cooldown-seconds: 25
+  mana-cost: 75
+order: 276

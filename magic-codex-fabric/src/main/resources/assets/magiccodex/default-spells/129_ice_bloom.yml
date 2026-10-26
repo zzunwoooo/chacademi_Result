@@ -1,0 +1,14 @@
+id: ice_bloom
+name: 얼음 꽃
+category: water
+description: 바닥에 얼음 꽃을 심습니다. 1.5초 뒤 꽃이 깨지며 여섯 방향으로 얼음 파편이 땅을 타고 달려 나갑니다.
+icon: ''
+permission: magic.learned.ice_bloom
+discovery:
+  description: 서리 파열로 몬스터 20마리 처치하기.
+research: ''
+cast:
+  command: 마법 ice_bloom
+  cooldown-seconds: 16
+  mana-cost: 70
+order: 129

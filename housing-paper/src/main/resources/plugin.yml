@@ -1,0 +1,7 @@
+name: ChacaHousing
+version: '${version}'
+main: school.chacademia.housing.HousingPlugin
+api-version: '1.21.4'
+description: 기숙사 내 방 꾸미기 (차카데미 하우징)
+softdepend: [Vault, MagicCodexBridge]
+# 명령은 MagicCodexBridge 명령어 허브에 붙습니다: /하우징관리 문·가구목록, /유저관리 <닉네임> 방·가구, /테스트 하우징 내방, /방구경

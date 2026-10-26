@@ -1,0 +1,14 @@
+id: wound_accounting
+name: 상처 회계
+category: dark
+description: 먹물 덩어리를 날려 맞은 적에게 무작위 디버프 하나를 겁니다.
+icon: magiccodex:textures/spells/expansion_2/wound_accounting.png
+permission: magic.learned.wound_accounting
+discovery:
+  description: 그레고르 교감의 어둠 마법 심화 수업 듣기.
+research: 겪어 본 저주는 저마다 다른 흔적을 남겼다. 이제는 그 흔적을 되돌려 줄 차례다.
+cast:
+  command: 마법 wound_accounting
+  cooldown-seconds: 30
+  mana-cost: 80
+order: 280

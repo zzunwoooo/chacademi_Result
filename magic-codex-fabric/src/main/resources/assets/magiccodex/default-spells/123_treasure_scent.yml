@@ -1,0 +1,14 @@
+id: treasure_scent
+name: 보물 냄새
+category: water
+description: 물속 보물의 냄새를 맡습니다. 10분 동안 보물상자가 낚일 확률이 2배가 됩니다.
+icon: ''
+permission: magic.learned.treasure_scent
+discovery:
+  description: 낚시로 보물상자를 처음 낚기.
+research: ''
+cast:
+  command: 마법 treasure_scent
+  cooldown-seconds: 600
+  mana-cost: 60
+order: 123

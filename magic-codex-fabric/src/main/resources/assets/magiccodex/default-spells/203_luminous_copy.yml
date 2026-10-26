@@ -1,0 +1,14 @@
+id: luminous_copy
+name: 빛의 필사
+category: light
+description: 사용자가 글씨를 직접 입력하면 빛으로 된 글씨를 배치해 5초 동안 표시합니다. 입력 중에는 몸에 빛이 모이고, 완료하면 그 빛이 글씨 배치 위치로 이동합니다.
+icon: magiccodex:textures/spells/expansion_2/luminous_copy.png
+permission: magic.learned.luminous_copy
+discovery:
+  description: 책과 깃펜으로 책을 작성한 뒤 서명하기.
+research: 도서관 사서가 가장 먼저 가르쳐 달라고 부탁한 마법.
+cast:
+  command: 마법 luminous_copy
+  cooldown-seconds: 5
+  mana-cost: 10
+order: 203

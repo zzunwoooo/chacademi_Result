@@ -1,0 +1,14 @@
+id: cinder_skipring
+name: 불꽃 줄넘기
+category: fire
+description: 발밑에서 바깥으로 퍼지는 불고리를 보냅니다. 고리에 닿은 적은 피해를 입고, 뛰어넘거나 안쪽으로 파고들면 피할 수 있습니다.
+icon: magiccodex:textures/spells/reviewed_20261020/cinder_skipring.png
+permission: magic.learned.cinder_skipring
+discovery:
+  description: 세드릭 교수와 친해진 뒤(호감도 30) 화염 비전 수업 듣기.
+research: 불길은 바닥을 달렸지만, 가볍게 떠오른 발끝에는 뜨거운 자국조차 남지 않았다.
+cast:
+  command: 마법 cinder_skipring
+  cooldown-seconds: 18
+  mana-cost: 90
+order: 80

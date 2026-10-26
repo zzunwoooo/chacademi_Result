@@ -1,0 +1,33 @@
+plugins { id 'java' }
+group = 'school.chacademia'
+version = '0.1.2-integrated-20261019.1-combat.1-commands.1-followups.1'
+base { archivesName = 'chaca-kyudichi' }
+repositories {
+    if (findProperty('localDependencyRepo')) maven { url = uri(property('localDependencyRepo')) }
+    mavenCentral()
+    maven { url = 'https://repo.papermc.io/repository/maven-public/' }
+}
+dependencies {
+    compileOnly 'io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT'
+    // MagicCodexBridge, ChAcademiaMagicMythic, ChacademyMotion, ModelEngine, PortableVFX: reflection / Bukkit events by name only.
+    implementation files('../magic-codex-database/lib/mariadb-java-client-3.5.10.jar')
+    testImplementation 'io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT'
+    testImplementation platform('org.junit:junit-bom:5.11.4')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+// Shared wire format with the MagicCodex client (KyudichiProtocol) and the shared DB helper.
+sourceSets.main.java.srcDir '../magic-codex-protocol/src/main/java'
+sourceSets.main.java.srcDir '../magic-codex-database/src/main/java'
+jar {
+    from { zipTree('../magic-codex-database/lib/mariadb-java-client-3.5.10.jar') }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+java { toolchain.languageVersion = JavaLanguageVersion.of(21) }
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8'; options.release = 21 }
+test { useJUnitPlatform() }
+processResources {
+    filteringCharset = 'UTF-8'
+    inputs.property 'version', project.version
+    filesMatching('plugin.yml') { expand version: project.version }
+}

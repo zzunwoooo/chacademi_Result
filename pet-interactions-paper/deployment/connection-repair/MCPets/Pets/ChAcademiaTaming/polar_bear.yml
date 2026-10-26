@@ -1,0 +1,15 @@
+Id: chacademia_polar_bear
+MythicMob: ChAcademiaPetPolarBear
+Permission: chacademia.pet.polar_bear
+Distance: 8
+SpawnRange: 2
+ComingBackRange: 3
+Mountable: false
+AutoRide: false
+Icon:
+  Name: 북극곰
+  Material: POLAR_BEAR_SPAWN_EGG
+  Description:
+  - 교화로 함께하게 된 동료
+CheckPermission: true
+FollowOwner: true

@@ -1,0 +1,27 @@
+{
+  "warnings": [
+    "스킨 없음: 정적 모델로만 표시됩니다",
+    "허벅지 뼈를 못 찾아 정면 방향 보정 안 함(+Z 가정, --yaw 로 지정 가능)"
+  ],
+  "out": "wizard_statue.glb",
+  "bytes": 1763852,
+  "sha256": "def88e0f01b095b82185990a3ceb725ba816154d3b3fee7fa3faf0d03f7bd743",
+  "heightBlocks": 1.8,
+  "scale": 1.8008794440521385,
+  "yawDegrees": 0.0,
+  "clips": {},
+  "triangles": 15493,
+  "joints": 0,
+  "textures": [
+    [
+      2048,
+      2048
+    ]
+  ],
+  "proportion": {
+    "legs": 1.0,
+    "torso": 1.0,
+    "arms": 1.0
+  },
+  "input": "zip/tripo_convert_02d20c5c-28bf-4e27-880e-87886e07d498.fbx"
+}

@@ -1,0 +1,14 @@
+id: merciful_arrow
+name: 자비의 화살
+category: light
+description: 매우 빠른 치유 화살을 발사합니다. 실제 활이나 일반 화살 아이템은 필요하지 않습니다.
+icon: magiccodex:textures/spells/expansion_2/merciful_arrow.png
+permission: magic.learned.merciful_arrow
+discovery:
+  description: 이솔데 교수의 빛 마법 고급 수업 듣기.
+research: 화살이 반드시 상처만 남겨야 한다는 법은 없다.
+cast:
+  command: 마법 merciful_arrow
+  cooldown-seconds: 15
+  mana-cost: 45
+order: 224

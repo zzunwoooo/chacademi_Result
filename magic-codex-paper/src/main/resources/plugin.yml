@@ -1,0 +1,140 @@
+name: MagicCodexBridge
+version: '${version}'
+main: school.magiccodex.paper.MagicCodexBridge
+api-version: '1.21.4'
+description: Permission, balance, server-authoritative mana and spell casting for Magic Codex.
+softdepend: [HuskSync, ItemsAdder, LuckPerms, Vault, PlaceholderAPI, MCPets, MythicMobs, ModelEngine, Citizens, donation]
+commands:
+  기숙사분류:
+    description: Administrator house sorting and population balance.
+    permission: magiccodex.school.admin
+    usage: /기숙사분류 시작|희망|결정|현황|허용치
+permissions:
+  magiccodex.chunkclaim.bypass:
+    description: 청크 점유(chunk-claims.yml) 보호를 받지 않음 — 남의 땅에서도 활동 (관리자)
+    default: op
+  magiccodex.combatlock.bypass:
+    description: 전투 중 이동 막기(combat-lock.yml)를 받지 않음 (관리자)
+    default: op
+  magiccodex.convenience.help:
+    description: /도움 <할말> 운영자에게 도움 요청 (메모 #95)
+    default: true
+  magiccodex.convenience.trash:
+    description: /쓰레기통 (메모 #95)
+    default: true
+  magiccodex.nameplates.admin:
+    default: op
+  magiccodex.artifact.admin:
+    default: op
+  magiccodex.artifact.summon:
+    default: true
+  magiccodex.artifact.own.*:
+    default: false
+  magiccodex.alchemy.use:
+    default: true
+  magiccodex.alchemy.admin:
+    default: op
+  magiccodex.alchemy.recipe.*:
+    default: false
+  magiccodex.fishing.codex:
+    default: true
+  magiccodex.fishing.admin:
+    default: op
+  magiccodex.fishshop.admin:
+    default: op
+  magic.learned.fish_trap:
+    description: 아공간 수조 마법. 낚시의 기본 마법이라 모두 처음부터 알고 있다.
+    default: true
+  magiccodex.nickname.admin:
+    description: (예전 명령 권한, 이제 OP가 /유저관리 <닉네임> 닉네임 으로 처리)
+    default: op
+  magiccodex.titles:
+    default: true
+  magiccodex.titles.admin:
+    default: op
+  magiccodex.dialogue:
+    default: true
+  magiccodex.dialogue.admin:
+    default: op
+  magiccodex.quests:
+    default: true
+  magiccodex.quests.admin:
+    default: op
+  magiccodex.shiny.admin:
+    default: op
+  magiccodex.taming:
+    default: true
+  magiccodex.taming.admin:
+    default: op
+  magiccodex.reconfigure:
+    default: true
+  magiccodex.reconfigure.admin:
+    default: op
+  magiccodex.enhance:
+    default: true
+  magiccodex.enhance.admin:
+    default: op
+  magiccodex.core.admin:
+    default: op
+  magiccodex.core.use:
+    default: true
+  magiccodex.equipment:
+    default: true
+  magiccodex.equipment.admin:
+    default: op
+  magiccodex.school:
+    default: true
+  magiccodex.donate:
+    default: true
+  magiccodex.school.admin:
+    default: op
+  magiccodex.house.arkeon:
+    default: false
+  magiccodex.house.lumina:
+    default: false
+  magiccodex.house.bestiaz:
+    default: false
+  magiccodex.house.noxer:
+    default: false
+  magiccodex.climate.admin:
+    default: op
+  magiccodex.pets:
+    default: true
+  magiccodex.pets.admin:
+    default: op
+  magiccodex.temperature.admin:
+    default: op
+  magiccodex.ascend:
+    default: true
+  magiccodex.ascend.2:
+    default: false
+  magiccodex.ascend.3:
+    default: false
+  magiccodex.ascend.4:
+    default: false
+  magiccodex.ascend.5:
+    default: false
+  magiccodex.ascend.6:
+    default: false
+  magiccodex.ascend.7:
+    default: false
+  magiccodex.ascend.8:
+    default: false
+  magiccodex.ascend.9:
+    default: false
+  magiccodex.friends:
+    default: true
+  magiccodex.stats.view:
+    default: true
+  magiccodex.mana.admin:
+    default: op
+
+  magiccodex.mailbox:
+    default: true
+  magiccodex.mailbox.admin:
+    description: (예전 명령 권한, 이제 OP가 /유저관리 <닉네임> 우편 으로 처리)
+    default: op
+  magiccodex.shop:
+    default: true
+  magiccodex.shop.admin:
+    default: op

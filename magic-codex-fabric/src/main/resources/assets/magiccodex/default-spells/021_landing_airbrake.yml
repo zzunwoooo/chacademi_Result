@@ -1,0 +1,14 @@
+id: landing_airbrake
+name: 빗자루 차원이동
+category: wind
+description: 빗자루를 탄 채로 바라보는 방향 약 6블록 앞으로 순간이동합니다.
+icon: magiccodex:textures/spells/reviewed_20261020/landing_airbrake.png
+permission: magic.learned.landing_airbrake
+discovery:
+  description: 빗자루를 타고 누적 1,000블록 날기.
+research: 바람이 지나간 자리에, 잠시 접힌 하늘의 틈이 남았다.
+cast:
+  command: 마법 landing_airbrake
+  cooldown-seconds: 16
+  mana-cost: 35
+order: 21

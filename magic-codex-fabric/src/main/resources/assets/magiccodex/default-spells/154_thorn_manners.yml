@@ -1,0 +1,14 @@
+id: thorn_manners
+name: 가시의 예절
+category: earth
+description: 20초 동안 달콤한 열매 덤불을 스쳐도 느려지거나 다치지 않습니다.
+icon: magiccodex:textures/spells/reviewed_20261020/thorn_manners.png
+permission: magic.learned.thorn_manners
+discovery:
+  description: 달콤한 열매 덤불에서 열매를 20번 따기.
+research: 바구니에 붉은 열매가 쌓일수록, 돌아오는 길은 덜 따가웠다.
+cast:
+  command: 마법 thorn_manners
+  cooldown-seconds: 30
+  mana-cost: 10
+order: 154

@@ -1,0 +1,15 @@
+id: smoke_veil
+name: 연막 은신
+category: earth
+description: 발밑에 연막탄을 터뜨립니다. 주변 적은 2초 동안 앞을 보지 못하고, 자신은 2초 동안 모습을 감춥니다.
+# Existing icon reused from faint_veil; dedicated mob-skill artwork was not supplied.
+icon: magiccodex:textures/spells/mob_skill/smoke_veil.png
+permission: magic.learned.smoke_veil
+discovery:
+  description: 약초 도둑을 처치하면 5% 확률로 습득합니다.
+research: 약초 도둑은 싸우지 않는다. 연기가 걷히면 이미 없다.
+cast:
+  command: 마법 smoke_veil
+  cooldown-seconds: 20
+  mana-cost: 35
+order: 173

@@ -1,0 +1,14 @@
+id: charcoal_conversion
+name: 발화
+category: fire
+description: 20블록 이내의 바라보는 대상을 10초간 발화합니다.
+icon: magiccodex:textures/spells/expansion_2/charcoal_conversion.png
+permission: magic.learned.charcoal_conversion
+discovery:
+  description: 세드릭 교수의 화염 마법 중급 수업 듣기.
+research: 탈 물질, 산소, 충분한 열.. 대부분 마나로 대체할 수 있겠군.
+cast:
+  command: 마법 charcoal_conversion
+  cooldown-seconds: 10
+  mana-cost: 60
+order: 72

@@ -1,0 +1,15 @@
+Id: chacademia_wolf
+MythicMob: ChAcademiaPetWolf
+Permission: chacademia.pet.wolf
+Distance: 8
+SpawnRange: 2
+ComingBackRange: 3
+Mountable: false
+AutoRide: false
+Icon:
+  Name: 회색 늑대
+  Material: WOLF_SPAWN_EGG
+  Description:
+  - 교화로 함께하게 된 동료
+CheckPermission: true
+FollowOwner: true

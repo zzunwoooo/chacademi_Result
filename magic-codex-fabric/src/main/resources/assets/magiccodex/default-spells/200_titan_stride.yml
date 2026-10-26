@@ -1,0 +1,14 @@
+id: titan_stride
+name: 타이탄의 발걸음
+category: earth
+description: 거인의 발이 바라보는 방향을 따라 세 번 땅을 내려찍습니다. 발이 떨어질 자리는 1초 전에 표시되고, 마지막 발에 맞은 적은 기절합니다.
+icon: ''
+permission: magic.learned.titan_stride
+discovery:
+  description: 대지 마법 35종 습득하기.
+research: ''
+cast:
+  command: 마법 titan_stride
+  cooldown-seconds: 900
+  mana-cost: 450
+order: 200

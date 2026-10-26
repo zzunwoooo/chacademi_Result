@@ -1,0 +1,16 @@
+name: ChacaPortrait
+version: '${version}'
+main: kr.chacademy.portrait.ChacaPortraitPlugin
+api-version: '1.21'
+description: 차카데미 플레이어 일러스트 (스킨 → AI 일러스트, 대화창 "내 차례" 초상화)
+authors: [Chacademy]
+softdepend: [ItemsAdder, SkinsRestorer, MagicCodexBridge]
+# 관리 명령은 MagicCodexBridge 명령어 허브(Brigadier)에 등록한다:
+#   /유저관리 <닉네임> 초상화 · /서버관리 초상화 · /서버관리 새로고침 초상화
+permissions:
+  chacaportrait.auto:
+    description: 최초 접속 시 일러스트 자동 생성 대상
+    default: true
+  chacaportrait.reroll:
+    description: 다시 그리기 아이템 사용
+    default: true

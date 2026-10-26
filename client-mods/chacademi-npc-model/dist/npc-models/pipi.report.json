@@ -1,0 +1,41 @@
+{
+  "warnings": [],
+  "out": "pipi.glb",
+  "bytes": 4274848,
+  "sha256": "28800e9c4dec368e48360032af1142115af7f5b077c04d3ad75df9b27a35337d",
+  "heightBlocks": 1.6,
+  "scale": 1.7045579828797317,
+  "yawDegrees": -0.0,
+  "clips": {
+    "greet_02": {
+      "seconds": 5.5833,
+      "rootSpeed": 0.0
+    },
+    "look_around": {
+      "seconds": 15.5833,
+      "rootSpeed": 0.0
+    },
+    "walk": {
+      "seconds": 2.3333,
+      "rootSpeed": 0.0
+    }
+  },
+  "triangles": 13172,
+  "joints": 65,
+  "textures": [
+    [
+      2048,
+      2048
+    ],
+    [
+      2048,
+      2048
+    ]
+  ],
+  "proportion": {
+    "legs": 1.0,
+    "torso": 1.0,
+    "arms": 1.0
+  },
+  "input": "src.glb"
+}

@@ -1,0 +1,14 @@
+id: water_bolt
+name: 물방울 탄환
+category: water
+description: 작은 물방울 탄환으로 몬스터 하나를 공격하고 약 1블록 밀어냅니다.
+icon: magiccodex:textures/spells/novice_extra/water_bolt.png
+permission: magic.learned.water_bolt
+discovery:
+  description: 엘레나 교수의 물 마법 기초 수업 듣기.
+research: 작은 물방울도 충분히 빠르면 훌륭한 탄환이 된다.
+cast:
+  command: 마법 water_bolt
+  cooldown-seconds: 4
+  mana-cost: 5
+order: 100

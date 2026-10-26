@@ -1,0 +1,5 @@
+name: MagicDiscovery
+version: '${version}'
+main: school.magiccodex.discovery.MagicDiscovery
+api-version: '1.21.4'
+softdepend: [LuckPerms, MagicCodexBridge]

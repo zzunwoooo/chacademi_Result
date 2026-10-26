@@ -1,0 +1,14 @@
+id: weathering_touch
+name: 풍화의 손길
+category: earth
+description: 석재를 이끼가 낀 돌이나 금이 간 돌 등 낡은 변종으로 무작위 변경합니다.
+icon: magiccodex:textures/spells/expansion/weathering_touch.png
+permission: magic.learned.weathering_touch
+discovery:
+  description: 석재 벽돌을 누적 30개 설치합니다.
+research: 새 벽돌을 오래된 유적처럼 꾸미는 데 쓰인다. 오래된 유적을 새 건물처럼 만드는 주문은 따로 연구 중이다.
+cast:
+  command: 마법 weathering_touch
+  cooldown-seconds: 3
+  mana-cost: 10
+order: 152

@@ -1,0 +1,14 @@
+id: air_cannon
+name: 공기 포탄
+category: wind
+description: 압축한 공기 포탄 세 발을 연달아 쏩니다. 맞을 때마다 조금씩 밀리고, 세 발을 모두 맞은 적은 3초 동안 무거워집니다.
+icon: ''
+permission: magic.learned.air_cannon
+discovery:
+  description: 바람 화살로 적을 100번 맞히기.
+research: ''
+cast:
+  command: 마법 air_cannon
+  cooldown-seconds: 14
+  mana-cost: 70
+order: 37

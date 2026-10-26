@@ -1,0 +1,15 @@
+Id: chacademia_villager
+MythicMob: ChAcademiaPetVillager
+Permission: chacademia.pet.villager
+Distance: 8
+SpawnRange: 2
+ComingBackRange: 3
+Mountable: false
+AutoRide: false
+Icon:
+  Name: 주민
+  Material: VILLAGER_SPAWN_EGG
+  Description:
+  - 교화로 함께하게 된 동료
+CheckPermission: true
+FollowOwner: true

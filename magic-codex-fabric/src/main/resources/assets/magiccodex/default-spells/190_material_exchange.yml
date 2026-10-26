@@ -1,0 +1,14 @@
+id: material_exchange
+name: 자재 치환
+category: earth
+description: 대상의 발밑에 흙이 붙잡는 연출로 이동만 2초 동안 막습니다. 보스는 면역입니다. 공격이나 스킬 사용까지 막는 기절은 아니며 실제 블록은 설치하지 않습니다.
+icon: magiccodex:textures/spells/reviewed_20261020/material_exchange.png
+permission: magic.learned.material_exchange
+discovery:
+  description: 베르나 교수의 대지 마법 고급 수업 듣기.
+research: 다 지은 벽의 색이 마음에 들지 않는 날이 있다. 설계도를 다시 그리기 전에 이 주문을 떠올려 보자.
+cast:
+  command: 마법 material_exchange
+  cooldown-seconds: 60
+  mana-cost: 100
+order: 190

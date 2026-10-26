@@ -1,0 +1,14 @@
+id: starlight_reprise
+name: 별빛 재현
+category: light
+description: 궁극 마법입니다. 장착한 마법 중 이 마법 자신을 제외한 무작위 1개의 쿨타임을 초기화합니다. 선택된 마법을 다시 시전하지 않으며 그 마법의 마나 비용도 추가로 소비하지 않습니다.
+icon: magiccodex:textures/spells/expansion_2/starlight_reprise.png
+permission: magic.learned.starlight_reprise
+discovery:
+  description: 30초 안에 서로 다른 6원소의 마법을 사용합니다.
+research: 여섯 빛을 숨 돌릴 틈 없이 이어 보라. 마지막 빛이 닿으면, 저문 별 하나가 다시 떠오른다.
+cast:
+  command: 마법 starlight_reprise
+  cooldown-seconds: 600
+  mana-cost: 450
+order: 247

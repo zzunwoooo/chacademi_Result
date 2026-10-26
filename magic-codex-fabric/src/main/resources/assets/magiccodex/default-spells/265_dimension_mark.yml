@@ -1,0 +1,14 @@
+id: dimension_mark
+name: 차원 표식
+category: dark
+description: 텔레포트 게이트에 표식을 새깁니다. 다른 게이트에 한 번 더 쓰면 두 게이트가 2분 동안 이어집니다.
+icon: magiccodex:textures/spells/gimmick/dimension_mark.png
+permission: magic.learned.dimension_mark
+discovery:
+  description: 엔더 진주로 순간 이동 10번 하기.
+research: 두 문 사이의 거리는 접을 수 있다. 양쪽에 같은 이름을 새겨 두기만 하면.
+cast:
+  command: 마법 dimension_mark
+  cooldown-seconds: 5
+  mana-cost: 40
+order: 265

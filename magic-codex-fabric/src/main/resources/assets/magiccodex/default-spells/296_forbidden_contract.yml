@@ -1,0 +1,14 @@
+id: forbidden_contract
+name: 금서의 계약
+category: dark
+description: 최대 마나의 70%를 바쳐 3초 동안 마나 회복을 체력 회복으로 바꿉니다. 그 뒤 15초 동안 마나가 회복되지 않습니다.
+icon: magiccodex:textures/spells/advanced/forbidden_contract.png
+permission: magic.learned.forbidden_contract
+discovery:
+  description: 그레고르 교감와(과) 친해진 뒤(호감도 30) 어둠 비전 수업 듣기.
+research: 계약서의 작은 글씨를 읽지 않은 마법사는 오래 살지 못했다.
+cast:
+  command: 마법 forbidden_contract
+  cooldown-seconds: 180
+  mana-cost: 0
+order: 296

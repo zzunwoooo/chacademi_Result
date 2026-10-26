@@ -1,0 +1,16 @@
+id: crimson_breath
+name: 드래곤 브레스
+category: fire
+description: 긴 영창 뒤 전설적인 용의 숨결을 내뿜습니다.
+icon: magiccodex:textures/spells/expansion_2/crimson_breath.png
+permission: magic.learned.crimson_breath
+discovery:
+  description: 최대 마나를 2500까지 늘리기.
+research: '드래곤의 브레스는 그 무엇보다도 뜨거운 온도를 지니고 있다.
+
+  드래곤의 마나 코어 없이는 시도조차 불가능한 고위급 마법이다.'
+cast:
+  command: 마법 crimson_breath
+  cooldown-seconds: 1000
+  mana-cost: 450
+order: 98

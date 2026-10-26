@@ -1,0 +1,323 @@
+{
+  "version": 3,
+  "name": "artifact_doze",
+  "author": "Chacademy",
+  "description": "바닥에 앉아 고개가 천천히 떨어졌다가 퍼뜩 드는 꾸벅꾸벅 조는 모션 (반복)",
+  "emote": {
+    "beginTick": 8,
+    "endTick": 68,
+    "stopTick": 76,
+    "isLoop": true,
+    "returnTick": 8,
+    "nsfw": false,
+    "degrees": true,
+    "moves": [
+      {
+        "tick": 8,
+        "easing": "INSINE",
+        "head": {
+          "pitch": 14
+        }
+      },
+      {
+        "tick": 8,
+        "easing": "INSINE",
+        "body": {
+          "pitch": -5,
+          "y": -0.62
+        }
+      },
+      {
+        "tick": 8,
+        "easing": "INSINE",
+        "rightLeg": {
+          "pitch": -84,
+          "yaw": 4,
+          "roll": 8
+        }
+      },
+      {
+        "tick": 8,
+        "easing": "INSINE",
+        "leftLeg": {
+          "pitch": -84,
+          "yaw": -4,
+          "roll": -8
+        }
+      },
+      {
+        "tick": 8,
+        "easing": "INSINE",
+        "rightArm": {
+          "pitch": -38,
+          "yaw": -8,
+          "roll": -4
+        }
+      },
+      {
+        "tick": 8,
+        "easing": "INSINE",
+        "leftArm": {
+          "pitch": -38,
+          "yaw": 8,
+          "roll": 4
+        }
+      },
+      {
+        "tick": 33,
+        "easing": "INOUTSINE",
+        "head": {
+          "pitch": 36
+        }
+      },
+      {
+        "tick": 33,
+        "easing": "INOUTSINE",
+        "body": {
+          "pitch": -9,
+          "y": -0.62
+        }
+      },
+      {
+        "tick": 33,
+        "easing": "INOUTSINE",
+        "rightLeg": {
+          "pitch": -84,
+          "yaw": 4,
+          "roll": 8
+        }
+      },
+      {
+        "tick": 33,
+        "easing": "INOUTSINE",
+        "leftLeg": {
+          "pitch": -84,
+          "yaw": -4,
+          "roll": -8
+        }
+      },
+      {
+        "tick": 33,
+        "easing": "INOUTSINE",
+        "rightArm": {
+          "pitch": -38,
+          "yaw": -8,
+          "roll": -4
+        }
+      },
+      {
+        "tick": 33,
+        "easing": "INOUTSINE",
+        "leftArm": {
+          "pitch": -38,
+          "yaw": 8,
+          "roll": 4
+        }
+      },
+      {
+        "tick": 37,
+        "easing": "OUTQUAD",
+        "head": {
+          "pitch": 40
+        }
+      },
+      {
+        "tick": 37,
+        "easing": "OUTQUAD",
+        "body": {
+          "pitch": -10,
+          "y": -0.62
+        }
+      },
+      {
+        "tick": 37,
+        "easing": "OUTQUAD",
+        "rightLeg": {
+          "pitch": -84,
+          "yaw": 4,
+          "roll": 8
+        }
+      },
+      {
+        "tick": 37,
+        "easing": "OUTQUAD",
+        "leftLeg": {
+          "pitch": -84,
+          "yaw": -4,
+          "roll": -8
+        }
+      },
+      {
+        "tick": 37,
+        "easing": "OUTQUAD",
+        "rightArm": {
+          "pitch": -38,
+          "yaw": -8,
+          "roll": -4
+        }
+      },
+      {
+        "tick": 37,
+        "easing": "OUTQUAD",
+        "leftArm": {
+          "pitch": -38,
+          "yaw": 8,
+          "roll": 4
+        }
+      },
+      {
+        "tick": 40,
+        "easing": "INOUTSINE",
+        "head": {
+          "pitch": 6
+        }
+      },
+      {
+        "tick": 40,
+        "easing": "INOUTSINE",
+        "body": {
+          "pitch": -3,
+          "y": -0.62
+        }
+      },
+      {
+        "tick": 40,
+        "easing": "INOUTSINE",
+        "rightLeg": {
+          "pitch": -84,
+          "yaw": 4,
+          "roll": 8
+        }
+      },
+      {
+        "tick": 40,
+        "easing": "INOUTSINE",
+        "leftLeg": {
+          "pitch": -84,
+          "yaw": -4,
+          "roll": -8
+        }
+      },
+      {
+        "tick": 40,
+        "easing": "INOUTSINE",
+        "rightArm": {
+          "pitch": -38,
+          "yaw": -8,
+          "roll": -4
+        }
+      },
+      {
+        "tick": 40,
+        "easing": "INOUTSINE",
+        "leftArm": {
+          "pitch": -38,
+          "yaw": 8,
+          "roll": 4
+        }
+      },
+      {
+        "tick": 53,
+        "easing": "INOUTSINE",
+        "head": {
+          "pitch": 10
+        }
+      },
+      {
+        "tick": 53,
+        "easing": "INOUTSINE",
+        "body": {
+          "pitch": -4,
+          "y": -0.62
+        }
+      },
+      {
+        "tick": 53,
+        "easing": "INOUTSINE",
+        "rightLeg": {
+          "pitch": -84,
+          "yaw": 4,
+          "roll": 8
+        }
+      },
+      {
+        "tick": 53,
+        "easing": "INOUTSINE",
+        "leftLeg": {
+          "pitch": -84,
+          "yaw": -4,
+          "roll": -8
+        }
+      },
+      {
+        "tick": 53,
+        "easing": "INOUTSINE",
+        "rightArm": {
+          "pitch": -38,
+          "yaw": -8,
+          "roll": -4
+        }
+      },
+      {
+        "tick": 53,
+        "easing": "INOUTSINE",
+        "leftArm": {
+          "pitch": -38,
+          "yaw": 8,
+          "roll": 4
+        }
+      },
+      {
+        "tick": 68,
+        "easing": "INOUTSINE",
+        "head": {
+          "pitch": 14
+        }
+      },
+      {
+        "tick": 68,
+        "easing": "INOUTSINE",
+        "body": {
+          "pitch": -5,
+          "y": -0.62
+        }
+      },
+      {
+        "tick": 68,
+        "easing": "INOUTSINE",
+        "rightLeg": {
+          "pitch": -84,
+          "yaw": 4,
+          "roll": 8
+        }
+      },
+      {
+        "tick": 68,
+        "easing": "INOUTSINE",
+        "leftLeg": {
+          "pitch": -84,
+          "yaw": -4,
+          "roll": -8
+        }
+      },
+      {
+        "tick": 68,
+        "easing": "INOUTSINE",
+        "rightArm": {
+          "pitch": -38,
+          "yaw": -8,
+          "roll": -4
+        }
+      },
+      {
+        "tick": 68,
+        "easing": "INOUTSINE",
+        "leftArm": {
+          "pitch": -38,
+          "yaw": 8,
+          "roll": 4
+        }
+      }
+    ]
+  }
+}

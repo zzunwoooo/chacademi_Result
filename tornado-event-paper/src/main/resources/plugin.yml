@@ -1,0 +1,6 @@
+name: ChAcademiaTornado
+version: '${version}'
+main: school.chacademia.tornado.TornadoPlugin
+api-version: '1.21.4'
+depend: [MythicMobs, WorldGuard, ModelEngine]
+softdepend: [MagicCodexBridge]

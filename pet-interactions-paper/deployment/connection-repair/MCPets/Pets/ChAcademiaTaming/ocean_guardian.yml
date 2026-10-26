@@ -1,0 +1,15 @@
+Id: chacademia_ocean_guardian
+MythicMob: ChAcademiaPetOceanGuardian
+Permission: chacademia.pet.ocean_guardian
+Distance: 8
+SpawnRange: 2
+ComingBackRange: 3
+Mountable: false
+AutoRide: false
+Icon:
+  Name: 가디언
+  Material: GUARDIAN_SPAWN_EGG
+  Description:
+  - 교화로 함께하게 된 동료
+CheckPermission: true
+FollowOwner: true

@@ -1,0 +1,14 @@
+id: firefly_mark
+name: 반딧불 표식
+category: light
+description: 시전자를 따라다니는 반딧불을 60초 동안 유지합니다. 장식 입자만 표시하는 것이 아니라 실제로 주변을 밝힙니다.
+icon: magiccodex:textures/spells/expansion_2/firefly_mark.png
+permission: magic.learned.firefly_mark
+discovery:
+  description: 밤에 횃불을 누적 30개 설치합니다.
+research: 작은 빛 하나가 어둠을 모두 몰아낼 수는 없다. 그래도 다음 발걸음을 내딛기에는 충분했다.
+cast:
+  command: 마법 firefly_mark
+  cooldown-seconds: 60
+  mana-cost: 30
+order: 215

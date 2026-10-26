@@ -1,0 +1,84 @@
+sourceSets {
+    visualTest {
+        resources.srcDir '../output/all-spells-v5/chacademia-spells-200/resourcepacks/chacademia-spells'
+        compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+        runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+    }
+}
+loom {
+    mods {
+        magiccodex { sourceSet sourceSets.main }
+        magiccodex_visualtest { sourceSet sourceSets.visualTest }
+    }
+    runs {
+        visualTest {
+            client()
+            source sourceSets.visualTest
+            runDir 'run'
+            programArgs '--width', '1280', '--height', '720', '--username', 'CodexPreview'
+            if (project.hasProperty('spellShowcase')) vmArg '-Dmagiccodex.spellShowcase=true'
+            if (project.hasProperty('titleLiveCheck')) vmArg '-Dmagiccodex.titleLiveCheck=true'
+            if (project.hasProperty('dialogueLiveCheck')) vmArg '-Dmagiccodex.dialogueLiveCheck=true'
+            if (project.hasProperty('dialogueCheck')) vmArg '-Dmagiccodex.dialogueCheck=true'
+            if (project.hasProperty('questCheck')) vmArg '-Dmagiccodex.questCheck=true'
+            if (project.hasProperty('questLiveCheck')) vmArg '-Dmagiccodex.questLiveCheck=true'
+            if (project.hasProperty('tamingCheck')) vmArg '-Dtaming.visual=true'
+            if (project.hasProperty('shinyCheck')) vmArg '-Dshiny.visual=true'
+            if (project.hasProperty('tamingLabelSmoke')) vmArg '-Dtaming.labelSmoke=true'
+            if (project.hasProperty('reconfigurationCheck')) vmArg '-Dmagiccodex.reconfigurationCheck=true'
+            if (project.hasProperty('enhancementHoverCheck')) vmArg '-Dmagiccodex.enhancementHoverCheck=true'
+            if (project.hasProperty('enhancementCheck')) vmArg '-Dmagiccodex.enhancementCheck=true'
+            if (project.hasProperty('appraisalCheck')) vmArg '-Dmagiccodex.appraisalCheck=true'
+            if (project.hasProperty('tooltipCheck')) vmArg '-Dmagiccodex.tooltipCheck=true'
+            if (project.hasProperty('hasteCheck')) vmArg '-Dmagiccodex.hasteCheck=true'
+            if (project.hasProperty('equipmentCheck')) vmArg '-Dmagiccodex.equipmentCheck=true'
+            if (project.hasProperty('schoolCheck')) vmArg '-Dmagiccodex.schoolCheck=true'
+            if (project.hasProperty('petCheck')) vmArg '-Dmagiccodex.petCheck=true'
+            if (project.hasProperty('petLiveCheck')) vmArg '-Dmagiccodex.petLiveCheck=true'
+            if (project.hasProperty('ascensionCheck')) vmArg '-Dmagiccodex.ascensionCheck=true'
+            if (project.hasProperty('manaCheck')) vmArg '-Dmagiccodex.manaCheck=true'
+            if (project.hasProperty('statsCheck')) vmArg '-Dmagiccodex.statsCheck=true'
+            if (project.hasProperty('socialCheck')) vmArg '-Dmagiccodex.socialCheck=true'
+            if (project.hasProperty('detailCheck')) vmArg '-Dmagiccodex.detailCheck=true'
+            if (project.hasProperty('hudCheck')) vmArg '-Dmagiccodex.hudCheck=true'
+            if (project.hasProperty('menuCheck')) vmArg '-Dmagiccodex.menuCheck=true'
+            if (project.hasProperty('seasonCheck')) vmArg '-Dmagiccodex.seasonCheck=true'
+            if (project.hasProperty('temperatureCheck')) vmArg '-Dmagiccodex.temperatureCheck=true'
+            if (project.hasProperty('temperatureEdgeCheck')) vmArg '-Dmagiccodex.temperatureEdgeCheck=true'
+            if (project.hasProperty('circleCheck')) vmArg '-Dmagiccodex.circleCheck=true'
+            if (project.hasProperty('vfxCheck')) vmArg '-Dmagiccodex.vfxCheck=true'
+            if (project.hasProperty('allVfxCheck')) vmArg '-Dmagiccodex.allVfxCheck=true'
+            if (project.hasProperty('castVfxCheck')) vmArg '-Dmagiccodex.castVfxCheck=true'
+            if (project.hasProperty('audio200Check')) vmArg '-Dmagiccodex.audio200Check=true'
+        }
+    }
+}
+
+// Keep this renderer independent of unrelated optional VFX fixtures.
+if (project.hasProperty('playerTurnCheck')) {
+    sourceSets.visualTest.java.setIncludes(['**/PlayerTurnVisualCheck.java'])
+    tasks.named('processVisualTestResources') {
+        filesMatching('fabric.mod.json') {
+            filter { line -> line.replace('school.magiccodex.visualtest.CodexVisualCheck',
+                                          'school.magiccodex.client.PlayerTurnVisualCheck') }
+        }
+    }
+}
+
+if (project.hasProperty('journalCheck')) {
+    sourceSets.visualTest.java.setIncludes(['**/JournalVisualCheck.java'])
+    tasks.named('processVisualTestResources') {
+        filesMatching('fabric.mod.json') {
+            filter { line -> line.replace('school.magiccodex.visualtest.CodexVisualCheck', 'school.magiccodex.client.JournalVisualCheck') }
+        }
+    }
+}
+
+if (project.hasProperty('followupCheck')) {
+    sourceSets.visualTest.java.setIncludes(['**/FollowupVisualCheck.java'])
+    tasks.named('processVisualTestResources') {
+        filesMatching('fabric.mod.json') {
+            filter { line -> line.replace('school.magiccodex.visualtest.CodexVisualCheck', 'school.magiccodex.client.FollowupVisualCheck') }
+        }
+    }
+}

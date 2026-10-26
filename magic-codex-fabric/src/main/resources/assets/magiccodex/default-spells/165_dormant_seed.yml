@@ -1,0 +1,14 @@
+id: dormant_seed
+name: 동면의 씨앗
+category: earth
+description: 전방 일렬 5칸에서 다 자란 작물만 수확합니다. 수확 후 다시 심지 않습니다.
+icon: magiccodex:textures/spells/reviewed_20261020/dormant_seed.png
+permission: magic.learned.dormant_seed
+discovery:
+  description: 베르나 교수의 대지 마법 중급 수업 듣기.
+research: 꽃이 가장 아름답게 피어난 순간을 남겨 두고 싶었던 정원사의 연구다. 깨우는 주문도 함께 배워야 한다.
+cast:
+  command: 마법 dormant_seed
+  cooldown-seconds: 3
+  mana-cost: 15
+order: 165

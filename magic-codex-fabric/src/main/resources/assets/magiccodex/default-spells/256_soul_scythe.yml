@@ -1,0 +1,15 @@
+id: soul_scythe
+name: 영혼 낫
+category: dark
+description: 영혼의 낫을 크게 휘둘러 앞쪽의 적을 베어 냅니다.
+# Existing icon reused from black_harvest; dedicated mob-skill artwork was not supplied.
+icon: magiccodex:textures/spells/mob_skill/soul_scythe.png
+permission: magic.learned.soul_scythe
+discovery:
+  description: 팬텀을 처치하면 5% 확률로 습득합니다.
+research: 낫이 지나간 자리에는 상처보다 먼저 한기가 남는다.
+cast:
+  command: 마법 soul_scythe
+  cooldown-seconds: 7
+  mana-cost: 25
+order: 256

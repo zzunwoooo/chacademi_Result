@@ -1,0 +1,14 @@
+id: flame_javelin
+name: 화염 투창
+category: fire
+description: 손에 화염 창을 만들어 던집니다. 오래 충전할수록 더 멀리, 더 세게 날아가고 꽂힌 자리에서 작은 폭발이 일어납니다.
+icon: ''
+permission: magic.learned.flame_javelin
+discovery:
+  description: 20블록 넘게 떨어진 적을 화염 마법으로 30번 맞히기.
+research: ''
+cast:
+  command: 마법 flame_javelin
+  cooldown-seconds: 9
+  mana-cost: 50
+order: 75

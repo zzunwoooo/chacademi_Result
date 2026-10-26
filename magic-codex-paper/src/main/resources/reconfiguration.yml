@@ -1,0 +1,10 @@
+# 복구권 1회 사용 시 되돌리는 실패 횟수. 성공 기록 및 능력치는 유지합니다.
+restore-count: 1
+# 마력 재구성 주문서 (오너 2026-10-26). 인벤토리에 갖고 있으면 적용 1회마다 1개 차감, 없으면 사용 불가.
+# 그림·이름은 ItemsAdder 쪽에서. 이 칸이 없으면 아래 기본값.
+scroll-items:
+  reset: "item:core_scroll_red"        # 주문서 I   · 강화 초기화
+  restore: "item:core_scroll_blue"     # 주문서 II  · 실패 횟수 복구
+  affinity: "item:core_scroll_purple"  # 주문서 III · 코어 성향 변경
+# 예전 방식의 사용 횟수(/유저관리 <닉네임> 재구성권)도 그대로 남아 있습니다.
+# 사용 횟수가 남아 있으면 그것부터 1회 차감하고, 없으면 주문서 아이템을 1개 차감합니다.

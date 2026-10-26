@@ -1,0 +1,14 @@
+id: water_breath
+name: 물결 숨결
+category: water
+description: 30초 동안 물속에서 숨을 쉴 수 있습니다.
+icon: magiccodex:textures/spells/novice/water_breath.png
+permission: magic.learned.water_breath
+discovery:
+  description: 물에 잠긴 상태에서 죽지 않고 30초 버티기
+research: 물고기는 숨을 참는 것이 아니라 물속에서 숨을 쉰다.
+cast:
+  command: 마법 water_breath
+  cooldown-seconds: 30
+  mana-cost: 25
+order: 110

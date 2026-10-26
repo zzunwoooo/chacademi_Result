@@ -1,0 +1,14 @@
+id: folding_tideplane
+name: 접히는 수면
+category: water
+description: 바닥에 물막을 펼쳤다가 책장처럼 반대편으로 넘깁니다. 넘어가는 막에 닿은 적은 피해를 입습니다.
+icon: magiccodex:textures/spells/reviewed_20261020/folding_tideplane.png
+permission: magic.learned.folding_tideplane
+discovery:
+  description: 엘레나 교수의 물 마법 심화 수업 듣기.
+research: 젖은 종이는 찢어졌지만, 물로 만든 페이지는 끝없이 넘길 수 있었다.
+cast:
+  command: 마법 folding_tideplane
+  cooldown-seconds: 22
+  mana-cost: 110
+order: 138

@@ -1,0 +1,16 @@
+id: falling_star
+name: 메테오 스트라이크
+category: fire
+description: 20블록 이내의 지정 영역에 거대한 운석을 떨어뜨립니다.
+icon: magiccodex:textures/spells/advanced/falling_star.png
+permission: magic.learned.falling_star
+discovery:
+  description: 화염 마법 20종 습득하기.
+research: '가장 원초적이고, 가장 순수한 화염 마법의 극한
+
+  모든 것을 깨우친 자의 궁극'
+cast:
+  command: 마법 falling_star
+  cooldown-seconds: 360
+  mana-cost: 600
+order: 97

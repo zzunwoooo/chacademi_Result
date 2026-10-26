@@ -1,0 +1,14 @@
+id: statue_wake
+name: 석상 깨우기
+category: dark
+description: 잠든 석상을 잠시 깨워 시선을 오른쪽으로 90도 돌리게 합니다.
+icon: magiccodex:textures/spells/gimmick/statue_wake.png
+permission: magic.learned.statue_wake
+discovery:
+  description: 대강당에서 「석상 관리 일지」 책 읽기.
+research: 석상은 잠들어 있을 뿐, 무엇을 바라봐야 하는지는 기억하고 있다.
+cast:
+  command: 마법 statue_wake
+  cooldown-seconds: 2
+  mana-cost: 20
+order: 255

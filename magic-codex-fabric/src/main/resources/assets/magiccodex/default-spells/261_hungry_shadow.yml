@@ -1,0 +1,14 @@
+id: hungry_shadow
+name: 굶주린 그림자
+category: dark
+description: 마법을 등록해 두면 몬스터를 처치할 때마다 배고픔이 조금 회복됩니다.
+icon: magiccodex:textures/spells/expansion/hungry_shadow.png
+permission: magic.learned.hungry_shadow
+discovery:
+  description: 배고픔 2칸 이하에서 몬스터 10마리 처치하기.
+research: 배가 고프면 그림자마저 무언가를 삼키려 든다.
+cast:
+  command: 마법 hungry_shadow
+  cooldown-seconds: 0
+  mana-cost: 0
+order: 261

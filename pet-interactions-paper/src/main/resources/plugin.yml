@@ -1,0 +1,7 @@
+name: ChacaPetInteractions
+version: '${version}'
+main: school.chacademia.pets.PetInteractionsPlugin
+api-version: '1.21'
+depend: [MCPets]
+softdepend: [ModelEngine]
+description: Owner-only right-click pet dismissal and MCPets-only mount prevention.

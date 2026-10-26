@@ -1,0 +1,14 @@
+id: flame_wheel
+name: 화염 원반
+category: fire
+description: 지면을 따라 구르는 불 바퀴를 굴려 보냅니다. 적을 꿰뚫고 지나가며, 벽에 닿으면 한 번 튕겨 되돌아옵니다.
+icon: ''
+permission: magic.learned.flame_wheel
+discovery:
+  description: 화염 마법으로 몬스터 30마리 처치하기.
+research: ''
+cast:
+  command: 마법 flame_wheel
+  cooldown-seconds: 10
+  mana-cost: 40
+order: 67

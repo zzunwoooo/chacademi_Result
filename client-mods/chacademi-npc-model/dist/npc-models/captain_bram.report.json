@@ -1,0 +1,36 @@
+{
+  "warnings": [],
+  "out": "captain_bram.glb",
+  "bytes": 3081580,
+  "sha256": "6ca32b58d299b4716e6c3540bd7a18fbe0dad6d85373fd386dbfce374a7cf52a",
+  "heightBlocks": 1.8,
+  "scale": 1.8512594193464535,
+  "yawDegrees": 8.53,
+  "clips": {
+    "walk": {
+      "seconds": 2.3333,
+      "rootSpeed": 0.0
+    },
+    "look_around": {
+      "seconds": 15.5833,
+      "rootSpeed": 0.0
+    },
+    "standing_relax": {
+      "seconds": 17.5833,
+      "rootSpeed": 0.0
+    }
+  },
+  "triangles": 15442,
+  "joints": 65,
+  "textures": [
+    [
+      2048,
+      2048
+    ],
+    [
+      2048,
+      2048
+    ]
+  ],
+  "input": "src/tripo_convert_d94d559e-bcc3-4150-9bb6-c7ba06312362.fbx"
+}

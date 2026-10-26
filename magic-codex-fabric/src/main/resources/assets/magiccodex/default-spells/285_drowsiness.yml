@@ -1,0 +1,14 @@
+id: drowsiness
+name: 졸음
+category: dark
+description: 몸에서 출발한 어둠 구체가 지정한 자리에 감지 영역을 만듭니다. 적이 들어오면 구체가 달라붙어 3초 동안 속박합니다.
+icon: magiccodex:textures/spells/expansion/drowsiness.png
+permission: magic.learned.drowsiness
+discovery:
+  description: 잠을 자지 않고 게임 속 3일 밤을 버티기.
+research: 한숨 자고 나면 싸울 이유를 잊어버릴지도 모른다.
+cast:
+  command: 마법 drowsiness
+  cooldown-seconds: 16
+  mana-cost: 100
+order: 285

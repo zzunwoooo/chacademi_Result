@@ -1,0 +1,14 @@
+id: fish_lure
+name: 물고기 유인
+category: water
+description: 던져 놓은 낚싯바늘의 입질 대기시간을 줄입니다.
+icon: magiccodex:textures/spells/expansion/fish_lure.png
+permission: magic.learned.fish_lure
+discovery:
+  description: 낚시로 물고기를 누적 30마리 낚기.
+research: 낚싯대를 오래 드리운다고 모든 물고기가 찾아오는 것은 아니다.
+cast:
+  command: 마법 fish_lure
+  cooldown-seconds: 20
+  mana-cost: 18
+order: 112

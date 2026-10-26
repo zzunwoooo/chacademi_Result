@@ -1,0 +1,14 @@
+id: freeze_field
+name: 빙결 지대
+category: water
+description: 조준한 곳 반경 5에 6초 동안 냉기를 깝니다. 안에 3초 넘게 머문 적은 얼어붙어 1초 기절하고, 얼음이 깨질 때 피해를 입습니다.
+icon: ''
+permission: magic.learned.freeze_field
+discovery:
+  description: 물 마법으로 몬스터 500마리 처치하기.
+research: ''
+cast:
+  command: 마법 freeze_field
+  cooldown-seconds: 45
+  mana-cost: 280
+order: 148

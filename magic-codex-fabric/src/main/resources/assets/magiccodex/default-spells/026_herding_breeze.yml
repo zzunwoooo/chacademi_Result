@@ -1,0 +1,14 @@
+id: herding_breeze
+name: 몰이 바람
+category: wind
+description: 휘파람 같은 바람으로 가축을 부릅니다. 주변의 동물들이 30초 동안 나를 따라옵니다. 다시 쓰면 풀어 줍니다.
+icon: ''
+permission: magic.learned.herding_breeze
+discovery:
+  description: 끈으로 동물을 묶어 끌고 누적 100블록 걷기.
+research: ''
+cast:
+  command: 마법 herding_breeze
+  cooldown-seconds: 60
+  mana-cost: 30
+order: 26

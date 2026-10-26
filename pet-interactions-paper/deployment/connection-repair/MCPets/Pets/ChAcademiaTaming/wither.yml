@@ -1,0 +1,15 @@
+Id: chacademia_wither
+MythicMob: ChAcademiaPetWither
+Permission: chacademia.pet.wither
+Distance: 8
+SpawnRange: 2
+ComingBackRange: 3
+Mountable: false
+AutoRide: false
+Icon:
+  Name: 위더
+  Material: WITHER_SKELETON_SKULL
+  Description:
+  - 교화로 함께하게 된 동료
+CheckPermission: true
+FollowOwner: true

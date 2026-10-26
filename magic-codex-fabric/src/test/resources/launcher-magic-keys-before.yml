@@ -1,0 +1,14 @@
+version: 1
+slots:
+- spell: ember_bolt
+  key: 49
+- spell: flame_sword_dance
+  key: 50
+- spell: returning_blade
+  key: 51
+- spell: pressure_hammer
+  key: 52
+- spell: falling_star
+  key: 53
+- spell: crossfire
+  key: 54

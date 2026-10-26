@@ -1,0 +1,48 @@
+plugins {
+    id 'fabric-loom' version "${loom_version}"
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name
+}
+
+repositories {
+    maven { name = "KosmX's maven"; url = 'https://maven.kosmx.dev/' }
+}
+
+repositories { mavenCentral() }
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.4'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    // playerAnimator 가 모장 공식 매핑으로 작성돼 있어서 같은 매핑을 씀
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    // 런처에서 따로 설치하므로 jar 에 넣지 않음 (include 없음)
+    modImplementation (findProperty("playerAnimatorJar") ? files(property("playerAnimatorJar")) : "dev.kosmx.player-anim:player-animation-lib-fabric:${project.player_anim_version}")
+}
+
+processResources {
+    inputs.property 'version', project.version
+    filesMatching('fabric.mod.json') {
+        expand 'version': project.version
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 21
+    it.options.encoding = 'UTF-8'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+test { useJUnitPlatform() }

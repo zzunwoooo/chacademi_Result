@@ -1,0 +1,14 @@
+id: healing_seal
+name: 회복 봉인
+category: dark
+description: 대상에게 8초 동안 회복봉인을 걸어 체력을 회복하지 못하게 합니다.
+icon: magiccodex:textures/spells/expansion_2/healing_seal.png
+permission: magic.learned.healing_seal
+discovery:
+  description: 그레고르 교감의 어둠 마법 응용 수업 듣기.
+research: 회복할 틈을 주지 않는 것도 오래된 결투의 예법이었다.
+cast:
+  command: 마법 healing_seal
+  cooldown-seconds: 25
+  mana-cost: 85
+order: 279

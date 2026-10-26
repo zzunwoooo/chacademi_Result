@@ -1,0 +1,15 @@
+id: shadow_leap
+name: 그림자 도약
+category: dark
+description: 대상 바로 옆으로 순간이동해 주변을 공격합니다. 설 자리가 없으면 이동하지 않습니다.
+# Existing icon reused from light_leap; dedicated mob-skill artwork was not supplied.
+icon: magiccodex:textures/spells/mob_skill/shadow_leap.png
+permission: magic.learned.shadow_leap
+discovery:
+  description: 키츠네를 처치하면 5% 확률로 습득합니다.
+research: 여우는 달려가지 않는다. 눈을 깜빡이면 이미 곁에 있다.
+cast:
+  command: 마법 shadow_leap
+  cooldown-seconds: 14
+  mana-cost: 40
+order: 269

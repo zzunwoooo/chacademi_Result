@@ -1,0 +1,1131 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+</head>
+<body>
+<title>차카데미 대화 편집기</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
+<style>
+/* 대본 편집기: 왼쪽 등장인물 · 가운데 장면 대본(위에서 아래로) · 오른쪽 미리보기. 좁으면 위아래로 쌓임 */
+:root{
+  --bg:#eceae6; --panel:#f8f7f4; --sunk:#e3e0da; --line:#cfcac1; --fg:#1d1b18; --muted:#6a645a;
+  --accent:#2f4b7c; --accent-soft:#dbe2ef; --warn:#9a5b00; --warn-soft:#f6e7cc; --danger:#a1332b; --ok:#2f6b3f;
+  --gold:#c9a66b; --stage:#0f141c;
+  --ui:"IBM Plex Sans KR",system-ui,-apple-system,"Malgun Gothic",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  --vn:"CNM","IBM Plex Sans KR",serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#131416; --panel:#1b1d20; --sunk:#101113; --line:#2e3136; --fg:#e8e5de; --muted:#9c978d;
+  --accent:#93acd9; --accent-soft:#25324a; --warn:#e3b35f; --warn-soft:#3a2f1a; --danger:#e2847b; --ok:#7fc492; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#131416; --panel:#1b1d20; --sunk:#101113; --line:#2e3136; --fg:#e8e5de; --muted:#9c978d;
+  --accent:#93acd9; --accent-soft:#25324a; --warn:#e3b35f; --warn-soft:#3a2f1a; --danger:#e2847b; --ok:#7fc492; color-scheme:dark}
+@font-face{font-family:"CNM";src:url(fonts/cnm_m.woff) format("woff");font-weight:400;font-display:swap}
+@font-face{font-family:"CNM";src:url(fonts/cnm_b.woff) format("woff");font-weight:700;font-display:swap}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:14px/1.5 var(--ui);margin:0}
+.app{padding-inline:16px;padding-block:0 24px;display:flex;flex-direction:column;gap:12px}
+header{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;padding-block:12px;border-bottom:1px solid var(--line)}
+header h1{font-size:15px;font-weight:600;margin:0}
+header .sp{flex:1}
+.status{font-size:12px;color:var(--muted)}
+button,.btn{font:inherit;font-size:13px;color:var(--fg);background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:6px 11px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+button:hover,.btn:hover{border-color:var(--muted)}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,.btn:focus-within,summary:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+button.primary{background:var(--accent);border-color:var(--accent);color:var(--panel)}
+button.ghost{background:transparent;border-color:transparent;padding:4px 7px}
+button.ghost:hover{border-color:var(--line)}
+button.danger{color:var(--danger)}
+button.small{font-size:12px;padding:3px 8px}
+.btn input{display:none}
+input[type=text],input[type=number],select,textarea{font:inherit;font-size:13px;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:5px 7px;width:100%;min-width:0}
+input[type=number]{font-family:var(--mono)}
+textarea{resize:vertical;min-height:34px}
+.lbl{font-size:12px;color:var(--muted)}
+.meta{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}
+.meta label{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+.meta input{width:auto}
+.work{display:grid;grid-template-columns:270px minmax(0,1fr) 400px;gap:12px;align-items:start}
+@media (max-width:1250px){.work{grid-template-columns:240px minmax(0,1fr)}.preview{grid-column:1/-1;position:static!important}}
+@media (max-width:760px){.work{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;min-width:0}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 12px;border-bottom:1px solid var(--line)}
+.ph h2{font-size:12px;font-weight:600;margin:0;letter-spacing:.06em;color:var(--muted)}
+.col{display:flex;flex-direction:column;gap:10px;min-width:0}
+.person{padding:10px 12px;display:flex;flex-direction:column;gap:8px;border-bottom:1px solid var(--line)}
+.person:last-child{border-bottom:0}
+.person .top{display:flex;gap:6px;align-items:center}
+.faces{display:flex;flex-wrap:wrap;gap:8px}
+.face{width:72px;display:flex;flex-direction:column;gap:3px}
+.face .img{width:72px;height:90px;border-radius:5px;background:var(--sunk) center bottom/contain no-repeat;border:1px solid var(--line)}
+.face input{font-size:12px;padding:3px 5px}
+.face button{font-size:11px;padding:1px 4px;align-self:flex-end}
+.addface{width:72px;height:90px;justify-content:center;border-style:dashed;flex-direction:column;font-size:12px;color:var(--muted)}
+.tip{font-size:12px;color:var(--muted);margin:0}
+.scene{scroll-margin-top:12px}
+.scene.sel{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.scene .ph{gap:6px}
+.scene .ph input{font-weight:600;font-size:14px;max-width:280px}
+.badge{font-size:11px;padding:2px 7px;border-radius:10px;background:var(--accent-soft);color:var(--accent);white-space:nowrap}
+.sbody{padding:10px 12px;display:flex;flex-direction:column;gap:10px}
+.line{display:grid;grid-template-columns:130px 96px minmax(0,1fr) 30px;gap:6px;align-items:start}
+@media (max-width:560px){.line{grid-template-columns:1fr 1fr 30px}.line textarea{grid-column:1/-1;grid-row:2}}
+.line textarea{font-family:var(--vn);font-size:14px}
+.endrow{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;padding-top:8px;border-top:1px dashed var(--line)}
+.endrow label{display:flex;gap:5px;align-items:center;font-size:13px;cursor:pointer}
+.endrow select{width:auto;max-width:240px}
+.choice{border:1px solid var(--line);border-radius:6px;padding:8px;display:flex;flex-direction:column;gap:6px;background:var(--bg)}
+.choice .main{display:grid;grid-template-columns:22px minmax(0,1fr) 190px 30px 30px;gap:6px;align-items:center}
+@media (max-width:560px){.choice .main{grid-template-columns:22px minmax(0,1fr) 30px 30px}.choice .main select{grid-column:2/-1;grid-row:2}}
+.choice .num{font-family:var(--mono);color:var(--muted);text-align:center}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;padding-top:6px;border-top:1px solid var(--line)}
+.opt{display:flex;flex-direction:column;gap:4px}
+.opt .row2{display:flex;gap:6px;align-items:center}
+.opt .row2 select{flex:1}
+.opt .row2 input{width:72px;flex:none}
+details.adv>summary{cursor:pointer;font-size:12px;color:var(--muted);list-style:none}
+details.adv>summary::-webkit-details-marker{display:none}
+details.adv[open]>summary{margin-bottom:8px}
+.redir{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13px}
+.affed{display:flex;flex-direction:column;gap:5px}
+.affsum{font-size:12px;color:var(--muted);padding-left:28px}
+.affsum .up{color:var(--ok)}.affsum .down{color:var(--danger)}
+.affrow{display:flex;gap:6px;align-items:center;font-size:13px}
+.affrow select{flex:1;min-width:0}
+.affrow input{width:72px;flex:none}
+.affrow .sign{font-family:var(--mono);font-size:12px;min-width:30px;text-align:right}
+.affrow .up{color:var(--ok)}.affrow .down{color:var(--danger)}
+.redir select{width:auto;max-width:180px}
+.redir input{width:70px}
+.warns{display:flex;flex-direction:column;gap:4px;padding:10px 12px}
+.warn{font-size:12px;background:var(--warn-soft);color:var(--warn);padding:5px 8px;border-radius:5px;cursor:pointer}
+.okmsg{font-size:12px;color:var(--ok);padding:8px 12px}
+.preview{position:sticky;top:calc(12px + env(safe-area-inset-top,0px))}
+.vn{position:relative;aspect-ratio:16/10;background:var(--stage);border-radius:8px 8px 0 0;overflow:hidden;cursor:pointer;user-select:none}
+.vn .por{position:absolute;left:5%;bottom:20%;height:78%;width:auto;max-width:60%;object-fit:contain;object-position:bottom}
+.vn .por-me{position:absolute;left:12%;bottom:24%;height:66%;aspect-ratio:2/3;border:1.5px dashed rgba(201,166,107,.7);border-radius:40% 40% 6px 6px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:12px;line-height:1.5;color:rgba(232,209,155,.85);background:rgba(201,166,107,.06);white-space:pre-line}
+.vn .box{position:absolute;left:5%;right:5%;bottom:4%;height:30%;background:rgba(16,23,34,.93);border-top:1px solid var(--gold);outline:1px solid rgba(201,166,107,.4)}
+.vn .name{position:absolute;left:7%;bottom:calc(34% - 13px);background:#1b2636;border:1px solid var(--gold);color:#e8d19b;font:700 14px var(--vn);padding:3px 12px}
+.vn .txt{position:absolute;left:8%;right:8%;bottom:9%;height:21%;color:#f0f1f4;font:15px/1.6 var(--vn);overflow:hidden}
+.vn .arrow{position:absolute;right:7%;bottom:6%;color:var(--gold);font-size:12px}
+.vn .choices{position:absolute;right:5%;bottom:37%;width:52%;display:flex;flex-direction:column;gap:6px}
+.vn .choices button{justify-content:flex-start;background:rgba(18,26,39,.92);border:1px solid rgba(201,166,107,.6);color:#e6e9ee;font:14px var(--vn);border-radius:0;padding:7px 10px;white-space:normal;text-align:left}
+.vn .choices button:hover{border-color:#e8d19b;background:rgba(37,55,82,.95)}
+.vn .endcard{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:#e6e9ee;background:rgba(0,0,0,.55);font-size:14px}
+.pv-ctl{padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.pv-ctl .row2{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.aff{display:grid;grid-template-columns:110px minmax(0,1fr) 44px;gap:8px;align-items:center;font-size:12px}
+.aff input[type=range]{accent-color:var(--accent);width:100%}
+.aff span:last-child{font-family:var(--mono);text-align:right}
+.log{font-family:var(--mono);font-size:11.5px;background:var(--sunk);border:1px solid var(--line);border-radius:6px;padding:8px;max-height:150px;overflow:auto;white-space:pre-wrap;margin:0}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:8px 14px;border-radius:6px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;max-width:calc(100% - 32px);z-index:5}
+.toast.show{opacity:1}
+.guide{font-size:13px;color:var(--muted);padding:10px 12px;margin:0;line-height:1.6}
+.guide b{color:var(--fg);font-weight:600}
+.offline{background:var(--warn-soft);color:var(--warn);padding:8px 14px;font-size:13px;border-bottom:1px solid var(--line)}
+.askback{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:20;padding:16px}
+.askbox{background:var(--panel);color:var(--fg);border:1px solid var(--line);border-radius:8px;max-width:560px;width:100%;max-height:80vh;overflow:auto;padding:16px;box-shadow:0 10px 40px rgba(0,0,0,.35)}
+.askbox p{margin:0 0 14px;white-space:pre-wrap;font-size:13.5px;line-height:1.6;word-break:break-word}
+.askbtns{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.face .img.none{display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--danger);border-color:var(--danger);text-align:center}
+@media (prefers-reduced-motion:reduce){.toast{transition:none}}
+</style>
+
+<div class="app">
+  <header>
+    <h1>차카데미 대화 편집기</h1>
+    <span class="status" id="saveStatus"></span>
+    <span class="sp"></span>
+    <label class="btn" title="편집기에서 내보낸 zip, 또는 dialogue.yml과 그림들을 함께 선택">불러오기
+      <input type="file" id="importInput" accept=".zip,.yml,.yaml,image/png,image/*" multiple></label>
+    <button id="prevBtn" title="불러오기 · 새 대화를 누르기 직전에 편집하던 대화로 되돌려요">이전 초안 복구</button>
+    <button id="newBtn">새 대화</button>
+    <button class="primary" id="exportBtn">zip으로 내보내기</button>
+  </header>
+
+  <div class="meta">
+    <label for="m_id">대화 id <input type="text" id="m_id" spellcheck="false" style="width:160px"></label>
+    <label for="m_title">이름 <input type="text" id="m_title" style="width:200px"></label>
+    <label for="m_speed">글자 속도(초) <input type="number" id="m_speed" min="0" max="0.5" step="0.01" style="width:80px"></label>
+    <label for="m_dim">배경 어둡게 <input type="number" id="m_dim" min="0" max="0.9" step="0.05" style="width:80px"></label>
+    <label for="m_sound">타자기 소리 <select id="m_sound" style="width:auto"><option value="default">켜기</option><option value="none">끄기</option></select></label>
+    <span class="tip" style="flex-basis:100%">글자 속도 · 배경 어둡게 · 타자기 소리: <b>게임에서는 MagicCodex 대화창 설정을 따릅니다.</b> 여기 값은 이 편집기의 미리보기에만 쓰이고 파일에는 그대로 보관돼요.</span>
+  </div>
+
+  <div class="work">
+    <section class="col" aria-label="등장인물">
+      <div class="panel">
+        <div class="ph"><h2>등장인물</h2><button class="small" id="addPerson">+ 인물</button></div>
+        <div id="people"></div>
+      </div>
+      <div class="panel">
+        <p class="guide"><b>쓰는 순서</b><br>① 인물을 만들고 표정 그림을 넣어요.<br>② 가운데에서 장면마다 대사를 써요. 대사 한 줄이 클릭 한 번이에요.<br>③ 장면이 끝나면 선택지를 보여줄지, 다음 장면으로 갈지 골라요.<br>④ 오른쪽 미리보기로 확인하고 zip으로 내보내요.<br><br><b>{player}</b>라고 쓰면 게임에서 MagicCodex 한글 닉네임으로 바뀌어요. 마인크래프트 닉네임은 <b>{account}</b>, 서버 config에 적어 둔 플레이스홀더(<b>%chacademiatitle_full%</b> 등)도 그대로 쓸 수 있어요.<br><br>"나"가 말할 때는 ChacaPortrait로 만든 그 플레이어의 AI 일러스트가 자동으로 나와요.</p>
+      </div>
+    </section>
+
+    <section class="col" aria-label="장면">
+      <div class="panel" id="warnPanel"></div>
+      <div id="scenes" class="col"></div>
+      <button id="addScene">+ 장면 추가</button>
+      <div class="panel">
+        <div class="ph"><h2>대화가 끝나면 항상 실행할 서버 명령어</h2></div>
+        <div class="sbody">
+          <textarea id="m_endcmds" rows="2" placeholder="한 줄에 하나씩. 예) 대화관리 재생 {player} 대화 ch1_school" spellcheck="false" style="font-family:var(--mono)"></textarea>
+          <p class="tip">어느 결말로 끝나든 실행돼요. 앞에 /는 붙이지 않아도 돼요. 명령어에서는 {player} = 마인크래프트 닉네임, {nickname} = 한글 닉네임.</p>
+          <span class="lbl" style="margin-top:6px">대화가 끝나면 항상 바꿀 호감도</span>
+          <div id="m_endaff"></div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="preview col" aria-label="미리보기">
+      <div class="panel">
+        <div class="vn" id="vn" tabindex="0" aria-label="미리보기 화면, 클릭하면 다음 대사"></div>
+        <div class="pv-ctl">
+          <div class="row2">
+            <button id="pvRestart">▶ 처음부터</button>
+            <button id="pvHere">▶ 선택한 장면부터</button>
+            <label class="lbl" for="pvName" style="display:flex;gap:6px;align-items:center" title="{player} 자리에 들어갈 MagicCodex 한글 닉네임">한글 닉네임 <input type="text" id="pvName" value="준우" style="width:80px"></label>
+            <label class="lbl" for="pvAcc" style="display:flex;gap:6px;align-items:center" title="{account} / 명령어의 {player} 자리">계정 <input type="text" id="pvAcc" value="zzunwoo" style="width:80px" spellcheck="false"></label>
+          </div>
+          <div id="pvAff"></div>
+          <div class="lbl">실행될 명령·호감도 변화</div>
+          <pre class="log" id="pvLog">미리보기를 시작하면 여기에 기록돼요.</pre>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<div class="offline" id="offlineNote" hidden>zip · yml 라이브러리(JSZip, js-yaml)를 인터넷에서 받지 못했어요. 편집과 임시 저장은 되지만 <b>불러오기 · zip 내보내기는 인터넷에 연결한 뒤 새로고침</b>해야 쓸 수 있어요.</div>
+<!--
+  바깥에서 받는 스크립트 (이 두 개뿐). 버전을 고정해 두었고, 배포 전에 아래 주소의 파일로 SRI 해시를 계산해
+  integrity="sha384-..." 를 붙일 것 (여기서는 네트워크가 없어 해시를 적지 않았다 — 지어내지 말 것):
+    https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js       (JSZip 3.10.1)
+    https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js    (js-yaml 4.1.0)
+  예) curl -s <주소> | openssl dgst -sha384 -binary | openssl base64 -A
+  인터넷 없이 쓰려면 두 파일을 editor/ 폴더에 받아 두고 src 를 상대 경로로 바꾸면 된다.
+-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+"use strict";
+/* ================================================================ 상태 */
+const ID_RE = /^[a-z0-9_\-]{1,64}$/;
+const DEF_AFF = 25;
+let uid = 1;
+const nextKey = p => p + (uid++);
+let D = null, selScene = null;
+
+function blankDialogue() {
+  return {
+    meta: { id: "new_dialogue", title: "새 대화", dim: 0.35, type_speed: 0.03, type_sound: "default", type_sound_volume: 0.5, end_cmds: "", end_aff: [] },
+    people: [{ key: "me", name: "{player}", npc: "", faces: [] }],
+    scenes: [newScene("첫 장면")],
+    extra: {}, srvExtra: {}, srvNpcs: [], orphans: { endings: {}, events: {}, affEvents: {}, affEndings: {} }, noServer: false
+  };
+}
+function newScene(name) {
+  return { key: nextKey("s"), name: name || "새 장면", lines: [{ who: "me", face: "", text: "" }], mode: "end", next: "",
+    choices: [], redirects: [], end_cmds: "", enter_aff: [], end_aff: [], enterEv: "" };
+}
+/* 예전 형식(선택지 하나에 호감도 하나)이나 빠진 칸을 지금 형식으로 */
+function normalize(d) {
+  d.meta.end_aff = d.meta.end_aff || [];
+  if (d.meta.type_sound_volume === undefined) d.meta.type_sound_volume = 0.5;
+  d.extra = d.extra || {}; d.srvExtra = d.srvExtra || {}; d.srvNpcs = d.srvNpcs || [];
+  d.orphans = d.orphans || { endings: {}, events: {}, affEvents: {}, affEndings: {} };
+  // 이벤트 이름이 없던 예전 초안: 그때 내보내던 이름 (c_장면_번호, e_장면) 을 그대로 붙여 준다
+  const legacy = d.scenes.some(s => s.enterEv === undefined);
+  d.scenes.forEach(s => {
+    s.enter_aff = s.enter_aff || []; s.end_aff = s.end_aff || [];
+    s.choices.forEach((c, ci) => {
+      if (!c.aff) { c.aff = c.addNpc && c.addValue ? [{ npc: c.addNpc, add: c.addValue }] : []; }
+      delete c.addNpc; delete c.addValue;
+      if (c.ev === undefined) c.ev = legacy && ((c.cmds || "").trim() || c.aff.some(x => x.npc && x.add)) ? `c_${s.key}_${ci + 1}` : "";
+      if (c.needMax === undefined) c.needMax = null;
+    });
+    if (s.enterEv === undefined) s.enterEv = s.enter_aff.some(x => x.npc && x.add) ? `e_${s.key}` : "";
+  });
+  return d;
+}
+const affOn = a => (a || []).filter(x => x.npc && x.add);
+const affText = a => affOn(a).map(x => `${x.npc} ${x.add > 0 ? "+" : ""}${x.add}`).join(", ");
+/* 호감도 변화 목록 편집기 (인물 · 변화량 줄 여러 개) */
+function affEditor(list, limit) {
+  const box = el("div", { class: "affed" });
+  list.forEach((a, i) => {
+    const sign = el("span", { class: "sign " + (a.add > 0 ? "up" : a.add < 0 ? "down" : ""), text: a.add > 0 ? "▲" + a.add : a.add < 0 ? "▼" + (-a.add) : "0" });
+    box.append(el("div", { class: "affrow" },
+      sel(npcOptions(), a.npc, v => { a.npc = v; changed(); }, { "data-kind": "npc", "aria-label": "호감도 바꿀 인물" }),
+      numIn(a.add, v => { a.add = Math.max(-limit, Math.min(limit, v)); sign.className = "sign " + (a.add > 0 ? "up" : a.add < 0 ? "down" : ""); sign.textContent = a.add > 0 ? "▲" + a.add : a.add < 0 ? "▼" + (-a.add) : "0"; changed(); }, { min: String(-limit), max: String(limit), step: "1", "aria-label": "변화량 (내리려면 -)" }),
+      sign,
+      el("button", { class: "ghost danger", text: "✕", title: "지우기", onclick: () => { list.splice(i, 1); render(); scheduleSave(); } })));
+  });
+  box.append(el("div", {}, el("button", { class: "small", text: "+ 호감도", onclick: () => {
+    if (!npcPeople().length) { toast("먼저 왼쪽에서 인물에 ChacaNPC 캐릭터 id를 넣어 주세요"); return; }
+    const used = new Set(list.map(a => a.npc)); const free = npcPeople().find(p => !used.has(p.npc)) || npcPeople()[0];
+    list.push({ npc: free.npc, add: 1 }); render(); scheduleSave(); } }),
+    el("span", { class: "tip", style: "margin-left:8px", text: `올리려면 +, 내리려면 - (한 번에 ±${limit}까지)` })));
+  return box;
+}
+function newFace(blob, name) {
+  return { name, blob, url: URL.createObjectURL(blob) };
+}
+const person = k => D.people.find(p => p.key === k);
+const scene = k => D.scenes.find(s => s.key === k);
+const npcPeople = () => D.people.filter(p => p.npc.trim());
+const personLabel = p => p.key === "me" ? "나 (플레이어)" : (p.name || "이름 없음");
+
+/* ================================================================ 작은 도우미 */
+function el(tag, props, ...kids) {
+  const e = document.createElement(tag);
+  if (props) for (const [k, v] of Object.entries(props)) {
+    if (k === "class") e.className = v; else if (k === "text") e.textContent = v;
+    else if (k.startsWith("on")) e.addEventListener(k.slice(2), v); else if (v !== undefined && v !== null) e.setAttribute(k, v);
+  }
+  for (const c of kids.flat()) if (c != null) e.append(c);
+  return e;
+}
+function sel(options, value, onchange, extra) {
+  const s = el("select", extra);
+  for (const [v, t] of options) { const o = el("option", { value: v, text: t }); s.append(o); }
+  s.value = value; s.addEventListener("change", () => onchange(s.value)); return s;
+}
+function input(value, onchange, extra) {
+  const i = el("input", Object.assign({ type: "text" }, extra)); i.value = value;
+  i.addEventListener("input", () => onchange(i.value)); return i;
+}
+function numIn(value, onchange, extra) {
+  const i = el("input", Object.assign({ type: "number", step: "1" }, extra)); i.value = value;
+  i.addEventListener("input", () => { const v = parseInt(i.value, 10); onchange(isNaN(v) ? 0 : v); }); return i;
+}
+function changed(full) { if (full) render(); else { renderWarnings(); } scheduleSave(); }
+
+/* ================================================================ 등장인물 */
+function renderPeople() {
+  const box = document.getElementById("people"); box.textContent = "";
+  for (const p of D.people) {
+    const isMe = p.key === "me";
+    const card = el("div", { class: "person" });
+    const top = el("div", { class: "top" });
+    if (isMe) top.append(el("b", { text: "나 (플레이어)" }));
+    else {
+      top.append(input(p.name, v => { p.name = v; refreshSelects(); changed(); }, { placeholder: "이름 (예: 마중 선생님)", "aria-label": "인물 이름" }));
+      top.append(el("button", { class: "ghost danger", title: "인물 지우기", text: "✕", onclick: () => removePerson(p) }));
+    }
+    card.append(top);
+    if (isMe) {
+      card.append(el("p", { class: "tip", text: "이름표에 MagicCodex 한글 닉네임이 나와요. 그림은 ChacaPortrait로 만든 그 플레이어의 AI 일러스트가 자동으로 나와요. 아래 표정 그림은 AI 일러스트가 아직 없는 플레이어에게만 보여요." }));
+    } else {
+      const npcRow = el("div", { class: "opt" }, el("span", { class: "lbl", text: "ChacaNPC 캐릭터 id (호감도를 쓸 때만)" }),
+        input(p.npc, v => { p.npc = v.trim(); renderAffSliders(); refreshSelects(); changed(); }, { placeholder: "예: teacher", spellcheck: "false" }));
+      card.append(npcRow);
+    }
+    const faces = el("div", { class: "faces" });
+    p.faces.forEach((f, i) => {
+      const img = el("div", { class: "img" + (f.missing ? " none" : ""), title: f.missing ? "그림 파일이 없어요: " + f.file : f.name });
+      if (f.missing) img.textContent = "파일 없음"; else img.style.backgroundImage = `url("${f.url}")`;
+      faces.append(el("div", { class: "face" }, img,
+        input(f.name, v => { f.name = v.trim() || "표정" + (i + 1); refreshSelects(); changed(); }, { "aria-label": "표정 이름" }),
+        el("button", { class: "ghost danger", text: "✕", title: "표정 지우기", onclick: () => { p.faces.splice(i, 1); render(); scheduleSave(); } })));
+    });
+    const add = el("label", { class: "btn addface" }, "+ 표정", el("span", { text: "그림" }));
+    const fi = el("input", { type: "file", accept: "image/*", multiple: "" });
+    fi.addEventListener("change", () => {
+      for (const file of fi.files) {
+        const base = file.name.replace(/\.[^.]+$/, "");
+        p.faces.push(newFace(file, p.faces.length === 0 ? "기본" : base));
+      }
+      render(); scheduleSave();
+    });
+    add.append(fi); faces.append(add);
+    card.append(el("span", { class: "lbl", text: isMe ? "표정 그림 (보통 비워 둬요)" : "표정 그림 · 첫 번째가 기본 표정" }), faces);
+    box.append(card);
+  }
+}
+function removePerson(p) {
+  const used = D.scenes.some(s => s.lines.some(l => l.who === p.key));
+  if (used && !confirmInline(`"${p.name}"의 대사가 남아 있어요. 다시 누르면 지워지고 대사는 '나'로 바뀌어요.`, "rmp" + p.key)) return;
+  D.scenes.forEach(s => s.lines.forEach(l => { if (l.who === p.key) { l.who = "me"; l.face = ""; } }));
+  D.people.splice(D.people.indexOf(p), 1); render(); scheduleSave();
+}
+let armed = null;
+function confirmInline(msg, key) {
+  if (armed === key) { armed = null; return true; }
+  armed = key; toast(msg); setTimeout(() => { if (armed === key) armed = null; }, 3000); return false;
+}
+document.getElementById("addPerson").onclick = () => {
+  D.people.push({ key: nextKey("p"), name: "", npc: "", faces: [] }); render(); scheduleSave();
+  const inputs = document.querySelectorAll("#people .person input[type=text]"); inputs[inputs.length - 2]?.focus();
+};
+
+/* ================================================================ 장면 */
+function sceneOptions(includeEnd, includeNew) {
+  const o = D.scenes.map(s => [s.key, s.name || "(이름 없음)"]);
+  if (includeEnd) o.unshift(["", "(대화 끝)"]);
+  if (includeNew) o.push(["__new", "+ 새 장면 만들기"]);
+  return o;
+}
+function linkSelect(value, onpick, includeEnd = true) {
+  return sel(sceneOptions(includeEnd, true), value, v => {
+    if (v === "__new") { const s = newScene("새 장면"); D.scenes.push(s); onpick(s.key); selScene = s.key; render(); scrollToScene(s.key); }
+    else { onpick(v); changed(true); }
+  }, { "data-kind": "scene", "data-end": includeEnd ? "1" : "0", "aria-label": "이동할 장면" });
+}
+function peopleOptions() { return D.people.map(p => [p.key, personLabel(p)]); }
+function npcOptions() {
+  const n = npcPeople().map(p => [p.npc, `${personLabel(p)} (${p.npc})`]);
+  return [["", "(없음)"], ...n];
+}
+function faceOptions(who) {
+  const p = person(who); const o = [["", p && p.faces.length ? "(앞 표정 그대로)" : "—"]];
+  if (p) p.faces.forEach(f => o.push([f.name, f.name])); return o;
+}
+
+function renderScenes() {
+  const box = document.getElementById("scenes"); box.textContent = "";
+  D.scenes.forEach((s, si) => box.append(sceneCard(s, si)));
+}
+function sceneCard(s, si) {
+  const card = el("div", { class: "panel scene" + (selScene === s.key ? " sel" : ""), id: "scene-" + s.key });
+  card.addEventListener("focusin", () => { if (selScene !== s.key) { selScene = s.key; document.querySelectorAll(".scene").forEach(c => c.classList.toggle("sel", c.id === "scene-" + s.key)); } });
+  const head = el("div", { class: "ph" },
+    input(s.name, v => { s.name = v; refreshSelects(); changed(); }, { "aria-label": "장면 이름", placeholder: "장면 이름" }),
+    si === 0 ? el("span", { class: "badge", text: "시작" }) : null,
+    el("span", { style: "flex:1" }),
+    el("button", { class: "ghost", title: "위로", text: "▲", onclick: () => moveScene(si, -1) }),
+    el("button", { class: "ghost", title: "아래로", text: "▼", onclick: () => moveScene(si, 1) }),
+    el("button", { class: "ghost", title: "복제", text: "복제", onclick: () => dupScene(s) }),
+    el("button", { class: "ghost danger", title: "장면 지우기", text: "✕", onclick: () => delScene(s) }));
+  const body = el("div", { class: "sbody" });
+
+  // 대사
+  s.lines.forEach((l, li) => {
+    const ta = el("textarea", { rows: l.text.length > 40 ? "2" : "1", placeholder: "대사", "aria-label": "대사" });
+    ta.value = l.text; ta.addEventListener("input", () => { l.text = ta.value.replace(/\n/g, " "); changed(); });
+    ta.addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); addLineAfter(s, li); } });
+    const faceSel = sel(faceOptions(l.who), l.face, v => { l.face = v; changed(); }, { "aria-label": "표정", "data-kind": "face", "data-who": l.who });
+    body.append(el("div", { class: "line" },
+      sel(peopleOptions(), l.who, v => { l.who = v; l.face = ""; render(); scheduleSave(); }, { "aria-label": "누가", "data-kind": "person" }),
+      faceSel, ta,
+      el("button", { class: "ghost danger", title: "대사 지우기", text: "✕", onclick: () => { s.lines.splice(li, 1); render(); scheduleSave(); } })));
+  });
+  body.append(el("div", { style: "display:flex;gap:8px;align-items:center" },
+    el("button", { class: "small", text: "+ 대사", onclick: () => addLineAfter(s, s.lines.length - 1) }),
+    el("span", { class: "tip", text: "대사 칸에서 Enter = 다음 대사 추가" })));
+
+  // 장면 끝
+  const name = "end-" + s.key;
+  const radio = (v, t) => el("label", {}, Object.assign(el("input", { type: "radio", name, value: v, onchange: () => { s.mode = v; if (v === "choices" && !s.choices.length) s.choices.push(blankChoice()); render(); scheduleSave(); } }), { checked: s.mode === v }), t);
+  const endRow = el("div", { class: "endrow" }, el("span", { class: "lbl", text: "이 장면이 끝나면" }),
+    radio("choices", "선택지 보여주기"), radio("next", "다음 장면으로"),
+    s.mode === "next" ? linkSelect(s.next, v => s.next = v, false) : null,
+    radio("end", "대화 끝"));
+  body.append(endRow);
+
+  if (s.mode === "choices") {
+    s.choices.forEach((c, ci) => body.append(choiceBox(s, c, ci)));
+    if (s.choices.length < 6) body.append(el("button", { class: "small", text: "+ 선택지", onclick: () => { s.choices.push(blankChoice()); render(); scheduleSave(); } }));
+  }
+
+  // 고급
+  const adv = el("details", { class: "adv" });
+  if (s.redirects.length || s.end_cmds.trim() || s.enter_aff.length || s.end_aff.length) adv.open = true;
+  adv.append(el("summary", { text: "▸ 고급: 호감도 갈림길 · 들어올 때/여기서 끝날 때 호감도 · 결말 명령어" }));
+  const rbox = el("div", { class: "col" });
+  rbox.append(el("span", { class: "lbl", text: "이 장면에 들어올 때 호감도가 높으면 다른 장면으로 보내기 (위에서부터 검사)" }));
+  s.redirects.forEach((r, ri) => rbox.append(el("div", { class: "redir" },
+    sel(npcOptions(), r.npc, v => { r.npc = v; changed(); }, { "aria-label": "인물", "data-kind": "npc" }), "호감도",
+    numIn(r.min, v => { r.min = v; changed(); }, { "aria-label": "이상" }), "이상이면 →",
+    linkSelect(r.to, v => r.to = v, false),
+    el("button", { class: "ghost danger", text: "✕", onclick: () => { s.redirects.splice(ri, 1); render(); scheduleSave(); } }))));
+  rbox.append(el("button", { class: "small", text: "+ 갈림길", onclick: () => {
+    if (!npcPeople().length) { toast("먼저 왼쪽에서 인물에 ChacaNPC 캐릭터 id를 넣어 주세요"); return; }
+    s.redirects.push({ npc: npcPeople()[0].npc, min: 50, to: "" }); render(); scheduleSave(); } }));
+  const ec = el("textarea", { rows: "2", spellcheck: "false", placeholder: "대화가 이 장면에서 끝났을 때만 실행할 서버 명령어 (한 줄에 하나)", style: "font-family:var(--mono)" });
+  ec.value = s.end_cmds; ec.addEventListener("input", () => { s.end_cmds = ec.value; changed(); });
+  rbox.append(el("span", { class: "lbl", text: "이 장면에 들어오면 호감도 바꾸기 (대화마다 한 번)" }), affEditor(s.enter_aff, 20));
+  rbox.append(el("span", { class: "lbl", text: "여기서 대화가 끝나면 호감도 바꾸기 (결말 보상)" }), affEditor(s.end_aff, 50));
+  rbox.append(el("span", { class: "lbl", text: "여기서 대화가 끝나면 실행할 명령어 (결말마다 다르게 할 때)" }), ec);
+  adv.append(rbox); body.append(adv);
+
+  card.append(head, body);
+  return card;
+}
+function blankChoice() { return { text: "", to: "", aff: [], needNpc: "", needMin: 0, needMax: null, cmds: "", ev: "", open: false }; }
+function choiceBox(s, c, ci) {
+  const box = el("div", { class: "choice" });
+  const t = input(c.text, v => { c.text = v; changed(); }, { placeholder: "선택지 글 (예: 괜찮아요)", "aria-label": "선택지 글" });
+  const hasOpts = affOn(c.aff).length || c.needNpc || c.cmds.trim();
+  const optBtn = el("button", { class: "ghost" + (hasOpts ? " " : ""), title: "호감도 · 조건 · 명령어", text: hasOpts ? "⚙•" : "⚙", onclick: () => { c.open = !c.open; render(); } });
+  box.append(el("div", { class: "main" }, el("span", { class: "num", text: ci + 1 }), t,
+    el("span", { style: "display:flex;gap:4px;align-items:center;min-width:0" }, el("span", { class: "lbl", text: "→" }), linkSelect(c.to, v => c.to = v)),
+    optBtn,
+    el("button", { class: "ghost danger", title: "선택지 지우기", text: "✕", onclick: () => { s.choices.splice(ci, 1); render(); scheduleSave(); } })));
+  if (affOn(c.aff).length && !c.open) {
+    const sum = el("div", { class: "affsum", title: "고르면 바뀌는 호감도" }, "고르면 ");
+    affOn(c.aff).forEach((a, i) => sum.append(i ? ", " : "", el("span", { class: a.add > 0 ? "up" : "down", text: `${a.npc} ${a.add > 0 ? "▲" + a.add : "▼" + (-a.add)}` })));
+    box.append(sum);
+  }
+  if (c.open) {
+    const cm = el("textarea", { rows: "2", spellcheck: "false", placeholder: "고르면 실행할 서버 명령어 (한 줄에 하나)", style: "font-family:var(--mono)" });
+    cm.value = c.cmds; cm.addEventListener("input", () => { c.cmds = cm.value; changed(); });
+    box.append(el("div", { class: "opts" },
+      el("div", { class: "opt" }, el("span", { class: "lbl", text: "고르면 호감도 바꾸기 (여러 명 가능)" }), affEditor(c.aff, 20)),
+      el("div", { class: "opt" }, el("span", { class: "lbl", text: "호감도가 이만큼 이상일 때만 보이기" }),
+        el("div", { class: "row2" }, sel(npcOptions(), c.needNpc, v => { c.needNpc = v; changed(); }, { "data-kind": "npc", "aria-label": "조건 인물" }), numIn(c.needMin, v => { c.needMin = v; changed(); }, { "aria-label": "최소 호감도" }))),
+      el("div", { class: "opt", style: "grid-column:1/-1" }, el("span", { class: "lbl", text: "고르면 실행할 서버 명령어" }), cm)));
+  }
+  return box;
+}
+function addLineAfter(s, li) {
+  const prev = s.lines[li];
+  const other = prev ? D.people.find(p => p.key !== prev.who) : null;
+  s.lines.splice(li + 1, 0, { who: prev ? (prev.who === "me" ? (other ? other.key : "me") : "me") : "me", face: "", text: "" });
+  render(); scheduleSave();
+  const card = document.getElementById("scene-" + s.key);
+  card?.querySelectorAll(".line textarea")[li + 1]?.focus();
+}
+function moveScene(i, d) { const j = i + d; if (j < 0 || j >= D.scenes.length) return; [D.scenes[i], D.scenes[j]] = [D.scenes[j], D.scenes[i]]; render(); scheduleSave(); }
+function dupScene(s) {
+  const c = JSON.parse(JSON.stringify(s)); c.key = nextKey("s"); c.name = s.name + " 복사";
+  c.enterEv = ""; c.choices.forEach(x => x.ev = ""); // 이벤트 이름은 장면마다 따로 (내보낼 때 새로 붙음)
+  D.scenes.splice(D.scenes.indexOf(s) + 1, 0, c); render(); scheduleSave();
+}
+function delScene(s) {
+  if (D.scenes.length === 1) { toast("장면은 하나 이상 있어야 해요"); return; }
+  if (!confirmInline(`"${s.name}" 장면을 지우려면 ✕를 한 번 더 누르세요`, "rms" + s.key)) return;
+  D.scenes.splice(D.scenes.indexOf(s), 1);
+  D.scenes.forEach(o => { if (o.next === s.key) o.next = ""; o.choices.forEach(c => { if (c.to === s.key) c.to = ""; }); o.redirects.forEach(r => { if (r.to === s.key) r.to = ""; }); });
+  render(); scheduleSave(); toast("장면을 지웠어요");
+}
+function scrollToScene(k) { document.getElementById("scene-" + k)?.scrollIntoView({ behavior: "smooth", block: "start" }); }
+document.getElementById("addScene").onclick = () => { const s = newScene("장면 " + (D.scenes.length + 1)); D.scenes.push(s); selScene = s.key; render(); scheduleSave(); scrollToScene(s.key); };
+/* 이름을 고치는 중에 화면을 다시 그리면 입력칸이 사라지므로, 고르는 칸의 글자만 바꾼다 */
+function refreshSelects() {
+  clearTimeout(refreshSelects.t);
+  refreshSelects.t = setTimeout(() => {
+    document.querySelectorAll("select[data-kind]").forEach(s => {
+      const v = s.value, k = s.dataset.kind;
+      const opts = k === "scene" ? sceneOptions(s.dataset.end === "1", true) : k === "person" ? peopleOptions() : k === "npc" ? npcOptions() : faceOptions(s.dataset.who);
+      s.textContent = ""; opts.forEach(([ov, t]) => s.append(el("option", { value: ov, text: t }))); s.value = v;
+    });
+  }, 250);
+}
+
+/* ================================================================ 검사 */
+function problems() {
+  const w = [];
+  const linked = new Set([D.scenes[0]?.key]);
+  D.scenes.forEach(s => {
+    if (s.mode === "next" && s.next) linked.add(s.next);
+    if (s.mode === "choices") s.choices.forEach(c => c.to && linked.add(c.to));
+    s.redirects.forEach(r => r.to && linked.add(r.to));
+  });
+  D.scenes.forEach(s => {
+    const n = `"${s.name || "이름 없음"}"`;
+    if (!s.lines.length && s.mode !== "choices") w.push([s.key, `${n}: 대사가 없어요.`]);
+    if (s.lines.some(l => !l.text.trim())) w.push([s.key, `${n}: 빈 대사가 있어요.`]);
+    if (s.mode === "next" && !s.next) w.push([s.key, `${n}: 다음 장면을 골라 주세요.`]);
+    if (s.mode === "choices" && !s.choices.length) w.push([s.key, `${n}: 선택지가 없어요.`]);
+    if (s.mode === "choices" && s.choices.some(c => !c.text.trim())) w.push([s.key, `${n}: 글이 빈 선택지가 있어요.`]);
+    if (s.mode === "choices" && s.choices.length && s.choices.every(c => c.needNpc)) w.push([s.key, `${n}: 모든 선택지에 조건이 있어서, 조건이 안 맞으면 아무것도 안 보일 수 있어요.`]);
+    s.redirects.forEach(r => { if (!r.to || !r.npc) w.push([s.key, `${n}: 갈림길의 인물이나 장면이 비어 있어요.`]); });
+    const allAff = [...s.enter_aff, ...s.end_aff, ...s.choices.flatMap(c => c.aff)];
+    if (allAff.some(a => !a.npc || !a.add)) w.push([s.key, `${n}: 인물이나 변화량이 빈 호감도 줄이 있어요 (무시돼요).`]);
+    if (!linked.has(s.key)) w.push([s.key, `${n}: 어디서도 이 장면으로 오지 않아요.`]);
+  });
+  exportBlockers().forEach(b => w.unshift(b));
+  const lost = D.people.flatMap(p => p.faces.filter(f => f.missing).map(f => f.file));
+  if (lost.length) w.unshift(["", `그림 파일이 없어요 (내보낸 zip 에도 빠져요): ${lost.slice(0, 6).join(", ")}${lost.length > 6 ? ` 외 ${lost.length - 6}개` : ""}`]);
+  if (D.noServer) w.unshift(["", "server_commands.yml 없이 불러온 대화예요. 서버 명령어 · 결말/끝 호감도가 비어 있을 수 있어요 (내보낼 때 물어봐요)."]);
+  if (!ID_RE.test(D.meta.id)) w.unshift(["", "대화 id는 영어 소문자, 숫자, _, - 만 쓸 수 있어요 (1~64자)."]);
+  return w;
+}
+function renderWarnings() {
+  const box = document.getElementById("warnPanel"); box.textContent = "";
+  const w = problems();
+  if (!w.length) { box.append(el("div", { class: "okmsg", text: "✓ 문제없어요. 장면 " + D.scenes.length + "개" })); return; }
+  const list = el("div", { class: "warns" });
+  w.slice(0, 8).forEach(([k, t]) => list.append(el("div", { class: "warn", text: t, onclick: () => k && scrollToScene(k) })));
+  if (w.length > 8) list.append(el("div", { class: "tip", text: `외 ${w.length - 8}개` }));
+  box.append(list);
+}
+
+/* ================================================================ 미리보기 (게임과 같은 규칙) */
+const PV = { aff: {}, scene: null, line: 0, faces: {}, portrait: null, shown: 0, timer: null, ended: false, choices: [] };
+function renderAffSliders() {
+  const box = document.getElementById("pvAff"); box.textContent = "";
+  const npcs = [...new Set(npcPeople().map(p => p.npc))];
+  if (!npcs.length) { box.append(el("p", { class: "tip", text: "인물에 ChacaNPC id를 넣으면 여기서 호감도를 바꿔 가며 확인할 수 있어요." })); return; }
+  box.append(el("div", { class: "lbl", text: "호감도 (미리보기용, 기본 " + DEF_AFF + ")" }));
+  for (const n of npcs) {
+    if (PV.aff[n] === undefined) PV.aff[n] = DEF_AFF;
+    const label = personLabel(npcPeople().find(p => p.npc === n));
+    const val = el("span", { text: PV.aff[n] });
+    const r = el("input", { type: "range", min: "-100", max: "100", step: "1", "aria-label": label + " 호감도" }); r.value = PV.aff[n];
+    r.addEventListener("input", () => { PV.aff[n] = +r.value; val.textContent = r.value; });
+    box.append(el("div", { class: "aff" }, el("span", { text: label }), r, val));
+  }
+}
+const aff = n => PV.aff[n] ?? DEF_AFF;
+function pvAff(list, why) {
+  const on = affOn(list); if (!on.length) return;
+  on.forEach(a => { PV.aff[a.npc] = aff(a.npc) + a.add; pvLog(`${a.add > 0 ? "♥" : "♡"} (${why}) ${a.npc} ${a.add > 0 ? "+" : ""}${a.add} → ${PV.aff[a.npc]}`); });
+  renderAffSliders();
+}
+function pvLog(t) { const l = document.getElementById("pvLog"); if (l.dataset.fresh !== "1") { l.textContent = ""; l.dataset.fresh = "1"; } l.textContent += t + "\n"; l.scrollTop = l.scrollHeight; }
+function pvStart(key) {
+  const l = document.getElementById("pvLog"); l.dataset.fresh = "0"; l.textContent = "";
+  PV.faces = {}; PV.portrait = null; PV.ended = false; PV.firedEnter = new Set();
+  pvLog("▶ 시작: " + (scene(key)?.name || ""));
+  pvEnter(key, 0);
+}
+function pvEnter(key, hops) {
+  const s = scene(key);
+  if (!s || hops > 20) { pvEnd(PV.scene ? PV.scene.key : key); return; }
+  for (const r of s.redirects) if (r.npc && r.to && needOk(r.npc, r.min, r.max) && r.to !== key) { pvLog(`↪ 호감도 ${r.npc} ${aff(r.npc)} ≥ ${r.min} → "${scene(r.to)?.name}"`); pvEnter(r.to, hops + 1); return; }
+  PV.scene = s; PV.line = 0;
+  if (affOn(s.enter_aff).length && !PV.firedEnter.has(s.key)) { PV.firedEnter.add(s.key); pvAff(s.enter_aff, "들어옴"); }
+  pvLine();
+  if (!s.lines.length && s.mode !== "choices") pvNext(hops);
+}
+function pvLine() {
+  const s = PV.scene; PV.shown = 0; clearInterval(PV.timer);
+  const l = s.lines[PV.line];
+  if (l) {
+    const p = person(l.who);
+    if (p && p.faces.length) { const fname = l.face && p.faces.some(f => f.name === l.face) ? l.face : (PV.faces[p.key] || p.faces[0].name); PV.faces[p.key] = fname; PV.portrait = p.faces.find(f => f.name === fname)?.url || null; }
+    const total = Array.from(fill(l.text)).length, speed = Math.max(0, D.meta.type_speed) * 1000;
+    if (speed > 0) PV.timer = setInterval(() => { PV.shown++; if (PV.shown >= total) { PV.shown = total; clearInterval(PV.timer); } renderVN(); }, speed);
+    else PV.shown = total;
+  }
+  renderVN();
+}
+const pvNick = () => document.getElementById("pvName").value || "플레이어";
+const pvAcc = () => document.getElementById("pvAcc").value || "player";
+const fill = t => t.replaceAll("{player}", pvNick()).replaceAll("{account}", pvAcc());
+function pvComplete() { const l = PV.scene?.lines[PV.line]; return !l || PV.shown >= Array.from(fill(l.text)).length; }
+const needOk = (npc, min, max) => aff(npc) >= min && (!hasMax(max) || aff(npc) <= max);
+function pvVisibleChoices() { return PV.scene.mode !== "choices" ? [] : PV.scene.choices.filter(c => !c.needNpc || needOk(c.needNpc, c.needMin, c.needMax)); }
+function pvAdvance() {
+  if (!PV.scene || PV.ended) return;
+  if (!pvComplete()) { clearInterval(PV.timer); PV.shown = 1e9; renderVN(); return; }
+  if (PV.line < PV.scene.lines.length - 1) { PV.line++; pvLine(); return; }
+  if (pvVisibleChoices().length) return;
+  pvNext(0);
+}
+function pvNext(hops) { const s = PV.scene; if (s.mode === "next" && s.next && scene(s.next)) pvEnter(s.next, hops + 1); else pvEnd(s.key); }
+function pvChoose(c) {
+  pvAff(c.aff, "선택");
+  lines(c.cmds).forEach(x => pvLog("⚙ " + fillCmd(x)));
+  if (c.to && scene(c.to)) pvEnter(c.to, 0); else pvEnd(PV.scene.key);
+}
+function pvEnd(lastKey) {
+  PV.ended = true; clearInterval(PV.timer);
+  const s = scene(lastKey);
+  if (s) { pvAff(s.end_aff, "결말"); lines(s.end_cmds).forEach(x => pvLog("⚙ (결말) " + fillCmd(x))); }
+  pvAff(D.meta.end_aff, "끝");
+  lines(D.meta.end_cmds).forEach(x => pvLog("⚙ (끝) " + fillCmd(x)));
+  pvLog("■ 대화 끝 · 마지막 장면: " + (s?.name || ""));
+  renderVN();
+}
+const lines = t => (t || "").split("\n").map(x => x.trim().replace(/^\//, "")).filter(Boolean);
+const fillCmd = c => c.replaceAll("{player}", pvAcc()).replaceAll("{nickname}", pvNick()).replaceAll("{account}", pvAcc());
+function renderVN() {
+  const vn = document.getElementById("vn"); vn.textContent = "";
+  if (!PV.scene) { vn.append(el("div", { class: "endcard" }, el("span", { text: "▶ 처음부터를 누르면 시작해요" }))); return; }
+  const cur = PV.scene.lines[PV.line];
+  if (cur && cur.who === "me" && !PV.ended) vn.append(el("div", { class: "por-me" }, el("span", { text: "내 AI 일러스트\n(ChacaPortrait)" })));
+  else if (PV.portrait) vn.append(el("img", { class: "por", src: PV.portrait, alt: "" }));
+  vn.append(el("div", { class: "box" }));
+  const l = PV.scene.lines[PV.line];
+  if (l && !PV.ended) {
+    const p = person(l.who); const name = p ? fill(p.name || "") : "";
+    if (name) vn.append(el("div", { class: "name", text: name }));
+    vn.append(el("div", { class: "txt", text: Array.from(fill(l.text)).slice(0, PV.shown).join("") }));
+  }
+  const atLast = !l || PV.line >= PV.scene.lines.length - 1;
+  const ch = pvVisibleChoices();
+  if (!PV.ended && pvComplete() && atLast && ch.length) {
+    const box = el("div", { class: "choices" });
+    ch.forEach((c, i) => box.append(el("button", { text: `${i + 1}.  ${fill(c.text || "…")}`, onclick: e => { e.stopPropagation(); pvChoose(c); } })));
+    vn.append(box);
+  } else if (!PV.ended && pvComplete()) vn.append(el("div", { class: "arrow", text: "▼" }));
+  if (PV.ended) vn.append(el("div", { class: "endcard" }, el("b", { text: "대화 끝" }), el("button", { text: "▶ 다시", onclick: e => { e.stopPropagation(); pvStart(D.scenes[0].key); } })));
+}
+function renderPreviewOnly() { renderAffSliders(); renderVN(); }
+document.getElementById("vn").addEventListener("click", pvAdvance);
+document.getElementById("vn").addEventListener("keydown", e => {
+  if (e.key === " " || e.key === "Enter") { e.preventDefault(); pvAdvance(); }
+  const n = parseInt(e.key, 10); const ch = PV.scene ? pvVisibleChoices() : [];
+  if (n >= 1 && n <= ch.length && pvComplete()) pvChoose(ch[n - 1]);
+});
+document.getElementById("pvRestart").onclick = () => { pvStart(D.scenes[0].key); document.getElementById("vn").focus(); };
+document.getElementById("pvHere").onclick = () => { pvStart(selScene && scene(selScene) ? selScene : D.scenes[0].key); document.getElementById("vn").focus(); };
+
+/* ================================================================ 대화 정보 */
+function renderMeta() {
+  const m = D.meta, set = (id, v) => { const e = document.getElementById(id); if (document.activeElement !== e) e.value = v; };
+  const snd = document.getElementById("m_sound");
+  // 편집기에 없는 소리 값 (마인크래프트 소리 id 등) 도 지우지 않고 그대로 둔다
+  snd.querySelectorAll("option[data-custom]").forEach(o => o.remove());
+  if (m.type_sound !== "default" && m.type_sound !== "none") snd.append(el("option", { value: m.type_sound, text: "그대로 두기: " + m.type_sound, "data-custom": "1" }));
+  set("m_id", m.id); set("m_title", m.title); set("m_speed", m.type_speed); set("m_dim", m.dim); set("m_sound", m.type_sound); set("m_endcmds", m.end_cmds);
+  document.getElementById("m_id").style.borderColor = ID_RE.test(m.id) ? "" : "var(--danger)";
+}
+[["m_id", "id", v => v.trim().toLowerCase()], ["m_title", "title", v => v], ["m_speed", "type_speed", v => Math.max(0, Math.min(0.5, parseFloat(v) || 0))],
+ ["m_dim", "dim", v => Math.max(0, Math.min(0.9, parseFloat(v) || 0))], ["m_sound", "type_sound", v => v], ["m_endcmds", "end_cmds", v => v]]
+  .forEach(([id, k, f]) => document.getElementById(id).addEventListener("input", e => { D.meta[k] = f(e.target.value); renderMeta(); changed(); }));
+document.getElementById("m_sound").addEventListener("change", e => { D.meta.type_sound = e.target.value; scheduleSave(); });
+
+function renderEndAff() { const b = document.getElementById("m_endaff"); b.textContent = ""; b.append(affEditor(D.meta.end_aff, 50)); }
+function render() { renderMeta(); renderPeople(); renderScenes(); renderEndAff(); renderWarnings(); renderAffSliders(); renderVN(); }
+
+/* ================================================================ yml 만들기 / 읽기 */
+/* 이름 규칙 (FORMAT.md "이름 규칙"): 대화 id · 장면 id · 이벤트 이름 = ID_RE. 서버·모드와 같은 정규식. */
+const LINE_MAX = 1500, CHOICE_MAX = 6;
+const escU = s => s.replace(/[\u0085\u2028\u2029]/g, c => "\\u" + c.charCodeAt(0).toString(16).padStart(4, "0"));
+/* 모든 글자 값은 따옴표로 감싼다 (yml 로 읽힐 때 다른 뜻이 되거나 줄을 깨지 못하게) */
+const q = s => escU(JSON.stringify(String(s ?? "")));
+/* 주석에 넣는 글자: 줄바꿈을 지운다 (주석 밖으로 나와 yml 키가 되지 못하게) */
+const cmt = s => String(s ?? "").replace(/[\r\n\u0085\u2028\u2029]+/g, " ").slice(0, 120);
+/* 숫자는 반드시 유한한 값으로 (NaN / Infinity 를 파일에 쓰지 않는다) */
+const fin = (v, def) => { const n = typeof v === "number" ? v : parseFloat(v); return Number.isFinite(n) ? n : def; };
+const int = (v, def) => Math.round(fin(v, def));
+const clampN = (v, lo, hi, def) => Math.max(lo, Math.min(hi, fin(v, def)));
+const hasMax = v => v !== null && v !== undefined && v !== "" && Number.isFinite(fin(v, NaN));
+const safeFile = s => (String(s).replace(/[^A-Za-z0-9_\-]/g, "_").slice(0, 40) || "x");
+const okImageName = n => typeof n === "string" && /^[^\/\\:*?"<>|\u0000-\u001f]{1,120}\.png$/i.test(n) && !n.includes("..");
+/* 편집기가 모르는 키는 그대로 보관했다가 다시 내보낸다 (JSON 은 yml 로도 읽힌다) */
+const yj = v => escU(JSON.stringify(v === undefined ? null : v));
+const extraPairs = x => Object.entries(x || {}).map(([k, v]) => `${q(k)}: ${yj(v)}`);
+const pickExtra = (o, known) => { const x = {}; if (o && typeof o === "object") for (const [k, v] of Object.entries(o)) if (!known.includes(k)) x[k] = v; return x; };
+const asList = v => Array.isArray(v) ? v : [];
+const asObj = v => v && typeof v === "object" && !Array.isArray(v) ? v : {};
+const cmdList = v => (typeof v === "string" ? [v] : asList(v)).map(x => String(x ?? "").replace(/[\r\n]+/g, " ").trim()).filter(Boolean);
+
+function imageNames() {
+  const map = new Map(), used = new Set();
+  D.people.forEach(p => p.faces.forEach(f => { if (f.missing) used.add(f.file); }));
+  D.people.forEach(p => p.faces.forEach((f, i) => {
+    if (f.missing) { map.set(f, f.file); return; }
+    let n = `${safeFile(p.key)}_${i + 1}.png`, k = 2;
+    while (used.has(n)) n = `${safeFile(p.key)}_${i + 1}_${k++}.png`;
+    used.add(n); map.set(f, n);
+  }));
+  return map;
+}
+/* 이벤트 이름: 한 번 정해지면 선택지에 붙어 다닌다. 순서를 바꾸거나 다른 선택지를 지워도 이름이 바뀌지 않아서
+   서버의 "이미 실행함" 기록 (progress.yml) 과 어긋나지 않는다. 불러온 파일에 있던 이름은 그대로 쓴다. */
+function usedEvents() {
+  const u = new Set();
+  D.scenes.forEach(s => { if (s.enterEv) u.add(s.enterEv); s.choices.forEach(c => c.ev && u.add(c.ev)); });
+  const o = D.orphans || {};
+  [o.events, o.affEvents].forEach(m => Object.keys(m || {}).forEach(k => u.add(k)));
+  return u;
+}
+function freshEvent(prefix, key, u) {
+  const base = `${prefix}_${key}`.slice(0, 56);
+  for (let n = 1; ; n++) { const name = `${base}_${n}`; if (!u.has(name)) { u.add(name); return name; } }
+}
+const choiceNeedsEvent = c => lines(c.cmds).length > 0 || affOn(c.aff).length > 0;
+function ensureEvents() {
+  const u = usedEvents();
+  D.scenes.forEach(s => {
+    if (affOn(s.enter_aff).length && !s.enterEv) { const plain = `e_${s.key}`; if (plain.length <= 64 && !u.has(plain)) { u.add(plain); s.enterEv = plain; } else s.enterEv = freshEvent("e", s.key, u); }
+    s.choices.forEach(c => { if (choiceNeedsEvent(c) && !c.ev) c.ev = freshEvent("c", s.key, u); });
+  });
+}
+function affYaml(a) { return `[${affOn(a).map(x => `{npc: ${q(x.npc)}, add: ${int(x.add, 0)}}`).join(", ")}]`; }
+function toYaml() {
+  ensureEvents();
+  const m = D.meta, names = imageNames(), L = [];
+  L.push("# 차카데미 대화 — 대화 편집기에서 만듦", "format: 1", `id: ${q(m.id)}`, `title: ${q(m.title)}`, `start: ${q(D.scenes[0].key)}`,
+    "# dim / type_speed / type_sound / type_sound_volume: 게임에서는 MagicCodex 대화창 설정을 따릅니다 (값은 보관만 함)",
+    `dim: ${clampN(m.dim, 0, 0.9, 0.35)}`, `type_speed: ${clampN(m.type_speed, 0, 0.5, 0.03)}`, `type_sound: ${q(m.type_sound || "default")}`,
+    `type_sound_volume: ${clampN(m.type_sound_volume, 0, 1, 0.5)}`);
+  extraPairs(D.extra).forEach(x => L.push(x));
+  L.push("speakers:");
+  for (const p of D.people) {
+    L.push(`  ${q(p.key)}:`, `    name: ${q(p.name)}`);
+    if (p.npc) L.push(`    npc: ${q(p.npc)}`);
+    extraPairs(p.extra).forEach(x => L.push("    " + x));
+    if (p.faces.length) { L.push("    portraits:"); p.faces.forEach(f => L.push(`      ${q(f.name)}: ${q(names.get(f))}`)); }
+  }
+  L.push("scenes:");
+  const ex = x => { const e = extraPairs(x); return e.length ? ", " + e.join(", ") : ""; };
+  for (const s of D.scenes) {
+    L.push(`  ${q(s.key)}:`, `    name: ${q(s.name)}`);
+    extraPairs(s.extra).forEach(x => L.push("    " + x));
+    const rs = s.redirects.filter(r => r.npc && r.to);
+    if (rs.length) { L.push("    redirect:"); rs.forEach(r => L.push(`      - {npc: ${q(r.npc)}, min: ${int(r.min, 0)}${hasMax(r.max) ? `, max: ${int(r.max, 100)}` : ""}, to: ${q(r.to)}${ex(r.extra)}}`)); }
+    if (affOn(s.enter_aff).length) L.push(`    affinity: ${affYaml(s.enter_aff)}`);
+    if (s.enterEv) L.push(`    event: ${q(s.enterEv)}`);
+    if (s.lines.length) { L.push("    lines:"); s.lines.forEach(l => L.push(`      - {who: ${q(l.who)}, face: ${q(l.face)}, text: ${q(l.text)}${ex(l.extra)}}`)); }
+    else L.push("    lines: []");
+    if (s.mode === "choices" && s.choices.length) {
+      L.push("    choices:");
+      s.choices.forEach(c => {
+        const parts = [`text: ${q(c.text)}`, `to: ${q(c.to)}`];
+        if (affOn(c.aff).length) parts.push(`affinity: ${affYaml(c.aff)}`);
+        if (c.needNpc) parts.push(`need: {npc: ${q(c.needNpc)}, min: ${int(c.needMin, 0)}${hasMax(c.needMax) ? `, max: ${int(c.needMax, 100)}` : ""}}`);
+        if (c.ev) parts.push(`event: ${q(c.ev)}`);
+        L.push(`      - {${parts.join(", ")}${ex(c.extra)}}`);
+      });
+    }
+    if (s.mode === "next" && s.next) L.push(`    next: ${q(s.next)}`);
+  }
+  return L.join("\n") + "\n";
+}
+function toServerYaml() {
+  ensureEvents();
+  const L = [`# 서버용. zip 의 이 폴더(${cmt(D.meta.id)})를 통째로 서버 plugins/ChacademyStory/dialogues/ 안에 복사하세요`,
+    "# (dialogue.yml 로 서버가 선택지·결말을 검증하고, 이 파일의 명령어·호감도를 실행합니다. 바꾼 뒤에는 /서버관리 새로고침 스토리)",
+    "# 명령어 안의 {player} = 마인크래프트 닉네임, {nickname} = 한글 닉네임"];
+  const o = D.orphans || {};
+  const npcSet = new Set();
+  D.people.forEach(p => p.npc && npcSet.add(p.npc));
+  D.scenes.forEach(s => { s.redirects.forEach(r => r.npc && npcSet.add(r.npc)); [...s.enter_aff, ...s.end_aff].forEach(a => a.npc && npcSet.add(a.npc)); s.choices.forEach(c => { c.aff.forEach(a => a.npc && npcSet.add(a.npc)); c.needNpc && npcSet.add(c.needNpc); }); });
+  D.meta.end_aff.forEach(a => a.npc && npcSet.add(a.npc));
+  (D.srvNpcs || []).forEach(n => n && npcSet.add(n));
+  L.push(`npcs: [${[...npcSet].map(q).join(", ")}]   # 대화를 열 때 이 NPC들의 호감도를 가져와요`);
+  extraPairs(D.srvExtra).forEach(x => L.push(x));
+  const end = lines(D.meta.end_cmds);
+  L.push(end.length ? "end:" : "end: []"); end.forEach(c => L.push(`  - ${q(c)}`));
+  const endings = D.scenes.filter(s => lines(s.end_cmds).length).map(s => [s.key, lines(s.end_cmds), s.name]);
+  Object.entries(o.endings || {}).forEach(([k, v]) => endings.push([k, cmdList(v), "편집기에 없는 장면 (그대로 보관)"]));
+  L.push(endings.length ? "endings:" : "endings: {}");
+  endings.forEach(([k, cmds, why]) => { L.push(`  ${q(k)}:   # ${cmt(why)}`); cmds.forEach(c => L.push(`    - ${q(c)}`)); });
+  const ev = []; D.scenes.forEach(s => s.mode === "choices" && s.choices.forEach(c => { if (lines(c.cmds).length) ev.push([c.ev, lines(c.cmds), `${s.name} → ${c.text}`]); }));
+  Object.entries(o.events || {}).forEach(([k, v]) => ev.push([k, cmdList(v), "편집기 선택지에 없는 이벤트 (그대로 보관)"]));
+  L.push(ev.length ? "events:" : "events: {}");
+  ev.forEach(([n, cmds, why]) => { L.push(`  ${q(n)}:   # ${cmt(why)}`); cmds.forEach(x => L.push(`    - ${q(x)}`)); });
+  // 호감도: 서버가 이 값만 믿고 적용한다 (클라 yml 을 고쳐도 바뀌지 않음). 한 항목 한도: 이벤트 ±20, 결말·끝 ±50
+  const map = (a, lim) => `{${affOn(a).map(x => `${q(x.npc)}: ${Math.max(-lim, Math.min(lim, int(x.add, 0)))}`).join(", ")}}`;
+  const aEv = [];
+  D.scenes.forEach(s => {
+    if (affOn(s.enter_aff).length) aEv.push([s.enterEv, map(s.enter_aff, 20), `${s.name} 들어옴`]);
+    if (s.mode === "choices") s.choices.forEach(c => affOn(c.aff).length && aEv.push([c.ev, map(c.aff, 20), `${s.name} → ${c.text}`]));
+  });
+  Object.entries(o.affEvents || {}).forEach(([k, v]) => aEv.push([k, yj(v), "그대로 보관"]));
+  const aEnd = D.scenes.filter(s => affOn(s.end_aff).length).map(s => [s.key, map(s.end_aff, 50), s.name]);
+  Object.entries(o.affEndings || {}).forEach(([k, v]) => aEnd.push([k, yj(v), "그대로 보관"]));
+  if (aEv.length || aEnd.length || affOn(D.meta.end_aff).length) {
+    L.push("affinity:            # 호감도 변화 (서버가 적용)");
+    L.push(`  end: ${map(D.meta.end_aff, 50)}   # 대화가 끝나면 항상`);
+    L.push(aEnd.length ? "  endings:            # 이 장면에서 끝났을 때만" : "  endings: {}");
+    aEnd.forEach(([k, v, why]) => L.push(`    ${q(k)}: ${v}   # ${cmt(why)}`));
+    L.push(aEv.length ? "  events:             # 선택지를 고르거나 장면에 들어오면 (대화마다 한 번)" : "  events: {}");
+    aEv.forEach(([n, v, why]) => L.push(`    ${q(n)}: ${v}   # ${cmt(why)}`));
+  }
+  return L.join("\n") + "\n";
+}
+/* 규칙에 맞는 새 이름 (겹치지 않게) */
+function slug(raw, used, prefix) {
+  let s = String(raw).toLowerCase().replace(/[^a-z0-9_\-]+/g, "_").replace(/^_+|_+$/g, "").slice(0, 56) || prefix;
+  if (/^[0-9]+$/.test(s)) s = `${prefix}_${s}`; // 숫자만 남으면 앞에 글자를 붙인다
+  let n = s, k = 2; while (used.has(n)) n = `${s}_${k++}`;
+  used.add(n); return n;
+}
+/* 불러올 파일에서 규칙에 안 맞는 장면 id · 이벤트 이름을 찾는다 */
+function badKeys(o) {
+  const scenes = [], events = [];
+  for (const [k, v] of Object.entries(asObj(o.scenes))) {
+    if (!ID_RE.test(k)) scenes.push(k);
+    const sv = asObj(v);
+    if (sv.event != null && String(sv.event).trim() && !ID_RE.test(String(sv.event).trim())) events.push(String(sv.event).trim());
+    asList(sv.choices).forEach(c => { const e = c && c.event != null ? String(c.event).trim() : ""; if (e && !ID_RE.test(e)) events.push(e); });
+  }
+  return { scenes: [...new Set(scenes)], events: [...new Set(events)] };
+}
+/* fix = true 면 규칙에 안 맞는 키를 새 이름으로 바꾸고 (참조도 같이) renamed 에 [예전, 새] 를 적는다 */
+function fromYaml(o, server, getBlob, fix) {
+  if (!o || typeof o !== "object" || !o.scenes || typeof o.scenes !== "object") throw new Error("대화 파일이 아니에요");
+  const bad = badKeys(o), renamed = [];
+  if ((bad.scenes.length || bad.events.length) && !fix) { const e = new Error("이름 규칙에 맞지 않는 키가 있어요"); e.badKeys = bad; throw e; }
+  const sceneKeys = Object.keys(o.scenes);
+  const usedS = new Set(sceneKeys.filter(k => ID_RE.test(k))), sMap = new Map();
+  bad.scenes.forEach(k => { const n = slug(k, usedS, "s"); sMap.set(k, n); renamed.push(["장면 " + k, n]); });
+  const sk = k => { k = String(k ?? ""); return sMap.get(k) ?? k; };
+  const usedE = new Set(), eMap = new Map();
+  Object.values(o.scenes).forEach(v => { const sv = asObj(v); [sv.event, ...asList(sv.choices).map(c => c && c.event)].forEach(e => { e = e == null ? "" : String(e).trim(); if (e && ID_RE.test(e)) usedE.add(e); }); });
+  bad.events.forEach(k => { const n = slug(k, usedE, "ev"); eMap.set(k, n); renamed.push(["이벤트 " + k, n]); });
+  const ek = e => { e = e == null ? "" : String(e).trim(); return eMap.get(e) ?? e; };
+
+  const d = blankDialogue(); d.people = []; d.scenes = [];
+  d.meta.id = String(o.id ?? "new_dialogue"); d.meta.title = String(o.title ?? d.meta.id);
+  d.meta.dim = clampN(o.dim, 0, 0.9, 0.35); d.meta.type_speed = clampN(o.type_speed, 0, 0.5, 0.03);
+  d.meta.type_sound = o.type_sound == null || String(o.type_sound).trim() === "" ? "default" : String(o.type_sound).trim();
+  d.meta.type_sound_volume = clampN(o.type_sound_volume, 0, 1, 0.5);
+  d.extra = pickExtra(o, ["format", "id", "title", "start", "dim", "type_speed", "type_sound", "type_sound_volume", "speakers", "scenes"]);
+  d.noServer = !server;
+  server = asObj(server);
+  d.srvExtra = pickExtra(server, ["npcs", "end", "endings", "events", "affinity"]);
+  d.srvNpcs = asList(server.npcs).map(String);
+  d.meta.end_cmds = cmdList(server.end).join("\n");
+  const sa = asObj(server.affinity);
+  const fromMap = m => Object.entries(asObj(m)).map(([npc, add]) => ({ npc: String(npc), add: int(add, 0) })).filter(a => a.add);
+  const fromList = v => Array.isArray(v) ? v.map(a => ({ npc: String(a?.npc ?? ""), add: int(a?.add, 0) })) : v && typeof v === "object" && v.npc ? [{ npc: String(v.npc), add: int(v.add, 0) }] : fromMap(v);
+  d.meta.end_aff = fromMap(sa.end);
+  const missing = [];
+  const sp = asObj(o.speakers);
+  if (!sp.me) d.people.push({ key: "me", name: "{player}", npc: "", faces: [] });
+  for (const [k, v0] of Object.entries(sp)) {
+    const v = asObj(v0);
+    const p = { key: k, name: String(v.name ?? k), npc: String(v.npc ?? ""), faces: [], extra: pickExtra(v, ["name", "npc", "portraits"]) };
+    for (const [face, file0] of Object.entries(asObj(v.portraits))) {
+      const file = String(file0), b = getBlob(file);
+      if (b) p.faces.push(newFace(b, String(face)));
+      else { missing.push(file); if (okImageName(file)) p.faces.push({ name: String(face), blob: null, url: "", file, missing: true }); }
+    }
+    d.people.push(p);
+  }
+  // 서버 파일의 항목 가운데 편집기 화면에 자리가 있는 것은 가져오고, 없는 것은 그대로 보관한다 (orphans)
+  const ends = Object.assign({}, asObj(server.endings)), evs = Object.assign({}, asObj(server.events));
+  const aEvs = Object.assign({}, asObj(sa.events)), aEnds = Object.assign({}, asObj(sa.endings));
+  const takeKey = (m, k) => { if (!Object.prototype.hasOwnProperty.call(m, k)) return undefined; const v = m[k]; delete m[k]; return v; };
+  const order = sceneKeys.slice(); const start = o.start != null && Object.prototype.hasOwnProperty.call(o.scenes, String(o.start)) ? String(o.start) : order[0];
+  order.sort((a, b) => (a === start ? -1 : b === start ? 1 : 0));
+  for (const k0 of order) {
+    const v = asObj(o.scenes[k0]), k = sk(k0);
+    const enterEv = ek(v.event);
+    const srvEnter = enterEv ? takeKey(aEvs, v.event == null ? "" : String(v.event).trim()) : undefined;
+    const s = { key: k, name: String(v.name ?? k0), extra: pickExtra(v, ["name", "redirect", "lines", "choices", "next", "event", "affinity"]),
+      lines: asList(v.lines).filter(l => l && typeof l === "object").map(l => ({ who: String(l.who ?? "me"), face: String(l.face ?? ""), text: String(l.text ?? "").replace(/[\r\n]+/g, " "), extra: pickExtra(l, ["who", "face", "text"]) })),
+      mode: asList(v.choices).length ? "choices" : v.next ? "next" : "end", next: v.next ? sk(v.next) : "",
+      redirects: asList(v.redirect).filter(r => r && typeof r === "object").map(r => ({ npc: String(r.npc ?? ""), min: int(r.min, 0), max: hasMax(r.max) ? int(r.max, 100) : null, to: sk(r.to), extra: pickExtra(r, ["npc", "min", "max", "to"]) })),
+      end_cmds: cmdList(takeKey(ends, k0)).join("\n"), choices: [], enterEv,
+      // 실제로 적용되는 것은 서버 값이므로 서버 파일에 있으면 그 값을 쓴다
+      enter_aff: srvEnter !== undefined ? fromMap(srvEnter) : fromList(v.affinity), end_aff: fromMap(takeKey(aEnds, k0)) };
+    s.choices = asList(v.choices).filter(c => c && typeof c === "object").slice(0, CHOICE_MAX).map(c => {
+      const raw = c.event == null ? "" : String(c.event).trim(), ev = ek(c.event);
+      const srvAff = raw ? takeKey(aEvs, raw) : undefined, srvCmds = raw ? takeKey(evs, raw) : undefined;
+      const need = asObj(c.need);
+      return { text: String(c.text ?? ""), to: c.to ? sk(c.to) : "", aff: srvAff !== undefined ? fromMap(srvAff) : fromList(c.affinity),
+        needNpc: String(need.npc ?? ""), needMin: int(need.min, 0), needMax: hasMax(need.max) ? int(need.max, 100) : null,
+        cmds: cmdList(srvCmds).join("\n"), ev, open: false, extra: pickExtra(c, ["text", "to", "affinity", "need", "event"]) };
+    });
+    if (asList(v.choices).length > CHOICE_MAX) missing.unshift(`(선택지 ${asList(v.choices).length}개 중 ${CHOICE_MAX}개만 불러옴: ${k0})`);
+    d.scenes.push(s);
+  }
+  if (!d.scenes.length) throw new Error("장면이 없어요");
+  d.orphans = { endings: ends, events: evs, affEvents: aEvs, affEndings: aEnds };
+  // 키 번호가 겹치지 않게
+  const nums = [...d.people.map(p => p.key), ...d.scenes.map(s => s.key)].map(k => parseInt(String(k).replace(/\D/g, ""), 10)).filter(n => !isNaN(n) && n < 1e9);
+  uid = Math.max(uid, ...nums, 0) + 1;
+  return { d, missing, renamed };
+}
+
+/* ================================================================ 물어보기 창 (confirm 을 쓸 수 없는 화면에서도 동작) */
+function ask(message, buttons) {
+  return new Promise(res => {
+    const done = v => { back.remove(); res(v); };
+    const box = el("div", { class: "askbox", role: "dialog", "aria-modal": "true" }, el("p", { text: message }),
+      el("div", { class: "askbtns" }, buttons.map(([v, t, cls]) => el("button", { class: cls || "", text: t, onclick: () => done(v) }))));
+    const back = el("div", { class: "askback" }, box);
+    back.addEventListener("keydown", e => { if (e.key === "Escape") done(null); });
+    document.body.append(back);
+    box.querySelector("button")?.focus();
+  });
+}
+const libsReady = () => typeof JSZip !== "undefined" && typeof jsyaml !== "undefined";
+
+/* ================================================================ 불러오기 · 내보내기 */
+const ZIP_MAX = 80 * 1024 * 1024, ZIP_ENTRIES = 300, YML_MAX = 2 * 1024 * 1024, IMG_MAX = 20 * 1024 * 1024, TOTAL_MAX = 300 * 1024 * 1024;
+async function importFiles(files) {
+  try {
+    if (!libsReady()) { toast("zip · yml 을 읽는 라이브러리를 받지 못했어요 (인터넷 연결 확인 후 새로고침)"); return; }
+    let yml = null, srv = null, total = 0; const blobs = new Map();
+    const size = e => (e && e._data && Number.isFinite(e._data.uncompressedSize)) ? e._data.uncompressedSize : 0;
+    for (const f of files) {
+      const n = f.name.toLowerCase();
+      if (n.endsWith(".zip")) {
+        if (f.size > ZIP_MAX) throw new Error("zip 이 너무 커요 (80MB 까지)");
+        const zip = await JSZip.loadAsync(f);
+        const entries = Object.entries(zip.files).filter(([, e]) => !e.dir);
+        if (entries.length > ZIP_ENTRIES) throw new Error(`zip 안의 파일이 너무 많아요 (${ZIP_ENTRIES}개까지)`);
+        // 같은 이름이 여러 폴더에 있으면 경로가 가장 얕고 이름순으로 앞선 것 하나만 쓴다
+        entries.sort(([a], [b]) => a.split("/").length - b.split("/").length || (a < b ? -1 : a > b ? 1 : 0));
+        for (const [path, e] of entries) {
+          const base = path.split("/").pop(), isYml = base === "dialogue.yml" || base === "server_commands.yml", isImg = /\.(png|jpe?g|webp)$/i.test(base);
+          if (!isYml && !isImg) continue;
+          if (size(e) > (isYml ? YML_MAX : IMG_MAX)) throw new Error("zip 안의 파일이 너무 커요: " + base);
+          total += size(e); if (total > TOTAL_MAX) throw new Error("zip 을 풀면 너무 커요");
+          if (base === "dialogue.yml") { if (yml === null) yml = await e.async("string"); }
+          else if (base === "server_commands.yml") { if (srv === null) srv = await e.async("string"); }
+          else if (!blobs.has(base)) blobs.set(base, await e.async("blob"));
+        }
+      } else if (n === "server_commands.yml" || n.endsWith(".server.yml")) { if (f.size > YML_MAX) throw new Error("yml 이 너무 커요"); srv = await f.text(); }
+      else if (/\.ya?ml$/.test(n)) { if (f.size > YML_MAX) throw new Error("yml 이 너무 커요"); yml = await f.text(); }
+      else if (f.type.startsWith("image/")) { if (f.size <= IMG_MAX) blobs.set(f.name, f); }
+    }
+    if (!yml) { toast("dialogue.yml을 찾지 못했어요"); return; }
+    if (yml.length > YML_MAX || (srv && srv.length > YML_MAX)) throw new Error("yml 이 너무 커요");
+    const doc = jsyaml.load(yml), server = srv ? jsyaml.load(srv) : null;
+    let r;
+    try { r = fromYaml(doc, server, nm => blobs.get(nm), false); }
+    catch (e) {
+      if (!e.badKeys) throw e;
+      const list = [...e.badKeys.scenes.map(k => "장면 id: " + k), ...e.badKeys.events.map(k => "이벤트 이름: " + k)];
+      const a = await ask("이름 규칙에 맞지 않는 키가 있어요 (소문자 · 숫자 · _ · - 로 1~64자).\n\n" + list.slice(0, 12).map(cmt).join("\n") + (list.length > 12 ? `\n… 외 ${list.length - 12}개` : "")
+        + "\n\n자동으로 고쳐서 불러올까요? (이어지는 장면 · 서버 명령어의 이름도 같이 바꿔요)", [["fix", "자동으로 고쳐서 불러오기", "primary"], [null, "취소"]]);
+      if (a !== "fix") return;
+      r = fromYaml(doc, server, nm => blobs.get(nm), true);
+    }
+    if (!(await replaceProject(`"${cmt(r.d.meta.title)}" 대화를 불러오면 지금 편집 중인 대화가 바뀌어요.`))) return;
+    D = r.d; selScene = D.scenes[0].key; PV.scene = null; PV.aff = {}; render(); scheduleSave();
+    const notes = [];
+    if (r.renamed.length) notes.push("바꾼 이름:\n" + r.renamed.slice(0, 20).map(([a, b]) => `${cmt(a)} → ${b}`).join("\n") + (r.renamed.length > 20 ? `\n… 외 ${r.renamed.length - 20}개` : "") + "\n(이미 서버에 넣은 파일이 있다면 이 대화를 다시 내보내서 같이 바꿔 주세요)");
+    if (r.missing.length) notes.push("찾지 못한 그림 파일:\n" + r.missing.slice(0, 20).map(cmt).join("\n") + "\n(그림과 함께 다시 불러오거나, 인물의 표정을 새로 넣어 주세요. 그대로 내보내면 이 그림은 zip 에 없어요)");
+    if (D.noServer) notes.push("server_commands.yml 없이 불러왔어요. 서버 명령어 · 결말/끝 호감도는 비어 있어요.\n(내보낼 때 server_commands.yml 을 넣을지 물어봐요. 서버의 기존 파일을 빈 파일로 덮어쓰지 않게 조심하세요)");
+    if (notes.length) await ask(notes.join("\n\n"), [["ok", "확인", "primary"]]);
+    else toast(`"${D.meta.title}" 대화를 불러왔어요`);
+  } catch (e) { toast("불러오지 못했어요: " + e.message); }
+}
+document.getElementById("importInput").onchange = e => { importFiles([...e.target.files]); e.target.value = ""; };
+function toPng(f) {
+  if (f.blob.type === "image/png") return Promise.resolve(f.blob);
+  return new Promise((res, rej) => { const im = new Image(); im.onload = () => { const c = document.createElement("canvas"); c.width = im.naturalWidth; c.height = im.naturalHeight; c.getContext("2d").drawImage(im, 0, 0); c.toBlob(b => b ? res(b) : rej(new Error("PNG 변환 실패")), "image/png"); }; im.onerror = () => rej(new Error("그림을 못 열었어요")); im.src = f.url; });
+}
+async function saveFile(name, blob) {
+  const api = window.claude && typeof window.claude.use === "function" ? await window.claude.use("downloads").catch(() => null) : null;
+  if (api) { try { await api.save({ filename: name, data: blob }); return true; } catch (e) { if (e?.code !== "declined") toast("저장하지 못했어요: " + (e?.message || e)); return false; } }
+  if (window.claude) { toast("이 화면에서는 저장을 쓸 수 없어요. PC의 편집기 파일을 열어 주세요."); return false; }
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name; document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); return true;
+}
+/* 내보낼 수 없는 문제 (어느 키가 문제인지 알려 준다) */
+function exportBlockers() {
+  const b = [], seen = new Set();
+  D.scenes.forEach(s => {
+    if (!ID_RE.test(s.key)) b.push([s.key, `장면 "${s.name}" 의 id "${s.key}" 가 이름 규칙에 맞지 않아요 (소문자 · 숫자 · _ · -, 1~64자)`]);
+    if (seen.has(s.key)) b.push([s.key, `장면 id 가 겹쳐요: ${s.key}`]); seen.add(s.key);
+    [s.enterEv, ...s.choices.map(c => c.ev)].forEach(e => { if (e && !ID_RE.test(e)) b.push([s.key, `장면 "${s.name}" 의 이벤트 이름 "${e}" 가 이름 규칙에 맞지 않아요`]); });
+    if (s.lines.some(l => l.text.length > LINE_MAX)) b.push([s.key, `장면 "${s.name}": ${LINE_MAX}자를 넘는 대사가 있어요 (게임이 열지 못해요. 나눠 주세요)`]);
+  });
+  return b;
+}
+document.getElementById("exportBtn").onclick = async () => {
+  if (!libsReady()) { toast("zip 을 만드는 라이브러리를 받지 못했어요 (인터넷 연결 확인 후 새로고침)"); return; }
+  if (!ID_RE.test(D.meta.id)) { toast("대화 id는 영어 소문자, 숫자, _, - 만 쓸 수 있어요"); document.getElementById("m_id").focus(); return; }
+  ensureEvents();
+  const blockers = exportBlockers();
+  if (blockers.length) { toast(blockers[0][1]); scrollToScene(blockers[0][0]); return; }
+  try {
+    let withServer = true;
+    if (D.noServer) {
+      const a = await ask("이 대화는 server_commands.yml 없이 불러왔어요.\n그대로 만들면 서버 명령어 · 결말/끝 호감도가 (편집기에 다시 적지 않았다면) 빈 파일이 되고, 서버의 기존 파일을 덮어쓰면 명령어가 사라져요.",
+        [["omit", "server_commands.yml 빼고 내보내기", "primary"], ["include", "지금 편집기 내용으로 만들어 넣기"], [null, "취소"]]);
+      if (!a) return;
+      withServer = a === "include";
+      if (withServer) { D.noServer = false; scheduleSave(); renderWarnings(); }
+    }
+    const zip = new JSZip(), dir = zip.folder(D.meta.id), names = imageNames();
+    dir.file("dialogue.yml", toYaml()); if (withServer) dir.file("server_commands.yml", toServerYaml());
+    const lost = [];
+    for (const [f, n] of names) { if (f.missing) lost.push(n); else dir.file(n, await toPng(f)); }
+    dir.file("넣는 곳.txt", `1) 클라: 이 폴더(${D.meta.id})를 통째로 .minecraft/config/chaca_dialogue/ 안에 넣으세요.\n2) 서버: 같은 폴더를 통째로 plugins/ChacademyStory/dialogues/ 안에 넣으세요 (그림은 없어도 돼요).\n   서버는 dialogue.yml 로 선택지·결말을 검증하고 server_commands.yml 의 명령어·호감도를 실행해요. 넣은 뒤 /서버관리 새로고침 스토리\n3) 서버에서 대화 열기: /대화관리 재생 <닉네임> 대화 ${D.meta.id}\n   혼자 테스트: /스토리도구 대화 ${D.meta.id}\n`);
+    const blob = await zip.generateAsync({ type: "blob" });
+    if (await saveFile(`${D.meta.id}.zip`, blob)) toast(lost.length ? `${D.meta.id}.zip 저장. 그림 ${lost.length}개는 파일이 없어 빠졌어요: ${lost.slice(0, 3).join(", ")}` : `${D.meta.id}.zip 저장. 클라 config/chaca_dialogue 와 서버 dialogues 폴더에 풀면 돼요`);
+  } catch (e) { toast("내보내지 못했어요: " + e.message); }
+};
+/* 지금 대화를 다른 것으로 바꾸기 전에: 물어보고, 지금 것을 "이전 초안" 칸에 넣어 둔다 */
+async function replaceProject(message) {
+  const a = await ask(message + "\n지금 것은 [이전 초안 복구] 로 되돌릴 수 있어요.", [["go", "바꾸기", "primary"], [null, "취소"]]);
+  if (a !== "go") return false;
+  clearTimeout(saveT);
+  try { await writeSlot("prev"); }
+  catch { if ((await ask("지금 대화를 이 브라우저에 보관하지 못했어요. 그래도 바꿀까요? (되돌릴 수 없어요)", [["go", "그래도 바꾸기"], [null, "취소", "primary"]])) !== "go") return false; }
+  return true;
+}
+document.getElementById("newBtn").onclick = async () => {
+  if (!(await replaceProject("지금 대화를 지우고 새 대화를 만들어요."))) return;
+  D = blankDialogue(); selScene = D.scenes[0].key; PV.scene = null; render(); scheduleSave();
+};
+document.getElementById("prevBtn").onclick = async () => {
+  const prev = await readSlot("prev");
+  if (!prev?.D) { toast("복구할 이전 초안이 없어요"); return; }
+  const a = await ask("불러오기 · 새 대화 직전에 편집하던 대화로 되돌려요. (지금 것은 다시 [이전 초안 복구] 로 돌아올 수 있어요)", [["go", "되돌리기", "primary"], [null, "취소"]]);
+  if (a !== "go") return;
+  clearTimeout(saveT);
+  try { await writeSlot("prev"); } catch {}
+  adopt(prev); selScene = D.scenes[0].key; PV.scene = null; PV.aff = {}; render(); scheduleSave();
+  toast("이전 초안으로 되돌렸어요");
+};
+
+/* ================================================================ 임시 저장 (이 브라우저에만: 지금 것 "draft", 바꾸기 직전 것 "prev") */
+let saveT;
+function scheduleSave() { clearTimeout(saveT); saveT = setTimeout(saveDraft, 700); }
+function idb() { return new Promise((res, rej) => { const r = indexedDB.open("chaca-dialogue-editor", 1); r.onupgradeneeded = () => r.result.createObjectStore("kv"); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); }); }
+async function writeSlot(slot) {
+  const db = await idb();
+  const data = { uid, D: { ...D, people: D.people.map(p => ({ ...p, faces: p.faces.map(f => ({ name: f.name, blob: f.blob, file: f.file, missing: !!f.missing })) })) } };
+  await new Promise((res, rej) => { const tx = db.transaction("kv", "readwrite"); tx.objectStore("kv").put(data, slot); tx.oncomplete = res; tx.onerror = () => rej(tx.error); });
+}
+async function readSlot(slot) {
+  try {
+    const db = await idb();
+    return await new Promise((res, rej) => { const tx = db.transaction("kv", "readonly"); const r = tx.objectStore("kv").get(slot); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); });
+  } catch { return null; }
+}
+async function saveDraft() {
+  try { await writeSlot("draft"); document.getElementById("saveStatus").textContent = "이 브라우저에 임시 저장됨"; }
+  catch { document.getElementById("saveStatus").textContent = "임시 저장 안 됨 · zip으로 보관하세요"; }
+}
+function adopt(data) {
+  D = normalize(data.D); uid = Math.max(uid, data.uid || 100);
+  D.people.forEach(p => p.faces = p.faces.map(f => f.blob ? newFace(f.blob, f.name) : { name: f.name, blob: null, url: "", file: f.file || "", missing: true }).filter(f => !f.missing || okImageName(f.file)));
+}
+async function loadDraft() {
+  try {
+    const data = await readSlot("draft");
+    if (!data?.D) return false;
+    adopt(data);
+    return true;
+  } catch { return false; }
+}
+async function loadSample() {
+  const files = ["teacher_normal.png", "teacher_smile.png", "teacher_worry.png"], blobs = new Map();
+  await Promise.all(files.map(async n => { try { const r = await fetch("example/" + n); if (r.ok) blobs.set(n, await r.blob()); } catch {} }));
+  const sample = {
+    id: "ch1_wakeup", title: "1장 · 깨어남 (예시)", start: "wake", dim: 0.35, type_speed: 0.03,
+    speakers: { me: { name: "{player}" }, teacher: { name: "마중 선생님", npc: "teacher", portraits: { "기본": "teacher_normal.png", "웃음": "teacher_smile.png", "걱정": "teacher_worry.png" } } },
+    scenes: {
+      wake: { name: "깨어남", lines: [{ who: "me", text: "으으… 여기는…?" }, { who: "me", text: "뭐였지… 꿈? 그것보다 나는…" },
+        { who: "teacher", face: "기본", text: "아, 여기 있었구먼! 혹시 {player} 씨 맞소?" }, { who: "teacher", face: "걱정", text: "…근데 안색이 영 안 좋구먼. 어디 아픈 거 아니오?" }],
+        choices: [{ text: "괜찮아요, 잠깐 어지러웠어요.", to: "fine", affinity: { npc: "teacher", add: 2 } }, { text: "이상한 꿈을 꿨어요.", to: "dream", event: "c_dream", affinity: [{ npc: "teacher", add: -1 }] },
+          { text: "선생님 덕분에 살았어요!", to: "close", need: { npc: "teacher", min: 50 } }] },
+      fine: { name: "괜찮다고 함", lines: [{ who: "teacher", face: "웃음", text: "하하, 입학 전날엔 다들 잠을 설치지. 걸으면서 바람 좀 쐽시다." }], next: "go" },
+      dream: { name: "꿈 이야기", lines: [{ who: "teacher", face: "걱정", text: "꿈이라… 마법학교 근처에선 가끔 그런다오." }, { who: "teacher", face: "기본", text: "오래된 마력이 많이 고여 있는 땅이라. 신경 쓰지 마시오." }], next: "go" },
+      close: { name: "넉살", lines: [{ who: "teacher", face: "웃음", text: "허허, 넉살도 좋구먼. 마음에 드오!" }], next: "go" },
+      go: { name: "출발", redirect: [{ npc: "teacher", min: 60, to: "go_friend" }], lines: [{ who: "teacher", face: "기본", text: "자, 학교까지는 저 언덕을 넘어야 하오. 따라오시오." }] },
+      go_friend: { name: "출발 (친해짐)", lines: [{ who: "teacher", face: "웃음", text: "자, 같이 갑시다. 오늘은 내가 특별히 지름길로 안내하지!" }] }
+    }
+  };
+  const server = { end: ["say {nickname} 님이 깨어남 대화를 마쳤습니다"], endings: { go_friend: ["say {nickname} 님은 선생님과 친해졌습니다"] }, events: { c_dream: ["say {nickname} 님이 꿈 이야기를 했습니다"] },
+    affinity: { end: { teacher: 1 }, endings: { go_friend: { teacher: 5 } } } };
+  D = fromYaml(sample, server, n => blobs.get(n)).d;
+}
+
+/* ================================================================ 기타 */
+let toastT;
+function toast(m) { const t = document.getElementById("toast"); t.textContent = m; t.classList.add("show"); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove("show"), 3200); }
+
+(async () => {
+  if (!libsReady()) document.getElementById("offlineNote").hidden = false;
+  D = blankDialogue();
+  if (!(await loadDraft())) await loadSample();
+  selScene = D.scenes[0].key;
+  render();
+})();
+</script>
+
+</body></html>

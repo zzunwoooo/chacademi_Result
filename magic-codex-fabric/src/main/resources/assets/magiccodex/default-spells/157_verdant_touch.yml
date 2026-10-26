@@ -1,0 +1,14 @@
+id: verdant_touch
+name: 풍요의 손길
+category: earth
+description: 주변의 밀·당근·감자를 최대 8개까지 한 단계 성장시킵니다.
+icon: magiccodex:textures/spells/novice/verdant_touch.png
+permission: magic.learned.verdant_touch
+discovery:
+  description: 다 자란 밀·당근·감자를 각각 20개 수확하기.
+research: 약초학 실습에서 가장 먼저 배우는 것은 싹을 재촉하는 법이 아니라, 제대로 자란 식물을 알아보는 법이다.
+cast:
+  command: 마법 verdant_touch
+  cooldown-seconds: 20
+  mana-cost: 25
+order: 157

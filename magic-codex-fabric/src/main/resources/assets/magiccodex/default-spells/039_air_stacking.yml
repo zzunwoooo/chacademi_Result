@@ -1,0 +1,14 @@
+id: air_stacking
+name: 허공 쌓기
+category: wind
+description: 손에 든 건축 블록을 소비해 10블록 이내의 바라보는 위치에 최대 6칸을 일렬로 놓습니다.
+icon: magiccodex:textures/spells/expansion_2/air_stacking.png
+permission: magic.learned.air_stacking
+discovery:
+  description: 높이 150 이상 하늘에서 블록 64개 설치하기.
+research: 아카데미 곳곳의 구조를 살피던 학자는, 바람으로 높은 곳을 이어 쌓는 건축의 길을 열었다.
+cast:
+  command: 마법 air_stacking
+  cooldown-seconds: 25
+  mana-cost: 110
+order: 39

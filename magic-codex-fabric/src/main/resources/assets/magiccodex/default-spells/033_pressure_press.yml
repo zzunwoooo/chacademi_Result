@@ -1,0 +1,14 @@
+id: pressure_press
+name: 윈드 프레스
+category: wind
+description: 공중에 있는 대상을 낙하시킵니다.
+icon: magiccodex:textures/spells/expansion_2/pressure_press.png
+permission: magic.learned.pressure_press
+discovery:
+  description: 바람 교실에서 「떨어지는 것들의 역학」 책 읽기.
+research: 날개를 스친 순간 공기가 눌리는 감각이 남았다. 무거워진 바람 속에서는 새도 날개를 펼 수 없었다.
+cast:
+  command: 마법 pressure_press
+  cooldown-seconds: 20
+  mana-cost: 70
+order: 33

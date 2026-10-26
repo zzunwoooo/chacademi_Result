@@ -1,0 +1,15 @@
+Id: chacademia_sniffer
+MythicMob: ChAcademiaPetSniffer
+Permission: chacademia.pet.sniffer
+Distance: 8
+SpawnRange: 2
+ComingBackRange: 3
+Mountable: false
+AutoRide: false
+Icon:
+  Name: 스니퍼
+  Material: SNIFFER_SPAWN_EGG
+  Description:
+  - 교화로 함께하게 된 동료
+CheckPermission: true
+FollowOwner: true

@@ -1,0 +1,14 @@
+id: faint_veil
+name: 옅은 은신
+category: dark
+description: 8초 동안 몸을 투명하게 만듭니다. 갑옷과 손에 든 물건은 그대로 보입니다.
+icon: magiccodex:textures/spells/novice_extra/faint_veil.png
+permission: magic.learned.faint_veil
+discovery:
+  description: 밤에 웅크린 상태로 누적 200블록 이동합니다.
+research: 기숙사 점호를 피하려던 학생의 연구였다는 소문이 있다.
+cast:
+  command: 마법 faint_veil
+  cooldown-seconds: 20
+  mana-cost: 30
+order: 258

@@ -1,0 +1,15 @@
+id: shield_slam
+name: 방패 내려찍기
+category: light
+description: 마력의 방패를 들어 앞쪽 땅을 내리찍습니다. 앞에 있던 적은 피해를 입고 잠깐 기절합니다.
+# Existing icon reused from protective_ward; dedicated mob-skill artwork was not supplied.
+icon: magiccodex:textures/spells/mob_skill/shield_slam.png
+permission: magic.learned.shield_slam
+discovery:
+  description: 봉인의 기사를 처치하면 5% 확률로 습득합니다.
+research: 봉인의 기사에게 방패는 막는 물건이 아니다. 문장을 새기는 도장이다.
+cast:
+  command: 마법 shield_slam
+  cooldown-seconds: 10
+  mana-cost: 30
+order: 218

@@ -1,0 +1,10 @@
+name: ChacaNPC
+version: '${version}'
+main: kr.chacademy.npc.ChacaNpcPlugin
+api-version: '1.21'
+description: 차카데미 AI NPC (school 전용 — GPT 대화, 일과표 이동, 소문, 분위기 노트)
+authors: [Chacademy]
+depend: [Citizens]
+softdepend: [MagicCodexBridge, MagicDiscovery]
+# 명령어는 MagicCodexBridge 명령어 허브(Brigadier)에 등록한다:
+#   /NPC관리 · /유저관리 <닉네임> AI대화 · /테스트 NPC · /서버관리 AI · /말 · /호칭 · /대화선택(채팅 버튼용)

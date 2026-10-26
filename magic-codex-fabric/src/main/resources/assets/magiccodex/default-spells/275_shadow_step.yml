@@ -1,0 +1,14 @@
+id: shadow_step
+name: 그림자 걸음
+category: dark
+description: 그림자가 되어 앞쪽 5블록을 순식간에 지나갑니다. 지나친 적은 3초 동안 실명합니다.
+icon: ''
+permission: magic.learned.shadow_step
+discovery:
+  description: 옅은 은신을 30번 사용하기.
+research: ''
+cast:
+  command: 마법 shadow_step
+  cooldown-seconds: 14
+  mana-cost: 60
+order: 275

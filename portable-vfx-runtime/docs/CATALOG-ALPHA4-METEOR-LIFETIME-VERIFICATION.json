@@ -1,0 +1,69 @@
+{
+  "version": "3.2.0-catalog.alpha.4",
+  "date_utc": "2026-10-04T11:43:36.891786+00:00",
+  "scope": [
+    "Fixed declared targeted-meteor trajectory: loaded ground selection, target-relative authored sky offset, target-directed travel independent of cast range",
+    "Range/unloaded termination clears projectile-local body but retains world-space tails",
+    "Automatic duration expiry clears only authored projectile-local bodies",
+    "Recorded FINISH boundary is respected across delayed frames; authored tails are aged forward",
+    "FallingStar mark stops at impact instead of early timer",
+    "Combined global bloom default 0.65 from concurrent bloom fix"
+  ],
+  "tests": {
+    "protocol_assertions": 31753,
+    "paper": {
+      "passed": 69,
+      "failed": 0
+    },
+    "client": {
+      "passed": 80,
+      "skipped": 3,
+      "failed": 0
+    },
+    "new_meteor_tests": 4,
+    "new_client_lifetime_tests": 8,
+    "renderer_cpu_assertions": 54478,
+    "gl_smoke": "pass",
+    "bloom_original": 0.90735936,
+    "bloom_reduced": 0.8672249,
+    "bloom_core_unchanged": 0.7626893,
+    "depth_6402": "pass",
+    "optional_model_fixture_run": {
+      "passed": 81,
+      "failed": 2,
+      "reason": "Current WaterElemental asset differs from opt-in legacy fixture expectations: nodes expected 66 actual 19; unique source count expected 3 actual 2. No new production exception."
+    }
+  },
+  "limits": [
+    "No live Minecraft/Paper session or Iris 1.8.8 + Complementary R5.5.1 visual playtest in this environment",
+    "Sky meteor uses the authored diagonal high offset; real terrain collisions can still intercept the path",
+    "Existing server YAML is not overwritten by plugin startup; install updated binding/catalog or merge falling_star mark finish-after-ticks=-1"
+  ],
+  "unchanged": [
+    "Authored 97 effect packs",
+    "HUD and taming",
+    "Common protocol version alpha.1"
+  ],
+  "files": [
+    {
+      "path": "client/build/libs/portable-vfx-client-3.2.0-catalog.alpha.4.jar",
+      "bytes": 355429,
+      "sha256": "810626d0c5fc938a7e4b640b26cacaffdda8e31cac754d372c17c9108eb24ab9"
+    },
+    {
+      "path": "paper/build/libs/portable-vfx-paper-3.2.0-catalog.alpha.4.jar",
+      "bytes": 152807,
+      "sha256": "9991b87d8ebae4a53ae841cce1171e4707546124dd04394c3f7aedd411916001"
+    },
+    {
+      "path": "paper/src/main/resources/spell-bindings.yml",
+      "bytes": 108797,
+      "sha256": "9a7d27b5c42becb0db771ca49f621b390da6f227bf17deba5c55de35b67ca887"
+    },
+    {
+      "path": "paper/src/main/resources/spell-catalog.yml",
+      "bytes": 189141,
+      "sha256": "f5f125ed62f9380b4a1b6638c864138f89e60f417d482d6dbffe64cde24f8012"
+    }
+  ]
+}

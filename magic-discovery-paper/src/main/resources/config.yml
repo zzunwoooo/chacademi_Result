@@ -1,0 +1,7 @@
+# server-first: one discoverer per spell for this server database
+# player-first: every player's first discovery of each spell
+title-scope: server-first
+# Survival and Adventure only; creative/spectator actions do not earn discoveries.
+progress-save-seconds: 5
+nearby-check-ticks: 40
+# Avoid farming block placement/breaking. Planted saplings and young crops still count by design.

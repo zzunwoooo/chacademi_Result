@@ -1,0 +1,15 @@
+id: tail_spikes
+name: 꼬리 가시
+category: earth
+description: 조준한 자리에 꼬리 가시를 세 번 연달아 떨어뜨립니다.
+# Existing icon reused from pressure_lance; dedicated mob-skill artwork was not supplied.
+icon: magiccodex:textures/spells/mob_skill/tail_spikes.png
+permission: magic.learned.tail_spikes
+discovery:
+  description: 와이번을 처치하면 5% 확률로 습득합니다.
+research: 와이번의 꼬리는 한 번 휘두르면 세 번 떨어진다.
+cast:
+  command: 마법 tail_spikes
+  cooldown-seconds: 12
+  mana-cost: 35
+order: 176

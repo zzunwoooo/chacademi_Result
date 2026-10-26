@@ -1,0 +1,5 @@
+name: ChacaGimmick
+version: '${version}'
+main: school.chacademia.gimmick.GimmickPlugin
+api-version: '1.21.4'
+softdepend: [ItemsAdder, ModelEngine, ChAcademiaMagicMythic, WorldGuard, MCPets, MagicCodexBridge]

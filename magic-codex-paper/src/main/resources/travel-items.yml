@@ -1,0 +1,26 @@
+# 리턴권 · 텔포권 (오너 2026-10-26) — 학교·야생 모든 서버에 같은 파일을 둡니다.
+# 고친 뒤: /서버관리 새로고침 리턴권   (서버마다)
+#
+# 이동은 지도 이동(/지도)·귀환권과 같은 길을 씁니다: 다른 서버면 서버를 옮긴 뒤 그 자리에 도착합니다.
+# 경기 중·사망·관전·캐릭터 불러오는 중에는 못 쓰고, travel.yml rules(이동 쿨타임)도 똑같이 적용됩니다.
+# 전투 중(combat-lock.yml, 기본 10초)이면 아이템을 쓰기 전에 막습니다 — 아이템은 그대로 남아요.
+# 이동을 시작할 때 1개를 쓰고, 이동이 실패하면 1개를 돌려줍니다 (넣을 칸이 없으면 우편).
+# 서버 이름은 travel.yml 의 server-id 입니다.
+
+# 리턴권·텔포권을 쓸 수 있는 서버 (아레나는 넣지 마세요 — 아레나에서는 못 씀)
+use-servers: [school, wild1, wild2]
+
+# 리턴권: 우클릭 → 야생에서 가장 최근에 쓰러진 자리로
+death-return:
+  # ItemsAdder 아이템 id. 이 플러그인의 PDC 표식 magiccodexbridge:death_return (byte) 이 붙은 아이템도 리턴권으로 봅니다.
+  item: "item:death_return"
+  item-name: "리턴권"
+# 쓰러진 자리를 적는 서버 (야생만). 아레나·학교 사망, 큐디치·결투 경기 중 사망은 적지 않습니다.
+death-servers: [wild1, wild2]
+
+# 텔포권: 우클릭 → 접속 중인 유저 목록 → 고른 유저 곁으로
+friend-teleport:
+  item: "item:friend_teleport"
+  item-name: "텔포권"
+# 목록에 나오는 유저가 있는 서버 (아레나에 있는 유저는 목록에 아예 안 나옵니다)
+list-servers: [school, wild1, wild2]

@@ -1,0 +1,14 @@
+id: light_beam
+name: 빛줄기
+category: light
+description: 3초 동안 곧은 빛줄기를 내뿜습니다. 거울에서 꺾이고, 프리즘을 지나면 그 색으로 물듭니다. 쓰는 동안에는 움직일 수 없습니다.
+icon: magiccodex:textures/spells/gimmick/light_beam.png
+permission: magic.learned.light_beam
+discovery:
+  description: 도서관에서 「곧은 빛에 관한 소론」 책 읽기.
+research: 빛은 곧게 나아간다. 꺾이는 것은 빛이 아니라 우리가 놓아 둔 거울이다.
+cast:
+  command: 마법 light_beam
+  cooldown-seconds: 6
+  mana-cost: 50
+order: 225

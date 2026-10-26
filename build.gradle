@@ -1,0 +1,15 @@
+plugins { id 'base' }
+gradle.projectsEvaluated {
+    project(':creature-spawns-paper') {
+        if (!rootProject.hasProperty('magicCodexBridgeJar')) dependencies { compileOnly project(':magic-codex-paper') }
+    }
+    project(':tornado-event-paper') {
+        dependencies { compileOnly project(':magic-codex-paper') }
+    }
+}
+tasks.register('assembleServer') {
+    dependsOn subprojects.collect { "${it.path}:assemble" }
+}
+tasks.register('verifyServer') {
+    dependsOn subprojects.collect { "${it.path}:test" }
+}

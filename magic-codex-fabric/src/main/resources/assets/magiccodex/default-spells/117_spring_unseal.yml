@@ -1,0 +1,14 @@
+id: spring_unseal
+name: 수맥 개방
+category: water
+description: 20블록 이내의 바라보는 위치에 물을 설치합니다.
+icon: magiccodex:textures/spells/intermediate/spring_unseal.png
+permission: magic.learned.spring_unseal
+discovery:
+  description: 가마솥을 물로 30번 채우기.
+research: 마른 수로를 바라보던 물레방앗간 주인의 부탁에서 시작된 마법.
+cast:
+  command: 마법 spring_unseal
+  cooldown-seconds: 60
+  mana-cost: 30
+order: 117

@@ -1,0 +1,147 @@
+ChAcademiaWildElderGuardian:
+  Type: ELDER_GUARDIAN
+  Display: 엘더 가디언
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetElderGuardian:
+  Type: ELDER_GUARDIAN
+  Display: 엘더 가디언
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+    NoAI: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildEnderDragon:
+  Type: ENDER_DRAGON
+  Display: 엔더 드래곤
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetEnderDragon:
+  Type: ENDER_DRAGON
+  Display: 엔더 드래곤
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+    NoAI: true
+  AIGoalSelectors:
+  - clear
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildWither:
+  Type: WITHER
+  Display: 위더
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetWither:
+  Type: WITHER
+  Display: 위더
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+    NoAI: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildWarden:
+  Type: WARDEN
+  Display: 워든
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetWarden:
+  Type: WARDEN
+  Display: 워든
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+    NoAI: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn

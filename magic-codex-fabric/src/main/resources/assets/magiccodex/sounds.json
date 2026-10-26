@@ -1,0 +1,2179 @@
+{
+  "wind.soft": {
+    "sounds": [
+      {
+        "name": "magiccodex:vfx/wind-soft",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "wind.force": {
+    "sounds": [
+      {
+        "name": "magiccodex:vfx/wind-force",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "fire.soft": {
+    "sounds": [
+      {
+        "name": "magiccodex:vfx/fire-soft",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "fire.burst": {
+    "sounds": [
+      {
+        "name": "magiccodex:vfx/fire-burst",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "water.flow": {
+    "sounds": [
+      {
+        "name": "magiccodex:vfx/water-flow",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "water.ice": {
+    "sounds": [
+      {
+        "name": "magiccodex:vfx/water-ice",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "earth.stone": {
+    "sounds": [
+      {
+        "name": "magiccodex:vfx/earth-stone",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "light.chime": {
+    "sounds": [
+      {
+        "name": "magiccodex:vfx/light-chime",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "light.ritual": {
+    "sounds": [
+      {
+        "name": "magiccodex:vfx/light-ritual",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "dark.veil": {
+    "sounds": [
+      {
+        "name": "magiccodex:vfx/dark-veil",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "dark.gate": {
+    "sounds": [
+      {
+        "name": "magiccodex:vfx/dark-gate",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "earth.cast": {
+    "sounds": [
+      {
+        "name": "magiccodex:vfx/earth-high-cast",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "wind.sweep": {
+    "sounds": [
+      {
+        "name": "magiccodex:vfx/new100-wind-sweep",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "wind.snap": {
+    "sounds": [
+      {
+        "name": "magiccodex:vfx/new100-wind-snap",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "wind.orbit": {
+    "sounds": [
+      {
+        "name": "magiccodex:vfx/new100-wind-orbit",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "fire.temper": {
+    "sounds": [
+      {
+        "name": "magiccodex:vfx/new100-fire-temper",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "fire.brand": {
+    "sounds": [
+      {
+        "name": "magiccodex:vfx/new100-fire-brand",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "fire.roar": {
+    "sounds": [
+      {
+        "name": "magiccodex:vfx/new100-fire-roar",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "water.dew": {
+    "sounds": [
+      {
+        "name": "magiccodex:vfx/new100-water-dew",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "water.current": {
+    "sounds": [
+      {
+        "name": "magiccodex:vfx/new100-water-current",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "water.depth": {
+    "sounds": [
+      {
+        "name": "magiccodex:vfx/new100-water-depth",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "earth.seed": {
+    "sounds": [
+      {
+        "name": "magiccodex:vfx/new100-earth-seed",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "earth.shift": {
+    "sounds": [
+      {
+        "name": "magiccodex:vfx/new100-earth-shift",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "earth.core": {
+    "sounds": [
+      {
+        "name": "magiccodex:vfx/new100-earth-core",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "light.script": {
+    "sounds": [
+      {
+        "name": "magiccodex:vfx/new100-light-script",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "light.link": {
+    "sounds": [
+      {
+        "name": "magiccodex:vfx/new100-light-link",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "light.astral": {
+    "sounds": [
+      {
+        "name": "magiccodex:vfx/new100-light-astral",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "dark.ink": {
+    "sounds": [
+      {
+        "name": "magiccodex:vfx/new100-dark-ink",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "dark.thread": {
+    "sounds": [
+      {
+        "name": "magiccodex:vfx/new100-dark-thread",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "dark.void": {
+    "sounds": [
+      {
+        "name": "magiccodex:vfx/new100-dark-void",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "cast.wind_basket": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/wind_basket",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.feather_step": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/feather_step",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.harvest_wind": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/harvest_wind",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.wind_push": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/wind_push",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.light_leap": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/light_leap",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.flight": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/flight",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.far_touch": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/far_touch",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.wind_message": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/wind_message",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.storm_command": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/storm_command",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.wind_vault": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/wind_vault",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.vacuum_cleave": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/vacuum_cleave",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.wind_grooming": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/wind_grooming",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.dust_duster": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/dust_duster",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.leaf_cleanup": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/leaf_cleanup",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.gale_dash": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/gale_dash",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.feather_rustle": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/feather_rustle",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.cross_breeze": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/cross_breeze",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.returning_blade": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/returning_blade",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.pressure_press": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/pressure_press",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.returning_wind": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/returning_wind",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.wind_decoy": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/wind_decoy",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.air_step": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/air_step",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.weightless_zone": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/weightless_zone",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.lightning_needle": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/lightning_needle",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.air_stacking": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/air_stacking",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.arrested_orbit": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/arrested_orbit",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.crossfire": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/crossfire",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.trajectory_acceleration": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/trajectory_acceleration",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.resonant_arrow": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/resonant_arrow",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.pressure_rupture": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/pressure_rupture",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.storm_crown": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/storm_crown",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.hearth_touch": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/hearth_touch",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.ember_bolt": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/ember_bolt",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.rekindle": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/rekindle",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.flame_forging": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/flame_forging",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.ember_trap": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/ember_trap",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.fire_curtain": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/fire_curtain",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.phoenix_oath": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/phoenix_oath",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.living_furnace": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/living_furnace",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.falling_star": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/falling_star",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.palm_fireworks": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/palm_fireworks",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.wick_trimming": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/wick_trimming",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.glass_firing": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/glass_firing",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.charcoal_conversion": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/charcoal_conversion",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.sponge_drying": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/sponge_drying",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.flame_lash": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/flame_lash",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.boiling_armor": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/boiling_armor",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.kiln_breath": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/kiln_breath",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.glaze_coating": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/glaze_coating",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.ash_brand": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/ash_brand",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.explosive_wedge": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/explosive_wedge",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.flame_leap": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/flame_leap",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.heat_recovery": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/heat_recovery",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.firebird_hunt": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/firebird_hunt",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.lava_suture": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/lava_suture",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.flame_sword_dance": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/flame_sword_dance",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.incandescent_break": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/incandescent_break",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.blue_bonfire": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/blue_bonfire",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.crimson_heart": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/crimson_heart",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.crimson_breath": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/crimson_breath",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.water_breath": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/water_breath",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.tide_stride": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/tide_stride",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.water_bolt": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/water_bolt",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.quench": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/quench",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.purifying_wave": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/purifying_wave",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.ice_bridge": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/ice_bridge",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.spring_unseal": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/spring_unseal",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.water_elemental": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/water_elemental",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.eternal_ice_prison": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/eternal_ice_prison",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.cauldron_fill": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/cauldron_fill",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.dye_rinse": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/dye_rinse",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.moist_farmland": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/moist_farmland",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.wash_letters": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/wash_letters",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.handful_of_snow": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/handful_of_snow",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.fish_lure": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/fish_lure",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.dew_gathering": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/dew_gathering",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.quiet_mooring": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/quiet_mooring",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.frost_rupture": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/frost_rupture",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.wet_footprints": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/wet_footprints",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.pressure_weight": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/pressure_weight",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.cold_storage": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/cold_storage",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.current_sorting": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/current_sorting",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.dampen_powder": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/dampen_powder",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.potion_mist": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/potion_mist",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.waterwheel_shield": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/waterwheel_shield",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.liquid_barrier": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/liquid_barrier",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.water_rebound": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/water_rebound",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.tidal_wave": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/tidal_wave",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.life_distribution": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/life_distribution",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.thaw_pulse": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/thaw_pulse",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.abyssal_pressure": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/abyssal_pressure",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.verdant_touch": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/verdant_touch",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.ore_whisper": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/ore_whisper",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.pebble_toss": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/pebble_toss",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.miners_rhythm": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/miners_rhythm",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.earth_shaping": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/earth_shaping",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.stone_wall": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/stone_wall",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.earth_elemental": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/earth_elemental",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.earthquake": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/earthquake",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.climate_control": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/climate_control",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.moss_coating": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/moss_coating",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.grass_sprouting": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/grass_sprouting",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.seed_row": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/seed_row",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.bee_calm": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/bee_calm",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.flint_sorting": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/flint_sorting",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.bark_peeling": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/bark_peeling",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.thorn_armor": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/thorn_armor",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.compost_return": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/compost_return",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.thorn_seeds": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/thorn_seeds",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.pollen_matchmaking": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/pollen_matchmaking",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.earth_anchor": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/earth_anchor",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.weathering_touch": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/weathering_touch",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.dormant_seed": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/dormant_seed",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.counterweight": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/counterweight",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.vein_fracture": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/vein_fracture",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.iron_carapace": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/iron_carapace",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.material_exchange": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/material_exchange",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.remembering_field": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/remembering_field",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.little_giant": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/little_giant",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.spring_ground": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/spring_ground",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.mountain_back": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/mountain_back",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.earth_embrace": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/earth_embrace",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.forest_throne": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/forest_throne",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.primordial_stone": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/primordial_stone",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.guiding_star": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/guiding_star",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.minor_heal": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/minor_heal",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.spatial_leap": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/spatial_leap",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.true_sight": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/true_sight",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.protective_ward": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/protective_ward",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.constellation_blessing": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/constellation_blessing",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.arcane_imprint": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/arcane_imprint",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.dawn_ritual": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/dawn_ritual",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.firefly_mark": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/firefly_mark",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.rainbow_collar": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/rainbow_collar",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.comforting_light": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/comforting_light",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.sun_drying": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/sun_drying",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.luminous_copy": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/luminous_copy",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.exorcism_flash": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/exorcism_flash",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.arcane_mending": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/arcane_mending",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.guiding_fletching": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/guiding_fletching",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.sharing_table": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/sharing_table",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.summons_letter": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/summons_letter",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.starlight_survey": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/starlight_survey",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.luminous_handover": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/luminous_handover",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.mana_conduit": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/mana_conduit",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.companion_return": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/companion_return",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.merciful_arrow": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/merciful_arrow",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.mana_deposit": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/mana_deposit",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.flawless_moment": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/flawless_moment",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.guardian_oath": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/guardian_oath",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.solar_judgment": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/solar_judgment",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.starlight_reprise": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/starlight_reprise",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.constellation_emissary": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/constellation_emissary",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.night_sight": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/night_sight",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.shadow_bind": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/shadow_bind",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.faint_veil": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/faint_veil",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.shadow_double": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/shadow_double",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.echo_reading": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/echo_reading",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.sealing_thread": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/sealing_thread",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.afterlife_gate": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/afterlife_gate",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.shadow_exchange": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/shadow_exchange",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.forbidden_contract": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/forbidden_contract",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.ink_fingertip": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/ink_fingertip",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.drowsiness": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/drowsiness",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.misfortune_whisper": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/misfortune_whisper",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.shadow_nail": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/shadow_nail",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.night_lullaby": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/night_lullaby",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.life_siphon": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/life_siphon",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.hungry_shadow": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/hungry_shadow",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.loosen_grasp": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/loosen_grasp",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.shadow_tracking": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/shadow_tracking",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.healing_seal": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/healing_seal",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.shadow_scales": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/shadow_scales",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.curse_transfer": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/curse_transfer",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.warning_thread": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/warning_thread",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.final_knot": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/final_knot",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.discord": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/discord",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.wound_accounting": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/wound_accounting",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.inverted_offering": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/inverted_offering",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.night_chain": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/night_chain",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.ghost_tool": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/ghost_tool",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.bell_of_fear": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/bell_of_fear",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.pain_deferral": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/pain_deferral",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.eclipse_eye": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/eclipse_eye",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.death_ledger": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/death_ledger",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.black_harvest": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/black_harvest",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.void_maw": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/void_maw",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "cast.twilight_bargain": {
+    "sounds": [
+      {
+        "name": "magiccodex:cast/twilight_bargain",
+        "stream": false,
+        "preload": false
+      }
+    ]
+  },
+  "spell_discovered": {
+    "sounds": [
+      {
+        "name": "magiccodex:ui/spell_discovered",
+        "stream": false
+      }
+    ]
+  },
+  "appraisal.ting": {
+    "sounds": [
+      {
+        "name": "magiccodex:appraisal/ting",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "appraisal.breakthrough": {
+    "sounds": [
+      {
+        "name": "magiccodex:appraisal/breakthrough",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "appraisal.start": {
+    "sounds": [
+      {
+        "name": "magiccodex:appraisal/start",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "appraisal.denied": {
+    "sounds": [
+      {
+        "name": "magiccodex:appraisal/denied",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "appraisal.gate4": {
+    "sounds": [
+      {
+        "name": "magiccodex:appraisal/gate4",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "appraisal.gate7": {
+    "sounds": [
+      {
+        "name": "magiccodex:appraisal/gate7",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "appraisal.gate10": {
+    "sounds": [
+      {
+        "name": "magiccodex:appraisal/gate10",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "appraisal.finish": {
+    "sounds": [
+      {
+        "name": "magiccodex:appraisal/finish",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "taming.seal_spawn": {
+    "sounds": [
+      {
+        "name": "magiccodex:taming/seal_spawn",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "taming.channel_start": {
+    "sounds": [
+      {
+        "name": "magiccodex:taming/channel_start",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "taming.channel_loop": {
+    "sounds": [
+      {
+        "name": "magiccodex:taming/channel_loop",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "taming.capture_success": {
+    "sounds": [
+      {
+        "name": "magiccodex:taming/capture_success",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "taming.capture_fail": {
+    "sounds": [
+      {
+        "name": "magiccodex:taming/capture_fail",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "taming.seal_timeout": {
+    "sounds": [
+      {
+        "name": "magiccodex:taming/seal_timeout",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "kyudichi.whistle_short": {
+    "sounds": [
+      {
+        "name": "magiccodex:kyudichi/whistle_short",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "kyudichi.whistle_long": {
+    "sounds": [
+      {
+        "name": "magiccodex:kyudichi/whistle_long",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "kyudichi.whistle_end": {
+    "sounds": [
+      {
+        "name": "magiccodex:kyudichi/whistle_end",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "kyudichi.goal": {
+    "sounds": [
+      {
+        "name": "magiccodex:kyudichi/goal",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "kyudichi.snitch_appear": {
+    "sounds": [
+      {
+        "name": "magiccodex:kyudichi/snitch_appear",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "kyudichi.bludger_hit": {
+    "sounds": [
+      {
+        "name": "magiccodex:kyudichi/bludger_hit",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "kyudichi.deflect": {
+    "sounds": [
+      {
+        "name": "magiccodex:kyudichi/deflect",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "kyudichi.throw": {
+    "sounds": [
+      {
+        "name": "magiccodex:kyudichi/throw",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  },
+  "kyudichi.catch": {
+    "sounds": [
+      {
+        "name": "magiccodex:kyudichi/catch",
+        "stream": false,
+        "preload": true
+      }
+    ]
+  }
+}

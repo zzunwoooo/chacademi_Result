@@ -1,0 +1,89 @@
+plugins {
+    id 'fabric-loom' version "${loom_version}"
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    // cutscene.yml 읽기용. jar 안에 같이 넣는다 (jar-in-jar)
+    implementation 'org.yaml:snakeyaml:2.3'
+    include 'org.yaml:snakeyaml:2.3'
+}
+
+processResources {
+    inputs.property 'version', project.version
+    filesMatching('fabric.mod.json') {
+        expand 'version': project.version
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 21
+    it.options.encoding = 'UTF-8'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+// Optional private deployment assets stay outside the repository.
+if (project.hasProperty('storyFontDir')) {
+    processResources {
+        from(project.property('storyFontDir')) {
+            include 'cnm_l.ttf', 'cnm_m.ttf', 'cnm_b.ttf'
+            into 'assets/chaca_story/font'
+        }
+    }
+}
+
+// Switching back to a public build must not retain fonts from a previous private copy task.
+processResources {
+    inputs.property 'storyFontDir', project.findProperty('storyFontDir') ?: ''
+    doFirst {
+        ['l', 'm', 'b'].each { weight ->
+            delete new File(destinationDir, 'assets/chaca_story/font/cnm_' + weight + '.ttf')
+        }
+    }
+}
+
+// Public builds use Minecraft fonts. Never fetch unlicensed KoreanCNM files.
+processResources.doLast {
+    ['l', 'm', 'b'].each { weight ->
+        def fontFile = new File(destinationDir, 'assets/chaca_story/font/cnm_' + weight + '.ttf')
+        if (fontFile.isFile()) {
+            def jsonFile = new File(destinationDir, 'assets/chaca_story/font/subtitle_' + weight + '.json')
+            jsonFile.text = groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson([
+                providers: [[type:'ttf', file:'chaca_story:cnm_' + weight + '.ttf', size:11.0,
+                             oversample:8.0, shift:[0.0,1.0]],
+                            [type:'reference', id:'minecraft:default']]
+            ]))
+        }
+    }
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.11.4')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+test { useJUnitPlatform() }
+
+sourceSets.test.java {
+    srcDir '../plugin/src/main/java'
+    include '**/LocalStoryRewards.java', '**/StoryState.java', '**/ServerCommandRegistry.java', '**/LocalEndingSessions.java', '**/StoryDef.java', '**/StoryGraph.java', '**/StoryCatalog.java', '**/StorySafety.java', '**/QuestCodec.java', '**/StoryCodec.java', '**/*Test.java', 'school/magiccodex/client/*.java'
+}

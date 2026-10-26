@@ -1,0 +1,14 @@
+id: shadow_nail
+name: 그림자 못
+category: dark
+description: 대상에게 15초 동안 저주를 겁니다. 그동안 대상이 20블록 밖으로 멀어지면 한 번 큰 피해를 입고 저주가 끝납니다.
+icon: magiccodex:textures/spells/expansion_2/shadow_nail.png
+permission: magic.learned.shadow_nail
+discovery:
+  description: 1:1 결투에서 10번 이기기.
+research: 잠깐만, 아직 이야기가 끝나지 않았어.
+cast:
+  command: 마법 shadow_nail
+  cooldown-seconds: 60
+  mana-cost: 170
+order: 293

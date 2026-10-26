@@ -1,0 +1,14 @@
+id: resonant_arrow
+name: 미스틱 슈터
+category: wind
+description: 마법 슬롯에 장착하면 직접 공격 적중 시 추가 바람 화살을 발사합니다. 미라지 슈터와 동시에 발동할 수 있습니다.
+icon: magiccodex:textures/spells/expansion_2/resonant_arrow.png
+permission: magic.learned.resonant_arrow
+discovery:
+  description: 미라지 슈터의 바람 화살로 적을 300번 맞히기.
+research: 수없이 흘려보낸 마나가 공명의 결을 남겼다. 한층 깊어진 신기루가 다시 적을 꿰뚫는다.
+cast:
+  command: 마법 resonant_arrow
+  cooldown-seconds: 0
+  mana-cost: 50
+order: 27

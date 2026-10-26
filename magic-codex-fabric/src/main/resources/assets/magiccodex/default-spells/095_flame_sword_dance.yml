@@ -1,0 +1,14 @@
+id: flame_sword_dance
+name: 화염 검무
+category: fire
+description: 불꽃 검 세 자루를 주위에 띄웁니다. 공격할 때마다 한 자루씩 소비해 공격하며, 남은 검은 계속 주위를 맴돕니다.
+icon: magiccodex:textures/spells/expansion_2/flame_sword_dance.png
+permission: magic.learned.flame_sword_dance
+discovery:
+  description: 발화 인챈트가 붙은 검으로 몬스터 50마리 처치하기.
+research: 춤추는 듯한 불의 검에 홀려 몸이 불타는 것도 잊고 바라보았다.
+cast:
+  command: 마법 flame_sword_dance
+  cooldown-seconds: 60
+  mana-cost: 300
+order: 95

@@ -1,0 +1,14 @@
+id: bubble_aria
+name: 물거품 아리아
+category: water
+description: 15블록 안으로 물거품을 던집니다. 명중하면 반경 4블록에 세로 파문이 퍼지는 광역 공격을 합니다.
+icon: magiccodex:textures/spells/reviewed_20261016/bubble_aria.png
+permission: magic.learned.bubble_aria
+discovery:
+  description: 비 오는 날 몬스터를 10마리 처치하기.
+research: ''
+cast:
+  command: 마법 bubble_aria
+  cooldown-seconds: 15
+  mana-cost: 90
+order: 126

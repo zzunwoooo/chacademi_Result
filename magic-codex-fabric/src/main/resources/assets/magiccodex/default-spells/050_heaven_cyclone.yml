@@ -1,0 +1,14 @@
+id: heaven_cyclone
+name: 하늘의 눈
+category: wind
+description: 주변에 거대한 폭풍을 10초 동안 일으킵니다. 폭풍 안의 적은 천천히 떠올라 날지 못한 채 붙잡히고, 폭풍이 끝날 때 한꺼번에 땅으로 내리꽂힙니다.
+icon: ''
+permission: magic.learned.heaven_cyclone
+discovery:
+  description: 바람 마법 30종 습득하기.
+research: ''
+cast:
+  command: 마법 heaven_cyclone
+  cooldown-seconds: 900
+  mana-cost: 450
+order: 50

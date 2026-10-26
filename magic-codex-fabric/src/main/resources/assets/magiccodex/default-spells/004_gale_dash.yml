@@ -1,0 +1,14 @@
+id: gale_dash
+name: 바람 걸음
+category: wind
+description: 현재 이동 중인 방향으로 약 2블록 돌진합니다. 8방향 이동이 가능한 기믹 회피기입니다.
+icon: magiccodex:textures/spells/expansion/gale_dash.png
+permission: magic.learned.gale_dash
+discovery:
+  description: 달리기로 누적 1,000블록 이동하기.
+research: 긴 길을 달려 온 발걸음에 바람이 깃들어, 한 걸음을 더 멀리 밀어준다.
+cast:
+  command: 마법 gale_dash
+  cooldown-seconds: 1.5
+  mana-cost: 10
+order: 4

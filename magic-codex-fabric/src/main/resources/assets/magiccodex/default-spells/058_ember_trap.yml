@@ -1,0 +1,16 @@
+id: ember_trap
+name: 잿불 덫
+category: fire
+description: '1분간 유지되는 폭발하는 잿불 덫을 설치한다.
+
+  최대 2개까지 설치할 수 있다.'
+icon: magiccodex:textures/spells/intermediate/ember_trap.png
+permission: magic.learned.ember_trap
+discovery:
+  description: 세드릭 교수의 화염 마법 기초 수업 듣기.
+research: 전투 준비가 끝난 마법사는 가히 최강이라고 부를 수 있다.
+cast:
+  command: 마법 ember_trap
+  cooldown-seconds: 20
+  mana-cost: 30
+order: 58

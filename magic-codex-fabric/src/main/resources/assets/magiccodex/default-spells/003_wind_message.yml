@@ -1,0 +1,14 @@
+id: wind_message
+name: 바람의 전언
+category: wind
+description: 친구를 선택해 인게임 귓말을 보냅니다.
+icon: magiccodex:textures/spells/intermediate/wind_message.png
+permission: magic.learned.wind_message
+discovery:
+  description: 1명과 친구가 되기.
+research: 친구가 생긴 순간, 바람에도 말을 전할 목적지가 생겼다. 이 마음이 그에게 닿기를.
+cast:
+  command: 마법 wind_message
+  cooldown-seconds: 1
+  mana-cost: 1
+order: 3

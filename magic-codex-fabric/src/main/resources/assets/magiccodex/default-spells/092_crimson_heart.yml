@@ -1,0 +1,14 @@
+id: crimson_heart
+name: 홍련의 심장
+category: fire
+description: 현재 체력의 절반을 소모해 자신을 중심으로 폭발을 일으킵니다. 피해는 소모한 체력에 비례하며 지형은 파괴하지 않습니다.
+icon: magiccodex:textures/spells/expansion/crimson_heart.png
+permission: magic.learned.crimson_heart
+discovery:
+  description: 체력이 하트 1칸 이하인 상태에서 화염 마법으로 몬스터 처치하기.
+research: 심장의 마지막 불씨까지 꺼내 쓰겠다는 각오가 필요하다.
+cast:
+  command: 마법 crimson_heart
+  cooldown-seconds: 180
+  mana-cost: 400
+order: 92

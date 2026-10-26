@@ -1,0 +1,63 @@
+# 별풍선(SOOP) 후원 → 게임 보상 (오너 2026-10-26, FINAL_PATCHES §43)
+# 고친 뒤: /서버관리 새로고침 후원   (서버마다 — 학교·야생·아레나 모두 같은 파일을 두세요. 없으면 처음 켤 때 자동으로 만들어짐)
+#
+# 동작: donation 플러그인(별풍선 API)이 방송인 클라이언트 모드에서 받은 후원을 "그 방송인 플레이어"의 DonationEvent 로 알려 주면
+#       아래 표대로 보상을 주고, 그 이벤트를 취소(cancel)해서 donation 플러그인의 콘솔 명령 `api ...` 은 실행되지 않게 한다
+#       (예전 Skript `api` 명령이 남아 있어도 두 번 지급되지 않게). 테스트: /후원관리 <닉네임> <개수> (후원자 이름 = 관리자, 이 서버 접속자만).
+#       취소되는 콘솔 명령 모양: api <플레이어 계정이름> <종류 번호> <금액> <후원자 닉네임>
+# 개수 = 별풍선 개수 (donation 플러그인 getCount). 표의 개수와 "정확히 같을 때만" 그 보상, 아니면 마일리지(개수만큼).
+
+# false = 이 기능 끄기 (이벤트를 취소하지 않으므로 donation 플러그인의 `api` 콘솔 명령이 예전처럼 실행됨)
+enabled: true
+
+# 후원을 받는 서버 (travel.yml 의 server-id). 오너: 큐디치(아레나) 서버에서는 아예 안 받음 → 아레나는 넣지 마세요.
+# 여기 없는 서버에서 온 후원은 보상 없이 무시 (donation 플러그인의 api 콘솔 명령도 실행 안 됨). /후원관리 도 거절.
+servers: [school, wild1, wild2]
+
+# 개수별 상자 보상 (우편함으로). item = ItemsAdder id, amount = 개수, name = 알림·채팅에 보일 이름
+tiers:
+  "100":
+    item: "item:api_box_normal"
+    amount: 1
+    name: 마법상자
+  "1000":
+    item: "item:api_box_normal"
+    amount: 11
+    name: 마법상자
+  "500":
+    item: "item:api_box_premium"
+    amount: 1
+    name: 고급마법상자
+  "5000":
+    item: "item:api_box_premium"
+    amount: 11
+    name: 고급마법상자
+
+# 즉사 후원: 이 개수면 방송인이 그 자리에서 죽고(인벤세이브 안 먹힘, 인벤토리·아공간 배낭 모든 쪽이 그 자리에 떨어짐),
+# 모든 서버 화면 가운데 공지, 지금 접속 중인 전원(학교·야생·아레나)에게 아래 상자를 우편으로. 0 = 끄기.
+death:
+  count: 10000
+  item: "item:api_box_premium"
+  amount: 1
+  name: 고급마법상자
+  # 화면 가운데 큰 글씨 / 작은 글씨(=알림 카드 본문). {nickname} = 방송인 한글 닉네임, {count} = 개수
+  title: "☠"
+  announce: "[{nickname}] 님이 {count}개 후원으로 사망하였습니다!"
+  card-title: 별풍선 후원
+  mail-title: 후원 기념 보상
+  # 기념 상자 우편 본문: {announce} = 위 announce 문장, {reward} = 상자 이름·개수 (다른 서버가 보내는 우편도 같은 문장이라 이 둘만 씀)
+  mail-body: "{announce}\n접속 중이던 모두에게 드리는 기념 보상: {reward}"
+
+# 표에 없는 개수 → 마일리지 += 개수 (/유저관리 <닉> 마일리지 추가 와 같은 저장). false = 아무것도 안 줌 (기록만)
+mileage-fallback: true
+
+# 받은 사람에게 보이는 문구 (알림 카드 + 채팅 한 줄). {count} 개수 · {reward} 보상 이름 · {이가} 보상 뒤 조사(이/가 자동) ·
+# {donor} 후원자 닉네임 · {nickname} 받은 사람 한글 닉네임
+messages:
+  card-title: 별풍선 후원
+  box: "[API] {count}개 후원으로 {reward}{이가} 우편함에 지급되었습니다."
+  mileage: "[API] {count}개 후원으로 {reward}{이가} 지급되었습니다."
+  death: "[API] {count}개 후원으로 사망했습니다. 접속 중인 모두에게 {reward}{이가} 우편함에 지급됩니다."
+  failed: "[API] {count}개 후원 보상을 지급하지 못했어요. 운영자에게 알려 주세요 (기록은 남아 있어요)."
+  mail-title: 별풍선 후원 보상
+  mail-body: "{donor} 님의 별풍선 {count}개 후원 보상: {reward}"

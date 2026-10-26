@@ -1,0 +1,14 @@
+id: bark_peeling
+name: 껍질 벗기기
+category: earth
+description: 서로 연결된 원목 최대 6개의 껍질을 벗깁니다. 나무 종류는 유지합니다.
+icon: magiccodex:textures/spells/expansion_2/bark_peeling.png
+permission: magic.learned.bark_peeling
+discovery:
+  description: 도끼로 원목 껍질을 누적 32회 벗깁니다.
+research: 나무의 옷만 벗겨야 한다. 옆에서 작업하는 학생의 망토에는 적용되지 않는다.
+cast:
+  command: 마법 bark_peeling
+  cooldown-seconds: 8
+  mana-cost: 18
+order: 162

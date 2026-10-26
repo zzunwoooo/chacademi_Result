@@ -1,0 +1,14 @@
+id: gale_combo
+name: 질풍 연격
+category: wind
+description: 바람 칼날로 베고, 2초 안에 다시 쓰면 한 번 더 베고, 마지막에는 돌풍으로 밀쳐 냅니다. 마나는 첫 타에만 듭니다.
+icon: ''
+permission: magic.learned.gale_combo
+discovery:
+  description: 근접 공격으로 몬스터 50마리 처치하기.
+research: ''
+cast:
+  command: 마법 gale_combo
+  cooldown-seconds: 10
+  mana-cost: 30
+order: 25

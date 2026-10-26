@@ -1,0 +1,14 @@
+id: abyssal_pressure
+name: 심해의 압력
+category: water
+description: 지정한 5블록 영역을 6초 동안 수압으로 짓눌러 이동·공격 속도를 낮추고 지속 피해를 줍니다.
+icon: magiccodex:textures/spells/expansion_2/abyssal_pressure.png
+permission: magic.learned.abyssal_pressure
+discovery:
+  description: 깊은 바다 바이옴의 물속에서 누적 10분 머무르기.
+research: 수면 아래가 조용하다고 아무 일도 없는 것은 아니다. 깊은 바다는 물의 무게만으로 모든 것을 짓누른다.
+cast:
+  command: 마법 abyssal_pressure
+  cooldown-seconds: 90
+  mana-cost: 420
+order: 147

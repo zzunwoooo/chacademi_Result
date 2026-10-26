@@ -1,0 +1,31 @@
+plugins { id 'java' }
+group = 'school.magiccodex'
+version = '0.3.1-integrated-20261020.1-gimmick.1-commands.1'
+base { archivesName = 'magic-discovery' }
+repositories { mavenCentral(); maven { url = 'https://repo.papermc.io/repository/maven-public/' } }
+dependencies {
+    compileOnly 'io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT'
+    compileOnly 'net.luckperms:api:5.4'
+    implementation files('../magic-codex-database/lib/mariadb-java-client-3.5.10.jar')
+    testImplementation 'io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT'
+    testImplementation files('../libraries/org/xerial/sqlite-jdbc/3.47.2.0/sqlite-jdbc-3.47.2.0.jar')
+    testImplementation platform('org.junit:junit-bom:5.11.4')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+sourceSets.main.java.srcDir '../magic-codex-protocol/src/main/java'
+sourceSets.main.java.srcDir '../magic-codex-database/src/main/java'
+jar {
+    from { zipTree('../magic-codex-database/lib/mariadb-java-client-3.5.10.jar') }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+java { toolchain.languageVersion = JavaLanguageVersion.of(21) }
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8'; options.release = 21 }
+test { useJUnitPlatform() }
+processResources { filteringCharset='UTF-8'; inputs.property 'version',project.version; filesMatching('plugin.yml'){expand version:project.version} }
+
+// These contracts read sibling source resources; changes must invalidate Gradle's test cache.
+tasks.named('test') {
+    inputs.dir('../magic-codex-fabric/src/main/resources/assets/magiccodex/default-spells')
+    inputs.file('../portable-vfx-runtime/paper/src/main/resources/spell-catalog.yml')
+}

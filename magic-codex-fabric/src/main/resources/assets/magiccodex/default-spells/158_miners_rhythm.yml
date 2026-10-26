@@ -1,0 +1,14 @@
+id: miners_rhythm
+name: 광부의 박자
+category: earth
+description: 15초 동안 성급함 효과를 얻습니다.
+icon: magiccodex:textures/spells/novice_extra/miners_rhythm.png
+permission: magic.learned.miners_rhythm
+discovery:
+  description: 곡괭이로 돌과 심층암을 합쳐 누적 300개 캐기.
+research: 곡괭이 소리가 일정해지면 마력도 그 박자를 따라 흐른다. 옆 사람의 작업 속도에 맞출 필요는 없다.
+cast:
+  command: 마법 miners_rhythm
+  cooldown-seconds: 20
+  mana-cost: 20
+order: 158

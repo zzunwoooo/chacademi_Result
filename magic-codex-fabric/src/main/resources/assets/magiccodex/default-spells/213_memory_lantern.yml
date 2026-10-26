@@ -1,0 +1,14 @@
+id: memory_lantern
+name: 기억의 등불
+category: light
+description: 기억의 등불을 들어 마지막으로 쓰러진 곳을 비춥니다. 그곳의 방향과 거리를 알려 주고, 그 자리에 빛기둥이 솟습니다.
+icon: ''
+permission: magic.learned.memory_lantern
+discovery:
+  description: 이솔데 교수의 빛 마법 중급 수업 듣기.
+research: ''
+cast:
+  command: 마법 memory_lantern
+  cooldown-seconds: 30
+  mana-cost: 20
+order: 213

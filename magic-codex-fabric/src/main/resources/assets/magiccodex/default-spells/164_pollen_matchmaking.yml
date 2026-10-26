@@ -1,0 +1,14 @@
+id: pollen_matchmaking
+name: 꽃가루 중매
+category: earth
+description: 번식 가능한 동물 한 쌍을 번식시킵니다. 먹이를 소지하거나 소비할 필요가 없으며 성장 상태와 번식 대기시간은 지킵니다.
+icon: magiccodex:textures/spells/expansion_2/pollen_matchmaking.png
+permission: magic.learned.pollen_matchmaking
+discovery:
+  description: 소, 양, 돼지를 각각 3회 번식시킵니다.
+research: 동물마다 좋아하는 먹이가 다르다. 마법을 배웠다고 목장 관리의 기본까지 생략할 수는 없다.
+cast:
+  command: 마법 pollen_matchmaking
+  cooldown-seconds: 15
+  mana-cost: 25
+order: 164

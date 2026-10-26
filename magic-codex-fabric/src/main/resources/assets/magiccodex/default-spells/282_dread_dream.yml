@@ -1,0 +1,14 @@
+id: dread_dream
+name: 악몽
+category: dark
+description: 대상에게 악몽을 보여 줍니다. 잠들었거나 겁에 질린 대상에게는 큰 피해를 주며 그 상태를 깨우고, 아니면 1초 동안 공포에 빠뜨립니다.
+icon: ''
+permission: magic.learned.dread_dream
+discovery:
+  description: 어둠 마법으로 몬스터 100마리 처치하기.
+research: ''
+cast:
+  command: 마법 dread_dream
+  cooldown-seconds: 15
+  mana-cost: 70
+order: 282

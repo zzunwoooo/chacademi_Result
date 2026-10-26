@@ -1,0 +1,15 @@
+Id: chacademia_parrot
+MythicMob: ChAcademiaPetParrot
+Permission: chacademia.pet.parrot
+Distance: 8
+SpawnRange: 2
+ComingBackRange: 3
+Mountable: false
+AutoRide: false
+Icon:
+  Name: 앵무새
+  Material: PARROT_SPAWN_EGG
+  Description:
+  - 교화로 함께하게 된 동료
+CheckPermission: true
+FollowOwner: true

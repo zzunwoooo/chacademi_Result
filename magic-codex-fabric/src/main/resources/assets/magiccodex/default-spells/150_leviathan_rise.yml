@@ -1,0 +1,14 @@
+id: leviathan_rise
+name: 레비아탄
+category: water
+description: 5초 동안 영창하면 조준한 곳의 물에서 거대한 바다뱀이 솟아올라 주변의 적을 삼킨 뒤 내려찍습니다. 삼켜진 적은 느려지고, 마지막 일격에 기절합니다.
+icon: ''
+permission: magic.learned.leviathan_rise
+discovery:
+  description: 물 마법 30종 습득 + 전설 물고기 1마리 낚기.
+research: ''
+cast:
+  command: 마법 leviathan_rise
+  cooldown-seconds: 900
+  mana-cost: 600
+order: 150

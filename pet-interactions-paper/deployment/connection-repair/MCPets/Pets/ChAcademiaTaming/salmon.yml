@@ -1,0 +1,15 @@
+Id: chacademia_salmon
+MythicMob: ChAcademiaPetSalmon
+Permission: chacademia.pet.salmon
+Distance: 8
+SpawnRange: 2
+ComingBackRange: 3
+Mountable: false
+AutoRide: false
+Icon:
+  Name: 연어
+  Material: SALMON_SPAWN_EGG
+  Description:
+  - 교화로 함께하게 된 동료
+CheckPermission: true
+FollowOwner: true

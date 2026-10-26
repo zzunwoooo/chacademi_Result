@@ -1,0 +1,13 @@
+# ============================================================
+#  운영 대시보드 하트비트 (메모 #92) — 서버 재시작해야 바뀜
+#  10초마다 공유 DB(database.properties 의 MariaDB) 표 codex_server_status 에
+#  이 서버 한 줄(TPS·MSPT·CPU·메모리·접속자)을 덮어쓴다. 쓰기는 별도 스레드라 게임 틱을 막지 않는다.
+#  database.properties 가 MariaDB 가 아니면 자동으로 꺼진다.
+# ============================================================
+enabled: true
+# 대시보드 ops-dashboard.properties 의 server.<id> 와 같은 이름. 비우면 서버 폴더 이름 (C:\Chacademi\network\school → school)
+server-id: ""
+# 몇 초마다 (5~60)
+interval-seconds: 10
+# 월드별 로드된 청크·엔티티 수도 보냄 (메인 스레드에서 숫자만 셈 — 가벼움)
+world-counts: true

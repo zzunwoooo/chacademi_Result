@@ -1,0 +1,14 @@
+id: wraith_march
+name: 망령의 행진
+category: dark
+description: 망령 다섯이 한 줄로 바라보는 방향 15블록을 행진합니다. 행렬이 지나간 자리의 적은 피해를 입고 공포에 빠집니다.
+icon: ''
+permission: magic.learned.wraith_march
+discovery:
+  description: 어둠 마법으로 몬스터 300마리 처치하기.
+research: ''
+cast:
+  command: 마법 wraith_march
+  cooldown-seconds: 45
+  mana-cost: 260
+order: 298

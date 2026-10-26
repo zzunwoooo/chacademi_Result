@@ -1,0 +1,15 @@
+Id: chacademia_magma_cube
+MythicMob: ChAcademiaPetMagmaCube
+Permission: chacademia.pet.magma_cube
+Distance: 8
+SpawnRange: 2
+ComingBackRange: 3
+Mountable: false
+AutoRide: false
+Icon:
+  Name: 마그마 큐브
+  Material: MAGMA_CUBE_SPAWN_EGG
+  Description:
+  - 교화로 함께하게 된 동료
+CheckPermission: true
+FollowOwner: true

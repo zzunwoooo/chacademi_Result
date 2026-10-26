@@ -1,0 +1,14 @@
+id: fire_curtain
+name: 플레어 월
+category: fire
+description: 10블록 이내의 바라보는 위치에 넓은 화염 장벽을 만들고 5초간 유지해 통과하는 몬스터를 공격합니다.
+icon: magiccodex:textures/spells/intermediate/fire_curtain.png
+permission: magic.learned.fire_curtain
+discovery:
+  description: 세드릭 교수의 화염 마법 중급 수업 듣기.
+research: 마법사는 공간을 통제한다.
+cast:
+  command: 마법 fire_curtain
+  cooldown-seconds: 30
+  mana-cost: 100
+order: 83

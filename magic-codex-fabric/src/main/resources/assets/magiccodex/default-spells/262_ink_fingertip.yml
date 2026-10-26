@@ -1,0 +1,14 @@
+id: ink_fingertip
+name: 먹물 손끝
+category: dark
+description: 손에 든 염료와 같은 색의 염료 64개를 만들어 냅니다. 다른 재료는 쓰지 않습니다.
+icon: magiccodex:textures/spells/expansion_2/ink_fingertip.png
+permission: magic.learned.ink_fingertip
+discovery:
+  description: 염료를 10번 만들기.
+research: 잉크가 떨어진 시험장에서 발견되었다는 기록이 있다.
+cast:
+  command: 마법 ink_fingertip
+  cooldown-seconds: 120
+  mana-cost: 30
+order: 262

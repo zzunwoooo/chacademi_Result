@@ -1,0 +1,14 @@
+id: steam_ignition
+name: 증기 점화
+category: fire
+description: 증기 밸브에 불을 넣어 압력을 채웁니다. 압력이 찬 밸브는 연결된 장치에 마력 신호를 보냅니다.
+icon: magiccodex:textures/spells/gimmick/steam_ignition.png
+permission: magic.learned.steam_ignition
+discovery:
+  description: 화염 실습실에서 「증기 기관 입문」 책 읽기.
+research: 불과 물은 서로를 밀어내지만, 그 사이에 갇힌 힘은 무엇이든 움직인다.
+cast:
+  command: 마법 steam_ignition
+  cooldown-seconds: 6
+  mana-cost: 30
+order: 64

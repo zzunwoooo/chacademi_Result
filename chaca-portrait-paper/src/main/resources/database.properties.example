@@ -1,0 +1,14 @@
+# ChacaPortrait DB 설정 예시 — 실제 파일 이름은 database.properties (Git에 올리지 말 것)
+# 파일이 없거나 mode=sqlite 면 plugins/ChacaPortrait/chaca-portrait.db 를 씁니다 (서버마다 따로).
+# school/wild 두 서버에서 같은 일러스트·예산·작업 잠금을 쓰려면 둘 다 같은 MariaDB 스키마를 가리켜야 합니다.
+#   (예: CREATE DATABASE chacademi_portrait; 계정 권한은 chacademi_portrait.* 로 한정)
+# 형식은 MagicCodexBridge / ChacaNPC 의 database.properties 와 같습니다.
+
+mode=sqlite
+#mode=mariadb
+#host=DB_HOST
+#port=3306
+#database=chacademi_portrait
+#user=DB_USER
+#password=DB_PASSWORD
+#ssl-mode=

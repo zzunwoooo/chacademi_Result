@@ -1,0 +1,14 @@
+id: aurora_veil
+name: 오로라
+category: light
+description: 하늘에 오로라를 12초 동안 펼칩니다. 오로라 아래의 자신과 파티원은 꾸준히 회복하고 새로운 해로운 효과를 받지 않으며, 그 아래의 적은 약해집니다.
+icon: ''
+permission: magic.learned.aurora_veil
+discovery:
+  description: 빛 마법 30종 습득하기.
+research: ''
+cast:
+  command: 마법 aurora_veil
+  cooldown-seconds: 900
+  mana-cost: 450
+order: 248

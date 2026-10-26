@@ -1,0 +1,15 @@
+Id: chacademia_giant
+MythicMob: ChAcademiaPetGiant
+Permission: chacademia.pet.giant
+Distance: 8
+SpawnRange: 2
+ComingBackRange: 3
+Mountable: false
+AutoRide: false
+Icon:
+  Name: 거인
+  Material: ZOMBIE_HEAD
+  Description:
+  - 교화로 함께하게 된 동료
+CheckPermission: true
+FollowOwner: true

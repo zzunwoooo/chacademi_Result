@@ -1,0 +1,58 @@
+{
+  "providers": [
+    {
+      "height": 12,
+      "type": "bitmap",
+      "chars": [
+        ""
+      ],
+      "ascent": 12,
+      "file": "magiccodex:font/chat_global.png"
+    },
+    {
+      "height": 12,
+      "type": "bitmap",
+      "chars": [
+        ""
+      ],
+      "ascent": 12,
+      "file": "magiccodex:font/chat_dormitory.png"
+    },
+    {
+      "height": 12,
+      "type": "bitmap",
+      "chars": [
+        ""
+      ],
+      "ascent": 12,
+      "file": "magiccodex:font/chat_party.png"
+    },
+    {
+      "height": 12,
+      "type": "bitmap",
+      "chars": [
+        ""
+      ],
+      "ascent": 12,
+      "file": "magiccodex:font/chat_system.png"
+    },
+    {
+      "height": 12,
+      "type": "bitmap",
+      "chars": [
+        ""
+      ],
+      "ascent": 12,
+      "file": "magiccodex:font/chat_school.png"
+    },
+    {
+      "height": 12,
+      "type": "bitmap",
+      "chars": [
+        ""
+      ],
+      "ascent": 12,
+      "file": "magiccodex:font/chat_wild.png"
+    }
+  ]
+}

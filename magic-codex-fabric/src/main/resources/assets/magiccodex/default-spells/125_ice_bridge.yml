@@ -1,0 +1,14 @@
+id: ice_bridge
+name: 얼음 다리
+category: water
+description: 15초 동안 차가운 걸음 방식으로 물 위를 걸을 수 있습니다.
+icon: magiccodex:textures/spells/intermediate/ice_bridge.png
+permission: magic.learned.ice_bridge
+discovery:
+  description: 차가운 바다에 방문하기.
+research: 다리를 놓을 나무가 없다면 발밑의 물을 빌리면 된다.
+cast:
+  command: 마법 ice_bridge
+  cooldown-seconds: 30
+  mana-cost: 80
+order: 125

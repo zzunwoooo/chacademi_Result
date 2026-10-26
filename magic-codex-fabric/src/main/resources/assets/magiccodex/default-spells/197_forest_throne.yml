@@ -1,0 +1,16 @@
+id: forest_throne
+name: 숲의 왕좌
+category: earth
+description: 8초 동안 제자리에서 움직일 수 없습니다. 주변 6블록 안에 뿌리가 순차적으로 솟아 적을 공격하고, 맞은 적에게 넉백을 줍니다.
+icon: magiccodex:textures/spells/expansion_2/forest_throne.png
+permission: magic.learned.forest_throne
+discovery:
+  description: 도서관에서 '움직이지 않는 숲의 왕' 책을 읽습니다.
+research: '숲의 왕에게는 다리가 필요 없다. 숲 전체가 그의 손발이므로.
+
+  자리에서 일어날 생각이라면 왕좌를 먼저 거두도록 하자.'
+cast:
+  command: 마법 forest_throne
+  cooldown-seconds: 90
+  mana-cost: 380
+order: 197

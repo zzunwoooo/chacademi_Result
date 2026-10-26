@@ -1,0 +1,14 @@
+id: rekindle
+name: 다시 타오르는 불
+category: fire
+description: 바라보는 꺼진 모닥불이나 초에 작은 불을 붙입니다.
+icon: magiccodex:textures/spells/novice_extra/rekindle.png
+permission: magic.learned.rekindle
+discovery:
+  description: 촛불에 라이터로 불 붙이기.
+research: 꺼진 촛불에 다시 불을 붙인 손길은, 작은 불 하나로도 사라진 온기를 되찾을 수 있음을 기억한다.
+cast:
+  command: 마법 rekindle
+  cooldown-seconds: 3
+  mana-cost: 10
+order: 52

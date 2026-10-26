@@ -1,0 +1,29 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "kr.chacademi.chatlayout.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "refmap": "chacademi-chat-layout.refmap.json",
+  "client": [
+    "ChatWindowsManagerMixin",
+    "ChatRendererMixin",
+    "ChatInputMixin",
+    "ChatScreenMouseMixin",
+    "TabSettingsMixin",
+    "ChatTabViewMixin",
+    "ChatScreenInputMixin",
+    "CommandSuggestionsMixin",
+    "SuggestionsListAccessor",
+    "HudMouseMixin",
+    "HudScreenLifecycleMixin",
+    "HudChatKeyboardMixin",
+    "MinecraftChatInvoker",
+    "MagicHudChatMixin",
+    "ChatPresentationMixin",
+    "ChatImageSpacingMixin",
+    "EditModifierKeyMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -1,0 +1,14 @@
+id: storm_command
+name: 폭풍의 지휘
+category: wind
+description: 영창 후 바라보는 범위에 폭풍을 일으켜 적을 공격합니다.
+icon: magiccodex:textures/spells/advanced/storm_command.png
+permission: magic.learned.storm_command
+discovery:
+  description: 하르바 교수와 친해진 뒤(호감도 30) 바람 비전 수업 듣기.
+research: 뜨거운 공기를 타고 뛰어올라 회전하자, 상승 기류가 몸을 감싸며 폭풍의 실마리를 드러냈다.
+cast:
+  command: 마법 storm_command
+  cooldown-seconds: 60
+  mana-cost: 170
+order: 42

@@ -1,0 +1,15 @@
+Id: chacademia_zombie_villager
+MythicMob: ChAcademiaPetZombieVillager
+Permission: chacademia.pet.zombie_villager
+Distance: 8
+SpawnRange: 2
+ComingBackRange: 3
+Mountable: false
+AutoRide: false
+Icon:
+  Name: 좀비 주민
+  Material: ZOMBIE_VILLAGER_SPAWN_EGG
+  Description:
+  - 교화로 함께하게 된 동료
+CheckPermission: true
+FollowOwner: true

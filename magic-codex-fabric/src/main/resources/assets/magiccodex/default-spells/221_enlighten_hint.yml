@@ -1,0 +1,14 @@
+id: enlighten_hint
+name: 깨달음의 빛
+category: light
+description: 머리 위에 작은 빛의 책장을 펼칩니다. 아직 모르는 마법을 누군가 깨쳤다는 옛이야기 하나가 떠오릅니다. 하루에 한 번만 쓸 수 있습니다.
+icon: ''
+permission: magic.learned.enlighten_hint
+discovery:
+  description: 서로 다른 마법 10종 배우기.
+research: ''
+cast:
+  command: 마법 enlighten_hint
+  cooldown-seconds: 86400
+  mana-cost: 30
+order: 221

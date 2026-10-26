@@ -1,0 +1,4259 @@
+{
+ "arcane_imprint": {
+  "number": 140,
+  "folder": "ArcaneImprint",
+  "schema": "1.18.0",
+  "clientCompatible": true,
+  "rgbaMiB": 51.4,
+  "sustainStart": 0.6,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "drag",
+   "flipbook",
+   "gravity",
+   "hdrTint",
+   "linearVelocity",
+   "meshParticle",
+   "noise",
+   "phasedSequence",
+   "rotation3D",
+   "rotationOverLifetime",
+   "stopTail",
+   "stretchedBillboard",
+   "tonemapNeutral",
+   "worldSpace"
+  ],
+  "systems": [
+   {
+    "id": "arcane_imprint_begin",
+    "role": "attached",
+    "phase": "begin",
+    "endBranch": "any",
+    "duration": 0.7,
+    "loop": false,
+    "ticks": 36
+   },
+   {
+    "id": "arcane_imprint",
+    "role": "attached",
+    "phase": "sustain",
+    "endBranch": "any",
+    "duration": 2,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "arcane_imprint_end",
+    "role": "attached",
+    "phase": "end",
+    "endBranch": "any",
+    "duration": 0.3,
+    "loop": false,
+    "ticks": 34
+   },
+   {
+    "id": "mine_face",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.05,
+    "loop": false,
+    "ticks": 12
+   },
+   {
+    "id": "mine_block",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.05,
+    "loop": false,
+    "ticks": 21
+   }
+  ]
+ },
+ "arcane_mending": {
+  "number": 144,
+  "folder": "ArcaneMending",
+  "schema": "1.18.0",
+  "clientCompatible": true,
+  "rgbaMiB": 2.2,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "billboard",
+   "bloom",
+   "hdrTint",
+   "linearVelocity",
+   "linkTarget",
+   "noise",
+   "orbitalVelocity",
+   "pathFollow",
+   "rotationOverLifetime",
+   "stretchedBillboard",
+   "tonemapNeutral",
+   "trails",
+   "worldSpace"
+  ],
+  "systems": [
+   {
+    "id": "arcane_mending_gather",
+    "role": "link",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.6,
+    "loop": false,
+    "ticks": 30
+   },
+   {
+    "id": "arcane_mending_mend",
+    "role": "link",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1.4,
+    "loop": false,
+    "ticks": 50
+   },
+   {
+    "id": "arcane_mending_complete",
+    "role": "link",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1.6,
+    "loop": false,
+    "ticks": 43
+   },
+   {
+    "id": "arcane_mending_fade",
+    "role": "link",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1.8,
+    "loop": false,
+    "ticks": 58
+   }
+  ]
+ },
+ "automatic_supply": {
+  "number": 121,
+  "folder": "AutomaticSupply",
+  "schema": "1.16.0",
+  "clientCompatible": true,
+  "rgbaMiB": 2.8,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "drag",
+   "flipbook",
+   "gravity",
+   "hdrTint",
+   "meshParticle",
+   "noise",
+   "orbitalVelocity",
+   "radialVelocity",
+   "rotation3D",
+   "rotationOverLifetime",
+   "stretchedBillboard",
+   "tonemapNeutral",
+   "worldSpace"
+  ],
+  "systems": [
+   {
+    "id": "automatic_supply",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.22,
+    "loop": false,
+    "ticks": 14
+   }
+  ]
+ },
+ "bark_peeling": {
+  "number": 117,
+  "folder": "BarkPeeling",
+  "schema": "1.15.0",
+  "clientCompatible": true,
+  "rgbaMiB": 6.1,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "billboard",
+   "bloom",
+   "drag",
+   "flipbook",
+   "gravity",
+   "hdrTint",
+   "linearVelocity",
+   "meshParticle",
+   "noise",
+   "rotation3D",
+   "rotationOverLifetime",
+   "tonemapNeutral"
+  ],
+  "systems": [
+   {
+    "id": "peel",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.4,
+    "loop": false,
+    "ticks": 29
+   }
+  ]
+ },
+ "bee_calm": {
+  "number": 108,
+  "folder": "BeeCalm",
+  "schema": "1.15.0",
+  "clientCompatible": true,
+  "rgbaMiB": 1.2,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "drag",
+   "flipbook",
+   "flipbookCycles",
+   "gravity",
+   "hdrTint",
+   "instanceScale",
+   "linearVelocity",
+   "noise",
+   "orbitalVelocity",
+   "rotationOverLifetime",
+   "stretchedBillboard",
+   "tonemapNeutral",
+   "worldSpace"
+  ],
+  "systems": [
+   {
+    "id": "hand",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.25,
+    "loop": false,
+    "ticks": 21
+   },
+   {
+    "id": "spread",
+    "role": "static",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.25,
+    "loop": false,
+    "ticks": 39
+   },
+   {
+    "id": "calm",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.55,
+    "loop": false,
+    "ticks": 39
+   }
+  ]
+ },
+ "climate_control": {
+  "number": 106,
+  "folder": "ClimateControl",
+  "schema": "1.14.0",
+  "clientCompatible": true,
+  "rgbaMiB": 3.1,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "depthWrite",
+   "flipbook",
+   "gravity",
+   "hdrTint",
+   "linearVelocity",
+   "meshParticle",
+   "noise",
+   "orbitalVelocity",
+   "radialVelocity",
+   "rotation3D",
+   "rotationOverLifetime",
+   "stretchedBillboard",
+   "tonemapNeutral"
+  ],
+  "systems": [
+   {
+    "id": "cast",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1.4,
+    "loop": false,
+    "ticks": 52
+   },
+   {
+    "id": "rain",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 2.3,
+    "loop": false,
+    "ticks": 94
+   },
+   {
+    "id": "clear",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 2.4,
+    "loop": false,
+    "ticks": 98
+   }
+  ]
+ },
+ "comforting_light": {
+  "number": 142,
+  "folder": "ComfortingLight",
+  "schema": "1.18.0",
+  "clientCompatible": true,
+  "rgbaMiB": 1.5,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "drag",
+   "hdrTint",
+   "linearVelocity",
+   "meshParticle",
+   "noise",
+   "radialVelocity",
+   "rateOverDistance",
+   "rotation3D",
+   "rotationOverLifetime",
+   "stopTail",
+   "stretchedBillboard",
+   "tonemapNeutral",
+   "worldSpace"
+  ],
+  "systems": [
+   {
+    "id": "gather",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.62,
+    "loop": false,
+    "ticks": 26
+   },
+   {
+    "id": "transfer",
+    "role": "projectile",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "arrive",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.55,
+    "loop": false,
+    "ticks": 29
+   },
+   {
+    "id": "protect",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "release",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.2,
+    "loop": false,
+    "ticks": 25
+   }
+  ]
+ },
+ "companion_return": {
+  "number": 145,
+  "folder": "CompanionReturn",
+  "schema": "1.18.0",
+  "clientCompatible": true,
+  "rgbaMiB": 10.6,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "drag",
+   "flipbook",
+   "flipbookCycles",
+   "hdrTint",
+   "linearVelocity",
+   "meshParticle",
+   "noise",
+   "orbitalVelocity",
+   "radialVelocity",
+   "rotation3D",
+   "rotationOverLifetime",
+   "stretchedBillboard",
+   "tonemapNeutral"
+  ],
+  "systems": [
+   {
+    "id": "gather",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1.6,
+    "loop": false,
+    "ticks": 69
+   },
+   {
+    "id": "depart",
+    "role": "static",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.1,
+    "loop": false,
+    "ticks": 24
+   },
+   {
+    "id": "arrive",
+    "role": "static",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.6,
+    "loop": false,
+    "ticks": 36
+   },
+   {
+    "id": "afterglow",
+    "role": "static",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1.2,
+    "loop": false,
+    "ticks": 58
+   }
+  ]
+ },
+ "compost_return": {
+  "number": 118,
+  "folder": "CompostReturn",
+  "schema": "1.15.0",
+  "clientCompatible": true,
+  "rgbaMiB": 2.2,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "drag",
+   "flipbook",
+   "gravity",
+   "hdrTint",
+   "linearVelocity",
+   "noise",
+   "radialVelocity",
+   "rotationOverLifetime",
+   "tonemapNeutral",
+   "worldSpace"
+  ],
+  "systems": [
+   {
+    "id": "compost_return",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 2.1,
+    "loop": false,
+    "ticks": 71
+   }
+  ]
+ },
+ "constellation_blessing": {
+  "number": 139,
+  "folder": "ConstellationBlessing",
+  "schema": "1.18.0",
+  "clientCompatible": true,
+  "rgbaMiB": 2.1,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "drag",
+   "flipbook",
+   "hdrTint",
+   "linearVelocity",
+   "meshParticle",
+   "noise",
+   "rotation3D",
+   "rotationOverLifetime",
+   "stopTail",
+   "stretchedBillboard",
+   "tonemapNeutral",
+   "worldSpace"
+  ],
+  "systems": [
+   {
+    "id": "constellation_blessing_form",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1.2000000000000002,
+    "loop": false,
+    "ticks": 70
+   },
+   {
+    "id": "constellation_blessing_bless",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.35,
+    "loop": false,
+    "ticks": 26
+   },
+   {
+    "id": "constellation_blessing_linger",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "constellation_blessing_release",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.25,
+    "loop": false,
+    "ticks": 31
+   }
+  ]
+ },
+ "constellation_emissary": {
+  "number": 164,
+  "folder": "ConstellationEmissary",
+  "schema": "1.20.0",
+  "clientCompatible": true,
+  "rgbaMiB": 3.5,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "depthWrite",
+   "drag",
+   "gravity",
+   "hdrTint",
+   "instanceScale",
+   "linearVelocity",
+   "linkTarget",
+   "meshParticle",
+   "noise",
+   "pathFollow",
+   "radialVelocity",
+   "rateOverDistance",
+   "rotation3D",
+   "rotationOverLifetime",
+   "stopTail",
+   "stretchedBillboard",
+   "tonemapNeutral",
+   "worldSpace"
+  ],
+  "systems": [
+   {
+    "id": "summon",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.6,
+    "loop": false,
+    "ticks": 22
+   },
+   {
+    "id": "idle",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "heal",
+    "role": "link",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.1,
+    "loop": false,
+    "ticks": 11
+   },
+   {
+    "id": "heal_receive",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.6,
+    "loop": false,
+    "ticks": 30
+   },
+   {
+    "id": "dismiss",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.4,
+    "loop": false,
+    "ticks": 38
+   }
+  ]
+ },
+ "counterweight": {
+  "number": 123,
+  "folder": "Counterweight",
+  "schema": "1.16.0",
+  "clientCompatible": true,
+  "rgbaMiB": 17.6,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "depthWrite",
+   "drag",
+   "flipbook",
+   "gravity",
+   "hdrTint",
+   "linearVelocity",
+   "meshParticle",
+   "noise",
+   "orbitalVelocity",
+   "radialVelocity",
+   "rotation3D",
+   "rotationOverLifetime",
+   "stopTail",
+   "stretchedBillboard",
+   "tonemapNeutral"
+  ],
+  "systems": [
+   {
+    "id": "shield",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.05,
+    "loop": false,
+    "ticks": 163
+   },
+   {
+    "id": "ready",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": false,
+    "ticks": 42
+   },
+   {
+    "id": "block",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.05,
+    "loop": false,
+    "ticks": 15
+   },
+   {
+    "id": "stun",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 2,
+    "loop": false,
+    "ticks": 82
+   },
+   {
+    "id": "release",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.05,
+    "loop": false,
+    "ticks": 17
+   }
+  ]
+ },
+ "dawn_ritual": {
+  "number": 141,
+  "folder": "DawnRitual",
+  "schema": "1.18.0",
+  "clientCompatible": true,
+  "rgbaMiB": 6.3,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "drag",
+   "flipbook",
+   "hdrTint",
+   "instanceScale",
+   "linearVelocity",
+   "meshParticle",
+   "noise",
+   "orbitalVelocity",
+   "radialVelocity",
+   "rotation3D",
+   "rotationOverLifetime",
+   "stopTail",
+   "stretchedBillboard",
+   "tonemapNeutral"
+  ],
+  "systems": [
+   {
+    "id": "gather",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.8,
+    "loop": false,
+    "ticks": 46
+   },
+   {
+    "id": "spread",
+    "role": "static",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.4,
+    "loop": false,
+    "ticks": 48
+   },
+   {
+    "id": "cleanse",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.6,
+    "loop": false,
+    "ticks": 37
+   },
+   {
+    "id": "cleanse_point",
+    "role": "static",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.6,
+    "loop": false,
+    "ticks": 37
+   },
+   {
+    "id": "afterglow",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "release",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.2,
+    "loop": false,
+    "ticks": 30
+   }
+  ]
+ },
+ "moss_coating": {
+  "number": 114,
+  "folder": "DeepDarkDetect",
+  "schema": "1.15.0",
+  "clientCompatible": true,
+  "rgbaMiB": 4.4,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "billboard",
+   "bloom",
+   "drag",
+   "gravity",
+   "hdrTint",
+   "linearVelocity",
+   "meshParticle",
+   "noise",
+   "radialVelocity",
+   "rotation3D",
+   "rotationOverLifetime",
+   "tonemapNeutral"
+  ],
+  "systems": [
+   {
+    "id": "send",
+    "role": "static",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1.5,
+    "loop": false,
+    "ticks": 57
+   },
+   {
+    "id": "found",
+    "role": "static",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 2,
+    "loop": false,
+    "ticks": 76
+   },
+   {
+    "id": "absent",
+    "role": "static",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": false,
+    "ticks": 40
+   }
+  ]
+ },
+ "dormant_seed": {
+  "number": 122,
+  "folder": "DormantSeed",
+  "schema": "1.16.0",
+  "clientCompatible": true,
+  "rgbaMiB": 0.9,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "billboard",
+   "bloom",
+   "drag",
+   "gravity",
+   "hdrTint",
+   "linearVelocity",
+   "meshParticle",
+   "noise",
+   "rotation3D",
+   "rotationOverLifetime",
+   "stretchedBillboard",
+   "tonemapNeutral"
+  ],
+  "systems": [
+   {
+    "id": "sweep",
+    "role": "static",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.75,
+    "loop": false,
+    "ticks": 32
+   },
+   {
+    "id": "harvest",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.05,
+    "loop": false,
+    "ticks": 20
+   }
+  ]
+ },
+ "earth_anchor": {
+  "number": 111,
+  "folder": "EarthAnchor",
+  "schema": "1.14.0",
+  "clientCompatible": true,
+  "rgbaMiB": 6.6,
+  "sustainStart": 0,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "drag",
+   "flipbook",
+   "flipbookCycles",
+   "gravity",
+   "hdrTint",
+   "linearVelocity",
+   "meshParticle",
+   "noise",
+   "orbitalVelocity",
+   "phasedSequence",
+   "rotation3D",
+   "rotationOverLifetime",
+   "stopTail",
+   "stretchedBillboard",
+   "tonemapNeutral",
+   "trails",
+   "worldSpace"
+  ],
+  "systems": [
+   {
+    "id": "earth_anchor_begin",
+    "role": "attached",
+    "phase": "begin",
+    "endBranch": "any",
+    "duration": 0.1,
+    "loop": false,
+    "ticks": 20
+   },
+   {
+    "id": "earth_anchor",
+    "role": "attached",
+    "phase": "sustain",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "earth_anchor_end",
+    "role": "attached",
+    "phase": "end",
+    "endBranch": "any",
+    "duration": 0.2,
+    "loop": false,
+    "ticks": 28
+   },
+   {
+    "id": "earth_anchor_hit",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.6,
+    "loop": false,
+    "ticks": 36
+   }
+  ]
+ },
+ "earth_elemental": {
+  "number": 104,
+  "folder": "EarthElemental",
+  "schema": "1.13.0",
+  "clientCompatible": true,
+  "rgbaMiB": 7.4,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "depthWrite",
+   "drag",
+   "flipbook",
+   "gravity",
+   "hdrTint",
+   "linearVelocity",
+   "meshParticle",
+   "modelParticle",
+   "noise",
+   "rotation3D",
+   "rotationOverLifetime",
+   "stopTail",
+   "stretchedBillboard",
+   "tonemapNeutral",
+   "worldSpace"
+  ],
+  "systems": [
+   {
+    "id": "summon",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 2,
+    "loop": false,
+    "ticks": 78
+   },
+   {
+    "id": "idle",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "walk",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 60,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "attack",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1.45,
+    "loop": false,
+    "ticks": 60
+   },
+   {
+    "id": "impact",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.2,
+    "loop": false,
+    "ticks": 34
+   },
+   {
+    "id": "dismiss",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1.7,
+    "loop": false,
+    "ticks": 72
+   }
+  ]
+ },
+ "earth_shaping": {
+  "number": 101,
+  "folder": "EarthShaping",
+  "schema": "1.13.0",
+  "clientCompatible": true,
+  "rgbaMiB": 15.1,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "billboard",
+   "bloom",
+   "depthWrite",
+   "drag",
+   "flipbook",
+   "gravity",
+   "hdrTint",
+   "linearVelocity",
+   "meshParticle",
+   "rotation3D",
+   "rotationOverLifetime",
+   "stretchedBillboard",
+   "tonemapNeutral"
+  ],
+  "systems": [
+   {
+    "id": "wave",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": false,
+    "ticks": 52
+   },
+   {
+    "id": "hitBurst",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.1,
+    "loop": false,
+    "ticks": 18
+   }
+  ]
+ },
+ "earthquake": {
+  "number": 105,
+  "folder": "Earthquake",
+  "schema": "1.13.0",
+  "clientCompatible": true,
+  "rgbaMiB": 28.3,
+  "sustainStart": 0.45,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "billboard",
+   "bloom",
+   "drag",
+   "flipbook",
+   "gravity",
+   "hdrTint",
+   "instanceScale",
+   "linearVelocity",
+   "meshParticle",
+   "noise",
+   "phasedSequence",
+   "radialVelocity",
+   "rotation3D",
+   "rotationOverLifetime",
+   "stopTail",
+   "tonemapNeutral"
+  ],
+  "systems": [
+   {
+    "id": "begin",
+    "role": "static",
+    "phase": "begin",
+    "endBranch": "any",
+    "duration": 0.6,
+    "loop": false,
+    "ticks": 38
+   },
+   {
+    "id": "sustain",
+    "role": "static",
+    "phase": "sustain",
+    "endBranch": "any",
+    "duration": 24,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "end",
+    "role": "static",
+    "phase": "end",
+    "endBranch": "any",
+    "duration": 0.5,
+    "loop": false,
+    "ticks": 48
+   }
+  ]
+ },
+ "exorcism_flash": {
+  "number": 143,
+  "folder": "ExorcismFlash",
+  "schema": "1.18.0",
+  "clientCompatible": true,
+  "rgbaMiB": 11.3,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "drag",
+   "flipbook",
+   "gravity",
+   "hdrTint",
+   "instanceScale",
+   "linearVelocity",
+   "meshParticle",
+   "noise",
+   "orbitalVelocity",
+   "radialVelocity",
+   "rotation3D",
+   "rotationOverLifetime",
+   "stretchedBillboard",
+   "tonemapNeutral"
+  ],
+  "systems": [
+   {
+    "id": "gather",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.25,
+    "loop": false,
+    "ticks": 16
+   },
+   {
+    "id": "burst",
+    "role": "static",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.12,
+    "loop": false,
+    "ticks": 16
+   },
+   {
+    "id": "hit",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.06,
+    "loop": false,
+    "ticks": 17
+   },
+   {
+    "id": "fade",
+    "role": "static",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.16,
+    "loop": false,
+    "ticks": 28
+   }
+  ]
+ },
+ "experience_exchange": {
+  "number": 161,
+  "folder": "ExperienceExchange",
+  "schema": "1.20.0",
+  "clientCompatible": true,
+  "rgbaMiB": 3.6,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "drag",
+   "hdrTint",
+   "linearVelocity",
+   "noise",
+   "radialVelocity",
+   "rotationOverLifetime",
+   "stopTail",
+   "stretchedBillboard",
+   "tonemapNeutral",
+   "worldSpace"
+  ],
+  "systems": [
+   {
+    "id": "exchange_extract",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.6,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "exchange_convert",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.6,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "exchange_absorb",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.3,
+    "loop": false,
+    "ticks": 18
+   },
+   {
+    "id": "exchange_end",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.4,
+    "loop": false,
+    "ticks": 25
+   }
+  ]
+ },
+ "faint_veil": {
+  "number": 167,
+  "folder": "FaintVeil",
+  "schema": "1.20.0",
+  "clientCompatible": true,
+  "rgbaMiB": 18.0,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "drag",
+   "flipbook",
+   "hdrTint",
+   "linearVelocity",
+   "meshParticle",
+   "noise",
+   "orbitalVelocity",
+   "radialVelocity",
+   "rotation3D",
+   "rotationOverLifetime",
+   "stretchedBillboard",
+   "tonemapNeutral"
+  ],
+  "systems": [
+   {
+    "id": "veil_enter",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.3,
+    "loop": false,
+    "ticks": 19
+   },
+   {
+    "id": "veil_release",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.1,
+    "loop": false,
+    "ticks": 18
+   }
+  ]
+ },
+ "firefly_mark": {
+  "number": 148,
+  "folder": "FireflyMark",
+  "schema": "1.19.0",
+  "clientCompatible": true,
+  "rgbaMiB": 1.0,
+  "sustainStart": 0.5,
+  "required": [
+   "additiveBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "drag",
+   "flipbook",
+   "flipbookCycles",
+   "hdrTint",
+   "linearVelocity",
+   "noise",
+   "phasedSequence",
+   "radialVelocity",
+   "rateOverDistance",
+   "rotationOverLifetime",
+   "stopTail",
+   "tonemapNeutral",
+   "worldSpace"
+  ],
+  "systems": [
+   {
+    "id": "firefly_mark_summon",
+    "role": "attached",
+    "phase": "begin",
+    "endBranch": "any",
+    "duration": 0.5,
+    "loop": false,
+    "ticks": 21
+   },
+   {
+    "id": "firefly_mark_follow",
+    "role": "attached",
+    "phase": "sustain",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "firefly_mark_dissolve",
+    "role": "attached",
+    "phase": "end",
+    "endBranch": "any",
+    "duration": 0.3,
+    "loop": false,
+    "ticks": 38
+   }
+  ]
+ },
+ "flawless_moment": {
+  "number": 146,
+  "folder": "FlawlessMoment",
+  "schema": "1.18.0",
+  "clientCompatible": true,
+  "rgbaMiB": 5.6,
+  "sustainStart": 0,
+  "required": [
+   "additiveBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "drag",
+   "flipbook",
+   "flipbookCycles",
+   "hdrTint",
+   "linearVelocity",
+   "meshParticle",
+   "noise",
+   "orbitalVelocity",
+   "phasedSequence",
+   "radialVelocity",
+   "rotation3D",
+   "rotationOverLifetime",
+   "stopTail",
+   "stretchedBillboard",
+   "tonemapNeutral",
+   "worldSpace"
+  ],
+  "systems": [
+   {
+    "id": "flawless_moment_begin",
+    "role": "attached",
+    "phase": "begin",
+    "endBranch": "any",
+    "duration": 0.2,
+    "loop": false,
+    "ticks": 17
+   },
+   {
+    "id": "flawless_moment",
+    "role": "attached",
+    "phase": "sustain",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "flawless_moment_end",
+    "role": "attached",
+    "phase": "end",
+    "endBranch": "any",
+    "duration": 0.2,
+    "loop": false,
+    "ticks": 30
+   },
+   {
+    "id": "flawless_moment_hit",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.1,
+    "loop": false,
+    "ticks": 14
+   }
+  ]
+ },
+ "flint_sorting": {
+  "number": 116,
+  "folder": "FlintSorting",
+  "schema": "1.16.0",
+  "clientCompatible": true,
+  "rgbaMiB": 0.8,
+  "sustainStart": null,
+  "required": [
+   "alphaBlend",
+   "attachedFollow",
+   "billboard",
+   "depthWrite",
+   "drag",
+   "gravity",
+   "linearVelocity",
+   "meshParticle",
+   "rateOverDistance",
+   "rotation3D",
+   "rotationOverLifetime",
+   "salvoSequence",
+   "stretchedBillboard",
+   "tonemapNeutral",
+   "worldSpace"
+  ],
+  "systems": [
+   {
+    "id": "ready1",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 5,
+    "loop": false,
+    "ticks": 222
+   },
+   {
+    "id": "ready2",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 5,
+    "loop": false,
+    "ticks": 222
+   },
+   {
+    "id": "ready3",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 5,
+    "loop": false,
+    "ticks": 222
+   },
+   {
+    "id": "ready4",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 5,
+    "loop": false,
+    "ticks": 222
+   },
+   {
+    "id": "ready5",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 5,
+    "loop": false,
+    "ticks": 222
+   },
+   {
+    "id": "launch",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.5,
+    "loop": false,
+    "ticks": 21
+   },
+   {
+    "id": "projectile",
+    "role": "projectile",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 8,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "impact",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": false,
+    "ticks": 38
+   },
+   {
+    "id": "miss",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": false,
+    "ticks": 37
+   }
+  ]
+ },
+ "forest_throne": {
+  "number": 130,
+  "folder": "ForestThrone",
+  "schema": "1.16.0",
+  "clientCompatible": true,
+  "rgbaMiB": 14.8,
+  "sustainStart": 0.6,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "billboard",
+   "bloom",
+   "depthWrite",
+   "drag",
+   "flipbook",
+   "gravity",
+   "hdrTint",
+   "linearVelocity",
+   "meshParticle",
+   "noise",
+   "phasedSequence",
+   "radialVelocity",
+   "rotation3D",
+   "rotationOverLifetime",
+   "stopTail",
+   "stretchedBillboard",
+   "tonemapNeutral",
+   "worldSpace"
+  ],
+  "systems": [
+   {
+    "id": "begin",
+    "role": "static",
+    "phase": "begin",
+    "endBranch": "any",
+    "duration": 0.4,
+    "loop": false,
+    "ticks": 34
+   },
+   {
+    "id": "sustain",
+    "role": "static",
+    "phase": "sustain",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "end",
+    "role": "static",
+    "phase": "end",
+    "endBranch": "any",
+    "duration": 0.3,
+    "loop": false,
+    "ticks": 24
+   },
+   {
+    "id": "strike",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.9,
+    "loop": false,
+    "ticks": 46
+   }
+  ]
+ },
+ "grass_sprouting": {
+  "number": 115,
+  "folder": "GrassSprouting",
+  "schema": "1.15.0",
+  "clientCompatible": true,
+  "rgbaMiB": 4.9,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "billboard",
+   "bloom",
+   "drag",
+   "flipbook",
+   "gravity",
+   "hdrTint",
+   "linearVelocity",
+   "meshParticle",
+   "noise",
+   "rotationOverLifetime",
+   "tonemapNeutral"
+  ],
+  "systems": [
+   {
+    "id": "sprout",
+    "role": "static",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.4,
+    "loop": false,
+    "ticks": 32
+   }
+  ]
+ },
+ "guardian_oath": {
+  "number": 160,
+  "folder": "GuardianOath",
+  "schema": "1.20.0",
+  "clientCompatible": true,
+  "rgbaMiB": 1.4,
+  "sustainStart": 0.35,
+  "required": [
+   "additiveBlend",
+   "billboard",
+   "bloom",
+   "hdrTint",
+   "linkTarget",
+   "pathFollow",
+   "phasedSequence",
+   "stopTail",
+   "stretchedBillboard",
+   "tonemapNeutral"
+  ],
+  "systems": [
+   {
+    "id": "form",
+    "role": "link",
+    "phase": "begin",
+    "endBranch": "any",
+    "duration": 0.35,
+    "loop": false,
+    "ticks": 25
+   },
+   {
+    "id": "hold",
+    "role": "link",
+    "phase": "sustain",
+    "endBranch": "any",
+    "duration": 10,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "fade",
+    "role": "link",
+    "phase": "end",
+    "endBranch": "any",
+    "duration": 0.1,
+    "loop": false,
+    "ticks": 15
+   },
+   {
+    "id": "relay",
+    "role": "link",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.35,
+    "loop": false,
+    "ticks": 18
+   }
+  ]
+ },
+ "guiding_fletching": {
+  "number": 152,
+  "folder": "GuidingFletching",
+  "schema": "1.18.0",
+  "clientCompatible": true,
+  "rgbaMiB": 9.4,
+  "sustainStart": 0,
+  "required": [
+   "additiveBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "drag",
+   "flipbook",
+   "hdrTint",
+   "linearVelocity",
+   "meshParticle",
+   "noise",
+   "phasedSequence",
+   "rateOverDistance",
+   "rotation3D",
+   "rotationOverLifetime",
+   "stopTail",
+   "stretchedBillboard",
+   "tonemapNeutral",
+   "worldSpace"
+  ],
+  "systems": [
+   {
+    "id": "guiding_fletching_begin",
+    "role": "attached",
+    "phase": "begin",
+    "endBranch": "any",
+    "duration": 0.5,
+    "loop": false,
+    "ticks": 21
+   },
+   {
+    "id": "guiding_fletching",
+    "role": "attached",
+    "phase": "sustain",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "guiding_fletching_end",
+    "role": "attached",
+    "phase": "end",
+    "endBranch": "any",
+    "duration": 0.2,
+    "loop": false,
+    "ticks": 24
+   },
+   {
+    "id": "projectile",
+    "role": "projectile",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 8,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "impact",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.6,
+    "loop": false,
+    "ticks": 26
+   }
+  ]
+ },
+ "guiding_star": {
+  "number": 132,
+  "folder": "GuidingStar",
+  "schema": "1.20.0",
+  "clientCompatible": true,
+  "rgbaMiB": 1.5,
+  "sustainStart": 0.35,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "billboard",
+   "bloom",
+   "depthWrite",
+   "drag",
+   "gravity",
+   "hdrTint",
+   "linearVelocity",
+   "linkTarget",
+   "meshParticle",
+   "phasedSequence",
+   "rateOverDistance",
+   "rotationOverLifetime",
+   "stopTail",
+   "tonemapNeutral",
+   "worldSpace"
+  ],
+  "systems": [
+   {
+    "id": "save",
+    "role": "static",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.1,
+    "loop": false,
+    "ticks": 19
+   },
+   {
+    "id": "form",
+    "role": "link",
+    "phase": "begin",
+    "endBranch": "any",
+    "duration": 0.35,
+    "loop": false,
+    "ticks": 19
+   },
+   {
+    "id": "hold",
+    "role": "link",
+    "phase": "sustain",
+    "endBranch": "any",
+    "duration": 10,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "fade",
+    "role": "link",
+    "phase": "end",
+    "endBranch": "any",
+    "duration": 0.1,
+    "loop": false,
+    "ticks": 18
+   }
+  ]
+ },
+ "iron_carapace": {
+  "number": 113,
+  "folder": "IronCarapace",
+  "schema": "1.15.0",
+  "clientCompatible": true,
+  "rgbaMiB": 12.8,
+  "sustainStart": 0.5,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "drag",
+   "flipbook",
+   "flipbookCycles",
+   "gravity",
+   "hdrTint",
+   "linearVelocity",
+   "meshParticle",
+   "phasedSequence",
+   "rotation3D",
+   "rotationOverLifetime",
+   "stopTail",
+   "stretchedBillboard",
+   "tonemapNeutral",
+   "worldSpace"
+  ],
+  "systems": [
+   {
+    "id": "iron_carapace_begin",
+    "role": "attached",
+    "phase": "begin",
+    "endBranch": "any",
+    "duration": 0.6,
+    "loop": false,
+    "ticks": 26
+   },
+   {
+    "id": "iron_carapace",
+    "role": "attached",
+    "phase": "sustain",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "iron_carapace_end",
+    "role": "attached",
+    "phase": "end",
+    "endBranch": "any",
+    "duration": 0.6,
+    "loop": false,
+    "ticks": 34
+   },
+   {
+    "id": "iron_carapace_hit",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.1,
+    "loop": false,
+    "ticks": 10
+   }
+  ]
+ },
+ "little_giant": {
+  "number": 126,
+  "folder": "LittleGiant",
+  "schema": "1.16.0",
+  "clientCompatible": true,
+  "rgbaMiB": 13.7,
+  "sustainStart": 1,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "drag",
+   "flipbook",
+   "gravity",
+   "hdrTint",
+   "instanceScale",
+   "linearVelocity",
+   "meshParticle",
+   "noise",
+   "orbitalVelocity",
+   "phasedSequence",
+   "radialVelocity",
+   "rateOverDistance",
+   "rotation3D",
+   "rotationOverLifetime",
+   "stopTail",
+   "stretchedBillboard",
+   "tonemapNeutral",
+   "worldSpace"
+  ],
+  "systems": [
+   {
+    "id": "little_giant_grow",
+    "role": "attached",
+    "phase": "begin",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": false,
+    "ticks": 56
+   },
+   {
+    "id": "little_giant",
+    "role": "attached",
+    "phase": "sustain",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "little_giant_return",
+    "role": "attached",
+    "phase": "end",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": false,
+    "ticks": 44
+   }
+  ]
+ },
+ "luminous_archive": {
+  "number": 136,
+  "folder": "LuminousArchive",
+  "schema": "1.17.0",
+  "clientCompatible": true,
+  "rgbaMiB": 6.1,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "billboard",
+   "bloom",
+   "drag",
+   "flipbook",
+   "gravity",
+   "hdrTint",
+   "linearVelocity",
+   "linkTarget",
+   "meshParticle",
+   "noise",
+   "pathFollow",
+   "radialVelocity",
+   "rotation3D",
+   "rotationOverLifetime",
+   "stopTail",
+   "stretchedBillboard",
+   "tonemapNeutral",
+   "widthScale"
+  ],
+  "systems": [
+   {
+    "id": "attempt",
+    "role": "link",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 12,
+    "loop": false,
+    "ticks": 256
+   },
+   {
+    "id": "attemptLock",
+    "role": "static",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 12,
+    "loop": false,
+    "ticks": 266
+   },
+   {
+    "id": "success",
+    "role": "static",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.15,
+    "loop": false,
+    "ticks": 21
+   },
+   {
+    "id": "fail",
+    "role": "static",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.1,
+    "loop": false,
+    "ticks": 16
+   },
+   {
+    "id": "vanish",
+    "role": "static",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1.05,
+    "loop": false,
+    "ticks": 47
+   }
+  ]
+ },
+ "luminous_copy": {
+  "number": 151,
+  "folder": "LuminousCopy",
+  "schema": "1.18.0",
+  "clientCompatible": true,
+  "rgbaMiB": 1.3,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "drag",
+   "hdrTint",
+   "linearVelocity",
+   "linkTarget",
+   "meshParticle",
+   "noise",
+   "orbitalVelocity",
+   "pathFollow",
+   "radialVelocity",
+   "stopTail",
+   "tonemapNeutral",
+   "trails",
+   "widthScale"
+  ],
+  "systems": [
+   {
+    "id": "gather_begin",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.3,
+    "loop": false,
+    "ticks": 26
+   },
+   {
+    "id": "gather_loop",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "transfer",
+    "role": "link",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.2,
+    "loop": false,
+    "ticks": 22
+   },
+   {
+    "id": "arrive",
+    "role": "static",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.5,
+    "loop": false,
+    "ticks": 35
+   }
+  ]
+ },
+ "luminous_handover": {
+  "number": 156,
+  "folder": "LuminousHandover",
+  "schema": "1.19.0",
+  "clientCompatible": true,
+  "rgbaMiB": 3.3,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "drag",
+   "flipbook",
+   "hdrTint",
+   "instanceScale",
+   "linearVelocity",
+   "meshParticle",
+   "noise",
+   "rotation3D",
+   "rotationOverLifetime",
+   "stopTail",
+   "stretchedBillboard",
+   "tonemapNeutral",
+   "worldSpace"
+  ],
+  "systems": [
+   {
+    "id": "call",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.25,
+    "loop": false,
+    "ticks": 20
+   },
+   {
+    "id": "notice",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.1,
+    "loop": false,
+    "ticks": 16
+   },
+   {
+    "id": "fade",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.15,
+    "loop": false,
+    "ticks": 21
+   }
+  ]
+ },
+ "mana_conduit": {
+  "number": 157,
+  "folder": "ManaConduit",
+  "schema": "1.19.0",
+  "clientCompatible": true,
+  "rgbaMiB": 4.1,
+  "sustainStart": 0.45,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "depthWrite",
+   "drag",
+   "hdrTint",
+   "linearVelocity",
+   "linkTarget",
+   "meshParticle",
+   "noise",
+   "pathFollow",
+   "phasedSequence",
+   "rotation3D",
+   "rotationOverLifetime",
+   "stopTail",
+   "stretchedBillboard",
+   "tonemapNeutral",
+   "trails",
+   "triggeredEnd"
+  ],
+  "systems": [
+   {
+    "id": "summon",
+    "role": "static",
+    "phase": "begin",
+    "endBranch": "any",
+    "duration": 0.5,
+    "loop": false,
+    "ticks": 24
+   },
+   {
+    "id": "idle",
+    "role": "static",
+    "phase": "sustain",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "pickup",
+    "role": "static",
+    "phase": "end",
+    "endBranch": "trigger",
+    "duration": 0.2,
+    "loop": false,
+    "ticks": 18
+   },
+   {
+    "id": "expire",
+    "role": "static",
+    "phase": "end",
+    "endBranch": "expire",
+    "duration": 0.2,
+    "loop": false,
+    "ticks": 32
+   },
+   {
+    "id": "release_flow",
+    "role": "link",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.4,
+    "loop": false,
+    "ticks": 23
+   },
+   {
+    "id": "absorb",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.6,
+    "loop": false,
+    "ticks": 25
+   }
+  ]
+ },
+ "mana_deposit": {
+  "number": 159,
+  "folder": "ManaDeposit",
+  "schema": "1.20.0",
+  "clientCompatible": true,
+  "rgbaMiB": 5.9,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "drag",
+   "flipbook",
+   "hdrTint",
+   "linearVelocity",
+   "noise",
+   "orbitalVelocity",
+   "radialVelocity",
+   "stopTail",
+   "stretchedBillboard",
+   "tonemapNeutral"
+  ],
+  "systems": [
+   {
+    "id": "extract",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "condense",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.8,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "complete",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.5,
+    "loop": false,
+    "ticks": 1212
+   },
+   {
+    "id": "finish",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.1,
+    "loop": false,
+    "ticks": 13
+   }
+  ]
+ },
+ "material_exchange": {
+  "number": 124,
+  "folder": "MaterialExchange",
+  "schema": "1.16.0",
+  "clientCompatible": true,
+  "rgbaMiB": 10.8,
+  "sustainStart": 0.45,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "billboard",
+   "bloom",
+   "depthWrite",
+   "drag",
+   "flipbook",
+   "gravity",
+   "hdrTint",
+   "instanceScale",
+   "linearVelocity",
+   "meshParticle",
+   "noise",
+   "phasedSequence",
+   "rotation3D",
+   "rotationOverLifetime",
+   "stopTail",
+   "stretchedBillboard",
+   "tonemapNeutral",
+   "worldSpace"
+  ],
+  "systems": [
+   {
+    "id": "bind_begin",
+    "role": "static",
+    "phase": "begin",
+    "endBranch": "any",
+    "duration": 0.45,
+    "loop": false,
+    "ticks": 31
+   },
+   {
+    "id": "bind_hold",
+    "role": "static",
+    "phase": "sustain",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "bind_release",
+    "role": "static",
+    "phase": "end",
+    "endBranch": "any",
+    "duration": 0.25,
+    "loop": false,
+    "ticks": 27
+   }
+  ]
+ },
+ "merciful_arrow": {
+  "number": 158,
+  "folder": "MercifulArrow",
+  "schema": "1.19.0",
+  "clientCompatible": true,
+  "rgbaMiB": 10.4,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "depthWrite",
+   "drag",
+   "flipbook",
+   "gravity",
+   "hdrTint",
+   "linearVelocity",
+   "meshParticle",
+   "noise",
+   "rateOverDistance",
+   "rotation3D",
+   "rotationOverLifetime",
+   "stretchedBillboard",
+   "tonemapNeutral",
+   "worldSpace"
+  ],
+  "systems": [
+   {
+    "id": "form",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.45,
+    "loop": false,
+    "ticks": 20
+   },
+   {
+    "id": "launch",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.6,
+    "loop": false,
+    "ticks": 25
+   },
+   {
+    "id": "projectile",
+    "role": "projectile",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 8,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "unravel",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1.2,
+    "loop": false,
+    "ticks": 48
+   },
+   {
+    "id": "heal",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1.5,
+    "loop": false,
+    "ticks": 60
+   },
+   {
+    "id": "dissolve",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1.2,
+    "loop": false,
+    "ticks": 48
+   }
+  ]
+ },
+ "minor_heal": {
+  "number": 133,
+  "folder": "MinorHeal",
+  "schema": "1.16.0",
+  "clientCompatible": true,
+  "rgbaMiB": 1.5,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "drag",
+   "flipbook",
+   "hdrTint",
+   "linearVelocity",
+   "noise",
+   "radialVelocity",
+   "rotationOverLifetime",
+   "stretchedBillboard",
+   "tonemapNeutral",
+   "worldSpace"
+  ],
+  "systems": [
+   {
+    "id": "minor_heal_gather",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.5,
+    "loop": false,
+    "ticks": 24
+   },
+   {
+    "id": "minor_heal_pulse",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.05,
+    "loop": false,
+    "ticks": 10
+   },
+   {
+    "id": "minor_heal_fade",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.4,
+    "loop": false,
+    "ticks": 36
+   }
+  ]
+ },
+ "mountain_back": {
+  "number": 128,
+  "folder": "MountainBack",
+  "schema": "1.17.0",
+  "clientCompatible": true,
+  "rgbaMiB": 8.3,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "billboard",
+   "bloom",
+   "depthWrite",
+   "drag",
+   "flipbook",
+   "gravity",
+   "hdrTint",
+   "linearVelocity",
+   "meshParticle",
+   "rateOverDistance",
+   "rotation3D",
+   "rotationOverLifetime",
+   "stretchedBillboard",
+   "tonemapNeutral",
+   "worldSpace"
+  ],
+  "systems": [
+   {
+    "id": "roll",
+    "role": "projectile",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "form",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": false,
+    "ticks": 56
+   },
+   {
+    "id": "contact",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.5,
+    "loop": false,
+    "ticks": 30
+   },
+   {
+    "id": "wallBreak",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": false,
+    "ticks": 52
+   },
+   {
+    "id": "vanish",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": false,
+    "ticks": 58
+   }
+  ]
+ },
+ "night_sight": {
+  "number": 165,
+  "folder": "NightSight",
+  "schema": "1.21.0",
+  "clientCompatible": true,
+  "rgbaMiB": 4.4,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "drag",
+   "flipbook",
+   "hdrTint",
+   "linearVelocity",
+   "meshParticle",
+   "noise",
+   "radialVelocity",
+   "rotation3D",
+   "tonemapNeutral"
+  ],
+  "systems": [
+   {
+    "id": "night_sight_cast",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.75,
+    "loop": false,
+    "ticks": 35
+   }
+  ]
+ },
+ "pollen_matchmaking": {
+  "number": 120,
+  "folder": "PollenMatchmaking",
+  "schema": "1.16.0",
+  "clientCompatible": true,
+  "rgbaMiB": 2.2,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "drag",
+   "flipbook",
+   "flipbookCycles",
+   "gravity",
+   "hdrTint",
+   "linearVelocity",
+   "linkTarget",
+   "noise",
+   "orbitalVelocity",
+   "pathFollow",
+   "rotationOverLifetime",
+   "tonemapNeutral",
+   "trails"
+  ],
+  "systems": [
+   {
+    "id": "hand",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.2,
+    "loop": false,
+    "ticks": 20
+   },
+   {
+    "id": "send",
+    "role": "link",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.6,
+    "loop": false,
+    "ticks": 29
+   },
+   {
+    "id": "connect",
+    "role": "link",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1.05,
+    "loop": false,
+    "ticks": 43
+   },
+   {
+    "id": "bloom",
+    "role": "static",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1.7,
+    "loop": false,
+    "ticks": 61
+   }
+  ]
+ },
+ "primordial_stone": {
+  "number": 131,
+  "folder": "PrimordialStone",
+  "schema": "1.18.0",
+  "clientCompatible": true,
+  "rgbaMiB": 4.7,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "depthWrite",
+   "drag",
+   "gravity",
+   "hdrTint",
+   "linearVelocity",
+   "meshParticle",
+   "rateOverDistance",
+   "rotation3D",
+   "rotationOverLifetime",
+   "salvoSequence",
+   "stretchedBillboard",
+   "tonemapNeutral",
+   "worldSpace"
+  ],
+  "systems": [
+   {
+    "id": "gather",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.6,
+    "loop": false,
+    "ticks": 34
+   },
+   {
+    "id": "compress",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.3,
+    "loop": false,
+    "ticks": 24
+   },
+   {
+    "id": "idle",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 300,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "launch",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.3,
+    "loop": false,
+    "ticks": 22
+   },
+   {
+    "id": "projectile",
+    "role": "projectile",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 30,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "impact",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.3,
+    "loop": false,
+    "ticks": 31
+   },
+   {
+    "id": "dissolve",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.3,
+    "loop": false,
+    "ticks": 31
+   }
+  ]
+ },
+ "protective_ward": {
+  "number": 138,
+  "folder": "ProtectiveWard",
+  "schema": "1.18.0",
+  "clientCompatible": true,
+  "rgbaMiB": 10.4,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "drag",
+   "flipbook",
+   "flipbookCycles",
+   "hdrTint",
+   "linearVelocity",
+   "linkTarget",
+   "meshParticle",
+   "noise",
+   "pathFollow",
+   "rotation3D",
+   "rotationOverLifetime",
+   "stopTail",
+   "stretchedBillboard",
+   "tonemapNeutral",
+   "trails",
+   "worldSpace"
+  ],
+  "systems": [
+   {
+    "id": "ward_form",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.3,
+    "loop": false,
+    "ticks": 26
+   },
+   {
+    "id": "ward",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "ward_end",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.2,
+    "loop": false,
+    "ticks": 34
+   },
+   {
+    "id": "ripple",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.2,
+    "loop": false,
+    "ticks": 16
+   },
+   {
+    "id": "absorb",
+    "role": "link",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.6,
+    "loop": false,
+    "ticks": 28
+   },
+   {
+    "id": "shield_gain",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.3,
+    "loop": false,
+    "ticks": 22
+   },
+   {
+    "id": "shield",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "shield_end",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.2,
+    "loop": false,
+    "ticks": 46
+   }
+  ]
+ },
+ "remembering_field": {
+  "number": 125,
+  "folder": "RememberingField",
+  "schema": "1.16.0",
+  "clientCompatible": true,
+  "rgbaMiB": 1.7,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "billboard",
+   "bloom",
+   "drag",
+   "hdrTint",
+   "linearVelocity",
+   "linkTarget",
+   "meshParticle",
+   "noise",
+   "pathFollow",
+   "rotation3D",
+   "rotationOverLifetime",
+   "stretchedBillboard",
+   "tonemapNeutral",
+   "trails"
+  ],
+  "systems": [
+   {
+    "id": "flow",
+    "role": "link",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.2,
+    "loop": false,
+    "ticks": 19
+   },
+   {
+    "id": "grow",
+    "role": "static",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.3,
+    "loop": false,
+    "ticks": 26
+   }
+  ]
+ },
+ "seed_row": {
+  "number": 107,
+  "folder": "SeedRow",
+  "schema": "1.14.0",
+  "clientCompatible": true,
+  "rgbaMiB": 2.0,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "drag",
+   "gravity",
+   "hdrTint",
+   "linearVelocity",
+   "meshParticle",
+   "noise",
+   "rateOverDistance",
+   "rotation3D",
+   "rotationOverLifetime",
+   "salvoSequence",
+   "tonemapNeutral",
+   "worldSpace"
+  ],
+  "systems": [
+   {
+    "id": "gather",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.6,
+    "loop": false,
+    "ticks": 29
+   },
+   {
+    "id": "seed1",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.5,
+    "loop": false,
+    "ticks": 252
+   },
+   {
+    "id": "seed2",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.5,
+    "loop": false,
+    "ticks": 252
+   },
+   {
+    "id": "seed3",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.5,
+    "loop": false,
+    "ticks": 252
+   },
+   {
+    "id": "seed4",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.5,
+    "loop": false,
+    "ticks": 252
+   },
+   {
+    "id": "seed5",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.5,
+    "loop": false,
+    "ticks": 252
+   },
+   {
+    "id": "seed6",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.5,
+    "loop": false,
+    "ticks": 252
+   },
+   {
+    "id": "projectile",
+    "role": "projectile",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 8,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "land",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.1,
+    "loop": false,
+    "ticks": 22
+   }
+  ]
+ },
+ "shadow_bind": {
+  "number": 166,
+  "folder": "ShadowBind",
+  "schema": "1.20.0",
+  "clientCompatible": true,
+  "rgbaMiB": 1.9,
+  "sustainStart": 0.4,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "depthWrite",
+   "drag",
+   "gravity",
+   "hdrTint",
+   "instanceScale",
+   "linearVelocity",
+   "meshParticle",
+   "noise",
+   "orbitalVelocity",
+   "phasedSequence",
+   "radialVelocity",
+   "rateOverDistance",
+   "rotation3D",
+   "rotationOverLifetime",
+   "stopTail",
+   "stretchedBillboard",
+   "tonemapNeutral",
+   "worldSpace"
+  ],
+  "systems": [
+   {
+    "id": "shadow_bind_begin",
+    "role": "attached",
+    "phase": "begin",
+    "endBranch": "any",
+    "duration": 0.35,
+    "loop": false,
+    "ticks": 19
+   },
+   {
+    "id": "shadow_bind",
+    "role": "attached",
+    "phase": "sustain",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "shadow_bind_end",
+    "role": "attached",
+    "phase": "end",
+    "endBranch": "any",
+    "duration": 0.15,
+    "loop": false,
+    "ticks": 22
+   }
+  ]
+ },
+ "sharing_table": {
+  "number": 153,
+  "folder": "SharingTable",
+  "schema": "1.19.0",
+  "clientCompatible": true,
+  "rgbaMiB": 0.8,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "drag",
+   "hdrTint",
+   "linearVelocity",
+   "linkTarget",
+   "noise",
+   "orbitalVelocity",
+   "pathFollow",
+   "radialVelocity",
+   "rotationOverLifetime",
+   "stopTail",
+   "tonemapNeutral",
+   "trails"
+  ],
+  "systems": [
+   {
+    "id": "gather",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.62,
+    "loop": false,
+    "ticks": 33
+   },
+   {
+    "id": "release",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.1,
+    "loop": false,
+    "ticks": 20
+   },
+   {
+    "id": "deliver",
+    "role": "link",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.15,
+    "loop": false,
+    "ticks": 19
+   },
+   {
+    "id": "satisfied",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.3,
+    "loop": false,
+    "ticks": 28
+   }
+  ]
+ },
+ "solar_judgment": {
+  "number": 147,
+  "folder": "SolarJudgment",
+  "schema": "1.18.0",
+  "clientCompatible": true,
+  "rgbaMiB": 18.5,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "billboard",
+   "bloom",
+   "drag",
+   "flipbook",
+   "flipbookCycles",
+   "gravity",
+   "hdrTint",
+   "linearVelocity",
+   "meshParticle",
+   "noise",
+   "radialVelocity",
+   "rotation3D",
+   "rotationOverLifetime",
+   "stopTail",
+   "stretchedBillboard",
+   "tonemapNeutral"
+  ],
+  "systems": [
+   {
+    "id": "struct_form",
+    "role": "static",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": false,
+    "ticks": 50
+   },
+   {
+    "id": "struct_idle",
+    "role": "static",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "struct_break",
+    "role": "static",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.5,
+    "loop": false,
+    "ticks": 42
+   },
+   {
+    "id": "struct_cancel",
+    "role": "static",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.5,
+    "loop": false,
+    "ticks": 40
+   },
+   {
+    "id": "star_link",
+    "role": "static",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "link_break",
+    "role": "static",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.5,
+    "loop": false,
+    "ticks": 38
+   },
+   {
+    "id": "laser_fire",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.5,
+    "loop": false,
+    "ticks": 30
+   },
+   {
+    "id": "laser_hold",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "laser_final",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.8,
+    "loop": false,
+    "ticks": 36
+   },
+   {
+    "id": "laser_end",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.5,
+    "loop": false,
+    "ticks": 40
+   },
+   {
+    "id": "ground_hit",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.5,
+    "loop": false,
+    "ticks": 34
+   },
+   {
+    "id": "ground_hold",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "ground_final",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.8,
+    "loop": false,
+    "ticks": 58
+   }
+  ]
+ },
+ "spring_ground": {
+  "number": 127,
+  "folder": "SpringGround",
+  "schema": "1.16.0",
+  "clientCompatible": true,
+  "rgbaMiB": 13.8,
+  "sustainStart": 0.5,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "billboard",
+   "bloom",
+   "depthWrite",
+   "drag",
+   "flipbook",
+   "gravity",
+   "hdrTint",
+   "linearVelocity",
+   "meshParticle",
+   "noise",
+   "phasedSequence",
+   "rotation3D",
+   "rotationOverLifetime",
+   "stopTail",
+   "stretchedBillboard",
+   "tonemapNeutral"
+  ],
+  "systems": [
+   {
+    "id": "place",
+    "role": "static",
+    "phase": "begin",
+    "endBranch": "any",
+    "duration": 0.5,
+    "loop": false,
+    "ticks": 34
+   },
+   {
+    "id": "padRest",
+    "role": "static",
+    "phase": "begin",
+    "endBranch": "any",
+    "duration": 0.8,
+    "loop": false,
+    "ticks": 1218
+   },
+   {
+    "id": "idle",
+    "role": "static",
+    "phase": "sustain",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "crumble",
+    "role": "static",
+    "phase": "end",
+    "endBranch": "any",
+    "duration": 0.3,
+    "loop": false,
+    "ticks": 31
+   },
+   {
+    "id": "press",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.1,
+    "loop": false,
+    "ticks": 1204
+   },
+   {
+    "id": "bounce",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.6,
+    "loop": false,
+    "ticks": 1214
+   },
+   {
+    "id": "launch",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.1,
+    "loop": false,
+    "ticks": 20
+   }
+  ]
+ },
+ "starlight_reprise": {
+  "number": 163,
+  "folder": "StarlightReprise",
+  "schema": "1.20.0",
+  "clientCompatible": true,
+  "rgbaMiB": 10.1,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "drag",
+   "flipbook",
+   "gravity",
+   "hdrTint",
+   "linearVelocity",
+   "meshParticle",
+   "noise",
+   "orbitalVelocity",
+   "radialVelocity",
+   "rotation3D",
+   "rotationOverLifetime",
+   "stopTail",
+   "stretchedBillboard",
+   "tonemapNeutral",
+   "trails",
+   "worldSpace"
+  ],
+  "systems": [
+   {
+    "id": "deploy",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": false,
+    "ticks": 90
+   },
+   {
+    "id": "condense",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.3,
+    "loop": false,
+    "ticks": 18
+   },
+   {
+    "id": "ignite",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1.3,
+    "loop": false,
+    "ticks": 80
+   },
+   {
+    "id": "absorb",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.35,
+    "loop": false,
+    "ticks": 24
+   },
+   {
+    "id": "end",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.3,
+    "loop": false,
+    "ticks": 28
+   },
+   {
+    "id": "fizzle",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.1,
+    "loop": false,
+    "ticks": 22
+   }
+  ]
+ },
+ "starlight_survey": {
+  "number": 155,
+  "folder": "StarlightSurvey",
+  "schema": "1.20.0",
+  "clientCompatible": true,
+  "rgbaMiB": 0.8,
+  "sustainStart": 0.55,
+  "required": [
+   "additiveBlend",
+   "billboard",
+   "bloom",
+   "drag",
+   "hdrTint",
+   "linearVelocity",
+   "noise",
+   "phasedSequence",
+   "rotationOverLifetime",
+   "stopTail",
+   "stretchedBillboard",
+   "tonemapNeutral",
+   "trails",
+   "widthScale"
+  ],
+  "systems": [
+   {
+    "id": "begin",
+    "role": "static",
+    "phase": "begin",
+    "endBranch": "any",
+    "duration": 0.6,
+    "loop": false,
+    "ticks": 33
+   },
+   {
+    "id": "sustain",
+    "role": "static",
+    "phase": "sustain",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "end",
+    "role": "static",
+    "phase": "end",
+    "endBranch": "any",
+    "duration": 0.2,
+    "loop": false,
+    "ticks": 25
+   }
+  ]
+ },
+ "stone_wall": {
+  "number": 102,
+  "folder": "StoneWall",
+  "schema": "1.14.0",
+  "clientCompatible": true,
+  "rgbaMiB": 8.0,
+  "sustainStart": 0.5,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "billboard",
+   "bloom",
+   "depthWrite",
+   "drag",
+   "flipbook",
+   "gravity",
+   "hdrTint",
+   "linearVelocity",
+   "meshParticle",
+   "noise",
+   "phasedSequence",
+   "rotation3D",
+   "rotationOverLifetime",
+   "stopTail",
+   "stretchedBillboard",
+   "tonemapNeutral",
+   "widthScale",
+   "worldSpace"
+  ],
+  "systems": [
+   {
+    "id": "begin",
+    "role": "static",
+    "phase": "begin",
+    "endBranch": "any",
+    "duration": 0.5,
+    "loop": false,
+    "ticks": 38
+   },
+   {
+    "id": "sustain",
+    "role": "static",
+    "phase": "sustain",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "end",
+    "role": "static",
+    "phase": "end",
+    "endBranch": "any",
+    "duration": 0.5,
+    "loop": false,
+    "ticks": 30
+   },
+   {
+    "id": "hit",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.2,
+    "loop": false,
+    "ticks": 18
+   }
+  ]
+ },
+ "summons_letter": {
+  "number": 154,
+  "folder": "SummonsLetter",
+  "schema": "1.19.0",
+  "clientCompatible": true,
+  "rgbaMiB": 6.4,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "drag",
+   "flipbook",
+   "flipbookCycles",
+   "hdrTint",
+   "linearVelocity",
+   "meshParticle",
+   "noise",
+   "orbitalVelocity",
+   "radialVelocity",
+   "rotation3D",
+   "rotationOverLifetime",
+   "stretchedBillboard",
+   "tonemapNeutral"
+  ],
+  "systems": [
+   {
+    "id": "cast",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.95,
+    "loop": false,
+    "ticks": 45
+   },
+   {
+    "id": "summonWolf",
+    "role": "static",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.75,
+    "loop": false,
+    "ticks": 51
+   },
+   {
+    "id": "summonCat",
+    "role": "static",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.75,
+    "loop": false,
+    "ticks": 51
+   },
+   {
+    "id": "deathWolf",
+    "role": "static",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.9,
+    "loop": false,
+    "ticks": 46
+   },
+   {
+    "id": "deathCat",
+    "role": "static",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.9,
+    "loop": false,
+    "ticks": 46
+   },
+   {
+    "id": "vanishWolf",
+    "role": "static",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.2,
+    "loop": false,
+    "ticks": 26
+   },
+   {
+    "id": "vanishCat",
+    "role": "static",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.2,
+    "loop": false,
+    "ticks": 26
+   }
+  ]
+ },
+ "sun_drying": {
+  "number": 150,
+  "folder": "SunDrying",
+  "schema": "1.18.0",
+  "clientCompatible": true,
+  "rgbaMiB": 5.2,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "drag",
+   "flipbook",
+   "hdrTint",
+   "linearVelocity",
+   "noise",
+   "radialVelocity",
+   "rotationOverLifetime",
+   "stopTail",
+   "tonemapNeutral",
+   "worldSpace"
+  ],
+  "systems": [
+   {
+    "id": "sun_drying_gather",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.75,
+    "loop": false,
+    "ticks": 34
+   },
+   {
+    "id": "sun_drying_purify",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "sun_drying_finish",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.3,
+    "loop": false,
+    "ticks": 24
+   },
+   {
+    "id": "sun_drying_fade",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.6,
+    "loop": false,
+    "ticks": 34
+   }
+  ]
+ },
+ "thorn_armor": {
+  "number": 109,
+  "folder": "ThornArmor",
+  "schema": "1.14.0",
+  "clientCompatible": true,
+  "rgbaMiB": 5.1,
+  "sustainStart": 0.3,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "depthWrite",
+   "drag",
+   "flipbook",
+   "gravity",
+   "hdrTint",
+   "linearVelocity",
+   "meshParticle",
+   "noise",
+   "phasedSequence",
+   "rotation3D",
+   "rotationOverLifetime",
+   "stopTail",
+   "tonemapNeutral",
+   "worldSpace"
+  ],
+  "systems": [
+   {
+    "id": "thorn_armor_begin",
+    "role": "attached",
+    "phase": "begin",
+    "endBranch": "any",
+    "duration": 0.3,
+    "loop": false,
+    "ticks": 22
+   },
+   {
+    "id": "thorn_armor",
+    "role": "attached",
+    "phase": "sustain",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "thorn_armor_end",
+    "role": "attached",
+    "phase": "end",
+    "endBranch": "any",
+    "duration": 0.6,
+    "loop": false,
+    "ticks": 38
+   },
+   {
+    "id": "thorn_armor_hit",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.05,
+    "loop": false,
+    "ticks": 15
+   }
+  ]
+ },
+ "thorn_seeds": {
+  "number": 119,
+  "folder": "ThornSeeds",
+  "schema": "1.16.0",
+  "clientCompatible": true,
+  "rgbaMiB": 2.6,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "depthWrite",
+   "drag",
+   "gravity",
+   "hdrTint",
+   "linearVelocity",
+   "meshParticle",
+   "rateOverDistance",
+   "rotation3D",
+   "rotationOverLifetime",
+   "salvoSequence",
+   "stretchedBillboard",
+   "tonemapNeutral",
+   "worldSpace"
+  ],
+  "systems": [
+   {
+    "id": "cast",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.9,
+    "loop": false,
+    "ticks": 40
+   },
+   {
+    "id": "charge1",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 5,
+    "loop": false,
+    "ticks": 222
+   },
+   {
+    "id": "charge2",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 5,
+    "loop": false,
+    "ticks": 222
+   },
+   {
+    "id": "charge3",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 5,
+    "loop": false,
+    "ticks": 222
+   },
+   {
+    "id": "charge4",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 5,
+    "loop": false,
+    "ticks": 222
+   },
+   {
+    "id": "charge5",
+    "role": "attached",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 5,
+    "loop": false,
+    "ticks": 222
+   },
+   {
+    "id": "launch",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.4,
+    "loop": false,
+    "ticks": 16
+   },
+   {
+    "id": "projectile",
+    "role": "projectile",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 8,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "impact",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": false,
+    "ticks": 39
+   },
+   {
+    "id": "miss",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.8,
+    "loop": false,
+    "ticks": 32
+   }
+  ]
+ },
+ "true_sight": {
+  "number": 137,
+  "folder": "TrueSight",
+  "schema": "1.17.0",
+  "clientCompatible": true,
+  "rgbaMiB": 1.2,
+  "sustainStart": 0.3,
+  "required": [
+   "additiveBlend",
+   "attachedFollow",
+   "billboard",
+   "bloom",
+   "drag",
+   "hdrTint",
+   "instanceScale",
+   "linearVelocity",
+   "meshParticle",
+   "noise",
+   "phasedSequence",
+   "rotation3D",
+   "rotationOverLifetime",
+   "tonemapNeutral",
+   "worldSpace"
+  ],
+  "systems": [
+   {
+    "id": "true_sight_awaken",
+    "role": "attached",
+    "phase": "begin",
+    "endBranch": "any",
+    "duration": 0.1,
+    "loop": false,
+    "ticks": 24
+   },
+   {
+    "id": "true_sight_eye",
+    "role": "attached",
+    "phase": "sustain",
+    "endBranch": "any",
+    "duration": 1.3,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "true_sight_release",
+    "role": "attached",
+    "phase": "end",
+    "endBranch": "any",
+    "duration": 0.1,
+    "loop": false,
+    "ticks": 32
+   },
+   {
+    "id": "true_sight_enemy_reveal",
+    "role": "attached",
+    "phase": "begin",
+    "endBranch": "any",
+    "duration": 0.4,
+    "loop": false,
+    "ticks": 36
+   },
+   {
+    "id": "true_sight_enemy_hold",
+    "role": "attached",
+    "phase": "sustain",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "true_sight_enemy_fade",
+    "role": "attached",
+    "phase": "end",
+    "endBranch": "any",
+    "duration": 0.2,
+    "loop": false,
+    "ticks": 40
+   },
+   {
+    "id": "true_sight_clue_reveal",
+    "role": "static",
+    "phase": "begin",
+    "endBranch": "any",
+    "duration": 0.3,
+    "loop": false,
+    "ticks": 32
+   },
+   {
+    "id": "true_sight_clue_hold",
+    "role": "static",
+    "phase": "sustain",
+    "endBranch": "any",
+    "duration": 1,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "true_sight_clue_edge",
+    "role": "static",
+    "phase": "sustain",
+    "endBranch": "any",
+    "duration": 2.4,
+    "loop": true,
+    "ticks": 12000
+   },
+   {
+    "id": "true_sight_clue_fade",
+    "role": "static",
+    "phase": "end",
+    "endBranch": "any",
+    "duration": 0.1,
+    "loop": false,
+    "ticks": 36
+   }
+  ]
+ },
+ "vein_fracture": {
+  "number": 110,
+  "folder": "VeinFracture",
+  "schema": "1.15.0",
+  "clientCompatible": true,
+  "rgbaMiB": 8.9,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "billboard",
+   "bloom",
+   "drag",
+   "flipbook",
+   "gravity",
+   "hdrTint",
+   "linearVelocity",
+   "meshParticle",
+   "noise",
+   "rotation3D",
+   "rotationOverLifetime",
+   "stretchedBillboard",
+   "tonemapNeutral"
+  ],
+  "systems": [
+   {
+    "id": "mark",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.05,
+    "loop": false,
+    "ticks": 7
+   },
+   {
+    "id": "fracture",
+    "role": "static",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.4,
+    "loop": false,
+    "ticks": 29
+   }
+  ]
+ },
+ "weathering_touch": {
+  "number": 112,
+  "folder": "WeatheringTouch",
+  "schema": "1.15.0",
+  "clientCompatible": true,
+  "rgbaMiB": 40.3,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "alphaBlend",
+   "billboard",
+   "bloom",
+   "drag",
+   "flipbook",
+   "gravity",
+   "hdrTint",
+   "linearVelocity",
+   "linkTarget",
+   "meshParticle",
+   "noise",
+   "pathFollow",
+   "rotation3D",
+   "rotationOverLifetime",
+   "tonemapNeutral",
+   "trails",
+   "worldSpace"
+  ],
+  "systems": [
+   {
+    "id": "touch",
+    "role": "link",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.5,
+    "loop": false,
+    "ticks": 24
+   },
+   {
+    "id": "weatherCrack",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.4,
+    "loop": false,
+    "ticks": 30
+   },
+   {
+    "id": "weatherMoss",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.4,
+    "loop": false,
+    "ticks": 30
+   },
+   {
+    "id": "weatherBrush",
+    "role": "impact",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.4,
+    "loop": false,
+    "ticks": 27
+   }
+  ]
+ },
+ "earth_embrace": {
+  "number": 129,
+  "folder": "earth_embrace",
+  "schema": "1.16.0",
+  "clientCompatible": true,
+  "rgbaMiB": 0.5,
+  "sustainStart": null,
+  "required": [
+   "additiveBlend",
+   "billboard",
+   "bloom",
+   "drag",
+   "hdrTint",
+   "linearVelocity",
+   "noise",
+   "radialVelocity",
+   "rotationOverLifetime",
+   "stretchedBillboard",
+   "tonemapNeutral",
+   "trails"
+  ],
+  "systems": [
+   {
+    "id": "flow",
+    "role": "static",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.2,
+    "loop": false,
+    "ticks": 29
+   },
+   {
+    "id": "restore",
+    "role": "static",
+    "phase": "main",
+    "endBranch": "any",
+    "duration": 0.81,
+    "loop": false,
+    "ticks": 49
+   }
+  ]
+ }
+}

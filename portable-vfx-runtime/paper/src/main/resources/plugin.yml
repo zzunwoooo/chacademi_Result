@@ -1,0 +1,7 @@
+name: PortableVFX
+version: '${version}'
+main: dev.portablevfx.paper.PortableVfxPlugin
+api-version: '1.21.4'
+description: Independent visual-only effect relay for compatible PortableVFX clients.
+authors: [PortableVFX]
+softdepend: [MagicCodexBridge]

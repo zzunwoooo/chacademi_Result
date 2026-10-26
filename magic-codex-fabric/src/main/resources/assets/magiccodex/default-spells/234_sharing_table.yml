@@ -1,0 +1,14 @@
+id: sharing_table
+name: 나눔 식탁
+category: light
+description: 자신을 제외한 근처 아군들의 허기를 전부 회복합니다.
+icon: magiccodex:textures/spells/expansion_2/sharing_table.png
+permission: magic.learned.sharing_table
+discovery:
+  description: 자신이 떨어뜨린 음식 아이템을 다른 플레이어가 누적 64개 줍게 합니다.
+research: 함께 먹는 식사는 언제나 혼자 먹을 때보다 따뜻하다.
+cast:
+  command: 마법 sharing_table
+  cooldown-seconds: 15
+  mana-cost: 150
+order: 234

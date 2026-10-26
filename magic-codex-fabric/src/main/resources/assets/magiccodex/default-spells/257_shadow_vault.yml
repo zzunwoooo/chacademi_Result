@@ -1,0 +1,14 @@
+id: shadow_vault
+name: 그림자 금고
+category: dark
+description: 발밑 그림자 속 금고 문을 엽니다. 어디서든 내 엔더 상자를 열 수 있습니다.
+icon: ''
+permission: magic.learned.shadow_vault
+discovery:
+  description: 엔더 상자를 30번 열기.
+research: ''
+cast:
+  command: 마법 shadow_vault
+  cooldown-seconds: 10
+  mana-cost: 20
+order: 257

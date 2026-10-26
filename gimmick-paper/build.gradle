@@ -1,0 +1,29 @@
+plugins { id 'java' }
+group = 'school.chacademia'
+version = '0.3.0-autowire-20261024.1'
+base { archivesName = 'chaca-gimmick' }
+repositories {
+    if (findProperty('localDependencyRepo')) maven { url = uri(property('localDependencyRepo')) }
+    mavenCentral()
+    maven { url = 'https://repo.papermc.io/repository/maven-public/' }
+}
+dependencies {
+    compileOnly files('../plugins/MythicMobs-5.9.0.jar','C:/Chacademi/network/school/plugins/worldguard-bukkit-7.0.13-dist.jar','C:/Chacademi/network/school/plugins/FastAsyncWorldEdit-Paper-2.13.1-SNAPSHOT-1119.jar')
+    testImplementation files('C:/Chacademi/network/school/plugins/worldguard-bukkit-7.0.13-dist.jar','C:/Chacademi/network/school/plugins/FastAsyncWorldEdit-Paper-2.13.1-SNAPSHOT-1119.jar')
+    compileOnly 'io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT'
+    compileOnly files('../plugins/ModelEngine-4.0.8.jar')
+    // ItemsAdder is called by reflection only (no compile dependency), same as chaca-portrait-paper.
+    compileOnly project(':magic-mythic-paper')
+    testImplementation 'io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT'
+    testImplementation platform('org.junit:junit-bom:5.11.4')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+java { toolchain.languageVersion = JavaLanguageVersion.of(21) }
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8'; options.release = 21 }
+test { useJUnitPlatform() }
+processResources {
+    filteringCharset = 'UTF-8'
+    inputs.property 'version', project.version
+    filesMatching('plugin.yml') { expand version: project.version }
+}

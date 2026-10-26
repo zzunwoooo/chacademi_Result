@@ -1,0 +1,14 @@
+id: boiling_armor
+name: 끓는 갑주
+category: fire
+description: 착용한 각 갑옷의 최대 내구도를 기준으로 30%씩 회복합니다.
+icon: magiccodex:textures/spells/expansion_2/boiling_armor.png
+permission: magic.learned.boiling_armor
+discovery:
+  description: 입고 있는 갑옷을 내구도를 다 써서 2번 망가뜨리기.
+research: 사람에게 피가 흐른다면 강철에는 화염이 흐른다.
+cast:
+  command: 마법 boiling_armor
+  cooldown-seconds: 30
+  mana-cost: 80
+order: 79

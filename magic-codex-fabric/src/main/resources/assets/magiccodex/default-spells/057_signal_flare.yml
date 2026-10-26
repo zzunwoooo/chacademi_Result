@@ -1,0 +1,14 @@
+id: signal_flare
+name: 봉화 신호
+category: fire
+description: 하늘 높이 불꽃 기둥을 쏘아 올립니다. 30초 동안 파티원의 지도에 내 위치가 표시되고, 파티원에게 알림이 갑니다.
+icon: ''
+permission: magic.learned.signal_flare
+discovery:
+  description: 모닥불을 5개 설치하기.
+research: ''
+cast:
+  command: 마법 signal_flare
+  cooldown-seconds: 30
+  mana-cost: 20
+order: 57

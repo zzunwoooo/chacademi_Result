@@ -1,0 +1,14 @@
+id: dusk_orb
+name: 어둠 구슬
+category: dark
+description: 느릿느릿한 어둠 구슬이 대상을 6초 동안 끈질기게 따라갑니다. 닿은 적은 3초 동안 약화됩니다. 벽 뒤로 숨으면 피할 수 있습니다.
+icon: ''
+permission: magic.learned.dusk_orb
+discovery:
+  description: 어둠 마법으로 몬스터 20마리 처치하기.
+research: ''
+cast:
+  command: 마법 dusk_orb
+  cooldown-seconds: 7
+  mana-cost: 10
+order: 252

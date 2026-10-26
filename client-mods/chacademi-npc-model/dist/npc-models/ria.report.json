@@ -1,0 +1,32 @@
+{
+  "warnings": [],
+  "out": "ria_norm.glb",
+  "bytes": 3280636,
+  "sha256": "0f4bb47b8e6bed32a47cc4c7a207b69edcf30ef52efc2fb7e0f3d19fa32a6444",
+  "heightBlocks": 1.7,
+  "scale": 1.4818072046884552,
+  "yawDegrees": 8.75,
+  "clips": {
+    "wait": {
+      "seconds": 18.0,
+      "rootSpeed": 0.0
+    },
+    "walk": {
+      "seconds": 6.5833,
+      "rootSpeed": 0.0
+    }
+  },
+  "triangles": 15494,
+  "joints": 65,
+  "textures": [
+    [
+      2048,
+      2048
+    ],
+    [
+      2048,
+      2048
+    ]
+  ],
+  "input": "src/ria_wait_walk_v5.fbx"
+}

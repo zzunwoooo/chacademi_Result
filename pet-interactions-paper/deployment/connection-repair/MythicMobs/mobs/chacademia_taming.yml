@@ -1,0 +1,156 @@
+# Wild capture targets and separate cosmetic pet entities. No random spawns are added.
+ChAcademiaWildWolf:
+  Type: WOLF
+  Display: '회색 늑대'
+  Health: 20
+  Damage: 3
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+  AIGoalSelectors:
+  - clear
+  - randomstroll
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+ChAcademiaPetWolf:
+  Type: WOLF
+  Display: '회색 늑대'
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventMobKillDrops: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+
+ChAcademiaWildFox:
+  Type: FOX
+  Display: '붉은 여우'
+  Health: 16
+  Damage: 0
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+  AIGoalSelectors:
+  - clear
+  - randomstroll
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+ChAcademiaPetFox:
+  Type: FOX
+  Display: '붉은 여우'
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventMobKillDrops: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+
+ChAcademiaWildRabbit:
+  Type: RABBIT
+  Display: '숲 토끼'
+  Health: 10
+  Damage: 0
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+  AIGoalSelectors:
+  - clear
+  - randomstroll
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+ChAcademiaPetRabbit:
+  Type: RABBIT
+  Display: '숲 토끼'
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventMobKillDrops: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+
+ChAcademiaCaptureGuardian:
+  Type: IRON_GOLEM
+  Display: '고대 유적의 수호자'
+  Health: 100
+  Damage: 4
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+  AIGoalSelectors:
+  - clear
+  - randomstroll
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+ChAcademiaPetGuardian:
+  Type: IRON_GOLEM
+  Display: '고대 유적의 수호자'
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventMobKillDrops: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn

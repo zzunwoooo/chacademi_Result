@@ -1,0 +1,25 @@
+plugins { id 'java' }
+group = 'school.chacademi'
+version = '0.1.0'
+base { archivesName = 'chacademi-ops-dashboard' }
+repositories {
+    if (findProperty('localDependencyRepo')) maven { url = uri(property('localDependencyRepo')) }
+    mavenCentral()
+}
+// 운영 대시보드 (메모 #92): 게임 서버와 따로 도는 작은 웹 앱. JDK 내장 HttpServer + MariaDB JDBC 하나만 쓴다.
+dependencies {
+    implementation files('../magic-codex-database/lib/mariadb-java-client-3.5.10.jar')
+    testImplementation platform('org.junit:junit-bom:5.11.4')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+// DB 설정 파일(database.properties) 읽기를 게임 플러그인과 같은 코드로.
+sourceSets.main.java.srcDir '../magic-codex-database/src/main/java'
+java { toolchain.languageVersion = JavaLanguageVersion.of(21) }
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8'; options.release = 21 }
+test { useJUnitPlatform() }
+jar {
+    manifest { attributes 'Main-Class': 'school.chacademi.ops.OpsDashboard' }
+    from({ zipTree('../magic-codex-database/lib/mariadb-java-client-3.5.10.jar') }) { exclude 'META-INF/MANIFEST.MF', 'META-INF/*.SF', 'META-INF/*.RSA', 'META-INF/*.DSA' }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}

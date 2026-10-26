@@ -1,0 +1,14 @@
+id: guiding_fletching
+name: 유도 깃
+category: light
+description: 시전 후 5초 동안 발사하는 모든 화살이 조준한 적을 향해 유도됩니다. 벽을 우회하지 않습니다.
+icon: magiccodex:textures/spells/expansion_2/guiding_fletching.png
+permission: magic.learned.guiding_fletching
+discovery:
+  description: 달리는 몬스터에게 활을 누적 20회 명중시킵니다.
+research: 조금 빗나간 화살에게 한 번 더 기회를 주었다.
+cast:
+  command: 마법 guiding_fletching
+  cooldown-seconds: 12
+  mana-cost: 30
+order: 216

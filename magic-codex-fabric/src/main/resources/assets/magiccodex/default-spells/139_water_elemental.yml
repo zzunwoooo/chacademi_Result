@@ -1,0 +1,16 @@
+id: water_elemental
+name: 운디네
+category: water
+description: 물 정령 한 마리를 30초 동안 소환합니다. 정령은 시전자를 따라다니며 물 탄환으로 공격을 보조합니다.
+icon: magiccodex:textures/spells/advanced/water_elemental.png
+permission: magic.learned.water_elemental
+discovery:
+  description: '''정령계약서-수'' 책을 읽기.'
+research: '자유로운 물의 정령 운디네와 계약을 맺는다.
+
+  물은 흩어지지만 약속은 흩어지지 않는다.'
+cast:
+  command: 마법 water_elemental
+  cooldown-seconds: 60
+  mana-cost: 220
+order: 139

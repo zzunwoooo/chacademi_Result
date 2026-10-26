@@ -1,0 +1,14 @@
+id: climate_control
+name: 기후 통제
+category: earth
+description: 맑은 날씨는 비로, 비가 오는 날씨는 맑음으로 전환합니다. 고정 유지 시간이나 자동 원복을 두지 않으며 이후 자연스러운 날씨 변화를 허용합니다.
+icon: magiccodex:textures/spells/advanced/climate_control.png
+permission: magic.learned.climate_control
+discovery:
+  description: 봄, 여름, 가을, 겨울을 모두 경험합니다.
+research: 좋은 날씨의 기준은 사람마다 다르다. 농사 짓는 학생과 소풍 가는 학생의 의견부터 들어 보자.
+cast:
+  command: 마법 climate_control
+  cooldown-seconds: 1000
+  mana-cost: 500
+order: 195

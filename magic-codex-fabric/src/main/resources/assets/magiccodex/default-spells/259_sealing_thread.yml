@@ -1,0 +1,14 @@
+id: sealing_thread
+name: 봉인의 실
+category: dark
+description: 직접 설치한 문이나 상자 하나에 봉인을 걸어 다른 사람이 열지 못하게 합니다. 같은 대상에 다시 쓰면 봉인이 풀립니다.
+icon: magiccodex:textures/spells/intermediate/sealing_thread.png
+permission: magic.learned.sealing_thread
+discovery:
+  description: 기숙사 입구에서 「자물쇠 장인의 비밀」 책 읽기.
+research: 한 번 더 확인하는 습관이 결국 자물쇠보다 튼튼한 실이 되었다.
+cast:
+  command: 마법 sealing_thread
+  cooldown-seconds: 20
+  mana-cost: 40
+order: 259

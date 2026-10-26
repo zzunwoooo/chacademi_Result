@@ -1,0 +1,14 @@
+id: lightning_needle
+name: 라이트닝 쇼크
+category: wind
+description: 바라보는 20블록 이내의 대상 위치에 번개를 떨어뜨립니다.
+icon: magiccodex:textures/spells/expansion_2/lightning_needle.png
+permission: magic.learned.lightning_needle
+discovery:
+  description: 번개가 내리치는 장면을 가까이(32블록 안)에서 보기.
+research: 번개를 이해하려던 괴짜 학자는 벼락의 마지막 순간을 마력에 새겨, 그 충격을 다시 불러냈다.
+cast:
+  command: 마법 lightning_needle
+  cooldown-seconds: 60
+  mana-cost: 250
+order: 43

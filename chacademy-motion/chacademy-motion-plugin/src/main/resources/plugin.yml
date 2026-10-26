@@ -1,0 +1,17 @@
+name: ChacademyMotion
+version: '${version}'
+main: kr.chacademy.motionplugin.ChacademyMotionPlugin
+api-version: '1.21'
+description: 차카데미 모드의 시전 모션과 빗자루 비행을 다른 유저에게 전달합니다.
+authors: [Chacademy]
+softdepend: [MagicCodexBridge]
+permissions:
+  chacademy.motion.cast:
+    description: 모드에서 보낸 시전 모션이 다른 유저에게 전달됨
+    default: true
+  chacademy.broom.use:
+    description: 비행 마법으로 빗자루 타기
+    default: true
+  chacademy.broom.own.*:
+    description: 빗자루 30종 전부 보유 (하나씩은 chacademy.broom.own.<ID>, 예 chacademy.broom.own.broom_7 — /유저관리 <닉네임> 빗자루 주기|회수)
+    default: op

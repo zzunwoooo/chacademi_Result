@@ -1,0 +1,10 @@
+enabled: true
+default-chance: 0.000244140625
+spawn-reasons: [NATURAL, CHUNK_GEN, CUSTOM, RAID, PATROL, TRIAL_SPAWNER, BUILD_WITHER, DEFAULT]
+# DEFAULT는 엔더 드래곤에만 적용. 알·번식·일반 스포너는 기본 제외.
+excluded-worlds: []
+# 교화 프로필 ID별 출현 확률. 예: wolf: 0.001
+chances: {}
+particles: true
+sound: true
+sound-interval-seconds: 12

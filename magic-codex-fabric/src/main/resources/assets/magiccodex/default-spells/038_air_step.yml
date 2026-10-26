@@ -1,0 +1,14 @@
+id: air_step
+name: 허공 디딤
+category: wind
+description: 발밑에 실제로 서 있을 수 있는 작은 마법 발판을 20초간 만듭니다. 한 번에 하나만 유지됩니다.
+icon: magiccodex:textures/spells/expansion_2/air_step.png
+permission: magic.learned.air_step
+discovery:
+  description: 비행 마법을 50번 사용하기.
+research: 날 수 없는 곳에서 거듭 도약한 발은, 허공에도 잠시 머물 자리를 찾아냈다.
+cast:
+  command: 마법 air_step
+  cooldown-seconds: 30
+  mana-cost: 95
+order: 38

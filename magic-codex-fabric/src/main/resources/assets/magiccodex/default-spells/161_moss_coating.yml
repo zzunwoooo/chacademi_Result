@@ -1,0 +1,14 @@
+id: moss_coating
+name: 이끼 입히기
+category: earth
+description: 플레이어 아래에 Deep Dark 생물군계가 있는지 탐지합니다. 결과는 문자 안내 없이 시각 효과로만 보여 줍니다. 워든 개체나 고대 도시 구조물을 직접 탐지하는 마법은 아닙니다.
+icon: magiccodex:textures/spells/reviewed_20261020/moss_coating.png
+permission: magic.learned.moss_coating
+discovery:
+  description: 베르나 교수의 대지 마법 중급 수업 듣기.
+research: 정원은 새로 만들었는데 너무 새것처럼 보인다는 부탁에서 시작되었다.
+cast:
+  command: 마법 moss_coating
+  cooldown-seconds: 5
+  mana-cost: 12
+order: 161

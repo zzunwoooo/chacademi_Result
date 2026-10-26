@@ -1,0 +1,15 @@
+id: curving_plumes
+name: 곡선 불깃털
+category: fire
+description: 불타는 깃털 세 개를 부채꼴로 날립니다. 깃털은 좌우로 퍼졌다가 조준한 적에게 휘어 들어갑니다.
+# Existing icon reused from firebird_hunt; dedicated mob-skill artwork was not supplied.
+icon: magiccodex:textures/spells/mob_skill/curving_plumes.png
+permission: magic.learned.curving_plumes
+discovery:
+  description: 피닉스를 처치하면 5% 확률로 습득합니다.
+research: 피닉스의 깃털은 바람을 타고 돌아 들어온다. 막아도 옆에서 닿는다.
+cast:
+  command: 마법 curving_plumes
+  cooldown-seconds: 8
+  mana-cost: 30
+order: 66

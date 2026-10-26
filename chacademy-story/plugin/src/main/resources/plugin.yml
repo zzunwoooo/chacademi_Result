@@ -1,0 +1,7 @@
+name: ChacademyStory
+version: '${version}'
+main: kr.chacademy.storyplugin.StoryPlugin
+api-version: '1.21'
+description: 차카데미 메인 스토리 (컷신, 대화). 스토리 모드에 재생 신호를 보내고 끝나면 명령어를 실행합니다. 명령은 MagicCodexBridge 명령어 허브(/대화관리, /테스트 스토리, /유저관리 <닉네임> 스토리기록)에 붙습니다.
+authors: [Chacademy]
+softdepend: [MagicCodexBridge, PlaceholderAPI, Citizens, ChacaHousing]

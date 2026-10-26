@@ -1,0 +1,197 @@
+{
+  "version": 3,
+  "name": "broom_climb",
+  "author": "Chacademy",
+  "description": "매달린 상태에서 두 손으로 빗자루를 잡고 다리를 걸쳐 다시 올라타 탑승 자세로 돌아옴 (0.8초)",
+  "emote": {
+    "beginTick": 0,
+    "endTick": 16,
+    "stopTick": 18,
+    "isLoop": false,
+    "returnTick": 0,
+    "nsfw": false,
+    "degrees": true,
+    "moves": [
+      {
+        "tick": 0,
+        "easing": "INOUTSINE",
+        "body": {
+          "pitch": 4,
+          "yaw": 0,
+          "roll": 4,
+          "y": 0
+        }
+      },
+      {
+        "tick": 0,
+        "easing": "INOUTSINE",
+        "rightArm": {
+          "pitch": -176,
+          "yaw": 0,
+          "roll": -8
+        }
+      },
+      {
+        "tick": 0,
+        "easing": "INOUTSINE",
+        "leftArm": {
+          "pitch": 6,
+          "yaw": 0,
+          "roll": -12
+        }
+      },
+      {
+        "tick": 0,
+        "easing": "INOUTSINE",
+        "rightLeg": {
+          "pitch": 10,
+          "roll": 4
+        }
+      },
+      {
+        "tick": 0,
+        "easing": "INOUTSINE",
+        "leftLeg": {
+          "pitch": -6,
+          "roll": -4
+        }
+      },
+      {
+        "tick": 5,
+        "easing": "OUTQUAD",
+        "body": {
+          "pitch": -6,
+          "yaw": 0,
+          "roll": 0,
+          "y": 0
+        }
+      },
+      {
+        "tick": 5,
+        "easing": "OUTQUAD",
+        "rightArm": {
+          "pitch": -170,
+          "yaw": 0,
+          "roll": -14
+        }
+      },
+      {
+        "tick": 5,
+        "easing": "OUTQUAD",
+        "leftArm": {
+          "pitch": -170,
+          "yaw": 0,
+          "roll": 14
+        }
+      },
+      {
+        "tick": 5,
+        "easing": "OUTQUAD",
+        "rightLeg": {
+          "pitch": -20,
+          "roll": 6
+        }
+      },
+      {
+        "tick": 5,
+        "easing": "OUTQUAD",
+        "leftLeg": {
+          "pitch": -10,
+          "roll": -6
+        }
+      },
+      {
+        "tick": 10,
+        "easing": "INOUTSINE",
+        "body": {
+          "pitch": -24,
+          "yaw": 0,
+          "roll": -4,
+          "y": 0
+        }
+      },
+      {
+        "tick": 10,
+        "easing": "INOUTSINE",
+        "rightArm": {
+          "pitch": -110,
+          "yaw": -10,
+          "roll": -6
+        }
+      },
+      {
+        "tick": 10,
+        "easing": "INOUTSINE",
+        "leftArm": {
+          "pitch": -100,
+          "yaw": 10,
+          "roll": 6
+        }
+      },
+      {
+        "tick": 10,
+        "easing": "INOUTSINE",
+        "rightLeg": {
+          "pitch": -70,
+          "yaw": 4,
+          "roll": 24
+        }
+      },
+      {
+        "tick": 10,
+        "easing": "INOUTSINE",
+        "leftLeg": {
+          "pitch": -30,
+          "yaw": -4,
+          "roll": -10
+        }
+      },
+      {
+        "tick": 16,
+        "easing": "INOUTSINE",
+        "body": {
+          "pitch": -14,
+          "yaw": 0,
+          "roll": 0,
+          "y": 0
+        }
+      },
+      {
+        "tick": 16,
+        "easing": "INOUTSINE",
+        "rightArm": {
+          "pitch": -42,
+          "yaw": -14,
+          "roll": -4
+        }
+      },
+      {
+        "tick": 16,
+        "easing": "INOUTSINE",
+        "leftArm": {
+          "pitch": -34,
+          "yaw": 14,
+          "roll": 4
+        }
+      },
+      {
+        "tick": 16,
+        "easing": "INOUTSINE",
+        "rightLeg": {
+          "pitch": -38,
+          "yaw": 4,
+          "roll": 16
+        }
+      },
+      {
+        "tick": 16,
+        "easing": "INOUTSINE",
+        "leftLeg": {
+          "pitch": -38,
+          "yaw": -4,
+          "roll": -16
+        }
+      }
+    ]
+  }
+}

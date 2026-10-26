@@ -1,0 +1,15 @@
+id: seal_talismans
+name: 봉인 부적
+category: light
+description: 봉인 부적 세 장을 던집니다. 부적은 빙글 돌며 휘어 조준한 적에게 붙습니다.
+# Existing icon reused from exorcism_flash; dedicated mob-skill artwork was not supplied.
+icon: magiccodex:textures/spells/mob_skill/seal_talismans.png
+permission: magic.learned.seal_talismans
+discovery:
+  description: 봉인의 술사를 처치하면 5% 확률로 습득합니다.
+research: 부적은 바람을 거스르지 않는다. 돌아가더라도 반드시 닿는다.
+cast:
+  command: 마법 seal_talismans
+  cooldown-seconds: 7
+  mana-cost: 25
+order: 211

@@ -1,0 +1,14 @@
+id: sky_dive
+name: 천공 강하
+category: wind
+description: 7블록 위로 솟구친 뒤 조준한 곳으로 내리꽂힙니다. 착지 지점 반경 3의 적에게 피해를 주고 중력을 겁니다. 빗자루를 탄 채로는 쓸 수 없습니다.
+icon: ''
+permission: magic.learned.sky_dive
+discovery:
+  description: 20블록 이상 높이에서 뛰어내려 철퇴로 적을 10번 치기.
+research: ''
+cast:
+  command: 마법 sky_dive
+  cooldown-seconds: 40
+  mana-cost: 260
+order: 47

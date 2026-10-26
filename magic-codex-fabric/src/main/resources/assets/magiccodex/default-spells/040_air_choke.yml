@@ -1,0 +1,14 @@
+id: air_choke
+name: 숨 막힘
+category: wind
+description: 대상 주변의 공기를 빼앗아 3초 동안 무장해제합니다. 그동안 대상은 공격하거나 마법을 쓸 수 없습니다.
+icon: ''
+permission: magic.learned.air_choke
+discovery:
+  description: 1:1 결투에 10번 참가하기.
+research: ''
+cast:
+  command: 마법 air_choke
+  cooldown-seconds: 24
+  mana-cost: 100
+order: 40

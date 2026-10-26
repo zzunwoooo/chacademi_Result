@@ -1,0 +1,14 @@
+id: feather_rustle
+name: 깃털 털기
+category: wind
+description: 10블록 이내에서 바라보는 성체 닭 한 마리에게서 깃털 하나를 얻습니다.
+icon: magiccodex:textures/spells/expansion_2/feather_rustle.png
+permission: magic.learned.feather_rustle
+discovery:
+  description: 닭에게 씨앗을 누적 16번 먹이기.
+research: 씨앗을 건네며 친해진 닭의 깃털에서, 귀한 마법 재료를 얻을 작은 떨림을 발견했다.
+cast:
+  command: 마법 feather_rustle
+  cooldown-seconds: 60
+  mana-cost: 30
+order: 18

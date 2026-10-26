@@ -1,0 +1,173 @@
+{
+  "version": 3,
+  "name": "broom_wobble",
+  "author": "Chacademy",
+  "description": "균형을 잃기 직전. 한 손으로 손잡이를 붙든 채 다른 팔을 옆으로 뻗어 균형을 잡으며 몸이 좌우로 흔들림",
+  "emote": {
+    "beginTick": 2,
+    "endTick": 18,
+    "stopTick": 24,
+    "isLoop": true,
+    "returnTick": 2,
+    "nsfw": false,
+    "degrees": true,
+    "moves": [
+      {
+        "tick": 2,
+        "easing": "INOUTSINE",
+        "body": {
+          "pitch": -10,
+          "roll": 6,
+          "y": 0
+        }
+      },
+      {
+        "tick": 2,
+        "easing": "INOUTSINE",
+        "rightArm": {
+          "pitch": -60,
+          "yaw": 0,
+          "roll": 55
+        }
+      },
+      {
+        "tick": 2,
+        "easing": "INOUTSINE",
+        "leftArm": {
+          "pitch": -36,
+          "yaw": 14,
+          "roll": 4
+        }
+      },
+      {
+        "tick": 2,
+        "easing": "INOUTSINE",
+        "rightItem": {
+          "pitch": 0
+        }
+      },
+      {
+        "tick": 2,
+        "easing": "INOUTSINE",
+        "rightLeg": {
+          "pitch": -34,
+          "yaw": 4,
+          "roll": 20
+        }
+      },
+      {
+        "tick": 2,
+        "easing": "INOUTSINE",
+        "leftLeg": {
+          "pitch": -40,
+          "yaw": -4,
+          "roll": -14
+        }
+      },
+      {
+        "tick": 10,
+        "easing": "INOUTSINE",
+        "body": {
+          "pitch": -12,
+          "roll": -7,
+          "y": 0
+        }
+      },
+      {
+        "tick": 10,
+        "easing": "INOUTSINE",
+        "rightArm": {
+          "pitch": -45,
+          "yaw": -14,
+          "roll": -2
+        }
+      },
+      {
+        "tick": 10,
+        "easing": "INOUTSINE",
+        "leftArm": {
+          "pitch": -62,
+          "yaw": 0,
+          "roll": -52
+        }
+      },
+      {
+        "tick": 10,
+        "easing": "INOUTSINE",
+        "rightItem": {
+          "pitch": 0
+        }
+      },
+      {
+        "tick": 10,
+        "easing": "INOUTSINE",
+        "rightLeg": {
+          "pitch": -40,
+          "yaw": 4,
+          "roll": 14
+        }
+      },
+      {
+        "tick": 10,
+        "easing": "INOUTSINE",
+        "leftLeg": {
+          "pitch": -34,
+          "yaw": -4,
+          "roll": -20
+        }
+      },
+      {
+        "tick": 18,
+        "easing": "INOUTSINE",
+        "body": {
+          "pitch": -10,
+          "roll": 6,
+          "y": 0
+        }
+      },
+      {
+        "tick": 18,
+        "easing": "INOUTSINE",
+        "rightArm": {
+          "pitch": -60,
+          "yaw": 0,
+          "roll": 55
+        }
+      },
+      {
+        "tick": 18,
+        "easing": "INOUTSINE",
+        "leftArm": {
+          "pitch": -36,
+          "yaw": 14,
+          "roll": 4
+        }
+      },
+      {
+        "tick": 18,
+        "easing": "INOUTSINE",
+        "rightItem": {
+          "pitch": 0
+        }
+      },
+      {
+        "tick": 18,
+        "easing": "INOUTSINE",
+        "rightLeg": {
+          "pitch": -34,
+          "yaw": 4,
+          "roll": 20
+        }
+      },
+      {
+        "tick": 18,
+        "easing": "INOUTSINE",
+        "leftLeg": {
+          "pitch": -40,
+          "yaw": -4,
+          "roll": -14
+        }
+      }
+    ]
+  }
+}

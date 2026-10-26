@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "id": "portablevfx",
+  "version": "${version}",
+  "name": "PortableVFX Runtime",
+  "description": "Claude vfx.json spell effects with client-only rendering and debug previews.",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "dev.portablevfx.client.PortableVfxClient"
+    ]
+  },
+  "license": "MIT",
+  "depends": {
+    "fabricloader": ">=0.16.14",
+    "minecraft": "1.21.4",
+    "java": ">=21",
+    "fabric-api": ">=0.119.4+1.21.4"
+  },
+  "mixins": [
+    "portablevfx.mixins.json"
+  ]
+}

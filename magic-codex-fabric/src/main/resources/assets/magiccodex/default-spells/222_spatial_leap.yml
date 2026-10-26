@@ -1,0 +1,14 @@
+id: spatial_leap
+name: 공간 도약
+category: light
+description: 지금 서 있는 곳을 개인 지점으로 새깁니다(학교·야생). 새기기는 마나가 들지 않고, 지도에서 개인 지점으로 이동할 때 마나 100과 재사용 대기 60초가 듭니다.
+icon: magiccodex:textures/spells/intermediate/spatial_leap.png
+permission: magic.learned.spatial_leap
+discovery:
+  description: 지도 이동의 공개 웨이포인트 1곳을 발견하기.
+research: 먼 거리를 접는 데에는 목적지를 분명하게 떠올리는 일이 먼저다.
+cast:
+  command: ''
+  cooldown-seconds: 0
+  mana-cost: 0
+order: 222

@@ -1,0 +1,23 @@
+plugins { id 'java' }
+group = 'school.chacademia'
+version = '0.1.0-interactions-20261023'
+base { archivesName = 'chaca-pet-interactions' }
+repositories { mavenCentral(); maven { url = 'https://repo.papermc.io/repository/maven-public/' } }
+dependencies {
+ compileOnly 'io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT'
+ compileOnly files(providers.gradleProperty('mcPetsJar').getOrElse('../plugins/MCPets-4.1.11.jar'))
+ compileOnly files(providers.gradleProperty('modelEngineJar').getOrElse('../plugins/ModelEngine-4.0.8.jar'))
+ compileOnly files(providers.gradleProperty('mythicJar').getOrElse('../plugins/MythicMobs-5.9.0.jar'))
+ testImplementation 'io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT'
+ testImplementation files(providers.gradleProperty('mcPetsJar').getOrElse('../plugins/MCPets-4.1.11.jar'))
+ testImplementation files(providers.gradleProperty('modelEngineJar').getOrElse('../plugins/ModelEngine-4.0.8.jar'))
+ testImplementation files(providers.gradleProperty('mythicJar').getOrElse('../plugins/MythicMobs-5.9.0.jar'))
+ testImplementation platform('org.junit:junit-bom:5.11.4')
+ testImplementation 'org.junit.jupiter:junit-jupiter'
+ testImplementation 'org.mockito:mockito-core:5.14.2'
+ testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+java { toolchain.languageVersion = JavaLanguageVersion.of(21) }
+tasks.withType(JavaCompile).configureEach { options.encoding='UTF-8'; options.release=21 }
+test { useJUnitPlatform() }
+processResources { inputs.property 'version',project.version; filesMatching('plugin.yml') { expand version:project.version } }

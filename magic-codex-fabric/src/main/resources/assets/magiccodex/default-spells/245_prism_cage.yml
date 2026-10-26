@@ -1,0 +1,14 @@
+id: prism_cage
+name: 빛의 감옥
+category: light
+description: 대상 주변에 빛기둥 여섯 개를 세웁니다. 1.5초 뒤 레이저가 한 점으로 모여 안에 있는 대상에게 피해를 주고 기절시킵니다.
+icon: ''
+permission: magic.learned.prism_cage
+discovery:
+  description: 빛 마법으로 적을 1,000번 맞히기.
+research: ''
+cast:
+  command: 마법 prism_cage
+  cooldown-seconds: 45
+  mana-cost: 280
+order: 245

@@ -1,0 +1,14 @@
+id: crystal_coat
+name: 결정 갑옷
+category: water
+description: 아군 한 명(자신도 가능)을 4초 동안 얼음 껍질로 감쌉니다. 껍질이 깨지면 주변 적이 느려집니다.
+icon: ''
+permission: magic.learned.crystal_coat
+discovery:
+  description: 마법으로 다른 플레이어의 체력을 누적 30 회복시키기.
+research: ''
+cast:
+  command: 마법 crystal_coat
+  cooldown-seconds: 30
+  mana-cost: 90
+order: 128

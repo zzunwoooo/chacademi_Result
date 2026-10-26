@@ -1,0 +1,360 @@
+ChAcademiaWildOceanGuardian:
+  Type: GUARDIAN
+  Display: 가디언
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetOceanGuardian:
+  Type: GUARDIAN
+  Display: 가디언
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildSquid:
+  Type: SQUID
+  Display: 오징어
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetSquid:
+  Type: SQUID
+  Display: 오징어
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildCod:
+  Type: COD
+  Display: 대구
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetCod:
+  Type: COD
+  Display: 대구
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildSalmon:
+  Type: SALMON
+  Display: 연어
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetSalmon:
+  Type: SALMON
+  Display: 연어
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildPufferfish:
+  Type: PUFFERFISH
+  Display: 복어
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetPufferfish:
+  Type: PUFFERFISH
+  Display: 복어
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildTropicalFish:
+  Type: TROPICAL_FISH
+  Display: 열대어
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetTropicalFish:
+  Type: TROPICAL_FISH
+  Display: 열대어
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildDolphin:
+  Type: DOLPHIN
+  Display: 돌고래
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetDolphin:
+  Type: DOLPHIN
+  Display: 돌고래
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildAxolotl:
+  Type: AXOLOTL
+  Display: 아홀로틀
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetAxolotl:
+  Type: AXOLOTL
+  Display: 아홀로틀
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildGlowSquid:
+  Type: GLOW_SQUID
+  Display: 발광 오징어
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetGlowSquid:
+  Type: GLOW_SQUID
+  Display: 발광 오징어
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildTadpole:
+  Type: TADPOLE
+  Display: 올챙이
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetTadpole:
+  Type: TADPOLE
+  Display: 올챙이
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn

@@ -1,0 +1,14 @@
+id: night_sight
+name: 밤눈
+category: dark
+description: 60초 동안 야간 투시를 부여합니다. 시작할 때만 시각 효과를 표시합니다.
+icon: magiccodex:textures/spells/novice/night_sight.png
+permission: magic.learned.night_sight
+discovery:
+  description: 빛이 없는 동굴에서 횃불을 놓지 않고 120초 동안 머무릅니다.
+research: 어둠에 눈이 익숙해질 무렵, 눈보다 먼저 마력이 주변을 읽었다.
+cast:
+  command: 마법 night_sight
+  cooldown-seconds: 30
+  mana-cost: 10
+order: 249

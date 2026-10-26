@@ -1,0 +1,14 @@
+id: inverted_offering
+name: 뒤집힌 공물
+category: dark
+description: 마법을 등록해 두면 처치한 몬스터의 전리품이 제물로 바뀌어 추가 경험치를 줍니다.
+icon: magiccodex:textures/spells/expansion_2/inverted_offering.png
+permission: magic.learned.inverted_offering
+discovery:
+  description: 경험치 레벨 30 달성하기.
+research: 몸에 쌓인 경험이 깊어지자, 전리품 속에서도 같은 빛이 보였다.
+cast:
+  command: 마법 inverted_offering
+  cooldown-seconds: 0
+  mana-cost: 0
+order: 263

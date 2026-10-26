@@ -1,0 +1,14 @@
+id: volcanic_barrage
+name: 화산탄 세례
+category: fire
+description: 화산탄 여섯 발을 하늘로 쏘아 올려 조준한 곳 주변에 흩뿌립니다. 떨어질 자리에 붉은 예고가 먼저 나타나고, 맞은 적은 둔해집니다.
+icon: ''
+permission: magic.learned.volcanic_barrage
+discovery:
+  description: 잿불 덫으로 몬스터 100마리 처치하기.
+research: ''
+cast:
+  command: 마법 volcanic_barrage
+  cooldown-seconds: 50
+  mana-cost: 300
+order: 96

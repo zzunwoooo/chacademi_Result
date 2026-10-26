@@ -1,0 +1,14 @@
+id: hearth_touch
+name: 손끝의 화로
+category: fire
+description: 손에 든 아이템을 구워냅니다. 구울 수 없는 아이템이면 실패합니다.
+icon: magiccodex:textures/spells/novice/hearth_touch.png
+permission: magic.learned.hearth_touch
+discovery:
+  description: 화로에서 직접 구운 음식을 누적 16개 꺼내기.
+research: 화로에서 음식을 거듭 꺼내던 손끝에, 한 끼를 데울 작은 온기가 남았다.
+cast:
+  command: 마법 hearth_touch
+  cooldown-seconds: 5
+  mana-cost: 20
+order: 55

@@ -1,0 +1,759 @@
+# Cost/cooldown are owned by mana-spells.yml -> spells.rainbow_collar (150 mana / 60 s).
+range: 12
+cast-milliseconds: 4000
+boss-grace-seconds: 30
+max-active: 64
+modelengine: true
+targets:
+  wolf:
+    mythic-id: ChAcademiaWildWolf
+    vanilla-type: WOLF
+    pet-id: chacademia_wolf
+    name: 회색 늑대
+    chance: 0.35
+    low-health-bonus: 0.35
+    model-scale: 0.55
+  fox:
+    mythic-id: ChAcademiaWildFox
+    vanilla-type: FOX
+    pet-id: chacademia_fox
+    name: 붉은 여우
+    chance: 0.3
+    low-health-bonus: 0.35
+    model-scale: 0.5
+  rabbit:
+    mythic-id: ChAcademiaWildRabbit
+    vanilla-type: RABBIT
+    pet-id: chacademia_rabbit
+    name: 숲 토끼
+    chance: 0.55
+    low-health-bonus: 0.25
+    model-scale: 0.4
+  guardian:
+    mythic-id: ChAcademiaCaptureGuardian
+    pet-id: chacademia_guardian
+    name: 고대 유적의 수호자
+    boss: true
+    chance: 0.004
+    low-health-bonus: 0
+    model-scale: 1
+  elder_guardian:
+    mythic-id: ChAcademiaWildElderGuardian
+    vanilla-type: ELDER_GUARDIAN
+    pet-id: chacademia_elder_guardian
+    name: 엘더 가디언
+    boss: true
+    chance: 0.005
+    low-health-bonus: 0
+    model-scale: 0.8
+  wither_skeleton:
+    mythic-id: ChAcademiaWildWitherSkeleton
+    vanilla-type: WITHER_SKELETON
+    pet-id: chacademia_wither_skeleton
+    name: 위더 스켈레톤
+    boss: false
+    chance: 0.08
+    low-health-bonus: 0.07
+    model-scale: 0.8
+  stray:
+    mythic-id: ChAcademiaWildStray
+    vanilla-type: STRAY
+    pet-id: chacademia_stray
+    name: 스트레이
+    boss: false
+    chance: 0.2
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  husk:
+    mythic-id: ChAcademiaWildHusk
+    vanilla-type: HUSK
+    pet-id: chacademia_husk
+    name: 허스크
+    boss: false
+    chance: 0.2
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  zombie_villager:
+    mythic-id: ChAcademiaWildZombieVillager
+    vanilla-type: ZOMBIE_VILLAGER
+    pet-id: chacademia_zombie_villager
+    name: 좀비 주민
+    boss: false
+    chance: 0.2
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  skeleton_horse:
+    mythic-id: ChAcademiaWildSkeletonHorse
+    vanilla-type: SKELETON_HORSE
+    pet-id: chacademia_skeleton_horse
+    name: 스켈레톤 말
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  zombie_horse:
+    mythic-id: ChAcademiaWildZombieHorse
+    vanilla-type: ZOMBIE_HORSE
+    pet-id: chacademia_zombie_horse
+    name: 좀비 말
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  donkey:
+    mythic-id: ChAcademiaWildDonkey
+    vanilla-type: DONKEY
+    pet-id: chacademia_donkey
+    name: 당나귀
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  mule:
+    mythic-id: ChAcademiaWildMule
+    vanilla-type: MULE
+    pet-id: chacademia_mule
+    name: 노새
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  evoker:
+    mythic-id: ChAcademiaWildEvoker
+    vanilla-type: EVOKER
+    pet-id: chacademia_evoker
+    name: 소환사
+    boss: false
+    chance: 0.015
+    low-health-bonus: 0.015
+    model-scale: 0.8
+  vex:
+    mythic-id: ChAcademiaWildVex
+    vanilla-type: VEX
+    pet-id: chacademia_vex
+    name: 벡스
+    boss: false
+    chance: 0.08
+    low-health-bonus: 0.07
+    model-scale: 0.8
+  vindicator:
+    mythic-id: ChAcademiaWildVindicator
+    vanilla-type: VINDICATOR
+    pet-id: chacademia_vindicator
+    name: 변명자
+    boss: false
+    chance: 0.1
+    low-health-bonus: 0.08
+    model-scale: 0.8
+  illusioner:
+    mythic-id: ChAcademiaWildIllusioner
+    vanilla-type: ILLUSIONER
+    pet-id: chacademia_illusioner
+    name: 환술사
+    boss: false
+    chance: 0.06
+    low-health-bonus: 0.06
+    model-scale: 0.8
+  creeper:
+    mythic-id: ChAcademiaWildCreeper
+    vanilla-type: CREEPER
+    pet-id: chacademia_creeper
+    name: 크리퍼
+    boss: false
+    chance: 0.2
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  skeleton:
+    mythic-id: ChAcademiaWildSkeleton
+    vanilla-type: SKELETON
+    pet-id: chacademia_skeleton
+    name: 스켈레톤
+    boss: false
+    chance: 0.2
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  spider:
+    mythic-id: ChAcademiaWildSpider
+    vanilla-type: SPIDER
+    pet-id: chacademia_spider
+    name: 거미
+    boss: false
+    chance: 0.2
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  giant:
+    mythic-id: ChAcademiaWildGiant
+    vanilla-type: GIANT
+    pet-id: chacademia_giant
+    name: 거인
+    boss: false
+    chance: 0.01
+    low-health-bonus: 0.01
+    model-scale: 1.3
+  zombie:
+    mythic-id: ChAcademiaWildZombie
+    vanilla-type: ZOMBIE
+    pet-id: chacademia_zombie
+    name: 좀비
+    boss: false
+    chance: 0.2
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  slime:
+    mythic-id: ChAcademiaWildSlime
+    vanilla-type: SLIME
+    pet-id: chacademia_slime
+    name: 슬라임
+    boss: false
+    chance: 0.2
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  ghast:
+    mythic-id: ChAcademiaWildGhast
+    vanilla-type: GHAST
+    pet-id: chacademia_ghast
+    name: 가스트
+    boss: false
+    chance: 0.08
+    low-health-bonus: 0.07
+    model-scale: 1.3
+  zombified_piglin:
+    mythic-id: ChAcademiaWildZombifiedPiglin
+    vanilla-type: ZOMBIFIED_PIGLIN
+    pet-id: chacademia_zombified_piglin
+    name: 좀비화 피글린
+    boss: false
+    chance: 0.2
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  enderman:
+    mythic-id: ChAcademiaWildEnderman
+    vanilla-type: ENDERMAN
+    pet-id: chacademia_enderman
+    name: 엔더맨
+    boss: false
+    chance: 0.08
+    low-health-bonus: 0.07
+    model-scale: 0.8
+  cave_spider:
+    mythic-id: ChAcademiaWildCaveSpider
+    vanilla-type: CAVE_SPIDER
+    pet-id: chacademia_cave_spider
+    name: 동굴 거미
+    boss: false
+    chance: 0.2
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  silverfish:
+    mythic-id: ChAcademiaWildSilverfish
+    vanilla-type: SILVERFISH
+    pet-id: chacademia_silverfish
+    name: 좀벌레
+    boss: false
+    chance: 0.2
+    low-health-bonus: 0.25
+    model-scale: 0.4
+  blaze:
+    mythic-id: ChAcademiaWildBlaze
+    vanilla-type: BLAZE
+    pet-id: chacademia_blaze
+    name: 블레이즈
+    boss: false
+    chance: 0.1
+    low-health-bonus: 0.08
+    model-scale: 0.8
+  magma_cube:
+    mythic-id: ChAcademiaWildMagmaCube
+    vanilla-type: MAGMA_CUBE
+    pet-id: chacademia_magma_cube
+    name: 마그마 큐브
+    boss: false
+    chance: 0.15
+    low-health-bonus: 0.1
+    model-scale: 0.8
+  ender_dragon:
+    mythic-id: ChAcademiaWildEnderDragon
+    vanilla-type: ENDER_DRAGON
+    pet-id: chacademia_ender_dragon
+    name: 엔더 드래곤
+    boss: true
+    chance: 0.001
+    low-health-bonus: 0
+    model-scale: 2
+  wither:
+    mythic-id: ChAcademiaWildWither
+    vanilla-type: WITHER
+    pet-id: chacademia_wither
+    name: 위더
+    boss: true
+    chance: 0.003
+    low-health-bonus: 0
+    model-scale: 0.8
+  bat:
+    mythic-id: ChAcademiaWildBat
+    vanilla-type: BAT
+    pet-id: chacademia_bat
+    name: 박쥐
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.4
+  witch:
+    mythic-id: ChAcademiaWildWitch
+    vanilla-type: WITCH
+    pet-id: chacademia_witch
+    name: 마녀
+    boss: false
+    chance: 0.12
+    low-health-bonus: 0.08
+    model-scale: 0.8
+  endermite:
+    mythic-id: ChAcademiaWildEndermite
+    vanilla-type: ENDERMITE
+    pet-id: chacademia_endermite
+    name: 엔더마이트
+    boss: false
+    chance: 0.2
+    low-health-bonus: 0.25
+    model-scale: 0.4
+  ocean_guardian:
+    mythic-id: ChAcademiaWildOceanGuardian
+    vanilla-type: GUARDIAN
+    pet-id: chacademia_ocean_guardian
+    name: 가디언
+    boss: false
+    chance: 0.1
+    low-health-bonus: 0.08
+    model-scale: 0.8
+  shulker:
+    mythic-id: ChAcademiaWildShulker
+    vanilla-type: SHULKER
+    pet-id: chacademia_shulker
+    name: 셜커
+    boss: false
+    chance: 0.08
+    low-health-bonus: 0.07
+    model-scale: 0.8
+  pig:
+    mythic-id: ChAcademiaWildPig
+    vanilla-type: PIG
+    pet-id: chacademia_pig
+    name: 돼지
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  sheep:
+    mythic-id: ChAcademiaWildSheep
+    vanilla-type: SHEEP
+    pet-id: chacademia_sheep
+    name: 양
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  cow:
+    mythic-id: ChAcademiaWildCow
+    vanilla-type: COW
+    pet-id: chacademia_cow
+    name: 소
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  chicken:
+    mythic-id: ChAcademiaWildChicken
+    vanilla-type: CHICKEN
+    pet-id: chacademia_chicken
+    name: 닭
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  squid:
+    mythic-id: ChAcademiaWildSquid
+    vanilla-type: SQUID
+    pet-id: chacademia_squid
+    name: 오징어
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  mooshroom:
+    mythic-id: ChAcademiaWildMooshroom
+    vanilla-type: MOOSHROOM
+    pet-id: chacademia_mooshroom
+    name: 무시룸
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  snow_golem:
+    mythic-id: ChAcademiaWildSnowGolem
+    vanilla-type: SNOW_GOLEM
+    pet-id: chacademia_snow_golem
+    name: 눈 골렘
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  ocelot:
+    mythic-id: ChAcademiaWildOcelot
+    vanilla-type: OCELOT
+    pet-id: chacademia_ocelot
+    name: 오실롯
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  iron_golem:
+    mythic-id: ChAcademiaWildIronGolem
+    vanilla-type: IRON_GOLEM
+    pet-id: chacademia_iron_golem
+    name: 철 골렘
+    boss: false
+    chance: 0.08
+    low-health-bonus: 0.07
+    model-scale: 0.8
+  horse:
+    mythic-id: ChAcademiaWildHorse
+    vanilla-type: HORSE
+    pet-id: chacademia_horse
+    name: 말
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  polar_bear:
+    mythic-id: ChAcademiaWildPolarBear
+    vanilla-type: POLAR_BEAR
+    pet-id: chacademia_polar_bear
+    name: 북극곰
+    boss: false
+    chance: 0.18
+    low-health-bonus: 0.12
+    model-scale: 0.8
+  llama:
+    mythic-id: ChAcademiaWildLlama
+    vanilla-type: LLAMA
+    pet-id: chacademia_llama
+    name: 라마
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  parrot:
+    mythic-id: ChAcademiaWildParrot
+    vanilla-type: PARROT
+    pet-id: chacademia_parrot
+    name: 앵무새
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  villager:
+    mythic-id: ChAcademiaWildVillager
+    vanilla-type: VILLAGER
+    pet-id: chacademia_villager
+    name: 주민
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  turtle:
+    mythic-id: ChAcademiaWildTurtle
+    vanilla-type: TURTLE
+    pet-id: chacademia_turtle
+    name: 거북
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  phantom:
+    mythic-id: ChAcademiaWildPhantom
+    vanilla-type: PHANTOM
+    pet-id: chacademia_phantom
+    name: 팬텀
+    boss: false
+    chance: 0.12
+    low-health-bonus: 0.08
+    model-scale: 0.8
+  cod:
+    mythic-id: ChAcademiaWildCod
+    vanilla-type: COD
+    pet-id: chacademia_cod
+    name: 대구
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.4
+  salmon:
+    mythic-id: ChAcademiaWildSalmon
+    vanilla-type: SALMON
+    pet-id: chacademia_salmon
+    name: 연어
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.4
+  pufferfish:
+    mythic-id: ChAcademiaWildPufferfish
+    vanilla-type: PUFFERFISH
+    pet-id: chacademia_pufferfish
+    name: 복어
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.4
+  tropical_fish:
+    mythic-id: ChAcademiaWildTropicalFish
+    vanilla-type: TROPICAL_FISH
+    pet-id: chacademia_tropical_fish
+    name: 열대어
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.4
+  drowned:
+    mythic-id: ChAcademiaWildDrowned
+    vanilla-type: DROWNED
+    pet-id: chacademia_drowned
+    name: 드라운드
+    boss: false
+    chance: 0.2
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  dolphin:
+    mythic-id: ChAcademiaWildDolphin
+    vanilla-type: DOLPHIN
+    pet-id: chacademia_dolphin
+    name: 돌고래
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  cat:
+    mythic-id: ChAcademiaWildCat
+    vanilla-type: CAT
+    pet-id: chacademia_cat
+    name: 고양이
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  panda:
+    mythic-id: ChAcademiaWildPanda
+    vanilla-type: PANDA
+    pet-id: chacademia_panda
+    name: 판다
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  pillager:
+    mythic-id: ChAcademiaWildPillager
+    vanilla-type: PILLAGER
+    pet-id: chacademia_pillager
+    name: 약탈자
+    boss: false
+    chance: 0.2
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  ravager:
+    mythic-id: ChAcademiaWildRavager
+    vanilla-type: RAVAGER
+    pet-id: chacademia_ravager
+    name: 파괴수
+    boss: false
+    chance: 0.02
+    low-health-bonus: 0.02
+    model-scale: 0.8
+  trader_llama:
+    mythic-id: ChAcademiaWildTraderLlama
+    vanilla-type: TRADER_LLAMA
+    pet-id: chacademia_trader_llama
+    name: 상인 라마
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  wandering_trader:
+    mythic-id: ChAcademiaWildWanderingTrader
+    vanilla-type: WANDERING_TRADER
+    pet-id: chacademia_wandering_trader
+    name: 떠돌이 상인
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  bee:
+    mythic-id: ChAcademiaWildBee
+    vanilla-type: BEE
+    pet-id: chacademia_bee
+    name: 꿀벌
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.4
+  hoglin:
+    mythic-id: ChAcademiaWildHoglin
+    vanilla-type: HOGLIN
+    pet-id: chacademia_hoglin
+    name: 호글린
+    boss: false
+    chance: 0.12
+    low-health-bonus: 0.08
+    model-scale: 0.8
+  piglin:
+    mythic-id: ChAcademiaWildPiglin
+    vanilla-type: PIGLIN
+    pet-id: chacademia_piglin
+    name: 피글린
+    boss: false
+    chance: 0.2
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  strider:
+    mythic-id: ChAcademiaWildStrider
+    vanilla-type: STRIDER
+    pet-id: chacademia_strider
+    name: 스트라이더
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  zoglin:
+    mythic-id: ChAcademiaWildZoglin
+    vanilla-type: ZOGLIN
+    pet-id: chacademia_zoglin
+    name: 조글린
+    boss: false
+    chance: 0.1
+    low-health-bonus: 0.08
+    model-scale: 0.8
+  piglin_brute:
+    mythic-id: ChAcademiaWildPiglinBrute
+    vanilla-type: PIGLIN_BRUTE
+    pet-id: chacademia_piglin_brute
+    name: 피글린 야수
+    boss: false
+    chance: 0.06
+    low-health-bonus: 0.06
+    model-scale: 0.8
+  axolotl:
+    mythic-id: ChAcademiaWildAxolotl
+    vanilla-type: AXOLOTL
+    pet-id: chacademia_axolotl
+    name: 아홀로틀
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  glow_squid:
+    mythic-id: ChAcademiaWildGlowSquid
+    vanilla-type: GLOW_SQUID
+    pet-id: chacademia_glow_squid
+    name: 발광 오징어
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  goat:
+    mythic-id: ChAcademiaWildGoat
+    vanilla-type: GOAT
+    pet-id: chacademia_goat
+    name: 염소
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  allay:
+    mythic-id: ChAcademiaWildAllay
+    vanilla-type: ALLAY
+    pet-id: chacademia_allay
+    name: 알레이
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  frog:
+    mythic-id: ChAcademiaWildFrog
+    vanilla-type: FROG
+    pet-id: chacademia_frog
+    name: 개구리
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  tadpole:
+    mythic-id: ChAcademiaWildTadpole
+    vanilla-type: TADPOLE
+    pet-id: chacademia_tadpole
+    name: 올챙이
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.4
+  warden:
+    mythic-id: ChAcademiaWildWarden
+    vanilla-type: WARDEN
+    pet-id: chacademia_warden
+    name: 워든
+    boss: true
+    chance: 0.002
+    low-health-bonus: 0
+    model-scale: 0.8
+  camel:
+    mythic-id: ChAcademiaWildCamel
+    vanilla-type: CAMEL
+    pet-id: chacademia_camel
+    name: 낙타
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  sniffer:
+    mythic-id: ChAcademiaWildSniffer
+    vanilla-type: SNIFFER
+    pet-id: chacademia_sniffer
+    name: 스니퍼
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  breeze:
+    mythic-id: ChAcademiaWildBreeze
+    vanilla-type: BREEZE
+    pet-id: chacademia_breeze
+    name: 브리즈
+    boss: false
+    chance: 0.08
+    low-health-bonus: 0.07
+    model-scale: 0.8
+  armadillo:
+    mythic-id: ChAcademiaWildArmadillo
+    vanilla-type: ARMADILLO
+    pet-id: chacademia_armadillo
+    name: 아르마딜로
+    boss: false
+    chance: 0.45
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  bogged:
+    mythic-id: ChAcademiaWildBogged
+    vanilla-type: BOGGED
+    pet-id: chacademia_bogged
+    name: 보그드
+    boss: false
+    chance: 0.2
+    low-health-bonus: 0.25
+    model-scale: 0.8
+  creaking:
+    mythic-id: ChAcademiaWildCreaking
+    vanilla-type: CREAKING
+    pet-id: chacademia_creaking
+    name: 크리킹
+    boss: false
+    chance: 0.05
+    low-health-bonus: 0.05
+    model-scale: 0.8

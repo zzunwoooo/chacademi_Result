@@ -1,0 +1,16 @@
+id: sponge_drying
+name: 스펀지 말리기
+category: fire
+description: 손에 든 젖은 스펀지 하나를 말립니다.
+icon: magiccodex:textures/spells/expansion_2/sponge_drying.png
+permission: magic.learned.sponge_drying
+discovery:
+  description: 젖은 스펀지 획득
+research: '세상은 넓고 마법은 다양하다.
+
+  어딘가에 쓰임새가 있겠지.'
+cast:
+  command: 마법 sponge_drying
+  cooldown-seconds: 15
+  mana-cost: 30
+order: 60

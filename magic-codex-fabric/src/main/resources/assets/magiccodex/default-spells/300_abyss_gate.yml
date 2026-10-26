@@ -1,0 +1,14 @@
+id: abyss_gate
+name: 심연의 문
+category: dark
+description: 3초 동안 영창하면 조준한 곳에 거대한 심연의 문이 8초 동안 열립니다. 주변의 적은 문 쪽으로 끌려가고, 문이 닫힐 때 큰 피해를 입고 잠듭니다.
+icon: ''
+permission: magic.learned.abyss_gate
+discovery:
+  description: 어둠 마법 30종 습득하기.
+research: ''
+cast:
+  command: 마법 abyss_gate
+  cooldown-seconds: 900
+  mana-cost: 600
+order: 300

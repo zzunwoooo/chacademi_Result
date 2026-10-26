@@ -1,0 +1,14 @@
+id: loosen_grasp
+name: 손아귀 풀기
+category: dark
+description: 플레이어의 손에 든 칸을 다른 칸으로 바꿔 버리거나, 몬스터를 4초 동안 침묵시킵니다.
+icon: magiccodex:textures/spells/expansion_2/loosen_grasp.png
+permission: magic.learned.loosen_grasp
+discovery:
+  description: 도서관에서 「손아귀를 푸는 법」 책 읽기.
+research: 손에서 힘이 빠지는 그 짧은 순간이면 충분하다.
+cast:
+  command: 마법 loosen_grasp
+  cooldown-seconds: 20
+  mana-cost: 60
+order: 273

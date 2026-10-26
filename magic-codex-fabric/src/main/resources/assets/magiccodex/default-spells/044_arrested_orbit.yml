@@ -1,0 +1,14 @@
+id: arrested_orbit
+name: 퍼붓는 화살
+category: wind
+description: 플레이어 주변에 바람 화살 5개를 소환한 뒤 빠르게 순서대로 발사합니다.
+icon: magiccodex:textures/spells/expansion_2/arrested_orbit.png
+permission: magic.learned.arrested_orbit
+discovery:
+  description: 하르바 교수의 바람 마법 고급 수업 듣기.
+research: 허공에 붙잡아 둔 다섯 줄기의 바람이 풀려나자, 압축된 화살이 소리를 가르며 쏟아졌다.
+cast:
+  command: 마법 arrested_orbit
+  cooldown-seconds: 20
+  mana-cost: 200
+order: 44

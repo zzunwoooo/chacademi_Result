@@ -1,0 +1,15 @@
+id: feather_storm
+name: 깃털 폭풍
+category: wind
+description: 날카로운 깃털 칼날을 몸 둘레로 휘몰아쳐 주변 적을 벱니다.
+# Existing icon reused from thorn_seeds; dedicated mob-skill artwork was not supplied.
+icon: magiccodex:textures/spells/mob_skill/feather_storm.png
+permission: magic.learned.feather_storm
+discovery:
+  description: 히포그리프를 처치하면 5% 확률로 습득합니다.
+research: 히포그리프의 깃털은 떨어지지 않는다. 날아간다.
+cast:
+  command: 마법 feather_storm
+  cooldown-seconds: 12
+  mana-cost: 35
+order: 23

@@ -1,0 +1,14 @@
+id: moist_farmland
+name: 촉촉한 밭
+category: water
+description: 최대 9칸의 경작지를 적십니다.
+icon: magiccodex:textures/spells/expansion_2/moist_farmland.png
+permission: magic.learned.moist_farmland
+discovery:
+  description: 마른 경작지에 씨앗을 20번 심기.
+research: 갈라진 흙이 먼저 목마르다고 말하고 있었다.
+cast:
+  command: 마법 moist_farmland
+  cooldown-seconds: 10
+  mana-cost: 15
+order: 113

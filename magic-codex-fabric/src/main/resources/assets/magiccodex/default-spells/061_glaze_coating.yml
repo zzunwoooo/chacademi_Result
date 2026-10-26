@@ -1,0 +1,14 @@
+id: glaze_coating
+name: 화염의 정복자
+category: fire
+description: 슬롯에 장착한 동안 화염 지속 피해에 면역이 됩니다. 슬롯에서 해제하면 효과가 종료됩니다.
+icon: magiccodex:textures/spells/expansion_2/glaze_coating.png
+permission: magic.learned.glaze_coating
+discovery:
+  description: 불에 타는 피해를 누적 100만큼 받기.
+research: 자신이 시전하는 화염 마법에 상처입을 순 없는법이지
+cast:
+  command: 마법 glaze_coating
+  cooldown-seconds: 0
+  mana-cost: 0
+order: 61

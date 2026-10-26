@@ -1,0 +1,14 @@
+id: incandescent_break
+name: 파이어 스트라이크
+category: fire
+description: 소닉붐을 동반한 짧은 화염 레이저로 공격하고 방패를 잠시 무력화합니다.
+icon: magiccodex:textures/spells/expansion_2/incandescent_break.png
+permission: magic.learned.incandescent_break
+discovery:
+  description: 세드릭 교수의 화염 마법 고급 수업 듣기.
+research: 화염은 내부를 직접 타격하기 떄문에, 방패에 막히지 않는다.
+cast:
+  command: 마법 incandescent_break
+  cooldown-seconds: 60
+  mana-cost: 180
+order: 86

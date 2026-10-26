@@ -1,0 +1,14 @@
+id: bee_calm
+name: 벌떼 달래기
+category: earth
+description: 주변의 화난 벌을 진정시킵니다. 진정된 벌을 다시 공격하면 다시 화를 냅니다.
+icon: magiccodex:textures/spells/expansion/bee_calm.png
+permission: magic.learned.bee_calm
+discovery:
+  description: 꽃을 든 상태에서 벌을 5회 번식시킵니다.
+research: 벌에게 사과하는 주문은 아니다. 꿀을 훔친 사실까지 잊어 주지는 않는다.
+cast:
+  command: 마법 bee_calm
+  cooldown-seconds: 15
+  mana-cost: 15
+order: 160

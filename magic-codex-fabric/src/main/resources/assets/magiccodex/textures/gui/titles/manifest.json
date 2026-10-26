@@ -1,0 +1,310 @@
+{
+  "version": 1,
+  "sprites": {
+    "main-panel.png": {
+      "size": [
+        1402,
+        1122
+      ],
+      "sourceRect": [
+        31,
+        29,
+        1343,
+        1045
+      ],
+      "alphaRange": [
+        0,
+        255
+      ],
+      "sha256": "70c7e2100172d921df58bd226974007235d5058a79189eea50e8b8d2af06856e"
+    },
+    "name-preview.png": {
+      "size": [
+        2021,
+        778
+      ],
+      "sourceRect": [
+        40,
+        217,
+        1941,
+        342
+      ],
+      "alphaRange": [
+        0,
+        254
+      ],
+      "sha256": "578d597e8705697c7d3f8599d0edd26d2e3f73100bfb84722f49910be04f711d"
+    },
+    "list-panel.png": {
+      "size": [
+        1303,
+        1207
+      ],
+      "sourceRect": [
+        29,
+        36,
+        1245,
+        1133
+      ],
+      "alphaRange": [
+        0,
+        255
+      ],
+      "sha256": "5b85f98594345f9760bf8e9398cf6ce07ba0606f9de876aa88e2c15fb9172469"
+    },
+    "apply-button.png": {
+      "size": [
+        2079,
+        756
+      ],
+      "sourceRect": [
+        38,
+        192,
+        2002,
+        337
+      ],
+      "alphaRange": [
+        0,
+        254
+      ],
+      "sha256": "4a329bf178315ab4430542bc5621cd003b182a1b187464965332a6ea762af041"
+    },
+    "row-normal.png": {
+      "size": [
+        852,
+        104
+      ],
+      "sourceRect": [
+        0,
+        0,
+        852,
+        104
+      ],
+      "sha256": "853830767a362c4cbb3876308f02db5aca410e6f0c8800446f52c6112af50358"
+    },
+    "row-selected.png": {
+      "size": [
+        852,
+        104
+      ],
+      "sourceRect": [
+        0,
+        0,
+        852,
+        104
+      ],
+      "sha256": "d4dc5ea9360e3e62153379b6e498159b5ca63a36303ad7fbaad65844122b5b0f"
+    },
+    "selected-value.png": {
+      "size": [
+        540,
+        96
+      ],
+      "sourceRect": [
+        0,
+        0,
+        540,
+        96
+      ],
+      "sha256": "20ac4e1271f904095a073beabddedc5306644927e1787617c8917690da9b7992"
+    },
+    "check.png": {
+      "size": [
+        48,
+        48
+      ],
+      "sourceRect": [
+        0,
+        0,
+        48,
+        48
+      ],
+      "sha256": "3d4e82851e4bc82a9257769686d0703276ef0b738fdd5c4254b63cc077a44a36"
+    },
+    "close.png": {
+      "size": [
+        84,
+        84
+      ],
+      "sourceRect": [
+        0,
+        0,
+        84,
+        84
+      ],
+      "sha256": "2823639e49cbf68298ab130cd33f96deebd5c9f3d86d44f0236f45872c45f1a5"
+    },
+    "divider.png": {
+      "size": [
+        852,
+        20
+      ],
+      "sourceRect": [
+        0,
+        0,
+        852,
+        20
+      ],
+      "sha256": "3a948be30cb2e09bd6a71b6b5c1f9bda221eb467f32493ad7e8845520deb35aa"
+    },
+    "scrollbar-track.png": {
+      "size": [
+        14,
+        584
+      ],
+      "sourceRect": [
+        0,
+        0,
+        14,
+        584
+      ],
+      "sha256": "c9ba455d52692abdc225768d47da13ec7889184f524acd8845f2efc690516f42"
+    },
+    "scrollbar-thumb.png": {
+      "size": [
+        14,
+        400
+      ],
+      "sourceRect": [
+        0,
+        0,
+        14,
+        400
+      ],
+      "sha256": "e6d4d6f30eca6ca7352fc23b2db634ae41f9861f949b2a89d6124ff810be6326"
+    }
+  },
+  "layout": {
+    "size": [
+      1080,
+      880
+    ],
+    "main": [
+      0,
+      0,
+      1080,
+      880
+    ],
+    "namePreview": [
+      38,
+      96,
+      1004,
+      152
+    ],
+    "prefixPanel": [
+      38,
+      266,
+      492,
+      456
+    ],
+    "suffixPanel": [
+      550,
+      266,
+      492,
+      456
+    ],
+    "prefixSelected": [
+      148,
+      324,
+      270,
+      48
+    ],
+    "suffixSelected": [
+      660,
+      324,
+      270,
+      48
+    ],
+    "rows": {
+      "prefixX": 64,
+      "suffixX": 576,
+      "y": 416,
+      "width": 426,
+      "height": 52,
+      "gap": 8,
+      "visible": 5,
+      "textInset": 24,
+      "checkInset": 24
+    },
+    "scrollbars": {
+      "prefixX": 506,
+      "suffixX": 1018,
+      "y": 416,
+      "height": 292,
+      "width": 7
+    },
+    "apply": [
+      352,
+      780,
+      376,
+      66
+    ],
+    "close": [
+      999,
+      24,
+      42,
+      42
+    ],
+    "titleCenter": [
+      540,
+      68
+    ],
+    "previewLabelCenter": [
+      540,
+      129
+    ],
+    "composedNameCenter": [
+      540,
+      185
+    ],
+    "prefixHeadingCenter": [
+      284,
+      298
+    ],
+    "suffixHeadingCenter": [
+      796,
+      298
+    ],
+    "prefixDivider": [
+      64,
+      392,
+      426,
+      10
+    ],
+    "suffixDivider": [
+      576,
+      392,
+      426,
+      10
+    ],
+    "footerDivider": [
+      160,
+      752,
+      760,
+      10
+    ]
+  },
+  "rendering": {
+    "skinOpacity": 0.85,
+    "textOpacity": 1,
+    "buttonOpacity": 1,
+    "font": "existing Jamsil heading / Pretendard body",
+    "dynamicNameMaxWidth": 900,
+    "nameMinFont": 24,
+    "galaxyDriftSeconds": 24,
+    "glowPulseSeconds": 4.5,
+    "reducedMotionSupported": true
+  },
+  "nicknameBinding": {
+    "placeholder": "%user_nickname%",
+    "setting": "display-name-placeholder",
+    "resolver": "school.magiccodex.paper.DisplayNames.name(Player)",
+    "provider": "plugins/Skript/scripts/nameset.sk",
+    "providerPrefix": "user",
+    "providerIdentifier": "nickname",
+    "verified": true,
+    "serverAuthoritative": true,
+    "previewNickname": "차카"
+  },
+  "scope": "PNG and local interactive design preview only; title ownership/storage/network and PAPI output expansion not yet implemented"
+}

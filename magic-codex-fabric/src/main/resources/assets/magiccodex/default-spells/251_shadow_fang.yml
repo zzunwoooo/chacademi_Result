@@ -1,0 +1,14 @@
+id: shadow_fang
+name: 그림자 송곳니
+category: dark
+description: 조준한 적의 발밑 그림자에서 날카로운 송곳니가 솟아올라 물어뜯습니다.
+icon: ''
+permission: magic.learned.shadow_fang
+discovery:
+  description: 밤에 몬스터 30마리 처치하기.
+research: ''
+cast:
+  command: 마법 shadow_fang
+  cooldown-seconds: 4
+  mana-cost: 6
+order: 251

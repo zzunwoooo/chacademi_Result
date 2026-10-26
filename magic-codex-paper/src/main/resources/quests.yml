@@ -1,0 +1,99 @@
+# Each backend uses the same database.properties. Change this local identifier per server.
+# Editing here does not affect other servers until /퀘스트관리 파일반영 publishes the catalog.
+server-id: school
+quests:
+  field_patrol:
+    rank: E
+    completion-limit: 3
+    opens-at: ''
+    title: 야생 순찰
+    description: 북쪽 숲에 나타난 좀비를 처치해 줄 아카데미 학생을 구합니다. 해가 지면 숲길이 위험해지니, 동료와 함께 순찰해 주세요.
+    enabled: true
+    daily: false
+    objectives:
+      - type: KILL
+        target: ZOMBIE
+        amount: 10
+        label: 좀비 처치
+        server: ''
+        world: ''
+    reward:
+      house-points: 0
+      money: 0
+      label: ''
+      items: ['EMERALD:3']
+      commands: []
+  kitchen_supplies:
+    rank: F
+    completion-limit: 5
+    opens-at: ''
+    title: 식당 재료 납품
+    description: 새 학기를 맞아 식당이 분주합니다. 따뜻한 빵을 구울 수 있도록 질 좋은 밀을 모아 올 학생을 찾습니다.
+    enabled: true
+    daily: false
+    objectives:
+      - type: SUBMIT
+        target: WHEAT
+        amount: 32
+        label: 밀 제출
+    reward:
+      house-points: 0
+      money: 0
+      label: ''
+      items: ['EMERALD:2']
+      commands: []
+  meet_librarian:
+    rank: D
+    completion-limit: 1
+    opens-at: ''
+    title: 사서 선생님 만나기
+    description: 오래된 서가에서 낯선 문양의 책이 발견되었습니다. 도서관의 사서 선생님을 찾아 이야기를 들어 보세요.
+    enabled: false
+    daily: false
+    objectives:
+      - type: NPC
+        target: '1'
+        amount: 1
+        label: 사서 선생님과 대화
+        server: school
+    reward:
+      house-points: 0
+      money: 0
+      label: ''
+      items: ['EMERALD:1']
+  explore_forest:
+    rank: C
+    completion-limit: 2
+    opens-at: ''
+    title: 숲 현장 조사
+    description: 약초학 연구실에서 숲의 변화를 조사하고 있습니다. 울창한 숲을 직접 방문해 현장의 기운을 살펴봐 주세요.
+    enabled: true
+    daily: false
+    objectives:
+      - type: BIOME
+        target: minecraft:forest
+        amount: 1
+        label: 숲 방문
+    reward:
+      house-points: 0
+      money: 0
+      label: ''
+      items: ['EMERALD:2']
+  custom_hunt:
+    rank: A
+    completion-limit: 1
+    opens-at: ''
+    title: 유적 수호자 조사
+    description: 옛 유적의 수호자가 다시 움직이기 시작했습니다. 용기 있는 학생은 유적을 조사하고 위협을 막아 주세요.
+    enabled: false
+    daily: false
+    objectives:
+      - type: MYTHIC_KILL
+        target: YOUR_MYTHIC_ID
+        amount: 1
+        label: 수호자 처치
+    reward:
+      house-points: 0
+      money: 0
+      label: ''
+      items: ['EMERALD:5']

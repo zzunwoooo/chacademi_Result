@@ -1,0 +1,14 @@
+id: light_step
+name: 사뿐한 발걸음
+category: wind
+description: 발걸음을 깃털처럼 가볍게 합니다. 10분 동안 밭을 밟아도 흙이 망가지지 않고, 거미줄이나 가루눈, 가시 덤불에도 발이 묶이지 않습니다.
+icon: ''
+permission: magic.learned.light_step
+discovery:
+  description: 농지를 밟아 흙으로 10번 망가뜨리기.
+research: ''
+cast:
+  command: 마법 light_step
+  cooldown-seconds: 60
+  mana-cost: 20
+order: 14

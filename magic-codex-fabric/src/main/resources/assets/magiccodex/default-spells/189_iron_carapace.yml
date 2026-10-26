@@ -1,0 +1,14 @@
+id: iron_carapace
+name: 철의 외피
+category: earth
+description: 20초 동안 저항 효과를 부여합니다. 이동 속도 페널티는 제거합니다.
+icon: magiccodex:textures/spells/expansion/iron_carapace.png
+permission: magic.learned.iron_carapace
+discovery:
+  description: 철 갑옷 한 벌(4부위)을 입고 몬스터에게 누적 100의 피해 받기.
+research: 몸을 강철처럼 만들 수는 있지만 강철의 무게까지 없앨 수는 없다.
+cast:
+  command: 마법 iron_carapace
+  cooldown-seconds: 30
+  mana-cost: 150
+order: 189

@@ -1,0 +1,14 @@
+id: flame_leap
+name: 블레이즈 킥
+category: fire
+description: 불꽃을 휘감은 회전 발차기로 적을 공격합니다.
+icon: magiccodex:textures/spells/expansion/flame_leap.png
+permission: magic.learned.flame_leap
+discovery:
+  description: 도서관에서 '체술강화' 책을 읽기.
+research: 체내의 열을 끌어올리면 마법사의 몸으로도 격투가의 체술을 흉내낼 수 있게 된다.
+cast:
+  command: 마법 flame_leap
+  cooldown-seconds: 30
+  mana-cost: 230
+order: 85

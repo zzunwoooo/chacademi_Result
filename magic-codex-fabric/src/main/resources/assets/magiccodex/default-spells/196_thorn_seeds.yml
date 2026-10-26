@@ -1,0 +1,14 @@
+id: thorn_seeds
+name: 가시 씨앗
+category: earth
+description: 선인장 가시 5발을 부채꼴로 동시에 발사합니다. 고위 마법에 어울리는 화려한 연출을 사용합니다.
+icon: magiccodex:textures/spells/expansion_2/thorn_seeds.png
+permission: magic.learned.thorn_seeds
+discovery:
+  description: 선인장을 누적 100개 수확합니다.
+research: 씨앗을 심으라고 받은 것인지 발사하라고 받은 것인지, 실습 전에 확인하자.
+cast:
+  command: 마법 thorn_seeds
+  cooldown-seconds: 80
+  mana-cost: 350
+order: 196

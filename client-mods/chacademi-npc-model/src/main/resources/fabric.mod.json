@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "id": "chacademi_npc_model",
+  "version": "${version}",
+  "name": "Chacademi NPC Model",
+  "description": "차카데미 Citizens NPC 외형을 리깅된 3D 모델(GLB)로 그립니다. 모델이 없거나 실패하면 원래 외형 그대로.",
+  "authors": ["Chacademy"],
+  "license": "All-Rights-Reserved",
+  "environment": "client",
+  "entrypoints": { "client": ["kr.chacademi.npcmodel.NpcModelClient"] },
+  "depends": { "fabricloader": ">=0.16.10", "minecraft": "~1.21.4", "java": ">=21", "fabric-api": "*" },
+  "mixins": ["chacademi_npc_model.mixins.json"]
+}

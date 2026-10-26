@@ -1,0 +1,6 @@
+name: ChAcademiaMagicMythic
+version: '${version}'
+main: school.chacademia.magicmythic.MagicMythicPlugin
+api-version: '1.21.4'
+depend: [MythicMobs, WorldGuard]
+softdepend: [MagicCodexBridge, ChacademyMotion, PortableVFX, ItemsAdder]

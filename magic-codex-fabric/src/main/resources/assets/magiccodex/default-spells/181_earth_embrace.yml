@@ -1,0 +1,14 @@
+id: earth_embrace
+name: 대지의 품
+category: earth
+description: 전방 일렬 5칸에서 더위 때문에 말라 버린 작물을 되살립니다.
+icon: magiccodex:textures/spells/expansion_2/earth_embrace.png
+permission: magic.learned.earth_embrace
+discovery:
+  description: 작물을 누적 100회 수확합니다.
+research: 뜨거운 볕에 고개를 숙인 줄기에도 생명은 남아 있었다. 뿌리 깊이 잠든 대지의 숨결을 깨우자, 메마른 잎이 다시 펼쳐졌다.
+cast:
+  command: 마법 earth_embrace
+  cooldown-seconds: 15
+  mana-cost: 60
+order: 181

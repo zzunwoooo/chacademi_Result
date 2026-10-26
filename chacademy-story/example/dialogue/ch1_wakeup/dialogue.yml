@@ -1,0 +1,52 @@
+format: 1
+id: ch1_wakeup
+title: "1장 · 깨어남"
+start: wake
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  teacher:
+    name: "마중 선생님"
+    npc: teacher
+    portraits:
+      기본: teacher_normal.png
+      웃음: teacher_smile.png
+      걱정: teacher_worry.png
+scenes:
+  wake:
+    lines:
+      - {who: me, text: "으으… 여기는…?"}
+      - {who: me, text: "뭐였지… 꿈? 그것보다 나는…"}
+      - {who: teacher, face: 기본, text: "아, 여기 있었구먼! 혹시 {player} 씨 맞소?"}
+      - {who: teacher, face: 걱정, text: "…근데 안색이 영 안 좋구먼. 어디 아픈 거 아니오?"}
+    choices:
+      - {text: "괜찮아요, 잠깐 어지러웠어요.", to: fine, affinity: [{npc: teacher, add: 2}], event: c_wake_1}
+      - {text: "이상한 꿈을 꿨어요.", to: dream, event: told_dream}
+      - text: "선생님 덕분에 살았어요!"
+        to: close
+        need: {npc: teacher, min: 50}
+  fine:
+    lines:
+      - {who: teacher, face: 웃음, text: "하하, 입학 전날엔 다들 잠을 설치지. 걸으면서 바람 좀 쐽시다."}
+    next: go
+  dream:
+    lines:
+      - {who: teacher, face: 걱정, text: "꿈이라… 마법학교 근처에선 가끔 그런다오."}
+      - {who: teacher, face: 기본, text: "오래된 마력이 많이 고여 있는 땅이라. 신경 쓰지 마시오."}
+    next: go
+  close:
+    lines:
+      - {who: teacher, face: 웃음, text: "허허, 넉살도 좋구먼. 마음에 드오!"}
+    next: go
+  go:
+    redirect:
+      - {npc: teacher, min: 60, to: go_friend}
+    lines:
+      - {who: teacher, face: 기본, text: "자, 학교까지는 저 언덕을 넘어야 하오. 따라오시오."}
+  go_friend:
+    lines:
+      - {who: teacher, face: 웃음, text: "자, 같이 갑시다. 오늘은 내가 특별히 지름길로 안내하지!"}

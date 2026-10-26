@@ -1,0 +1,1187 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+</head>
+<body>
+<title>차카데미 컷신 편집기</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
+<style>
+/* 편집실 레이아웃: 왼쪽 장면 목록 · 가운데 무대와 타임라인 · 오른쪽 속성. 좁으면 위아래로 쌓임 */
+:root{
+  --bg:#eceae6; --panel:#f8f7f4; --sunk:#e2dfd9; --line:#cfcac1; --fg:#1d1b18; --muted:#6a645a;
+  --accent:#2f4b7c; --accent-soft:#dbe2ef; --warn:#9a5b00; --warn-soft:#f6e7cc; --danger:#a1332b;
+  --stage:#0b0b0b; --parch:#efe3c8;
+  --ui:"IBM Plex Sans KR",system-ui,-apple-system,"Malgun Gothic",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  --sub:"CNM","IBM Plex Sans KR",serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#131416; --panel:#1b1d20; --sunk:#101113; --line:#2e3136; --fg:#e8e5de; --muted:#9c978d;
+  --accent:#93acd9; --accent-soft:#25324a; --warn:#e3b35f; --warn-soft:#3a2f1a; --danger:#e2847b; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#131416; --panel:#1b1d20; --sunk:#101113; --line:#2e3136; --fg:#e8e5de; --muted:#9c978d;
+  --accent:#93acd9; --accent-soft:#25324a; --warn:#e3b35f; --warn-soft:#3a2f1a; --danger:#e2847b; color-scheme:dark}
+@font-face{font-family:"CNM";src:url(fonts/cnm_l.woff) format("woff");font-weight:300;font-display:swap}
+@font-face{font-family:"CNM";src:url(fonts/cnm_m.woff) format("woff");font-weight:400;font-display:swap}
+@font-face{font-family:"CNM";src:url(fonts/cnm_b.woff) format("woff");font-weight:700;font-display:swap}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--fg);font:14px/1.5 var(--ui);margin:0}
+.app{display:grid;grid-template-rows:auto 1fr;min-height:100%;padding-inline:16px;padding-block:0 16px;gap:12px}
+header{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding-block:12px;border-bottom:1px solid var(--line)}
+header h1{font-size:15px;font-weight:600;margin:0;letter-spacing:.01em}
+header .id{font-family:var(--mono);font-size:12px;color:var(--muted)}
+header .sp{flex:1}
+.status{font-size:12px;color:var(--muted)}
+button,.btn{font:inherit;font-size:13px;color:var(--fg);background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:6px 11px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+button:hover,.btn:hover{border-color:var(--muted)}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,.btn:focus-within{outline:2px solid var(--accent);outline-offset:1px}
+button.primary{background:var(--accent);border-color:var(--accent);color:var(--panel)}
+button.ghost{background:transparent;border-color:transparent}
+button.ghost:hover{border-color:var(--line)}
+button.danger{color:var(--danger)}
+button.on{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+button:disabled{opacity:.45;cursor:default}
+.btn input{display:none}
+.work{display:grid;grid-template-columns:200px minmax(0,1fr) 330px;gap:12px;min-height:0}
+@media (max-width:1100px){.work{grid-template-columns:170px minmax(0,1fr)}.insp{grid-column:1/-1}}
+@media (max-width:700px){.work{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;min-width:0}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 12px;border-bottom:1px solid var(--line)}
+.ph h2{font-size:12px;font-weight:600;margin:0;letter-spacing:.06em;color:var(--muted)}
+.scenes{display:flex;flex-direction:column}
+.slist{list-style:none;margin:0;padding:8px;display:flex;flex-direction:column;gap:6px;overflow:auto;max-height:calc(100vh - 170px)}
+@media (max-width:700px){.slist{flex-direction:row;max-height:none}}
+.sitem{display:grid;grid-template-columns:auto 1fr;gap:4px 8px;align-items:center;padding:6px;border:1px solid transparent;border-radius:6px;cursor:pointer;min-width:150px}
+.sitem:hover{background:var(--sunk)}
+.sitem.sel{border-color:var(--accent);background:var(--accent-soft)}
+.sitem canvas{grid-row:1/3;width:64px;height:36px;border-radius:3px;background:var(--stage);display:block}
+.sitem b{font-size:12px;font-weight:600}
+.sitem small{font-size:11px;color:var(--muted);font-family:var(--mono)}
+.sbar{display:flex;gap:6px;padding:8px;border-top:1px solid var(--line);flex-wrap:wrap}
+.center{display:flex;flex-direction:column;gap:10px;min-width:0}
+.stagewrap{position:relative;background:var(--stage);border-radius:8px;overflow:hidden;aspect-ratio:16/9;max-width:100%}
+.stagewrap canvas{width:100%;height:100%;display:block}
+.stagewrap.edit{cursor:crosshair}
+.drop{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:rgba(47,75,124,.55);color:#fff;font-size:15px}
+.stagewrap.dragging .drop{display:flex}
+.controls{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.time{font-family:var(--mono);font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;min-width:110px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.seg button{border:0;border-radius:0}
+.seg button+button{border-left:1px solid var(--line)}
+.timeline{position:relative;height:58px;background:var(--panel);border:1px solid var(--line);border-radius:8px;overflow:hidden;cursor:pointer;user-select:none}
+.tl-scene{position:absolute;top:0;bottom:0;border-right:1px solid var(--line);padding:4px 6px;font-size:11px;color:var(--muted);overflow:hidden;white-space:nowrap}
+.tl-scene.sel{background:var(--accent-soft)}
+.tl-line{position:absolute;bottom:8px;height:14px;background:var(--parch);border:1px solid #b9a77f;border-radius:3px}
+.tl-trans{position:absolute;top:22px;height:6px;background:var(--accent);opacity:.5;border-radius:3px}
+.tl-head{position:absolute;top:0;bottom:0;width:2px;background:var(--danger);pointer-events:none}
+.hint{font-size:12px;color:var(--muted);margin:0}
+.insp{display:flex;flex-direction:column;gap:12px;min-width:0}
+.sec{padding:12px;display:flex;flex-direction:column;gap:10px}
+.row{display:grid;grid-template-columns:96px minmax(0,1fr);align-items:center;gap:8px}
+.row label,.lbl{font-size:12px;color:var(--muted)}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+input[type=text],input[type=number],select,textarea{font:inherit;font-size:13px;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:5px 7px;width:100%;min-width:0}
+input[type=number]{font-family:var(--mono);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.rng{display:grid;grid-template-columns:minmax(0,1fr) 68px;gap:8px;align-items:center}
+.frames{display:flex;flex-wrap:wrap;gap:6px}
+.frame{position:relative;width:76px}
+.frame canvas{width:76px;height:43px;border-radius:4px;display:block;background:var(--stage)}
+.frame .fx{display:flex;justify-content:space-between;margin-top:2px}
+.frame .fx button{padding:0 5px;font-size:11px;border:0;background:transparent;color:var(--muted)}
+.frame .fx button:hover{color:var(--fg)}
+.frame small{position:absolute;left:4px;top:2px;font-size:10px;color:#fff;font-family:var(--mono);text-shadow:0 0 3px #000}
+.lines{display:flex;flex-direction:column;gap:8px}
+.line{display:grid;grid-template-columns:minmax(0,1fr) 62px 62px 28px;gap:6px;align-items:start}
+.line textarea{resize:vertical;min-height:34px;font-family:var(--sub);font-style:italic}
+.line .del{padding:4px 0;justify-content:center;border:0;background:transparent;color:var(--muted)}
+.line .del:hover{color:var(--danger)}
+.lhead{display:grid;grid-template-columns:minmax(0,1fr) 62px 62px 28px;gap:6px;font-size:11px;color:var(--muted)}
+.warns{display:flex;flex-direction:column;gap:4px}
+.warn{font-size:12px;background:var(--warn-soft);color:var(--warn);padding:5px 8px;border-radius:5px}
+details>summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;padding:9px 12px;font-size:12px;font-weight:600;letter-spacing:.06em;color:var(--muted)}
+details>summary::-webkit-details-marker{display:none}
+details[open]>summary{border-bottom:1px solid var(--line)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:8px 14px;border-radius:6px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;max-width:calc(100% - 32px)}
+.toast.show{opacity:1}
+.yml{font-family:var(--mono);font-size:11.5px;background:var(--sunk);border:1px solid var(--line);border-radius:6px;padding:10px;max-height:260px;overflow:auto;white-space:pre;margin:0}
+.empty{padding:16px;color:var(--muted);font-size:13px}
+.offline{background:var(--warn-soft,#f6e7cc);color:var(--warn,#9a5b00);padding:8px 14px;font-size:13px}
+.askback{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:20;padding:16px}
+.askbox{background:var(--panel);color:var(--fg);border:1px solid var(--line);border-radius:8px;max-width:560px;width:100%;max-height:80vh;overflow:auto;padding:16px;box-shadow:0 10px 40px rgba(0,0,0,.35)}
+.askbox p{margin:0 0 14px;white-space:pre-wrap;font-size:13.5px;line-height:1.6;word-break:break-word}
+.askbtns{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+@media (prefers-reduced-motion:reduce){.toast{transition:none}}
+</style>
+
+<div class="app">
+  <header>
+    <h1>차카데미 컷신 편집기</h1>
+    <span class="id" id="hdrId"></span>
+    <span class="status" id="saveStatus"></span>
+    <span class="sp"></span>
+    <label class="btn" title="zip, 또는 cutscene.yml과 이미지 파일들을 함께 선택">불러오기
+      <input type="file" id="importInput" accept=".zip,.yml,.yaml,image/*" multiple>
+    </label>
+    <button id="prevBtn" title="불러오기 · 새 컷신을 누르기 직전에 편집하던 컷신으로 되돌려요">이전 초안 복구</button>
+    <button id="newBtn">새 컷신</button>
+    <button id="copyYmlBtn">yml 복사</button>
+    <button class="primary" id="exportBtn">zip으로 내보내기</button>
+  </header>
+
+  <div class="work">
+    <section class="panel scenes" aria-label="장면 목록">
+      <div class="ph"><h2>장면</h2><span class="status" id="sceneCount"></span></div>
+      <ul class="slist" id="sceneList"></ul>
+      <div class="sbar">
+        <label class="btn">+ 장면<input type="file" id="addSceneInput" accept="image/*" multiple></label>
+        <button class="ghost" id="dupScene" title="선택한 장면 복제">복제</button>
+        <button class="ghost" id="upScene" title="위로">↑</button>
+        <button class="ghost" id="downScene" title="아래로">↓</button>
+        <button class="ghost danger" id="delScene">삭제</button>
+      </div>
+    </section>
+
+    <section class="center" aria-label="무대">
+      <div class="stagewrap edit" id="stageWrap">
+        <canvas id="stage" width="1280" height="720"></canvas>
+        <div class="drop">이미지를 놓으면 새 장면으로 추가돼요</div>
+      </div>
+      <div class="controls">
+        <div class="seg" role="group" aria-label="보기">
+          <button id="modeEdit" class="on">줌 지정</button>
+          <button id="modeText">자막 위치</button>
+          <button id="modePlay">재생</button>
+        </div>
+        <button id="playBtn">▶ 처음부터</button>
+        <button id="playSceneBtn">▶ 이 장면부터</button>
+        <button id="speedBtn" title="2배속">&gt;&gt; 1x</button>
+        <span class="time" id="timeLabel">0.00 / 0.00초</span>
+      </div>
+      <div class="timeline" id="timeline" aria-label="타임라인"></div>
+      <p class="hint" id="stageHint">줌 지정: 무대를 클릭하면 줌 중심이 바뀌어요. 점선 상자가 장면이 끝날 때 보이는 범위예요.</p>
+    </section>
+
+    <aside class="insp" aria-label="속성">
+      <div class="panel" id="scenePanel"></div>
+
+      <details class="panel" id="stylePanel" open>
+        <summary>자막 모양 <span>▾</span></summary>
+        <div class="sec">
+          <div class="row"><label for="m_font">굵기</label>
+            <select id="m_font"><option value="light">가볍게 (L)</option><option value="medium">중간 (M)</option><option value="bold">굵게 (B)</option></select></div>
+          <div class="row"><label for="m_size">크기</label><div class="rng"><input type="range" id="m_size" min="0.4" max="2.5" step="0.05"><input type="number" id="m_size_n" min="0.4" max="2.5" step="0.05"></div></div>
+          <div class="row"><label for="m_color">색</label><div class="pair"><input type="color" id="m_color" style="width:100%;height:32px;padding:2px;border:1px solid var(--line);border-radius:5px;background:var(--bg)"><input type="text" id="m_color_t" spellcheck="false" maxlength="7"></div></div>
+          <div class="row"><label for="m_italic">기울임</label><select id="m_italic"><option value="true">켜기</option><option value="false">끄기</option></select></div>
+          <div class="row"><label for="m_shadow">그림자</label><select id="m_shadow"><option value="false">끄기</option><option value="true">켜기 (그림 위에 놓을 때)</option></select></div>
+          <div class="row"><label for="m_x">가로 위치</label><div class="rng"><input type="range" id="m_x" min="0" max="1" step="0.01"><input type="number" id="m_x_n" min="0" max="1" step="0.01"></div></div>
+          <div class="row"><label for="m_yauto">세로 위치</label><select id="m_yauto"><option value="auto">아래 띠 가운데 (기본)</option><option value="manual">직접 지정</option></select></div>
+          <div class="row" id="m_y_row"><label for="m_y">세로 값</label><div class="rng"><input type="range" id="m_y" min="0" max="1" step="0.01"><input type="number" id="m_y_n" min="0" max="1" step="0.01"></div></div>
+          <div class="row"><label for="m_prefix">자막 앞 글자</label><input type="text" id="m_prefix"></div>
+          <div class="row"><label for="m_type">글자 속도</label><div class="rng"><input type="range" id="m_type" min="0" max="0.2" step="0.01"><input type="number" id="m_type_n" min="0" max="1" step="0.01"></div></div>
+          <p class="hint">자막 위치 모드에서 무대를 클릭해도 위치가 바뀌어요.</p>
+        </div>
+      </details>
+
+      <details class="panel" id="soundPanel">
+        <summary>소리 <span>▾</span></summary>
+        <div class="sec">
+          <div class="row"><label for="m_ts">타자기 소리</label><select id="m_ts"><option value="default">켜기 (대화창과 같은 소리)</option><option value="none">끄기</option></select></div>
+          <div class="row"><label for="m_tsv">타자기 크기</label><div class="rng"><input type="range" id="m_tsv" min="0" max="1" step="0.05"><input type="number" id="m_tsv_n" min="0" max="1" step="0.05"></div></div>
+          <div class="row"><span class="lbl">배경음 (ogg)</span><div style="display:flex;gap:6px;align-items:center;min-width:0;flex-wrap:wrap">
+            <label class="btn">파일 선택<input type="file" id="bgmInput" accept=".ogg,audio/ogg"></label>
+            <span id="bgmName" class="status" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%"></span>
+            <button class="ghost danger" id="bgmClear" hidden>빼기</button></div></div>
+          <div class="row"><label for="m_bv">배경음 크기</label><div class="rng"><input type="range" id="m_bv" min="0" max="1" step="0.05"><input type="number" id="m_bv_n" min="0" max="1" step="0.05"></div></div>
+          <div class="row"><label for="m_bst">시작 지점 (초)</label><div style="display:flex;gap:6px;align-items:center;min-width:0"><input type="number" id="m_bst" min="0" max="3600" step="0.5" style="max-width:110px"><span class="status" id="bgmLen"></span></div></div>
+          <div class="row"><label for="m_bfi">페이드 인 / 아웃</label><div class="pair"><input type="number" id="m_bfi" min="0" max="30" step="0.5"><input type="number" id="m_bfo" min="0" max="30" step="0.5"></div></div>
+          <p class="hint">배경음은 시작 지점부터 한 번만 재생돼요(반복 없음). 곡이 컷신보다 짧으면 끝난 뒤 조용해져요. 타자기 크기 0.5가 대화창과 같은 크기예요. 편집기에서는 비슷한 소리로 들려주고, 게임에서는 대화창의 실제 소리가 나요. 배경음은 ogg만 돼요. mp3는 Audacity 같은 프로그램으로 ogg로 바꿔 넣어 주세요. 게임에서는 마인크래프트 [주 음량]만 따라가요. [음악]을 꺼 둬도 들려요.</p>
+        </div>
+      </details>
+
+      <details class="panel" id="metaPanel">
+        <summary>컷신 설정 <span>▾</span></summary>
+        <div class="sec">
+          <div class="row"><label for="m_id">id (폴더 이름)</label><input type="text" id="m_id" spellcheck="false"></div>
+          <div class="row"><label for="m_title">관리용 이름</label><input type="text" id="m_title"></div>
+          <div class="row"><label for="m_lb">레터박스 높이</label><div class="rng"><input type="range" id="m_lb" min="0" max="0.25" step="0.01"><input type="number" id="m_lb_n" min="0" max="0.3" step="0.01"></div></div>
+          <div class="row"><label for="m_lbt">띠 내려오는 시간</label><input type="number" id="m_lbt" min="0" max="10" step="0.1"></div>
+          <div class="row"><label for="m_fade">마지막 암전</label><input type="number" id="m_fade" min="0" max="10" step="0.1"></div>
+        </div>
+      </details>
+
+      <details class="panel">
+        <summary>yml 미리보기 <span>▾</span></summary>
+        <div class="sec"><pre class="yml" id="ymlView"></pre></div>
+      </details>
+    </aside>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<div class="offline" id="offlineNote" hidden>zip · yml 라이브러리(JSZip, js-yaml)를 인터넷에서 받지 못했어요. 편집과 임시 저장은 되지만 <b>zip · yml 불러오기와 zip 내보내기는 인터넷에 연결한 뒤 새로고침</b>해야 쓸 수 있어요.</div>
+<!--
+  바깥에서 받는 스크립트 (이 두 개뿐). 버전을 고정해 두었고, 배포 전에 아래 주소의 파일로 SRI 해시를 계산해
+  integrity="sha384-..." 를 붙일 것 (여기서는 네트워크가 없어 해시를 적지 않았다 — 지어내지 말 것):
+    https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js       (JSZip 3.10.1)
+    https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js    (js-yaml 4.1.0)
+  예) curl -s <주소> | openssl dgst -sha384 -binary | openssl base64 -A
+  인터넷 없이 쓰려면 두 파일을 editor/ 폴더에 받아 두고 src 를 상대 경로로 바꾸면 된다.
+-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+"use strict";
+/* ============================================================ 상태 */
+const ID_RE = /^[a-z0-9_\-]{1,64}$/;
+let uid = 1;
+const S = { meta: null, scenes: [], sel: 0 };
+const imgCache = new Map(); // frame.key -> HTMLImageElement (loaded)
+
+function defMeta() {
+  return { id: "new_cutscene", title: "새 컷신", font: "medium", font_size: 1, text_color: "#efe3c8", text_x: 0.5, text_y: null, text_shadow: false, italic: true, prefix: "- ",
+    type_speed: 0.06, letterbox: 0.14, letterbox_time: 1.6, end_fade: 1.2,
+    type_sound: "default", type_sound_volume: 0.5, bgm: null, bgm_volume: 0.6, bgm_start: 0, bgm_fade_in: 3, bgm_fade_out: 4 };
+}
+function newScene(frames) {
+  return { key: uid++, frames: frames || [], fps: 6, duration: 6, zoom: { x: 0.5, y: 0.5, from: 1, to: 1.08 },
+    transition: "ink", transition_time: 1.4, lines: [] };
+}
+function newFrame(blob, name) {
+  const f = { key: "f" + (uid++), blob, name: name || "image.png", url: URL.createObjectURL(blob) };
+  const im = new Image();
+  im.onload = () => { imgCache.set(f.key, im); renderAll(); };
+  im.src = f.url;
+  return f;
+}
+const cur = () => S.scenes[S.sel];
+
+/* ============================================================ 계산 (모드와 같은 규칙) */
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const easeInOut = t => { t = clamp(t, 0, 1); return 0.5 - 0.5 * Math.cos(Math.PI * t); };
+const scenesDur = () => S.scenes.reduce((a, s) => a + s.duration, 0);
+const totalDur = () => scenesDur() + S.meta.end_fade;
+function sceneStart(i) { let t = 0; for (let k = 0; k < i; k++) t += S.scenes[k].duration; return t; }
+function locate(t) {
+  let st = 0;
+  for (let i = 0; i < S.scenes.length; i++) {
+    const d = S.scenes[i].duration;
+    if (t < st + d || i === S.scenes.length - 1) return { i, local: Math.min(t - st, d) };
+    st += d;
+  }
+  return { i: 0, local: 0 };
+}
+
+/* 잉크 지도: mod 의 InkMask.java 와 같은 계산 */
+const MASK_W = 160, SOFT = 0.12;
+function hash(x, y, seed) {
+  let h = (Math.imul(x, 374761393) + Math.imul(y, 668265263) + Math.imul(seed, 1442695041)) | 0;
+  h = Math.imul(h ^ (h >>> 13), 1274126177);
+  h ^= h >>> 16;
+  return h;
+}
+const h01 = (x, y, s) => (hash(x, y, s) & 0xFFFFFF) / 16777215;
+function vnoise(x, y, s) {
+  const ix = Math.floor(x), iy = Math.floor(y);
+  let fx = x - ix, fy = y - iy;
+  fx = fx * fx * (3 - 2 * fx); fy = fy * fy * (3 - 2 * fy);
+  const a = h01(ix, iy, s), b = h01(ix + 1, iy, s), c = h01(ix, iy + 1, s), d = h01(ix + 1, iy + 1, s);
+  const top = a + (b - a) * fx;
+  return top + ((c + (d - c) * fx) - top) * fy;
+}
+function fbm(x, y, s) {
+  let sum = 0, amp = 0.5, f = 3;
+  for (let o = 0; o < 4; o++) { sum += vnoise(x * f, y * f, s + o * 17) * amp; amp *= 0.5; f *= 2; }
+  return sum / 0.9375;
+}
+const maskCache = new Map();
+function inkMask(iw, ih, cx, cy, seed) {
+  const k = [iw, ih, cx.toFixed(4), cy.toFixed(4), seed].join(",");
+  if (maskCache.has(k)) return maskCache.get(k);
+  const mw = MASK_W, mh = Math.max(1, Math.round(MASK_W * ih / iw)), aspect = iw / ih;
+  let maxD = 0;
+  for (const [x, y] of [[0, 0], [1, 0], [0, 1], [1, 1]]) maxD = Math.max(maxD, Math.hypot((x - cx) * aspect, y - cy));
+  const t = new Float32Array(mw * mh);
+  let mn = Infinity, mx = -Infinity;
+  for (let my = 0; my < mh; my++) for (let mx2 = 0; mx2 < mw; mx2++) {
+    const u = (mx2 + 0.5) / mw, v = (my + 0.5) / mh;
+    const d = Math.hypot((u - cx) * aspect, v - cy) / maxD;
+    const val = d * 0.7 + fbm(u * aspect, v, seed) * 0.45;
+    t[my * mw + mx2] = val; mn = Math.min(mn, val); mx = Math.max(mx, val);
+  }
+  const r = Math.max(1e-6, mx - mn);
+  for (let i = 0; i < t.length; i++) t[i] = (t[i] - mn) / r;
+  const cv = document.createElement("canvas"); cv.width = mw; cv.height = mh;
+  const m = { t, mw, mh, cv, ctx: cv.getContext("2d"), img: cv.getContext("2d").createImageData(mw, mh) };
+  maskCache.set(k, m);
+  return m;
+}
+function inkAlpha(p, t) { let a = clamp((p * (1 + SOFT) - t) / SOFT, 0, 1); return a * a * (3 - 2 * a); }
+
+/* ============================================================ 그리기 */
+const stage = document.getElementById("stage");
+const sctx = stage.getContext("2d");
+const off = document.createElement("canvas"); off.width = stage.width; off.height = stage.height;
+const octx = off.getContext("2d");
+
+function frameAt(scene, gt) {
+  const n = scene.frames.length;
+  if (!n) return null;
+  return scene.frames[n === 1 ? 0 : Math.floor(gt * scene.fps) % n];
+}
+function coverRect(im, W, H) {
+  const s = Math.max(W / im.naturalWidth, H / im.naturalHeight);
+  const dw = im.naturalWidth * s, dh = im.naturalHeight * s;
+  return { dx: (W - dw) / 2, dy: (H - dh) / 2, dw, dh };
+}
+function applyZoom(ctx, scene, r, local) {
+  const k = scene.duration <= 0 ? 1 : easeInOut(local / scene.duration);
+  const z = scene.zoom.from + (scene.zoom.to - scene.zoom.from) * k;
+  const zx = r.dx + scene.zoom.x * r.dw, zy = r.dy + scene.zoom.y * r.dh;
+  ctx.translate(zx, zy); ctx.scale(z, z); ctx.translate(-zx, -zy);
+}
+function drawScene(ctx, scene, frame, local, W, H) {
+  const im = frame && imgCache.get(frame.key);
+  if (!im) return;
+  const r = coverRect(im, W, H);
+  ctx.save(); applyZoom(ctx, scene, r, local);
+  ctx.drawImage(im, r.dx, r.dy, r.dw, r.dh);
+  ctx.restore();
+}
+function drawTransition(scene, index, local, W, H) {
+  const frame = scene.frames[0];
+  const im = frame && imgCache.get(frame.key);
+  if (!im) return;
+  const p = easeInOut(local / scene.transition_time);
+  const r = coverRect(im, W, H);
+  if (scene.transition === "fade") {
+    sctx.save(); sctx.globalAlpha = p; applyZoom(sctx, scene, r, local);
+    sctx.drawImage(im, r.dx, r.dy, r.dw, r.dh); sctx.restore(); return;
+  }
+  const m = inkMask(im.naturalWidth, im.naturalHeight, scene.zoom.x, scene.zoom.y, index + 1);
+  const d = m.img.data;
+  for (let i = 0; i < m.t.length; i++) { d[i * 4] = d[i * 4 + 1] = d[i * 4 + 2] = 255; d[i * 4 + 3] = Math.round(255 * inkAlpha(p, m.t[i])); }
+  m.ctx.putImageData(m.img, 0, 0);
+  octx.setTransform(1, 0, 0, 1, 0, 0);
+  octx.clearRect(0, 0, W, H);
+  octx.save(); applyZoom(octx, scene, r, local);
+  octx.globalCompositeOperation = "source-over";
+  octx.drawImage(im, r.dx, r.dy, r.dw, r.dh);
+  octx.globalCompositeOperation = "destination-in";
+  octx.imageSmoothingEnabled = true;
+  octx.drawImage(m.cv, r.dx, r.dy, r.dw, r.dh);
+  octx.restore();
+  octx.globalCompositeOperation = "source-over";
+  sctx.drawImage(off, 0, 0);
+}
+function fontWeight() { return S.meta.font === "light" ? 300 : S.meta.font === "bold" ? 700 : 400; }
+function subtitleFont(size) { return `${S.meta.italic ? "italic " : ""}${fontWeight()} ${size}px CNM, serif`; }
+/* 자막 한 줄 그리기 (mod 의 drawSubtitle 과 같은 규칙) */
+function paintSubtitle(text, a, barFull, W, H) {
+  const auto = S.meta.text_y == null;
+  if (auto && barFull < 4) return;
+  const base = barFull >= 4 ? barFull : H * 0.14;
+  let size = base * 0.34 * S.meta.font_size * 1.2;
+  const cx = W * S.meta.text_x, cy = auto ? H - barFull / 2 : H * S.meta.text_y;
+  sctx.save();
+  sctx.font = subtitleFont(size);
+  const tw = sctx.measureText(text).width, maxW = 2 * Math.min(cx, W - cx) * 0.95;
+  if (maxW > 0 && tw > maxW) { size *= maxW / tw; sctx.font = subtitleFont(size); }
+  sctx.textAlign = "center"; sctx.textBaseline = "middle";
+  if (S.meta.text_shadow) {
+    const sh = Math.max(1, size / 9);
+    sctx.fillStyle = hexToRgba(shadowOf(S.meta.text_color), a);
+    sctx.fillText(text, cx + sh, cy + sh);
+  }
+  sctx.fillStyle = hexToRgba(S.meta.text_color, a);
+  sctx.fillText(text, cx, cy);
+  sctx.restore();
+}
+function hexToRgba(hex, a) { const v = parseInt(hex.slice(1), 16); return `rgba(${v >> 16 & 255},${v >> 8 & 255},${v & 255},${a})`; }
+/* 마인크래프트 그림자 = 글자색의 1/4 밝기 */
+function shadowOf(hex) { const v = parseInt(hex.slice(1), 16); const f = c => Math.floor(c / 4); return "#" + [v >> 16 & 255, v >> 8 & 255, v & 255].map(c => f(c).toString(16).padStart(2, "0")).join(""); }
+function drawSubtitle(scene, local, barFull, W, H) {
+  let line = null;
+  for (const l of scene.lines) if (local >= l.start && local < l.end) line = l;
+  if (!line) return;
+  const chars = Array.from(line.text);
+  const shown = S.meta.type_speed <= 0 ? chars.length : Math.min(chars.length, Math.floor((local - line.start) / S.meta.type_speed) + 1);
+  const text = S.meta.prefix + chars.slice(0, Math.max(0, shown)).join("");
+  typeTick(line, chars, shown);
+  let a = Math.min(1, (local - line.start) / 0.15);
+  a = clamp(Math.min(a, (line.end - local) / 0.3), 0, 1);
+  paintSubtitle(text, a, barFull, W, H);
+}
+
+/* 재생 화면 한 장 (게임과 같은 순서) */
+function renderPlay(t) {
+  const W = stage.width, H = stage.height;
+  sctx.setTransform(1, 0, 0, 1, 0, 0);
+  sctx.fillStyle = "#000"; sctx.fillRect(0, 0, W, H);
+  if (!S.scenes.length) return;
+  const { i, local } = locate(t);
+  const scene = S.scenes[i];
+  const inTrans = scene.transition !== "cut" && scene.transition_time > 0 && local < scene.transition_time;
+  if (inTrans) {
+    if (i > 0) { const prev = S.scenes[i - 1]; drawScene(sctx, prev, frameAt(prev, t), prev.duration, W, H); }
+    drawTransition(scene, i, local, W, H);
+  } else {
+    drawScene(sctx, scene, frameAt(scene, t), local, W, H);
+  }
+  const barFull = H * S.meta.letterbox;
+  const k = S.meta.letterbox_time <= 0 ? 1 : easeInOut(Math.min(1, t / S.meta.letterbox_time));
+  const bar = Math.round(barFull * k);
+  sctx.fillStyle = "#0b0b0b";
+  sctx.fillRect(0, 0, W, bar); sctx.fillRect(0, H - bar, W, bar);
+  drawSubtitle(scene, local, barFull, W, H);
+  const over = t - scenesDur();
+  if (over > 0 && S.meta.end_fade > 0) { sctx.fillStyle = `rgba(0,0,0,${Math.min(1, over / S.meta.end_fade)})`; sctx.fillRect(0, 0, W, H); }
+}
+
+/* 줌 지정 화면: 줌 없는 원본 + 줌 중심 + 끝 범위 */
+function renderEdit() {
+  const W = stage.width, H = stage.height;
+  sctx.setTransform(1, 0, 0, 1, 0, 0);
+  sctx.fillStyle = "#000"; sctx.fillRect(0, 0, W, H);
+  const scene = cur();
+  if (!scene) { emptyStage("이미지를 끌어다 놓거나 + 장면으로 시작하세요"); return; }
+  const fr = scene.frames[0], im = fr && imgCache.get(fr.key);
+  if (!im) { emptyStage(scene.frames.length ? "이미지 불러오는 중…" : "이 장면에 이미지가 없어요"); return; }
+  const r = coverRect(im, W, H);
+  sctx.drawImage(im, r.dx, r.dy, r.dw, r.dh);
+  const barFull = H * S.meta.letterbox;
+  const sample = scene.lines.find(l => l.text.trim());
+  const sampleText = S.meta.prefix + (sample ? sample.text : "자막 위치 미리보기");
+
+  if (mode === "text") {
+    sctx.fillStyle = "#0b0b0b"; sctx.fillRect(0, 0, W, barFull); sctx.fillRect(0, H - barFull, W, barFull);
+    paintSubtitle(sampleText, 1, barFull, W, H);
+    const cx = W * S.meta.text_x, cy = S.meta.text_y == null ? H - barFull / 2 : H * S.meta.text_y;
+    sctx.save(); sctx.strokeStyle = "rgba(255,255,255,.7)"; sctx.lineWidth = 1.5; sctx.setLineDash([6, 5]);
+    sctx.beginPath(); sctx.moveTo(cx, 0); sctx.lineTo(cx, H); sctx.moveTo(0, cy); sctx.lineTo(W, cy); sctx.stroke(); sctx.restore();
+    return;
+  }
+
+  const zx = r.dx + scene.zoom.x * r.dw, zy = r.dy + scene.zoom.y * r.dh;
+  const b = { x: zx - zx / scene.zoom.to, y: zy - zy / scene.zoom.to, w: W / scene.zoom.to, h: H / scene.zoom.to };
+  sctx.save();
+  sctx.fillStyle = "rgba(0,0,0,.35)";
+  sctx.beginPath(); sctx.rect(0, 0, W, H); sctx.rect(b.x, b.y, b.w, b.h); sctx.fill("evenodd");
+  sctx.setLineDash([10, 7]); sctx.lineWidth = 2; sctx.strokeStyle = "#efe3c8"; sctx.strokeRect(b.x, b.y, b.w, b.h);
+  sctx.setLineDash([]);
+  sctx.strokeStyle = "rgba(239,227,200,.35)"; sctx.lineWidth = 1;
+  sctx.strokeRect(0.5, barFull, W - 1, H - barFull * 2);
+  sctx.strokeStyle = "#fff"; sctx.lineWidth = 3;
+  sctx.beginPath(); sctx.arc(zx, zy, 14, 0, Math.PI * 2); sctx.moveTo(zx - 24, zy); sctx.lineTo(zx + 24, zy); sctx.moveTo(zx, zy - 24); sctx.lineTo(zx, zy + 24); sctx.stroke();
+  sctx.strokeStyle = "#2f4b7c"; sctx.lineWidth = 1.5; sctx.stroke();
+  sctx.font = "500 22px 'IBM Plex Mono', monospace"; sctx.fillStyle = "#efe3c8";
+  sctx.fillText(`줌 ${scene.zoom.from.toFixed(2)} → ${scene.zoom.to.toFixed(2)}`, 18, 34);
+  sctx.restore();
+}
+function emptyStage(msg) {
+  sctx.fillStyle = "#8a8578"; sctx.font = "26px 'IBM Plex Sans KR', sans-serif"; sctx.textAlign = "center";
+  sctx.fillText(msg, stage.width / 2, stage.height / 2); sctx.textAlign = "left";
+}
+
+/* ============================================================ 소리 (게임과 같은 규칙) */
+let actx = null, twBuffers = [], bgmBuffer = null, bgmNode = null, bgmGain = null, lastTick = 0, soundLine = null, soundShown = 0;
+function audio() {
+  if (!actx) { try { actx = new (window.AudioContext || window.webkitAudioContext)(); } catch { return null; } }
+  if (actx.state === "suspended") actx.resume().catch(() => {});
+  return actx;
+}
+/* 대화창 타자기 소리 흉내: 마인크래프트 버튼 클릭음을 높게(1.8배) 낸 짧은 "틱" (게임에서는 진짜 클릭음이 남) */
+async function loadTypewriter() {
+  const ac = audio(); if (!ac || twBuffers.length) return;
+  const sr = ac.sampleRate, n = Math.floor(sr * 0.03), buf = ac.createBuffer(1, n, sr), d = buf.getChannelData(0);
+  let seed = 7; const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647) * 2 - 1;
+  for (let i = 0; i < n; i++) {
+    const t = i / sr, env = Math.exp(-t / 0.004);
+    d[i] = (Math.sign(Math.sin(2 * Math.PI * 2900 * t)) * 0.5 + rnd() * 0.5) * env;
+  }
+  twBuffers.push(buf);
+}
+function typeTick(line, chars, shown) {
+  if (line !== soundLine) { soundLine = line; soundShown = 0; }
+  if (!playing || shown <= soundShown) { if (!playing) soundShown = shown; return; }
+  const added = chars.slice(soundShown, shown).join(""); soundShown = shown;
+  if (S.meta.type_sound === "none" || !added.trim() || !twBuffers.length || !actx) return;
+  const now = performance.now(); if (now - lastTick < 45) return; lastTick = now;
+  const src = actx.createBufferSource(); src.buffer = twBuffers[0];
+  const g = actx.createGain(); g.gain.value = 0.25 * S.meta.type_sound_volume / 0.5; src.connect(g).connect(actx.destination); src.start();
+}
+async function startBgm(fromT) {
+  stopBgm();
+  const ac = audio(); if (!ac || !S.meta.bgm) return;
+  try { if (!bgmBuffer) bgmBuffer = await ac.decodeAudioData(await S.meta.bgm.blob.arrayBuffer()); }
+  catch { toast("배경음을 읽지 못했어요. ogg 파일인지 확인해 주세요"); return; }
+  if (!playing) return;
+  renderMeta();
+  const offset = S.meta.bgm_start + fromT;
+  if (offset >= bgmBuffer.duration) return; // 곡이 이미 끝난 지점 (반복 없음)
+  bgmNode = ac.createBufferSource(); bgmNode.buffer = bgmBuffer; bgmNode.loop = false;
+  bgmGain = ac.createGain(); bgmGain.gain.value = 0;
+  bgmNode.connect(bgmGain).connect(ac.destination);
+  bgmNode.start(0, offset);
+}
+function stopBgm(fade) {
+  if (!bgmNode) return;
+  const node = bgmNode, gain = bgmGain; bgmNode = null; bgmGain = null;
+  try {
+    if (fade && actx) { gain.gain.setTargetAtTime(0, actx.currentTime, fade / 4); node.stop(actx.currentTime + fade); }
+    else node.stop();
+  } catch {}
+}
+const smooth = t => { t = clamp(t, 0, 1); return t * t * (3 - 2 * t); };
+function updateBgmLevel(t) {
+  if (!bgmGain) return;
+  const m = S.meta;
+  const inn = m.bgm_fade_in <= 0 ? 1 : Math.min(1, t / m.bgm_fade_in);
+  const out = m.bgm_fade_out <= 0 ? 1 : Math.min(1, (totalDur() - t) / m.bgm_fade_out);
+  bgmGain.gain.value = m.bgm_volume * smooth(inn) * smooth(out);
+}
+
+/* ============================================================ 재생 제어 */
+let mode = "edit", playing = false, playT = 0, speed = 1, lastNow = 0;
+function setMode(m) {
+  mode = m;
+  document.getElementById("modeEdit").classList.toggle("on", m === "edit");
+  document.getElementById("modePlay").classList.toggle("on", m === "play");
+  document.getElementById("modeText").classList.toggle("on", m === "text");
+  document.getElementById("stageWrap").classList.toggle("edit", m !== "play");
+  document.getElementById("stageHint").textContent = m === "edit"
+    ? "줌 지정: 무대를 클릭하면 줌 중심이 바뀌어요. 점선 상자가 장면이 끝날 때 보이는 범위예요."
+    : m === "text" ? "자막 위치: 무대를 클릭한 곳이 자막의 가운데가 돼요. 아래 띠로 되돌리려면 오른쪽 '세로 위치'를 기본으로 바꾸세요."
+    : "재생: 타임라인을 클릭하면 그 시점으로 이동해요. 게임과 같은 규칙으로 그려져요.";
+  if (m !== "play" && playing) pausePlayback();
+  updatePlayBtn(); draw();
+}
+function play(from) {
+  setMode("play"); playT = from; playing = true; lastNow = performance.now(); updatePlayBtn();
+  soundLine = null; loadTypewriter(); startBgm(from);
+  requestAnimationFrame(tick);
+}
+function pausePlayback() { playing = false; stopBgm(0.4); updatePlayBtn(); }
+function updatePlayBtn() { document.getElementById("playBtn").textContent = playing ? "❚❚ 멈춤" : "▶ 처음부터"; }
+function tick(now) {
+  if (!playing) return;
+  const dt = Math.min(0.1, (now - lastNow) / 1000); lastNow = now;
+  playT += dt * speed;
+  updateBgmLevel(playT);
+  if (playT >= totalDur()) { playT = totalDur(); playing = false; stopBgm(0.3); updatePlayBtn(); }
+  const { i } = locate(Math.min(playT, scenesDur() - 1e-6));
+  if (i !== S.sel) { S.sel = i; renderSceneList(); renderScenePanel(); }
+  draw(); renderTimelineHead();
+  if (playing) requestAnimationFrame(tick);
+}
+function draw() {
+  if (mode === "play") renderPlay(playT); else renderEdit();
+  document.getElementById("timeLabel").textContent = `${(mode === "play" ? playT : sceneStart(S.sel)).toFixed(2)} / ${totalDur().toFixed(2)}초`;
+}
+
+/* ============================================================ UI 렌더링 */
+function thumb(cv, frame) {
+  const c = cv.getContext("2d"); const im = frame && imgCache.get(frame.key);
+  c.fillStyle = "#0b0b0b"; c.fillRect(0, 0, cv.width, cv.height);
+  if (im) { const r = coverRect(im, cv.width, cv.height); c.drawImage(im, r.dx, r.dy, r.dw, r.dh); }
+}
+function renderSceneList() {
+  const ul = document.getElementById("sceneList"); ul.textContent = "";
+  S.scenes.forEach((s, i) => {
+    const li = document.createElement("li");
+    li.className = "sitem" + (i === S.sel ? " sel" : ""); li.tabIndex = 0;
+    const cv = document.createElement("canvas"); cv.width = 128; cv.height = 72; thumb(cv, s.frames[0]);
+    const b = document.createElement("b"); b.textContent = `장면 ${i + 1}`;
+    const sm = document.createElement("small"); sm.textContent = `${s.duration.toFixed(1)}초 · 자막 ${s.lines.length}${s.frames.length > 1 ? " · " + s.frames.length + "컷" : ""}`;
+    li.append(cv, b, sm);
+    const pick = () => { S.sel = i; if (mode === "play" && !playing) playT = sceneStart(i); renderAll(); };
+    li.onclick = pick; li.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(); } };
+    ul.append(li);
+  });
+  if (!S.scenes.length) { const li = document.createElement("li"); li.className = "empty"; li.textContent = "장면이 없어요"; ul.append(li); }
+  document.getElementById("sceneCount").textContent = `${S.scenes.length}개 · ${scenesDur().toFixed(1)}초`;
+}
+
+function numInput(val, step, min, max, onchange) {
+  const el = document.createElement("input"); el.type = "number"; el.step = step; if (min != null) el.min = min; if (max != null) el.max = max;
+  el.value = val; el.oninput = () => { const v = parseFloat(el.value); if (!isNaN(v)) onchange(v); };
+  return el;
+}
+function field(label, control) {
+  const row = document.createElement("div"); row.className = "row";
+  const l = document.createElement("span"); l.className = "lbl"; l.textContent = label;
+  row.append(l, control); return row;
+}
+function rangeField(label, val, min, max, step, onchange) {
+  const wrap = document.createElement("div"); wrap.className = "rng";
+  const r = document.createElement("input"); r.type = "range"; r.min = min; r.max = max; r.step = step; r.value = val;
+  const n = numInput(val, step, min, max, v => { r.value = v; onchange(v); });
+  r.oninput = () => { n.value = r.value; onchange(parseFloat(r.value)); };
+  wrap.append(r, n); return field(label, wrap);
+}
+
+function renderScenePanel() {
+  const panel = document.getElementById("scenePanel"); panel.textContent = "";
+  const s = cur();
+  const head = document.createElement("div"); head.className = "ph";
+  const h = document.createElement("h2"); h.textContent = s ? `장면 ${S.sel + 1}` : "장면";
+  head.append(h); panel.append(head);
+  if (!s) { const e = document.createElement("div"); e.className = "empty"; e.textContent = "왼쪽에서 장면을 추가하면 여기서 고칠 수 있어요."; panel.append(e); return; }
+
+  const sec = document.createElement("div"); sec.className = "sec"; panel.append(sec);
+  const changed = (redrawList = true) => { if (redrawList) renderSceneList(); renderTimeline(); renderWarnings(); draw(); scheduleSave(); };
+
+  // 이미지
+  const fl = document.createElement("span"); fl.className = "lbl"; fl.textContent = s.frames.length > 1 ? `이미지 ${s.frames.length}장 · 반복 재생` : "이미지 (2장 이상이면 반복 재생)";
+  const frames = document.createElement("div"); frames.className = "frames";
+  s.frames.forEach((f, k) => {
+    const box = document.createElement("div"); box.className = "frame";
+    const cv = document.createElement("canvas"); cv.width = 152; cv.height = 86; thumb(cv, f);
+    const n = document.createElement("small"); n.textContent = k + 1;
+    const fx = document.createElement("div"); fx.className = "fx";
+    const L = document.createElement("button"); L.textContent = "◀"; L.title = "앞으로"; L.disabled = k === 0;
+    L.onclick = () => { [s.frames[k - 1], s.frames[k]] = [s.frames[k], s.frames[k - 1]]; renderScenePanel(); changed(); };
+    const R = document.createElement("button"); R.textContent = "▶"; R.title = "뒤로"; R.disabled = k === s.frames.length - 1;
+    R.onclick = () => { [s.frames[k + 1], s.frames[k]] = [s.frames[k], s.frames[k + 1]]; renderScenePanel(); changed(); };
+    const X = document.createElement("button"); X.textContent = "✕"; X.title = "이미지 빼기";
+    X.onclick = () => { s.frames.splice(k, 1); renderScenePanel(); changed(); };
+    fx.append(L, X, R); box.append(cv, n, fx); frames.append(box);
+  });
+  const add = document.createElement("label"); add.className = "btn"; add.textContent = "+ 이미지";
+  const ai = document.createElement("input"); ai.type = "file"; ai.accept = "image/*"; ai.multiple = true;
+  ai.onchange = () => { for (const file of ai.files) s.frames.push(newFrame(file, file.name)); renderScenePanel(); changed(); };
+  add.append(ai); frames.append(add);
+  sec.append(fl, frames);
+  if (s.frames.length > 1) sec.append(field("반복 속도 (fps)", numInput(s.fps, 0.5, 0.5, 30, v => { s.fps = clamp(v, 0.5, 30); changed(false); })));
+
+  sec.append(field("장면 길이 (초)", numInput(s.duration, 0.1, 0.2, 600, v => { s.duration = clamp(v, 0.2, 600); changed(); })));
+
+  const tr = document.createElement("div"); tr.className = "pair";
+  const sel = document.createElement("select");
+  [["ink", "잉크 번짐"], ["fade", "페이드"], ["cut", "바로 바꿈"]].forEach(([v, t]) => { const o = document.createElement("option"); o.value = v; o.textContent = t; sel.append(o); });
+  sel.value = s.transition; sel.onchange = () => { s.transition = sel.value; changed(false); };
+  tr.append(sel, numInput(s.transition_time, 0.1, 0, 10, v => { s.transition_time = clamp(v, 0, 10); changed(false); }));
+  sec.append(field("전환 / 시간", tr));
+
+  const zp = document.createElement("div"); zp.className = "pair";
+  zp.append(numInput(s.zoom.x.toFixed(3), 0.01, 0, 1, v => { s.zoom.x = clamp(v, 0, 1); changed(false); }),
+            numInput(s.zoom.y.toFixed(3), 0.01, 0, 1, v => { s.zoom.y = clamp(v, 0, 1); changed(false); }));
+  sec.append(field("줌 중심 x / y", zp));
+  sec.append(rangeField("시작 배율", s.zoom.from, 1, 2, 0.01, v => { s.zoom.from = clamp(v, 1, 4); changed(false); }));
+  sec.append(rangeField("끝 배율", s.zoom.to, 1, 2, 0.01, v => { s.zoom.to = clamp(v, 1, 4); changed(false); }));
+
+  // 자막
+  const lsec = document.createElement("div"); lsec.className = "sec"; lsec.style.borderTop = "1px solid var(--line)"; panel.append(lsec);
+  const lh = document.createElement("div"); lh.className = "lhead"; ["자막", "시작", "끝", ""].forEach(t => { const sp = document.createElement("span"); sp.textContent = t; lh.append(sp); });
+  const lines = document.createElement("div"); lines.className = "lines";
+  s.lines.forEach((l, k) => {
+    const row = document.createElement("div"); row.className = "line";
+    const ta = document.createElement("textarea"); ta.rows = Array.from(l.text).length > 14 ? 2 : 1; ta.value = l.text; ta.placeholder = "대사";
+    ta.setAttribute("aria-label", `자막 ${k + 1}`);
+    ta.oninput = () => { l.text = ta.value.replace(/\n/g, " "); changed(false); };
+    const st = numInput(l.start, 0.1, 0, null, v => { l.start = Math.max(0, v); changed(false); });
+    const en = numInput(l.end, 0.1, 0, null, v => { l.end = Math.max(0, v); changed(false); });
+    const del = document.createElement("button"); del.className = "del"; del.textContent = "✕"; del.title = "자막 지우기";
+    del.onclick = () => { s.lines.splice(k, 1); renderScenePanel(); changed(); };
+    row.append(ta, st, en, del); lines.append(row);
+  });
+  const addL = document.createElement("button"); addL.textContent = "+ 자막";
+  addL.onclick = () => {
+    const last = s.lines[s.lines.length - 1];
+    const start = last ? +(last.end + 0.2).toFixed(1) : +Math.max(0.5, Math.min(1.6, s.transition_time + 0.2)).toFixed(1);
+    s.lines.push({ text: "", start, end: +(start + 3).toFixed(1) });
+    if (s.lines[s.lines.length - 1].end > s.duration) s.duration = +(s.lines[s.lines.length - 1].end + 0.6).toFixed(1);
+    renderScenePanel(); changed();
+    const tas = panel.querySelectorAll(".line textarea"); tas[tas.length - 1]?.focus();
+  };
+  const warns = document.createElement("div"); warns.className = "warns"; warns.id = "warns";
+  lsec.append(lh, lines, addL, warns);
+  renderWarnings();
+}
+
+function sceneWarnings(s, i) {
+  const w = [];
+  if (!s.frames.length) w.push("이미지가 없어요.");
+  if (s.lines.some(l => !l.text.trim())) w.push("빈 자막이 있어요.");
+  s.lines.forEach((l, k) => {
+    if (l.end <= l.start) w.push(`자막 ${k + 1}: 끝이 시작보다 빨라요.`);
+    if (l.end > s.duration + 1e-6) w.push(`자막 ${k + 1}: 장면 길이(${s.duration}초)를 넘어가요.`);
+    const need = l.start + Array.from(S.meta.prefix + l.text).length * S.meta.type_speed;
+    if (S.meta.type_speed > 0 && need > l.end - 0.3) w.push(`자막 ${k + 1}: 다 써지기 전에 사라져요. 끝을 ${(need + 0.8).toFixed(1)}초쯤으로 늘려 보세요.`);
+    const nxt = s.lines[k + 1];
+    if (nxt && nxt.start < l.end) w.push(`자막 ${k + 1}과 ${k + 2}가 겹쳐요. 겹치는 동안은 뒤 자막만 보여요.`);
+  });
+  if (s.transition !== "cut" && s.transition_time > s.duration) w.push("전환 시간이 장면보다 길어요.");
+  return w;
+}
+function renderWarnings() {
+  const box = document.getElementById("warns"); if (!box) return;
+  box.textContent = "";
+  const s = cur(); if (!s) return;
+  for (const t of sceneWarnings(s, S.sel)) { const d = document.createElement("div"); d.className = "warn"; d.textContent = t; box.append(d); }
+}
+
+function renderTimeline() {
+  const tl = document.getElementById("timeline"); tl.textContent = "";
+  const T = totalDur(); if (T <= 0) return;
+  let st = 0;
+  S.scenes.forEach((s, i) => {
+    const el = document.createElement("div"); el.className = "tl-scene" + (i === S.sel ? " sel" : "");
+    el.style.left = (st / T * 100) + "%"; el.style.width = (s.duration / T * 100) + "%"; el.textContent = i + 1;
+    tl.append(el);
+    if (s.transition !== "cut" && s.transition_time > 0) {
+      const tr = document.createElement("div"); tr.className = "tl-trans";
+      tr.style.left = (st / T * 100) + "%"; tr.style.width = (Math.min(s.transition_time, s.duration) / T * 100) + "%"; tl.append(tr);
+    }
+    for (const l of s.lines) {
+      const b = document.createElement("div"); b.className = "tl-line"; b.title = l.text;
+      b.style.left = ((st + l.start) / T * 100) + "%"; b.style.width = (Math.max(0.05, l.end - l.start) / T * 100) + "%"; tl.append(b);
+    }
+    st += s.duration;
+  });
+  const head = document.createElement("div"); head.className = "tl-head"; head.id = "tlHead"; tl.append(head);
+  renderTimelineHead();
+}
+function renderTimelineHead() {
+  const h = document.getElementById("tlHead"); if (!h) return;
+  const t = mode === "play" ? playT : sceneStart(S.sel);
+  h.style.left = (t / Math.max(0.001, totalDur()) * 100) + "%";
+}
+function renderMeta() {
+  const m = S.meta;
+  const set = (id, v) => { const el = document.getElementById(id); if (document.activeElement !== el) el.value = v; };
+  set("m_id", m.id); set("m_title", m.title); set("m_font", m.font); set("m_italic", String(m.italic)); set("m_prefix", m.prefix);
+  set("m_type", m.type_speed); set("m_type_n", m.type_speed); set("m_lb", m.letterbox); set("m_lb_n", m.letterbox);
+  set("m_lbt", m.letterbox_time); set("m_fade", m.end_fade);
+  set("m_size", m.font_size); set("m_size_n", m.font_size); set("m_color", m.text_color); set("m_color_t", m.text_color);
+  set("m_shadow", String(m.text_shadow)); set("m_x", m.text_x); set("m_x_n", m.text_x);
+  set("m_yauto", m.text_y == null ? "auto" : "manual");
+  const yv = m.text_y == null ? +(1 - m.letterbox / 2).toFixed(2) : m.text_y; set("m_y", yv); set("m_y_n", yv);
+  document.getElementById("m_y_row").hidden = m.text_y == null;
+  { // 편집기에서 고를 수 없는 소리 값 (마인크래프트 소리 id) 도 지우지 않고 그대로 둔다
+    const ts = document.getElementById("m_ts"); ts.querySelectorAll("option[data-custom]").forEach(o => o.remove());
+    if (m.type_sound !== "none" && m.type_sound !== "default") { const o = document.createElement("option"); o.value = m.type_sound; o.textContent = "그대로 두기: " + m.type_sound; o.dataset.custom = "1"; ts.append(o); }
+  }
+  set("m_ts", m.type_sound); set("m_tsv", m.type_sound_volume); set("m_tsv_n", m.type_sound_volume);
+  set("m_bst", m.bgm_start);
+  document.getElementById("bgmLen").textContent = bgmBuffer ? `곡 길이 ${bgmBuffer.duration.toFixed(1)}초 · 컷신 ${totalDur().toFixed(1)}초` : "";
+  set("m_bv", m.bgm_volume); set("m_bv_n", m.bgm_volume); set("m_bfi", m.bgm_fade_in); set("m_bfo", m.bgm_fade_out);
+  document.getElementById("bgmName").textContent = m.bgm ? m.bgm.name : "없음";
+  document.getElementById("bgmClear").hidden = !m.bgm;
+  document.getElementById("hdrId").textContent = m.id;
+  document.getElementById("m_id").style.borderColor = ID_RE.test(m.id) ? "" : "var(--danger)";
+}
+function renderAll() {
+  if (S.sel >= S.scenes.length) S.sel = Math.max(0, S.scenes.length - 1);
+  renderMeta(); renderSceneList(); renderScenePanel(); renderTimeline(); draw();
+  document.getElementById("ymlView").textContent = toYaml(exportNames());
+}
+
+/* ============================================================ 입력 연결 */
+function bindMeta(id, key, parse) {
+  document.getElementById(id).addEventListener("input", e => {
+    const v = parse(e.target.value); if (v === null || (typeof v === "number" && isNaN(v))) return;
+    S.meta[key] = v;
+    if (id === "m_type") document.getElementById("m_type_n").value = v;
+    if (id === "m_type_n") document.getElementById("m_type").value = v;
+    if (id === "m_lb") document.getElementById("m_lb_n").value = v;
+    if (id === "m_lb_n") document.getElementById("m_lb").value = v;
+    const twin = { m_tsv: "m_tsv_n", m_tsv_n: "m_tsv", m_bv: "m_bv_n", m_bv_n: "m_bv", m_size: "m_size_n", m_size_n: "m_size", m_x: "m_x_n", m_x_n: "m_x", m_y: "m_y_n", m_y_n: "m_y", m_color: "m_color_t", m_color_t: "m_color" }[id];
+    if (twin) document.getElementById(twin).value = v;
+    renderMeta(); renderWarnings(); renderTimeline(); renderSceneList(); draw(); scheduleSave();
+  });
+}
+bindMeta("m_id", "id", v => v.trim().toLowerCase());
+bindMeta("m_title", "title", v => v);
+bindMeta("m_font", "font", v => v);
+bindMeta("m_italic", "italic", v => v === "true");
+bindMeta("m_prefix", "prefix", v => v);
+bindMeta("m_type", "type_speed", v => clamp(parseFloat(v), 0, 1));
+bindMeta("m_type_n", "type_speed", v => clamp(parseFloat(v), 0, 1));
+bindMeta("m_lb", "letterbox", v => clamp(parseFloat(v), 0, 0.3));
+bindMeta("m_lb_n", "letterbox", v => clamp(parseFloat(v), 0, 0.3));
+bindMeta("m_lbt", "letterbox_time", v => clamp(parseFloat(v), 0, 10));
+bindMeta("m_fade", "end_fade", v => clamp(parseFloat(v), 0, 10));
+bindMeta("m_size", "font_size", v => clamp(parseFloat(v), 0.4, 2.5));
+bindMeta("m_size_n", "font_size", v => clamp(parseFloat(v), 0.4, 2.5));
+const hexOk = v => /^#[0-9a-f]{6}$/i.test(v) ? v.toLowerCase() : null;
+bindMeta("m_color", "text_color", hexOk);
+bindMeta("m_color_t", "text_color", v => hexOk(v.startsWith("#") ? v : "#" + v));
+bindMeta("m_shadow", "text_shadow", v => v === "true");
+bindMeta("m_x", "text_x", v => clamp(parseFloat(v), 0, 1));
+bindMeta("m_x_n", "text_x", v => clamp(parseFloat(v), 0, 1));
+bindMeta("m_y", "text_y", v => clamp(parseFloat(v), 0, 1));
+bindMeta("m_y_n", "text_y", v => clamp(parseFloat(v), 0, 1));
+bindMeta("m_ts", "type_sound", v => v);
+bindMeta("m_tsv", "type_sound_volume", v => clamp(parseFloat(v), 0, 1));
+bindMeta("m_tsv_n", "type_sound_volume", v => clamp(parseFloat(v), 0, 1));
+bindMeta("m_bv", "bgm_volume", v => clamp(parseFloat(v), 0, 1));
+bindMeta("m_bv_n", "bgm_volume", v => clamp(parseFloat(v), 0, 1));
+bindMeta("m_bst", "bgm_start", v => clamp(parseFloat(v), 0, 3600));
+bindMeta("m_bfi", "bgm_fade_in", v => clamp(parseFloat(v), 0, 30));
+bindMeta("m_bfo", "bgm_fade_out", v => clamp(parseFloat(v), 0, 30));
+document.getElementById("bgmInput").addEventListener("change", e => {
+  const f = e.target.files[0]; e.target.value = ""; if (!f) return;
+  if (!/\.ogg$/i.test(f.name)) { toast("배경음은 ogg 파일만 쓸 수 있어요"); return; }
+  S.meta.bgm = { blob: f, name: f.name }; bgmBuffer = null; renderMeta(); scheduleSave(); toast("배경음을 넣었어요");
+});
+document.getElementById("bgmClear").onclick = () => { S.meta.bgm = null; bgmBuffer = null; stopBgm(); renderMeta(); scheduleSave(); };
+document.getElementById("m_yauto").addEventListener("change", e => {
+  S.meta.text_y = e.target.value === "auto" ? null : +(1 - S.meta.letterbox / 2).toFixed(2);
+  renderMeta(); draw(); scheduleSave();
+});
+
+stage.addEventListener("click", e => {
+  if (mode === "text") {
+    const rect = stage.getBoundingClientRect();
+    S.meta.text_x = +clamp((e.clientX - rect.left) / rect.width, 0, 1).toFixed(3);
+    S.meta.text_y = +clamp((e.clientY - rect.top) / rect.height, 0, 1).toFixed(3);
+    renderMeta(); draw(); scheduleSave(); return;
+  }
+  if (mode !== "edit") return;
+  const s = cur(); const fr = s && s.frames[0]; const im = fr && imgCache.get(fr.key); if (!im) return;
+  const rect = stage.getBoundingClientRect();
+  const x = (e.clientX - rect.left) / rect.width * stage.width, y = (e.clientY - rect.top) / rect.height * stage.height;
+  const r = coverRect(im, stage.width, stage.height);
+  s.zoom.x = +clamp((x - r.dx) / r.dw, 0, 1).toFixed(3); s.zoom.y = +clamp((y - r.dy) / r.dh, 0, 1).toFixed(3);
+  renderScenePanel(); draw(); scheduleSave();
+});
+document.getElementById("timeline").addEventListener("click", e => {
+  const rect = e.currentTarget.getBoundingClientRect();
+  const t = clamp((e.clientX - rect.left) / rect.width, 0, 1) * totalDur();
+  if (mode !== "play") setMode("play");
+  playT = t; const { i } = locate(Math.min(t, scenesDur() - 1e-6)); S.sel = i;
+  if (playing) { soundLine = null; startBgm(t); }
+  renderSceneList(); renderScenePanel(); renderTimeline(); draw();
+});
+document.getElementById("modeEdit").onclick = () => setMode("edit");
+document.getElementById("modeText").onclick = () => { setMode("text"); document.getElementById("stylePanel").open = true; };
+document.getElementById("modePlay").onclick = () => { setMode("play"); playT = sceneStart(S.sel); draw(); renderTimelineHead(); };
+document.getElementById("playBtn").onclick = () => { if (playing) { pausePlayback(); } else play(playT > 0 && playT < totalDur() && mode === "play" ? playT : 0); };
+document.getElementById("playSceneBtn").onclick = () => play(sceneStart(S.sel));
+document.getElementById("speedBtn").onclick = e => { speed = speed === 1 ? 2 : 1; e.currentTarget.textContent = `>> ${speed}x`; e.currentTarget.classList.toggle("on", speed === 2); };
+
+function addScenesFromFiles(files) {
+  const imgs = [...files].filter(f => f.type.startsWith("image/"));
+  if (!imgs.length) return;
+  for (const f of imgs) {
+    const s = newScene([newFrame(f, f.name)]);
+    if (S.scenes.length === 0) s.transition = "fade";
+    S.scenes.splice(S.sel + 1, 0, s); S.sel = S.scenes.indexOf(s);
+  }
+  renderAll(); scheduleSave(); toast(`장면 ${imgs.length}개를 추가했어요`);
+}
+document.getElementById("addSceneInput").onchange = e => { addScenesFromFiles(e.target.files); e.target.value = ""; };
+document.getElementById("dupScene").onclick = () => {
+  const s = cur(); if (!s) return;
+  const c = JSON.parse(JSON.stringify({ ...s, frames: [] })); c.key = uid++; c.frames = s.frames.slice();
+  S.scenes.splice(S.sel + 1, 0, c); S.sel++; renderAll(); scheduleSave();
+};
+document.getElementById("upScene").onclick = () => { const i = S.sel; if (i > 0) { [S.scenes[i - 1], S.scenes[i]] = [S.scenes[i], S.scenes[i - 1]]; S.sel--; renderAll(); scheduleSave(); } };
+document.getElementById("downScene").onclick = () => { const i = S.sel; if (i < S.scenes.length - 1) { [S.scenes[i + 1], S.scenes[i]] = [S.scenes[i], S.scenes[i + 1]]; S.sel++; renderAll(); scheduleSave(); } };
+let delArmed = null;
+document.getElementById("delScene").onclick = e => {
+  if (!cur()) return;
+  const b = e.currentTarget;
+  if (delArmed !== S.sel) { delArmed = S.sel; b.textContent = "정말 삭제?"; setTimeout(() => { delArmed = null; b.textContent = "삭제"; }, 2500); return; }
+  S.scenes.splice(S.sel, 1); delArmed = null; b.textContent = "삭제"; renderAll(); scheduleSave(); toast("장면을 지웠어요");
+};
+const wrap = document.getElementById("stageWrap");
+["dragenter", "dragover"].forEach(ev => wrap.addEventListener(ev, e => { e.preventDefault(); wrap.classList.add("dragging"); }));
+["dragleave", "drop"].forEach(ev => wrap.addEventListener(ev, e => { e.preventDefault(); wrap.classList.remove("dragging"); }));
+wrap.addEventListener("drop", e => addScenesFromFiles(e.dataTransfer.files));
+
+/* ============================================================ yml 만들기 / 읽기 */
+const escU = s => s.replace(/[\x85\u{2028}\u{2029}]/gu, c => "\\u" + c.charCodeAt(0).toString(16).padStart(4, "0"));
+/* 모든 글자 값은 따옴표로 감싼다. JSON 문자열 = 올바른 YAML 큰따옴표 문자열 */
+const q = s => escU(JSON.stringify(String(s ?? "")));
+/* 숫자는 반드시 유한한 값으로 (NaN / Infinity 를 파일에 쓰지 않는다: 게임에서 끝나지 않는 컷신이 된다) */
+const fin = (v, d) => { const x = typeof v === "number" ? v : parseFloat(v); return Number.isFinite(x) ? x : d; };
+const n = (v, d = 0) => String(+fin(v, d).toFixed(3));
+/* 편집기가 모르는 키는 그대로 보관했다가 다시 내보낸다 (JSON 은 yml 로도 읽힌다) */
+const yj = v => escU(JSON.stringify(v === undefined ? null : v));
+const extraPairs = x => Object.entries(x || {}).map(([k, v]) => `${q(k)}: ${yj(v)}`);
+const pickExtra = (o, known) => { const x = {}; if (o && typeof o === "object") for (const [k, v] of Object.entries(o)) if (!known.includes(k)) x[k] = v; return x; };
+const META_KEYS = ["format", "id", "title", "font", "font_size", "text_color", "text_x", "text_y", "text_shadow", "italic", "prefix", "type_speed", "letterbox", "letterbox_time", "end_fade",
+  "type_sound", "type_sound_volume", "bgm", "bgm_volume", "bgm_start", "bgm_fade_in", "bgm_fade_out", "scenes"];
+function exportNames() {
+  // 장면 i, 컷 k → s{i+1}_{k+1}.png. 같은 이미지를 여러 장면이 쓰면 처음 이름을 재사용
+  const names = new Map(); const out = [];
+  S.scenes.forEach((s, i) => out.push(s.frames.map((f, k) => {
+    if (!names.has(f.key)) names.set(f.key, `s${i + 1}_${k + 1}.png`);
+    return names.get(f.key);
+  })));
+  return out;
+}
+function toYaml(names) {
+  const m = S.meta; const L = [];
+  L.push("# 차카데미 컷신 — 편집기에서 만듦", "format: 1", `id: ${q(m.id)}`, `title: ${q(m.title)}`, `font: ${q(m.font)}`, `font_size: ${n(m.font_size, 1)}`, `text_color: ${q(m.text_color)}`, `text_x: ${n(m.text_x, 0.5)}`,
+    `text_y: ${m.text_y == null ? "auto" : n(m.text_y, 0.93)}`, `text_shadow: ${!!m.text_shadow}`, `italic: ${!!m.italic}`,
+    `prefix: ${q(m.prefix)}`, `type_speed: ${n(m.type_speed, 0.06)}`, `letterbox: ${n(m.letterbox, 0.14)}`, `letterbox_time: ${n(m.letterbox_time, 1.6)}`, `end_fade: ${n(m.end_fade, 1.2)}`,
+    `type_sound: ${q(m.type_sound || "default")}`, `type_sound_volume: ${n(m.type_sound_volume, 0.5)}`,
+    `bgm: ${m.bgm ? q("bgm.ogg") : q("")}`, `bgm_volume: ${n(m.bgm_volume, 0.6)}`, `bgm_start: ${n(m.bgm_start, 0)}`, `bgm_fade_in: ${n(m.bgm_fade_in, 3)}`, `bgm_fade_out: ${n(m.bgm_fade_out, 4)}`);
+  extraPairs(m.extra).forEach(x => L.push(x));
+  L.push(S.scenes.length ? "scenes:" : "scenes: []");
+  S.scenes.forEach((s, i) => {
+    L.push(`  - images: [${names[i].map(q).join(", ")}]`, `    fps: ${n(s.fps, 6)}`, `    duration: ${n(s.duration, 5)}`,
+      `    zoom: {x: ${n(s.zoom.x, 0.5)}, y: ${n(s.zoom.y, 0.5)}, from: ${n(s.zoom.from, 1)}, to: ${n(s.zoom.to, 1)}}`,
+      `    transition: ${q(s.transition)}`, `    transition_time: ${n(s.transition_time, 1.2)}`);
+    extraPairs(s.extra).forEach(x => L.push("    " + x));
+    if (!s.lines.length) L.push("    lines: []");
+    else { L.push("    lines:"); for (const l of s.lines) { const e = extraPairs(l.extra); L.push(`      - {text: ${q(l.text)}, start: ${n(l.start, 0)}, end: ${n(l.end, 3)}${e.length ? ", " + e.join(", ") : ""}}`); } }
+  });
+  return L.join("\n") + "\n";
+}
+function fromYamlObj(o, getBlob) {
+  if (!o || typeof o !== "object" || Array.isArray(o)) throw new Error("yml 내용이 비어 있어요");
+  // 숫자가 아니거나 NaN / Infinity 면 기본값. 범위는 게임(모드)과 같게 자른다
+  const num = (v, d, lo, hi) => clamp(fin(v, d), lo, hi);
+  const meta = defMeta();
+  meta.id = String(o.id ?? meta.id); meta.title = String(o.title ?? meta.id); meta.font = ["light", "medium", "bold"].includes(o.font) ? o.font : "medium";
+  meta.italic = o.italic === undefined ? true : !!o.italic; meta.prefix = o.prefix === undefined ? "- " : String(o.prefix);
+  meta.font_size = num(o.font_size, 1, 0.4, 2.5);
+  { const c = String(o.text_color ?? "").trim().replace(/^#?/, "#"); meta.text_color = /^#[0-9a-f]{6}$/i.test(c) ? c.toLowerCase() : "#efe3c8"; }
+  meta.text_x = num(o.text_x, 0.5, 0, 1);
+  meta.text_y = o.text_y == null || String(o.text_y).trim() === "" || String(o.text_y).trim().toLowerCase() === "auto" ? null : num(o.text_y, 0.93, 0, 1);
+  meta.text_shadow = !!o.text_shadow;
+  // none | default | 마인크래프트 소리 id (편집기에서 고를 수는 없지만 지우지 않고 그대로 둔다)
+  { const t = String(o.type_sound ?? "default").trim(); meta.type_sound = !t ? "default" : ["none", "default"].includes(t.toLowerCase()) ? t.toLowerCase() : t.slice(0, 120); }
+  meta.type_sound_volume = num(o.type_sound_volume, 0.5, 0, 1);
+  meta.bgm_volume = num(o.bgm_volume, 0.6, 0, 1); meta.bgm_start = num(o.bgm_start, 0, 0, 3600); meta.bgm_fade_in = num(o.bgm_fade_in, 3, 0, 30); meta.bgm_fade_out = num(o.bgm_fade_out, 4, 0, 30);
+  const missing = [];
+  if (o.bgm && String(o.bgm).trim() && String(o.bgm).trim().toLowerCase() !== "none") { const b = getBlob(String(o.bgm).trim()); if (b) meta.bgm = { blob: b, name: String(o.bgm).trim() }; else missing.push(String(o.bgm).trim()); }
+  meta.type_speed = num(o.type_speed, 0.06, 0, 1); meta.letterbox = num(o.letterbox, 0.14, 0, 0.3); meta.letterbox_time = num(o.letterbox_time, 1.6, 0, 10); meta.end_fade = num(o.end_fade, 1.2, 0, 10);
+  meta.extra = pickExtra(o, META_KEYS);
+  const scenes = (Array.isArray(o.scenes) ? o.scenes : []).filter(so => so && typeof so === "object").slice(0, 200).map(so => {
+    const s = newScene([]);
+    const imgs = Array.isArray(so.images) ? so.images : so.image ? [so.image] : [];
+    for (const name of imgs) { const b = getBlob(String(name)); if (b) s.frames.push(newFrame(b, String(name))); else missing.push(String(name)); }
+    s.fps = num(so.fps, 6, 0.5, 30); s.duration = num(so.duration, 5, 0.2, 600);
+    const z = so.zoom && typeof so.zoom === "object" ? so.zoom : {}; s.zoom = { x: num(z.x, 0.5, 0, 1), y: num(z.y, 0.5, 0, 1), from: num(z.from, 1, 1, 4), to: num(z.to, 1, 1, 4) };
+    s.transition = ["ink", "fade", "cut"].includes(so.transition) ? so.transition : "ink"; s.transition_time = num(so.transition_time, 1.2, 0, 10);
+    s.lines = (Array.isArray(so.lines) ? so.lines : []).filter(l => l && typeof l === "object").map(l => { const start = num(l.start, 0, 0, 600); return { text: String(l.text ?? "").replace(/[\r\n]+/g, " "), start, end: Math.max(start + 0.1, num(l.end, start + 3, 0, 600)), extra: pickExtra(l, ["text", "start", "end"]) }; });
+    s.extra = pickExtra(so, ["images", "image", "fps", "duration", "zoom", "transition", "transition_time", "lines"]);
+    return s;
+  });
+  return { meta, scenes, missing };
+}
+
+/* ============================================================ 물어보기 창 (confirm 을 쓸 수 없는 화면에서도 동작) */
+function ask(message, buttons) {
+  return new Promise(res => {
+    const back = document.createElement("div"); back.className = "askback";
+    const box = document.createElement("div"); box.className = "askbox"; box.setAttribute("role", "dialog"); box.setAttribute("aria-modal", "true");
+    const p = document.createElement("p"); p.textContent = message;
+    const row = document.createElement("div"); row.className = "askbtns";
+    const done = v => { back.remove(); res(v); };
+    for (const [v, t, cls] of buttons) { const b = document.createElement("button"); if (cls) b.className = cls; b.textContent = t; b.onclick = () => done(v); row.append(b); }
+    back.addEventListener("keydown", e => { if (e.key === "Escape") done(null); });
+    box.append(p, row); back.append(box); document.body.append(back);
+    const first = row.querySelector("button"); if (first) first.focus();
+  });
+}
+const libsReady = () => typeof JSZip !== "undefined" && typeof jsyaml !== "undefined";
+const oneLine = s => String(s ?? "").replace(/[\r\n]+/g, " ").slice(0, 120);
+
+/* ============================================================ 불러오기 */
+const ZIP_MAX = 300 * 1024 * 1024, ZIP_ENTRIES = 400, YML_MAX = 2 * 1024 * 1024, FILE_MAX = 64 * 1024 * 1024, TOTAL_MAX = 800 * 1024 * 1024;
+async function importFiles(files) {
+  files = [...files];
+  try {
+    let ymlText = null; const blobs = new Map();
+    const hasPack = files.some(f => /\.(zip|ya?ml)$/i.test(f.name));
+    if (hasPack && !libsReady()) { toast("zip · yml 을 읽는 라이브러리를 받지 못했어요 (인터넷 연결 확인 후 새로고침)"); return; }
+    const size = e => (e && e._data && Number.isFinite(e._data.uncompressedSize)) ? e._data.uncompressedSize : 0;
+    for (const f of files) {
+      const lower = f.name.toLowerCase();
+      if (lower.endsWith(".zip")) {
+        if (f.size > ZIP_MAX) throw new Error("zip 이 너무 커요 (300MB 까지)");
+        const zip = await JSZip.loadAsync(f);
+        const entries = Object.entries(zip.files).filter(([, e]) => !e.dir);
+        if (entries.length > ZIP_ENTRIES) throw new Error(`zip 안의 파일이 너무 많아요 (${ZIP_ENTRIES}개까지)`);
+        // 어느 yml 을 쓸지 정해진 순서로 고른다: cutscene.yml (경로가 얕은 것, 이름순) → 없으면 yml 이 하나뿐일 때만 그것
+        const depth = p => p.split("/").length, byPath = ([a], [b]) => depth(a) - depth(b) || (a < b ? -1 : a > b ? 1 : 0);
+        const ymls = entries.filter(([p]) => /\.ya?ml$/i.test(p.split("/").pop())).sort(byPath);
+        const named = ymls.filter(([p]) => p.split("/").pop().toLowerCase() === "cutscene.yml");
+        if (!named.length && ymls.length > 1) throw new Error("zip 안에 cutscene.yml 이 없고 yml 이 여러 개예요: " + ymls.slice(0, 4).map(([p]) => oneLine(p)).join(", "));
+        const pick = named[0] || ymls[0];
+        if (pick) { if (size(pick[1]) > YML_MAX) throw new Error("yml 이 너무 커요"); ymlText = await pick[1].async("string"); }
+        // 그림·소리는 고른 yml 과 같은 폴더의 것을 먼저, 이름이 같으면 처음 것 하나만
+        const home = pick ? pick[0].split("/").slice(0, -1).join("/") : "";
+        const media = entries.filter(([p]) => /\.(png|jpe?g|webp|gif|ogg)$/i.test(p)).sort((a, b) => {
+          const ha = a[0].split("/").slice(0, -1).join("/") === home ? 0 : 1, hb = b[0].split("/").slice(0, -1).join("/") === home ? 0 : 1;
+          return ha - hb || byPath(a, b);
+        });
+        let total = 0;
+        for (const [path, entry] of media) {
+          const base = path.split("/").pop();
+          if (blobs.has(base)) continue;
+          if (size(entry) > FILE_MAX) throw new Error("zip 안의 파일이 너무 커요: " + oneLine(base));
+          total += size(entry); if (total > TOTAL_MAX) throw new Error("zip 을 풀면 너무 커요");
+          blobs.set(base, await entry.async("blob"));
+        }
+      } else if (/\.ya?ml$/.test(lower)) { if (f.size > YML_MAX) throw new Error("yml 이 너무 커요"); ymlText = await f.text(); }
+      else if (f.type.startsWith("image/") || /\.ogg$/i.test(f.name)) { if (f.size <= FILE_MAX) blobs.set(f.name, f); }
+    }
+    if (!ymlText) { addScenesFromFiles(files); return; }
+    if (ymlText.length > YML_MAX) throw new Error("yml 이 너무 커요");
+    const doc = jsyaml.load(ymlText);
+    if (!doc || typeof doc !== "object") throw new Error("yml 내용이 비어 있어요");
+    if (!(await replaceProject(`"${oneLine(doc.title ?? doc.id ?? "컷신")}" 컷신을 불러오면 지금 편집 중인 컷신이 바뀌어요.`))) return;
+    const r = fromYamlObj(doc, name => blobs.get(name));
+    S.meta = r.meta; S.scenes = r.scenes; S.sel = 0; bgmBuffer = null; setMode("edit"); renderAll(); scheduleSave();
+    if (r.missing.length) await ask("불러왔어요. 아래 파일은 찾지 못했어요 (같이 선택해서 다시 불러오거나, 장면에 이미지를 새로 넣어 주세요):\n\n" + r.missing.slice(0, 30).map(oneLine).join("\n") + (r.missing.length > 30 ? `\n… 외 ${r.missing.length - 30}개` : ""), [["ok", "확인", "primary"]]);
+    else toast(`"${S.meta.id}" 컷신을 불러왔어요`);
+  } catch (err) { toast("불러오지 못했어요: " + err.message); }
+}
+document.getElementById("importInput").onchange = e => { importFiles(e.target.files); e.target.value = ""; };
+
+/* ============================================================ 내보내기 */
+const EXPORT_MAX_SIDE = 1600; // 게임이 쓰는 최대 크기. 더 큰 그림은 여기서 줄여서 넣는다 (게임에서 읽는 시간·메모리 절약)
+function toPng(frame) {
+  const im = imgCache.get(frame.key);
+  const big = im && Math.max(im.naturalWidth, im.naturalHeight) > EXPORT_MAX_SIDE;
+  if (!big && /\.png$/i.test(frame.name) && frame.blob.type === "image/png") return Promise.resolve(frame.blob);
+  return new Promise((res, rej) => {
+    if (!im) return rej(new Error("이미지가 아직 안 열렸어요: " + frame.name));
+    const k = big ? EXPORT_MAX_SIDE / Math.max(im.naturalWidth, im.naturalHeight) : 1;
+    const c = document.createElement("canvas"); c.width = Math.max(1, Math.round(im.naturalWidth * k)); c.height = Math.max(1, Math.round(im.naturalHeight * k));
+    const g = c.getContext("2d"); g.imageSmoothingEnabled = true; g.imageSmoothingQuality = "high";
+    g.drawImage(im, 0, 0, c.width, c.height); c.toBlob(b => b ? res(b) : rej(new Error("PNG 변환 실패")), "image/png");
+  });
+}
+async function saveFile(filename, blob) {
+  const api = window.claude && typeof window.claude.use === "function" ? await window.claude.use("downloads").catch(() => null) : null;
+  if (api) {
+    try { await api.save({ filename, data: blob }); return true; }
+    catch (e) { if (e && e.code === "declined") return false; toast("저장하지 못했어요: " + (e && e.message || e)); return false; }
+  }
+  if (window.claude) { toast("이 화면에서는 파일 저장을 쓸 수 없어요. 편집기 파일을 PC에서 직접 열어 주세요."); return false; }
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = filename;
+  document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  return true;
+}
+document.getElementById("exportBtn").onclick = async () => {
+  const m = S.meta;
+  if (!libsReady()) { toast("zip 을 만드는 라이브러리를 받지 못했어요 (인터넷 연결 확인 후 새로고침)"); return; }
+  if (!ID_RE.test(m.id)) { toast("id는 소문자, 숫자, _, - 만 쓸 수 있어요 (1~64자)"); document.getElementById("metaPanel").open = true; document.getElementById("m_id").focus(); return; }
+  if (!S.scenes.length) { toast("장면이 하나도 없어요"); return; }
+  if (S.scenes.some(s => !s.frames.length)) { toast("이미지가 없는 장면이 있어요"); return; }
+  try {
+    const names = exportNames(); const zip = new JSZip(); const dir = zip.folder(m.id); const done = new Set();
+    dir.file("cutscene.yml", toYaml(names));
+    for (let i = 0; i < S.scenes.length; i++) for (let k = 0; k < S.scenes[i].frames.length; k++) {
+      const name = names[i][k]; if (done.has(name)) continue; done.add(name);
+      dir.file(name, await toPng(S.scenes[i].frames[k]));
+    }
+    if (m.bgm) dir.file("bgm.ogg", m.bgm.blob);
+    const blob = await zip.generateAsync({ type: "blob" });
+    if (await saveFile(`${m.id}.zip`, blob)) toast(`${m.id}.zip 저장. config/chaca_cutscene 안에 풀면 돼요`);
+  } catch (err) { toast("내보내지 못했어요: " + err.message); }
+};
+document.getElementById("copyYmlBtn").onclick = async () => {
+  const text = toYaml(exportNames());
+  try { await navigator.clipboard.writeText(text); toast("yml을 복사했어요"); }
+  catch { document.querySelector("#ymlView").closest("details").open = true; const r = document.createRange(); r.selectNodeContents(document.getElementById("ymlView")); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); toast("복사가 막혀 있어요. 선택된 yml을 Ctrl+C 하세요"); }
+};
+
+/* ============================================================ 임시 저장 (이 브라우저에만: 지금 것 "draft", 바꾸기 직전 것 "prev") */
+let saveTimer = null;
+function scheduleSave() {
+  document.getElementById("ymlView").textContent = toYaml(exportNames());
+  clearTimeout(saveTimer); saveTimer = setTimeout(saveDraft, 600);
+}
+function idb() {
+  return new Promise((res, rej) => { const r = indexedDB.open("chaca-cutscene-editor", 1); r.onupgradeneeded = () => r.result.createObjectStore("kv"); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); });
+}
+async function writeSlot(slot) {
+  const db = await idb();
+  const data = { meta: S.meta, scenes: S.scenes.map(s => ({ ...s, frames: s.frames.map(f => ({ blob: f.blob, name: f.name, key: f.key })) })) };
+  await new Promise((res, rej) => { const tx = db.transaction("kv", "readwrite"); tx.objectStore("kv").put(data, slot); tx.oncomplete = res; tx.onerror = () => rej(tx.error); });
+}
+async function readSlot(slot) {
+  try {
+    const db = await idb();
+    return await new Promise((res, rej) => { const tx = db.transaction("kv", "readonly"); const r = tx.objectStore("kv").get(slot); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); });
+  } catch { return null; }
+}
+async function saveDraft() {
+  try { await writeSlot("draft"); document.getElementById("saveStatus").textContent = "이 브라우저에 임시 저장됨"; }
+  catch { document.getElementById("saveStatus").textContent = "임시 저장 안 됨 · zip으로 내보내 보관하세요"; }
+}
+function adoptDraft(data) {
+  S.meta = { ...defMeta(), ...data.meta };
+  const shared = new Map();
+  S.scenes = (data.scenes || []).map(s => ({ ...s, key: uid++, frames: s.frames.map(f => { if (!shared.has(f.key)) shared.set(f.key, newFrame(f.blob, f.name)); return shared.get(f.key); }) }));
+}
+async function loadDraft() {
+  try {
+    const data = await readSlot("draft");
+    if (!data || !data.meta) return false;
+    adoptDraft(data);
+    return true;
+  } catch { return false; }
+}
+/* 지금 컷신을 다른 것으로 바꾸기 전에: 물어보고, 지금 것을 "이전 초안" 칸에 넣어 둔다 */
+async function replaceProject(message) {
+  const a = await ask(message + "\n지금 것은 [이전 초안 복구] 로 되돌릴 수 있어요.", [["go", "바꾸기", "primary"], [null, "취소"]]);
+  if (a !== "go") return false;
+  clearTimeout(saveTimer);
+  try { await writeSlot("prev"); } catch { if ((await ask("지금 컷신을 이 브라우저에 보관하지 못했어요. 그래도 바꿀까요? (되돌릴 수 없어요)", [["go", "그래도 바꾸기"], [null, "취소", "primary"]])) !== "go") return false; }
+  return true;
+}
+document.getElementById("newBtn").onclick = async () => {
+  if (!(await replaceProject("지금 컷신을 지우고 새 컷신을 만들어요."))) return;
+  S.meta = defMeta(); S.scenes = []; S.sel = 0; bgmBuffer = null; setMode("edit"); renderAll(); scheduleSave();
+};
+document.getElementById("prevBtn").onclick = async () => {
+  const prev = await readSlot("prev");
+  if (!prev || !prev.meta) { toast("복구할 이전 초안이 없어요"); return; }
+  if ((await ask("불러오기 · 새 컷신 직전에 편집하던 컷신으로 되돌려요. (지금 것은 다시 [이전 초안 복구] 로 돌아올 수 있어요)", [["go", "되돌리기", "primary"], [null, "취소"]])) !== "go") return;
+  clearTimeout(saveTimer);
+  try { await writeSlot("prev"); } catch {}
+  adoptDraft(prev); S.sel = 0; bgmBuffer = null; setMode("edit"); renderAll(); scheduleSave();
+  toast("이전 초안으로 되돌렸어요");
+};
+async function loadSample() {
+  const names = ["s1_1.png", "s1_2.png", "s1_3.png", "s2_1.png", "bgm.ogg"]; const blobs = new Map();
+  await Promise.all(names.map(async nm => { try { const r = await fetch("example/" + nm); if (r.ok) blobs.set(nm, await r.blob()); } catch {} }));
+  const sample = {
+    id: "ch1_ashen_night", title: "잿빛 밤 동화 (예시)", bgm: "bgm.ogg", bgm_volume: 0.6, bgm_fade_in: 3, bgm_fade_out: 4, font: "medium", italic: true, prefix: "- ", type_speed: 0.06, letterbox: 0.14, letterbox_time: 1.6, end_fade: 1.2,
+    scenes: [
+      { images: ["s1_1.png", "s1_2.png", "s1_3.png"], fps: 6, duration: 8, zoom: { x: 0.46, y: 0.62, from: 1, to: 1.08 }, transition: "fade", transition_time: 1.2,
+        lines: [{ text: "백 년 전, 잿빛 밤.", start: 1.7, end: 4.0 }, { text: "불길은 학교를 삼켰고, 교수들은 하나둘 쓰러졌다.", start: 4.2, end: 7.8 }] },
+      { images: ["s2_1.png"], fps: 6, duration: 7, zoom: { x: 0.75, y: 0.38, from: 1, to: 1.12 }, transition: "ink", transition_time: 1.4,
+        lines: [{ text: "그리고 그날 밤, 한 사람이 빛나는 존재 앞에 무릎을 꿇었다.", start: 1.6, end: 6.6 }] }]
+  };
+  const r = fromYamlObj(sample, nm => blobs.get(nm));
+  S.meta = r.meta; S.scenes = r.scenes;
+}
+
+/* ============================================================ 기타 */
+let toastTimer;
+function toast(msg) { const t = document.getElementById("toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove("show"), 3200); }
+document.addEventListener("keydown", e => {
+  if (e.target.closest("input,textarea,select")) return;
+  if (e.code === "Space") { e.preventDefault(); document.getElementById("playBtn").click(); }
+});
+
+(async () => {
+  if (!libsReady()) document.getElementById("offlineNote").hidden = false;
+  S.meta = defMeta();
+  renderAll();
+  if (!(await loadDraft())) await loadSample();
+  renderAll();
+  document.fonts.load("italic 400 20px CNM").then(() => draw()).catch(() => {});
+})();
+</script>
+
+</body>
+</html>

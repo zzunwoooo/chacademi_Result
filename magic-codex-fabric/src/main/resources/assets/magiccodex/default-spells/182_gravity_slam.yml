@@ -1,0 +1,15 @@
+id: gravity_slam
+name: 중력 강타
+category: earth
+description: 두 주먹으로 땅을 내리쳐 주변 적에게 피해를 주고 2초 동안 무겁게 짓누릅니다.
+# Existing icon reused from weightless_zone; dedicated mob-skill artwork was not supplied.
+icon: magiccodex:textures/spells/mob_skill/gravity_slam.png
+permission: magic.learned.gravity_slam
+discovery:
+  description: 고대 골렘을 처치하면 5% 확률로 습득합니다.
+research: 고대 골렘이 내리친 땅은 한동안 하늘을 잊는다.
+cast:
+  command: 마법 gravity_slam
+  cooldown-seconds: 16
+  mana-cost: 45
+order: 182

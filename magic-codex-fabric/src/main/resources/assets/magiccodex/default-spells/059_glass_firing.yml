@@ -1,0 +1,14 @@
+id: glass_firing
+name: 광석 재련
+category: fire
+description: 슬롯에 장착한 동안 채광한 광석의 드롭을 자동으로 재련합니다. 발동한 광석마다 마나 3을 소모합니다.
+icon: magiccodex:textures/spells/expansion_2/glass_firing.png
+permission: magic.learned.glass_firing
+discovery:
+  description: 세드릭 교수의 화염 마법 고급 수업 듣기.
+research: 화염 입자가 광물에 스며들면 재련 된 광물의 드랍도 가능하지 않을까?
+cast:
+  command: 마법 glass_firing
+  cooldown-seconds: 0
+  mana-cost: 3
+order: 59

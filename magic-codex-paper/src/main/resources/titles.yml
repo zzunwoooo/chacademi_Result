@@ -1,0 +1,1123 @@
+# Same file on school / wild / dungeon. IDs stay stable; display names may change.
+# initial: true grants on first creation only; revoking it does not re-grant on login.
+titles:
+  prefix_starlight:
+    side: prefix
+    name: 별빛을 발견한
+    color: '#96E4EC'
+  prefix_bond:
+    side: prefix
+    name: 작은 인연을 맺은
+    color: '#96E4EC'
+  prefix_forest:
+    side: prefix
+    name: 숲을 거니는
+    color: '#96E4EC'
+  prefix_miracle:
+    side: prefix
+    name: 기적을 이루는
+    color: '#96E4EC'
+  suffix_researcher:
+    side: suffix
+    name: 연구가
+    color: '#DEC58E'
+  suffix_student:
+    side: suffix
+    name: 학생
+    color: '#DEC58E'
+    initial: true
+  suffix_tamer:
+    side: suffix
+    name: 교화사
+    color: '#DEC58E'
+  suffix_explorer:
+    side: suffix
+    name: 탐험가
+    color: '#DEC58E'
+  # NPC 호감도 칭호 (오너 결정 2026-10-24): 아무 NPC와 처음 30·60·90 달성 시 한 번. 지급 규칙은 title-awards.yml affinity.first-any
+  suffix_affinity_friend:
+    side: suffix
+    name: 친구
+    color: '#DEC58E'
+  suffix_affinity_bestie:
+    side: suffix
+    name: 단짝
+    color: '#DEC58E'
+  suffix_affinity_lover:
+    side: suffix
+    name: 연인
+    color: '#DEC58E'
+
+  # ── 마법 발견 칭호 225개 (오너 기획 chacademi-titles-all.yml 237개, 2026-10-25 / 꺼진 마법 12개 2026-10-26 삭제). 지급: title-awards.yml discovery
+  prefix_magic_feather_fall:  # 001 깃털 낙하 (바람)
+    side: prefix
+    name: '가벼운'
+    color: '#96E4EC'
+  prefix_magic_harvest_wind:  # 003 수확의 바람 (바람)
+    side: prefix
+    name: '넉넉한'
+    color: '#96E4EC'
+  prefix_magic_light_leap:  # 005 상승기류 (바람)
+    side: prefix
+    name: '솟구치는'
+    color: '#96E4EC'
+  prefix_magic_vacuum_cleave:  # 011 윈드 커터 (바람)
+    side: prefix
+    name: '날선'
+    color: '#96E4EC'
+  prefix_magic_gale_dash:  # 012 바람 걸음 (바람)
+    side: prefix
+    name: '재빠른'
+    color: '#96E4EC'
+  prefix_magic_returning_wind:  # 013 되받는 바람 (바람)
+    side: prefix
+    name: '되받아치는'
+    color: '#96E4EC'
+  prefix_magic_weightless_zone:  # 015 중력지대 (바람)
+    side: prefix
+    name: '끌어당기는'
+    color: '#96E4EC'
+  prefix_magic_dust_duster:  # 018 클린 (바람)
+    side: prefix
+    name: '깔끔한'
+    color: '#96E4EC'
+  prefix_magic_cross_breeze:  # 021 바람 화살 (바람)
+    side: prefix
+    name: '바람든'
+    color: '#96E4EC'
+  prefix_magic_pressure_press:  # 023 윈드 프레스 (바람)
+    side: prefix
+    name: '짓누르는'
+    color: '#96E4EC'
+  prefix_magic_lightning_needle:  # 026 라이트닝 쇼크 (바람)
+    side: prefix
+    name: '번쩍이는'
+    color: '#96E4EC'
+  prefix_magic_arrested_orbit:  # 028 퍼붓는 화살 (바람)
+    side: prefix
+    name: '퍼붓는'
+    color: '#96E4EC'
+  prefix_magic_pressure_rupture:  # 031 토네이도 스핀 (바람)
+    side: prefix
+    name: '회오리치는'
+    color: '#96E4EC'
+  prefix_magic_hearth_touch:  # 033 손끝의 화로 (불)
+    side: prefix
+    name: '따끈한'
+    color: '#96E4EC'
+  prefix_magic_rekindle:  # 035 다시 타오르는 불 (불)
+    side: prefix
+    name: '되살아난'
+    color: '#96E4EC'
+  prefix_magic_fire_curtain:  # 038 플레어 월 (불)
+    side: prefix
+    name: '타오르는'
+    color: '#96E4EC'
+  prefix_magic_phoenix_oath:  # 039 불사조의 서약 (불)
+    side: prefix
+    name: '불사의'
+    color: '#96E4EC'
+  prefix_magic_ash_brand:  # 045 재의 낙인 (불)
+    side: prefix
+    name: '째깍이는'
+    color: '#96E4EC'
+  prefix_magic_crimson_heart:  # 047 홍련의 심장 (불)
+    side: prefix
+    name: '무모한'
+    color: '#96E4EC'
+  prefix_magic_charcoal_conversion:  # 050 발화 (불)
+    side: prefix
+    name: '화끈한'
+    color: '#96E4EC'
+  prefix_magic_sponge_drying:  # 051 스펀지 말리기 (불)
+    side: prefix
+    name: '보송한'
+    color: '#96E4EC'
+  prefix_magic_boiling_armor:  # 053 끓는 갑주 (불)
+    side: prefix
+    name: '끓어오르는'
+    color: '#96E4EC'
+  prefix_magic_glaze_coating:  # 055 화염의 정복자 (불)
+    side: prefix
+    name: '무던한'
+    color: '#96E4EC'
+  prefix_magic_firebird_hunt:  # 059 불새 (불)
+    side: prefix
+    name: '날개돋친'
+    color: '#96E4EC'
+  prefix_magic_lava_suture:  # 060 용암 봉합 (불)
+    side: prefix
+    name: '굳히는'
+    color: '#96E4EC'
+  prefix_magic_blue_bonfire:  # 063 푸른 화톳불 (불)
+    side: prefix
+    name: '푸른'
+    color: '#96E4EC'
+  prefix_magic_tide_stride:  # 066 물살 타기 (물)
+    side: prefix
+    name: '미끄러지는'
+    color: '#96E4EC'
+  prefix_magic_purifying_wave:  # 069 정화의 물결 (물)
+    side: prefix
+    name: '맑은'
+    color: '#96E4EC'
+  prefix_magic_eternal_ice_prison:  # 074 만년빙옥 (물)
+    side: prefix
+    name: '차가운'
+    color: '#96E4EC'
+  prefix_magic_cauldron_fill:  # 075 가마솥 채우기 (물)
+    side: prefix
+    name: '가득한'
+    color: '#96E4EC'
+  prefix_magic_dye_rinse:  # 076 염색 씻기 (물)
+    side: prefix
+    name: '바랜'
+    color: '#96E4EC'
+  prefix_magic_frost_rupture:  # 078 서리 파열 (물)
+    side: prefix
+    name: '시린'
+    color: '#96E4EC'
+  prefix_magic_pressure_lance:  # 079 수압창 (물)
+    side: prefix
+    name: '꿰뚫는'
+    color: '#96E4EC'
+  prefix_magic_life_distribution:  # 080 생명의 분배 (물)
+    side: prefix
+    name: '공평한'
+    color: '#96E4EC'
+  prefix_magic_moist_farmland:  # 081 촉촉한 밭 (물)
+    side: prefix
+    name: '촉촉한'
+    color: '#96E4EC'
+  prefix_magic_current_sorting:  # 089 사금 추출 (물)
+    side: prefix
+    name: '반짝이는'
+    color: '#96E4EC'
+  prefix_magic_waterwheel_shield:  # 091 물레 방패 (물)
+    side: prefix
+    name: '휘도는'
+    color: '#96E4EC'
+  prefix_magic_concrete_curing:  # 092 콘크리트 양생 (물)
+    side: prefix
+    name: '단단한'
+    color: '#96E4EC'
+  prefix_magic_ripple_guard:  # 093 파문방벽 (물)
+    side: prefix
+    name: '잔잔한'
+    color: '#96E4EC'
+  prefix_magic_bouncing_droplet:  # 095 도약하는 물방울 (물)
+    side: prefix
+    name: '통통튀는'
+    color: '#96E4EC'
+  prefix_magic_abyssal_pressure:  # 096 심해의 압력 (물)
+    side: prefix
+    name: '깊은'
+    color: '#96E4EC'
+  prefix_magic_verdant_touch:  # 097 풍요의 손길 (대지)
+    side: prefix
+    name: '풍성한'
+    color: '#96E4EC'
+  prefix_magic_pebble_toss:  # 099 조약돌 던지기 (대지)
+    side: prefix
+    name: '소박한'
+    color: '#96E4EC'
+  prefix_magic_miners_rhythm:  # 100 광부의 박자 (대지)
+    side: prefix
+    name: '부지런한'
+    color: '#96E4EC'
+  prefix_magic_earth_shaping:  # 101 대지 성형 (대지)
+    side: prefix
+    name: '빚어낸'
+    color: '#96E4EC'
+  prefix_magic_earthquake:  # 105 지진 (대지)
+    side: prefix
+    name: '우르릉대는'
+    color: '#96E4EC'
+  prefix_magic_seed_row:  # 107 씨앗 줄심기 (대지)
+    side: prefix
+    name: '가지런한'
+    color: '#96E4EC'
+  prefix_magic_thorn_armor:  # 109 가시 갑옷 (대지)
+    side: prefix
+    name: '뾰족한'
+    color: '#96E4EC'
+  prefix_magic_earth_anchor:  # 111 대지의 닻 (대지)
+    side: prefix
+    name: '묵직한'
+    color: '#96E4EC'
+  prefix_magic_weathering_touch:  # 112 풍화의 손길 (대지)
+    side: prefix
+    name: '낡은'
+    color: '#96E4EC'
+  prefix_magic_iron_carapace:  # 113 철의 외피 (대지)
+    side: prefix
+    name: '무쇠'
+    color: '#96E4EC'
+  prefix_magic_grass_sprouting:  # 115 잔디 돋우기 (대지)
+    side: prefix
+    name: '푸르른'
+    color: '#96E4EC'
+  prefix_magic_bark_peeling:  # 117 껍질 벗기기 (대지)
+    side: prefix
+    name: '매끈한'
+    color: '#96E4EC'
+  prefix_magic_counterweight:  # 123 반격의 무게추 (대지)
+    side: prefix
+    name: '되갚는'
+    color: '#96E4EC'
+  prefix_magic_remembering_field:  # 125 기억하는 밭 (대지)
+    side: prefix
+    name: '무르익은'
+    color: '#96E4EC'
+  prefix_magic_little_giant:  # 126 작은 거인 (대지)
+    side: prefix
+    name: '커다란'
+    color: '#96E4EC'
+  prefix_magic_spring_ground:  # 127 용수철 지반 (대지)
+    side: prefix
+    name: '말랑한'
+    color: '#96E4EC'
+  prefix_magic_mountain_back:  # 128 산맥의 등 (대지)
+    side: prefix
+    name: '구르는'
+    color: '#96E4EC'
+  prefix_magic_earth_embrace:  # 129 대지의 품 (대지)
+    side: prefix
+    name: '포근한'
+    color: '#96E4EC'
+  prefix_magic_primordial_stone:  # 131 원초의 돌 (대지)
+    side: prefix
+    name: '원초의'
+    color: '#96E4EC'
+  prefix_magic_minor_heal:  # 133 작은 치유 (빛)
+    side: prefix
+    name: '상냥한'
+    color: '#96E4EC'
+  prefix_magic_true_sight:  # 137 진실의 눈 (빛)
+    side: prefix
+    name: '눈밝은'
+    color: '#96E4EC'
+  prefix_magic_constellation_blessing:  # 139 성좌의 가호 (빛)
+    side: prefix
+    name: '별빛의'
+    color: '#96E4EC'
+  prefix_magic_dawn_ritual:  # 141 여명의 의식 (빛)
+    side: prefix
+    name: '새벽의'
+    color: '#96E4EC'
+  prefix_magic_comforting_light:  # 142 위로의 빛 (빛)
+    side: prefix
+    name: '다정한'
+    color: '#96E4EC'
+  prefix_magic_companion_return:  # 145 동행 귀환 (빛)
+    side: prefix
+    name: '그리운'
+    color: '#96E4EC'
+  prefix_magic_flawless_moment:  # 146 무결의 순간 (빛)
+    side: prefix
+    name: '무결한'
+    color: '#96E4EC'
+  prefix_magic_rainbow_collar:  # 149 교화 (빛)
+    side: prefix
+    name: '온화한'
+    color: '#96E4EC'
+  prefix_magic_sharing_table:  # 153 나눔 식탁 (빛)
+    side: prefix
+    name: '베푸는'
+    color: '#96E4EC'
+  prefix_magic_mana_conduit:  # 157 마력 전선 (빛)
+    side: prefix
+    name: '나누는'
+    color: '#96E4EC'
+  prefix_magic_merciful_arrow:  # 158 자비의 화살 (빛)
+    side: prefix
+    name: '자비로운'
+    color: '#96E4EC'
+  prefix_magic_mana_deposit:  # 159 마력 예금 (빛)
+    side: prefix
+    name: '아끼는'
+    color: '#96E4EC'
+  prefix_magic_starlight_reprise:  # 163 별빛 재현 (빛)
+    side: prefix
+    name: '거듭나는'
+    color: '#96E4EC'
+  prefix_magic_night_sight:  # 165 밤눈 (어둠)
+    side: prefix
+    name: '밤의'
+    color: '#96E4EC'
+  prefix_magic_faint_veil:  # 167 옅은 은신 (어둠)
+    side: prefix
+    name: '희미한'
+    color: '#96E4EC'
+  prefix_magic_shadow_exchange:  # 172 그림자 교환 (어둠)
+    side: prefix
+    name: '뒤바뀐'
+    color: '#96E4EC'
+  prefix_magic_life_siphon:  # 174 생명 갈취 (어둠)
+    side: prefix
+    name: '탐욕스러운'
+    color: '#96E4EC'
+  prefix_magic_drowsiness:  # 175 졸음 (어둠)
+    side: prefix
+    name: '졸린'
+    color: '#96E4EC'
+  prefix_magic_misfortune_whisper:  # 176 나약함의 저주 (어둠)
+    side: prefix
+    name: '맥빠진'
+    color: '#96E4EC'
+  prefix_magic_hungry_shadow:  # 177 굶주린 그림자 (어둠)
+    side: prefix
+    name: '굶주린'
+    color: '#96E4EC'
+  prefix_magic_curse_transfer:  # 178 저주의 전가 (어둠)
+    side: prefix
+    name: '떠넘기는'
+    color: '#96E4EC'
+  prefix_magic_pain_deferral:  # 181 고통 유예 (어둠)
+    side: prefix
+    name: '느긋한'
+    color: '#96E4EC'
+  prefix_magic_loosen_grasp:  # 186 손아귀 풀기 (어둠)
+    side: prefix
+    name: '미끄러운'
+    color: '#96E4EC'
+  prefix_magic_healing_seal:  # 188 회복 봉인 (어둠)
+    side: prefix
+    name: '메마른'
+    color: '#96E4EC'
+  prefix_magic_shadow_scales:  # 189 어둠의 저울 (어둠)
+    side: prefix
+    name: '기울어진'
+    color: '#96E4EC'
+  prefix_magic_inverted_offering:  # 193 뒤집힌 공물 (어둠)
+    side: prefix
+    name: '뒤집힌'
+    color: '#96E4EC'
+  prefix_magic_eclipse_eye:  # 196 월식의 눈 (어둠)
+    side: prefix
+    name: '이지러진'
+    color: '#96E4EC'
+  prefix_magic_landing_airbrake:  # 203 빗자루 차원이동 (바람)
+    side: prefix
+    name: '순간의'
+    color: '#96E4EC'
+  prefix_magic_hushed_soles:  # 210 고요한 밑창 (어둠)
+    side: prefix
+    name: '조용한'
+    color: '#96E4EC'
+  prefix_magic_thorn_manners:  # 211 가시의 예절 (대지)
+    side: prefix
+    name: '예의바른'
+    color: '#96E4EC'
+  prefix_magic_droplet_relay:  # 213 물방울 인계 (물)
+    side: prefix
+    name: '몽글몽글한'
+    color: '#96E4EC'
+  prefix_magic_thawing_heat:  # 239 해빙의 열기 (불)
+    side: prefix
+    name: '녹이는'
+    color: '#96E4EC'
+  prefix_magic_water_level:  # 241 수위 조절 (물)
+    side: prefix
+    name: '넘실대는'
+    color: '#96E4EC'
+  prefix_magic_vine_awaken:  # 243 덩굴 깨우기 (대지)
+    side: prefix
+    name: '싹트는'
+    color: '#96E4EC'
+  prefix_magic_mirror_tune:  # 245 반사 조율 (빛)
+    side: prefix
+    name: '돌아보는'
+    color: '#96E4EC'
+  prefix_magic_prism_tint:  # 246 프리즘 물들이기 (빛)
+    side: prefix
+    name: '알록달록한'
+    color: '#96E4EC'
+  prefix_magic_statue_wake:  # 247 석상 깨우기 (어둠)
+    side: prefix
+    name: '깨어난'
+    color: '#96E4EC'
+  prefix_magic_conduit_turn:  # 249 도관 회전 (대지)
+    side: prefix
+    name: '굽이치는'
+    color: '#96E4EC'
+  prefix_magic_fox_orbit:  # 300 여우불 공전 (불)
+    side: prefix
+    name: '여우같은'
+    color: '#96E4EC'
+  prefix_magic_crystal_orbit:  # 302 결정 공전탄 (물)
+    side: prefix
+    name: '영롱한'
+    color: '#96E4EC'
+  prefix_magic_venom_spit:  # 303 독 뱉기 (대지)
+    side: prefix
+    name: '독한'
+    color: '#96E4EC'
+  prefix_magic_smoke_veil:  # 304 연막 은신 (대지)
+    side: prefix
+    name: '흐릿한'
+    color: '#96E4EC'
+  prefix_magic_shield_slam:  # 308 방패 내려찍기 (빛)
+    side: prefix
+    name: '우직한'
+    color: '#96E4EC'
+  prefix_magic_chain_arrow:  # 309 사슬 화살 (빛)
+    side: prefix
+    name: '얽매인'
+    color: '#96E4EC'
+  prefix_magic_mana_drain:  # 310 마나 흡수 (어둠)
+    side: prefix
+    name: '목마른'
+    color: '#96E4EC'
+  prefix_magic_oblivion_orbs:  # 312 망각의 탄환 (어둠)
+    side: prefix
+    name: '잊혀진'
+    color: '#96E4EC'
+  prefix_magic_shadow_leap:  # 314 그림자 도약 (어둠)
+    side: prefix
+    name: '은밀한'
+    color: '#96E4EC'
+  prefix_magic_fairy_dust:  # 316 요정 가루 (대지)
+    side: prefix
+    name: '꿈꾸는'
+    color: '#96E4EC'
+  prefix_magic_gale_wings:  # 318 돌풍 날갯짓 (바람)
+    side: prefix
+    name: '거센'
+    color: '#96E4EC'
+  prefix_magic_roar_leap:  # 321 포효 도약 (바람)
+    side: prefix
+    name: '사나운'
+    color: '#96E4EC'
+  prefix_magic_gravity_slam:  # 322 중력 강타 (대지)
+    side: prefix
+    name: '육중한'
+    color: '#96E4EC'
+  suffix_magic_wind_basket:  # 002 바람바구니 (바람)
+    side: suffix
+    name: '수집가'
+    color: '#DEC58E'
+  suffix_magic_wind_push:  # 004 윈드 푸쉬 (바람)
+    side: suffix
+    name: '훼방꾼'
+    color: '#DEC58E'
+  suffix_magic_flight:  # 006 비행 (바람)
+    side: suffix
+    name: '비행사'
+    color: '#DEC58E'
+  suffix_magic_far_touch:  # 007 손길 너머 (바람)
+    side: suffix
+    name: '조작꾼'
+    color: '#DEC58E'
+  suffix_magic_wind_message:  # 009 바람의 전언 (바람)
+    side: suffix
+    name: '전령'
+    color: '#DEC58E'
+  suffix_magic_storm_command:  # 010 폭풍의 지휘 (바람)
+    side: suffix
+    name: '지휘자'
+    color: '#DEC58E'
+  suffix_magic_wind_grooming:  # 014 바람 털빗 (바람)
+    side: suffix
+    name: '이발사'
+    color: '#DEC58E'
+  suffix_magic_trajectory_acceleration:  # 017 미라지 슈터 (바람)
+    side: suffix
+    name: '신기루'
+    color: '#DEC58E'
+  suffix_magic_leaf_cleanup:  # 019 잎새 청소 (바람)
+    side: suffix
+    name: '정원사'
+    color: '#DEC58E'
+  suffix_magic_feather_rustle:  # 020 깃털 털기 (바람)
+    side: suffix
+    name: '닭장지기'
+    color: '#DEC58E'
+  suffix_magic_returning_blade:  # 022 되돌이 칼날 (바람)
+    side: suffix
+    name: '부메랑'
+    color: '#DEC58E'
+  suffix_magic_wind_decoy:  # 024 바람 미끼 (바람)
+    side: suffix
+    name: '미끼'
+    color: '#DEC58E'
+  suffix_magic_air_step:  # 025 허공 디딤 (바람)
+    side: suffix
+    name: '디딤돌'
+    color: '#DEC58E'
+  suffix_magic_air_stacking:  # 027 허공 쌓기 (바람)
+    side: suffix
+    name: '건축가'
+    color: '#DEC58E'
+  suffix_magic_crossfire:  # 029 크로스 애로우 (바람)
+    side: suffix
+    name: '처형자'
+    color: '#DEC58E'
+  suffix_magic_resonant_arrow:  # 030 미스틱 슈터 (바람)
+    side: suffix
+    name: '사수'
+    color: '#DEC58E'
+  suffix_magic_storm_crown:  # 032 삼중 탄환 (바람)
+    side: suffix
+    name: '삼총사'
+    color: '#DEC58E'
+  suffix_magic_ember_bolt:  # 034 파이어 볼 (불)
+    side: suffix
+    name: '불씨'
+    color: '#DEC58E'
+  suffix_magic_flame_forging:  # 036 불꽃 단조 (불)
+    side: suffix
+    name: '대장장이'
+    color: '#DEC58E'
+  suffix_magic_ember_trap:  # 037 잿불 덫 (불)
+    side: suffix
+    name: '덫꾼'
+    color: '#DEC58E'
+  suffix_magic_living_furnace:  # 040 살아 있는 화로 (불)
+    side: suffix
+    name: '화로'
+    color: '#DEC58E'
+  suffix_magic_falling_star:  # 041 메테오 스트라이크 (불)
+    side: suffix
+    name: '유성'
+    color: '#DEC58E'
+  suffix_magic_flame_lash:  # 042 화염 채찍 (불)
+    side: suffix
+    name: '채찍잡이'
+    color: '#DEC58E'
+  suffix_magic_palm_fireworks:  # 044 손바닥 폭죽 (불)
+    side: suffix
+    name: '축제꾼'
+    color: '#DEC58E'
+  suffix_magic_flame_leap:  # 046 블레이즈 킥 (불)
+    side: suffix
+    name: '격투가'
+    color: '#DEC58E'
+  suffix_magic_wick_trimming:  # 048 심지 줄이기 (불)
+    side: suffix
+    name: '소등꾼'
+    color: '#DEC58E'
+  suffix_magic_glass_firing:  # 049 광석 재련 (불)
+    side: suffix
+    name: '제련사'
+    color: '#DEC58E'
+  suffix_magic_kiln_breath:  # 054 가마 숨결 (불)
+    side: suffix
+    name: '가마지기'
+    color: '#DEC58E'
+  suffix_magic_explosive_wedge:  # 056 폭발 쐐기 (불)
+    side: suffix
+    name: '폭탄마'
+    color: '#DEC58E'
+  suffix_magic_heat_recovery:  # 058 열량 보존 (불)
+    side: suffix
+    name: '난로'
+    color: '#DEC58E'
+  suffix_magic_flame_sword_dance:  # 061 화염 검무 (불)
+    side: suffix
+    name: '검무사'
+    color: '#DEC58E'
+  suffix_magic_incandescent_break:  # 062 파이어 스트라이크 (불)
+    side: suffix
+    name: '파쇄자'
+    color: '#DEC58E'
+  suffix_magic_crimson_breath:  # 064 드래곤 브레스 (불)
+    side: suffix
+    name: '용'
+    color: '#DEC58E'
+  suffix_magic_water_breath:  # 065 물결 숨결 (물)
+    side: suffix
+    name: '아가미'
+    color: '#DEC58E'
+  suffix_magic_water_bolt:  # 067 물방울 탄환 (물)
+    side: suffix
+    name: '물총'
+    color: '#DEC58E'
+  suffix_magic_quench:  # 068 불길 씻기 (물)
+    side: suffix
+    name: '소방관'
+    color: '#DEC58E'
+  suffix_magic_ice_bridge:  # 070 얼음 다리 (물)
+    side: suffix
+    name: '빙판'
+    color: '#DEC58E'
+  suffix_magic_spring_unseal:  # 072 수맥 개방 (물)
+    side: suffix
+    name: '샘'
+    color: '#DEC58E'
+  suffix_magic_water_elemental:  # 073 운디네 (물)
+    side: suffix
+    name: '정령사'
+    color: '#DEC58E'
+  suffix_magic_fish_lure:  # 077 물고기 유인 (물)
+    side: suffix
+    name: '낚시꾼'
+    color: '#DEC58E'
+  suffix_magic_wash_letters:  # 082 글씨 씻기 (물)
+    side: suffix
+    name: '지우개'
+    color: '#DEC58E'
+  suffix_magic_healing_rain:  # 083 치유의 비 (물)
+    side: suffix
+    name: '무지개'
+    color: '#DEC58E'
+  suffix_magic_dew_gathering:  # 084 이슬 모으기 (물)
+    side: suffix
+    name: '이슬'
+    color: '#DEC58E'
+  suffix_magic_quiet_mooring:  # 085 노아의 방주 (물)
+    side: suffix
+    name: '뱃사공'
+    color: '#DEC58E'
+  suffix_magic_bubble_aria:  # 086 물거품 아리아 (물)
+    side: suffix
+    name: '가수'
+    color: '#DEC58E'
+  suffix_magic_pressure_hammer:  # 087 수압해머 (물)
+    side: suffix
+    name: '망치'
+    color: '#DEC58E'
+  suffix_magic_waterspout:  # 088 용오름 (물)
+    side: suffix
+    name: '소용돌이'
+    color: '#DEC58E'
+  suffix_magic_potion_mist:  # 090 약액 분무 (물)
+    side: suffix
+    name: '조향사'
+    color: '#DEC58E'
+  suffix_magic_tidal_wave:  # 094 해일 (물)
+    side: suffix
+    name: '파도'
+    color: '#DEC58E'
+  suffix_magic_ore_whisper:  # 098 땅의 속삭임 (대지)
+    side: suffix
+    name: '탐광꾼'
+    color: '#DEC58E'
+  suffix_magic_stone_wall:  # 102 석벽 (대지)
+    side: suffix
+    name: '성벽'
+    color: '#DEC58E'
+  suffix_magic_earth_elemental:  # 104 그놈 (대지)
+    side: suffix
+    name: '꼬마'
+    color: '#DEC58E'
+  suffix_magic_climate_control:  # 106 기후 통제 (대지)
+    side: suffix
+    name: '예보관'
+    color: '#DEC58E'
+  suffix_magic_bee_calm:  # 108 벌떼 달래기 (대지)
+    side: suffix
+    name: '벌꿀'
+    color: '#DEC58E'
+  suffix_magic_vein_fracture:  # 110 광맥 파쇄 (대지)
+    side: suffix
+    name: '광부'
+    color: '#DEC58E'
+  suffix_magic_moss_coating:  # 114 이끼 입히기 (대지)
+    side: suffix
+    name: '이끼'
+    color: '#DEC58E'
+  suffix_magic_flint_sorting:  # 116 돌 고르기 (대지)
+    side: suffix
+    name: '돌팔매'
+    color: '#DEC58E'
+  suffix_magic_compost_return:  # 118 퇴비 환원 (대지)
+    side: suffix
+    name: '거름'
+    color: '#DEC58E'
+  suffix_magic_thorn_seeds:  # 119 가시 씨앗 (대지)
+    side: suffix
+    name: '선인장'
+    color: '#DEC58E'
+  suffix_magic_pollen_matchmaking:  # 120 꽃가루 중매 (대지)
+    side: suffix
+    name: '중매쟁이'
+    color: '#DEC58E'
+  suffix_magic_dormant_seed:  # 122 동면의 씨앗 (대지)
+    side: suffix
+    name: '농부'
+    color: '#DEC58E'
+  suffix_magic_material_exchange:  # 124 자재 치환 (대지)
+    side: suffix
+    name: '족쇄'
+    color: '#DEC58E'
+  suffix_magic_forest_throne:  # 130 숲의 왕좌 (대지)
+    side: suffix
+    name: '왕'
+    color: '#DEC58E'
+  suffix_magic_guiding_star:  # 132 길잡이 별 (빛)
+    side: suffix
+    name: '길잡이'
+    color: '#DEC58E'
+  suffix_magic_spatial_leap:  # 135 공간 도약 (빛)
+    side: suffix
+    name: '여행자'
+    color: '#DEC58E'
+  suffix_magic_protective_ward:  # 138 보호 결계 (빛)
+    side: suffix
+    name: '방패'
+    color: '#DEC58E'
+  suffix_magic_arcane_imprint:  # 140 마력 각인 (빛)
+    side: suffix
+    name: '각인사'
+    color: '#DEC58E'
+  suffix_magic_exorcism_flash:  # 143 퇴마의 섬광 (빛)
+    side: suffix
+    name: '퇴마사'
+    color: '#DEC58E'
+  suffix_magic_arcane_mending:  # 144 마력 봉합 (빛)
+    side: suffix
+    name: '수선공'
+    color: '#DEC58E'
+  suffix_magic_solar_judgment:  # 147 태양의 심판 (빛)
+    side: suffix
+    name: '태양'
+    color: '#DEC58E'
+  suffix_magic_firefly_mark:  # 148 반딧불 표식 (빛)
+    side: suffix
+    name: '등불'
+    color: '#DEC58E'
+  suffix_magic_sun_drying:  # 150 햇살 말림 (빛)
+    side: suffix
+    name: '무두장이'
+    color: '#DEC58E'
+  suffix_magic_luminous_copy:  # 151 빛의 필사 (빛)
+    side: suffix
+    name: '필경사'
+    color: '#DEC58E'
+  suffix_magic_guiding_fletching:  # 152 유도 깃 (빛)
+    side: suffix
+    name: '명궁'
+    color: '#DEC58E'
+  suffix_magic_summons_letter:  # 154 소환장 (빛)
+    side: suffix
+    name: '집사'
+    color: '#DEC58E'
+  suffix_magic_starlight_survey:  # 155 별빛 측량 (빛)
+    side: suffix
+    name: '측량사'
+    color: '#DEC58E'
+  suffix_magic_luminous_handover:  # 156 빛의 교대 (빛)
+    side: suffix
+    name: '표적'
+    color: '#DEC58E'
+  suffix_magic_guardian_oath:  # 160 수호자의 서약 (빛)
+    side: suffix
+    name: '수호자'
+    color: '#DEC58E'
+  suffix_magic_constellation_emissary:  # 164 성좌의 대리인 (빛)
+    side: suffix
+    name: '별자리'
+    color: '#DEC58E'
+  suffix_magic_shadow_bind:  # 166 그림자 매듭 (어둠)
+    side: suffix
+    name: '실타래'
+    color: '#DEC58E'
+  suffix_magic_shadow_double:  # 168 그림자 분신 (어둠)
+    side: suffix
+    name: '쌍둥이'
+    color: '#DEC58E'
+  suffix_magic_echo_reading:  # 169 잔향 읽기 (어둠)
+    side: suffix
+    name: '탐정'
+    color: '#DEC58E'
+  suffix_magic_sealing_thread:  # 170 봉인의 실 (어둠)
+    side: suffix
+    name: '자물쇠'
+    color: '#DEC58E'
+  suffix_magic_forbidden_contract:  # 173 금서의 계약 (어둠)
+    side: suffix
+    name: '계약자'
+    color: '#DEC58E'
+  suffix_magic_discord:  # 179 마인드컨트롤 (어둠)
+    side: suffix
+    name: '꼭두각시'
+    color: '#DEC58E'
+  suffix_magic_night_chain:  # 180 밤의 사슬 (어둠)
+    side: suffix
+    name: '연결고리'
+    color: '#DEC58E'
+  suffix_magic_black_harvest:  # 182 검은 수확 (어둠)
+    side: suffix
+    name: '사신'
+    color: '#DEC58E'
+  suffix_magic_ink_fingertip:  # 183 먹물 손끝 (어둠)
+    side: suffix
+    name: '물감'
+    color: '#DEC58E'
+  suffix_magic_shadow_nail:  # 184 그림자 못 (어둠)
+    side: suffix
+    name: '가시'
+    color: '#DEC58E'
+  suffix_magic_night_lullaby:  # 185 밤의 자장가 (어둠)
+    side: suffix
+    name: '유모'
+    color: '#DEC58E'
+  suffix_magic_warning_thread:  # 190 경고의 실 (어둠)
+    side: suffix
+    name: '울타리'
+    color: '#DEC58E'
+  suffix_magic_wound_accounting:  # 192 상처 회계 (어둠)
+    side: suffix
+    name: '회계사'
+    color: '#DEC58E'
+  suffix_magic_ghost_tool:  # 194 유령 도구 (어둠)
+    side: suffix
+    name: '손재주꾼'
+    color: '#DEC58E'
+  suffix_magic_bell_of_fear:  # 195 공포의 종 (어둠)
+    side: suffix
+    name: '종지기'
+    color: '#DEC58E'
+  suffix_magic_void_maw:  # 198 공허의 입 (어둠)
+    side: suffix
+    name: '아귀'
+    color: '#DEC58E'
+  suffix_magic_cinder_skipring:  # 212 불꽃 줄넘기 (불)
+    side: suffix
+    name: '고리'
+    color: '#DEC58E'
+  suffix_magic_folding_tideplane:  # 214 접히는 수면 (물)
+    side: suffix
+    name: '책갈피'
+    color: '#DEC58E'
+  suffix_magic_steam_ignition:  # 240 증기 점화 (불)
+    side: suffix
+    name: '증기'
+    color: '#DEC58E'
+  suffix_magic_stone_weight:  # 242 무게추 (대지)
+    side: suffix
+    name: '짐짝'
+    color: '#DEC58E'
+  suffix_magic_light_beam:  # 244 빛줄기 (빛)
+    side: suffix
+    name: '등대'
+    color: '#DEC58E'
+  suffix_magic_rewind:  # 248 되감기 (어둠)
+    side: suffix
+    name: '시계태엽'
+    color: '#DEC58E'
+  suffix_magic_dimension_mark:  # 250 차원 표식 (어둠)
+    side: suffix
+    name: '문지기'
+    color: '#DEC58E'
+  suffix_magic_curving_plumes:  # 301 곡선 불깃털 (불)
+    side: suffix
+    name: '화살촉'
+    color: '#DEC58E'
+  suffix_magic_domain_stomp:  # 305 영역 선포 (빛)
+    side: suffix
+    name: '영주'
+    color: '#DEC58E'
+  suffix_magic_seal_circle:  # 306 봉인진 (빛)
+    side: suffix
+    name: '술사'
+    color: '#DEC58E'
+  suffix_magic_seal_talismans:  # 307 봉인 부적 (빛)
+    side: suffix
+    name: '쪽지'
+    color: '#DEC58E'
+  suffix_magic_soul_scythe:  # 311 영혼 낫 (어둠)
+    side: suffix
+    name: '망령'
+    color: '#DEC58E'
+  suffix_magic_bone_grasp:  # 313 뼈의 손아귀 (어둠)
+    side: suffix
+    name: '해골'
+    color: '#DEC58E'
+  suffix_magic_binding_pull:  # 315 끌어오기 (바람)
+    side: suffix
+    name: '갈고리'
+    color: '#DEC58E'
+  suffix_magic_moon_wind:  # 317 반달 바람날 (바람)
+    side: suffix
+    name: '초승달'
+    color: '#DEC58E'
+  suffix_magic_feather_storm:  # 319 깃털 폭풍 (바람)
+    side: suffix
+    name: '폭풍'
+    color: '#DEC58E'
+  suffix_magic_hunting_pounce:  # 320 사냥 도약 (대지)
+    side: suffix
+    name: '사냥꾼'
+    color: '#DEC58E'
+  suffix_magic_tail_spikes:  # 323 꼬리 가시 (대지)
+    side: suffix
+    name: '독침'
+    color: '#DEC58E'
+  suffix_magic_fish_trap:  # 324 아공간 수조 (물)
+    side: suffix
+    name: '어항'
+    color: '#DEC58E'
+
+  # ── 시스템 업적 칭호 (오너 기획, 조건 수치는 임시). 자동 지급은 낚시 대물·괴물같은만 연결 (title-awards.yml fishing), 나머지는 관리자 지급(/유저관리 <유저> 칭호 주기)
+  suffix_ach_fishing_big_catch:  # 100cm 이상 물고기 낚기
+    side: suffix
+    name: '대물'
+    color: '#DEC58E'
+  prefix_ach_fishing_monster_catch:  # 200cm 이상 물고기 낚기
+    side: prefix
+    name: '괴물같은'
+    color: '#96E4EC'
+  prefix_ach_fishing_legend_fish:  # 전설 등급 물고기 처음 낚기
+    side: prefix
+    name: '전설의'
+    color: '#96E4EC'
+  prefix_ach_fishing_fish_500:  # 물고기 누적 500마리
+    side: prefix
+    name: '손맛좋은'
+    color: '#96E4EC'
+  suffix_ach_fishing_codex_full:  # 낚시 도감 200종 완성
+    side: suffix
+    name: '강태공'
+    color: '#DEC58E'
+  suffix_ach_fishing_treasure_10:  # 보물상자 10개 낚기
+    side: suffix
+    name: '보물사냥꾼'
+    color: '#DEC58E'
+  prefix_ach_fishing_line_break_10:  # 줄 끊김·놓침 10회
+    side: prefix
+    name: '아쉬운'
+    color: '#96E4EC'
+  suffix_ach_qudditch_goals_100:  # 큐디치 골인 누적 100
+    side: suffix
+    name: '골잡이'
+    color: '#DEC58E'
+  prefix_ach_qudditch_snitch_10:  # 스니치 누적 10회 잡기
+    side: prefix
+    name: '눈썰미좋은'
+    color: '#96E4EC'
+  suffix_ach_qudditch_bludger_100:  # 블러저 쳐내기 누적 100
+    side: suffix
+    name: '홈런왕'
+    color: '#DEC58E'
+  prefix_ach_qudditch_mvp_10:  # MVP 누적 10회
+    side: prefix
+    name: '주목받는'
+    color: '#96E4EC'
+  prefix_ach_duel_win_streak_10:  # 1:1 결투 10연승
+    side: prefix
+    name: '무패의'
+    color: '#96E4EC'
+  suffix_ach_duel_wins_100:  # 1:1 결투 누적 100승
+    side: suffix
+    name: '결투가'
+    color: '#DEC58E'
+  suffix_ach_broom_legend_broom:  # 전설 등급 빗자루 처음 얻기
+    side: suffix
+    name: '에이스'
+    color: '#DEC58E'
+  prefix_ach_broom_fly_100km:  # 빗자루 비행 누적 100km
+    side: prefix
+    name: '질주하는'
+    color: '#96E4EC'
+  prefix_ach_broom_fall_50:  # 빗자루 낙마 누적 50회
+    side: prefix
+    name: '어설픈'
+    color: '#96E4EC'
+  prefix_ach_artifact_legend_pull:  # 뽑기에서 전설 아티팩트 처음 얻기
+    side: prefix
+    name: '운좋은'
+    color: '#96E4EC'
+  prefix_ach_artifact_unlucky_100:  # 뽑기 100회 동안 유일 이상 없음
+    side: prefix
+    name: '불운한'
+    color: '#96E4EC'
+  suffix_ach_artifact_codex_full:  # 아티팩트 도감 전체 완성
+    side: suffix
+    name: '수집광'
+    color: '#DEC58E'
+  suffix_ach_alchemy_recipes_all:  # 연금술 레시피 전부 발견
+    side: suffix
+    name: '대연금술사'
+    color: '#DEC58E'
+  suffix_ach_pet_tame_half:  # 펫 도감 50% 등록
+    side: suffix
+    name: '조련사'
+    color: '#DEC58E'
+  prefix_ach_pet_variant_tame:  # 변색종 처음 교화
+    side: prefix
+    name: '특별한'
+    color: '#96E4EC'
+  suffix_ach_housing_room_max:  # 방 15x15까지 확장
+    side: suffix
+    name: '집주인'
+    color: '#DEC58E'
+  prefix_ach_housing_guestbook_100:  # 내 방 방명록 100개
+    side: prefix
+    name: '인기많은'
+    color: '#96E4EC'
+  suffix_ach_magic_discover_100:  # 마법 100개 발견
+    side: suffix
+    name: '대마법사'
+    color: '#DEC58E'
+  prefix_ach_magic_discover_all:  # 모든 마법 발견
+    side: prefix
+    name: '만능의'
+    color: '#96E4EC'
+  suffix_ach_magic_reaction_1000:  # 원소 반응 누적 1000회
+    side: suffix
+    name: '반응술사'
+    color: '#DEC58E'
+  suffix_ach_farming_living_crop_50:  # 살아나는 작물 50마리 잡기
+    side: suffix
+    name: '서리꾼'
+    color: '#DEC58E'
+  prefix_ach_farming_living_crop_1:  # 살아나는 작물 처음 보기
+    side: prefix
+    name: '깜짝놀란'
+    color: '#96E4EC'
+  prefix_ach_npc_social_ai_talk_500:  # AI NPC 대화 누적 500회
+    side: prefix
+    name: '수다스러운'
+    color: '#96E4EC'
+  prefix_ach_npc_social_gifts_100:  # NPC 선물 누적 100회
+    side: prefix
+    name: '통큰'
+    color: '#96E4EC'
+  suffix_ach_npc_social_lover_3:  # 연인 단계 NPC 3명
+    side: suffix
+    name: '바람둥이'
+    color: '#DEC58E'
+  prefix_ach_dungeon_coop_clear:  # 2인 협동 기믹 던전 처음 클리어
+    side: prefix
+    name: '손발맞는'
+    color: '#96E4EC'
+  suffix_ach_dungeon_boss_clear:  # 던전 보스 처음 처치
+    side: suffix
+    name: '용사'
+    color: '#DEC58E'
+  suffix_ach_economy_fish_sales:  # 물고기 판매 누적 금액 달성 (금액 미정)
+    side: suffix
+    name: '큰손'
+    color: '#DEC58E'
+  suffix_ach_story_event_ch1_clear:  # 메인 스토리 1장 클리어
+    side: suffix
+    name: '신입생'
+    color: '#DEC58E'
+  prefix_ach_story_event_open_week:  # 서버 오픈 첫 주에 접속
+    side: prefix
+    name: '개교기념'
+    color: '#96E4EC'
+  suffix_ach_story_event_last_day:  # 운영 마지막 날 접속
+    side: suffix
+    name: '졸업생'
+    color: '#DEC58E'
+
+  # ── 랭크 티어 칭호 (큐디치·1:1 결투 공용, 처음 달성 때 1번). 랭크 연결 전까지 관리자 지급
+  suffix_tier_platinum:
+    side: suffix
+    name: '플래티넘'
+    color: '#DEC58E'
+  suffix_tier_diamond:
+    side: suffix
+    name: '다이아몬드'
+    color: '#DEC58E'
+  suffix_tier_master:
+    side: suffix
+    name: '마스터'
+    color: '#DEC58E'
+  suffix_tier_challenger:
+    side: suffix
+    name: '챌린저'
+    color: '#DEC58E'

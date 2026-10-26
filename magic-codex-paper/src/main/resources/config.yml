@@ -1,0 +1,55 @@
+# 도감을 열고 있는 플레이어의 YAML에 지정된 권한만 확인합니다.
+# 일반 권한 변경을 놓치지 않기 위한 보조 확인 주기. 200틱 = 정상 TPS에서 10초.
+refresh-interval-ticks: 200
+# 즉시 조회와 정기 작업이 공유하는 1초 구간당 권한 확인 상한. 최소 256.
+max-permission-checks-per-pass: 2048
+# 닫기 신호를 받지 못해도 구독을 자동 정리합니다.
+session-timeout-seconds: 45
+
+# 모드의 잔액 표시 구독자만 확인. 기본 0.5초 간격, 2틱마다 나누어 조회합니다.
+# 변경된 잔액만 전송하며 30초마다 연결 유지 응답을 보냅니다.
+# 초당 상한을 넘는 인원이 접속하면 순서대로 처리하므로 갱신이 늦어질 수 있습니다.
+wallet:
+  refresh-millis: 500
+  max-reads-per-second: 128
+
+# 신규 플레이어 기본값. 기존 플레이어 수치는 저장되며 관리자 명령으로 변경합니다.
+# 정상 TPS에서 20틱마다 회복합니다. 사망 중·오프라인에는 회복하지 않습니다.
+mana:
+  default-maximum: 300
+  default-regeneration: 8
+  default-haste: 0
+
+# 바이옴 계산은 추후 연결합니다. 지금은 기본값 또는 관리자/API 지정 온도를 전송합니다.
+# 개인 지정값은 접속 종료 시 초기화됩니다. 기존 config에 이 항목이 없어도 18°C가 적용됩니다.
+temperature:
+  default-celsius: 18
+
+# DB 모드 안전장치. 시작할 때 세 가지 설정(일반 도메인, 캐릭터 저장, 상점·우편)마다
+# 어느 파일을 읽는지와 MariaDB/SQLite 중 무엇으로 동작하는지 로그에 한 줄씩 남기고,
+# SQLite로 동작하는 도메인이 있으면 WARNING 한 줄로 목록을 남긴다 (/서버관리 상태 의 "DB 공유" 줄에도 표시).
+# 일반 도메인(닉네임·친구·칭호·기숙사·기부·점수·의뢰·대화·호감도·계절 공유)은 database.properties 를 읽고,
+# 그 파일이 없을 때 player-state-database.properties 에 use-for-all-domains=true 가 있으면 그 파일을 읽는다.
+# require-mariadb: true 로 두면, SQLite로 동작하게 될 설정이 하나라도 있을 때 플러그인이 시작을 거부한다.
+# 기본값 false. SQLite → MariaDB 이관(tools/db-migrate)을 마친 뒤에만 true 로 바꿀 것 (이관 전에 켜면 서버가 시작하지 않는다).
+database:
+  require-mariadb: false
+
+# Skript nameset.sk display name; UUID remains the internal identity.
+display-name-placeholder: "%user_nickname%"
+
+# 닉네임은 서버 전체에서 중복될 수 없다 (대소문자·전각/반각만 다른 이름도 같은 이름으로 본다).
+# 최초 설정 완료 여부는 DB에 기록되어 두 서버가 함께 보며, on-complete 는 플레이어당 한 번만 실행된다.
+# 이미 마친 플레이어에게 다시 열려면: /유저관리 <닉네임> 닉네임 다시정하기
+# /유저관리 <닉네임> 닉네임 창열기 로 연 닉네임 창은 취소·닫기가 안 되고, 저장 전에 접속이 끊기거나 서버가 꺼지면
+# 다음 접속 때 다시 열린다 (대기 목록: first-nickname.yml). 저장이 끝나면 아래 명령을 콘솔로 실행.
+# {player} = 마인크래프트 닉네임, {nickname} = 방금 정한 닉네임, {uuid}
+first-nickname:
+  on-complete:
+    - "대화관리 재생 {player} 대화 ch1-2"
+
+# Population ceiling is checked BEFORE adding the new student.
+house-sorting:
+  population-tolerance: 2
+  # 그레고르 "가고 싶은 곳이 있나?"(대화 ch1-17)에서 고른 기숙사 점수 가산 (0~6, 기숙사 점수는 0~6점). 0 = 끔
+  wish-bonus: 1

@@ -1,0 +1,14 @@
+id: leaf_cleanup
+name: 잎새 청소
+category: wind
+description: 바라보는 나무 한 그루의 나뭇잎을 최대 32개 정리하고, 제거한 잎은 해당 위치에 아이템으로 떨어뜨립니다. 통나무는 남깁니다.
+icon: magiccodex:textures/spells/expansion_2/leaf_cleanup.png
+permission: magic.learned.leaf_cleanup
+discovery:
+  description: 종류와 관계없이 묘목 20개 심기.
+research: 어린 나무를 돌보던 정원사는 잎이 모이는 흐름을 읽고, 가지를 다치게 하지 않는 바람을 익혔다.
+cast:
+  command: 마법 leaf_cleanup
+  cooldown-seconds: 30
+  mana-cost: 70
+order: 32

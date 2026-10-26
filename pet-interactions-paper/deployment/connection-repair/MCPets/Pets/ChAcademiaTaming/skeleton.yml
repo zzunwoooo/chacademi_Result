@@ -1,0 +1,15 @@
+Id: chacademia_skeleton
+MythicMob: ChAcademiaPetSkeleton
+Permission: chacademia.pet.skeleton
+Distance: 8
+SpawnRange: 2
+ComingBackRange: 3
+Mountable: false
+AutoRide: false
+Icon:
+  Name: 스켈레톤
+  Material: SKELETON_SPAWN_EGG
+  Description:
+  - 교화로 함께하게 된 동료
+CheckPermission: true
+FollowOwner: true

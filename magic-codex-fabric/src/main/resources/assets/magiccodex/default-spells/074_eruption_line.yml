@@ -1,0 +1,14 @@
+id: eruption_line
+name: 분화선
+category: fire
+description: 땅을 내리쳐 앞으로 균열을 보내고, 그 위로 불기둥 네 개가 차례로 솟아오릅니다. 맞은 적은 살짝 떠오릅니다.
+icon: ''
+permission: magic.learned.eruption_line
+discovery:
+  description: 용암 봉합을 20번 사용하기.
+research: ''
+cast:
+  command: 마법 eruption_line
+  cooldown-seconds: 14
+  mana-cost: 60
+order: 74

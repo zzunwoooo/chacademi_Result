@@ -1,0 +1,5 @@
+build/
+.gradle/
+# 캐릭터 모델 원본·결과물은 공개 저장소에 올리지 않는다 (런처 콘텐츠로 따로 배포)
+dist/npc-models/*.glb
+dist/npc-models/.cache/

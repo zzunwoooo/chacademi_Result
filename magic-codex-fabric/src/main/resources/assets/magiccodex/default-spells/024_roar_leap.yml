@@ -1,0 +1,15 @@
+id: roar_leap
+name: 포효 도약
+category: wind
+description: 대상을 향해 뛰어들며 내려앉는 순간 포효합니다. 주변 적은 피해를 입고 잠시 겁에 질립니다.
+# Existing icon reused from bell_of_fear; dedicated mob-skill artwork was not supplied.
+icon: magiccodex:textures/spells/mob_skill/roar_leap.png
+permission: magic.learned.roar_leap
+discovery:
+  description: 만티코어를 처치하면 5% 확률로 습득합니다.
+research: 만티코어의 포효는 착지보다 먼저 도착한다.
+cast:
+  command: 마법 roar_leap
+  cooldown-seconds: 16
+  mana-cost: 40
+order: 24

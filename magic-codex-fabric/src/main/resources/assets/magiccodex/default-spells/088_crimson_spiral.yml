@@ -1,0 +1,14 @@
+id: crimson_spiral
+name: 홍염 나선
+category: fire
+description: 두 화염 줄기가 서로 감기며 앞으로 18블록을 꿰뚫고 나아갑니다. 지나간 적마다 세 번 피해를 주고, 마지막 일격에 화상을 남깁니다.
+icon: ''
+permission: magic.learned.crimson_spiral
+discovery:
+  description: 화염 마법을 300번 사용하기.
+research: ''
+cast:
+  command: 마법 crimson_spiral
+  cooldown-seconds: 35
+  mana-cost: 220
+order: 88

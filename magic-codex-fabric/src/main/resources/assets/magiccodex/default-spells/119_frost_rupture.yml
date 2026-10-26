@@ -1,0 +1,14 @@
+id: frost_rupture
+name: 서리 파열
+category: water
+description: 대상 위치에 얼음 시계를 새기고 1초 뒤 사람 키 정도의 얼음 가시를 솟게 해 범위 공격을 합니다.
+icon: magiccodex:textures/spells/expansion/frost_rupture.png
+permission: magic.learned.frost_rupture
+discovery:
+  description: 눈덩이를 몬스터에게 누적 50번 맞히기.
+research: 눈싸움 중 눈덩이에 돌을 넣어 던지는 행위는 명백한 불법이다.
+cast:
+  command: 마법 frost_rupture
+  cooldown-seconds: 15
+  mana-cost: 55
+order: 119

@@ -1,0 +1,14 @@
+id: alchemy_preheat
+name: 연금로 예열
+category: fire
+description: 연금로를 미리 데워 둡니다. 10분 안에 하는 다음 연금 제작 한 번은 경험치가 30% 덜 듭니다.
+icon: ''
+permission: magic.learned.alchemy_preheat
+discovery:
+  description: 연금술로 물건을 10번 만들기.
+research: ''
+cast:
+  command: 마법 alchemy_preheat
+  cooldown-seconds: 300
+  mana-cost: 60
+order: 76

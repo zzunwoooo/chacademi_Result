@@ -1,0 +1,14 @@
+id: pebble_toss
+name: 조약돌 던지기
+category: earth
+description: 작은 조약돌을 날려 몬스터 하나에 약한 피해를 줍니다.
+icon: magiccodex:textures/spells/novice_extra/pebble_toss.png
+permission: magic.learned.pebble_toss
+discovery:
+  description: 베르나 교수의 대지 마법 기초 수업 듣기.
+research: 아무리 작은 돌이어도 사람에게 던지면 징계 대상이다.
+cast:
+  command: 마법 pebble_toss
+  cooldown-seconds: 3
+  mana-cost: 5
+order: 151

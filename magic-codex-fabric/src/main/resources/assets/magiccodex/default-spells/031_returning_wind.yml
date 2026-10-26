@@ -1,0 +1,14 @@
+id: returning_wind
+name: 되받는 바람
+category: wind
+description: 시전 후 약 0.5초 동안 자신에게 날아오는 가까운 투사체를 모두 반대 방향으로 튕겨 냅니다.
+icon: magiccodex:textures/spells/expansion/returning_wind.png
+permission: magic.learned.returning_wind
+discovery:
+  description: 하르바 교수의 바람 마법 중급 수업 듣기.
+research: 학생들을 지키려던 교장은, 날아오는 힘을 바람에 실어 되돌리는 방어 마법을 고안했다.
+cast:
+  command: 마법 returning_wind
+  cooldown-seconds: 30
+  mana-cost: 90
+order: 31

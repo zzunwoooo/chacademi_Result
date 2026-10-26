@@ -1,0 +1,15 @@
+id: oblivion_orbs
+name: 망각의 탄환
+category: dark
+description: 망각의 기운을 담은 탄환 세 발을 천천히 날립니다. 맞은 적은 잠시 느려집니다.
+# Existing icon reused from abyssal_pressure; dedicated mob-skill artwork was not supplied.
+icon: magiccodex:textures/spells/mob_skill/oblivion_orbs.png
+permission: magic.learned.oblivion_orbs
+discovery:
+  description: 망각의 해골술사를 처치하면 5% 확률로 습득합니다.
+research: 느린 것은 피할 수 있다. 피하는 동안 다른 것을 잊는다.
+cast:
+  command: 마법 oblivion_orbs
+  cooldown-seconds: 9
+  mana-cost: 30
+order: 267

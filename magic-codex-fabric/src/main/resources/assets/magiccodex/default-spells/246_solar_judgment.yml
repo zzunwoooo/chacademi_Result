@@ -1,0 +1,14 @@
+id: solar_judgment
+name: 태양의 심판
+category: light
+description: 궁극 마법입니다. 12초 동안 영창하며 이동하거나 피격되면 실패합니다. 하늘에 구조물을 최대 6개까지 순서대로 생성하고 직선으로 연결해 별을 완성한 뒤 중앙에서 3초 동안 레이저를 발사합니다.
+icon: magiccodex:textures/spells/expansion/solar_judgment.png
+permission: magic.learned.solar_judgment
+discovery:
+  description: 빛 마법으로 언데드를 누적 300마리 처치합니다.
+research: 여섯 빛이 하늘에 모이면, 심판을 피할 그림자는 없다.
+cast:
+  command: 마법 solar_judgment
+  cooldown-seconds: 300
+  mana-cost: 600
+order: 246

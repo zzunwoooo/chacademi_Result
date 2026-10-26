@@ -1,0 +1,106 @@
+{
+  "formatVersion": 1,
+  "models": {
+    "luka": {
+      "file": "luka.glb",
+      "sha256": "ef446e711624bdc43a675b98719dfda51c3e38f3cda347a5a7a32f59651de574",
+      "clips": {
+        "idle": "idle",
+        "idleVariants": [
+          "look_around"
+        ],
+        "walk": "walk",
+        "talk": "wait",
+        "greet": null
+      },
+      "scale": 1.0,
+      "nameplateOffset": 0.0
+    },
+    "ria": {
+      "file": "ria.glb",
+      "sha256": "0f4bb47b8e6bed32a47cc4c7a207b69edcf30ef52efc2fb7e0f3d19fa32a6444",
+      "clips": {
+        "idle": "wait",
+        "idleVariants": [],
+        "walk": "walk",
+        "talk": null,
+        "greet": null
+      },
+      "walkSpeed": 0.945,
+      "scale": 1.0,
+      "nameplateOffset": 0.0
+    },
+    "captain_bram": {
+      "file": "captain_bram.glb",
+      "sha256": "6ca32b58d299b4716e6c3540bd7a18fbe0dad6d85373fd386dbfce374a7cf52a",
+      "clips": {
+        "idle": "standing_relax",
+        "idleVariants": [
+          "look_around"
+        ],
+        "walk": "walk",
+        "talk": null,
+        "greet": null
+      },
+      "walkSpeed": 1.23,
+      "scale": 1.0,
+      "nameplateOffset": 0.0
+    },
+    "teacher_ellna": {
+      "file": "teacher_ellna.glb",
+      "sha256": "a0540634047d6e21485e51267fa26c09617f1b1b45f90d2fd04cd5e552fafdbe",
+      "clips": {
+        "idle": "idle",
+        "idleVariants": [],
+        "walk": "walk",
+        "talk": "wait",
+        "greet": null
+      },
+      "walkSpeed": 1.2,
+      "scale": 1.0,
+      "nameplateOffset": 0.0
+    },
+    "pipi": {
+      "file": "pipi.glb",
+      "sha256": "28800e9c4dec368e48360032af1142115af7f5b077c04d3ad75df9b27a35337d",
+      "clips": {
+        "idle": "look_around",
+        "idleVariants": [],
+        "walk": "walk",
+        "talk": null,
+        "greet": "greet_02"
+      },
+      "walkSpeed": 1.2,
+      "scale": 1.0,
+      "nameplateOffset": 0.0
+    },
+    "dorm_lowell": {
+      "file": "dorm_lowell.glb",
+      "sha256": "3369e416d8d7d6cd9295951ec56a1c2f30e424ace1c0c6d668073b19019a1ad9",
+      "clips": {
+        "idle": "standing_relax",
+        "idleVariants": [],
+        "walk": "walk",
+        "talk": null,
+        "greet": null
+      },
+      "walkSpeed": 1.23,
+      "scale": 1.0,
+      "nameplateOffset": 0.0
+    },
+    "wizard_statue": {
+      "file": "wizard_statue.glb",
+      "sha256": "def88e0f01b095b82185990a3ceb725ba816154d3b3fee7fa3faf0d03f7bd743",
+      "clips": {
+        "idle": null,
+        "idleVariants": [],
+        "walk": null,
+        "talk": null,
+        "greet": null
+      },
+      "scale": 1.0,
+      "nameplateOffset": 0.0,
+      "height": 3.0
+    }
+  }
+}

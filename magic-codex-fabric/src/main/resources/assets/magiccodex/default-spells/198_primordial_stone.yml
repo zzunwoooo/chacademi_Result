@@ -1,0 +1,14 @@
+id: primordial_stone
+name: 원초의 돌
+category: earth
+description: 돌 조각을 모아 거대한 돌핵을 만들고, 다시 사용하면 돌핵을 발사합니다. 실제 주변 지형의 돌을 흡수하거나 제거하지 않습니다.
+icon: magiccodex:textures/spells/expansion_2/primordial_stone.png
+permission: magic.learned.primordial_stone
+discovery:
+  description: 베르나 교수와(과) 친해진 뒤(호감도 30) 대지 비전 수업 듣기.
+research: 모양도 이름도 없던 시절, 모든 돌은 하나였다고 한다. 그 시절의 무게를 잠시 되돌리는 고위급 마법이다.
+cast:
+  command: 마법 primordial_stone
+  cooldown-seconds: 120
+  mana-cost: 500
+order: 198

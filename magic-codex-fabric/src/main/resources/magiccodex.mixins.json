@@ -1,0 +1,35 @@
+{
+  "required": true,
+  "package": "school.magiccodex.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "ShinyEntityMixin",
+    "ShinyLayerMixin",
+    "ShinyDragonMixin",
+    "CodexTextureFilterMixin",
+    "TextFieldAccessor",
+    "CodexKeyboardMixin",
+    "CastingKeyBindingMixin",
+    "PlayerHudMixin",
+    "TamingNameMixin",
+    "ItemTooltipMixin",
+    "TooltipScrollMixin",
+    "HandledItemTooltipMixin",
+    "ItemIconMixin",
+    "ItemModelManagerMixin",
+    "ItemRenderStateMixin",
+    "ItemLayerAccessor",
+    "WhisperGlyphMixin",
+    "ChatIconGlyphMixin",
+    "CodexMouseMixin",
+    "ShoulderCameraMixin",
+    "ShoulderCrosshairMixin", "KyudichiRenderDistanceMixin", "KyudichiHitboxMixin",
+    "BrigadierUnicodeWordMixin",
+    "GalaxyBagSwapMixin", "GalaxyBagHooksMixin", "HandledScreenAccessor",
+    "SpyglassFovMixin", "SpyglassMouseMixin",
+    "ArtifactParrotMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

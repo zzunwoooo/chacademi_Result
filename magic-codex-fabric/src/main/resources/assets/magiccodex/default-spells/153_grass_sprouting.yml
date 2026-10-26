@@ -1,0 +1,14 @@
+id: grass_sprouting
+name: 잔디 돋우기
+category: earth
+description: 조준한 2×2 영역의 흙 칸만 잔디 블록으로 전환합니다.
+icon: magiccodex:textures/spells/expansion_2/grass_sprouting.png
+permission: magic.learned.grass_sprouting
+discovery:
+  description: 꽃을 누적 10개 심습니다.
+research: 황량한 마당에도 봄은 온다. 조금 재촉해 주는 정도라면 괜찮을 것이다.
+cast:
+  command: 마법 grass_sprouting
+  cooldown-seconds: 5
+  mana-cost: 10
+order: 153

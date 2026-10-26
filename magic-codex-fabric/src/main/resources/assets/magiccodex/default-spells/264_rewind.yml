@@ -1,0 +1,14 @@
+id: rewind
+name: 되감기
+category: dark
+description: 바라보는 장치를 바로 직전 상태로 되돌립니다. 1분 이내에 바뀐 것만 되돌릴 수 있습니다.
+icon: magiccodex:textures/spells/gimmick/rewind.png
+permission: magic.learned.rewind
+discovery:
+  description: 도서관에서 「되돌리는 장치에 관하여」 책 읽기.
+research: 시간을 되돌리는 것은 아니다. 장치가 방금 전의 모습을 기억해 낼 뿐이다.
+cast:
+  command: 마법 rewind
+  cooldown-seconds: 5
+  mana-cost: 30
+order: 264

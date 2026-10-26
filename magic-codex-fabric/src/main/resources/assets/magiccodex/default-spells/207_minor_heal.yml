@@ -1,0 +1,14 @@
+id: minor_heal
+name: 작은 치유
+category: light
+description: 자신의 체력을 하트 1칸 회복합니다.
+icon: magiccodex:textures/spells/novice_extra/minor_heal.png
+permission: magic.learned.minor_heal
+discovery:
+  description: 이솔데 교수의 빛 마법 기초 수업 듣기.
+research: 남의 상처를 돌보기 전에 자신의 작은 상처부터 살펴보자.
+cast:
+  command: 마법 minor_heal
+  cooldown-seconds: 10
+  mana-cost: 15
+order: 207

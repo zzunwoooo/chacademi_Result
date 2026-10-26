@@ -1,0 +1,14 @@
+id: pressure_rupture
+name: 토네이도 스핀
+category: wind
+description: 캐릭터 주변에 폭풍을 일으켜 반경 약 3블록 안의 적을 밀어내며 피해를 줍니다.
+icon: magiccodex:textures/spells/expansion_2/pressure_rupture.png
+permission: magic.learned.pressure_rupture
+discovery:
+  description: 바람 교실에서 「회오리의 축」 책 읽기.
+research: 제자리에 머물러도 바람은 회전한다. 몸을 감싼 회오리가 방패이자 날카로운 공격이 되었다.
+cast:
+  command: 마법 pressure_rupture
+  cooldown-seconds: 30
+  mana-cost: 90
+order: 35

@@ -1,0 +1,9 @@
+# 선택 설정. 이 파일을 client.properties 로 복사하면 적용됩니다 (없으면 아래 기본값).
+# 텍스처 압축: bc7 (기본, GPU 메모리 약 1/4) / off (압축 안 함)
+textureCompression=bc7
+# 거리별 자세 갱신 구간 (블록): 근거리 30Hz < lodNear ≤ 15Hz < lodMid ≤ 8Hz < lodFar ≤ 3Hz
+lodNear=16
+lodMid=32
+lodFar=64
+# 한 프레임에 NPC 자세 계산에 쓸 최대 시간(ms). 넘으면 남은 NPC는 지난 자세를 그대로 그림
+frameBudgetMs=3

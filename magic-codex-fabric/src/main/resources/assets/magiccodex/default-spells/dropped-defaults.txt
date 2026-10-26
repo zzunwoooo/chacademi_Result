@@ -1,0 +1,15 @@
+# 2026-10-25 오너: 실제로 쓰지 않는(꺼진) 마법 12개를 도감에서 뺌 (magic-mythic-paper/tools/spell_order.py DROPPED).
+# 2026-10-26 오너: 기획에서도 완전히 지움 (서버 mana-spells·발견 조건·칭호 등에서 삭제).
+# 배포된 그대로인 파일만 지운다 (DefaultSpellMigration.removeRetired, known-hashes.tsv 의 옛 해시로 판정 — 그 줄은 지우지 말 것)
+008_aerial_haul.yml
+016_descent_command.yml
+043_cinder_detonation.yml
+052_flame_footprints.yml
+057_fireproof_film.yml
+071_water_mirror.yml
+103_vine_ladder.yml
+121_automatic_supply.yml
+134_light_mark.yml
+136_luminous_archive.yml
+161_experience_exchange.yml
+162_white_night_sanctuary.yml

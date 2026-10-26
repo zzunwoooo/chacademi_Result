@@ -1,0 +1,14 @@
+id: dust_duster
+name: 클린
+category: wind
+description: 가까운 거미줄을 최대 3개 걷어냅니다.
+icon: magiccodex:textures/spells/expansion_2/dust_duster.png
+permission: magic.learned.dust_duster
+discovery:
+  description: 기숙사 배정받기.
+research: 교장이 남긴 작은 바람은 방 안의 먼지와 거미줄을 걷어내며, 새로운 생활의 자리를 정돈한다.
+cast:
+  command: 마법 dust_duster
+  cooldown-seconds: 10
+  mana-cost: 10
+order: 7

@@ -1,0 +1,14 @@
+id: replant_touch
+name: 되심기 손길
+category: earth
+description: 손끝에 새싹의 기운을 모읍니다. 60초 동안 다 자란 작물을 거두면 그 자리에 씨앗을 하나 써서 바로 다시 심어 줍니다.
+icon: ''
+permission: magic.learned.replant_touch
+discovery:
+  description: 다 자란 작물을 거둔 자리에 바로 다시 심기 50번.
+research: ''
+cast:
+  command: 마법 replant_touch
+  cooldown-seconds: 90
+  mana-cost: 30
+order: 178

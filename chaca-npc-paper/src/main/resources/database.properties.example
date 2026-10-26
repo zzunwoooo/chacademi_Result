@@ -1,0 +1,14 @@
+# ChacaNPC DB 설정 예시 — 실제 파일 이름은 database.properties (Git에 올리지 말 것)
+# 파일이 없거나 mode=sqlite 면 plugins/ChacaNPC/chaca-npc.db 를 씁니다.
+# 운영 권장: 기존 MariaDB 인스턴스에 ChacaNPC 전용 스키마와 그 스키마 권한만 가진 계정을 만들어 사용
+#   (예: CREATE DATABASE chacademi_npc; 계정 권한은 chacademi_npc.* 로 한정)
+# 형식은 MagicCodexBridge 의 database.properties 와 같습니다.
+
+mode=sqlite
+#mode=mariadb
+#host=DB_HOST
+#port=3306
+#database=chacademi_npc
+#user=DB_USER
+#password=DB_PASSWORD
+#ssl-mode=

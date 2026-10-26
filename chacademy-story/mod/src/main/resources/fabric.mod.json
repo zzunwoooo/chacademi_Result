@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "id": "chaca_story",
+  "version": "${version}",
+  "name": "Chacademy Story",
+  "description": "차카데미 메인 스토리 모드. 컷신(config/chaca_cutscene)과 대화(config/chaca_dialogue)를 서버 신호나 /스토리도구 명령어로 재생합니다. 대화는 MagicCodex 대화창으로 보여 줍니다.",
+  "authors": ["Chacademy"],
+  "license": "All-Rights-Reserved",
+  "environment": "client",
+  "entrypoints": {
+    "client": ["kr.chacademy.cutscene.ChacademyCutsceneClient"]
+  },
+  "breaks": {
+    "chaca_cutscene": "*"
+  },
+  "depends": {
+    "fabricloader": ">=0.16.10",
+    "minecraft": "~1.21.4",
+    "java": ">=21",
+    "fabric-api": "*",
+    "magiccodex": "*"
+  }
+}

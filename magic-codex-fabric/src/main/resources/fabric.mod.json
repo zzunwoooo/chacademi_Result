@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "id": "magiccodex",
+  "version": "${version}",
+  "name": "Magic Codex UI",
+  "description": "Local magic catalog, live mana HUD and server-authorized casting through the Paper bridge. Toggle with /화면.",
+  "environment": "client",
+  "mixins": ["magiccodex.mixins.json"],
+  "entrypoints": {
+    "client": ["school.magiccodex.client.MagicCodexClient"]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.14",
+    "minecraft": "1.21.4",
+    "java": ">=21",
+    "fabric-api": ">=0.119.4+1.21.4"
+  }
+}

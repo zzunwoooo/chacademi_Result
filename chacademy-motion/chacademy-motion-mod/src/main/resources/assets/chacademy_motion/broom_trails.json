@@ -1,0 +1,213 @@
+{
+  "_설명": "빗자루 ID → 비행 궤적 (2026-10-16 확정: 일반 5종 basic, 희귀·유일·전설은 빗자루마다 전용 궤적). 리소스팩에 같은 경로(assets/chacademy_motion/broom_trails.json)로 넣으면 덮어씀. cost = 이동 1블록당 살아 있는 입자 수(Σ rateOverDistance × 평균 수명, 예산 계산용), liteCost = lite 판, constCost = 정지해도 있는 입자 수(Σ rateOverTime × 평균 수명). vfx-src/BroomTrails 의 vfx.json 에서 계산한 값. 클라이언트가 팩 하나에 시스템 16개 미만만 받으므로 팩 4개(broomtrails / broomtrailswood / broomtrailsunique / broomtrailslegend)로 나눴다.",
+  "default": "basic",
+  "effects": {
+    "basic": {
+      "full": "claude:broomtrails/basic",
+      "lite": "claude:broomtrails/basic_lite",
+      "cost": 4.6,
+      "liteCost": 1.3,
+      "constCost": 0.0
+    },
+    "rare_plus": {
+      "full": "claude:broomtrails/rare_plus",
+      "lite": "claude:broomtrails/rare_plus_lite",
+      "cost": 5.5,
+      "liteCost": 1.4,
+      "constCost": 0.0
+    },
+    "rare_gold": {
+      "full": "claude:broomtrails/rare_gold",
+      "lite": "claude:broomtrails/rare_gold_lite",
+      "cost": 9.1,
+      "liteCost": 1.9,
+      "constCost": 3.6
+    },
+    "wave1": {
+      "full": "claude:broomtrails/wave1",
+      "lite": "claude:broomtrails/wave1_lite",
+      "cost": 3.5,
+      "liteCost": 1.6,
+      "constCost": 0.0
+    },
+    "wave2": {
+      "full": "claude:broomtrails/wave2",
+      "lite": "claude:broomtrails/wave2_lite",
+      "cost": 6.3,
+      "liteCost": 1.8,
+      "constCost": 3.6
+    },
+    "leaf_oak": {
+      "full": "claude:broomtrailswood/leaf_oak",
+      "lite": "claude:broomtrailswood/leaf_oak_lite",
+      "cost": 6.0,
+      "liteCost": 1.3,
+      "constCost": 0.0
+    },
+    "leaf_cherry": {
+      "full": "claude:broomtrailswood/leaf_cherry",
+      "lite": "claude:broomtrailswood/leaf_cherry_lite",
+      "cost": 8.1,
+      "liteCost": 2.2,
+      "constCost": 0.0
+    },
+    "leaf_birch": {
+      "full": "claude:broomtrailswood/leaf_birch",
+      "lite": "claude:broomtrailswood/leaf_birch_lite",
+      "cost": 6.5,
+      "liteCost": 1.5,
+      "constCost": 0.0
+    },
+    "leaf_mahogany": {
+      "full": "claude:broomtrailswood/leaf_mahogany",
+      "lite": "claude:broomtrailswood/leaf_mahogany_lite",
+      "cost": 6.0,
+      "liteCost": 1.3,
+      "constCost": 0.0
+    },
+    "leaf_bamboo": {
+      "full": "claude:broomtrailswood/leaf_bamboo",
+      "lite": "claude:broomtrailswood/leaf_bamboo_lite",
+      "cost": 5.8,
+      "liteCost": 1.2,
+      "constCost": 0.0
+    },
+    "galaxy": {
+      "full": "claude:broomtrailswood/galaxy",
+      "lite": "claude:broomtrailswood/galaxy_lite",
+      "cost": 12.8,
+      "liteCost": 2.0,
+      "constCost": 0.0
+    },
+    "u_dark": {
+      "full": "claude:broomtrailsunique/u_dark",
+      "lite": "claude:broomtrailsunique/u_dark_lite",
+      "cost": 12.8,
+      "liteCost": 3.2,
+      "constCost": 0.0
+    },
+    "u_classic": {
+      "full": "claude:broomtrailsunique/u_classic",
+      "lite": "claude:broomtrailsunique/u_classic_lite",
+      "cost": 9.9,
+      "liteCost": 1.5,
+      "constCost": 0.0
+    },
+    "u_emerald": {
+      "full": "claude:broomtrailsunique/u_emerald",
+      "lite": "claude:broomtrailsunique/u_emerald_lite",
+      "cost": 6.5,
+      "liteCost": 1.6,
+      "constCost": 0.0
+    },
+    "u_crimson": {
+      "full": "claude:broomtrailsunique/u_crimson",
+      "lite": "claude:broomtrailsunique/u_crimson_lite",
+      "cost": 7.0,
+      "liteCost": 1.6,
+      "constCost": 0.0
+    },
+    "u_sonic": {
+      "full": "claude:broomtrailsunique/u_sonic",
+      "lite": "claude:broomtrailsunique/u_sonic_lite",
+      "cost": 7.3,
+      "liteCost": 1.6,
+      "constCost": 0.0
+    },
+    "u_holo": {
+      "full": "claude:broomtrailsunique/u_holo",
+      "lite": "claude:broomtrailsunique/u_holo_lite",
+      "cost": 6.5,
+      "liteCost": 1.7,
+      "constCost": 0.0
+    },
+    "u_twin": {
+      "full": "claude:broomtrailsunique/u_twin",
+      "lite": "claude:broomtrailsunique/u_twin_lite",
+      "cost": 8.6,
+      "liteCost": 2.5,
+      "constCost": 0.0
+    },
+    "l_heart": {
+      "full": "claude:broomtrailslegend/l_heart",
+      "lite": "claude:broomtrailslegend/l_heart_lite",
+      "cost": 17.9,
+      "liteCost": 2.9,
+      "constCost": 4.2
+    },
+    "l_darkheart": {
+      "full": "claude:broomtrailslegend/l_darkheart",
+      "lite": "claude:broomtrailslegend/l_darkheart_lite",
+      "cost": 19.5,
+      "liteCost": 3.0,
+      "constCost": 4.2
+    },
+    "l_dragon": {
+      "full": "claude:broomtrailslegend/l_dragon",
+      "lite": "claude:broomtrailslegend/l_dragon_lite",
+      "cost": 16.2,
+      "liteCost": 3.2,
+      "constCost": 4.2
+    },
+    "l_butterfly": {
+      "full": "claude:broomtrailslegend/l_butterfly",
+      "lite": "claude:broomtrailslegend/l_butterfly_lite",
+      "cost": 11.1,
+      "liteCost": 2.9,
+      "constCost": 4.2
+    },
+    "l_foxfire": {
+      "full": "claude:broomtrailslegend/l_foxfire",
+      "lite": "claude:broomtrailslegend/l_foxfire_lite",
+      "cost": 9.3,
+      "liteCost": 2.1,
+      "constCost": 7.3
+    },
+    "l_angel": {
+      "full": "claude:broomtrailslegend/l_angel",
+      "lite": "claude:broomtrailslegend/l_angel_lite",
+      "cost": 12.6,
+      "liteCost": 3.3,
+      "constCost": 4.2
+    },
+    "l_devil": {
+      "full": "claude:broomtrailslegend/l_devil",
+      "lite": "claude:broomtrailslegend/l_devil_lite",
+      "cost": 16.6,
+      "liteCost": 3.3,
+      "constCost": 4.2
+    }
+  },
+  "brooms": {
+    "broom_1": "basic",
+    "broom_2": "basic",
+    "broom_3": "basic",
+    "broom_4": "basic",
+    "broom_5": "basic",
+    "broom_6": "rare_plus",
+    "broom_7": "rare_plus",
+    "broom_8": "rare_gold",
+    "broom_9": "wave1",
+    "broom_10": "wave2",
+    "broom_11": "leaf_oak",
+    "broom_12": "leaf_cherry",
+    "broom_13": "leaf_birch",
+    "broom_14": "leaf_mahogany",
+    "broom_15": "leaf_bamboo",
+    "broom_16": "galaxy",
+    "broom_17": "u_dark",
+    "broom_18": "u_classic",
+    "broom_19": "u_emerald",
+    "broom_20": "u_crimson",
+    "broom_21": "u_sonic",
+    "broom_22": "u_holo",
+    "broom_23": "u_twin",
+    "broom_24": "l_heart",
+    "broom_25": "l_darkheart",
+    "broom_26": "l_dragon",
+    "broom_27": "l_butterfly",
+    "broom_28": "l_foxfire",
+    "broom_29": "l_angel",
+    "broom_30": "l_devil"
+  }
+}

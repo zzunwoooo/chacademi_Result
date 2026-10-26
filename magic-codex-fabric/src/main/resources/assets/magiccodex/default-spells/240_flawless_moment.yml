@@ -1,0 +1,14 @@
+id: flawless_moment
+name: 무결의 순간
+category: light
+description: 3초 동안 무적이 되며 그동안 이동과 공격이 가능합니다.
+icon: magiccodex:textures/spells/expansion/flawless_moment.png
+permission: magic.learned.flawless_moment
+discovery:
+  description: 방패로 공격을 누적 30회 막습니다.
+research: 수없이 공격을 막아 낸 끝에, 방패 너머로 흐르는 빛을 깨달았다. 그 빛을 두르면 아주 짧은 순간, 어떤 상처도 닿지 않는다.
+cast:
+  command: 마법 flawless_moment
+  cooldown-seconds: 90
+  mana-cost: 220
+order: 240

@@ -1,0 +1,1026 @@
+# 호감도 선물 — NPC 별 좋아하는 선물 (오너 최종 기획 "호감도 선물 100", 2026-10-25, docs/plans/affinity-gifts-100.html)
+# NPC 마다 10개: 전설 1 · 유일 2 · 고급 3 · 일반 4. 점수는 config.yml gifts.grades (일반 1 · 고급 3 · 유일 7 · 전설 15), 목록에 없는 선물은 gifts.not-liked (-1).
+# 여기 적힌 NPC 는 캐릭터 파일(npcs/*.yml)의 gift_likes 대신 이 목록을 씁니다. 키 = NPC id (npcs/*.yml 의 id).
+# 고친 뒤 /서버관리 새로고침 (ChacaNPC) 또는 재시작.
+# 선물 아이템 = ItemsAdder item:gift_… , 아이템 설명 1번째 줄 "선물", 2번째 줄 등급이어야 선물 창에 뜹니다.
+npcs:
+  # 브람 선장 — 차카데미아 정기선 선장
+  captain_bram:
+    - item:gift_sea_star_pearl                 # 전설 바다별 진주
+    - item:gift_silver_compass                 # 유일 은빛 별자리 나침반
+    - item:gift_captain_logbook                # 유일 옛 선장의 항해 일지
+    - item:gift_old_map                        # 고급 빛바랜 옛 지도
+    - item:gift_fishing_float                  # 고급 유리 낚시찌
+    - item:gift_seashell_set                   # 고급 바다 소라 모음
+    - item:gift_smooth_stone                   # 일반 매끈한 조약돌
+    - item:gift_firework                       # 일반 작은 폭죽
+    - item:gift_beer_mug                       # 일반 나무 맥주잔
+    - item:gift_rope                           # 일반 튼튼한 밧줄
+  # 로웰 사감 — 기숙사 사감
+  dorm_lowell:
+    - item:gift_ashen_night_chronicle          # 전설 잿빛 밤 연대기 초판
+    - item:gift_phoenix_feather                # 유일 불사조의 깃털
+    - item:gift_royal_tea                      # 유일 왕실 은방울 홍차
+    - item:gift_broom_wax                      # 고급 빗자루 광택 왁스
+    - item:gift_rule_handbook                  # 고급 교칙 해설서
+    - item:gift_duster_feather                 # 고급 공작 깃털 먼지떨이
+    - item:gift_notebook                       # 일반 가죽 수첩
+    - item:gift_soap                           # 일반 허브 비누
+    - item:gift_handkerchief                   # 일반 자수 손수건
+    - item:gift_clean_cloth                    # 일반 극세사 걸레
+  # 엘라 — 루미나 3학년, 대도서관 보조 학생
+  ella:
+    - item:gift_archmage_statue                # 전설 마법사 조각상
+    - item:gift_moonwell_water                 # 유일 달우물의 물
+    - item:gift_grand_cake                     # 유일 3단 축하 케이크
+    - item:gift_feather_quill                  # 고급 백조 깃펜
+    - item:gift_silver_scissors                # 고급 은 가위
+    - item:gift_rule_handbook                  # 고급 교칙 해설서
+    - item:gift_apple_basket                   # 일반 사과 한 바구니
+    - item:gift_bookmark                       # 일반 압화 책갈피
+    - item:gift_cat_toy                        # 일반 고양이 깃털 장난감
+    - item:gift_dried_meat                     # 일반 육포 한 봉지
+  # 이솔데 — 대도서관 사서
+  librarian_isolde:
+    - item:gift_ashen_night_chronicle          # 전설 잿빛 밤 연대기 초판
+    - item:gift_sion_bust                      # 유일 시온의 흉상 습작
+    - item:gift_old_wand                       # 유일 대마법사 시대의 낡은 지팡이
+    - item:gift_herb_tea_set                   # 고급 허브차 한 상자
+    - item:gift_lantern_glass                  # 고급 색유리 등불
+    - item:gift_rule_handbook                  # 고급 교칙 해설서
+    - item:gift_candle                         # 일반 향초
+    - item:gift_ink_bottle                     # 일반 파란 잉크병
+    - item:gift_bookmark                       # 일반 압화 책갈피
+    - item:gift_lucky_coin                     # 일반 행운의 동전
+  # 루카 — 주인공과 같은 해 입학한 신입생
+  luka:
+    - item:gift_first_broom                    # 전설 최초의 경주용 빗자루 손잡이
+    - item:gift_grand_cake                     # 유일 3단 축하 케이크
+    - item:gift_crystal_globe                  # 유일 눈 내리는 수정구
+    - item:gift_honey_jar                      # 고급 들꽃 꿀단지
+    - item:gift_feather_quill                  # 고급 백조 깃펜
+    - item:gift_rule_handbook                  # 고급 교칙 해설서
+    - item:gift_bread_loaf                     # 일반 갓 구운 빵
+    - item:gift_wool_ball                      # 일반 털실 뭉치
+    - item:gift_handkerchief                   # 일반 자수 손수건
+    - item:gift_lunchbox                       # 일반 정성 도시락
+  # 마르타 할머니 — 마을 최고령 노파
+  marta:
+    - item:gift_ashen_night_chronicle          # 전설 잿빛 밤 연대기 초판
+    - item:gift_sion_bust                      # 유일 시온의 흉상 습작
+    - item:gift_golden_herb                    # 유일 황금 만드라고라
+    - item:gift_dried_flower                   # 고급 말린 꽃다발
+    - item:gift_wool_scarf                     # 고급 손뜨개 목도리
+    - item:gift_silver_scissors                # 고급 은 가위
+    - item:gift_apple_basket                   # 일반 사과 한 바구니
+    - item:gift_wildflower                     # 일반 들꽃 한 송이
+    - item:gift_tea_leaves                     # 일반 찻잎 한 봉지
+    - item:gift_dried_meat                     # 일반 육포 한 봉지
+  # 미나 — 루미나 2학년, 물 계열 마법 공부 중
+  mina:
+    - item:gift_first_broom                    # 전설 최초의 경주용 빗자루 손잡이
+    - item:gift_moonwell_water                 # 유일 달우물의 물
+    - item:gift_grand_cake                     # 유일 3단 축하 케이크
+    - item:gift_rare_feather                   # 고급 무지갯빛 깃털
+    - item:gift_theory_book                    # 고급 두꺼운 이론서
+    - item:gift_seashell_set                   # 고급 바다 소라 모음
+    - item:gift_notebook                       # 일반 가죽 수첩
+    - item:gift_cat_toy                        # 일반 고양이 깃털 장난감
+    - item:gift_iron_nail                      # 일반 새 쇠못 한 줌
+    - item:gift_handkerchief                   # 일반 자수 손수건
+  # 노엘 — 노크세르 학생
+  noel:
+    - item:gift_ashen_night_chronicle          # 전설 잿빛 밤 연대기 초판
+    - item:gift_tarot_moon                     # 유일 달의 타로 원본
+    - item:gift_night_mirror                   # 유일 밤의 손거울
+    - item:gift_bird_whistle                   # 고급 새 부르는 피리
+    - item:gift_lantern_glass                  # 고급 색유리 등불
+    - item:gift_seashell_set                   # 고급 바다 소라 모음
+    - item:gift_candle                         # 일반 향초
+    - item:gift_carrot_bundle                  # 일반 당근 한 묶음
+    - item:gift_lunchbox                       # 일반 정성 도시락
+    - item:gift_lucky_coin                     # 일반 행운의 동전
+  # 피피 — 마을 잡화점 주인, 입학 준비물 담당
+  pipi:
+    - item:gift_sea_star_pearl                 # 전설 바다별 진주
+    - item:gift_master_hammer                  # 유일 명장의 망치
+    - item:gift_captain_logbook                # 유일 옛 선장의 항해 일지
+    - item:gift_honey_jar                      # 고급 들꽃 꿀단지
+    - item:gift_theory_book                    # 고급 두꺼운 이론서
+    - item:gift_sweet_box                      # 고급 과자 선물 상자
+    - item:gift_milk_bottle                    # 일반 신선한 우유
+    - item:gift_beer_mug                       # 일반 나무 맥주잔
+    - item:gift_lucky_coin                     # 일반 행운의 동전
+    - item:gift_mint_candy                     # 일반 박하사탕
+  # 린 — 학생회 신입생 안내 담당 학생
+  rin:
+    - item:gift_first_broom                    # 전설 최초의 경주용 빗자루 손잡이
+    - item:gift_silver_compass                 # 유일 은빛 별자리 나침반
+    - item:gift_moonwell_water                 # 유일 달우물의 물
+    - item:gift_wool_scarf                     # 고급 손뜨개 목도리
+    - item:gift_pressed_letter                 # 고급 봉랍 편지지 세트
+    - item:gift_iron_horseshoe                 # 고급 행운의 편자
+    - item:gift_notebook                       # 일반 가죽 수첩
+    - item:gift_bookmark                       # 일반 압화 책갈피
+    - item:gift_handkerchief                   # 일반 자수 손수건
+    - item:gift_goat_bell                      # 일반 작은 목방울
+  # 브루노 — 학교 관리인
+  sf_bruno:
+    - item:gift_ashen_night_chronicle          # 전설 잿빛 밤 연대기 초판
+    - item:gift_sion_bust                      # 유일 시온의 흉상 습작
+    - item:gift_master_hammer                  # 유일 명장의 망치
+    - item:gift_tarot_deck                     # 고급 손때 묻은 타로 카드
+    - item:gift_cheese_wheel                   # 고급 숙성 염소 치즈
+    - item:gift_duster_feather                 # 고급 공작 깃털 먼지떨이
+    - item:gift_iron_nail                      # 일반 새 쇠못 한 줌
+    - item:gift_seed_pouch                     # 일반 씨앗 주머니
+    - item:gift_clean_cloth                    # 일반 극세사 걸레
+    - item:gift_bandage                        # 일반 깨끗한 붕대
+  # 도로테아 아주머니 — 학교 식당 조리장
+  sf_dorothea:
+    - item:gift_archmage_statue                # 전설 마법사 조각상
+    - item:gift_phoenix_feather                # 유일 불사조의 깃털
+    - item:gift_golden_herb                    # 유일 황금 만드라고라
+    - item:gift_mushroom_basket                # 고급 희귀 버섯 바구니
+    - item:gift_cheese_wheel                   # 고급 숙성 염소 치즈
+    - item:gift_spice_box                      # 고급 먼 나라 향신료 상자
+    - item:gift_cookie                         # 일반 버터 쿠키
+    - item:gift_fresh_fish                     # 일반 싱싱한 생선
+    - item:gift_lunchbox                       # 일반 정성 도시락
+    - item:gift_chess_piece                    # 일반 장기 말 한 벌
+  # 에밀 — 학교·마을 우편배달부
+  sf_emil:
+    - item:gift_archmage_statue                # 전설 마법사 조각상
+    - item:gift_sion_bust                      # 유일 시온의 흉상 습작
+    - item:gift_silver_compass                 # 유일 은빛 별자리 나침반
+    - item:gift_feather_quill                  # 고급 백조 깃펜
+    - item:gift_training_gloves                # 고급 훈련용 가죽 장갑
+    - item:gift_pressed_letter                 # 고급 봉랍 편지지 세트
+    - item:gift_ink_bottle                     # 일반 파란 잉크병
+    - item:gift_milk_bottle                    # 일반 신선한 우유
+    - item:gift_postcard                       # 일반 마을 그림엽서
+    - item:gift_beer_mug                       # 일반 나무 맥주잔
+  # 힐데 — 학교 의무실 간호사
+  sf_hilde:
+    - item:gift_ashen_night_chronicle          # 전설 잿빛 밤 연대기 초판
+    - item:gift_moonwell_water                 # 유일 달우물의 물
+    - item:gift_royal_tea                      # 유일 왕실 은방울 홍차
+    - item:gift_herb_tea_set                   # 고급 허브차 한 상자
+    - item:gift_pressed_letter                 # 고급 봉랍 편지지 세트
+    - item:gift_rule_handbook                  # 고급 교칙 해설서
+    - item:gift_candle                         # 일반 향초
+    - item:gift_soap                           # 일반 허브 비누
+    - item:gift_herb_bundle                    # 일반 말린 약초 묶음
+    - item:gift_bandage                        # 일반 깨끗한 붕대
+  # 보미 — 루미나 1학년 학생
+  st_bomi:
+    - item:gift_first_broom                    # 전설 최초의 경주용 빗자루 손잡이
+    - item:gift_moonwell_water                 # 유일 달우물의 물
+    - item:gift_night_mirror                   # 유일 밤의 손거울
+    - item:gift_honey_jar                      # 고급 들꽃 꿀단지
+    - item:gift_rule_handbook                  # 고급 교칙 해설서
+    - item:gift_sweet_box                      # 고급 과자 선물 상자
+    - item:gift_cookie                         # 일반 버터 쿠키
+    - item:gift_notebook                       # 일반 가죽 수첩
+    - item:gift_hair_pin                       # 일반 별 머리핀
+    - item:gift_doll_dress                     # 일반 인형 옷
+  # 봉구 — 아르케온 1학년 학생
+  st_bongu:
+    - item:gift_first_broom                    # 전설 최초의 경주용 빗자루 손잡이
+    - item:gift_phoenix_feather                # 유일 불사조의 깃털
+    - item:gift_grand_cake                     # 유일 3단 축하 케이크
+    - item:gift_training_gloves                # 고급 훈련용 가죽 장갑
+    - item:gift_theory_book                    # 고급 두꺼운 이론서
+    - item:gift_wool_scarf                     # 고급 손뜨개 목도리
+    - item:gift_bookmark                       # 일반 압화 책갈피
+    - item:gift_fresh_fish                     # 일반 싱싱한 생선
+    - item:gift_milk_bottle                    # 일반 신선한 우유
+    - item:gift_lunchbox                       # 일반 정성 도시락
+  # 보라 — 아르케온 2학년 학생
+  st_bora:
+    - item:gift_archmage_statue                # 전설 마법사 조각상
+    - item:gift_phoenix_feather                # 유일 불사조의 깃털
+    - item:gift_grand_cake                     # 유일 3단 축하 케이크
+    - item:gift_training_gloves                # 고급 훈련용 가죽 장갑
+    - item:gift_broom_wax                      # 고급 빗자루 광택 왁스
+    - item:gift_spice_box                      # 고급 먼 나라 향신료 상자
+    - item:gift_iron_nail                      # 일반 새 쇠못 한 줌
+    - item:gift_hair_pin                       # 일반 별 머리핀
+    - item:gift_lunchbox                       # 일반 정성 도시락
+    - item:gift_chess_piece                    # 일반 장기 말 한 벌
+  # 채윤 — 노크세르 2학년 학생
+  st_chaeyun:
+    - item:gift_four_house_crest               # 전설 네 기숙사 원판 문장
+    - item:gift_sion_bust                      # 유일 시온의 흉상 습작
+    - item:gift_night_mirror                   # 유일 밤의 손거울
+    - item:gift_silk_ribbon                    # 고급 검은 비단 리본
+    - item:gift_broom_wax                      # 고급 빗자루 광택 왁스
+    - item:gift_poetry_book                    # 고급 얇은 시집
+    - item:gift_wildflower                     # 일반 들꽃 한 송이
+    - item:gift_candle                         # 일반 향초
+    - item:gift_paint_set                      # 일반 물감 세트
+    - item:gift_postcard                       # 일반 마을 그림엽서
+  # 다온 — 아르케온 1학년 학생
+  st_daon:
+    - item:gift_archmage_statue                # 전설 마법사 조각상
+    - item:gift_phoenix_feather                # 유일 불사조의 깃털
+    - item:gift_old_wand                       # 유일 대마법사 시대의 낡은 지팡이
+    - item:gift_rare_feather                   # 고급 무지갯빛 깃털
+    - item:gift_training_gloves                # 고급 훈련용 가죽 장갑
+    - item:gift_theory_book                    # 고급 두꺼운 이론서
+    - item:gift_notebook                       # 일반 가죽 수첩
+    - item:gift_ink_bottle                     # 일반 파란 잉크병
+    - item:gift_iron_nail                      # 일반 새 쇠못 한 줌
+    - item:gift_chess_piece                    # 일반 장기 말 한 벌
+  # 덕희 — 베스티아즈 2학년 학생
+  st_deokhee:
+    - item:gift_four_house_crest               # 전설 네 기숙사 원판 문장
+    - item:gift_spirit_lute_string             # 유일 정령의 류트 줄
+    - item:gift_beast_bell                     # 유일 야수 길들이기 방울
+    - item:gift_wool_scarf                     # 고급 손뜨개 목도리
+    - item:gift_pressed_letter                 # 고급 봉랍 편지지 세트
+    - item:gift_rule_handbook                  # 고급 교칙 해설서
+    - item:gift_handkerchief                   # 일반 자수 손수건
+    - item:gift_firework                       # 일반 작은 폭죽
+    - item:gift_joke_book                      # 일반 유머 모음집
+    - item:gift_rotten_flesh                   # 일반 썩은 고기
+  # 동수 — 아르케온 2학년 학생
+  st_dongsu:
+    - item:gift_four_house_crest               # 전설 네 기숙사 원판 문장
+    - item:gift_phoenix_feather                # 유일 불사조의 깃털
+    - item:gift_master_hammer                  # 유일 명장의 망치
+    - item:gift_carving_knife                  # 고급 조각칼 세트
+    - item:gift_training_gloves                # 고급 훈련용 가죽 장갑
+    - item:gift_broom_wax                      # 고급 빗자루 광택 왁스
+    - item:gift_smooth_stone                   # 일반 매끈한 조약돌
+    - item:gift_wood_block                     # 일반 잘 마른 나무토막
+    - item:gift_chess_piece                    # 일반 장기 말 한 벌
+    - item:gift_laundry_pegs                   # 일반 빨래집게 한 통
+  # 도윤 — 노크세르 1학년 학생
+  st_doyun:
+    - item:gift_four_house_crest               # 전설 네 기숙사 원판 문장
+    - item:gift_tarot_moon                     # 유일 달의 타로 원본
+    - item:gift_night_mirror                   # 유일 밤의 손거울
+    - item:gift_feather_quill                  # 고급 백조 깃펜
+    - item:gift_rare_feather                   # 고급 무지갯빛 깃털
+    - item:gift_tarot_deck                     # 고급 손때 묻은 타로 카드
+    - item:gift_cat_toy                        # 일반 고양이 깃털 장난감
+    - item:gift_iron_nail                      # 일반 새 쇠못 한 줌
+    - item:gift_toy_sword                      # 일반 나무 칼
+    - item:gift_firework                       # 일반 작은 폭죽
+  # 에덴 — 루미나 3학년 학생
+  st_eden:
+    - item:gift_four_house_crest               # 전설 네 기숙사 원판 문장
+    - item:gift_moonwell_water                 # 유일 달우물의 물
+    - item:gift_old_wand                       # 유일 대마법사 시대의 낡은 지팡이
+    - item:gift_theory_book                    # 고급 두꺼운 이론서
+    - item:gift_cheese_wheel                   # 고급 숙성 염소 치즈
+    - item:gift_pressed_letter                 # 고급 봉랍 편지지 세트
+    - item:gift_bookmark                       # 일반 압화 책갈피
+    - item:gift_iron_nail                      # 일반 새 쇠못 한 줌
+    - item:gift_seed_pouch                     # 일반 씨앗 주머니
+    - item:gift_lunchbox                       # 일반 정성 도시락
+  # 가은 — 루미나 1학년 학생
+  st_gaeun:
+    - item:gift_four_house_crest               # 전설 네 기숙사 원판 문장
+    - item:gift_sion_bust                      # 유일 시온의 흉상 습작
+    - item:gift_crystal_globe                  # 유일 눈 내리는 수정구
+    - item:gift_feather_quill                  # 고급 백조 깃펜
+    - item:gift_pressed_letter                 # 고급 봉랍 편지지 세트
+    - item:gift_rule_handbook                  # 고급 교칙 해설서
+    - item:gift_wildflower                     # 일반 들꽃 한 송이
+    - item:gift_ink_bottle                     # 일반 파란 잉크병
+    - item:gift_handkerchief                   # 일반 자수 손수건
+    - item:gift_postcard                       # 일반 마을 그림엽서
+  # 건호 — 노크세르 3학년 학생
+  st_geonho:
+    - item:gift_four_house_crest               # 전설 네 기숙사 원판 문장
+    - item:gift_tarot_moon                     # 유일 달의 타로 원본
+    - item:gift_night_mirror                   # 유일 밤의 손거울
+    - item:gift_rare_feather                   # 고급 무지갯빛 깃털
+    - item:gift_theory_book                    # 고급 두꺼운 이론서
+    - item:gift_cheese_wheel                   # 고급 숙성 염소 치즈
+    - item:gift_cat_toy                        # 일반 고양이 깃털 장난감
+    - item:gift_seed_pouch                     # 일반 씨앗 주머니
+    - item:gift_chess_piece                    # 일반 장기 말 한 벌
+    - item:gift_joke_book                      # 일반 유머 모음집
+  # 기범 — 루미나 1학년 학생
+  st_gibeom:
+    - item:gift_ashen_night_chronicle          # 전설 잿빛 밤 연대기 초판
+    - item:gift_phoenix_feather                # 유일 불사조의 깃털
+    - item:gift_moonwell_water                 # 유일 달우물의 물
+    - item:gift_bird_whistle                   # 고급 새 부르는 피리
+    - item:gift_rare_feather                   # 고급 무지갯빛 깃털
+    - item:gift_theory_book                    # 고급 두꺼운 이론서
+    - item:gift_cat_toy                        # 일반 고양이 깃털 장난감
+    - item:gift_hair_pin                       # 일반 별 머리핀
+    - item:gift_sunflower_seed                 # 일반 해바라기씨
+    - item:gift_magnifier                      # 일반 돋보기
+  # 하루 — 루미나 1학년 학생
+  st_haru:
+    - item:gift_four_house_crest               # 전설 네 기숙사 원판 문장
+    - item:gift_moonwell_water                 # 유일 달우물의 물
+    - item:gift_grand_cake                     # 유일 3단 축하 케이크
+    - item:gift_herb_tea_set                   # 고급 허브차 한 상자
+    - item:gift_carving_knife                  # 고급 조각칼 세트
+    - item:gift_silver_scissors                # 고급 은 가위
+    - item:gift_cat_toy                        # 일반 고양이 깃털 장난감
+    - item:gift_seed_pouch                     # 일반 씨앗 주머니
+    - item:gift_shiny_button                   # 일반 반짝이는 단추
+    - item:gift_pillow                         # 일반 폭신한 베개
+  # 하율 — 베스티아즈 2학년 학생
+  st_hayul:
+    - item:gift_first_broom                    # 전설 최초의 경주용 빗자루 손잡이
+    - item:gift_moonwell_water                 # 유일 달우물의 물
+    - item:gift_beast_bell                     # 유일 야수 길들이기 방울
+    - item:gift_bird_whistle                   # 고급 새 부르는 피리
+    - item:gift_rare_feather                   # 고급 무지갯빛 깃털
+    - item:gift_pressed_letter                 # 고급 봉랍 편지지 세트
+    - item:gift_cookie                         # 일반 버터 쿠키
+    - item:gift_cat_toy                        # 일반 고양이 깃털 장난감
+    - item:gift_carrot_bundle                  # 일반 당근 한 묶음
+    - item:gift_seed_pouch                     # 일반 씨앗 주머니
+  # 이안 — 노크세르 3학년 학생
+  st_ian:
+    - item:gift_four_house_crest               # 전설 네 기숙사 원판 문장
+    - item:gift_tarot_moon                     # 유일 달의 타로 원본
+    - item:gift_night_mirror                   # 유일 밤의 손거울
+    - item:gift_rare_feather                   # 고급 무지갯빛 깃털
+    - item:gift_tarot_deck                     # 고급 손때 묻은 타로 카드
+    - item:gift_pressed_letter                 # 고급 봉랍 편지지 세트
+    - item:gift_candle                         # 일반 향초
+    - item:gift_cookie                         # 일반 버터 쿠키
+    - item:gift_iron_nail                      # 일반 새 쇠못 한 줌
+    - item:gift_lunchbox                       # 일반 정성 도시락
+  # 재원 — 베스티아즈 2학년 학생
+  st_jaewon:
+    - item:gift_first_broom                    # 전설 최초의 경주용 빗자루 손잡이
+    - item:gift_golden_herb                    # 유일 황금 만드라고라
+    - item:gift_beast_bell                     # 유일 야수 길들이기 방울
+    - item:gift_mushroom_basket                # 고급 희귀 버섯 바구니
+    - item:gift_broom_wax                      # 고급 빗자루 광택 왁스
+    - item:gift_cheese_wheel                   # 고급 숙성 염소 치즈
+    - item:gift_notebook                       # 일반 가죽 수첩
+    - item:gift_wood_block                     # 일반 잘 마른 나무토막
+    - item:gift_hair_pin                       # 일반 별 머리핀
+    - item:gift_magnifier                      # 일반 돋보기
+  # 준 — 아르케온 3학년 학생
+  st_jun:
+    - item:gift_four_house_crest               # 전설 네 기숙사 원판 문장
+    - item:gift_silver_compass                 # 유일 은빛 별자리 나침반
+    - item:gift_phoenix_feather                # 유일 불사조의 깃털
+    - item:gift_training_gloves                # 고급 훈련용 가죽 장갑
+    - item:gift_pressed_letter                 # 고급 봉랍 편지지 세트
+    - item:gift_rule_handbook                  # 고급 교칙 해설서
+    - item:gift_tea_leaves                     # 일반 찻잎 한 봉지
+    - item:gift_notebook                       # 일반 가죽 수첩
+    - item:gift_iron_nail                      # 일반 새 쇠못 한 줌
+    - item:gift_hair_pin                       # 일반 별 머리핀
+  # 카이 — 베스티아즈 2학년 학생
+  st_kai:
+    - item:gift_four_house_crest               # 전설 네 기숙사 원판 문장
+    - item:gift_silver_compass                 # 유일 은빛 별자리 나침반
+    - item:gift_beast_bell                     # 유일 야수 길들이기 방울
+    - item:gift_old_map                        # 고급 빛바랜 옛 지도
+    - item:gift_feather_quill                  # 고급 백조 깃펜
+    - item:gift_rare_feather                   # 고급 무지갯빛 깃털
+    - item:gift_cookie                         # 일반 버터 쿠키
+    - item:gift_bookmark                       # 일반 압화 책갈피
+    - item:gift_carrot_bundle                  # 일반 당근 한 묶음
+    - item:gift_kite                           # 일반 종이 연
+  # 리아 — 아르케온 2학년 학생
+  st_lia:
+    - item:gift_first_broom                    # 전설 최초의 경주용 빗자루 손잡이
+    - item:gift_phoenix_feather                # 유일 불사조의 깃털
+    - item:gift_master_hammer                  # 유일 명장의 망치
+    - item:gift_mushroom_basket                # 고급 희귀 버섯 바구니
+    - item:gift_training_gloves                # 고급 훈련용 가죽 장갑
+    - item:gift_broom_wax                      # 고급 빗자루 광택 왁스
+    - item:gift_tea_leaves                     # 일반 찻잎 한 봉지
+    - item:gift_dried_meat                     # 일반 육포 한 봉지
+    - item:gift_chess_piece                    # 일반 장기 말 한 벌
+    - item:gift_whistle                        # 일반 은 호루라기
+  # 미향 — 노크세르 2학년 학생
+  st_mihyang:
+    - item:gift_first_broom                    # 전설 최초의 경주용 빗자루 손잡이
+    - item:gift_tarot_moon                     # 유일 달의 타로 원본
+    - item:gift_night_mirror                   # 유일 밤의 손거울
+    - item:gift_herb_tea_set                   # 고급 허브차 한 상자
+    - item:gift_star_chart                     # 고급 별자리 지도
+    - item:gift_tarot_deck                     # 고급 손때 묻은 타로 카드
+    - item:gift_wildflower                     # 일반 들꽃 한 송이
+    - item:gift_candle                         # 일반 향초
+    - item:gift_tea_leaves                     # 일반 찻잎 한 봉지
+    - item:gift_ink_bottle                     # 일반 파란 잉크병
+  # 민호 — 아르케온 1학년 학생
+  st_minho:
+    - item:gift_ashen_night_chronicle          # 전설 잿빛 밤 연대기 초판
+    - item:gift_phoenix_feather                # 유일 불사조의 깃털
+    - item:gift_grand_cake                     # 유일 3단 축하 케이크
+    - item:gift_silk_ribbon                    # 고급 검은 비단 리본
+    - item:gift_cheese_wheel                   # 고급 숙성 염소 치즈
+    - item:gift_sweet_box                      # 고급 과자 선물 상자
+    - item:gift_bread_loaf                     # 일반 갓 구운 빵
+    - item:gift_wildflower                     # 일반 들꽃 한 송이
+    - item:gift_bookmark                       # 일반 압화 책갈피
+    - item:gift_hair_pin                       # 일반 별 머리핀
+  # 민재 — 아르케온 3학년 학생
+  st_minjae:
+    - item:gift_four_house_crest               # 전설 네 기숙사 원판 문장
+    - item:gift_silver_compass                 # 유일 은빛 별자리 나침반
+    - item:gift_old_wand                       # 유일 대마법사 시대의 낡은 지팡이
+    - item:gift_training_gloves                # 고급 훈련용 가죽 장갑
+    - item:gift_theory_book                    # 고급 두꺼운 이론서
+    - item:gift_silver_scissors                # 고급 은 가위
+    - item:gift_bread_loaf                     # 일반 갓 구운 빵
+    - item:gift_notebook                       # 일반 가죽 수첩
+    - item:gift_lunchbox                       # 일반 정성 도시락
+    - item:gift_chess_piece                    # 일반 장기 말 한 벌
+  # 나리 — 베스티아즈 1학년 학생
+  st_nari:
+    - item:gift_four_house_crest               # 전설 네 기숙사 원판 문장
+    - item:gift_beast_bell                     # 유일 야수 길들이기 방울
+    - item:gift_crystal_globe                  # 유일 눈 내리는 수정구
+    - item:gift_bird_whistle                   # 고급 새 부르는 피리
+    - item:gift_wool_scarf                     # 고급 손뜨개 목도리
+    - item:gift_lantern_glass                  # 고급 색유리 등불
+    - item:gift_candle                         # 일반 향초
+    - item:gift_handkerchief                   # 일반 자수 손수건
+    - item:gift_hair_pin                       # 일반 별 머리핀
+    - item:gift_sunflower_seed                 # 일반 해바라기씨
+  # 필승 — 베스티아즈 1학년 학생
+  st_pilsung:
+    - item:gift_four_house_crest               # 전설 네 기숙사 원판 문장
+    - item:gift_sion_bust                      # 유일 시온의 흉상 습작
+    - item:gift_beast_bell                     # 유일 야수 길들이기 방울
+    - item:gift_honey_jar                      # 고급 들꽃 꿀단지
+    - item:gift_carving_knife                  # 고급 조각칼 세트
+    - item:gift_cheese_wheel                   # 고급 숙성 염소 치즈
+    - item:gift_carrot_bundle                  # 일반 당근 한 묶음
+    - item:gift_seed_pouch                     # 일반 씨앗 주머니
+    - item:gift_joke_book                      # 일반 유머 모음집
+    - item:gift_goat_bell                      # 일반 작은 목방울
+  # 로완 — 노크세르 3학년 학생
+  st_rowan:
+    - item:gift_ashen_night_chronicle          # 전설 잿빛 밤 연대기 초판
+    - item:gift_tarot_moon                     # 유일 달의 타로 원본
+    - item:gift_night_mirror                   # 유일 밤의 손거울
+    - item:gift_star_chart                     # 고급 별자리 지도
+    - item:gift_lantern_glass                  # 고급 색유리 등불
+    - item:gift_iron_horseshoe                 # 고급 행운의 편자
+    - item:gift_candle                         # 일반 향초
+    - item:gift_ink_bottle                     # 일반 파란 잉크병
+    - item:gift_goat_bell                      # 일반 작은 목방울
+    - item:gift_bandage                        # 일반 깨끗한 붕대
+  # 상민 — 루미나 3학년 학생
+  st_sangmin:
+    - item:gift_ashen_night_chronicle          # 전설 잿빛 밤 연대기 초판
+    - item:gift_moonwell_water                 # 유일 달우물의 물
+    - item:gift_spirit_lute_string             # 유일 정령의 류트 줄
+    - item:gift_star_chart                     # 고급 별자리 지도
+    - item:gift_poetry_book                    # 고급 얇은 시집
+    - item:gift_pressed_letter                 # 고급 봉랍 편지지 세트
+    - item:gift_wildflower                     # 일반 들꽃 한 송이
+    - item:gift_notebook                       # 일반 가죽 수첩
+    - item:gift_handkerchief                   # 일반 자수 손수건
+    - item:gift_seed_pouch                     # 일반 씨앗 주머니
+  # 서아 — 아르케온 1학년 학생
+  st_seoa:
+    - item:gift_first_broom                    # 전설 최초의 경주용 빗자루 손잡이
+    - item:gift_spirit_lute_string             # 유일 정령의 류트 줄
+    - item:gift_grand_cake                     # 유일 3단 축하 케이크
+    - item:gift_training_gloves                # 고급 훈련용 가죽 장갑
+    - item:gift_theory_book                    # 고급 두꺼운 이론서
+    - item:gift_iron_horseshoe                 # 고급 행운의 편자
+    - item:gift_apple_basket                   # 일반 사과 한 바구니
+    - item:gift_hair_pin                       # 일반 별 머리핀
+    - item:gift_goat_bell                      # 일반 작은 목방울
+    - item:gift_bandage                        # 일반 깨끗한 붕대
+  # 소라 — 베스티아즈 1학년 학생
+  st_sora:
+    - item:gift_archmage_statue                # 전설 마법사 조각상
+    - item:gift_silver_compass                 # 유일 은빛 별자리 나침반
+    - item:gift_beast_bell                     # 유일 야수 길들이기 방울
+    - item:gift_dried_flower                   # 고급 말린 꽃다발
+    - item:gift_training_gloves                # 고급 훈련용 가죽 장갑
+    - item:gift_broom_wax                      # 고급 빗자루 광택 왁스
+    - item:gift_seed_pouch                     # 일반 씨앗 주머니
+    - item:gift_kite                           # 일반 종이 연
+    - item:gift_lunchbox                       # 일반 정성 도시락
+    - item:gift_chess_piece                    # 일반 장기 말 한 벌
+  # 태오 — 베스티아즈 2학년 학생
+  st_taeo:
+    - item:gift_first_broom                    # 전설 최초의 경주용 빗자루 손잡이
+    - item:gift_beast_bell                     # 유일 야수 길들이기 방울
+    - item:gift_captain_logbook                # 유일 옛 선장의 항해 일지
+    - item:gift_silk_ribbon                    # 고급 검은 비단 리본
+    - item:gift_broom_wax                      # 고급 빗자루 광택 왁스
+    - item:gift_pressed_letter                 # 고급 봉랍 편지지 세트
+    - item:gift_tea_leaves                     # 일반 찻잎 한 봉지
+    - item:gift_dried_meat                     # 일반 육포 한 봉지
+    - item:gift_firework                       # 일반 작은 폭죽
+    - item:gift_whistle                        # 일반 은 호루라기
+  # 태식 — 노크세르 1학년 학생
+  st_taesik:
+    - item:gift_ashen_night_chronicle          # 전설 잿빛 밤 연대기 초판
+    - item:gift_tarot_moon                     # 유일 달의 타로 원본
+    - item:gift_night_mirror                   # 유일 밤의 손거울
+    - item:gift_mushroom_basket                # 고급 희귀 버섯 바구니
+    - item:gift_wool_scarf                     # 고급 손뜨개 목도리
+    - item:gift_rule_handbook                  # 고급 교칙 해설서
+    - item:gift_wool_ball                      # 일반 털실 뭉치
+    - item:gift_cat_toy                        # 일반 고양이 깃털 장난감
+    - item:gift_iron_nail                      # 일반 새 쇠못 한 줌
+    - item:gift_milk_bottle                    # 일반 신선한 우유
+  # 우진 — 루미나 2학년 학생
+  st_ujin:
+    - item:gift_first_broom                    # 전설 최초의 경주용 빗자루 손잡이
+    - item:gift_sion_bust                      # 유일 시온의 흉상 습작
+    - item:gift_moonwell_water                 # 유일 달우물의 물
+    - item:gift_feather_quill                  # 고급 백조 깃펜
+    - item:gift_wool_scarf                     # 고급 손뜨개 목도리
+    - item:gift_poetry_book                    # 고급 얇은 시집
+    - item:gift_handkerchief                   # 일반 자수 손수건
+    - item:gift_paint_set                      # 일반 물감 세트
+    - item:gift_hair_pin                       # 일반 별 머리핀
+    - item:gift_firework                       # 일반 작은 폭죽
+  # 베라 — 노크세르 2학년 학생
+  st_vera:
+    - item:gift_four_house_crest               # 전설 네 기숙사 원판 문장
+    - item:gift_tarot_moon                     # 유일 달의 타로 원본
+    - item:gift_night_mirror                   # 유일 밤의 손거울
+    - item:gift_silk_ribbon                    # 고급 검은 비단 리본
+    - item:gift_silver_scissors                # 고급 은 가위
+    - item:gift_rule_handbook                  # 고급 교칙 해설서
+    - item:gift_notebook                       # 일반 가죽 수첩
+    - item:gift_cat_toy                        # 일반 고양이 깃털 장난감
+    - item:gift_carrot_bundle                  # 일반 당근 한 묶음
+    - item:gift_lunchbox                       # 일반 정성 도시락
+  # 예나 — 루미나 2학년 학생
+  st_yena:
+    - item:gift_archmage_statue                # 전설 마법사 조각상
+    - item:gift_moonwell_water                 # 유일 달우물의 물
+    - item:gift_royal_tea                      # 유일 왕실 은방울 홍차
+    - item:gift_herb_tea_set                   # 고급 허브차 한 상자
+    - item:gift_rare_feather                   # 고급 무지갯빛 깃털
+    - item:gift_theory_book                    # 고급 두꺼운 이론서
+    - item:gift_soap                           # 일반 허브 비누
+    - item:gift_handkerchief                   # 일반 자수 손수건
+    - item:gift_candy_jar                      # 일반 알사탕 병
+    - item:gift_bandage                        # 일반 깨끗한 붕대
+  # 유나 — 루미나 2학년 학생
+  st_yuna:
+    - item:gift_four_house_crest               # 전설 네 기숙사 원판 문장
+    - item:gift_moonwell_water                 # 유일 달우물의 물
+    - item:gift_old_wand                       # 유일 대마법사 시대의 낡은 지팡이
+    - item:gift_star_chart                     # 고급 별자리 지도
+    - item:gift_theory_book                    # 고급 두꺼운 이론서
+    - item:gift_wool_scarf                     # 고급 손뜨개 목도리
+    - item:gift_bookmark                       # 일반 압화 책갈피
+    - item:gift_carrot_bundle                  # 일반 당근 한 묶음
+    - item:gift_seed_pouch                     # 일반 씨앗 주머니
+    - item:gift_lucky_coin                     # 일반 행운의 동전
+  # 베르나 교수 — 약초·연금술 교수
+  tc_berna:
+    - item:gift_ashen_night_chronicle          # 전설 잿빛 밤 연대기 초판
+    - item:gift_moonwell_water                 # 유일 달우물의 물
+    - item:gift_golden_herb                    # 유일 황금 만드라고라
+    - item:gift_dried_flower                   # 고급 말린 꽃다발
+    - item:gift_tarot_deck                     # 고급 손때 묻은 타로 카드
+    - item:gift_herb_seeds                     # 고급 약초 씨앗 주머니
+    - item:gift_wildflower                     # 일반 들꽃 한 송이
+    - item:gift_tea_leaves                     # 일반 찻잎 한 봉지
+    - item:gift_herb_bundle                    # 일반 말린 약초 묶음
+    - item:gift_pillow                         # 일반 폭신한 베개
+  # 세드릭 교수 — 비행·빗자루 시합 코치 교수
+  tc_cedric:
+    - item:gift_first_broom                    # 전설 최초의 경주용 빗자루 손잡이
+    - item:gift_phoenix_feather                # 유일 불사조의 깃털
+    - item:gift_old_wand                       # 유일 대마법사 시대의 낡은 지팡이
+    - item:gift_broom_wax                      # 고급 빗자루 광택 왁스
+    - item:gift_silver_scissors                # 고급 은 가위
+    - item:gift_pressed_letter                 # 고급 봉랍 편지지 세트
+    - item:gift_ink_bottle                     # 일반 파란 잉크병
+    - item:gift_dried_meat                     # 일반 육포 한 봉지
+    - item:gift_herb_bundle                    # 일반 말린 약초 묶음
+    - item:gift_whistle                        # 일반 은 호루라기
+  # 엘레나 교수 — 마법 이론 교수, 신입생 담당
+  teacher_ellna:
+    - item:gift_archmage_statue                # 전설 마법사 조각상
+    - item:gift_old_wand                       # 유일 대마법사 시대의 낡은 지팡이
+    - item:gift_royal_tea                      # 유일 왕실 은방울 홍차
+    - item:gift_broom_wax                      # 고급 빗자루 광택 왁스
+    - item:gift_theory_book                    # 고급 두꺼운 이론서
+    - item:gift_wool_scarf                     # 고급 손뜨개 목도리
+    - item:gift_tea_leaves                     # 일반 찻잎 한 봉지
+    - item:gift_cat_toy                        # 일반 고양이 깃털 장난감
+    - item:gift_seed_pouch                     # 일반 씨앗 주머니
+    - item:gift_lunchbox                       # 일반 정성 도시락
+  # 하르바 교수 — 야외 실습·교화 담당 교수 (베스티아즈)
+  teacher_harva:
+    - item:gift_four_house_crest               # 전설 네 기숙사 원판 문장
+    - item:gift_old_wand                       # 유일 대마법사 시대의 낡은 지팡이
+    - item:gift_beast_bell                     # 유일 야수 길들이기 방울
+    - item:gift_rare_feather                   # 고급 무지갯빛 깃털
+    - item:gift_broom_wax                      # 고급 빗자루 광택 왁스
+    - item:gift_cheese_wheel                   # 고급 숙성 염소 치즈
+    - item:gift_candle                         # 일반 향초
+    - item:gift_cat_toy                        # 일반 고양이 깃털 장난감
+    - item:gift_carrot_bundle                  # 일반 당근 한 묶음
+    - item:gift_lunchbox                       # 일반 정성 도시락
+  # 그레고르 교감 — 차카데미아 교감
+  vice_gregor:
+    - item:gift_ashen_night_chronicle          # 전설 잿빛 밤 연대기 초판
+    - item:gift_sion_bust                      # 유일 시온의 흉상 습작
+    - item:gift_old_wand                       # 유일 대마법사 시대의 낡은 지팡이
+    - item:gift_mushroom_basket                # 고급 희귀 버섯 바구니
+    - item:gift_wool_scarf                     # 고급 손뜨개 목도리
+    - item:gift_rule_handbook                  # 고급 교칙 해설서
+    - item:gift_apple_basket                   # 일반 사과 한 바구니
+    - item:gift_tea_leaves                     # 일반 찻잎 한 봉지
+    - item:gift_notebook                       # 일반 가죽 수첩
+    - item:gift_ink_bottle                     # 일반 파란 잉크병
+  # 벤 — 항구 심부름꾼
+  vl_ben:
+    - item:gift_first_broom                    # 전설 최초의 경주용 빗자루 손잡이
+    - item:gift_silver_compass                 # 유일 은빛 별자리 나침반
+    - item:gift_captain_logbook                # 유일 옛 선장의 항해 일지
+    - item:gift_honey_jar                      # 고급 들꽃 꿀단지
+    - item:gift_old_map                        # 고급 빛바랜 옛 지도
+    - item:gift_seashell_set                   # 고급 바다 소라 모음
+    - item:gift_bread_loaf                     # 일반 갓 구운 빵
+    - item:gift_fresh_fish                     # 일반 싱싱한 생선
+    - item:gift_postcard                       # 일반 마을 그림엽서
+    - item:gift_lucky_coin                     # 일반 행운의 동전
+  # 베른트 — 마을 여관·주점 주인
+  vl_bernd:
+    - item:gift_ashen_night_chronicle          # 전설 잿빛 밤 연대기 초판
+    - item:gift_sion_bust                      # 유일 시온의 흉상 습작
+    - item:gift_spirit_lute_string             # 유일 정령의 류트 줄
+    - item:gift_cheese_wheel                   # 고급 숙성 염소 치즈
+    - item:gift_spice_box                      # 고급 먼 나라 향신료 상자
+    - item:gift_iron_horseshoe                 # 고급 행운의 편자
+    - item:gift_fresh_fish                     # 일반 싱싱한 생선
+    - item:gift_iron_nail                      # 일반 새 쇠못 한 줌
+    - item:gift_milk_bottle                    # 일반 신선한 우유
+    - item:gift_beer_mug                       # 일반 나무 맥주잔
+  # 베르트 — 굴뚝 청소부
+  vl_bert:
+    - item:gift_sea_star_pearl                 # 전설 바다별 진주
+    - item:gift_silver_compass                 # 유일 은빛 별자리 나침반
+    - item:gift_spirit_lute_string             # 유일 정령의 류트 줄
+    - item:gift_honey_jar                      # 고급 들꽃 꿀단지
+    - item:gift_feather_quill                  # 고급 백조 깃펜
+    - item:gift_iron_horseshoe                 # 고급 행운의 편자
+    - item:gift_milk_bottle                    # 일반 신선한 우유
+    - item:gift_kite                           # 일반 종이 연
+    - item:gift_joke_book                      # 일반 유머 모음집
+    - item:gift_chimney_brush                  # 일반 굴뚝 솔
+  # 베르타 — 마을 세탁부
+  vl_berta:
+    - item:gift_sea_star_pearl                 # 전설 바다별 진주
+    - item:gift_spirit_lute_string             # 유일 정령의 류트 줄
+    - item:gift_captain_logbook                # 유일 옛 선장의 항해 일지
+    - item:gift_old_map                        # 고급 빛바랜 옛 지도
+    - item:gift_feather_quill                  # 고급 백조 깃펜
+    - item:gift_duster_feather                 # 고급 공작 깃털 먼지떨이
+    - item:gift_soap                           # 일반 허브 비누
+    - item:gift_rope                           # 일반 튼튼한 밧줄
+    - item:gift_bandage                        # 일반 깨끗한 붕대
+    - item:gift_laundry_pegs                   # 일반 빨래집게 한 통
+  # 클라라 — 마을 재단사
+  vl_clara:
+    - item:gift_sea_star_pearl                 # 전설 바다별 진주
+    - item:gift_master_hammer                  # 유일 명장의 망치
+    - item:gift_royal_tea                      # 유일 왕실 은방울 홍차
+    - item:gift_silk_ribbon                    # 고급 검은 비단 리본
+    - item:gift_silver_scissors                # 고급 은 가위
+    - item:gift_iron_horseshoe                 # 고급 행운의 편자
+    - item:gift_soap                           # 일반 허브 비누
+    - item:gift_handkerchief                   # 일반 자수 손수건
+    - item:gift_milk_bottle                    # 일반 신선한 우유
+    - item:gift_shiny_button                   # 일반 반짝이는 단추
+  # 디터 — 마을 이발사
+  vl_dieter:
+    - item:gift_archmage_statue                # 전설 마법사 조각상
+    - item:gift_royal_tea                      # 유일 왕실 은방울 홍차
+    - item:gift_captain_logbook                # 유일 옛 선장의 항해 일지
+    - item:gift_silver_scissors                # 고급 은 가위
+    - item:gift_fishing_float                  # 고급 유리 낚시찌
+    - item:gift_seashell_set                   # 고급 바다 소라 모음
+    - item:gift_fresh_fish                     # 일반 싱싱한 생선
+    - item:gift_hair_pin                       # 일반 별 머리핀
+    - item:gift_shiny_button                   # 일반 반짝이는 단추
+    - item:gift_joke_book                      # 일반 유머 모음집
+  # 엘자 — 빵집 꼬마
+  vl_elsa:
+    - item:gift_sea_star_pearl                 # 전설 바다별 진주
+    - item:gift_grand_cake                     # 유일 3단 축하 케이크
+    - item:gift_crystal_globe                  # 유일 눈 내리는 수정구
+    - item:gift_honey_jar                      # 고급 들꽃 꿀단지
+    - item:gift_toy_knight                     # 고급 나무 기사 인형
+    - item:gift_sweet_box                      # 고급 과자 선물 상자
+    - item:gift_bread_loaf                     # 일반 갓 구운 빵
+    - item:gift_cookie                         # 일반 버터 쿠키
+    - item:gift_milk_bottle                    # 일반 신선한 우유
+    - item:gift_flour_sack                     # 일반 밀가루 한 포대
+  # 펠릭스 — 마을 목수
+  vl_felix:
+    - item:gift_archmage_statue                # 전설 마법사 조각상
+    - item:gift_sion_bust                      # 유일 시온의 흉상 습작
+    - item:gift_master_hammer                  # 유일 명장의 망치
+    - item:gift_carving_knife                  # 고급 조각칼 세트
+    - item:gift_bird_whistle                   # 고급 새 부르는 피리
+    - item:gift_broom_wax                      # 고급 빗자루 광택 왁스
+    - item:gift_wood_block                     # 일반 잘 마른 나무토막
+    - item:gift_iron_nail                      # 일반 새 쇠못 한 줌
+    - item:gift_beer_mug                       # 일반 나무 맥주잔
+    - item:gift_chess_piece                    # 일반 장기 말 한 벌
+  # 프리츠 — 마을 꼬마
+  vl_fritz:
+    - item:gift_sea_star_pearl                 # 전설 바다별 진주
+    - item:gift_silver_compass                 # 유일 은빛 별자리 나침반
+    - item:gift_crystal_globe                  # 유일 눈 내리는 수정구
+    - item:gift_star_chart                     # 고급 별자리 지도
+    - item:gift_lantern_glass                  # 고급 색유리 등불
+    - item:gift_toy_knight                     # 고급 나무 기사 인형
+    - item:gift_paint_set                      # 일반 물감 세트
+    - item:gift_postcard                       # 일반 마을 그림엽서
+    - item:gift_magnifier                      # 일반 돋보기
+    - item:gift_lamp_oil                       # 일반 등잔 기름
+  # 그레타 — 마을 빵집 주인
+  vl_greta:
+    - item:gift_sea_star_pearl                 # 전설 바다별 진주
+    - item:gift_grand_cake                     # 유일 3단 축하 케이크
+    - item:gift_captain_logbook                # 유일 옛 선장의 항해 일지
+    - item:gift_honey_jar                      # 고급 들꽃 꿀단지
+    - item:gift_spice_box                      # 고급 먼 나라 향신료 상자
+    - item:gift_sweet_box                      # 고급 과자 선물 상자
+    - item:gift_bread_loaf                     # 일반 갓 구운 빵
+    - item:gift_milk_bottle                    # 일반 신선한 우유
+    - item:gift_joke_book                      # 일반 유머 모음집
+    - item:gift_flour_sack                     # 일반 밀가루 한 포대
+  # 구스타프 — 마을 원로
+  vl_gustav:
+    - item:gift_ashen_night_chronicle          # 전설 잿빛 밤 연대기 초판
+    - item:gift_old_wand                       # 유일 대마법사 시대의 낡은 지팡이
+    - item:gift_captain_logbook                # 유일 옛 선장의 항해 일지
+    - item:gift_honey_jar                      # 고급 들꽃 꿀단지
+    - item:gift_old_map                        # 고급 빛바랜 옛 지도
+    - item:gift_sweet_box                      # 고급 과자 선물 상자
+    - item:gift_milk_bottle                    # 일반 신선한 우유
+    - item:gift_postcard                       # 일반 마을 그림엽서
+    - item:gift_chess_piece                    # 일반 장기 말 한 벌
+    - item:gift_joke_book                      # 일반 유머 모음집
+  # 한네 — 약초 캐는 아주머니
+  vl_hanne:
+    - item:gift_sea_star_pearl                 # 전설 바다별 진주
+    - item:gift_golden_herb                    # 유일 황금 만드라고라
+    - item:gift_master_hammer                  # 유일 명장의 망치
+    - item:gift_dried_flower                   # 고급 말린 꽃다발
+    - item:gift_mushroom_basket                # 고급 희귀 버섯 바구니
+    - item:gift_herb_seeds                     # 고급 약초 씨앗 주머니
+    - item:gift_tea_leaves                     # 일반 찻잎 한 봉지
+    - item:gift_wool_ball                      # 일반 털실 뭉치
+    - item:gift_fresh_fish                     # 일반 싱싱한 생선
+    - item:gift_herb_bundle                    # 일반 말린 약초 묶음
+  # 한스 — 마을 농부
+  vl_hans:
+    - item:gift_sea_star_pearl                 # 전설 바다별 진주
+    - item:gift_golden_herb                    # 유일 황금 만드라고라
+    - item:gift_master_hammer                  # 유일 명장의 망치
+    - item:gift_mushroom_basket                # 고급 희귀 버섯 바구니
+    - item:gift_herb_seeds                     # 고급 약초 씨앗 주머니
+    - item:gift_iron_horseshoe                 # 고급 행운의 편자
+    - item:gift_apple_basket                   # 일반 사과 한 바구니
+    - item:gift_seed_pouch                     # 일반 씨앗 주머니
+    - item:gift_postcard                       # 일반 마을 그림엽서
+    - item:gift_joke_book                      # 일반 유머 모음집
+  # 하인츠 — 마을 점등원
+  vl_heinz:
+    - item:gift_ashen_night_chronicle          # 전설 잿빛 밤 연대기 초판
+    - item:gift_phoenix_feather                # 유일 불사조의 깃털
+    - item:gift_captain_logbook                # 유일 옛 선장의 항해 일지
+    - item:gift_star_chart                     # 고급 별자리 지도
+    - item:gift_wool_scarf                     # 고급 손뜨개 목도리
+    - item:gift_lantern_glass                  # 고급 색유리 등불
+    - item:gift_candle                         # 일반 향초
+    - item:gift_joke_book                      # 일반 유머 모음집
+    - item:gift_chimney_brush                  # 일반 굴뚝 솔
+    - item:gift_lamp_oil                       # 일반 등잔 기름
+  # 잉그리드 — 마을 할머니
+  vl_ingrid:
+    - item:gift_ashen_night_chronicle          # 전설 잿빛 밤 연대기 초판
+    - item:gift_golden_herb                    # 유일 황금 만드라고라
+    - item:gift_royal_tea                      # 유일 왕실 은방울 홍차
+    - item:gift_old_map                        # 고급 빛바랜 옛 지도
+    - item:gift_wool_scarf                     # 고급 손뜨개 목도리
+    - item:gift_iron_horseshoe                 # 고급 행운의 편자
+    - item:gift_tea_leaves                     # 일반 찻잎 한 봉지
+    - item:gift_wool_ball                      # 일반 털실 뭉치
+    - item:gift_carrot_bundle                  # 일반 당근 한 묶음
+    - item:gift_beer_mug                       # 일반 나무 맥주잔
+  # 야코프 — 마을 경비병
+  vl_jacob:
+    - item:gift_archmage_statue                # 전설 마법사 조각상
+    - item:gift_silver_compass                 # 유일 은빛 별자리 나침반
+    - item:gift_master_hammer                  # 유일 명장의 망치
+    - item:gift_old_map                        # 고급 빛바랜 옛 지도
+    - item:gift_training_gloves                # 고급 훈련용 가죽 장갑
+    - item:gift_iron_horseshoe                 # 고급 행운의 편자
+    - item:gift_candle                         # 일반 향초
+    - item:gift_beer_mug                       # 일반 나무 맥주잔
+    - item:gift_joke_book                      # 일반 유머 모음집
+    - item:gift_whistle                        # 일반 은 호루라기
+  # 요나스 — 마을 꼬마
+  vl_jonas:
+    - item:gift_first_broom                    # 전설 최초의 경주용 빗자루 손잡이
+    - item:gift_old_wand                       # 유일 대마법사 시대의 낡은 지팡이
+    - item:gift_captain_logbook                # 유일 옛 선장의 항해 일지
+    - item:gift_old_map                        # 고급 빛바랜 옛 지도
+    - item:gift_carving_knife                  # 고급 조각칼 세트
+    - item:gift_toy_knight                     # 고급 나무 기사 인형
+    - item:gift_wood_block                     # 일반 잘 마른 나무토막
+    - item:gift_toy_sword                      # 일반 나무 칼
+    - item:gift_postcard                       # 일반 마을 그림엽서
+    - item:gift_chess_piece                    # 일반 장기 말 한 벌
+  # 칼 — 마을 꼬마
+  vl_karl:
+    - item:gift_sea_star_pearl                 # 전설 바다별 진주
+    - item:gift_grand_cake                     # 유일 3단 축하 케이크
+    - item:gift_crystal_globe                  # 유일 눈 내리는 수정구
+    - item:gift_carving_knife                  # 고급 조각칼 세트
+    - item:gift_toy_knight                     # 고급 나무 기사 인형
+    - item:gift_sweet_box                      # 고급 과자 선물 상자
+    - item:gift_cookie                         # 일반 버터 쿠키
+    - item:gift_candy_jar                      # 일반 알사탕 병
+    - item:gift_pillow                         # 일반 폭신한 베개
+    - item:gift_mint_candy                     # 일반 박하사탕
+  # 쿠르트 — 마을 짐꾼·마부
+  vl_kurt:
+    - item:gift_sea_star_pearl                 # 전설 바다별 진주
+    - item:gift_silver_compass                 # 유일 은빛 별자리 나침반
+    - item:gift_master_hammer                  # 유일 명장의 망치
+    - item:gift_old_map                        # 고급 빛바랜 옛 지도
+    - item:gift_iron_horseshoe                 # 고급 행운의 편자
+    - item:gift_seashell_set                   # 고급 바다 소라 모음
+    - item:gift_bread_loaf                     # 일반 갓 구운 빵
+    - item:gift_carrot_bundle                  # 일반 당근 한 묶음
+    - item:gift_dried_meat                     # 일반 육포 한 봉지
+    - item:gift_beer_mug                       # 일반 나무 맥주잔
+  # 로테 — 마을 꼬마
+  vl_lotte:
+    - item:gift_sea_star_pearl                 # 전설 바다별 진주
+    - item:gift_grand_cake                     # 유일 3단 축하 케이크
+    - item:gift_crystal_globe                  # 유일 눈 내리는 수정구
+    - item:gift_dried_flower                   # 고급 말린 꽃다발
+    - item:gift_spice_box                      # 고급 먼 나라 향신료 상자
+    - item:gift_toy_knight                     # 고급 나무 기사 인형
+    - item:gift_wildflower                     # 일반 들꽃 한 송이
+    - item:gift_candy_jar                      # 일반 알사탕 병
+    - item:gift_hair_pin                       # 일반 별 머리핀
+    - item:gift_doll_dress                     # 일반 인형 옷
+  # 마그다 — 염소 치는 아가씨
+  vl_magda:
+    - item:gift_archmage_statue                # 전설 마법사 조각상
+    - item:gift_sion_bust                      # 유일 시온의 흉상 습작
+    - item:gift_beast_bell                     # 유일 야수 길들이기 방울
+    - item:gift_bird_whistle                   # 고급 새 부르는 피리
+    - item:gift_cheese_wheel                   # 고급 숙성 염소 치즈
+    - item:gift_seashell_set                   # 고급 바다 소라 모음
+    - item:gift_apple_basket                   # 일반 사과 한 바구니
+    - item:gift_carrot_bundle                  # 일반 당근 한 묶음
+    - item:gift_milk_bottle                    # 일반 신선한 우유
+    - item:gift_goat_bell                      # 일반 작은 목방울
+  # 마르코 — 떠돌이 상인
+  vl_marco:
+    - item:gift_archmage_statue                # 전설 마법사 조각상
+    - item:gift_silver_compass                 # 유일 은빛 별자리 나침반
+    - item:gift_captain_logbook                # 유일 옛 선장의 항해 일지
+    - item:gift_honey_jar                      # 고급 들꽃 꿀단지
+    - item:gift_old_map                        # 고급 빛바랜 옛 지도
+    - item:gift_spice_box                      # 고급 먼 나라 향신료 상자
+    - item:gift_seed_pouch                     # 일반 씨앗 주머니
+    - item:gift_beer_mug                       # 일반 나무 맥주잔
+    - item:gift_lucky_coin                     # 일반 행운의 동전
+    - item:gift_mint_candy                     # 일반 박하사탕
+  # 막스 — 마을 꼬마
+  vl_max:
+    - item:gift_first_broom                    # 전설 최초의 경주용 빗자루 손잡이
+    - item:gift_spirit_lute_string             # 유일 정령의 류트 줄
+    - item:gift_captain_logbook                # 유일 옛 선장의 항해 일지
+    - item:gift_bird_whistle                   # 고급 새 부르는 피리
+    - item:gift_toy_knight                     # 고급 나무 기사 인형
+    - item:gift_sweet_box                      # 고급 과자 선물 상자
+    - item:gift_bread_loaf                     # 일반 갓 구운 빵
+    - item:gift_fresh_fish                     # 일반 싱싱한 생선
+    - item:gift_toy_sword                      # 일반 나무 칼
+    - item:gift_postcard                       # 일반 마을 그림엽서
+  # 미아 — 마을 꼬마
+  vl_mia:
+    - item:gift_first_broom                    # 전설 최초의 경주용 빗자루 손잡이
+    - item:gift_grand_cake                     # 유일 3단 축하 케이크
+    - item:gift_crystal_globe                  # 유일 눈 내리는 수정구
+    - item:gift_bird_whistle                   # 고급 새 부르는 피리
+    - item:gift_toy_knight                     # 고급 나무 기사 인형
+    - item:gift_seashell_set                   # 고급 바다 소라 모음
+    - item:gift_smooth_stone                   # 일반 매끈한 조약돌
+    - item:gift_toy_sword                      # 일반 나무 칼
+    - item:gift_kite                           # 일반 종이 연
+    - item:gift_chess_piece                    # 일반 장기 말 한 벌
+  # 니나 — 여관 직원
+  vl_nina:
+    - item:gift_archmage_statue                # 전설 마법사 조각상
+    - item:gift_spirit_lute_string             # 유일 정령의 류트 줄
+    - item:gift_master_hammer                  # 유일 명장의 망치
+    - item:gift_honey_jar                      # 고급 들꽃 꿀단지
+    - item:gift_old_map                        # 고급 빛바랜 옛 지도
+    - item:gift_seashell_set                   # 고급 바다 소라 모음
+    - item:gift_bread_loaf                     # 일반 갓 구운 빵
+    - item:gift_fresh_fish                     # 일반 싱싱한 생선
+    - item:gift_postcard                       # 일반 마을 그림엽서
+    - item:gift_beer_mug                       # 일반 나무 맥주잔
+  # 올레 — 항구 어부 · 1장 낚시 체험·길잡이 별 담당
+  vl_ole:
+    - item:gift_sea_star_pearl                 # 전설 바다별 진주
+    - item:gift_royal_tea                      # 유일 왕실 은방울 홍차
+    - item:gift_captain_logbook                # 유일 옛 선장의 항해 일지
+    - item:gift_fishing_float                  # 고급 유리 낚시찌
+    - item:gift_seashell_set                   # 고급 바다 소라 모음
+    - item:gift_sweet_box                      # 고급 과자 선물 상자
+    - item:gift_fresh_fish                     # 일반 싱싱한 생선
+    - item:gift_postcard                       # 일반 마을 그림엽서
+    - item:gift_rope                           # 일반 튼튼한 밧줄
+    - item:gift_lamp_oil                       # 일반 등잔 기름
+  # 오토 — 마을 대장장이
+  vl_otto:
+    - item:gift_sea_star_pearl                 # 전설 바다별 진주
+    - item:gift_phoenix_feather                # 유일 불사조의 깃털
+    - item:gift_master_hammer                  # 유일 명장의 망치
+    - item:gift_old_map                        # 고급 빛바랜 옛 지도
+    - item:gift_iron_horseshoe                 # 고급 행운의 편자
+    - item:gift_sweet_box                      # 고급 과자 선물 상자
+    - item:gift_bread_loaf                     # 일반 갓 구운 빵
+    - item:gift_candle                         # 일반 향초
+    - item:gift_ink_bottle                     # 일반 파란 잉크병
+    - item:gift_dried_meat                     # 일반 육포 한 봉지
+  # 핌 — 마을 꼬마
+  vl_pim:
+    - item:gift_sea_star_pearl                 # 전설 바다별 진주
+    - item:gift_old_wand                       # 유일 대마법사 시대의 낡은 지팡이
+    - item:gift_grand_cake                     # 유일 3단 축하 케이크
+    - item:gift_rare_feather                   # 고급 무지갯빛 깃털
+    - item:gift_seashell_set                   # 고급 바다 소라 모음
+    - item:gift_sweet_box                      # 고급 과자 선물 상자
+    - item:gift_bread_loaf                     # 일반 갓 구운 빵
+    - item:gift_smooth_stone                   # 일반 매끈한 조약돌
+    - item:gift_candy_jar                      # 일반 알사탕 병
+    - item:gift_mint_candy                     # 일반 박하사탕
+  # 로사 — 마을 꽃집 주인
+  vl_rosa:
+    - item:gift_archmage_statue                # 전설 마법사 조각상
+    - item:gift_golden_herb                    # 유일 황금 만드라고라
+    - item:gift_royal_tea                      # 유일 왕실 은방울 홍차
+    - item:gift_dried_flower                   # 고급 말린 꽃다발
+    - item:gift_silver_scissors                # 고급 은 가위
+    - item:gift_sweet_box                      # 고급 과자 선물 상자
+    - item:gift_bread_loaf                     # 일반 갓 구운 빵
+    - item:gift_wildflower                     # 일반 들꽃 한 송이
+    - item:gift_fresh_fish                     # 일반 싱싱한 생선
+    - item:gift_hair_pin                       # 일반 별 머리핀
+  # 셀마 — 항구 생선 장수 · 물고기 판매소 NPC (1장 재기획 2026-10-25: 에드윈 대신)
+  vl_selma:
+    - item:gift_sea_star_pearl                 # 전설 바다별 진주
+    - item:gift_master_hammer                  # 유일 명장의 망치
+    - item:gift_captain_logbook                # 유일 옛 선장의 항해 일지
+    - item:gift_honey_jar                      # 고급 들꽃 꿀단지
+    - item:gift_fishing_float                  # 고급 유리 낚시찌
+    - item:gift_seashell_set                   # 고급 바다 소라 모음
+    - item:gift_fresh_fish                     # 일반 싱싱한 생선
+    - item:gift_postcard                       # 일반 마을 그림엽서
+    - item:gift_beer_mug                       # 일반 나무 맥주잔
+    - item:gift_joke_book                      # 일반 유머 모음집
+  # 토비 — 견습 대장장이
+  vl_tobi:
+    - item:gift_archmage_statue                # 전설 마법사 조각상
+    - item:gift_phoenix_feather                # 유일 불사조의 깃털
+    - item:gift_master_hammer                  # 유일 명장의 망치
+    - item:gift_carving_knife                  # 고급 조각칼 세트
+    - item:gift_rare_feather                   # 고급 무지갯빛 깃털
+    - item:gift_iron_horseshoe                 # 고급 행운의 편자
+    - item:gift_fresh_fish                     # 일반 싱싱한 생선
+    - item:gift_iron_nail                      # 일반 새 쇠못 한 줌
+    - item:gift_milk_bottle                    # 일반 신선한 우유
+    - item:gift_firework                       # 일반 작은 폭죽
+  # 볼프 — 떠돌이 음유시인
+  vl_wolf:
+    - item:gift_archmage_statue                # 전설 마법사 조각상
+    - item:gift_silver_compass                 # 유일 은빛 별자리 나침반
+    - item:gift_spirit_lute_string             # 유일 정령의 류트 줄
+    - item:gift_mushroom_basket                # 고급 희귀 버섯 바구니
+    - item:gift_tarot_deck                     # 고급 손때 묻은 타로 카드
+    - item:gift_spice_box                      # 고급 먼 나라 향신료 상자
+    - item:gift_firework                       # 일반 작은 폭죽
+    - item:gift_beer_mug                       # 일반 나무 맥주잔
+    - item:gift_joke_book                      # 일반 유머 모음집
+    - item:gift_mint_candy                     # 일반 박하사탕

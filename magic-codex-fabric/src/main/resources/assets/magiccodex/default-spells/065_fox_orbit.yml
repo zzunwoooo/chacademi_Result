@@ -1,0 +1,15 @@
+id: fox_orbit
+name: 여우불 공전
+category: fire
+description: 여우불 세 개를 불러 잠시 몸 둘레를 돌게 한 뒤, 조준한 적을 향해 휘어 날려 보냅니다. 맞은 적은 잠깐 불탑니다.
+# Existing icon reused from firefly_mark; dedicated mob-skill artwork was not supplied.
+icon: magiccodex:textures/spells/mob_skill/fox_orbit.png
+permission: magic.learned.fox_orbit
+discovery:
+  description: 키츠네를 처치하면 5% 확률로 습득합니다.
+research: 키츠네의 불은 곧장 날아가지 않는다. 한 바퀴 돌며 상대를 고른다.
+cast:
+  command: 마법 fox_orbit
+  cooldown-seconds: 8
+  mana-cost: 30
+order: 65

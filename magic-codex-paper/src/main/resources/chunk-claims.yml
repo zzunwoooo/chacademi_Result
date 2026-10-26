@@ -1,0 +1,77 @@
+# 야생 청크 점유 — 땅문서 (오픈 전 메모 #88, 오너 2026-10-26)
+# 고친 뒤: /서버관리 새로고침 청크   (서버마다. servers 를 바꿔 켜고/끄는 것만 서버 재시작이 필요해요)
+#
+# 땅문서를 손에 들면: 서 있는 청크(와 바로 옆 청크)의 경계선 + 청크 한가운데 눈높이에 글씨
+#   주인이 있으면 주인 한글 닉네임 · 없으면 "소유 가능" · 점유 금지 구역이면 "제한"
+# 우클릭: 땅문서 1장을 쓰고 서 있는 청크가 내 땅이 됩니다. 주인이 있거나 제한이면 아이템을 쓰지 않고 알림만.
+# 내 땅 안: 화면 오른쪽 위 작은 칸 → 단축키(기본 H, 키 설정에서 변경)나 Ctrl·채팅창 커서로 누르면 관리 창
+#   (지금 내 땅에 들어온 사람 · 허용 넣기/빼기 · 허용 명단 · 판매 = 소유를 풀고 땅문서 1장 돌려받기).
+# 허용 명단은 "내 땅" 전체에 적용돼요 (주인 기준 명단, 내 모든 청크에 같이).
+# 보호: 주인·허용 명단만 블록 부수기·놓기, 보관함, 문·버튼·레버, 양동이, 액자·갑옷 거치대, 작물 밟기, 동물 해치기.
+#   폭발(크리퍼·TNT)·불 번짐·바깥 피스톤·흘러 들어오는 물/용암도 막아요. PvP 는 그대로. 관리자 우회 권한: magiccodex.chunkclaim.bypass (OP 기본)
+# 저장: database.properties 가 MariaDB 면 공유 표 codex_chunk_claim · codex_chunk_trust, 아니면 이 서버 chunk-claims.db
+
+# false = 이 기능 전체 끄기
+enabled: true
+
+# 켤 서버 (travel.yml 의 server-id). 학교·아레나 등 여기 없는 서버는 아무 일도 하지 않아요. 비우면 [] 모든 서버.
+servers:
+  - wild1
+  - wild2
+
+# 점유할 수 있는 세계 이름. 여기 없는 세계는 전부 "제한". (야생 서버의 기본 세계 이름은 world)
+worlds:
+  - world
+
+# 땅문서 ItemsAdder 아이템 id (namespace:id) 와 알림에 쓰는 이름
+item: "item:chunk_deed"
+item-name: "땅문서"
+
+# 한 사람이 가질 수 있는 청크 수 (모든 서버 합계). 0 = 제한 없음
+max-claims-per-player: 0
+
+# 땅문서를 들었을 때 보여 줄 범위: 0 = 서 있는 청크만, 1 = 바로 옆까지 (3×3), 2 = 5×5
+view-radius: 1
+
+# WorldGuard 지역(스폰 등)과 조금이라도 겹치는 청크는 "제한". __global__ 은 보지 않아요.
+worldguard:
+  restrict-overlap: true
+  # 겹쳐도 무시할 지역 ID (예: 야생 전체를 덮는 큰 지역)
+  ignore-regions: []
+
+# 점유 금지 구역 (원). 이 원과 조금이라도 겹치는 청크는 "제한". 예: 스폰 둘레 200블록
+#   - world: world
+#     x: 0
+#     z: 0
+#     radius: 200
+excluded: []
+
+# 같은 알림이 연달아 뜨지 않게 하는 간격 (밀리초)
+notify-cooldown-ms: 1500
+
+# 홀로그램 글씨 (주인이 있으면 주인 닉네임)
+labels:
+  free: "소유 가능"
+  restricted: "제한"
+
+# 알림 문구 (차카데미 알림창). 비워 두면 기본 문구. {name} = 닉네임, {max} = 최대 수
+messages:
+  claimed: "이 땅은 이제 내 땅이에요"
+  claimed-body: "땅문서를 1장 썼어요"
+  restricted: "이 땅은 소유할 수 없어요"
+  restricted-body: "점유 금지 구역이에요"
+  taken: "이미 주인이 있는 땅이에요"
+  taken-body: "{name}님의 땅"
+  mine: "이미 내 땅이에요"
+  limit: "더 이상 땅을 가질 수 없어요"
+  limit-body: "한 사람당 {max}칸까지예요"
+  denied: "{name}님의 땅이에요"
+  denied-body: "주인이 허용한 사람만 쓸 수 있어요"
+  sold: "땅을 팔았어요"
+  sold-body: "땅문서 1장을 돌려받았어요"
+  trusted: "{name}님을 허용했어요"
+  trusted-target: "{name}님의 땅에서 활동할 수 있어요"
+  untrusted: "{name}님을 허용 명단에서 뺐어요"
+  busy: "잠시 뒤 다시 해 주세요"
+  error: "땅 정보를 저장하지 못했어요"
+  error-body: "땅문서는 돌려 드렸어요. 잠시 뒤 다시 해 주세요"

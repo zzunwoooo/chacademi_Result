@@ -1,0 +1,38 @@
+title: 잊힌 마법의 첫 번째 단서
+start: start
+enabled: 'true'
+permission: ''
+npcs: 'tag:codex_arden'
+nodes: |-
+  start
+  completed
+node:
+  start:
+    speaker: 아르덴 교수
+    portrait: ''
+    conditions: 'story first_clue find_arden'
+    text: |-
+      엘레나가 보냈군요. 그 인장에 대해서라면 나도 조사 중입니다.
+      책을 잠시 보여주시겠어요?
+    choices: '2'
+    choice:
+      0:
+        text: 유적에서 찾은 책을 보여드린다.
+        next: completed
+        actions: |-
+          flag met_arden yes
+          story first_clue completed
+      1:
+        text: 잠시 후 다시 올게요.
+        next: ''
+  completed:
+    speaker: 아르덴 교수
+    portrait: ''
+    text: |-
+      틀림없군요. 당신이 잃어버린 기억과 관련이 있을 겁니다.
+      다음 단서를 찾으면 다시 이야기하도록 하죠.
+    choices: '1'
+    choice:
+      0:
+        text: 대화를 마친다.
+        next: ''

@@ -1,0 +1,14 @@
+id: current_sorting
+name: 사금 추출
+category: water
+description: 물 속에서 사금을 찾아냅니다. 물이 없다면 실패합니다.
+icon: magiccodex:textures/spells/expansion_2/current_sorting.png
+permission: magic.learned.current_sorting
+discovery:
+  description: 물 속에 잠겨진 금 광석 캐기
+research: 물 속에 숨겨진 금을 찾아내어 마법 연구비로 사용하도록 하자.
+cast:
+  command: 마법 current_sorting
+  cooldown-seconds: 1200
+  mana-cost: 350
+order: 146

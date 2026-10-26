@@ -1,0 +1,14 @@
+id: halo_throw
+name: 광륜 투척
+category: light
+description: 빛 고리를 던집니다. 처음 맞은 적을 3초 동안 느리게 하고, 근처의 다른 적에게 한 번 튕겨 나갑니다.
+icon: ''
+permission: magic.learned.halo_throw
+discovery:
+  description: 교화에 10번 성공하기.
+research: ''
+cast:
+  command: 마법 halo_throw
+  cooldown-seconds: 14
+  mana-cost: 60
+order: 227

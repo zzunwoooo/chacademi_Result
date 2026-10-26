@@ -1,0 +1,15 @@
+Id: chacademia_zombified_piglin
+MythicMob: ChAcademiaPetZombifiedPiglin
+Permission: chacademia.pet.zombified_piglin
+Distance: 8
+SpawnRange: 2
+ComingBackRange: 3
+Mountable: false
+AutoRide: false
+Icon:
+  Name: 좀비화 피글린
+  Material: ZOMBIFIED_PIGLIN_SPAWN_EGG
+  Description:
+  - 교화로 함께하게 된 동료
+CheckPermission: true
+FollowOwner: true

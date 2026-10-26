@@ -1,0 +1,15 @@
+Id: chacademia_cow
+MythicMob: ChAcademiaPetCow
+Permission: chacademia.pet.cow
+Distance: 8
+SpawnRange: 2
+ComingBackRange: 3
+Mountable: false
+AutoRide: false
+Icon:
+  Name: 소
+  Material: COW_SPAWN_EGG
+  Description:
+  - 교화로 함께하게 된 동료
+CheckPermission: true
+FollowOwner: true

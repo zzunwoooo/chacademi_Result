@@ -1,0 +1,7 @@
+-Xmaxerrs
+3000
+-d
+/tmp/claude-0/jc9
+-sourcepath
+.:/home/claude/chacademi-magiccodex-source/chaca-npc-protocol/src/main/java
+school/magiccodex/client/NpcTalkScreen.java

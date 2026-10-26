@@ -1,0 +1,19 @@
+# 아공간 배낭 (서바이벌 인벤토리 2·3쪽) — 2026-10-24
+#
+# 1쪽은 모두 열려 있고, 가방 확장권을 우클릭할 때마다 다음 쪽이 열립니다 (최대 3쪽).
+# 열린 쪽 수는 모든 서버가 같이 씁니다 (DB 공유).
+# 쪽을 넘기면 인벤토리 27칸이 그 쪽에 저장된 아이템과 통째로 바뀝니다. 핫바 9칸은 그대로입니다.
+
+# 이 서버의 감사용 이름(예: school, wild, arena). 실제 공유 소유권은 HuskSync server.yml 이름과 세션으로 검증합니다.
+# 모든 서버가 UUID 공용 페이지를 사용하며, 이 값으로 페이지 데이터를 분리하지 않습니다.
+# 비워 두면 quests.yml 의 server-id 를 감사용 표시에 사용합니다.
+server-id: ""
+
+# 가방 확장권 ItemsAdder 아이템 id (namespace:id). 이 아이템을 우클릭하면 1개 쓰고 다음 쪽이 열립니다.
+unlock-item: "item:bag_expansion"
+# 알림 문구에 쓰는 이름
+unlock-item-name: "가방 확장권"
+
+# 승인된 초기화 후 native snapshot이 없는 신규 상태에만 최초 공용 1쪽을 생성합니다.
+# 기존 row/snapshot은 덮지 않습니다. 운영 적용 전 archive/schema 준비가 필요합니다.
+allow-clean-bootstrap: false

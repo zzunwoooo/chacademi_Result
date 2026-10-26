@@ -1,0 +1,19 @@
+# 살아나는 작물 몹 공용 스킬 (2026-10-20)
+"CA_Crop_Awaken":
+  # 땅에서 기어나오는 동안(spawn 애니 2.4초) 제자리에 고정, 끝나면 도망 AI 시작
+  "Skills":
+    - "setai{ai=false} @self"
+    - "state{s=spawn;li=0;lo=0} @self"
+    - "sound{s=block.rooted_dirt.break;v=0.8;p=0.8} @self"
+    - "effect:particles{p=block;m=DIRT;a=10;hs=0.3;vs=0.1;s=0.05;y=0.1} @self"
+    - "delay 14"
+    - "effect:particles{p=block;m=DIRT;a=8;hs=0.35;vs=0.1;s=0.05;y=0.1} @self"
+    - "delay 18"
+    - "sound{s=block.rooted_dirt.break;v=0.9;p=1.1} @self"
+    - "effect:particles{p=block;m=DIRT;a=14;hs=0.4;vs=0.2;s=0.08;y=0.2} @self"
+    - "delay 16"
+    - "setai{ai=true} @self"
+"CA_Crop_Hurt":
+  "Cooldown": 0.35
+  "Skills":
+    - "sound{s=block.crop.break;v=0.8;p=1.4} @self"

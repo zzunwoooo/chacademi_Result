@@ -1,0 +1,149 @@
+{
+  "version": 3,
+  "name": "broom_hang",
+  "author": "Chacademy",
+  "description": "빗자루에서 떨어져 오른팔 하나로 머리 위 빗자루를 붙잡고 매달린 자세. 몸이 좌우로 천천히 흔들흔들 (2초 반복). 큐디치에서 안정성이 0일 때",
+  "emote": {
+    "beginTick": 2,
+    "endTick": 42,
+    "stopTick": 50,
+    "isLoop": true,
+    "returnTick": 2,
+    "nsfw": false,
+    "degrees": true,
+    "moves": [
+      {
+        "tick": 2,
+        "easing": "INOUTSINE",
+        "body": {
+          "pitch": 4,
+          "yaw": 0,
+          "roll": 6,
+          "y": 0
+        }
+      },
+      {
+        "tick": 2,
+        "easing": "INOUTSINE",
+        "rightArm": {
+          "pitch": -176,
+          "yaw": 0,
+          "roll": -10
+        }
+      },
+      {
+        "tick": 2,
+        "easing": "INOUTSINE",
+        "leftArm": {
+          "pitch": 10,
+          "yaw": 0,
+          "roll": -14
+        }
+      },
+      {
+        "tick": 2,
+        "easing": "INOUTSINE",
+        "rightLeg": {
+          "pitch": 12,
+          "roll": 4
+        }
+      },
+      {
+        "tick": 2,
+        "easing": "INOUTSINE",
+        "leftLeg": {
+          "pitch": -8,
+          "roll": -4
+        }
+      },
+      {
+        "tick": 22,
+        "easing": "INOUTSINE",
+        "body": {
+          "pitch": 2,
+          "yaw": 0,
+          "roll": -6,
+          "y": 0
+        }
+      },
+      {
+        "tick": 22,
+        "easing": "INOUTSINE",
+        "rightArm": {
+          "pitch": -176,
+          "yaw": 0,
+          "roll": -2
+        }
+      },
+      {
+        "tick": 22,
+        "easing": "INOUTSINE",
+        "leftArm": {
+          "pitch": -8,
+          "yaw": 0,
+          "roll": -8
+        }
+      },
+      {
+        "tick": 22,
+        "easing": "INOUTSINE",
+        "rightLeg": {
+          "pitch": -8,
+          "roll": 2
+        }
+      },
+      {
+        "tick": 22,
+        "easing": "INOUTSINE",
+        "leftLeg": {
+          "pitch": 12,
+          "roll": -6
+        }
+      },
+      {
+        "tick": 42,
+        "easing": "INOUTSINE",
+        "body": {
+          "pitch": 4,
+          "yaw": 0,
+          "roll": 6,
+          "y": 0
+        }
+      },
+      {
+        "tick": 42,
+        "easing": "INOUTSINE",
+        "rightArm": {
+          "pitch": -176,
+          "yaw": 0,
+          "roll": -10
+        }
+      },
+      {
+        "tick": 42,
+        "easing": "INOUTSINE",
+        "leftArm": {
+          "pitch": 10,
+          "yaw": 0,
+          "roll": -14
+        }
+      },
+      {
+        "tick": 42,
+        "easing": "INOUTSINE",
+        "rightLeg": {
+          "pitch": 12,
+          "roll": 4
+        }
+      },
+      {
+        "tick": 42,
+        "easing": "INOUTSINE",
+        "leftLeg": {
+          "pitch": -8,
+          "roll": -4
+        }
+      }
+    ]
+  }
+}

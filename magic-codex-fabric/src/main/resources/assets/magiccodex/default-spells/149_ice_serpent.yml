@@ -1,0 +1,14 @@
+id: ice_serpent
+name: 얼음 뱀
+category: water
+description: 얼음 뱀이 땅 위를 S자로 휘저으며 20블록을 나아갑니다. 지나간 자리의 적은 여러 번 피해를 입고 둔해집니다.
+icon: ''
+permission: magic.learned.ice_serpent
+discovery:
+  description: 고급 이상 물고기를 30마리 낚기.
+research: ''
+cast:
+  command: 마법 ice_serpent
+  cooldown-seconds: 60
+  mana-cost: 350
+order: 149

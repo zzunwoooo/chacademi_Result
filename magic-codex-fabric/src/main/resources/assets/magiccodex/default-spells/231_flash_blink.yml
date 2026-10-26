@@ -1,0 +1,14 @@
+id: flash_blink
+name: 섬광 도약
+category: light
+description: 바라보는 방향으로 6블록 순간이동합니다. 떠난 자리에 섬광이 터져 주변 적을 3초 동안 실명시킵니다. 빗자루를 탄 동안에는 쓸 수 없습니다.
+icon: ''
+permission: magic.learned.flash_blink
+discovery:
+  description: 공간 도약으로 개인 지점에 10번 이동하기.
+research: ''
+cast:
+  command: 마법 flash_blink
+  cooldown-seconds: 18
+  mana-cost: 90
+order: 231

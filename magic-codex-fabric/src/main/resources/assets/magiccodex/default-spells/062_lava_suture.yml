@@ -1,0 +1,14 @@
+id: lava_suture
+name: 용암 봉합
+category: fire
+description: 가까운 용암을 흑요석으로 굳힙니다.
+icon: magiccodex:textures/spells/expansion_2/lava_suture.png
+permission: magic.learned.lava_suture
+discovery:
+  description: 용암에 물을 부어 흑요석을 누적 32개 만들기.
+research: 화염을 지배하는 마법사는 급속도로 온도를 내릴 수도 있는 법.
+cast:
+  command: 마법 lava_suture
+  cooldown-seconds: 5
+  mana-cost: 30
+order: 62

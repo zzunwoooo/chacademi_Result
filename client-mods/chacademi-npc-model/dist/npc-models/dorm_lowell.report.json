@@ -1,0 +1,37 @@
+{
+  "warnings": [],
+  "out": "dorm_lowell.glb",
+  "bytes": 2697960,
+  "sha256": "3369e416d8d7d6cd9295951ec56a1c2f30e424ace1c0c6d668073b19019a1ad9",
+  "heightBlocks": 1.8,
+  "scale": 2.0290563944741247,
+  "yawDegrees": 8.53,
+  "clips": {
+    "walk": {
+      "seconds": 2.3333,
+      "rootSpeed": 0.0
+    },
+    "standing_relax": {
+      "seconds": 17.5833,
+      "rootSpeed": 0.0
+    }
+  },
+  "triangles": 15490,
+  "joints": 65,
+  "textures": [
+    [
+      2048,
+      2048
+    ],
+    [
+      2048,
+      2048
+    ]
+  ],
+  "proportion": {
+    "legs": 1.0,
+    "torso": 1.0,
+    "arms": 1.0
+  },
+  "input": "zip/tripo_convert_ddf3fd9e-990c-40a0-b3a8-de3ed2b7dd95.fbx"
+}

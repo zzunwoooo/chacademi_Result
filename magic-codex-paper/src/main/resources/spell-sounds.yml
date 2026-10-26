@@ -1,0 +1,2142 @@
+# 차카데미 마법 효과음 (오픈 전 메모 #47, 2026-10-25 1차). 마인크래프트 1.21.4 기본 사운드만 사용.
+# 서버가 재생하므로 주변 사람도 들림. 바꾼 뒤: /서버관리 새로고침 마법소리 · 들어 보기: /테스트 마법 효과음 <마법> [cast|hit|end]
+#   cast = 시전 성공 (시전자 자리) · hit = 맞힌 순간 (맞은 자리) · end = 끝날 때 (사라진 자리)
+#   sound = 사운드 이름 · volume 0.05~3 (1 = 16블록 거리) · pitch 0.5~2 (높을수록 가볍게) · delay = 틱 (20틱 = 1초)
+#   같은 사람·마법·사건은 0.1초 안에 다시 울리지 않음. 사운드 이름 목록: https://minecraft.wiki/w/Sounds.json/Java_Edition_values
+spells:
+
+  # ===================== wind (38) =====================
+  feather_fall:            # 001 페더 폴 — 깃털처럼 사뿐: 가벼운 엘리트라 펄럭 + 높은 차임
+    cast:
+      - {sound: item.armor.equip_elytra, volume: 0.5, pitch: 1.5, delay: 0}
+      - {sound: entity.breeze.idle_air, volume: 0.35, pitch: 1.6, delay: 1}
+      - {sound: block.amethyst_block.chime, volume: 0.4, pitch: 1.8, delay: 3}
+    end:
+      - {sound: entity.phantom.flap, volume: 0.3, pitch: 1.7, delay: 0}
+
+  wind_basket:            # 002 바람바구니 — 휘이 빨아들이는 바람 + 아이템 줍는 톡톡
+    cast:
+      - {sound: entity.breeze.inhale, volume: 0.45, pitch: 1.3, delay: 0}
+      - {sound: entity.breeze.whirl, volume: 0.35, pitch: 1.5, delay: 3}
+      - {sound: entity.item.pickup, volume: 0.4, pitch: 1.2, delay: 10}
+      - {sound: item.bundle.insert, volume: 0.4, pitch: 1.3, delay: 13}
+
+  harvest_wind:            # 003 수확의 바람 — 들판을 쓰는 부드러운 바람 + 작물 사각사각
+    cast:
+      - {sound: entity.breeze.whirl, volume: 0.4, pitch: 1.2, delay: 0}
+      - {sound: block.azalea_leaves.step, volume: 0.45, pitch: 1.1, delay: 3}
+      - {sound: block.note_block.flute, volume: 0.3, pitch: 1.5, delay: 6}
+    hit:
+      - {sound: block.crop.break, volume: 0.45, pitch: 1.1, delay: 0}
+      - {sound: block.sweet_berry_bush.pick_berries, volume: 0.35, pitch: 1.3, delay: 2}
+
+  wind_push:            # 004 윈드 푸쉬 — 짧은 돌풍 발사 + 퍽 밀쳐내는 타격
+    cast:
+      - {sound: entity.wind_charge.throw, volume: 0.6, pitch: 1.2, delay: 0}
+      - {sound: entity.breeze.shoot, volume: 0.4, pitch: 1.4, delay: 1}
+    hit:
+      - {sound: entity.wind_charge.wind_burst, volume: 0.6, pitch: 1.3, delay: 0}
+      - {sound: entity.player.attack.knockback, volume: 0.5, pitch: 1.1, delay: 1}
+
+  light_leap:            # 005 상승기류 — 발밑에서 솟구치는 브리즈 점프 + 위로 올라가는 바람
+    cast:
+      - {sound: entity.breeze.jump, volume: 0.6, pitch: 1.1, delay: 0}
+      - {sound: entity.wind_charge.wind_burst, volume: 0.45, pitch: 1.5, delay: 1}
+      - {sound: entity.phantom.flap, volume: 0.4, pitch: 1.3, delay: 4}
+
+  flight:            # 006 비행 — 빗자루에 올라타 바람을 타는 이륙음
+    cast:
+      - {sound: item.armor.equip_elytra, volume: 0.6, pitch: 1.0, delay: 0}
+      - {sound: entity.phantom.flap, volume: 0.5, pitch: 1.0, delay: 2}
+      - {sound: entity.breeze.wind_burst, volume: 0.4, pitch: 1.4, delay: 4}
+      - {sound: block.amethyst_block.chime, volume: 0.35, pitch: 1.6, delay: 8}
+    end:
+      - {sound: entity.breeze.land, volume: 0.45, pitch: 1.2, delay: 0}
+      - {sound: entity.phantom.flap, volume: 0.3, pitch: 0.9, delay: 2}
+
+  far_touch:            # 007 손길 너머 — 날아가는 바람 손 + 먼 곳의 딸깍
+    cast:
+      - {sound: entity.breeze.idle_air, volume: 0.35, pitch: 1.6, delay: 0}
+      - {sound: block.amethyst_block.resonate, volume: 0.3, pitch: 1.8, delay: 2}
+    hit:
+      - {sound: block.lever.click, volume: 0.5, pitch: 1.3, delay: 0}
+      - {sound: block.amethyst_cluster.hit, volume: 0.35, pitch: 1.7, delay: 1}
+
+  wind_message:            # 009 바람의 전언 — 귓가를 스치는 작은 바람 + 종이 소리 (스팸 안전)
+    cast:
+      - {sound: entity.breeze.idle_air, volume: 0.25, pitch: 1.9, delay: 0}
+      - {sound: item.book.page_turn, volume: 0.3, pitch: 1.4, delay: 2}
+
+  storm_command:            # 010 폭풍의 지휘 — 영창으로 모으는 폭풍, 낮게 깔리는 천둥
+    cast:
+      - {sound: entity.evoker.prepare_attack, volume: 0.5, pitch: 1.3, delay: 0}
+      - {sound: entity.breeze.charge, volume: 0.6, pitch: 0.9, delay: 4}
+      - {sound: entity.breeze.whirl, volume: 0.6, pitch: 0.8, delay: 10}
+      - {sound: item.trident.thunder, volume: 0.3, pitch: 1.4, delay: 18}
+    hit:
+      - {sound: entity.breeze.wind_burst, volume: 0.6, pitch: 0.9, delay: 0}
+      - {sound: entity.player.attack.sweep, volume: 0.45, pitch: 1.2, delay: 1}
+    end:
+      - {sound: entity.breeze.idle_air, volume: 0.4, pitch: 0.7, delay: 0}
+      - {sound: block.amethyst_block.resonate, volume: 0.3, pitch: 0.9, delay: 3}
+
+  vacuum_cleave:            # 011 윈드 커터 — 날카로운 칼바람 쉭 + 관통 베기
+    cast:
+      - {sound: entity.player.attack.sweep, volume: 0.6, pitch: 1.6, delay: 0}
+      - {sound: entity.breeze.shoot, volume: 0.45, pitch: 1.7, delay: 1}
+    hit:
+      - {sound: entity.player.attack.crit, volume: 0.45, pitch: 1.5, delay: 0}
+      - {sound: block.chain.break, volume: 0.35, pitch: 1.4, delay: 1}
+
+  gale_dash:            # 012 바람 걸음 — 1.5초 회피기: 아주 짧은 슬라이드 쉭
+    cast:
+      - {sound: entity.breeze.slide, volume: 0.45, pitch: 1.4, delay: 0}
+      - {sound: entity.phantom.flap, volume: 0.25, pitch: 1.8, delay: 1}
+
+  returning_wind:            # 013 되받는 바람 — 휘몰아 감싸는 결계 + 튕겨내는 디플렉트
+    cast:
+      - {sound: entity.breeze.whirl, volume: 0.6, pitch: 1.2, delay: 0}
+      - {sound: block.amethyst_block.resonate, volume: 0.45, pitch: 1.5, delay: 1}
+    hit:
+      - {sound: entity.breeze.deflect, volume: 0.6, pitch: 1.2, delay: 0}
+      - {sound: block.amethyst_cluster.hit, volume: 0.4, pitch: 1.6, delay: 1}
+    end:
+      - {sound: entity.breeze.idle_air, volume: 0.3, pitch: 1.5, delay: 0}
+
+  wind_grooming:            # 014 바람 털빗 — 살랑 바람 빗질 + 양털 깎는 소리
+    cast:
+      - {sound: entity.breeze.idle_ground, volume: 0.3, pitch: 1.6, delay: 0}
+      - {sound: item.brush.brushing.generic, volume: 0.4, pitch: 1.3, delay: 2}
+    hit:
+      - {sound: entity.sheep.shear, volume: 0.5, pitch: 1.1, delay: 0}
+      - {sound: block.wool.hit, volume: 0.35, pitch: 1.3, delay: 2}
+
+  weightless_zone:            # 015 중력지대 — 공기를 깊게 빨아들이며 생기는 소용돌이 장(궁극기급)
+    cast:
+      - {sound: entity.breeze.inhale, volume: 0.7, pitch: 0.7, delay: 0}
+      - {sound: block.respawn_anchor.charge, volume: 0.5, pitch: 1.3, delay: 6}
+      - {sound: entity.breeze.whirl, volume: 0.8, pitch: 0.6, delay: 14}
+      - {sound: block.amethyst_block.resonate, volume: 0.5, pitch: 0.8, delay: 22}
+      - {sound: entity.breeze.wind_burst, volume: 0.7, pitch: 0.6, delay: 30}
+    hit:
+      - {sound: entity.breeze.slide, volume: 0.45, pitch: 0.8, delay: 0}
+      - {sound: entity.wind_charge.wind_burst, volume: 0.35, pitch: 0.9, delay: 1}
+    end:
+      - {sound: block.respawn_anchor.deplete, volume: 0.5, pitch: 1.4, delay: 0}
+      - {sound: entity.breeze.idle_air, volume: 0.4, pitch: 0.7, delay: 3}
+
+  trajectory_acceleration:            # 017 미라지 슈터 — 자동 발동 유도 바람 화살: 가볍고 짧게
+    cast:
+      - {sound: entity.arrow.shoot, volume: 0.35, pitch: 1.7, delay: 0}
+      - {sound: entity.breeze.idle_air, volume: 0.2, pitch: 1.9, delay: 1}
+    hit:
+      - {sound: entity.arrow.hit, volume: 0.35, pitch: 1.6, delay: 0}
+
+  dust_duster:            # 018 클린 — 휙 털어내는 작은 바람 + 거미줄 걷히는 소리
+    cast:
+      - {sound: entity.breeze.idle_ground, volume: 0.3, pitch: 1.7, delay: 0}
+      - {sound: item.brush.brushing.generic, volume: 0.35, pitch: 1.5, delay: 2}
+    hit:
+      - {sound: block.cobweb.break, volume: 0.45, pitch: 1.2, delay: 0}
+      - {sound: block.amethyst_block.chime, volume: 0.25, pitch: 1.9, delay: 2}
+
+  leaf_cleanup:            # 019 잎새 청소 — 나무를 훑는 바람 + 잎 바스락
+    cast:
+      - {sound: entity.breeze.whirl, volume: 0.4, pitch: 1.3, delay: 0}
+      - {sound: block.azalea_leaves.hit, volume: 0.4, pitch: 1.1, delay: 3}
+    hit:
+      - {sound: block.azalea_leaves.break, volume: 0.45, pitch: 1.0, delay: 0}
+      - {sound: block.cherry_leaves.fall, volume: 0.35, pitch: 1.2, delay: 3}
+      - {sound: entity.item.pickup, volume: 0.25, pitch: 0.9, delay: 6}
+
+  feather_rustle:            # 020 깃털 털기 — 살랑 바람에 닭이 꼬꼬, 깃털 톡
+    cast:
+      - {sound: entity.breeze.idle_air, volume: 0.3, pitch: 1.7, delay: 0}
+      - {sound: entity.parrot.fly, volume: 0.35, pitch: 1.3, delay: 2}
+    hit:
+      - {sound: entity.chicken.ambient, volume: 0.4, pitch: 1.3, delay: 0}
+      - {sound: entity.item.pickup, volume: 0.3, pitch: 1.4, delay: 3}
+
+  cross_breeze:            # 021 바람 화살 — 2초간 바람을 모으는 충전음 뒤 폭발적 발사
+    cast:
+      - {sound: item.crossbow.loading_start, volume: 0.45, pitch: 1.2, delay: 0}
+      - {sound: entity.breeze.charge, volume: 0.5, pitch: 1.2, delay: 6}
+      - {sound: item.crossbow.loading_end, volume: 0.45, pitch: 1.3, delay: 30}
+      - {sound: entity.breeze.shoot, volume: 0.7, pitch: 1.1, delay: 38}
+      - {sound: entity.wind_charge.throw, volume: 0.5, pitch: 1.3, delay: 40}
+    hit:
+      - {sound: entity.wind_charge.wind_burst, volume: 0.6, pitch: 1.2, delay: 0}
+      - {sound: entity.arrow.hit, volume: 0.45, pitch: 1.1, delay: 1}
+
+  returning_blade:            # 022 되돌이 칼날 — 큰 칼날이 부웅 날아갔다 돌아오는 부메랑
+    cast:
+      - {sound: entity.player.attack.sweep, volume: 0.6, pitch: 0.9, delay: 0}
+      - {sound: item.trident.throw, volume: 0.5, pitch: 1.2, delay: 1}
+      - {sound: item.trident.return, volume: 0.4, pitch: 1.4, delay: 18}
+    hit:
+      - {sound: entity.player.attack.sweep, volume: 0.45, pitch: 1.3, delay: 0}
+      - {sound: entity.player.attack.strong, volume: 0.35, pitch: 1.2, delay: 1}
+
+  pressure_press:            # 023 윈드 프레스 — 위에서 짓누르는 바람 압력 + 쿵 낙하
+    cast:
+      - {sound: entity.breeze.inhale, volume: 0.45, pitch: 0.9, delay: 0}
+      - {sound: entity.phantom.swoop, volume: 0.45, pitch: 1.2, delay: 3}
+    hit:
+      - {sound: item.mace.smash_air, volume: 0.6, pitch: 1.0, delay: 0}
+      - {sound: entity.breeze.land, volume: 0.5, pitch: 0.8, delay: 2}
+
+  wind_decoy:            # 024 바람 미끼 — 바람으로 만든 종이 땡땡 울려 몹을 유인
+    cast:
+      - {sound: entity.breeze.whirl, volume: 0.4, pitch: 1.4, delay: 0}
+      - {sound: block.bell.use, volume: 0.5, pitch: 1.5, delay: 4}
+      - {sound: block.bell.resonate, volume: 0.35, pitch: 1.6, delay: 8}
+    end:
+      - {sound: block.amethyst_cluster.break, volume: 0.35, pitch: 1.5, delay: 0}
+      - {sound: entity.breeze.idle_air, volume: 0.25, pitch: 1.8, delay: 2}
+
+  air_step:            # 025 허공 디딤 — 발밑에 굳는 공기 발판: 단단한 크리스탈 착지음
+    cast:
+      - {sound: entity.breeze.land, volume: 0.45, pitch: 1.3, delay: 0}
+      - {sound: block.amethyst_block.place, volume: 0.5, pitch: 1.4, delay: 1}
+      - {sound: block.amethyst_block.chime, volume: 0.3, pitch: 1.8, delay: 4}
+    end:
+      - {sound: block.amethyst_cluster.break, volume: 0.4, pitch: 1.6, delay: 0}
+      - {sound: entity.breeze.idle_air, volume: 0.25, pitch: 1.8, delay: 2}
+
+  lightning_needle:            # 026 라이트닝 쇼크 — 바람이 끌어온 번개: 정전기 충전 + 낙뢰(작게)
+    cast:
+      - {sound: entity.breeze.charge, volume: 0.5, pitch: 1.4, delay: 0}
+      - {sound: block.respawn_anchor.charge, volume: 0.4, pitch: 1.7, delay: 4}
+    hit:
+      - {sound: entity.lightning_bolt.impact, volume: 0.6, pitch: 1.2, delay: 0}
+      - {sound: item.trident.thunder, volume: 0.35, pitch: 1.3, delay: 1}
+      - {sound: entity.breeze.wind_burst, volume: 0.4, pitch: 1.1, delay: 3}
+
+  air_stacking:            # 027 허공 쌓기 — 바람에 실려 착착착 놓이는 블록
+    cast:
+      - {sound: entity.breeze.whirl, volume: 0.35, pitch: 1.5, delay: 0}
+      - {sound: block.stone.place, volume: 0.45, pitch: 1.2, delay: 3}
+      - {sound: block.stone.place, volume: 0.4, pitch: 1.35, delay: 6}
+      - {sound: block.stone.place, volume: 0.35, pitch: 1.5, delay: 9}
+      - {sound: block.amethyst_block.chime, volume: 0.25, pitch: 1.8, delay: 12}
+
+  arrested_orbit:            # 028 퍼붓는 화살 — 화살 5개가 떠오르고 타타타탁 연사
+    cast:
+      - {sound: entity.breeze.charge, volume: 0.5, pitch: 1.3, delay: 0}
+      - {sound: entity.arrow.shoot, volume: 0.45, pitch: 1.4, delay: 8}
+      - {sound: entity.arrow.shoot, volume: 0.45, pitch: 1.5, delay: 11}
+      - {sound: entity.arrow.shoot, volume: 0.45, pitch: 1.6, delay: 14}
+      - {sound: entity.breeze.shoot, volume: 0.45, pitch: 1.5, delay: 17}
+      - {sound: entity.arrow.shoot, volume: 0.45, pitch: 1.75, delay: 20}
+    hit:
+      - {sound: entity.arrow.hit, volume: 0.35, pitch: 1.4, delay: 0}
+      - {sound: entity.wind_charge.wind_burst, volume: 0.2, pitch: 1.7, delay: 0}
+
+  crossfire:            # 029 크로스 애로우 — 처형 궁극기: 하늘 양쪽에 맺히는 화살, 동시 내리꽂기
+    cast:
+      - {sound: entity.illusioner.prepare_mirror, volume: 0.6, pitch: 1.1, delay: 0}
+      - {sound: entity.breeze.charge, volume: 0.7, pitch: 0.9, delay: 6}
+      - {sound: item.crossbow.quick_charge_3, volume: 0.6, pitch: 1.0, delay: 18}
+      - {sound: block.amethyst_block.resonate, volume: 0.6, pitch: 1.3, delay: 24}
+      - {sound: entity.phantom.swoop, volume: 0.7, pitch: 0.9, delay: 34}
+    hit:
+      - {sound: item.trident.hit_ground, volume: 0.9, pitch: 0.8, delay: 0}
+      - {sound: entity.player.attack.crit, volume: 0.8, pitch: 0.9, delay: 0}
+      - {sound: entity.wind_charge.wind_burst, volume: 0.8, pitch: 0.7, delay: 2}
+      - {sound: entity.player.attack.sweep, volume: 0.7, pitch: 0.8, delay: 4}
+      - {sound: block.bell.resonate, volume: 0.4, pitch: 0.8, delay: 8}
+
+  resonant_arrow:            # 030 미스틱 슈터 — 자동 추가 화살: 공명하는 짧은 쉭(스팸 안전)
+    cast:
+      - {sound: entity.arrow.shoot, volume: 0.3, pitch: 1.5, delay: 0}
+      - {sound: block.amethyst_block.hit, volume: 0.25, pitch: 1.8, delay: 1}
+    hit:
+      - {sound: entity.arrow.hit, volume: 0.3, pitch: 1.4, delay: 0}
+      - {sound: block.amethyst_cluster.hit, volume: 0.2, pitch: 1.7, delay: 0}
+
+  pressure_rupture:            # 031 토네이도 스핀 — 몸 주위로 휘몰아치는 회오리 + 밀쳐내는 폭발
+    cast:
+      - {sound: entity.breeze.whirl, volume: 0.7, pitch: 1.0, delay: 0}
+      - {sound: entity.player.attack.sweep, volume: 0.5, pitch: 1.0, delay: 2}
+      - {sound: entity.player.attack.sweep, volume: 0.45, pitch: 1.25, delay: 5}
+      - {sound: entity.breeze.wind_burst, volume: 0.6, pitch: 0.9, delay: 8}
+    hit:
+      - {sound: entity.player.attack.knockback, volume: 0.55, pitch: 1.0, delay: 0}
+      - {sound: entity.wind_charge.wind_burst, volume: 0.4, pitch: 1.2, delay: 1}
+
+  storm_crown:            # 032 삼중 탄환 — 색이 다른 세 화살: 음높이가 다른 세 번의 발사(대형)
+    cast:
+      - {sound: entity.breeze.charge, volume: 0.6, pitch: 1.0, delay: 0}
+      - {sound: block.amethyst_block.resonate, volume: 0.5, pitch: 1.2, delay: 6}
+      - {sound: entity.breeze.shoot, volume: 0.6, pitch: 1.0, delay: 14}
+      - {sound: entity.breeze.shoot, volume: 0.6, pitch: 1.25, delay: 22}
+      - {sound: entity.breeze.shoot, volume: 0.6, pitch: 1.5, delay: 30}
+      - {sound: block.amethyst_block.chime, volume: 0.45, pitch: 1.7, delay: 32}
+    hit:
+      - {sound: entity.arrow.hit, volume: 0.5, pitch: 1.2, delay: 0}
+      - {sound: entity.wind_charge.wind_burst, volume: 0.45, pitch: 1.3, delay: 1}
+      - {sound: block.amethyst_cluster.hit, volume: 0.35, pitch: 1.6, delay: 1}
+
+  landing_airbrake:            # 203 빗자루 차원이동 — 빗자루가 휙 사라졌다 앞에서 나타남
+    cast:
+      - {sound: entity.phantom.flap, volume: 0.5, pitch: 1.2, delay: 0}
+      - {sound: entity.enderman.teleport, volume: 0.45, pitch: 1.5, delay: 1}
+      - {sound: entity.breeze.wind_burst, volume: 0.45, pitch: 1.4, delay: 3}
+      - {sound: block.amethyst_block.chime, volume: 0.3, pitch: 1.8, delay: 5}
+
+  binding_pull:            # 315 끌어오기 — 바람 고리가 감기는 체인음 + 휙 끌려오는 바람
+    cast:
+      - {sound: entity.breeze.shoot, volume: 0.5, pitch: 1.1, delay: 0}
+      - {sound: block.chain.place, volume: 0.45, pitch: 1.2, delay: 2}
+    hit:
+      - {sound: entity.breeze.inhale, volume: 0.5, pitch: 1.2, delay: 0}
+      - {sound: block.chain.hit, volume: 0.45, pitch: 0.9, delay: 1}
+      - {sound: entity.breeze.slide, volume: 0.45, pitch: 1.0, delay: 4}
+
+  moon_wind:            # 317 반달 바람날 — 날개 차듯 쉭쉭 두 번 베어 날리는 바람날
+    cast:
+      - {sound: entity.phantom.flap, volume: 0.45, pitch: 1.4, delay: 0}
+      - {sound: entity.player.attack.sweep, volume: 0.5, pitch: 1.5, delay: 1}
+      - {sound: entity.player.attack.sweep, volume: 0.45, pitch: 1.7, delay: 4}
+    hit:
+      - {sound: entity.player.attack.knockback, volume: 0.45, pitch: 1.3, delay: 0}
+      - {sound: entity.wind_charge.wind_burst, volume: 0.3, pitch: 1.6, delay: 1}
+
+  gale_wings:            # 318 돌풍 날갯짓 — 거대한 날개를 내려치는 묵직한 펄럭 + 돌풍
+    cast:
+      - {sound: entity.ender_dragon.flap, volume: 0.6, pitch: 1.2, delay: 0}
+      - {sound: entity.phantom.flap, volume: 0.5, pitch: 0.8, delay: 1}
+      - {sound: entity.breeze.wind_burst, volume: 0.6, pitch: 0.8, delay: 3}
+    hit:
+      - {sound: entity.player.attack.knockback, volume: 0.55, pitch: 0.9, delay: 0}
+      - {sound: block.heavy_core.hit, volume: 0.4, pitch: 1.0, delay: 1}
+
+  feather_storm:            # 319 깃털 폭풍 — 몸 둘레로 휘도는 깃털 칼날의 사각사각 베기
+    cast:
+      - {sound: entity.breeze.whirl, volume: 0.55, pitch: 1.3, delay: 0}
+      - {sound: entity.parrot.fly, volume: 0.45, pitch: 1.1, delay: 1}
+      - {sound: entity.player.attack.sweep, volume: 0.45, pitch: 1.6, delay: 3}
+      - {sound: entity.player.attack.sweep, volume: 0.4, pitch: 1.8, delay: 7}
+    hit:
+      - {sound: entity.player.attack.crit, volume: 0.4, pitch: 1.6, delay: 0}
+      - {sound: block.wool.hit, volume: 0.3, pitch: 1.5, delay: 1}
+
+  roar_leap:            # 321 포효 도약 — 바람을 박차 도약, 착지 충격 + 낮은 포효
+    cast:
+      - {sound: entity.goat.long_jump, volume: 0.6, pitch: 1.0, delay: 0}
+      - {sound: entity.breeze.jump, volume: 0.5, pitch: 0.9, delay: 1}
+      - {sound: entity.phantom.swoop, volume: 0.4, pitch: 1.1, delay: 4}
+    hit:
+      - {sound: item.mace.smash_ground, volume: 0.6, pitch: 1.1, delay: 0}
+      - {sound: entity.ravager.roar, volume: 0.45, pitch: 1.3, delay: 2}
+      - {sound: entity.wind_charge.wind_burst, volume: 0.4, pitch: 0.9, delay: 2}
+
+  # ===================== fire (37) =====================
+  hearth_touch:          # 033 손끝의 화로 — 손끝에 작은 불이 켜지고 지글 구워지는 소리, 조용한 생활 마법
+    cast:
+      - {sound: item.flintandsteel.use, volume: 0.4, pitch: 1.5, delay: 0}
+      - {sound: block.furnace.fire_crackle, volume: 0.5, pitch: 1.3, delay: 2}
+      - {sound: block.lava.pop, volume: 0.3, pitch: 1.6, delay: 8}
+      - {sound: entity.experience_orb.pickup, volume: 0.25, pitch: 1.4, delay: 12}
+
+  ember_bolt:            # 034 파이어 볼 — 가볍고 짧은 블레이즈 발사음 + 불씨 반짝, 연사해도 거슬리지 않게
+    cast:
+      - {sound: entity.blaze.shoot, volume: 0.5, pitch: 1.5, delay: 0}
+      - {sound: block.fire.ambient, volume: 0.35, pitch: 1.8, delay: 1}
+    hit:
+      - {sound: entity.generic.burn, volume: 0.5, pitch: 1.3, delay: 0}
+      - {sound: block.lava.pop, volume: 0.35, pitch: 1.5, delay: 1}
+
+  rekindle:              # 035 다시 타오르는 불 — 부싯돌 딸깍 + 촛불이 화르륵 살아나는 작은 소리
+    cast:
+      - {sound: item.flintandsteel.use, volume: 0.45, pitch: 1.2, delay: 0}
+      - {sound: block.candle.ambient, volume: 0.4, pitch: 1.4, delay: 2}
+    hit:
+      - {sound: block.fire.ambient, volume: 0.4, pitch: 1.3, delay: 0}
+      - {sound: block.amethyst_block.chime, volume: 0.25, pitch: 1.8, delay: 2}
+
+  flame_forging:         # 036 불꽃 단조 — 화염이 감싸고 모루 망치질 두 번, 마무리 담금질 쉭
+    cast:
+      - {sound: block.blastfurnace.fire_crackle, volume: 0.6, pitch: 1.0, delay: 0}
+      - {sound: block.anvil.use, volume: 0.45, pitch: 1.3, delay: 4}
+      - {sound: block.smithing_table.use, volume: 0.5, pitch: 1.1, delay: 10}
+      - {sound: block.lava.extinguish, volume: 0.35, pitch: 1.4, delay: 16}
+
+  ember_trap:            # 037 잿불 덫 — 바닥에 철컥 깔리는 덫 + 은은히 타는 잿불, 발동 시 펑
+    cast:
+      - {sound: block.iron_trapdoor.close, volume: 0.45, pitch: 1.4, delay: 0}
+      - {sound: block.campfire.crackle, volume: 0.5, pitch: 1.2, delay: 2}
+      - {sound: block.respawn_anchor.charge, volume: 0.3, pitch: 1.7, delay: 6}
+    hit:
+      - {sound: entity.dragon_fireball.explode, volume: 0.45, pitch: 1.5, delay: 0}
+      - {sound: entity.generic.burn, volume: 0.5, pitch: 1.0, delay: 1}
+      - {sound: block.lava.pop, volume: 0.4, pitch: 1.2, delay: 3}
+    end:
+      - {sound: block.fire.extinguish, volume: 0.35, pitch: 1.5, delay: 0}
+      - {sound: block.redstone_torch.burnout, volume: 0.3, pitch: 1.2, delay: 2}
+
+  fire_curtain:          # 038 플레어 월 — 낮게 확 치솟는 화염 장벽, 넓고 두꺼운 불길
+    cast:
+      - {sound: item.firecharge.use, volume: 0.7, pitch: 0.7, delay: 0}
+      - {sound: entity.blaze.shoot, volume: 0.5, pitch: 0.8, delay: 2}
+      - {sound: block.fire.ambient, volume: 0.6, pitch: 0.8, delay: 5}
+      - {sound: block.blastfurnace.fire_crackle, volume: 0.5, pitch: 0.9, delay: 9}
+    hit:
+      - {sound: entity.generic.burn, volume: 0.5, pitch: 0.9, delay: 0}
+      - {sound: block.fire.ambient, volume: 0.35, pitch: 1.4, delay: 1}
+    end:
+      - {sound: block.fire.extinguish, volume: 0.5, pitch: 0.9, delay: 0}
+      - {sound: block.lava.extinguish, volume: 0.3, pitch: 1.2, delay: 4}
+
+  phoenix_oath:          # 039 불사조의 서약 — 날갯짓과 함께 성스러운 불꽃이 깃드는 장엄한 서약, 막을 땐 부활의 울림
+    cast:
+      - {sound: block.respawn_anchor.charge, volume: 0.7, pitch: 0.8, delay: 0}
+      - {sound: entity.ender_dragon.flap, volume: 0.5, pitch: 1.4, delay: 6}
+      - {sound: block.fire.ambient, volume: 0.6, pitch: 1.1, delay: 10}
+      - {sound: block.beacon.activate, volume: 0.6, pitch: 1.3, delay: 18}
+      - {sound: block.amethyst_block.resonate, volume: 0.5, pitch: 1.6, delay: 28}
+    hit:
+      - {sound: item.totem.use, volume: 0.6, pitch: 1.3, delay: 0}
+      - {sound: entity.ender_dragon.flap, volume: 0.6, pitch: 1.2, delay: 3}
+      - {sound: entity.blaze.shoot, volume: 0.6, pitch: 0.9, delay: 6}
+      - {sound: block.respawn_anchor.set_spawn, volume: 0.5, pitch: 1.2, delay: 10}
+    end:
+      - {sound: block.respawn_anchor.deplete, volume: 0.5, pitch: 1.1, delay: 0}
+      - {sound: block.fire.extinguish, volume: 0.4, pitch: 1.3, delay: 4}
+
+  living_furnace:        # 040 살아 있는 화로 — 화로가 숨 쉬듯 활활, 여러 개를 굽는 묵직한 지글거림
+    cast:
+      - {sound: block.furnace.fire_crackle, volume: 0.55, pitch: 0.9, delay: 0}
+      - {sound: block.blastfurnace.fire_crackle, volume: 0.45, pitch: 1.1, delay: 3}
+      - {sound: block.lava.pop, volume: 0.35, pitch: 1.3, delay: 8}
+      - {sound: entity.experience_orb.pickup, volume: 0.3, pitch: 1.2, delay: 14}
+
+  falling_star:          # 041 메테오 스트라이크 — 하늘이 우르릉 달아오르고 불덩이가 떨어져 내리는 빌드업, 착탄은 대폭발
+    cast:
+      - {sound: entity.ghast.warn, volume: 0.6, pitch: 0.6, delay: 0}
+      - {sound: block.respawn_anchor.charge, volume: 0.7, pitch: 0.6, delay: 6}
+      - {sound: entity.blaze.ambient, volume: 0.5, pitch: 0.5, delay: 14}
+      - {sound: item.firecharge.use, volume: 0.8, pitch: 0.5, delay: 24}
+      - {sound: entity.ender_dragon.shoot, volume: 0.6, pitch: 0.6, delay: 32}
+    hit:
+      - {sound: entity.generic.explode, volume: 0.6, pitch: 0.6, delay: 0}
+      - {sound: item.mace.smash_ground_heavy, volume: 0.8, pitch: 0.7, delay: 0}
+      - {sound: entity.dragon_fireball.explode, volume: 0.6, pitch: 0.8, delay: 2}
+      - {sound: block.lava.pop, volume: 0.5, pitch: 0.7, delay: 6}
+      - {sound: block.fire.ambient, volume: 0.5, pitch: 0.7, delay: 12}
+
+  flame_lash:            # 042 화염 채찍 — 휙 휘두르는 채찍 + 감기는 불길, 낚아채 끌어당기는 소리
+    cast:
+      - {sound: entity.player.attack.sweep, volume: 0.6, pitch: 1.3, delay: 0}
+      - {sound: entity.blaze.shoot, volume: 0.45, pitch: 1.2, delay: 1}
+    hit:
+      - {sound: entity.generic.burn, volume: 0.55, pitch: 1.1, delay: 0}
+      - {sound: block.chain.hit, volume: 0.5, pitch: 0.9, delay: 1}
+      - {sound: entity.fishing_bobber.retrieve, volume: 0.6, pitch: 0.8, delay: 4}
+
+  palm_fireworks:        # 044 손바닥 폭죽 — 손바닥에서 퐁 쏘아 올려 머리 위에서 작게 팡, 반짝이는 축하
+    cast:
+      - {sound: entity.firework_rocket.launch, volume: 0.5, pitch: 1.4, delay: 0}
+      - {sound: entity.firework_rocket.blast, volume: 0.55, pitch: 1.3, delay: 10}
+      - {sound: entity.firework_rocket.twinkle, volume: 0.45, pitch: 1.4, delay: 14}
+
+  ash_brand:             # 045 재의 낙인 — 째깍이는 불꽃 시계가 새겨지고 3초 뒤 폭발, 전이되는 연쇄
+    cast:
+      - {sound: entity.evoker.cast_spell, volume: 0.5, pitch: 1.3, delay: 0}
+      - {sound: block.respawn_anchor.charge, volume: 0.45, pitch: 1.5, delay: 4}
+      - {sound: block.note_block.hat, volume: 0.4, pitch: 1.8, delay: 10}
+      - {sound: block.note_block.hat, volume: 0.4, pitch: 1.8, delay: 20}
+    hit:
+      - {sound: entity.dragon_fireball.explode, volume: 0.6, pitch: 1.0, delay: 0}
+      - {sound: entity.generic.burn, volume: 0.5, pitch: 0.9, delay: 1}
+      - {sound: block.amethyst_block.chime, volume: 0.4, pitch: 0.8, delay: 4}
+
+  flame_leap:            # 046 블레이즈 킥 — 바람을 가르는 회전 + 불꽃 휘감김, 묵직한 발차기 타격
+    cast:
+      - {sound: entity.breeze.whirl, volume: 0.5, pitch: 1.3, delay: 0}
+      - {sound: item.firecharge.use, volume: 0.5, pitch: 1.2, delay: 2}
+      - {sound: entity.player.attack.sweep, volume: 0.5, pitch: 0.9, delay: 5}
+    hit:
+      - {sound: entity.player.attack.strong, volume: 0.7, pitch: 0.8, delay: 0}
+      - {sound: entity.blaze.shoot, volume: 0.5, pitch: 0.8, delay: 1}
+      - {sound: entity.generic.burn, volume: 0.45, pitch: 1.0, delay: 3}
+
+  crimson_heart:         # 047 홍련의 심장 — 심장 박동이 점점 빨라지며 생명을 태우다 붉게 터지는 자폭
+    cast:
+      - {sound: entity.warden.heartbeat, volume: 0.8, pitch: 0.8, delay: 0}
+      - {sound: entity.warden.heartbeat, volume: 0.9, pitch: 0.95, delay: 10}
+      - {sound: block.respawn_anchor.charge, volume: 0.6, pitch: 0.7, delay: 16}
+      - {sound: entity.warden.heartbeat, volume: 1.0, pitch: 1.15, delay: 20}
+      - {sound: entity.blaze.ambient, volume: 0.5, pitch: 0.6, delay: 24}
+    hit:
+      - {sound: entity.generic.explode, volume: 0.6, pitch: 0.7, delay: 0}
+      - {sound: entity.dragon_fireball.explode, volume: 0.6, pitch: 0.6, delay: 0}
+      - {sound: entity.ghast.shoot, volume: 0.5, pitch: 0.5, delay: 2}
+      - {sound: block.fire.ambient, volume: 0.5, pitch: 0.6, delay: 8}
+
+  wick_trimming:         # 048 심지 줄이기 — 손끝으로 심지를 집어 끄는 작은 쉭 + 촛불 꺼짐
+    cast:
+      - {sound: block.candle.extinguish, volume: 0.45, pitch: 1.2, delay: 0}
+    hit:
+      - {sound: block.fire.extinguish, volume: 0.4, pitch: 1.5, delay: 0}
+      - {sound: block.redstone_torch.burnout, volume: 0.25, pitch: 1.4, delay: 2}
+
+  glass_firing:          # 049 광석 재련 — 광석마다 자동 발동하는 패시브라 아주 짧고 가벼운 쉭 + 딸깍
+    cast:
+      - {sound: block.furnace.fire_crackle, volume: 0.3, pitch: 1.6, delay: 0}
+      - {sound: entity.experience_orb.pickup, volume: 0.2, pitch: 1.8, delay: 1}
+
+  charcoal_conversion:   # 050 발화 — 시선이 닿은 곳에 확 불이 붙는 점화
+    cast:
+      - {sound: item.flintandsteel.use, volume: 0.5, pitch: 0.9, delay: 0}
+      - {sound: entity.blaze.shoot, volume: 0.4, pitch: 1.6, delay: 1}
+    hit:
+      - {sound: item.firecharge.use, volume: 0.55, pitch: 1.2, delay: 0}
+      - {sound: entity.generic.burn, volume: 0.5, pitch: 1.0, delay: 1}
+      - {sound: block.fire.ambient, volume: 0.4, pitch: 1.3, delay: 4}
+
+  sponge_drying:         # 051 스펀지 말리기 — 물기가 쉬익 증발하고 바삭 말라가는 조용한 소리
+    cast:
+      - {sound: block.furnace.fire_crackle, volume: 0.35, pitch: 1.4, delay: 0}
+      - {sound: block.wet_sponge.dries, volume: 0.5, pitch: 1.1, delay: 3}
+      - {sound: block.fire.extinguish, volume: 0.25, pitch: 1.8, delay: 6}
+
+  boiling_armor:         # 053 끓는 갑주 — 갑옷이 달궈져 철컹 다시 맞춰지는 수선, 쉭 식는 꼬리
+    cast:
+      - {sound: block.blastfurnace.fire_crackle, volume: 0.5, pitch: 1.1, delay: 0}
+      - {sound: item.armor.equip_iron, volume: 0.55, pitch: 1.0, delay: 3}
+      - {sound: block.anvil.use, volume: 0.3, pitch: 1.6, delay: 8}
+      - {sound: block.lava.extinguish, volume: 0.3, pitch: 1.5, delay: 12}
+
+  kiln_breath:           # 054 가마 숨결 — 가마에 숨을 훅 불어넣어 불길이 세지는 소리, 끝나면 잦아듦
+    cast:
+      - {sound: entity.breeze.inhale, volume: 0.4, pitch: 1.2, delay: 0}
+      - {sound: entity.breeze.shoot, volume: 0.35, pitch: 1.3, delay: 6}
+      - {sound: block.blastfurnace.fire_crackle, volume: 0.55, pitch: 1.0, delay: 8}
+      - {sound: block.smoker.smoke, volume: 0.4, pitch: 1.1, delay: 12}
+    end:
+      - {sound: block.furnace.fire_crackle, volume: 0.35, pitch: 0.8, delay: 0}
+      - {sound: block.fire.extinguish, volume: 0.25, pitch: 1.2, delay: 4}
+
+  glaze_coating:         # 055 화염의 정복자 — 장착 시 몸에 내열 막이 덧입혀지는 묵직한 장착음 + 꺼지는 불
+    cast:
+      - {sound: item.armor.equip_netherite, volume: 0.5, pitch: 1.2, delay: 0}
+      - {sound: entity.generic.extinguish_fire, volume: 0.4, pitch: 1.3, delay: 3}
+      - {sound: block.amethyst_block.chime, volume: 0.3, pitch: 1.2, delay: 6}
+    end:
+      - {sound: block.fire.extinguish, volume: 0.3, pitch: 0.9, delay: 0}
+
+  explosive_wedge:       # 056 폭발 쐐기 — 쐐기가 쾅 박히고 째깍 무장, 조건 충족 시 강한 폭발
+    cast:
+      - {sound: item.crossbow.loading_end, volume: 0.5, pitch: 1.0, delay: 0}
+      - {sound: entity.evoker.prepare_attack, volume: 0.45, pitch: 1.4, delay: 4}
+      - {sound: block.respawn_anchor.charge, volume: 0.4, pitch: 1.2, delay: 10}
+    hit:
+      - {sound: item.trident.hit, volume: 0.6, pitch: 0.8, delay: 0}
+      - {sound: block.lever.click, volume: 0.5, pitch: 1.6, delay: 2}
+      - {sound: entity.generic.explode, volume: 0.6, pitch: 0.9, delay: 0}
+      - {sound: entity.dragon_fireball.explode, volume: 0.5, pitch: 0.8, delay: 1}
+    end:
+      - {sound: block.redstone_torch.burnout, volume: 0.35, pitch: 1.0, delay: 0}
+
+  heat_recovery:         # 058 열량 보존 — 주변 불길을 빨아들이는 흡입 + 몸으로 스며드는 따스한 회복음
+    cast:
+      - {sound: entity.breeze.inhale, volume: 0.6, pitch: 0.7, delay: 0}
+      - {sound: block.fire.ambient, volume: 0.5, pitch: 0.9, delay: 4}
+      - {sound: block.respawn_anchor.charge, volume: 0.5, pitch: 1.0, delay: 12}
+      - {sound: block.beacon.power_select, volume: 0.45, pitch: 1.3, delay: 22}
+    hit:
+      - {sound: block.fire.extinguish, volume: 0.4, pitch: 0.8, delay: 0}
+      - {sound: entity.experience_orb.pickup, volume: 0.4, pitch: 0.9, delay: 3}
+      - {sound: block.amethyst_block.resonate, volume: 0.35, pitch: 1.4, delay: 8}
+
+  firebird_hunt:         # 059 불새 — 불새가 날갯짓하며 울부짖고 전방으로 쏘아져 나감, 휩쓸며 화염 타격
+    cast:
+      - {sound: entity.phantom.flap, volume: 0.6, pitch: 1.2, delay: 0}
+      - {sound: entity.parrot.imitate.blaze, volume: 0.5, pitch: 0.9, delay: 2}
+      - {sound: entity.ghast.shoot, volume: 0.5, pitch: 1.4, delay: 5}
+      - {sound: entity.ender_dragon.flap, volume: 0.4, pitch: 1.6, delay: 8}
+    hit:
+      - {sound: item.firecharge.use, volume: 0.6, pitch: 1.0, delay: 0}
+      - {sound: entity.generic.burn, volume: 0.5, pitch: 1.1, delay: 1}
+      - {sound: entity.phantom.flap, volume: 0.35, pitch: 1.5, delay: 3}
+
+  lava_suture:           # 060 용암 봉합 — 용암이 치익 식어 흑요석으로 굳는 소리
+    cast:
+      - {sound: block.lava.pop, volume: 0.4, pitch: 0.9, delay: 0}
+      - {sound: entity.breeze.shoot, volume: 0.3, pitch: 1.4, delay: 2}
+    hit:
+      - {sound: block.lava.extinguish, volume: 0.55, pitch: 1.0, delay: 0}
+      - {sound: block.stone.place, volume: 0.45, pitch: 0.8, delay: 3}
+
+  flame_sword_dance:     # 061 화염 검무 — 칼날이 하나씩 뽑혀 떠오르는 금속성 울림, 휘두를 때마다 불꽃 베기
+    cast:
+      - {sound: block.fire.ambient, volume: 0.5, pitch: 1.1, delay: 0}
+      - {sound: item.armor.equip_netherite, volume: 0.45, pitch: 1.5, delay: 3}
+      - {sound: block.amethyst_block.resonate, volume: 0.4, pitch: 1.2, delay: 5}
+      - {sound: item.armor.equip_netherite, volume: 0.45, pitch: 1.7, delay: 9}
+      - {sound: item.armor.equip_netherite, volume: 0.45, pitch: 1.9, delay: 15}
+    hit:
+      - {sound: entity.player.attack.sweep, volume: 0.6, pitch: 1.2, delay: 0}
+      - {sound: entity.blaze.shoot, volume: 0.4, pitch: 1.4, delay: 1}
+      - {sound: entity.generic.burn, volume: 0.4, pitch: 1.2, delay: 2}
+    end:
+      - {sound: block.fire.extinguish, volume: 0.35, pitch: 1.3, delay: 0}
+      - {sound: block.amethyst_cluster.break, volume: 0.3, pitch: 1.4, delay: 2}
+
+  incandescent_break:    # 062 파이어 스트라이크 — 짧게 충전 후 소닉붐 섞인 화염 레이저, 방패를 깨는 금속음
+    cast:
+      - {sound: entity.warden.sonic_charge, volume: 0.45, pitch: 1.6, delay: 0}
+      - {sound: entity.warden.sonic_boom, volume: 0.5, pitch: 1.4, delay: 12}
+      - {sound: entity.blaze.shoot, volume: 0.6, pitch: 0.8, delay: 12}
+      - {sound: item.firecharge.use, volume: 0.5, pitch: 1.3, delay: 13}
+    hit:
+      - {sound: item.shield.break, volume: 0.6, pitch: 0.9, delay: 0}
+      - {sound: entity.generic.burn, volume: 0.5, pitch: 0.9, delay: 1}
+      - {sound: block.lava.pop, volume: 0.4, pitch: 1.2, delay: 2}
+
+  blue_bonfire:          # 063 푸른 화톳불 — 영혼의 푸른 불이 차분히 피어오르는 신비로운 점화, 꺼질 땐 영혼이 빠져나감
+    cast:
+      - {sound: item.flintandsteel.use, volume: 0.45, pitch: 0.8, delay: 0}
+      - {sound: block.soul_sand.place, volume: 0.4, pitch: 1.0, delay: 2}
+      - {sound: block.campfire.crackle, volume: 0.55, pitch: 0.9, delay: 4}
+      - {sound: block.beacon.activate, volume: 0.4, pitch: 1.5, delay: 10}
+    end:
+      - {sound: particle.soul_escape, volume: 0.6, pitch: 1.0, delay: 0}
+      - {sound: block.fire.extinguish, volume: 0.35, pitch: 0.8, delay: 2}
+      - {sound: block.beacon.deactivate, volume: 0.35, pitch: 1.4, delay: 6}
+
+  crimson_breath:        # 064 드래곤 브레스 — 긴 영창 속 용의 으르렁과 숨 들이킴이 쌓이다 거대한 화염 숨결이 뿜어짐
+    cast:
+      - {sound: entity.evoker.prepare_summon, volume: 0.7, pitch: 0.6, delay: 0}
+      - {sound: block.respawn_anchor.charge, volume: 0.7, pitch: 0.5, delay: 8}
+      - {sound: entity.ender_dragon.growl, volume: 0.6, pitch: 0.7, delay: 16}
+      - {sound: entity.breeze.inhale, volume: 0.8, pitch: 0.5, delay: 26}
+      - {sound: entity.ender_dragon.shoot, volume: 0.9, pitch: 0.6, delay: 36}
+      - {sound: entity.ghast.shoot, volume: 0.8, pitch: 0.5, delay: 38}
+    hit:
+      - {sound: entity.dragon_fireball.explode, volume: 0.8, pitch: 0.6, delay: 0}
+      - {sound: entity.generic.explode, volume: 0.6, pitch: 0.7, delay: 1}
+      - {sound: block.blastfurnace.fire_crackle, volume: 0.8, pitch: 0.6, delay: 4}
+      - {sound: block.fire.ambient, volume: 0.7, pitch: 0.6, delay: 10}
+    end:
+      - {sound: entity.ender_dragon.flap, volume: 0.5, pitch: 0.7, delay: 0}
+      - {sound: block.fire.extinguish, volume: 0.5, pitch: 0.7, delay: 4}
+      - {sound: block.lava.pop, volume: 0.4, pitch: 0.8, delay: 8}
+
+  cinder_skipring:       # 212 불꽃 줄넘기 — 발밑에서 휘잉 퍼져나가는 불고리, 닿으면 짧게 탁 탐
+    cast:
+      - {sound: entity.breeze.wind_burst, volume: 0.45, pitch: 1.4, delay: 0}
+      - {sound: item.firecharge.use, volume: 0.5, pitch: 1.1, delay: 1}
+      - {sound: block.fire.ambient, volume: 0.45, pitch: 1.0, delay: 4}
+    hit:
+      - {sound: entity.generic.burn, volume: 0.5, pitch: 1.2, delay: 0}
+      - {sound: entity.player.attack.knockback, volume: 0.45, pitch: 1.3, delay: 0}
+
+  thawing_heat:          # 239 해빙의 열기 — 3초간 열기를 불어넣는 지속음, 얼음이 쩍 녹아 깨지는 마무리
+    cast:
+      - {sound: entity.breeze.inhale, volume: 0.4, pitch: 1.3, delay: 0}
+      - {sound: block.furnace.fire_crackle, volume: 0.45, pitch: 1.2, delay: 4}
+      - {sound: block.fire.ambient, volume: 0.4, pitch: 1.3, delay: 14}
+    hit:
+      - {sound: block.glass.break, volume: 0.5, pitch: 1.3, delay: 0}
+      - {sound: block.fire.extinguish, volume: 0.4, pitch: 1.4, delay: 1}
+      - {sound: entity.player.splash, volume: 0.3, pitch: 1.5, delay: 4}
+
+  steam_ignition:        # 240 증기 점화 — 밸브에 불이 들어가 압력이 차오르며 칙 증기가 뿜고 장치가 덜컥 반응
+    cast:
+      - {sound: item.flintandsteel.use, volume: 0.45, pitch: 1.0, delay: 0}
+      - {sound: block.furnace.fire_crackle, volume: 0.4, pitch: 1.2, delay: 2}
+    hit:
+      - {sound: block.lava.extinguish, volume: 0.5, pitch: 0.8, delay: 0}
+      - {sound: block.piston.extend, volume: 0.4, pitch: 1.2, delay: 6}
+      - {sound: block.copper_bulb.turn_on, volume: 0.4, pitch: 1.0, delay: 10}
+
+  fox_orbit:             # 300 여우불 공전 — 장난스러운 여우 울음과 함께 작은 불씨가 빙글 돌다 휘어 날아감
+    cast:
+      - {sound: entity.fox.ambient, volume: 0.35, pitch: 1.5, delay: 0}
+      - {sound: block.fire.ambient, volume: 0.35, pitch: 1.8, delay: 2}
+      - {sound: entity.breeze.whirl, volume: 0.3, pitch: 1.7, delay: 4}
+      - {sound: entity.blaze.shoot, volume: 0.35, pitch: 1.7, delay: 14}
+    hit:
+      - {sound: entity.generic.burn, volume: 0.35, pitch: 1.4, delay: 0}
+      - {sound: block.lava.pop, volume: 0.3, pitch: 1.7, delay: 1}
+
+  curving_plumes:        # 301 곡선 불깃털 — 날개를 털듯 펄럭 부채꼴로 흩뿌리는 불깃털, 가벼운 휘익
+    cast:
+      - {sound: entity.parrot.fly, volume: 0.5, pitch: 1.2, delay: 0}
+      - {sound: entity.blaze.shoot, volume: 0.35, pitch: 1.6, delay: 1}
+      - {sound: entity.arrow.shoot, volume: 0.3, pitch: 1.4, delay: 3}
+    hit:
+      - {sound: entity.generic.burn, volume: 0.35, pitch: 1.5, delay: 0}
+      - {sound: entity.arrow.hit, volume: 0.3, pitch: 1.6, delay: 0}
+
+  # ===================== water (37) =====================
+  water_breath:          # 065 물결 숨결 — 물속으로 들어가듯 깊은 숨, 기포가 보글 올라오며 몸을 감싸는 느낌
+    cast:
+      - {sound: entity.player.breath, volume: 0.6, pitch: 1.1, delay: 0}
+      - {sound: block.bubble_column.upwards_inside, volume: 0.45, pitch: 1.4, delay: 3}
+      - {sound: block.amethyst_block.chime, volume: 0.4, pitch: 1.5, delay: 8}
+    end:
+      - {sound: ambient.underwater.exit, volume: 0.4, pitch: 1.3, delay: 0}
+      - {sound: block.bubble_column.bubble_pop, volume: 0.4, pitch: 1.2, delay: 3}
+
+  tide_stride:           # 066 물살 타기 — 돌고래가 물살을 가르며 튀어나가는 가벼운 질주감
+    cast:
+      - {sound: entity.dolphin.swim, volume: 0.6, pitch: 1.2, delay: 0}
+      - {sound: entity.player.swim, volume: 0.5, pitch: 1.4, delay: 2}
+      - {sound: entity.dolphin.play, volume: 0.35, pitch: 1.3, delay: 6}
+    end:
+      - {sound: entity.generic.swim, volume: 0.35, pitch: 0.8, delay: 0}
+
+  water_bolt:            # 067 물방울 탄환 — 짧게 '퓻' 쏘는 물방울, 맞으면 철퍽 튀는 짧은 스플래시
+    cast:
+      - {sound: entity.squid.squirt, volume: 0.5, pitch: 1.6, delay: 0}
+      - {sound: block.bubble_column.bubble_pop, volume: 0.4, pitch: 1.5, delay: 1}
+    hit:
+      - {sound: entity.generic.splash, volume: 0.55, pitch: 1.5, delay: 0}
+      - {sound: entity.player.attack.knockback, volume: 0.35, pitch: 1.4, delay: 0}
+
+  quench:                # 068 불길 씻기 — 물 한 바가지 끼얹고 치익 하고 불이 꺼지는 소리
+    cast:
+      - {sound: item.bucket.empty, volume: 0.55, pitch: 1.3, delay: 0}
+      - {sound: block.fire.extinguish, volume: 0.45, pitch: 1.5, delay: 2}
+      - {sound: block.pointed_dripstone.drip_water, volume: 0.4, pitch: 1.2, delay: 6}
+
+  purifying_wave:        # 069 정화의 물결 — 맑은 물결이 퍼지며 탁한 기운을 씻어내는 종소리 같은 정화
+    cast:
+      - {sound: block.conduit.activate, volume: 0.5, pitch: 1.6, delay: 0}
+      - {sound: entity.player.splash, volume: 0.45, pitch: 1.2, delay: 2}
+      - {sound: block.amethyst_block.resonate, volume: 0.5, pitch: 1.4, delay: 6}
+      - {sound: block.bell.resonate, volume: 0.3, pitch: 1.8, delay: 12}
+    hit:
+      - {sound: block.amethyst_block.chime, volume: 0.45, pitch: 1.7, delay: 0}
+      - {sound: block.bubble_column.bubble_pop, volume: 0.35, pitch: 1.4, delay: 2}
+
+  ice_bridge:            # 070 얼음 다리 — 발밑 수면이 쩍 얼어붙는 서리, 끝나면 얼음이 녹아 물방울
+    cast:
+      - {sound: block.powder_snow.place, volume: 0.6, pitch: 0.9, delay: 0}
+      - {sound: block.glass.place, volume: 0.5, pitch: 1.4, delay: 2}
+      - {sound: block.amethyst_cluster.place, volume: 0.4, pitch: 1.6, delay: 6}
+    end:
+      - {sound: block.glass.break, volume: 0.35, pitch: 1.6, delay: 0}
+      - {sound: block.pointed_dripstone.drip_water, volume: 0.4, pitch: 1.0, delay: 4}
+
+  spring_unseal:         # 072 수맥 개방 — 땅이 열리며 샘물이 콸콸 솟아오름
+    cast:
+      - {sound: block.gravel.break, volume: 0.45, pitch: 0.8, delay: 0}
+      - {sound: block.bubble_column.upwards_ambient, volume: 0.5, pitch: 1.0, delay: 3}
+    hit:
+      - {sound: item.bucket.empty, volume: 0.65, pitch: 0.9, delay: 0}
+      - {sound: entity.player.splash, volume: 0.45, pitch: 1.1, delay: 2}
+      - {sound: block.water.ambient, volume: 0.35, pitch: 1.2, delay: 6}
+
+  water_elemental:       # 073 운디네 — 물기둥이 소용돌이치며 정령이 노래하듯 깨어남, 끝에는 물로 흩어짐
+    cast:
+      - {sound: block.bubble_column.whirlpool_inside, volume: 0.55, pitch: 1.1, delay: 0}
+      - {sound: entity.evoker.prepare_summon, volume: 0.4, pitch: 1.6, delay: 3}
+      - {sound: entity.dolphin.ambient_water, volume: 0.45, pitch: 1.5, delay: 10}
+      - {sound: block.amethyst_block.chime, volume: 0.45, pitch: 1.3, delay: 14}
+    end:
+      - {sound: entity.player.splash, volume: 0.5, pitch: 1.3, delay: 0}
+      - {sound: block.bubble_column.bubble_pop, volume: 0.45, pitch: 1.1, delay: 3}
+      - {sound: block.amethyst_block.resonate, volume: 0.3, pitch: 1.8, delay: 6}
+
+  eternal_ice_prison:    # 074 만년빙옥 — 대상 주위로 얼음이 쩌억 굳어 감옥이 닫힘, 풀릴 땐 산산조각
+    cast:
+      - {sound: block.powder_snow.break, volume: 0.6, pitch: 0.8, delay: 0}
+      - {sound: block.conduit.attack.target, volume: 0.5, pitch: 0.9, delay: 2}
+    hit:
+      - {sound: block.glass.place, volume: 0.75, pitch: 0.6, delay: 0}
+      - {sound: block.amethyst_block.place, volume: 0.6, pitch: 0.8, delay: 2}
+      - {sound: block.powder_snow.place, volume: 0.6, pitch: 0.7, delay: 4}
+      - {sound: block.chain.place, volume: 0.4, pitch: 0.7, delay: 8}
+    end:
+      - {sound: block.glass.break, volume: 0.7, pitch: 0.8, delay: 0}
+      - {sound: block.amethyst_cluster.break, volume: 0.5, pitch: 1.2, delay: 2}
+
+  cauldron_fill:         # 075 가마솥 채우기 — 가마솥에 물이 똑똑 떨어져 찰랑 차오르는 작은 소리
+    cast:
+      - {sound: block.pointed_dripstone.drip_water_into_cauldron, volume: 0.5, pitch: 1.2, delay: 0}
+      - {sound: item.bucket.empty, volume: 0.35, pitch: 1.5, delay: 3}
+
+  dye_rinse:             # 076 염색 씻기 — 가죽을 물에 헹궈 물감이 빠지는 촉촉한 소리
+    cast:
+      - {sound: block.wet_sponge.place, volume: 0.45, pitch: 1.2, delay: 0}
+      - {sound: entity.generic.swim, volume: 0.35, pitch: 1.5, delay: 2}
+      - {sound: block.pointed_dripstone.drip_water, volume: 0.35, pitch: 1.4, delay: 6}
+
+  fish_lure:             # 077 물고기 유인 — 찌 주위로 물고기가 몰려드는 퐁당·꼬리 퍼덕임
+    cast:
+      - {sound: entity.fishing_bobber.splash, volume: 0.4, pitch: 1.5, delay: 0}
+      - {sound: entity.fish.swim, volume: 0.45, pitch: 1.2, delay: 3}
+      - {sound: entity.tropical_fish.flop, volume: 0.3, pitch: 1.4, delay: 8}
+
+  frost_rupture:         # 078 서리 파열 — 얼음 시계가 째깍 새겨지고 1초 뒤 얼음 가시가 쾅 솟음
+    cast:
+      - {sound: block.powder_snow.step, volume: 0.5, pitch: 1.2, delay: 0}
+      - {sound: block.amethyst_cluster.hit, volume: 0.5, pitch: 1.5, delay: 3}
+      - {sound: block.note_block.chime, volume: 0.3, pitch: 1.2, delay: 10}
+    hit:
+      - {sound: block.glass.break, volume: 0.75, pitch: 0.7, delay: 0}
+      - {sound: block.amethyst_cluster.break, volume: 0.6, pitch: 0.9, delay: 1}
+      - {sound: block.powder_snow.break, volume: 0.55, pitch: 0.8, delay: 2}
+
+  pressure_lance:        # 079 수압창 — 물이 응축되어 고압으로 쏘아지는 날카로운 관통음, 맞을 때마다 짧은 꿰뚫음
+    cast:
+      - {sound: block.bubble_column.whirlpool_inside, volume: 0.45, pitch: 1.6, delay: 0}
+      - {sound: item.trident.throw, volume: 0.7, pitch: 1.2, delay: 3}
+      - {sound: item.trident.riptide_1, volume: 0.4, pitch: 1.5, delay: 4}
+    hit:
+      - {sound: item.trident.hit, volume: 0.6, pitch: 1.3, delay: 0}
+      - {sound: entity.generic.splash, volume: 0.4, pitch: 1.6, delay: 0}
+
+  life_distribution:     # 080 생명의 분배 — 생명이 물처럼 흘러 고르게 나뉘는 저울 같은 공명
+    cast:
+      - {sound: block.beacon.power_select, volume: 0.4, pitch: 1.4, delay: 0}
+      - {sound: block.bubble_column.upwards_inside, volume: 0.4, pitch: 1.2, delay: 3}
+      - {sound: block.amethyst_block.resonate, volume: 0.5, pitch: 1.2, delay: 8}
+    hit:
+      - {sound: block.amethyst_block.chime, volume: 0.45, pitch: 1.5, delay: 0}
+      - {sound: entity.experience_orb.pickup, volume: 0.3, pitch: 0.9, delay: 2}
+
+  moist_farmland:        # 081 촉촉한 밭 — 흙 위로 물이 스며드는 부드러운 촉촉함
+    cast:
+      - {sound: weather.rain, volume: 0.25, pitch: 1.3, delay: 0}
+      - {sound: block.wet_grass.place, volume: 0.45, pitch: 1.0, delay: 2}
+      - {sound: block.mud.place, volume: 0.3, pitch: 1.3, delay: 6}
+
+  wash_letters:          # 082 글씨 씻기 — 표지판을 물걸레로 스윽 닦아내는 짧은 소리
+    cast:
+      - {sound: block.wet_sponge.hit, volume: 0.4, pitch: 1.3, delay: 0}
+      - {sound: item.brush.brushing.generic, volume: 0.35, pitch: 1.4, delay: 2}
+
+  healing_rain:          # 083 치유의 비 — 부드러운 빗소리 위로 무지개 같은 맑은 차임
+    cast:
+      - {sound: weather.rain, volume: 0.4, pitch: 1.1, delay: 0}
+      - {sound: block.amethyst_block.resonate, volume: 0.5, pitch: 1.3, delay: 4}
+      - {sound: block.note_block.chime, volume: 0.35, pitch: 1.5, delay: 10}
+      - {sound: block.amethyst_block.chime, volume: 0.4, pitch: 1.8, delay: 16}
+    hit:
+      - {sound: block.amethyst_block.chime, volume: 0.35, pitch: 1.6, delay: 0}
+      - {sound: block.pointed_dripstone.drip_water, volume: 0.3, pitch: 1.4, delay: 2}
+    end:
+      - {sound: weather.rain, volume: 0.25, pitch: 1.5, delay: 0}
+      - {sound: block.amethyst_block.resonate, volume: 0.3, pitch: 1.8, delay: 4}
+
+  dew_gathering:         # 084 이슬 모으기 — 맺힌 이슬이 똑똑 병에 모이는 맑은 소리
+    cast:
+      - {sound: block.pointed_dripstone.drip_water, volume: 0.4, pitch: 1.6, delay: 0}
+      - {sound: item.bottle.fill, volume: 0.45, pitch: 1.3, delay: 3}
+      - {sound: block.amethyst_block.chime, volume: 0.3, pitch: 1.9, delay: 8}
+
+  quiet_mooring:         # 085 노아의 방주 — 나무 배가 수면 위에 툭 놓이고 노가 한 번 저어짐
+    cast:
+      - {sound: block.wood.place, volume: 0.55, pitch: 0.8, delay: 0}
+      - {sound: entity.player.splash, volume: 0.45, pitch: 1.0, delay: 2}
+      - {sound: entity.boat.paddle_water, volume: 0.45, pitch: 1.1, delay: 7}
+
+  bubble_aria:           # 086 물거품 아리아 — 노래하듯 떠가는 물거품, 터지면 세로 파문이 둥둥 퍼짐
+    cast:
+      - {sound: entity.puffer_fish.blow_up, volume: 0.45, pitch: 1.5, delay: 0}
+      - {sound: block.note_block.flute, volume: 0.35, pitch: 1.4, delay: 2}
+      - {sound: block.bubble_column.upwards_ambient, volume: 0.4, pitch: 1.5, delay: 4}
+    hit:
+      - {sound: block.bubble_column.bubble_pop, volume: 0.7, pitch: 0.9, delay: 0}
+      - {sound: entity.player.splash.high_speed, volume: 0.5, pitch: 1.2, delay: 1}
+      - {sound: block.amethyst_block.resonate, volume: 0.4, pitch: 1.5, delay: 4}
+
+  pressure_hammer:       # 087 수압해머 — 거대한 물 덩어리가 웅 하고 뭉쳤다가 쿵 하고 내려찍힘
+    cast:
+      - {sound: block.bubble_column.whirlpool_ambient, volume: 0.6, pitch: 0.7, delay: 0}
+      - {sound: entity.evoker.prepare_attack, volume: 0.35, pitch: 1.2, delay: 4}
+    hit:
+      - {sound: item.mace.smash_ground_heavy, volume: 0.75, pitch: 1.0, delay: 0}
+      - {sound: entity.player.splash.high_speed, volume: 0.7, pitch: 0.6, delay: 1}
+      - {sound: entity.generic.splash, volume: 0.5, pitch: 0.8, delay: 4}
+
+  waterspout:            # 088 용오름 — 소용돌이 물기둥이 휘몰아치며 솟구치고, 끝나면 물이 쏟아져 내림
+    cast:
+      - {sound: block.bubble_column.whirlpool_inside, volume: 0.7, pitch: 0.8, delay: 0}
+      - {sound: entity.breeze.whirl, volume: 0.5, pitch: 0.9, delay: 3}
+      - {sound: item.trident.riptide_3, volume: 0.6, pitch: 0.9, delay: 8}
+    hit:
+      - {sound: entity.player.splash.high_speed, volume: 0.55, pitch: 1.0, delay: 0}
+      - {sound: entity.breeze.wind_burst, volume: 0.35, pitch: 1.3, delay: 1}
+    end:
+      - {sound: weather.rain, volume: 0.4, pitch: 0.9, delay: 0}
+      - {sound: entity.generic.splash, volume: 0.5, pitch: 0.7, delay: 3}
+
+  current_sorting:       # 089 사금 추출 — 물살을 고르며 모래가 걸러지다가 금빛 반짝임이 드러나는 보상감 (궁극급 쿨다운)
+    cast:
+      - {sound: block.water.ambient, volume: 0.6, pitch: 1.0, delay: 0}
+      - {sound: item.brush.brushing.sand, volume: 0.5, pitch: 1.1, delay: 6}
+      - {sound: block.sand.fall, volume: 0.45, pitch: 1.2, delay: 14}
+      - {sound: item.brush.brushing.sand.complete, volume: 0.6, pitch: 1.0, delay: 24}
+      - {sound: entity.player.levelup, volume: 0.45, pitch: 1.6, delay: 30}
+      - {sound: block.amethyst_block.chime, volume: 0.6, pitch: 1.9, delay: 34}
+
+  potion_mist:           # 090 약액 분무 — 물약병이 칙 터지며 푸른 안개가 쉬익 퍼짐
+    cast:
+      - {sound: entity.splash_potion.break, volume: 0.55, pitch: 1.3, delay: 0}
+      - {sound: entity.lingering_potion.throw, volume: 0.4, pitch: 0.9, delay: 2}
+      - {sound: block.brewing_stand.brew, volume: 0.4, pitch: 1.4, delay: 5}
+    hit:
+      - {sound: item.bottle.empty, volume: 0.35, pitch: 1.6, delay: 0}
+      - {sound: block.amethyst_block.chime, volume: 0.3, pitch: 1.5, delay: 2}
+    end:
+      - {sound: block.fire.extinguish, volume: 0.25, pitch: 1.8, delay: 0}
+
+  waterwheel_shield:     # 091 물레 방패 — 물레가 덜컥 돌기 시작하는 물방패, 막을 때 철썩 튕겨냄
+    cast:
+      - {sound: block.bubble_column.whirlpool_ambient, volume: 0.5, pitch: 1.2, delay: 0}
+      - {sound: block.bamboo_wood.place, volume: 0.45, pitch: 0.8, delay: 2}
+      - {sound: item.armor.equip_turtle, volume: 0.5, pitch: 1.1, delay: 5}
+    hit:
+      - {sound: item.shield.block, volume: 0.6, pitch: 1.2, delay: 0}
+      - {sound: entity.player.splash.high_speed, volume: 0.55, pitch: 1.1, delay: 0}
+      - {sound: entity.player.attack.knockback, volume: 0.45, pitch: 0.9, delay: 1}
+    end:
+      - {sound: entity.generic.splash, volume: 0.35, pitch: 1.3, delay: 0}
+
+  concrete_curing:       # 092 콘크리트 양생 — 물을 머금은 가루가 차례로 단단히 굳는 소리
+    cast:
+      - {sound: item.bucket.empty, volume: 0.45, pitch: 1.1, delay: 0}
+      - {sound: block.sand.place, volume: 0.4, pitch: 0.9, delay: 3}
+      - {sound: block.fire.extinguish, volume: 0.3, pitch: 1.5, delay: 6}
+      - {sound: block.stone.break, volume: 0.45, pitch: 1.2, delay: 10}
+
+  ripple_guard:          # 093 파문방벽 — 정면에 물 장막이 촤악 펼쳐지고 투사체가 퐁 하고 삼켜짐
+    cast:
+      - {sound: entity.player.splash.high_speed, volume: 0.55, pitch: 1.2, delay: 0}
+      - {sound: block.conduit.activate, volume: 0.4, pitch: 1.4, delay: 2}
+      - {sound: block.amethyst_block.resonate, volume: 0.35, pitch: 1.2, delay: 5}
+    hit:
+      - {sound: entity.generic.splash, volume: 0.45, pitch: 1.6, delay: 0}
+      - {sound: block.bubble_column.bubble_pop, volume: 0.4, pitch: 1.3, delay: 1}
+    end:
+      - {sound: block.conduit.deactivate, volume: 0.35, pitch: 1.5, delay: 0}
+      - {sound: block.water.ambient, volume: 0.3, pitch: 1.4, delay: 2}
+
+  tidal_wave:            # 094 해일 — 낮게 밀려오는 거대한 파도가 솟구쳐 덮치는 묵직한 물살
+    cast:
+      - {sound: item.trident.riptide_2, volume: 0.7, pitch: 0.7, delay: 0}
+      - {sound: block.bubble_column.whirlpool_inside, volume: 0.6, pitch: 0.6, delay: 3}
+      - {sound: entity.player.splash.high_speed, volume: 0.7, pitch: 0.7, delay: 8}
+    hit:
+      - {sound: entity.generic.splash, volume: 0.75, pitch: 0.7, delay: 0}
+      - {sound: entity.player.attack.knockback, volume: 0.55, pitch: 0.8, delay: 0}
+      - {sound: entity.player.splash, volume: 0.45, pitch: 1.0, delay: 3}
+
+  bouncing_droplet:      # 095 도약하는 물방울 — 통통 튀는 탄력 있는 물방울, 튈 때마다 짧은 '퐁', 마지막에 터짐
+    cast:
+      - {sound: entity.slime.jump_small, volume: 0.45, pitch: 1.5, delay: 0}
+      - {sound: entity.squid.squirt, volume: 0.4, pitch: 1.7, delay: 1}
+    hit:
+      - {sound: entity.slime.squish_small, volume: 0.45, pitch: 1.6, delay: 0}
+      - {sound: entity.generic.splash, volume: 0.35, pitch: 1.8, delay: 0}
+    end:
+      - {sound: block.bubble_column.bubble_pop, volume: 0.6, pitch: 1.0, delay: 0}
+      - {sound: entity.player.splash, volume: 0.4, pitch: 1.4, delay: 1}
+
+  abyssal_pressure:      # 096 심해의 압력 — 심연이 내려앉듯 낮게 울리는 압력과 심장박동, 짓눌리는 수압 (궁극)
+    cast:
+      - {sound: block.conduit.ambient, volume: 0.7, pitch: 0.6, delay: 0}
+      - {sound: entity.elder_guardian.ambient, volume: 0.5, pitch: 0.6, delay: 6}
+      - {sound: block.bubble_column.whirlpool_inside, volume: 0.7, pitch: 0.5, delay: 14}
+      - {sound: entity.warden.heartbeat, volume: 0.8, pitch: 0.8, delay: 24}
+      - {sound: block.heavy_core.place, volume: 0.8, pitch: 0.6, delay: 34}
+    hit:
+      - {sound: entity.warden.heartbeat, volume: 0.45, pitch: 1.0, delay: 0}
+      - {sound: block.bubble_column.bubble_pop, volume: 0.35, pitch: 0.6, delay: 1}
+    end:
+      - {sound: ambient.underwater.exit, volume: 0.6, pitch: 0.8, delay: 0}
+      - {sound: block.conduit.deactivate, volume: 0.6, pitch: 0.7, delay: 4}
+
+  droplet_relay:         # 213 물방울 인계 — 몸에서 출발한 물방울이 날아가 거품 감옥으로 적을 띄워 올림
+    cast:
+      - {sound: entity.squid.squirt, volume: 0.5, pitch: 1.3, delay: 0}
+      - {sound: block.note_block.chime, volume: 0.35, pitch: 1.6, delay: 2}
+      - {sound: entity.dolphin.jump, volume: 0.4, pitch: 1.4, delay: 4}
+    hit:
+      - {sound: entity.puffer_fish.blow_up, volume: 0.6, pitch: 1.0, delay: 0}
+      - {sound: block.bubble_column.upwards_inside, volume: 0.55, pitch: 1.2, delay: 2}
+    end:
+      - {sound: block.bubble_column.bubble_pop, volume: 0.55, pitch: 1.1, delay: 0}
+      - {sound: entity.generic.splash, volume: 0.4, pitch: 1.3, delay: 1}
+
+  folding_tideplane:     # 214 접히는 수면 — 바닥의 물막이 책장처럼 촤르륵 넘어가며 철썩 덮침
+    cast:
+      - {sound: block.water.ambient, volume: 0.5, pitch: 1.2, delay: 0}
+      - {sound: item.book.page_turn, volume: 0.6, pitch: 0.7, delay: 4}
+      - {sound: entity.player.splash.high_speed, volume: 0.6, pitch: 0.9, delay: 8}
+    hit:
+      - {sound: entity.generic.splash, volume: 0.6, pitch: 1.1, delay: 0}
+      - {sound: entity.player.attack.sweep, volume: 0.4, pitch: 1.3, delay: 0}
+    end:
+      - {sound: block.bubble_column.bubble_pop, volume: 0.35, pitch: 1.3, delay: 0}
+
+  water_level:           # 241 수위 조절 — 기둥 속 물이 한 칸 찰랑 오르내리는 짧고 가벼운 기믹음
+    cast:
+      - {sound: block.bubble_column.bubble_pop, volume: 0.35, pitch: 1.4, delay: 0}
+      - {sound: item.bucket.fill, volume: 0.3, pitch: 1.5, delay: 1}
+
+  crystal_orbit:         # 302 결정 공전탄 — 얼음 결정이 쨍그랑 돌며 맴돌다가 사방으로 흩뿌려짐
+    cast:
+      - {sound: block.amethyst_cluster.place, volume: 0.5, pitch: 1.6, delay: 0}
+      - {sound: block.powder_snow.step, volume: 0.4, pitch: 1.3, delay: 2}
+      - {sound: block.amethyst_block.resonate, volume: 0.4, pitch: 1.8, delay: 6}
+      - {sound: entity.breeze.shoot, volume: 0.45, pitch: 1.5, delay: 12}
+    hit:
+      - {sound: block.glass.hit, volume: 0.45, pitch: 1.6, delay: 0}
+      - {sound: block.powder_snow.hit, volume: 0.35, pitch: 1.3, delay: 0}
+
+  fish_trap:             # 324 아공간 수조 — 아공간 수조 문이 열리며 물고기가 보글 헤엄치는 가벼운 UI음
+    cast:
+      - {sound: block.ender_chest.open, volume: 0.35, pitch: 1.5, delay: 0}
+      - {sound: block.bubble_column.bubble_pop, volume: 0.3, pitch: 1.4, delay: 2}
+      - {sound: entity.fish.swim, volume: 0.3, pitch: 1.3, delay: 4}
+
+  # ===================== earth (45) =====================
+  verdant_touch:         # 097 풍요의 손길 — 뼛가루 뿌리듯 부드러운 손길, 작물이 쑥 자라는 바스락
+    cast:
+      - {sound: item.bone_meal.use, volume: 0.5, pitch: 1.1, delay: 0}
+      - {sound: block.azalea_leaves.place, volume: 0.4, pitch: 1.3, delay: 2}
+      - {sound: block.amethyst_block.chime, volume: 0.3, pitch: 1.6, delay: 5}
+    hit:
+      - {sound: block.growing_plant.crop, volume: 0.45, pitch: 1.2, delay: 0}
+      - {sound: block.grass.place, volume: 0.35, pitch: 1.4, delay: 2}
+
+  ore_whisper:           # 098 땅의 속삭임 — 땅속으로 귀 기울이는 낮은 울림, 광석 위치가 맑게 울림
+    cast:
+      - {sound: block.deepslate.step, volume: 0.5, pitch: 0.7, delay: 0}
+      - {sound: entity.sniffer.sniffing, volume: 0.4, pitch: 1.2, delay: 3}
+      - {sound: block.amethyst_block.resonate, volume: 0.4, pitch: 1.4, delay: 8}
+    hit:
+      - {sound: block.amethyst_cluster.hit, volume: 0.45, pitch: 1.5, delay: 0}
+      - {sound: block.note_block.chime, volume: 0.3, pitch: 0.9, delay: 3}
+    end:
+      - {sound: block.amethyst_block.step, volume: 0.3, pitch: 1.2, delay: 0}
+
+  pebble_toss:           # 099 조약돌 던지기 — 가벼운 휙 + 짧은 돌 딱 (스팸 안전)
+    cast:
+      - {sound: entity.snowball.throw, volume: 0.4, pitch: 1.3, delay: 0}
+      - {sound: block.stone.hit, volume: 0.3, pitch: 1.6, delay: 0}
+    hit:
+      - {sound: block.stone.hit, volume: 0.5, pitch: 1.3, delay: 0}
+      - {sound: block.gravel.step, volume: 0.3, pitch: 1.5, delay: 1}
+
+  miners_rhythm:         # 100 광부의 박자 — 곡괭이 박자처럼 탁-탁-탁 리듬
+    cast:
+      - {sound: block.stone.hit, volume: 0.5, pitch: 1.0, delay: 0}
+      - {sound: block.stone.hit, volume: 0.5, pitch: 1.2, delay: 4}
+      - {sound: block.anvil.place, volume: 0.25, pitch: 1.8, delay: 8}
+      - {sound: block.note_block.basedrum, volume: 0.4, pitch: 1.0, delay: 8}
+    end:
+      - {sound: block.stone_button.click_off, volume: 0.4, pitch: 0.9, delay: 0}
+
+  earth_shaping:         # 101 대지 성형 — 흙더미가 부채꼴로 밀려가는 묵직한 쓸림
+    cast:
+      - {sound: item.shovel.flatten, volume: 0.6, pitch: 0.8, delay: 0}
+      - {sound: block.rooted_dirt.break, volume: 0.7, pitch: 0.7, delay: 2}
+      - {sound: block.gravel.fall, volume: 0.5, pitch: 0.9, delay: 5}
+    hit:
+      - {sound: block.mud.break, volume: 0.6, pitch: 0.9, delay: 0}
+      - {sound: entity.goat.long_jump, volume: 0.4, pitch: 1.1, delay: 2}
+
+  stone_wall:            # 102 석벽 — 돌벽이 땅에서 솟아 쿵 박히는 소리, 무너지며 사라짐
+    cast:
+      - {sound: block.piston.extend, volume: 0.5, pitch: 0.6, delay: 0}
+      - {sound: block.deepslate_bricks.place, volume: 0.8, pitch: 0.7, delay: 2}
+      - {sound: block.stone.fall, volume: 0.5, pitch: 0.8, delay: 5}
+    hit:
+      - {sound: block.deepslate_bricks.hit, volume: 0.6, pitch: 1.0, delay: 0}
+      - {sound: block.gravel.step, volume: 0.3, pitch: 1.3, delay: 1}
+    end:
+      - {sound: block.stone.break, volume: 0.6, pitch: 0.8, delay: 0}
+      - {sound: block.gravel.fall, volume: 0.4, pitch: 1.0, delay: 3}
+
+  earth_elemental:       # 104 그놈 — 땅이 갈라지며 큰 흙 골렘이 일어나는 웅장한 소환
+    cast:
+      - {sound: entity.ravager.step, volume: 0.7, pitch: 0.6, delay: 0}
+      - {sound: block.rooted_dirt.break, volume: 0.8, pitch: 0.6, delay: 6}
+      - {sound: entity.iron_golem.repair, volume: 0.6, pitch: 0.7, delay: 16}
+      - {sound: entity.ravager.step, volume: 0.8, pitch: 0.7, delay: 26}
+      - {sound: block.gravel.fall, volume: 0.6, pitch: 0.8, delay: 30}
+    hit:
+      - {sound: entity.iron_golem.attack, volume: 0.8, pitch: 0.7, delay: 0}
+      - {sound: item.mace.smash_ground, volume: 0.6, pitch: 0.9, delay: 1}
+      - {sound: block.rooted_dirt.break, volume: 0.5, pitch: 0.8, delay: 2}
+    end:
+      - {sound: block.mud.break, volume: 0.6, pitch: 0.7, delay: 0}
+      - {sound: block.gravel.fall, volume: 0.5, pitch: 0.9, delay: 4}
+      - {sound: block.sand.fall, volume: 0.4, pitch: 0.8, delay: 10}
+
+  earthquake:            # 105 지진 — 땅 깊은 곳 진동 + 돌 구르는 파동
+    cast:
+      - {sound: item.mace.smash_ground_heavy, volume: 0.8, pitch: 0.6, delay: 0}
+      - {sound: entity.ravager.roar, volume: 0.35, pitch: 0.6, delay: 2}
+      - {sound: block.deepslate.fall, volume: 0.7, pitch: 0.6, delay: 6}
+      - {sound: block.gravel.fall, volume: 0.6, pitch: 0.8, delay: 12}
+    hit:
+      - {sound: block.stone.hit, volume: 0.6, pitch: 0.7, delay: 0}
+      - {sound: block.gravel.break, volume: 0.4, pitch: 0.9, delay: 2}
+    end:
+      - {sound: block.gravel.step, volume: 0.4, pitch: 0.7, delay: 0}
+      - {sound: block.sand.fall, volume: 0.3, pitch: 0.8, delay: 4}
+
+  climate_control:       # 106 기후 통제 — 하늘을 부르는 장엄한 의식, 먼 천둥과 신비로운 울림
+    cast:
+      - {sound: block.beacon.power_select, volume: 0.6, pitch: 0.7, delay: 0}
+      - {sound: block.conduit.activate, volume: 0.6, pitch: 0.9, delay: 8}
+      - {sound: block.amethyst_block.resonate, volume: 0.6, pitch: 0.6, delay: 16}
+      - {sound: entity.lightning_bolt.thunder, volume: 0.35, pitch: 1.3, delay: 26}
+      - {sound: block.azalea_leaves.fall, volume: 0.5, pitch: 0.8, delay: 30}
+
+  seed_row:              # 107 씨앗 줄심기 — 톡톡톡 일렬로 씨앗이 심기는 조용한 소리
+    cast:
+      - {sound: item.hoe.till, volume: 0.35, pitch: 1.2, delay: 0}
+      - {sound: item.crop.plant, volume: 0.4, pitch: 1.0, delay: 2}
+      - {sound: item.crop.plant, volume: 0.35, pitch: 1.15, delay: 5}
+      - {sound: item.crop.plant, volume: 0.3, pitch: 1.3, delay: 8}
+
+  bee_calm:              # 108 벌떼 달래기 — 꿀처럼 달콤하고 나른한 진정
+    cast:
+      - {sound: block.beehive.work, volume: 0.4, pitch: 0.8, delay: 0}
+      - {sound: block.honey_block.slide, volume: 0.35, pitch: 1.2, delay: 3}
+      - {sound: block.amethyst_block.chime, volume: 0.3, pitch: 1.3, delay: 8}
+    hit:
+      - {sound: entity.bee.pollinate, volume: 0.35, pitch: 0.9, delay: 0}
+      - {sound: entity.cat.purr, volume: 0.3, pitch: 1.4, delay: 3}
+
+  thorn_armor:           # 109 가시 갑옷 — 덤불 가시가 몸을 감싸는 쉭 + 반격 때 날카로운 찌름
+    cast:
+      - {sound: block.sweet_berry_bush.place, volume: 0.6, pitch: 0.8, delay: 0}
+      - {sound: item.armor.equip_leather, volume: 0.5, pitch: 0.8, delay: 2}
+      - {sound: block.mangrove_roots.place, volume: 0.4, pitch: 1.2, delay: 5}
+    hit:
+      - {sound: entity.puffer_fish.sting, volume: 0.45, pitch: 1.4, delay: 0}
+      - {sound: block.sweet_berry_bush.break, volume: 0.35, pitch: 1.5, delay: 1}
+    end:
+      - {sound: block.sweet_berry_bush.break, volume: 0.4, pitch: 0.9, delay: 0}
+      - {sound: block.azalea_leaves.fall, volume: 0.3, pitch: 1.1, delay: 3}
+
+  vein_fracture:         # 110 광맥 파쇄 — 광맥을 따라 연쇄로 쩍쩍 갈라지는 파쇄음
+    cast:
+      - {sound: block.deepslate.hit, volume: 0.5, pitch: 0.9, delay: 0}
+      - {sound: block.stone.break, volume: 0.5, pitch: 1.0, delay: 2}
+      - {sound: block.stone.break, volume: 0.45, pitch: 1.15, delay: 5}
+      - {sound: block.deepslate.break, volume: 0.45, pitch: 1.3, delay: 8}
+    hit:
+      - {sound: block.amethyst_cluster.break, volume: 0.35, pitch: 1.2, delay: 0}
+      - {sound: entity.item.pickup, volume: 0.3, pitch: 1.1, delay: 3}
+
+  earth_anchor:          # 111 대지의 닻 — 쇠사슬이 땅에 박히는 묵직한 고정, 충격이 땅으로 흐름
+    cast:
+      - {sound: block.chain.place, volume: 0.6, pitch: 0.7, delay: 0}
+      - {sound: block.heavy_core.place, volume: 0.7, pitch: 0.8, delay: 2}
+      - {sound: block.lodestone.place, volume: 0.5, pitch: 0.7, delay: 5}
+    hit:
+      - {sound: block.heavy_core.hit, volume: 0.5, pitch: 0.8, delay: 0}
+      - {sound: block.deepslate.step, volume: 0.4, pitch: 0.6, delay: 2}
+    end:
+      - {sound: block.chain.break, volume: 0.45, pitch: 1.0, delay: 0}
+      - {sound: block.stone.step, volume: 0.3, pitch: 1.1, delay: 2}
+
+  weathering_touch:      # 112 풍화의 손길 — 돌 표면이 바스러지고 이끼가 스며드는 짧은 소리 (스팸 안전)
+    cast:
+      - {sound: item.brush.brushing.gravel, volume: 0.35, pitch: 1.1, delay: 0}
+      - {sound: block.moss.place, volume: 0.35, pitch: 1.2, delay: 2}
+    hit:
+      - {sound: block.tuff.hit, volume: 0.35, pitch: 1.2, delay: 0}
+
+  iron_carapace:         # 113 철의 외피 — 철판이 차례로 덧대지며 딱딱하게 굳는 소리
+    cast:
+      - {sound: item.armor.equip_iron, volume: 0.7, pitch: 0.8, delay: 0}
+      - {sound: block.anvil.place, volume: 0.35, pitch: 1.4, delay: 3}
+      - {sound: entity.iron_golem.repair, volume: 0.5, pitch: 1.1, delay: 6}
+    end:
+      - {sound: block.iron_trapdoor.open, volume: 0.4, pitch: 0.9, delay: 0}
+      - {sound: block.chain.fall, volume: 0.3, pitch: 1.1, delay: 2}
+
+  moss_coating:          # 114 이끼 입히기 — 이끼를 깔고 땅 밑 깊은 곳의 기척을 듣는 소리
+    cast:
+      - {sound: block.moss_carpet.place, volume: 0.4, pitch: 0.9, delay: 0}
+      - {sound: block.sculk_sensor.clicking, volume: 0.35, pitch: 1.0, delay: 4}
+      - {sound: block.sculk.spread, volume: 0.3, pitch: 0.8, delay: 9}
+
+  grass_sprouting:       # 115 잔디 돋우기 — 흙 위로 잔디가 사삭 돋는 가벼운 소리
+    cast:
+      - {sound: block.grass.place, volume: 0.45, pitch: 1.0, delay: 0}
+      - {sound: block.grass.step, volume: 0.3, pitch: 1.3, delay: 3}
+    hit:
+      - {sound: item.bone_meal.use, volume: 0.35, pitch: 1.3, delay: 0}
+      - {sound: block.azalea.place, volume: 0.3, pitch: 1.4, delay: 2}
+
+  flint_sorting:         # 116 돌 고르기 — 날카로운 돌 파편이 따다닥 연사
+    cast:
+      - {sound: block.pointed_dripstone.place, volume: 0.4, pitch: 1.5, delay: 0}
+      - {sound: entity.arrow.shoot, volume: 0.35, pitch: 1.6, delay: 1}
+      - {sound: entity.arrow.shoot, volume: 0.3, pitch: 1.7, delay: 4}
+      - {sound: entity.arrow.shoot, volume: 0.3, pitch: 1.8, delay: 7}
+    hit:
+      - {sound: block.pointed_dripstone.hit, volume: 0.45, pitch: 1.4, delay: 0}
+      - {sound: block.gravel.hit, volume: 0.25, pitch: 1.6, delay: 1}
+
+  bark_peeling:          # 117 껍질 벗기기 — 도끼로 원목 껍질을 연달아 벗기는 촥촥
+    cast:
+      - {sound: item.axe.strip, volume: 0.45, pitch: 1.0, delay: 0}
+      - {sound: item.axe.strip, volume: 0.4, pitch: 1.15, delay: 4}
+      - {sound: block.wood.fall, volume: 0.3, pitch: 1.2, delay: 8}
+
+  compost_return:        # 118 퇴비 환원 — 퇴비통에 넣고 뼛가루가 완성되는 정겨운 소리
+    cast:
+      - {sound: block.composter.fill, volume: 0.45, pitch: 1.0, delay: 0}
+      - {sound: block.composter.fill_success, volume: 0.45, pitch: 1.1, delay: 4}
+      - {sound: block.composter.ready, volume: 0.4, pitch: 1.2, delay: 10}
+      - {sound: entity.item.pickup, volume: 0.3, pitch: 1.3, delay: 14}
+
+  thorn_seeds:           # 119 가시 씨앗 — 덤불이 부풀어 오른 뒤 가시 다섯 발이 부채꼴로 폭발 발사 (고위)
+    cast:
+      - {sound: block.sweet_berry_bush.place, volume: 0.6, pitch: 0.7, delay: 0}
+      - {sound: entity.puffer_fish.blow_up, volume: 0.6, pitch: 0.8, delay: 5}
+      - {sound: block.amethyst_block.resonate, volume: 0.5, pitch: 1.2, delay: 12}
+      - {sound: entity.puffer_fish.blow_out, volume: 0.7, pitch: 1.1, delay: 22}
+      - {sound: entity.arrow.shoot, volume: 0.7, pitch: 1.2, delay: 22}
+      - {sound: block.mangrove_roots.break, volume: 0.6, pitch: 1.4, delay: 24}
+    hit:
+      - {sound: entity.puffer_fish.sting, volume: 0.6, pitch: 1.2, delay: 0}
+      - {sound: block.sweet_berry_bush.break, volume: 0.45, pitch: 1.3, delay: 1}
+      - {sound: entity.arrow.hit, volume: 0.4, pitch: 1.4, delay: 1}
+
+  pollen_matchmaking:    # 120 꽃가루 중매 — 꽃가루가 흩날리는 사랑스러운 반짝임
+    cast:
+      - {sound: block.pink_petals.place, volume: 0.45, pitch: 1.1, delay: 0}
+      - {sound: entity.bee.pollinate, volume: 0.35, pitch: 1.3, delay: 3}
+      - {sound: block.amethyst_block.chime, volume: 0.35, pitch: 1.6, delay: 7}
+    hit:
+      - {sound: block.cherry_leaves.place, volume: 0.35, pitch: 1.3, delay: 0}
+      - {sound: entity.experience_orb.pickup, volume: 0.3, pitch: 1.2, delay: 4}
+
+  dormant_seed:          # 122 동면의 씨앗 — 다 자란 작물을 똑똑 거두는 가벼운 수확음 (스팸 안전)
+    cast:
+      - {sound: block.crop.break, volume: 0.4, pitch: 1.1, delay: 0}
+      - {sound: entity.item.pickup, volume: 0.25, pitch: 1.3, delay: 3}
+
+  counterweight:         # 123 반격의 무게추 — 방패를 세우는 금속 준비음, 성공 시 무거운 추가 쿵 떨어져 정지
+    cast:
+      - {sound: item.armor.equip_chain, volume: 0.5, pitch: 0.9, delay: 0}
+      - {sound: block.chain.step, volume: 0.4, pitch: 0.8, delay: 2}
+    hit:
+      - {sound: item.shield.block, volume: 0.7, pitch: 0.8, delay: 0}
+      - {sound: block.anvil.land, volume: 0.4, pitch: 0.9, delay: 1}
+      - {sound: entity.ravager.stunned, volume: 0.35, pitch: 1.3, delay: 3}
+
+  material_exchange:     # 124 자재 치환 — 진흙이 발목을 꽉 붙잡는 질척한 속박
+    cast:
+      - {sound: block.mud.place, volume: 0.5, pitch: 0.9, delay: 0}
+      - {sound: block.rooted_dirt.place, volume: 0.45, pitch: 1.0, delay: 3}
+    hit:
+      - {sound: block.mud.break, volume: 0.6, pitch: 0.7, delay: 0}
+      - {sound: block.honey_block.slide, volume: 0.4, pitch: 0.7, delay: 2}
+      - {sound: block.hanging_roots.place, volume: 0.35, pitch: 0.9, delay: 4}
+    end:
+      - {sound: block.mud.step, volume: 0.35, pitch: 1.1, delay: 0}
+
+  remembering_field:     # 125 기억하는 밭 — 시간이 빨리 감기듯 연달아 무르익는 작물
+    cast:
+      - {sound: block.amethyst_block.resonate, volume: 0.35, pitch: 1.0, delay: 0}
+      - {sound: block.growing_plant.crop, volume: 0.45, pitch: 1.0, delay: 3}
+      - {sound: block.growing_plant.crop, volume: 0.4, pitch: 1.2, delay: 6}
+      - {sound: item.bone_meal.use, volume: 0.4, pitch: 1.4, delay: 9}
+    hit:
+      - {sound: block.composter.ready, volume: 0.35, pitch: 1.3, delay: 0}
+
+  little_giant:          # 126 작은 거인 — 몸이 불어나며 쿵쿵 발 구르는 묵직한 성장
+    cast:
+      - {sound: entity.puffer_fish.blow_up, volume: 0.5, pitch: 0.6, delay: 0}
+      - {sound: entity.iron_golem.step, volume: 0.7, pitch: 0.8, delay: 4}
+      - {sound: entity.ravager.step, volume: 0.6, pitch: 0.9, delay: 10}
+      - {sound: entity.goat.prepare_ram, volume: 0.35, pitch: 0.7, delay: 12}
+    end:
+      - {sound: entity.puffer_fish.blow_out, volume: 0.45, pitch: 1.3, delay: 0}
+      - {sound: block.gravel.step, volume: 0.3, pitch: 1.2, delay: 2}
+
+  spring_ground:         # 127 용수철 지반 — 땅이 말랑하게 튀어 오르는 탄성
+    cast:
+      - {sound: block.piston.extend, volume: 0.45, pitch: 1.1, delay: 0}
+      - {sound: block.slime_block.place, volume: 0.5, pitch: 0.8, delay: 2}
+      - {sound: block.rooted_dirt.place, volume: 0.4, pitch: 1.0, delay: 4}
+    hit:
+      - {sound: entity.slime.jump, volume: 0.5, pitch: 1.2, delay: 0}
+      - {sound: entity.goat.long_jump, volume: 0.4, pitch: 1.0, delay: 1}
+    end:
+      - {sound: block.piston.contract, volume: 0.35, pitch: 0.9, delay: 0}
+      - {sound: block.gravel.fall, volume: 0.3, pitch: 1.1, delay: 2}
+
+  mountain_back:         # 128 산맥의 등 — 거대한 바위가 우르릉 구르며 들이받고 벽에 부서짐
+    cast:
+      - {sound: block.deepslate.place, volume: 0.8, pitch: 0.5, delay: 0}
+      - {sound: entity.ravager.roar, volume: 0.3, pitch: 0.7, delay: 3}
+      - {sound: block.gravel.fall, volume: 0.6, pitch: 0.6, delay: 6}
+      - {sound: entity.armadillo.roll, volume: 0.6, pitch: 0.5, delay: 10}
+    hit:
+      - {sound: entity.ravager.attack, volume: 0.6, pitch: 0.8, delay: 0}
+      - {sound: block.deepslate.hit, volume: 0.5, pitch: 0.7, delay: 1}
+    end:
+      - {sound: block.deepslate.break, volume: 0.8, pitch: 0.6, delay: 0}
+      - {sound: entity.generic.explode, volume: 0.35, pitch: 1.3, delay: 1}
+      - {sound: block.gravel.fall, volume: 0.6, pitch: 0.8, delay: 4}
+
+  earth_embrace:         # 129 대지의 품 — 마른 작물에 생기가 스며드는 따뜻한 회복
+    cast:
+      - {sound: block.rooted_dirt.place, volume: 0.4, pitch: 0.9, delay: 0}
+      - {sound: block.azalea.place, volume: 0.4, pitch: 1.1, delay: 3}
+      - {sound: block.amethyst_block.chime, volume: 0.35, pitch: 1.2, delay: 7}
+    hit:
+      - {sound: block.growing_plant.crop, volume: 0.4, pitch: 1.0, delay: 0}
+      - {sound: block.flowering_azalea.place, volume: 0.35, pitch: 1.3, delay: 3}
+
+  forest_throne:         # 130 숲의 왕좌 — 고대 뿌리가 왕좌처럼 휘감아 오르고 사방에서 솟구치는 대마법
+    cast:
+      - {sound: entity.evoker.prepare_summon, volume: 0.5, pitch: 0.7, delay: 0}
+      - {sound: block.mangrove_roots.place, volume: 0.8, pitch: 0.6, delay: 4}
+      - {sound: block.rooted_dirt.break, volume: 0.7, pitch: 0.6, delay: 10}
+      - {sound: block.wood.place, volume: 0.6, pitch: 0.5, delay: 18}
+      - {sound: block.amethyst_block.resonate, volume: 0.5, pitch: 0.7, delay: 26}
+      - {sound: block.azalea_leaves.fall, volume: 0.6, pitch: 0.7, delay: 32}
+    hit:
+      - {sound: block.hanging_roots.break, volume: 0.6, pitch: 0.8, delay: 0}
+      - {sound: entity.player.attack.knockback, volume: 0.5, pitch: 0.8, delay: 0}
+      - {sound: block.rooted_dirt.break, volume: 0.4, pitch: 1.0, delay: 2}
+    end:
+      - {sound: block.roots.break, volume: 0.5, pitch: 0.8, delay: 0}
+      - {sound: block.wood.fall, volume: 0.45, pitch: 0.7, delay: 4}
+      - {sound: block.azalea_leaves.fall, volume: 0.4, pitch: 1.0, delay: 8}
+
+  primordial_stone:      # 131 원초의 돌 — 돌 조각이 소용돌이치며 모여 거대한 핵으로 응축, 발사는 굉음
+    cast:
+      - {sound: block.gravel.fall, volume: 0.6, pitch: 0.7, delay: 0}
+      - {sound: block.stone.place, volume: 0.6, pitch: 0.8, delay: 6}
+      - {sound: block.deepslate.place, volume: 0.7, pitch: 0.6, delay: 12}
+      - {sound: block.heavy_core.place, volume: 0.8, pitch: 0.5, delay: 20}
+      - {sound: block.respawn_anchor.charge, volume: 0.5, pitch: 0.6, delay: 26}
+      - {sound: block.amethyst_block.resonate, volume: 0.5, pitch: 0.5, delay: 34}
+    hit:
+      - {sound: item.mace.smash_ground_heavy, volume: 0.9, pitch: 0.6, delay: 0}
+      - {sound: entity.generic.explode, volume: 0.5, pitch: 0.8, delay: 1}
+      - {sound: block.deepslate.break, volume: 0.8, pitch: 0.5, delay: 2}
+      - {sound: block.gravel.fall, volume: 0.6, pitch: 0.7, delay: 6}
+
+  thorn_manners:         # 211 가시의 예절 — 덤불을 공손히 비켜 가는 부드러운 잎 소리와 맑은 울림
+    cast:
+      - {sound: block.sweet_berry_bush.pick_berries, volume: 0.4, pitch: 1.2, delay: 0}
+      - {sound: block.azalea_leaves.step, volume: 0.35, pitch: 1.3, delay: 3}
+      - {sound: block.note_block.chime, volume: 0.3, pitch: 1.4, delay: 6}
+    end:
+      - {sound: block.sweet_berry_bush.place, volume: 0.3, pitch: 1.4, delay: 0}
+
+  stone_weight:          # 242 무게추 — 무게추가 쿵 떨어져 압력판 딸깍, 부서져 사라짐
+    cast:
+      - {sound: block.anvil.fall, volume: 0.5, pitch: 1.1, delay: 0}
+      - {sound: block.amethyst_block.chime, volume: 0.3, pitch: 1.4, delay: 2}
+    hit:
+      - {sound: block.heavy_core.place, volume: 0.6, pitch: 0.9, delay: 0}
+      - {sound: block.stone_pressure_plate.click_on, volume: 0.6, pitch: 0.9, delay: 1}
+      - {sound: block.stone.break, volume: 0.5, pitch: 1.1, delay: 8}
+
+  vine_awaken:           # 243 덩굴 깨우기 — 화분에서 덩굴이 꿈틀대며 쭉쭉 자라오름
+    cast:
+      - {sound: block.decorated_pot.insert, volume: 0.4, pitch: 0.9, delay: 0}
+      - {sound: item.bone_meal.use, volume: 0.4, pitch: 1.1, delay: 3}
+      - {sound: block.cave_vines.place, volume: 0.45, pitch: 0.9, delay: 6}
+      - {sound: block.vine.place, volume: 0.45, pitch: 1.1, delay: 10}
+    hit:
+      - {sound: block.chorus_flower.grow, volume: 0.4, pitch: 1.2, delay: 0}
+      - {sound: block.weeping_vines.place, volume: 0.35, pitch: 1.3, delay: 3}
+
+  conduit_turn:          # 249 도관 회전 — 돌 도관이 딸깍 90도 돌아가는 짧은 기계음 (스팸 안전)
+    cast:
+      - {sound: block.stone_button.click_on, volume: 0.4, pitch: 0.9, delay: 0}
+      - {sound: ui.stonecutter.select_recipe, volume: 0.35, pitch: 1.1, delay: 1}
+    hit:
+      - {sound: block.comparator.click, volume: 0.35, pitch: 1.3, delay: 0}
+
+  venom_spit:            # 303 독 뱉기 — 끈적한 독덩이를 퉤 뱉고 철퍽 터짐
+    cast:
+      - {sound: entity.llama.spit, volume: 0.6, pitch: 0.7, delay: 0}
+      - {sound: entity.slime.squish_small, volume: 0.4, pitch: 0.9, delay: 1}
+    hit:
+      - {sound: entity.splash_potion.break, volume: 0.5, pitch: 0.7, delay: 0}
+      - {sound: block.mud.break, volume: 0.45, pitch: 0.9, delay: 1}
+      - {sound: block.bubble_column.bubble_pop, volume: 0.4, pitch: 0.7, delay: 4}
+
+  smoke_veil:            # 304 연막 은신 — 연막탄이 펑 터지고 흙먼지 속으로 숨는 소리
+    cast:
+      - {sound: entity.firework_rocket.blast, volume: 0.45, pitch: 0.6, delay: 0}
+      - {sound: block.sand.break, volume: 0.6, pitch: 0.7, delay: 1}
+      - {sound: entity.illusioner.prepare_blindness, volume: 0.4, pitch: 1.2, delay: 4}
+    hit:
+      - {sound: block.powder_snow.break, volume: 0.4, pitch: 0.8, delay: 0}
+    end:
+      - {sound: entity.illusioner.mirror_move, volume: 0.35, pitch: 1.3, delay: 0}
+
+  fairy_dust:            # 316 요정 가루 — 반짝이 가루를 흩뿌리는 꿈결 같은 소리, 적은 스르륵 잠듦
+    cast:
+      - {sound: block.amethyst_cluster.place, volume: 0.45, pitch: 1.6, delay: 0}
+      - {sound: entity.allay.item_thrown, volume: 0.4, pitch: 1.3, delay: 2}
+      - {sound: block.spore_blossom.place, volume: 0.4, pitch: 1.4, delay: 5}
+      - {sound: block.amethyst_block.chime, volume: 0.4, pitch: 1.8, delay: 9}
+    hit:
+      - {sound: entity.fox.sleep, volume: 0.4, pitch: 1.1, delay: 0}
+      - {sound: block.amethyst_block.step, volume: 0.3, pitch: 1.5, delay: 2}
+
+  hunting_pounce:        # 320 사냥 도약 — 크게 도약하는 바람음 후 흙바닥에 쿵 덮침
+    cast:
+      - {sound: entity.goat.long_jump, volume: 0.6, pitch: 0.9, delay: 0}
+      - {sound: entity.player.attack.sweep, volume: 0.4, pitch: 0.8, delay: 2}
+    hit:
+      - {sound: entity.goat.ram_impact, volume: 0.7, pitch: 0.9, delay: 0}
+      - {sound: block.rooted_dirt.break, volume: 0.5, pitch: 0.8, delay: 1}
+      - {sound: block.hanging_roots.place, volume: 0.35, pitch: 0.9, delay: 3}
+
+  gravity_slam:          # 322 중력 강타 — 두 주먹 땅 내리치기, 짓누르는 무거운 압박
+    cast:
+      - {sound: entity.iron_golem.attack, volume: 0.6, pitch: 0.7, delay: 0}
+      - {sound: entity.player.attack.strong, volume: 0.4, pitch: 0.6, delay: 2}
+    hit:
+      - {sound: item.mace.smash_ground_heavy, volume: 0.8, pitch: 0.8, delay: 0}
+      - {sound: block.deepslate.fall, volume: 0.6, pitch: 0.6, delay: 1}
+      - {sound: block.heavy_core.step, volume: 0.4, pitch: 0.6, delay: 4}
+
+  tail_spikes:           # 323 꼬리 가시 — 꼬리를 휘두르고 가시가 세 번 연속 땅에 꽂힘
+    cast:
+      - {sound: entity.player.attack.sweep, volume: 0.45, pitch: 1.1, delay: 0}
+      - {sound: block.pointed_dripstone.fall, volume: 0.4, pitch: 1.0, delay: 3}
+    hit:
+      - {sound: block.pointed_dripstone.land, volume: 0.6, pitch: 1.0, delay: 0}
+      - {sound: block.pointed_dripstone.land, volume: 0.55, pitch: 1.15, delay: 5}
+      - {sound: block.pointed_dripstone.land, volume: 0.5, pitch: 1.3, delay: 10}
+      - {sound: block.gravel.hit, volume: 0.3, pitch: 1.1, delay: 1}
+
+  # ===================== light (41) =====================
+  guiding_star:            # 132 길잡이 별 — 머리 위에 작은 별이 '딩' 하고 켜지는 조용한 안내음
+    cast:
+      - {sound: block.note_block.chime, volume: 0.4, pitch: 1.6, delay: 0}
+      - {sound: block.amethyst_block.chime, volume: 0.35, pitch: 1.8, delay: 3}
+    end:
+      - {sound: block.note_block.chime, volume: 0.3, pitch: 1.2, delay: 0}
+      - {sound: block.amethyst_cluster.step, volume: 0.3, pitch: 1.5, delay: 2}
+
+  minor_heal:              # 133 작은 치유 — 몸에 따스한 빛이 스며드는 부드러운 반짝임
+    cast:
+      - {sound: block.amethyst_block.resonate, volume: 0.4, pitch: 1.6, delay: 0}
+      - {sound: entity.experience_orb.pickup, volume: 0.3, pitch: 1.4, delay: 3}
+    hit:
+      - {sound: block.note_block.chime, volume: 0.35, pitch: 1.3, delay: 0}
+
+  spatial_leap:            # 135 공간 도약 — 발밑에 지점을 새기는 묵직한 앵커 각인음
+    cast:
+      - {sound: block.respawn_anchor.set_spawn, volume: 0.5, pitch: 1.3, delay: 0}
+      - {sound: block.end_portal_frame.fill, volume: 0.5, pitch: 1.2, delay: 3}
+      - {sound: block.amethyst_block.resonate, volume: 0.4, pitch: 1.5, delay: 8}
+
+  true_sight:              # 137 진실의 눈 — 시야가 '쨍' 하고 열리는 망원경+수정 공명
+    cast:
+      - {sound: item.spyglass.use, volume: 0.6, pitch: 1.2, delay: 0}
+      - {sound: entity.illusioner.prepare_blindness, volume: 0.35, pitch: 1.8, delay: 2}
+      - {sound: block.amethyst_block.resonate, volume: 0.5, pitch: 1.3, delay: 6}
+    end:
+      - {sound: item.spyglass.stop_using, volume: 0.5, pitch: 1.1, delay: 0}
+      - {sound: block.amethyst_cluster.step, volume: 0.3, pitch: 1.4, delay: 2}
+
+  protective_ward:         # 138 보호 결계 — 빛의 돔이 웅 솟는 신호기 + 방패 각
+    cast:
+      - {sound: block.beacon.power_select, volume: 0.5, pitch: 1.4, delay: 0}
+      - {sound: item.armor.equip_gold, volume: 0.6, pitch: 1.2, delay: 2}
+      - {sound: block.amethyst_block.resonate, volume: 0.4, pitch: 1.6, delay: 5}
+    hit:
+      - {sound: item.shield.block, volume: 0.5, pitch: 1.5, delay: 0}
+      - {sound: block.amethyst_cluster.hit, volume: 0.45, pitch: 1.7, delay: 1}
+    end:
+      - {sound: block.beacon.deactivate, volume: 0.4, pitch: 1.5, delay: 0}
+      - {sound: block.amethyst_cluster.break, volume: 0.35, pitch: 1.6, delay: 2}
+
+  constellation_blessing:  # 139 성좌의 가호 — 별자리가 하나씩 이어지듯 올라가는 차임 아르페지오
+    cast:
+      - {sound: block.beacon.activate, volume: 0.5, pitch: 1.5, delay: 0}
+      - {sound: block.note_block.chime, volume: 0.45, pitch: 1.19, delay: 3}
+      - {sound: block.note_block.chime, volume: 0.45, pitch: 1.5, delay: 6}
+      - {sound: block.note_block.chime, volume: 0.45, pitch: 1.78, delay: 9}
+    hit:
+      - {sound: entity.experience_orb.pickup, volume: 0.4, pitch: 1.2, delay: 0}
+      - {sound: block.amethyst_block.chime, volume: 0.4, pitch: 1.4, delay: 2}
+    end:
+      - {sound: block.note_block.chime, volume: 0.3, pitch: 1.0, delay: 0}
+      - {sound: block.amethyst_cluster.step, volume: 0.3, pitch: 1.3, delay: 2}
+
+  arcane_imprint:          # 140 마력 각인 — 곡괭이에 문양을 새기는 대장간 + 마법 울림
+    cast:
+      - {sound: block.smithing_table.use, volume: 0.5, pitch: 1.3, delay: 0}
+      - {sound: block.enchantment_table.use, volume: 0.6, pitch: 1.2, delay: 3}
+      - {sound: block.amethyst_block.chime, volume: 0.45, pitch: 1.6, delay: 8}
+    end:
+      - {sound: block.grindstone.use, volume: 0.3, pitch: 1.6, delay: 0}
+      - {sound: block.amethyst_cluster.step, volume: 0.3, pitch: 1.2, delay: 2}
+
+  dawn_ritual:             # 141 여명의 의식 — 새벽 종이 울리며 저주가 씻겨나가는 궁극 정화
+    cast:
+      - {sound: block.bell.use, volume: 0.7, pitch: 1.2, delay: 0}
+      - {sound: block.beacon.activate, volume: 0.6, pitch: 1.3, delay: 4}
+      - {sound: block.bell.resonate, volume: 0.45, pitch: 1.4, delay: 10}
+      - {sound: entity.player.levelup, volume: 0.45, pitch: 1.5, delay: 18}
+      - {sound: block.amethyst_block.resonate, volume: 0.5, pitch: 1.7, delay: 26}
+    hit:
+      - {sound: block.beacon.power_select, volume: 0.45, pitch: 1.8, delay: 0}
+      - {sound: block.amethyst_block.chime, volume: 0.5, pitch: 1.3, delay: 2}
+    end:
+      - {sound: block.beacon.deactivate, volume: 0.4, pitch: 1.4, delay: 0}
+      - {sound: block.note_block.chime, volume: 0.3, pitch: 1.0, delay: 3}
+
+  comforting_light:        # 142 위로의 빛 — 동료에게 건네는 포근한 빛 한 줌
+    cast:
+      - {sound: block.amethyst_block.chime, volume: 0.4, pitch: 1.5, delay: 0}
+      - {sound: entity.allay.item_thrown, volume: 0.4, pitch: 1.3, delay: 2}
+    hit:
+      - {sound: entity.experience_orb.pickup, volume: 0.4, pitch: 1.1, delay: 0}
+      - {sound: block.note_block.chime, volume: 0.35, pitch: 1.4, delay: 2}
+    end:
+      - {sound: block.amethyst_cluster.step, volume: 0.3, pitch: 1.3, delay: 0}
+
+  exorcism_flash:          # 143 퇴마의 섬광 — 번쩍이는 성스러운 폭광, 언데드에 지글 타는 소리
+    cast:
+      - {sound: entity.evoker.cast_spell, volume: 0.6, pitch: 1.6, delay: 0}
+      - {sound: entity.firework_rocket.blast, volume: 0.6, pitch: 1.4, delay: 3}
+      - {sound: block.bell.use, volume: 0.5, pitch: 1.6, delay: 4}
+    hit:
+      - {sound: entity.generic.burn, volume: 0.5, pitch: 1.3, delay: 0}
+      - {sound: block.amethyst_block.break, volume: 0.45, pitch: 1.5, delay: 1}
+
+  arcane_mending:          # 144 마력 봉합 — 모루 위 빛이 균열을 꿰매고 새것처럼 '챙'
+    cast:
+      - {sound: block.anvil.use, volume: 0.45, pitch: 1.5, delay: 0}
+      - {sound: block.enchantment_table.use, volume: 0.6, pitch: 1.3, delay: 4}
+      - {sound: block.amethyst_block.resonate, volume: 0.5, pitch: 1.4, delay: 10}
+      - {sound: entity.player.levelup, volume: 0.4, pitch: 1.6, delay: 18}
+
+  companion_return:        # 145 동행 귀환 — 빛에 휩싸여 마을로 사라지는 순간이동
+    cast:
+      - {sound: block.amethyst_block.resonate, volume: 0.5, pitch: 1.4, delay: 0}
+      - {sound: entity.illusioner.mirror_move, volume: 0.5, pitch: 1.3, delay: 6}
+      - {sound: block.note_block.chime, volume: 0.4, pitch: 1.8, delay: 8}
+
+  flawless_moment:         # 146 무결의 순간 — 시간이 멈춘 듯 맑게 울리는 종 + 금빛 갑주
+    cast:
+      - {sound: block.bell.use, volume: 0.6, pitch: 1.8, delay: 0}
+      - {sound: item.armor.equip_netherite, volume: 0.5, pitch: 1.4, delay: 1}
+      - {sound: block.beacon.power_select, volume: 0.5, pitch: 1.7, delay: 3}
+    hit:
+      - {sound: item.shield.block, volume: 0.45, pitch: 1.8, delay: 0}
+      - {sound: block.amethyst_cluster.hit, volume: 0.4, pitch: 1.9, delay: 1}
+    end:
+      - {sound: block.bell.resonate, volume: 0.35, pitch: 1.6, delay: 0}
+      - {sound: block.amethyst_cluster.break, volume: 0.35, pitch: 1.4, delay: 3}
+
+  solar_judgment:          # 147 태양의 심판 — 영창이 쌓이며 별이 이어지고 하늘의 태양 레이저가 내려꽂히는 궁극기
+    cast:
+      - {sound: entity.evoker.prepare_summon, volume: 0.7, pitch: 1.2, delay: 0}
+      - {sound: block.beacon.activate, volume: 0.8, pitch: 0.9, delay: 6}
+      - {sound: block.note_block.chime, volume: 0.6, pitch: 1.0, delay: 14}
+      - {sound: block.note_block.chime, volume: 0.6, pitch: 1.33, delay: 20}
+      - {sound: block.note_block.chime, volume: 0.6, pitch: 1.78, delay: 26}
+      - {sound: block.bell.use, volume: 0.9, pitch: 0.8, delay: 34}
+    hit:
+      - {sound: entity.warden.sonic_boom, volume: 0.5, pitch: 1.6, delay: 0}
+      - {sound: entity.generic.explode, volume: 0.7, pitch: 1.3, delay: 1}
+      - {sound: entity.firework_rocket.large_blast, volume: 0.8, pitch: 0.9, delay: 2}
+      - {sound: block.amethyst_block.resonate, volume: 0.7, pitch: 0.9, delay: 6}
+    end:
+      - {sound: block.beacon.deactivate, volume: 0.8, pitch: 0.8, delay: 0}
+      - {sound: block.bell.resonate, volume: 0.5, pitch: 1.0, delay: 4}
+      - {sound: entity.firework_rocket.twinkle_far, volume: 0.5, pitch: 1.2, delay: 10}
+
+  firefly_mark:            # 148 반딧불 표식 — 작은 빛벌레가 파르르 날아오르는 소리
+    cast:
+      - {sound: entity.allay.ambient_without_item, volume: 0.35, pitch: 1.6, delay: 0}
+      - {sound: block.copper_bulb.turn_on, volume: 0.4, pitch: 1.6, delay: 3}
+      - {sound: entity.firework_rocket.twinkle, volume: 0.25, pitch: 1.8, delay: 6}
+    end:
+      - {sound: block.copper_bulb.turn_off, volume: 0.35, pitch: 1.4, delay: 0}
+      - {sound: entity.allay.item_taken, volume: 0.3, pitch: 1.5, delay: 2}
+
+  rainbow_collar:          # 149 교화 — 일곱 빛 고리가 감기며 마음을 여는 상냥한 주문
+    cast:
+      - {sound: entity.evoker.prepare_wololo, volume: 0.45, pitch: 1.6, delay: 0}
+      - {sound: block.note_block.chime, volume: 0.4, pitch: 1.0, delay: 4}
+      - {sound: block.note_block.chime, volume: 0.4, pitch: 1.26, delay: 7}
+      - {sound: block.note_block.chime, volume: 0.4, pitch: 1.5, delay: 10}
+    hit:
+      - {sound: block.amethyst_block.resonate, volume: 0.45, pitch: 1.5, delay: 0}
+      - {sound: entity.player.levelup, volume: 0.35, pitch: 1.8, delay: 4}
+    end:
+      - {sound: block.note_block.bass, volume: 0.35, pitch: 0.8, delay: 0}
+      - {sound: block.amethyst_cluster.step, volume: 0.3, pitch: 0.9, delay: 2}
+
+  sun_drying:              # 150 햇살 말림 — 볕에 바삭하게 말라가는 가죽, 소박한 생활음
+    cast:
+      - {sound: block.amethyst_block.chime, volume: 0.3, pitch: 1.4, delay: 0}
+      - {sound: block.campfire.crackle, volume: 0.35, pitch: 1.6, delay: 2}
+      - {sound: item.armor.equip_leather, volume: 0.45, pitch: 1.2, delay: 8}
+
+  luminous_copy:           # 151 빛의 필사 — 빛이 펜끝처럼 모였다가 글씨 위치로 날아가 새겨짐
+    cast:
+      - {sound: item.book.page_turn, volume: 0.45, pitch: 1.3, delay: 0}
+      - {sound: block.amethyst_block.chime, volume: 0.35, pitch: 1.7, delay: 2}
+    hit:
+      - {sound: entity.allay.item_thrown, volume: 0.35, pitch: 1.5, delay: 0}
+      - {sound: block.chiseled_bookshelf.insert.enchanted, volume: 0.45, pitch: 1.3, delay: 3}
+    end:
+      - {sound: block.amethyst_cluster.step, volume: 0.3, pitch: 1.6, delay: 0}
+
+  guiding_fletching:       # 152 유도 깃 — 화살에 빛 깃을 다는 날렵한 바람 + 금속 소리
+    cast:
+      - {sound: item.crossbow.loading_end, volume: 0.5, pitch: 1.5, delay: 0}
+      - {sound: entity.illusioner.cast_spell, volume: 0.4, pitch: 1.8, delay: 2}
+      - {sound: block.amethyst_cluster.hit, volume: 0.4, pitch: 1.8, delay: 4}
+    end:
+      - {sound: block.amethyst_cluster.step, volume: 0.3, pitch: 1.5, delay: 0}
+
+  sharing_table:           # 153 나눔 식탁 — 따뜻한 식탁 차림, 동료들의 냠냠 소리
+    cast:
+      - {sound: block.amethyst_block.chime, volume: 0.4, pitch: 1.3, delay: 0}
+      - {sound: entity.allay.item_given, volume: 0.45, pitch: 1.2, delay: 3}
+    hit:
+      - {sound: entity.generic.eat, volume: 0.45, pitch: 1.2, delay: 0}
+      - {sound: entity.player.burp, volume: 0.35, pitch: 1.3, delay: 8}
+
+  summons_letter:          # 154 소환장 — 봉인된 편지를 펼치자 늑대와 고양이가 빛에서 튀어나옴
+    cast:
+      - {sound: item.book.page_turn, volume: 0.5, pitch: 1.1, delay: 0}
+      - {sound: entity.evoker.prepare_summon, volume: 0.45, pitch: 1.5, delay: 2}
+      - {sound: entity.wolf.ambient, volume: 0.5, pitch: 1.2, delay: 10}
+      - {sound: entity.cat.ambient, volume: 0.5, pitch: 1.2, delay: 13}
+    end:
+      - {sound: entity.illusioner.mirror_move, volume: 0.4, pitch: 1.5, delay: 0}
+      - {sound: block.amethyst_cluster.break, volume: 0.35, pitch: 1.5, delay: 2}
+
+  starlight_survey:        # 155 별빛 측량 — 측량하는 짧은 딸깍 + 별빛 핑 (연타 안전)
+    cast:
+      - {sound: ui.cartography_table.take_result, volume: 0.35, pitch: 1.4, delay: 0}
+      - {sound: block.note_block.pling, volume: 0.3, pitch: 1.8, delay: 2}
+
+  luminous_handover:       # 156 빛의 교대 — 우렁찬 섬광 종소리로 적의 시선을 끌어오는 도발
+    cast:
+      - {sound: block.bell.use, volume: 0.8, pitch: 1.0, delay: 0}
+      - {sound: item.armor.equip_iron, volume: 0.5, pitch: 1.1, delay: 1}
+      - {sound: entity.evoker.cast_spell, volume: 0.45, pitch: 1.4, delay: 3}
+    hit:
+      - {sound: block.note_block.bell, volume: 0.4, pitch: 0.9, delay: 0}
+
+  mana_conduit:            # 157 마력 전선 — 사슬에 매달린 마나석이 땅에 솟아 공명, 주우면 흡수
+    cast:
+      - {sound: block.conduit.activate, volume: 0.5, pitch: 1.4, delay: 0}
+      - {sound: block.chain.place, volume: 0.5, pitch: 1.2, delay: 4}
+      - {sound: block.amethyst_block.place, volume: 0.5, pitch: 1.3, delay: 7}
+      - {sound: block.amethyst_block.resonate, volume: 0.4, pitch: 1.5, delay: 12}
+    hit:
+      - {sound: entity.experience_orb.pickup, volume: 0.5, pitch: 1.0, delay: 0}
+      - {sound: block.amethyst_cluster.break, volume: 0.4, pitch: 1.6, delay: 1}
+    end:
+      - {sound: block.conduit.deactivate, volume: 0.4, pitch: 1.4, delay: 0}
+      - {sound: block.chain.break, volume: 0.35, pitch: 1.3, delay: 2}
+
+  merciful_arrow:          # 158 자비의 화살 — 아주 빠른 빛의 화살 '쉭', 맞으면 치유의 차임
+    cast:
+      - {sound: entity.arrow.shoot, volume: 0.6, pitch: 1.8, delay: 0}
+      - {sound: block.amethyst_block.chime, volume: 0.4, pitch: 1.7, delay: 1}
+    hit:
+      - {sound: entity.arrow.hit, volume: 0.4, pitch: 1.6, delay: 0}
+      - {sound: entity.experience_orb.pickup, volume: 0.45, pitch: 1.2, delay: 1}
+      - {sound: block.note_block.chime, volume: 0.35, pitch: 1.5, delay: 3}
+
+  mana_deposit:            # 159 마력 예금 — 마나를 병에 담아 금고에 넣듯 '쪼르륵, 딸깍'
+    cast:
+      - {sound: item.bottle.fill, volume: 0.5, pitch: 1.2, delay: 0}
+      - {sound: block.brewing_stand.brew, volume: 0.4, pitch: 1.4, delay: 4}
+      - {sound: block.vault.insert_item, volume: 0.45, pitch: 1.3, delay: 10}
+      - {sound: block.amethyst_block.chime, volume: 0.4, pitch: 1.6, delay: 13}
+
+  guardian_oath:           # 160 수호자의 서약 — 엄숙한 서약의 종 + 사슬로 이어지는 빛
+    cast:
+      - {sound: block.bell.use, volume: 0.6, pitch: 0.9, delay: 0}
+      - {sound: item.armor.equip_chain, volume: 0.5, pitch: 1.0, delay: 3}
+      - {sound: block.beacon.power_select, volume: 0.45, pitch: 1.2, delay: 6}
+    hit:
+      - {sound: block.chain.hit, volume: 0.45, pitch: 1.2, delay: 0}
+      - {sound: block.amethyst_cluster.hit, volume: 0.4, pitch: 1.4, delay: 1}
+    end:
+      - {sound: block.chain.break, volume: 0.4, pitch: 1.1, delay: 0}
+      - {sound: block.bell.resonate, volume: 0.3, pitch: 1.2, delay: 3}
+
+  starlight_reprise:       # 163 별빛 재현 — 시간을 되감듯 하강·상승하는 별빛 차임 후 장엄한 마무리
+    cast:
+      - {sound: block.end_portal_frame.fill, volume: 0.6, pitch: 1.4, delay: 0}
+      - {sound: block.note_block.chime, volume: 0.5, pitch: 1.78, delay: 4}
+      - {sound: block.note_block.chime, volume: 0.5, pitch: 1.33, delay: 8}
+      - {sound: block.note_block.chime, volume: 0.5, pitch: 2.0, delay: 12}
+      - {sound: block.respawn_anchor.charge, volume: 0.55, pitch: 1.3, delay: 18}
+      - {sound: entity.player.levelup, volume: 0.55, pitch: 1.2, delay: 26}
+
+  constellation_emissary:  # 164 성좌의 대리인 — 작은 별 사역마가 반짝 태어나 치유를 뿌림
+    cast:
+      - {sound: entity.evoker.prepare_summon, volume: 0.45, pitch: 1.8, delay: 0}
+      - {sound: entity.allay.ambient_with_item, volume: 0.45, pitch: 1.4, delay: 6}
+      - {sound: entity.firework_rocket.twinkle, volume: 0.35, pitch: 1.6, delay: 10}
+    hit:
+      - {sound: block.note_block.chime, volume: 0.35, pitch: 1.6, delay: 0}
+      - {sound: entity.experience_orb.pickup, volume: 0.3, pitch: 1.3, delay: 2}
+    end:
+      - {sound: entity.allay.item_taken, volume: 0.35, pitch: 1.3, delay: 0}
+      - {sound: entity.firework_rocket.twinkle_far, volume: 0.3, pitch: 1.4, delay: 4}
+
+  light_beam:              # 244 빛줄기 — 집중된 광선이 웅웅 뻗어나가고 거울에 반사되는 퍼즐 빔
+    cast:
+      - {sound: block.beacon.power_select, volume: 0.5, pitch: 1.6, delay: 0}
+      - {sound: entity.guardian.attack, volume: 0.35, pitch: 1.8, delay: 2}
+      - {sound: block.amethyst_block.resonate, volume: 0.4, pitch: 1.7, delay: 6}
+    hit:
+      - {sound: block.amethyst_cluster.hit, volume: 0.35, pitch: 1.8, delay: 0}
+    end:
+      - {sound: block.beacon.deactivate, volume: 0.4, pitch: 1.8, delay: 0}
+
+  mirror_tune:             # 245 반사 조율 — 멀리서 거울·다이얼이 '끼릭' 90도 도는 짧은 기계음 (연타 안전)
+    cast:
+      - {sound: entity.illusioner.cast_spell, volume: 0.3, pitch: 1.9, delay: 0}
+    hit:
+      - {sound: entity.item_frame.rotate_item, volume: 0.5, pitch: 1.1, delay: 0}
+      - {sound: block.amethyst_cluster.step, volume: 0.35, pitch: 1.6, delay: 1}
+
+  prism_tint:              # 246 프리즘 물들이기 — 수정이 색을 바꾸며 '팅' 울리는 짧은 음 (연타 안전)
+    cast:
+      - {sound: entity.illusioner.cast_spell, volume: 0.3, pitch: 1.7, delay: 0}
+    hit:
+      - {sound: item.dye.use, volume: 0.45, pitch: 1.3, delay: 0}
+      - {sound: block.note_block.iron_xylophone, volume: 0.35, pitch: 1.6, delay: 1}
+
+  domain_stomp:            # 305 영역 선포 — 마력 발굽이 쿵 내리찍어 적을 튕겨 올리는 진동
+    cast:
+      - {sound: entity.evoker.prepare_attack, volume: 0.5, pitch: 1.4, delay: 0}
+      - {sound: block.amethyst_block.resonate, volume: 0.4, pitch: 1.2, delay: 4}
+    hit:
+      - {sound: item.mace.smash_ground, volume: 0.7, pitch: 1.1, delay: 0}
+      - {sound: entity.player.attack.knockback, volume: 0.5, pitch: 1.2, delay: 1}
+      - {sound: block.amethyst_block.break, volume: 0.45, pitch: 1.3, delay: 2}
+
+  seal_circle:             # 306 봉인진 — 진이 그려지는 마법음 후 '철컥' 닫히는 봉인
+    cast:
+      - {sound: entity.illusioner.prepare_mirror, volume: 0.45, pitch: 1.4, delay: 0}
+      - {sound: block.end_portal_frame.fill, volume: 0.4, pitch: 1.6, delay: 4}
+    hit:
+      - {sound: block.vault.close_shutter, volume: 0.6, pitch: 1.2, delay: 0}
+      - {sound: block.chain.place, volume: 0.5, pitch: 1.1, delay: 1}
+      - {sound: block.bell.use, volume: 0.4, pitch: 1.7, delay: 2}
+
+  seal_talismans:          # 307 봉인 부적 — 종이 부적 세 장이 휙휙 날아가 '착' 붙음
+    cast:
+      - {sound: entity.illusioner.cast_spell, volume: 0.4, pitch: 1.6, delay: 0}
+      - {sound: item.book.page_turn, volume: 0.45, pitch: 1.6, delay: 1}
+      - {sound: entity.allay.item_thrown, volume: 0.4, pitch: 1.4, delay: 3}
+    hit:
+      - {sound: item.book.put, volume: 0.45, pitch: 1.5, delay: 0}
+      - {sound: block.amethyst_cluster.hit, volume: 0.35, pitch: 1.7, delay: 1}
+
+  shield_slam:             # 308 방패 내려찍기 — 빛의 방패가 땅을 쾅, 기절시키는 금속 충격
+    cast:
+      - {sound: item.armor.equip_gold, volume: 0.55, pitch: 1.0, delay: 0}
+      - {sound: entity.evoker.prepare_attack, volume: 0.4, pitch: 1.5, delay: 2}
+    hit:
+      - {sound: item.shield.block, volume: 0.7, pitch: 0.8, delay: 0}
+      - {sound: block.anvil.land, volume: 0.35, pitch: 1.4, delay: 0}
+      - {sound: block.bell.use, volume: 0.4, pitch: 1.3, delay: 2}
+
+  chain_arrow:             # 309 사슬 화살 — 금빛 사슬을 끌고 날아가 적을 휘감는 화살
+    cast:
+      - {sound: entity.arrow.shoot, volume: 0.55, pitch: 1.3, delay: 0}
+      - {sound: block.chain.step, volume: 0.45, pitch: 1.3, delay: 1}
+    hit:
+      - {sound: entity.arrow.hit, volume: 0.45, pitch: 1.2, delay: 0}
+      - {sound: item.armor.equip_chain, volume: 0.5, pitch: 1.2, delay: 1}
+      - {sound: block.amethyst_cluster.hit, volume: 0.3, pitch: 1.5, delay: 2}
+
+  # ===================== dark (39) =====================
+  night_sight:            # 165 밤눈 — 눈꺼풀이 열리듯 꽃잎 열림 + 낮은 스컬크 반짝임, 조용한 자기 버프
+    cast:
+      - {sound: block.eyeblossom.open, volume: 0.6, pitch: 1.2, delay: 0}
+      - {sound: block.sculk_sensor.clicking, volume: 0.35, pitch: 1.6, delay: 3}
+      - {sound: block.amethyst_block.chime, volume: 0.4, pitch: 0.8, delay: 6}
+    end:
+      - {sound: block.eyeblossom.close, volume: 0.45, pitch: 1.1, delay: 0}
+
+  shadow_bind:            # 166 그림자 매듭 — 짧은 그림자 휘감김 + 실/사슬 조이는 소리 (저쿨 짧게)
+    cast:
+      - {sound: entity.illusioner.cast_spell, volume: 0.4, pitch: 1.5, delay: 0}
+      - {sound: block.sculk_vein.place, volume: 0.5, pitch: 0.8, delay: 1}
+    hit:
+      - {sound: block.chain.place, volume: 0.55, pitch: 0.7, delay: 0}
+      - {sound: block.sculk.step, volume: 0.45, pitch: 0.6, delay: 2}
+
+  faint_veil:             # 167 옅은 은신 — 몸이 흐려지는 환영술사 숨결 + 사라지는 바람
+    cast:
+      - {sound: entity.illusioner.prepare_mirror, volume: 0.5, pitch: 1.4, delay: 0}
+      - {sound: entity.breeze.idle_air, volume: 0.3, pitch: 1.7, delay: 2}
+      - {sound: block.amethyst_block.resonate, volume: 0.3, pitch: 1.8, delay: 5}
+    end:
+      - {sound: entity.illusioner.mirror_move, volume: 0.45, pitch: 1.3, delay: 0}
+
+  shadow_double:          # 168 그림자 분신 — 거울 분신이 갈라지는 소리 + 그림자 잔향, 끝은 순간 귀환
+    cast:
+      - {sound: entity.illusioner.mirror_move, volume: 0.6, pitch: 0.9, delay: 0}
+      - {sound: block.sculk.spread, volume: 0.45, pitch: 0.8, delay: 2}
+      - {sound: block.respawn_anchor.set_spawn, volume: 0.3, pitch: 1.6, delay: 6}
+    end:
+      - {sound: entity.enderman.teleport, volume: 0.5, pitch: 1.3, delay: 0}
+      - {sound: particle.soul_escape, volume: 0.6, pitch: 0.9, delay: 2}
+
+  echo_reading:           # 169 잔향 읽기 — 책장 넘김 위로 속삭이는 소울 잔향과 스컬크 청취
+    cast:
+      - {sound: item.book.page_turn, volume: 0.6, pitch: 0.8, delay: 0}
+      - {sound: block.sculk_sensor.clicking, volume: 0.35, pitch: 1.2, delay: 2}
+      - {sound: particle.soul_escape, volume: 0.7, pitch: 1.3, delay: 5}
+      - {sound: block.amethyst_block.resonate, volume: 0.3, pitch: 0.7, delay: 10}
+    hit:
+      - {sound: block.enchantment_table.use, volume: 0.45, pitch: 0.7, delay: 0}
+      - {sound: block.chiseled_bookshelf.pickup.enchanted, volume: 0.5, pitch: 1.1, delay: 3}
+
+  sealing_thread:         # 170 봉인의 실 — 실 걸리는 트립와이어 + 잠긴 상자 철컥
+    cast:
+      - {sound: block.tripwire.attach, volume: 0.55, pitch: 0.8, delay: 0}
+      - {sound: block.sculk_vein.place, volume: 0.45, pitch: 1.1, delay: 2}
+    hit:
+      - {sound: block.chest.locked, volume: 0.6, pitch: 0.8, delay: 0}
+      - {sound: item.lodestone_compass.lock, volume: 0.5, pitch: 0.7, delay: 3}
+
+  shadow_exchange:        # 172 그림자 교환 — 두 번 겹치는 텔레포트(낮음·높음)로 위치가 뒤바뀌는 느낌
+    cast:
+      - {sound: entity.illusioner.cast_spell, volume: 0.5, pitch: 0.8, delay: 0}
+      - {sound: entity.enderman.teleport, volume: 0.6, pitch: 0.7, delay: 4}
+      - {sound: entity.shulker.teleport, volume: 0.55, pitch: 1.3, delay: 6}
+    hit:
+      - {sound: item.chorus_fruit.teleport, volume: 0.5, pitch: 1.1, delay: 0}
+      - {sound: particle.soul_escape, volume: 0.6, pitch: 0.8, delay: 2}
+
+  forbidden_contract:     # 173 금서의 계약 — 무거운 서약: 금서 덮임, 리스폰 앵커 충전, 심장 박동 (대쿨)
+    cast:
+      - {sound: block.chiseled_bookshelf.insert.enchanted, volume: 0.7, pitch: 0.6, delay: 0}
+      - {sound: block.respawn_anchor.charge, volume: 0.7, pitch: 0.6, delay: 4}
+      - {sound: entity.warden.heartbeat, volume: 0.8, pitch: 0.9, delay: 12}
+      - {sound: block.sculk_catalyst.bloom, volume: 0.6, pitch: 0.7, delay: 18}
+      - {sound: block.respawn_anchor.set_spawn, volume: 0.45, pitch: 0.7, delay: 28}
+    end:
+      - {sound: block.respawn_anchor.deplete, volume: 0.6, pitch: 0.8, delay: 0}
+      - {sound: block.beacon.deactivate, volume: 0.45, pitch: 0.6, delay: 4}
+
+  life_siphon:            # 174 생명 갈취 — 암흑지대가 퍼지며 생기를 빨아들이는 소울 흡입
+    cast:
+      - {sound: block.sculk_catalyst.bloom, volume: 0.6, pitch: 0.9, delay: 0}
+      - {sound: block.soul_sand.place, volume: 0.5, pitch: 0.7, delay: 2}
+      - {sound: entity.breeze.inhale, volume: 0.35, pitch: 0.6, delay: 4}
+    hit:
+      - {sound: particle.soul_escape, volume: 0.7, pitch: 1.0, delay: 0}
+      - {sound: entity.experience_orb.pickup, volume: 0.25, pitch: 0.6, delay: 2}
+    end:
+      - {sound: block.sculk.break, volume: 0.45, pitch: 0.8, delay: 0}
+
+  drowsiness:             # 175 졸음 — 둥실 떠가는 어둠 구체 + 감기는 눈꽃, 달라붙으면 끈적한 속박
+    cast:
+      - {sound: entity.allay.item_thrown, volume: 0.45, pitch: 0.6, delay: 0}
+      - {sound: block.eyeblossom.close_long, volume: 0.45, pitch: 0.9, delay: 3}
+      - {sound: block.sculk_sensor.clicking, volume: 0.3, pitch: 0.8, delay: 6}
+    hit:
+      - {sound: block.honey_block.slide, volume: 0.55, pitch: 0.6, delay: 0}
+      - {sound: entity.phantom.ambient, volume: 0.3, pitch: 0.6, delay: 3}
+    end:
+      - {sound: block.sculk_sensor.clicking_stop, volume: 0.4, pitch: 0.9, delay: 0}
+
+  misfortune_whisper:     # 176 나약함의 저주 — 마녀의 낮은 중얼거림 + 저주가 스며드는 위더 해골 숨
+    cast:
+      - {sound: entity.witch.ambient, volume: 0.45, pitch: 0.6, delay: 0}
+      - {sound: entity.evoker.prepare_wololo, volume: 0.4, pitch: 0.7, delay: 2}
+    hit:
+      - {sound: entity.wither_skeleton.ambient, volume: 0.4, pitch: 0.6, delay: 0}
+      - {sound: block.sculk_vein.break, volume: 0.5, pitch: 0.7, delay: 2}
+      - {sound: particle.soul_escape, volume: 0.5, pitch: 0.7, delay: 5}
+
+  hungry_shadow:          # 177 굶주린 그림자 — 등록 시 꼬르륵 그림자, 처치 때마다 작은 한입
+    cast:
+      - {sound: block.sculk.charge, volume: 0.4, pitch: 0.8, delay: 0}
+      - {sound: entity.generic.eat, volume: 0.35, pitch: 0.6, delay: 3}
+    hit:
+      - {sound: entity.phantom.bite, volume: 0.3, pitch: 0.8, delay: 0}
+      - {sound: entity.player.burp, volume: 0.2, pitch: 0.6, delay: 4}
+
+  curse_transfer:         # 178 저주의 전가 — 저주를 떼어 내 사방으로 흩뿌리는 소울 산개
+    cast:
+      - {sound: entity.evoker.cast_spell, volume: 0.5, pitch: 0.8, delay: 0}
+      - {sound: block.sculk_shrieker.hit, volume: 0.5, pitch: 0.7, delay: 2}
+      - {sound: block.sculk.spread, volume: 0.5, pitch: 0.9, delay: 4}
+    hit:
+      - {sound: particle.soul_escape, volume: 0.6, pitch: 1.2, delay: 0}
+      - {sound: entity.wither_skeleton.hurt, volume: 0.25, pitch: 1.4, delay: 1}
+
+  discord:                # 179 마인드컨트롤 — 정신을 비트는 워로로 + 벡스 웃음, 끝나면 정신이 돌아오는 딸깍
+    cast:
+      - {sound: entity.evoker.prepare_wololo, volume: 0.55, pitch: 0.8, delay: 0}
+      - {sound: entity.illusioner.prepare_blindness, volume: 0.45, pitch: 1.1, delay: 3}
+    hit:
+      - {sound: entity.vex.ambient, volume: 0.45, pitch: 0.8, delay: 0}
+      - {sound: entity.zombie_villager.converted, volume: 0.25, pitch: 1.5, delay: 3}
+    end:
+      - {sound: entity.illusioner.mirror_move, volume: 0.4, pitch: 0.7, delay: 0}
+
+  night_chain:            # 180 밤의 사슬 — 무거운 사슬이 땅에 내려앉아 묶이고, 피해가 사슬로 울림
+    cast:
+      - {sound: item.armor.equip_chain, volume: 0.7, pitch: 0.6, delay: 0}
+      - {sound: block.chain.fall, volume: 0.6, pitch: 0.6, delay: 3}
+      - {sound: block.sculk_shrieker.hit, volume: 0.5, pitch: 0.6, delay: 6}
+      - {sound: block.respawn_anchor.charge, volume: 0.45, pitch: 0.8, delay: 10}
+    hit:
+      - {sound: block.chain.hit, volume: 0.5, pitch: 0.8, delay: 0}
+      - {sound: block.chain.step, volume: 0.35, pitch: 1.2, delay: 2}
+    end:
+      - {sound: block.chain.break, volume: 0.6, pitch: 0.7, delay: 0}
+      - {sound: particle.soul_escape, volume: 0.5, pitch: 0.8, delay: 3}
+
+  pain_deferral:          # 181 고통 유예 — 고통을 붙잡아 두는 앵커 + 느린 심장, 끝나면 묵직한 방출
+    cast:
+      - {sound: block.respawn_anchor.charge, volume: 0.6, pitch: 0.7, delay: 0}
+      - {sound: entity.warden.heartbeat, volume: 0.6, pitch: 0.8, delay: 4}
+      - {sound: block.sculk_sensor.clicking, volume: 0.35, pitch: 0.7, delay: 8}
+    end:
+      - {sound: block.respawn_anchor.deplete, volume: 0.6, pitch: 0.6, delay: 0}
+      - {sound: entity.warden.heartbeat, volume: 0.5, pitch: 1.2, delay: 4}
+
+  black_harvest:          # 182 검은 수확 — 낮게 깔린 낫 베기 + 영혼 흩날림, 침묵의 스컬크 삼킴
+    cast:
+      - {sound: entity.player.attack.sweep, volume: 0.7, pitch: 0.6, delay: 0}
+      - {sound: entity.wither_skeleton.ambient, volume: 0.35, pitch: 0.7, delay: 2}
+    hit:
+      - {sound: entity.player.attack.strong, volume: 0.55, pitch: 0.7, delay: 0}
+      - {sound: block.sculk.break, volume: 0.5, pitch: 0.7, delay: 1}
+      - {sound: particle.soul_escape, volume: 0.6, pitch: 0.9, delay: 3}
+
+  ink_fingertip:          # 183 먹물 손끝 — 손끝에서 먹물이 번지는 잉크 + 염료 사락, 조용한 생활 마법
+    cast:
+      - {sound: item.ink_sac.use, volume: 0.6, pitch: 0.9, delay: 0}
+      - {sound: item.dye.use, volume: 0.5, pitch: 1.2, delay: 3}
+      - {sound: entity.squid.squirt, volume: 0.3, pitch: 1.4, delay: 5}
+      - {sound: entity.item.pickup, volume: 0.35, pitch: 0.8, delay: 9}
+
+  shadow_nail:            # 184 그림자 못 — 그림자 못을 박는 망치질, 멀어지면 저주가 폭발
+    cast:
+      - {sound: block.anvil.place, volume: 0.35, pitch: 1.6, delay: 0}
+      - {sound: block.sculk_shrieker.hit, volume: 0.5, pitch: 0.7, delay: 2}
+    hit:
+      - {sound: item.trident.hit, volume: 0.6, pitch: 0.6, delay: 0}
+      - {sound: block.sculk_vein.place, volume: 0.5, pitch: 0.6, delay: 2}
+      - {sound: entity.warden.heartbeat, volume: 0.45, pitch: 1.1, delay: 6}
+    end:
+      - {sound: entity.warden.attack_impact, volume: 0.6, pitch: 0.8, delay: 0}
+      - {sound: particle.soul_escape, volume: 0.7, pitch: 0.7, delay: 3}
+
+  night_lullaby:          # 185 밤의 자장가 — 낮은 플루트 한 음 위로 팬텀 세 마리가 날개를 펼침
+    cast:
+      - {sound: block.note_block.flute, volume: 0.45, pitch: 0.7, delay: 0}
+      - {sound: entity.phantom.flap, volume: 0.6, pitch: 0.9, delay: 4}
+      - {sound: entity.phantom.ambient, volume: 0.45, pitch: 1.1, delay: 8}
+      - {sound: entity.phantom.flap, volume: 0.5, pitch: 1.2, delay: 12}
+    hit:
+      - {sound: entity.phantom.bite, volume: 0.45, pitch: 1.0, delay: 0}
+      - {sound: entity.phantom.swoop, volume: 0.35, pitch: 1.2, delay: 1}
+    end:
+      - {sound: entity.phantom.death, volume: 0.35, pitch: 1.4, delay: 0}
+      - {sound: particle.soul_escape, volume: 0.5, pitch: 1.1, delay: 3}
+
+  loosen_grasp:           # 186 손아귀 풀기 — 손가락을 펴게 하는 툭 + 아이템 떨어지는 소리
+    cast:
+      - {sound: entity.illusioner.cast_spell, volume: 0.45, pitch: 1.3, delay: 0}
+      - {sound: block.sculk_vein.break, volume: 0.4, pitch: 1.2, delay: 2}
+    hit:
+      - {sound: item.bundle.drop_contents, volume: 0.5, pitch: 0.8, delay: 0}
+      - {sound: block.sculk.hit, volume: 0.4, pitch: 0.7, delay: 2}
+
+  healing_seal:           # 188 회복 봉인 — 생명력을 걸어 잠그는 비콘 소등 + 금속 자물쇠
+    cast:
+      - {sound: entity.evoker.prepare_attack, volume: 0.45, pitch: 0.9, delay: 0}
+      - {sound: block.sculk_vein.place, volume: 0.45, pitch: 0.9, delay: 2}
+    hit:
+      - {sound: block.beacon.deactivate, volume: 0.45, pitch: 1.4, delay: 0}
+      - {sound: block.iron_trapdoor.close, volume: 0.45, pitch: 0.7, delay: 2}
+    end:
+      - {sound: block.iron_trapdoor.open, volume: 0.35, pitch: 1.2, delay: 0}
+
+  shadow_scales:          # 189 어둠의 저울 — 저울판이 기우는 금속 딸깍 + 무게만큼 터지는 어둠 폭발
+    cast:
+      - {sound: block.chain.place, volume: 0.5, pitch: 1.3, delay: 0}
+      - {sound: block.metal_pressure_plate.click_on, volume: 0.45, pitch: 0.7, delay: 3}
+      - {sound: block.sculk_shrieker.hit, volume: 0.45, pitch: 0.6, delay: 5}
+    hit:
+      - {sound: entity.warden.attack_impact, volume: 0.6, pitch: 0.9, delay: 0}
+      - {sound: block.sculk_catalyst.bloom, volume: 0.55, pitch: 0.6, delay: 2}
+      - {sound: particle.soul_escape, volume: 0.5, pitch: 0.7, delay: 4}
+
+  warning_thread:         # 190 경고의 실 — 결계 실이 당겨지며 울리는 신전 진동, 갇힌 적은 실에 튕김
+    cast:
+      - {sound: block.tripwire.attach, volume: 0.6, pitch: 0.6, delay: 0}
+      - {sound: block.trial_spawner.ominous_activate, volume: 0.5, pitch: 0.8, delay: 3}
+      - {sound: block.amethyst_block.resonate, volume: 0.45, pitch: 0.6, delay: 8}
+    hit:
+      - {sound: block.tripwire.click_on, volume: 0.5, pitch: 0.7, delay: 0}
+      - {sound: block.sculk_sensor.hit, volume: 0.4, pitch: 0.8, delay: 1}
+    end:
+      - {sound: block.tripwire.detach, volume: 0.5, pitch: 0.8, delay: 0}
+      - {sound: block.trial_spawner.close_shutter, volume: 0.4, pitch: 0.8, delay: 3}
+
+  wound_accounting:       # 192 상처 회계 — 먹물 덩어리를 철썩 던지고, 맞으면 장부에 찍듯 불길한 디버프
+    cast:
+      - {sound: entity.witch.throw, volume: 0.55, pitch: 0.8, delay: 0}
+      - {sound: entity.squid.squirt, volume: 0.45, pitch: 0.9, delay: 1}
+    hit:
+      - {sound: block.slime_block.hit, volume: 0.55, pitch: 0.6, delay: 0}
+      - {sound: item.ink_sac.use, volume: 0.5, pitch: 0.7, delay: 1}
+      - {sound: ui.cartography_table.take_result, volume: 0.35, pitch: 0.6, delay: 4}
+
+  inverted_offering:      # 193 뒤집힌 공물 — 등록 시 제단 점화, 처치 때 전리품이 제물로 뒤집히며 경험치 반짝
+    cast:
+      - {sound: block.respawn_anchor.charge, volume: 0.4, pitch: 1.2, delay: 0}
+      - {sound: block.candle.extinguish, volume: 0.4, pitch: 0.8, delay: 3}
+    hit:
+      - {sound: block.soul_sand.break, volume: 0.35, pitch: 0.9, delay: 0}
+      - {sound: entity.experience_orb.pickup, volume: 0.3, pitch: 0.7, delay: 2}
+
+  ghost_tool:             # 194 유령 도구 — 반투명 도구가 떠오르는 알레이 유령음 + 비컨 기동, 끝나면 사라짐
+    cast:
+      - {sound: entity.vex.charge, volume: 0.4, pitch: 0.8, delay: 0}
+      - {sound: item.armor.equip_generic, volume: 0.5, pitch: 0.7, delay: 2}
+      - {sound: block.beacon.power_select, volume: 0.35, pitch: 1.4, delay: 5}
+    end:
+      - {sound: entity.vex.death, volume: 0.3, pitch: 1.2, delay: 0}
+      - {sound: particle.soul_escape, volume: 0.45, pitch: 1.2, delay: 2}
+
+  bell_of_fear:           # 195 공포의 종 — 낮게 울린 종 + 길게 번지는 공명, 겁먹은 몬스터의 떨림
+    cast:
+      - {sound: block.bell.use, volume: 0.8, pitch: 0.55, delay: 0}
+      - {sound: block.bell.resonate, volume: 0.5, pitch: 0.6, delay: 4}
+      - {sound: block.sculk_shrieker.hit, volume: 0.45, pitch: 0.6, delay: 8}
+    hit:
+      - {sound: entity.warden.nearby_close, volume: 0.4, pitch: 1.0, delay: 0}
+      - {sound: block.sculk_sensor.clicking, volume: 0.35, pitch: 1.3, delay: 2}
+
+  eclipse_eye:            # 196 월식의 눈 — 궁극기: 5초 영창이 차오르다 달이 가려지는 낮은 공명과 포효
+    cast:
+      - {sound: block.trial_spawner.ominous_activate, volume: 0.8, pitch: 0.6, delay: 0}
+      - {sound: block.respawn_anchor.charge, volume: 0.8, pitch: 0.5, delay: 8}
+      - {sound: block.eyeblossom.open_long, volume: 0.8, pitch: 0.7, delay: 16}
+      - {sound: block.end_portal.spawn, volume: 0.45, pitch: 0.6, delay: 26}
+      - {sound: entity.warden.sonic_charge, volume: 0.5, pitch: 0.7, delay: 30}
+      - {sound: block.amethyst_block.resonate, volume: 0.8, pitch: 0.5, delay: 38}
+    hit:
+      - {sound: block.amethyst_cluster.hit, volume: 0.5, pitch: 0.7, delay: 0}
+      - {sound: entity.shulker_bullet.hit, volume: 0.4, pitch: 0.8, delay: 1}
+    end:
+      - {sound: block.eyeblossom.close_long, volume: 0.7, pitch: 0.7, delay: 0}
+      - {sound: block.beacon.deactivate, volume: 0.6, pitch: 0.5, delay: 6}
+      - {sound: particle.soul_escape, volume: 0.8, pitch: 0.6, delay: 12}
+
+  void_maw:               # 198 공허의 입 — 궁극기: 땅이 울리고 공허의 생물이 솟아 덥석 삼킴
+    cast:
+      - {sound: entity.warden.dig, volume: 0.6, pitch: 0.7, delay: 0}
+      - {sound: block.sculk_shrieker.hit, volume: 0.6, pitch: 0.5, delay: 6}
+      - {sound: entity.warden.heartbeat, volume: 0.7, pitch: 0.7, delay: 14}
+      - {sound: block.sculk_catalyst.bloom, volume: 0.8, pitch: 0.5, delay: 22}
+      - {sound: entity.ravager.roar, volume: 0.45, pitch: 0.55, delay: 28}
+    hit:
+      - {sound: entity.evoker_fangs.attack, volume: 0.9, pitch: 0.55, delay: 0}
+      - {sound: entity.warden.attack_impact, volume: 0.8, pitch: 0.7, delay: 1}
+      - {sound: entity.phantom.bite, volume: 0.6, pitch: 0.5, delay: 3}
+      - {sound: particle.soul_escape, volume: 0.8, pitch: 0.6, delay: 8}
+
+  hushed_soles:           # 210 고요한 밑창 — 양털 밑창 + 스컬크 감지기가 멎는 조용한 클릭
+    cast:
+      - {sound: block.wool.place, volume: 0.5, pitch: 0.8, delay: 0}
+      - {sound: block.sculk_sensor.clicking_stop, volume: 0.45, pitch: 1.1, delay: 3}
+      - {sound: block.moss_carpet.step, volume: 0.35, pitch: 0.7, delay: 6}
+    end:
+      - {sound: block.sculk_sensor.clicking, volume: 0.35, pitch: 0.9, delay: 0}
+
+  statue_wake:            # 247 석상 깨우기 — 돌이 갈리며 고개를 돌리는 크리킹 꿈틀 (저쿨 짧게)
+    cast:
+      - {sound: entity.creaking.unfreeze, volume: 0.4, pitch: 0.9, delay: 0}
+      - {sound: block.grindstone.use, volume: 0.35, pitch: 0.6, delay: 2}
+    hit:
+      - {sound: block.stone.place, volume: 0.45, pitch: 0.7, delay: 0}
+
+  rewind:                 # 248 되감기 — 시곗바늘 역회전 같은 딸깍 연타 + 되돌아오는 트라이던트 귀환음
+    cast:
+      - {sound: block.comparator.click, volume: 0.4, pitch: 1.4, delay: 0}
+      - {sound: block.comparator.click, volume: 0.35, pitch: 1.1, delay: 3}
+      - {sound: item.trident.return, volume: 0.4, pitch: 0.7, delay: 5}
+    hit:
+      - {sound: block.piston.contract, volume: 0.35, pitch: 1.3, delay: 0}
+      - {sound: block.amethyst_block.chime, volume: 0.35, pitch: 0.9, delay: 2}
+
+  dimension_mark:         # 250 차원 표식 — 엔드 포털 틀에 눈 박히듯 각인, 연결되면 차원 공명
+    cast:
+      - {sound: block.end_portal_frame.fill, volume: 0.45, pitch: 0.9, delay: 0}
+      - {sound: block.sculk_vein.place, volume: 0.35, pitch: 1.3, delay: 2}
+    hit:
+      - {sound: block.respawn_anchor.set_spawn, volume: 0.4, pitch: 1.3, delay: 0}
+      - {sound: entity.shulker.teleport, volume: 0.35, pitch: 1.1, delay: 3}
+
+  mana_drain:             # 310 마나 흡수 — 바람이 거꾸로 빨려 들어가는 흡입 + 타들어 가는 마나
+    cast:
+      - {sound: entity.breeze.inhale, volume: 0.55, pitch: 0.6, delay: 0}
+      - {sound: block.respawn_anchor.charge, volume: 0.4, pitch: 1.4, delay: 3}
+      - {sound: block.sculk.charge, volume: 0.45, pitch: 0.8, delay: 6}
+    hit:
+      - {sound: block.beacon.deactivate, volume: 0.35, pitch: 1.6, delay: 0}
+      - {sound: entity.generic.burn, volume: 0.3, pitch: 0.6, delay: 1}
+      - {sound: particle.soul_escape, volume: 0.5, pitch: 1.3, delay: 3}
+
+  soul_scythe:            # 311 영혼 낫 — 크게 휘두르는 낮은 베기 + 위더 해골 숨, 맞으면 영혼이 찢김
+    cast:
+      - {sound: entity.player.attack.sweep, volume: 0.65, pitch: 0.75, delay: 0}
+      - {sound: block.soul_soil.step, volume: 0.4, pitch: 0.7, delay: 1}
+    hit:
+      - {sound: entity.player.attack.crit, volume: 0.45, pitch: 0.8, delay: 0}
+      - {sound: particle.soul_escape, volume: 0.6, pitch: 1.0, delay: 1}
+
+  oblivion_orbs:          # 312 망각의 탄환 — 천천히 떠가는 셜커 탄 세 발, 짧고 가벼운 묵음 히트
+    cast:
+      - {sound: entity.shulker.shoot, volume: 0.45, pitch: 0.7, delay: 0}
+      - {sound: entity.allay.item_thrown, volume: 0.3, pitch: 0.6, delay: 3}
+    hit:
+      - {sound: entity.shulker_bullet.hit, volume: 0.35, pitch: 0.7, delay: 0}
+      - {sound: block.sculk.step, volume: 0.3, pitch: 0.8, delay: 1}
+
+  bone_grasp:             # 313 뼈의 손아귀 — 땅에서 뼈가 솟는 덜그럭 + 끌어당기는 낚싯줄
+    cast:
+      - {sound: block.bone_block.place, volume: 0.55, pitch: 0.6, delay: 0}
+      - {sound: entity.bogged.ambient, volume: 0.35, pitch: 0.7, delay: 2}
+    hit:
+      - {sound: block.bone_block.break, volume: 0.55, pitch: 0.8, delay: 0}
+      - {sound: entity.fishing_bobber.retrieve, volume: 0.45, pitch: 0.6, delay: 2}
+      - {sound: block.soul_sand.step, volume: 0.4, pitch: 0.7, delay: 4}
+
+  shadow_leap:            # 314 그림자 도약 — 그림자로 꺼졌다 대상 옆에 튀어나와 휘두름
+    cast:
+      - {sound: entity.enderman.teleport, volume: 0.5, pitch: 1.1, delay: 0}
+      - {sound: particle.soul_escape, volume: 0.5, pitch: 1.2, delay: 1}
+    hit:
+      - {sound: entity.player.attack.sweep, volume: 0.5, pitch: 0.9, delay: 0}
+      - {sound: block.sculk.hit, volume: 0.45, pitch: 0.7, delay: 1}
+

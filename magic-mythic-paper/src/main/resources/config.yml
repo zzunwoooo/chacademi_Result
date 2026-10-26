@@ -1,0 +1,174 @@
+# Combat targets: all living gameplay entities except NPCs and armor stands.
+# Legacy pvp-worlds/excluded-tags/excluded-mythic-prefixes are intentionally ignored.
+# WorldGuard magic, PvP and invincibility protections still apply.
+boss-tags: [chacademia_boss]
+boss-mythic-prefixes: [BOSS_]
+boss-knockback-multiplier: 0.3
+
+# 전투 스펙 (오너 승인 2026-10-26, docs/plans/combat-spec.md) — 플레이어가 플레이어를 마법으로 맞힐 때 (+ mob-magic-armor: 몹이 쓰는 마법). 플레이어가 몹을 맞히는 피해는 그대로.
+pvp:
+  enabled: true
+  # 마법 방어 = min(magic-armor-cap, (방어력 + 보호 인첸트 레벨 합(최대 protection-epf-max)) × magic-armor-per-point).
+  # 바닐라 방어·방어 강도·보호 인첸트 대신 이 값만 씀. 예: 철 세트 15 → 18.75% · 다이아+보호 II~III 30 → 37.5% · 네더라이트+보호 IV 36 → 45%.
+  magic-armor-cap: 0.45
+  magic-armor-per-point: 0.0125
+  protection-epf-max: 20
+  # 저항 효과: 단계당 20%, 합해서 이 값까지 (마법 방어 뒤에 곱함).
+  resistance-cap: 0.20
+  # 마법이 PvP 배율(spell-runtime.yml pvp-base/pvp-ratio → pvp_scale)을 안 넘겼을 때(패시브 추가타·테스트 시전 등) 곱하는 값.
+  fallback-scale: 0.13
+  # 다단 히트가 바닐라 무적 시간(0.5초)에 먹히지 않게 PvP 마법 타격 직전에 무적 시간을 0으로.
+  reset-invulnerability: true
+  # 몹 스펙 #109 (2026-10-26): 몹이 플레이어에게 쓰는 마법(몹 스킬 chatelegraph·chamobshot)도 위 마법 방어·저항으로 줄임 (예전: 바닐라 방어 → 다이아+보호면 80% 넘게 막힘).
+  # PvP 배율·무적 시간 초기화는 없음. 몹 근접(미몹 Damage)은 바닐라 방어 그대로.
+  mob-magic-armor: true
+
+# 개별 기능 ----------------------------------------------------------------
+# 만년빙옥: 갇힌 적이 최대 체력의 이 비율 이상 피해를 받으면 풀림
+prison-break-damage-ratio: 0.2
+# 허공 디딤 발판 블록 (보이는 연출은 PortableVFX 담당이라 기본은 투명 방벽)
+platform-material: BARRIER
+# 동시에 존재할 수 있는 개수 상한 (서버 보호)
+limits:
+  channels: 64
+  summons: 256
+  bolts: 512
+  zones: 256
+  marks: 512
+  novas: 4096      # 신규 마법(325~387) 지연·루프 틱 (리뷰 2026-10-26: 지연 작업도 같이 세므로 넉넉히. 한도 넘으면 지연 타격 누락)
+# 원소 반응 ----------------------------------------------------------------
+# 마법(chahit/chabolt/chazone, element= 값)이 맞으면 원소 표식이 남고, 표식이 있는 동안 다른 원소로 맞히면 반응.
+# 반응은 적에게 거는 간단한 효과 하나씩 (무지개만 아군 회복). 제어는 1.5초 이하, 보스에게는 제어 없음.
+# 매 틱 도는 작업 없음: 적중할 때만 계산. 아이콘은 MagicCodex 모드가 그림 (모드 없는 클라이언트는 패킷 안 받음).
+reactions:
+  enabled: true
+  mark-ticks: 60          # 표식 유지 시간 (20틱 = 1초)
+  cooldown-ticks: 60      # 반응이 일어난 대상의 내부 쿨다운 (이 동안은 표식도 안 생김)
+  damage-floor: 2         # 피해 반응(증기 폭발·연쇄 번개) 기준값의 최소치
+  damage-scale: 1.0       # 피해 반응 배율 (밸런스 조절용)
+  cc-ticks: 60            # 일반 CC 반응 시간 (화상·회복봉인·약화·둔화·독, 태양 플레어 발광) 2026-10-20
+  hard-cc-ticks: 20       # 하드 CC 반응 시간 (무장해제·고정·공포·기절·속박·수면)
+  steam-radius: 3         # 증기 폭발 범위
+  wildfire-radius: 2      # 불씨 확산(화상) 범위
+  sandstorm-radius: 4     # 모래 회오리 끌어모으기·고정 범위
+  mud-slow: 0.4           # 진흙 둔화 세기 (이동 속도 감소 비율)
+  icon-range: 48          # 이 거리 안의 플레이어에게만 아이콘 패킷 전송
+  vfx:                    # 반응 연출 (PortableVFX 팩 ElementReactions, 클라이언트에 팩 설치 필요)
+    enabled: true
+    pack: elementreactions  # 팩 폴더 이름(소문자) -> claude:elementreactions/<반응>
+    range: 48               # 이 거리 안의 플레이어에게만 재생
+
+# 상태이상(디버프) 16종 (2026-10-19, 공포 추가) ---------------------------------------------------
+# 플레이어·몹 모두 걸림. 아이콘은 MagicCodex 모드가 머리 위 / 대상 체력바 / 내 HUD 에 그림. 수치는 임시값.
+# 테스트: /테스트 몹 상태이상 <종류|해제|목록> [초] [나|바라봄|닉네임] [세기]
+telegraph:
+  range: 64                 # 예고 장판 패킷을 받는 거리 (블록)
+  limit: 128                # 동시에 떠 있을 수 있는 예고 장판 수 (넘으면 스킬 생략)
+status:
+  icon-range: 48            # 이 거리 안의 플레이어에게만 아이콘 패킷 전송
+  sync-ticks: 40            # 새로 다가온 플레이어용 재전송 간격
+  boss-slow: 0.45           # 보스에게 기절·수면을 걸면 대신 이만큼 둔화 (속박은 보스 면역)
+  slow-max: 0.9             # 둔화 최대치 (이동 속도 감소 비율)
+  burn-ratio: 0.1           # 화상: 지속 중 받은 피해 합의 이 비율을 끝날 때 한 번 더
+  poison-damage: 1.0        # 독: 초당 피해
+  poison-lethal: false      # false = 독으로는 체력 1 아래로 안 내려감 (바닐라 독과 같음)
+  magic-weakness: 0.3       # 약화: 내가 주는 마법 피해 감소 비율
+  physical-weakness: 0.3    # 나약함: 내가 주는 마법 아닌 피해(근접·화살) 감소 비율
+  mana-burn-ratio: 0.1      # 마나번: 최대 마나의 이 비율만큼 빼앗음
+  mana-burn-ticks: 100      # 마나번 내부 쿨 (아이콘 유지 시간), 걸 때 초를 따로 주면 그 값
+  blindness-mob-range: 3    # 실명 몹: 이 거리보다 먼 대상은 놓침
+  fear-range: 16            # 공포 몹: 이 거리 안의 플레이어에게서 도망감 (건 플레이어는 2배 거리까지)
+  fear-push: 0.35           # 공포 플레이어: 건 대상에게서 0.25초마다 밀려나는 세기
+  vanilla-icons: true       # 바닐라 구속·독·위더·실명·어둠·나약함·불도 같은 아이콘으로 표시
+  flight-spells: [flight]   # 중력: 시전 불가
+  movement-spells: [light_leap, gale_dash, flight, spring_ground, companion_return]  # 고정: 시전 불가
+
+debug: false
+
+# 큐디치 전투 보정 (#33, 오너 결정 2026-10-25). 큐디치 경기 중 선수에게만 (평소·1:1 결투는 그대로). 경기 판정은 ChacaKyudichi 가 답함.
+# 운영 서버 config.yml 에 이 칸이 없으면 아래 기본값으로 동작. 바꾼 뒤 /서버관리 새로고침 몹마법
+quidditch-combat:
+  enabled: true
+  projectile-speed: 1.5     # 투사체형 마법(chabolt) 속도 배수
+  flying-hitbox: 1.5        # 비행 중인 선수 피격 범위(몸 상자) 배수 — 투사체·광역 즉발기 모두
+  homing-lock: true         # 유도 투사체(대상을 찍어 쏜 것)는 끝까지 추적
+  teleport-blocks: 4        # 대상이 한 틱에 이만큼 이상 이동 = 순간이동 → 놓침
+  dodge-ticks: 3            # 맞기 이 틱 전 안쪽에서
+  dodge-speed-change: 0.6   #   비행 속도가 한 틱에 이만큼(블록/틱) 이상 바뀌면 회피 기동 → 놓침 (급선회·대시·급정지)
+  homing-seconds: 5         # 추적하는 동안은 사거리 대신 최대 이 시간까지 난다
+
+# 마법 연습장 훈련 허수아비 (#107, /컨텐츠관리 연습장 허수아비 <설치|제거|목록>, 위치는 training-dummies.yml)
+training-dummy:
+  mythic-mob: CA_TrainingDummy  # 허수아비 몸 미몹 (ModelEngine 모델 training_dummy). 비우거나 없으면 바닐라 허스크
+  model-height: 2.35        # 모델 머리 꼭대기 높이(블록) = 머리 위 표시 기준점
+  reset-seconds: 10         # 이만큼 안 맞으면 누적 피해를 0으로 (머리 위 표시도 사라짐)
+  heavy-damage: 20          # 한 번에 이 이상이면 큰 피해: hit_heavy 모션 + 큰 빨간 숫자
+  show-range: 32            # 머리 위 피해 표시를 받는 거리(블록). 맞을 때만 이 안의 MagicCodex 클라에 보냄
+  notify-card: false        # 때린 사람 알림 카드(예전 방식). 머리 위 표시로 충분해 기본 끔
+
+# 2026-10-14 추가 (71종) --------------------------------------------------------
+# 아래 수치는 모두 밸런스 검토 전 임시값입니다 (소유자 결정: 마법 수치 최종 검토 전).
+
+# 슬롯 장착형 패시브가 "장착됨"을 아는 방법
+#  slots   : MagicCodex 클라이언트가 chacademia:spell_slots 채널로 키 슬롯을 보고 (클라이언트 수정 필요, 제안서 참고)
+#  learned : 배운 마법은 모두 장착된 것으로 취급 (클라이언트 수정 전 임시 운영용)
+passive-slots:
+  mode: slots
+
+passives:
+  trajectory_acceleration:   # 017 미라지 슈터: 내가 피해를 준 대상에게 바람 화살 1발
+    mana: 10                 # 발동당 (카탈로그 값)
+    base-damage: 3
+    power-ratio: 0.25
+    delay-ticks: 10          # 소환·대기 후 발사
+    internal-cooldown-ticks: 10
+    speed: 1.4
+    range: 20
+  resonant_arrow:            # 030 미스틱 슈터: 직접 공격 적중 시 추가 바람 화살
+    mana: 50
+    base-damage: 6
+    power-ratio: 0.4
+    delay-ticks: 0
+    internal-cooldown-ticks: 0
+    speed: 2.0
+    range: 24
+  glass_firing:              # 049 광석 재련
+    mana: 3                  # 광석 블록당
+  glaze_coating: {}          # 055 화염의 정복자: 수치 없음
+  hungry_shadow:             # 177 굶주린 그림자: 처치 시 배고픔 회복
+    food: 2                  # 1칸 = 2
+  inverted_offering:         # 193 뒤집힌 공물: 처치한 몬스터 드롭 -> 추가 경험치 (conversion_ratio 미정, 임시)
+    xp-per-item: 0.5
+
+# 036 불꽃 단조 재료표: "입력재료: 결과[:개수[:필요개수]]" (결과는 바닐라 이름 또는 ItemsAdder id)
+# 비어 있으면 시전이 항상 실패합니다 (재료표 미정).
+flame-forging:
+  recipes: {}
+  # 예) IRON_INGOT: "item:enchanted_iron:1:1"
+
+# 145 동행 귀환 지점. world 를 비워 두면 첫 번째 월드의 스폰으로 갑니다 (임시).
+return-point: {}
+  # world: world
+  # x: 0.5
+  # y: 64
+  # z: 0.5
+  # yaw: 0
+  # pitch: 0
+
+# 포션 (2026-10-26 오너 결정). 쿨타임은 체력·마나 따로 돌아서 서로 막지 않습니다. 쿨 중·회복봉인·물약봉인·체력 가득이면 아이템을 쓰지 않습니다.
+# 마시는 방식: 아이템 재질이 바닐라 물약(POTION)이면 마셔서, 아니면 우클릭으로 1개 사용.
+# 마나 포션(item:mana_potion): 159 마력 예금이 만드는 포션도 같은 아이템. 회복량 예전 50 → 100.
+mana-potion:
+  restore: 100
+  cooldown-seconds: 15
+# 체력 포션: 체력 5 회복 (하트 2.5칸). 아이템 자체에 바닐라 즉시 회복 효과가 붙어 있으면 그만큼 더 회복되니 ItemsAdder 쪽에서 빼 주세요.
+health-potion:
+  item: "item:health_potion"
+  restore: 5
+  cooldown-seconds: 10
+# 클라 남은 쿨 표시(바닐라 아이템 쿨 덮개). 바닐라 쿨은 '재질' 단위라 같은 재질의 다른 아이템까지 잠깐 막힙니다 —
+# 체력·마나 포션의 ItemsAdder 재질이 서로 다르고 다른 사용 아이템과 겹치지 않을 때만 true 로 켜세요. (서버 쪽 쿨은 이 값과 상관없이 항상 적용)
+potion-cooldown-overlay: false
+
+# 132 길잡이 별: VFX 화살표가 준비되기 전까지 액션바로 방향·거리 안내
+guiding-star-text: true

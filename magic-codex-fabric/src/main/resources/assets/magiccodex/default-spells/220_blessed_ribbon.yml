@@ -1,0 +1,14 @@
+id: blessed_ribbon
+name: 축복의 리본
+category: light
+description: 손에 든 선물 하나에 축복의 리본을 묶습니다. 리본을 묶은 선물을 좋아하는 NPC에게 주면 호감도가 20% 더 오릅니다.
+icon: ''
+permission: magic.learned.blessed_ribbon
+discovery:
+  description: 아무 NPC와 호감도 30 달성하기.
+research: ''
+cast:
+  command: 마법 blessed_ribbon
+  cooldown-seconds: 60
+  mana-cost: 30
+order: 220

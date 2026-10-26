@@ -1,0 +1,15 @@
+id: life_distribution
+name: 생명의 분배
+category: water
+description: 반경 6블록 안의 시전자와 아군 최대 3명의 현재 체력을 합친 뒤, 각자의 최대 체력에 비례해 나눕니다. 체력 총량은 증가하지
+  않습니다.
+icon: magiccodex:textures/spells/expansion/life_distribution.png
+permission: magic.learned.life_distribution
+discovery:
+  description: 투척용 치유 물약 한 병으로 자신과 동료 2명을 함께 회복하기.
+research: 누군가의 상처를 나누어 짊어지는 일에는 용기가 필요하다.
+cast:
+  command: 마법 life_distribution
+  cooldown-seconds: 45
+  mana-cost: 160
+order: 141

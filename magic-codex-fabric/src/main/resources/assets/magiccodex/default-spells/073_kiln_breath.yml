@@ -1,0 +1,16 @@
+id: kiln_breath
+name: 가마 숨결
+category: fire
+description: 20초 동안 가공을 가속합니다. 정상적인 연료와 재료가 필요합니다.
+icon: magiccodex:textures/spells/expansion_2/kiln_breath.png
+permission: magic.learned.kiln_breath
+discovery:
+  description: 화로에서 유리·돌 같은 구운 블록을 64개 꺼내기.
+research: '화염 마법은 대장간 일과 연관 된 것이 많다.
+
+  불꽃은 다양한 쓰임이 있기 때문이다.'
+cast:
+  command: 마법 kiln_breath
+  cooldown-seconds: 60
+  mana-cost: 50
+order: 73

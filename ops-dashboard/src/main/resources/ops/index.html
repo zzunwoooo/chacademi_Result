@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="color-scheme" content="dark">
+<title>차카데미 운영</title>
+<style>
+:root{
+  --bg:#0e1015; --panel:#161920; --panel2:#1c2029; --line:#272c37; --text:#e7eaf0; --muted:#8c94a6; --dim:#5d6578;
+  --accent:#8ab4ff; --ok:#3fcf8e; --warn:#f2b44c; --bad:#ff5d5d; --badbg:#3a1518; --warnbg:#3a2d12; --okbg:#10301f;
+  --mono:ui-monospace,"Cascadia Mono",Consolas,"D2Coding","Malgun Gothic",monospace;
+  --sans:system-ui,-apple-system,"Segoe UI","Malgun Gothic","Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 var(--sans);-webkit-text-size-adjust:100%}
+button,input,select{font:inherit;color:inherit}
+a{color:var(--accent)}
+.hidden{display:none!important}
+header{position:sticky;top:0;z-index:10;background:rgba(14,16,21,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;gap:10px;padding:10px 16px;max-width:1280px;margin:0 auto}
+.brand{font-weight:700;letter-spacing:-.01em;white-space:nowrap}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--dim);flex:none}
+.dot.ok{background:var(--ok)} .dot.bad{background:var(--bad);box-shadow:0 0 0 4px rgba(255,93,93,.18)} .dot.warn{background:var(--warn)}
+.updated{color:var(--muted);font-size:12px;margin-left:auto;white-space:nowrap}
+nav{display:flex;gap:4px;padding:0 12px 8px;max-width:1280px;margin:0 auto;overflow-x:auto;scrollbar-width:none}
+nav button{background:none;border:0;padding:7px 12px;border-radius:8px;color:var(--muted);cursor:pointer;white-space:nowrap}
+nav button.on{background:var(--panel2);color:var(--text)}
+main{max-width:1280px;margin:0 auto;padding:14px 16px 60px}
+.btn{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:7px 12px;cursor:pointer;white-space:nowrap}
+.btn:hover{border-color:#3a4150} .btn:disabled{opacity:.45;cursor:default}
+.btn.primary{background:#24345a;border-color:#34497a}
+.btn.danger{background:#3a1a1d;border-color:#5a2a2e;color:#ffb3b3}
+.btn.small{padding:4px 9px;font-size:13px}
+.alarms{border:1px solid #5a2528;background:var(--badbg);border-radius:12px;padding:10px 14px;margin-bottom:14px}
+.alarms h3{margin:0 0 4px;font-size:14px;color:#ffb0b0}
+.alarms ul{margin:0;padding-left:18px} .alarms li{margin:2px 0}
+.alarms li.soft{color:#f4d39a}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;min-width:0}
+.card.bad{border-color:#6a2a2e} .card.warn{border-color:#5a4520}
+.card h2{font-size:15px;margin:0;display:flex;align-items:center;gap:8px;min-width:0}
+.card h2 small{color:var(--muted);font-weight:400;font-size:12px}
+.pill{font-size:12px;padding:2px 8px;border-radius:999px;margin-left:auto;white-space:nowrap}
+.pill.UP{background:var(--okbg);color:var(--ok)} .pill.DOWN{background:var(--badbg);color:var(--bad)} .pill.NO_HEARTBEAT{background:var(--badbg);color:#ff9a7a}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 10px;margin:10px 0 6px}
+.m{min-width:0} .m b{display:block;font-size:17px;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.m span{color:var(--muted);font-size:12px}
+.m b.bad{color:var(--bad)} .m b.warn{color:var(--warn)} .m b.ok{color:var(--text)}
+.sparks{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:4px 0 8px}
+.sparks figure{margin:0;background:var(--panel2);border-radius:8px;padding:6px 8px 4px}
+.sparks figcaption{font-size:11px;color:var(--muted);display:flex;justify-content:space-between}
+.sparks svg{display:block;width:100%;height:38px}
+.row{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.sub{color:var(--muted);font-size:12px}
+.calarm{color:#ffb0b0;font-size:13px;margin:4px 0}
+.job{background:var(--panel2);border-radius:8px;padding:6px 9px;margin-top:8px;font-size:12px}
+.job pre{margin:4px 0 0;max-height:120px;overflow:auto;white-space:pre-wrap;word-break:break-all;font:12px/1.4 var(--mono);color:var(--muted)}
+.sparkline{margin-top:6px;font-size:12px;word-break:break-all}
+.ai{margin-bottom:14px}
+.ai .text{white-space:pre-wrap;margin-top:8px;background:var(--panel2);border-radius:8px;padding:10px 12px;line-height:1.6}
+.ai .text:empty{display:none}
+.hostline{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:6px;font-variant-numeric:tabular-nums}
+.hostline span{color:var(--muted)}
+.console-top{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px}
+.log{background:#090b0f;border:1px solid var(--line);border-radius:10px;height:min(62vh,640px);overflow:auto;padding:8px 10px;font:12px/1.45 var(--mono);white-space:pre-wrap;word-break:break-all}
+.log .WARN{color:var(--warn)} .log .ERROR{color:var(--bad)} .log .sys{color:var(--accent)}
+.cmd{display:flex;gap:8px;margin-top:8px}
+.cmd input{flex:1;min-width:0}
+input[type=text],input[type=password],input[type=datetime-local],select{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:8px 10px;outline:none;min-width:0}
+input:focus,select:focus{border-color:#4a6fb5}
+.reply{white-space:pre-wrap;font:12px/1.45 var(--mono);color:var(--muted);margin-top:6px;max-height:160px;overflow:auto}
+.form{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px;margin-bottom:10px}
+.form label{display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--muted)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:500;position:sticky;top:0;background:var(--panel)}
+td.detail{font:12px/1.4 var(--mono);color:var(--muted);max-width:420px;word-break:break-all}
+.tablewrap{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:auto;max-height:70vh}
+.empty{color:var(--muted);padding:14px}
+.login{max-width:340px;margin:12vh auto 0;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px}
+.login h1{font-size:18px;margin:0 0 4px} .login p{color:var(--muted);margin:0 0 14px;font-size:13px}
+.login input{width:100%;margin-bottom:10px}
+.login .btn{width:100%}
+.err{color:var(--bad);font-size:13px;min-height:18px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:50;padding:16px}
+.modal .box{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;max-width:420px;width:100%}
+.modal h3{margin:0 0 8px}
+.modal p{margin:0 0 12px;color:#cfd4de;white-space:pre-wrap}
+.modal input{width:100%;margin-bottom:12px}
+.modal .row{justify-content:flex-end}
+.toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:9px 14px;z-index:60;max-width:calc(100% - 32px)}
+.toast.bad{border-color:#6a2a2e;color:#ffc0c0}
+@media (max-width:640px){
+  .grid{grid-template-columns:1fr}
+  .metrics{grid-template-columns:repeat(3,1fr)}
+  .updated{display:none}
+  table.cards thead{display:none}
+  table.cards tr{display:block;border-bottom:1px solid var(--line);padding:6px 0}
+  table.cards td{display:block;border:0;padding:2px 10px}
+  table.cards td::before{content:attr(data-k);color:var(--dim);font-size:11px;margin-right:6px}
+  td.detail{max-width:none}
+}
+</style>
+</head>
+<body>
+<div id="loginView" class="hidden">
+  <form class="login" id="loginForm">
+    <h1>차카데미 운영</h1>
+    <p>운영자 비밀번호를 넣어 주세요.</p>
+    <input type="password" id="pw" autocomplete="current-password" placeholder="비밀번호" required>
+    <div class="err" id="loginErr"></div>
+    <button class="btn primary" type="submit">들어가기</button>
+  </form>
+</div>
+
+<div id="appView" class="hidden">
+  <header>
+    <div class="bar">
+      <span class="dot" id="overallDot"></span>
+      <span class="brand">차카데미 운영</span>
+      <span class="updated" id="updated">—</span>
+      <button class="btn small" id="logout">로그아웃</button>
+    </div>
+    <nav id="tabs">
+      <button data-tab="status" class="on">상태</button>
+      <button data-tab="console">콘솔</button>
+      <button data-tab="audit">운영 기록</button>
+      <button data-tab="actions">작업 기록</button>
+    </nav>
+  </header>
+  <main>
+    <section id="tab-status">
+      <div id="alarmBox" class="alarms hidden"><h3>지금 문제</h3><ul id="alarmList"></ul></div>
+      <div class="card ai">
+        <div class="row">
+          <h2 style="margin-right:auto">AI 분석</h2>
+          <span class="sub" id="aiCount"></span>
+          <button class="btn primary small" id="aiAll">전체 분석</button>
+        </div>
+        <div class="sub" id="aiMeta">버튼을 누를 때만 AI 에 보냅니다 (비용 절약).</div>
+        <div class="text" id="aiText"></div>
+      </div>
+      <div class="card" style="margin-bottom:12px">
+        <h2>호스팅 PC</h2>
+        <div class="hostline" id="hostLine"></div>
+      </div>
+      <div class="grid" id="servers"></div>
+    </section>
+
+    <section id="tab-console" class="hidden">
+      <div class="console-top">
+        <select id="conServer"></select>
+        <label class="sub"><input type="checkbox" id="conAuto" checked> 자동 스크롤</label>
+        <label class="sub"><input type="checkbox" id="conProblems"> 경고·오류만</label>
+        <span class="sub" id="conInfo"></span>
+      </div>
+      <div class="log" id="log"></div>
+      <form class="cmd" id="cmdForm">
+        <input type="text" id="cmd" placeholder="명령 (예: list, tps, spark health)" autocomplete="off" autocapitalize="off" spellcheck="false">
+        <button class="btn primary" type="submit">보내기</button>
+      </form>
+      <div class="reply" id="cmdReply"></div>
+    </section>
+
+    <section id="tab-audit" class="hidden">
+      <form class="form" id="auditForm">
+        <label>닉네임 또는 UUID<input type="text" name="name"></label>
+        <label>종류<select name="kind"><option value="">전부</option></select></label>
+        <label>서버<select name="server"><option value="">전부</option></select></label>
+        <label>시작<input type="datetime-local" name="from"></label>
+        <label>끝<input type="datetime-local" name="to"></label>
+        <label>글자 (설명·상세)<input type="text" name="q"></label>
+        <label>&nbsp;<button class="btn primary" type="submit">검색</button></label>
+      </form>
+      <div class="sub" id="auditInfo" style="margin-bottom:6px"></div>
+      <div class="tablewrap"><table class="cards" id="auditTable"><thead><tr><th>시각</th><th>서버</th><th>플레이어</th><th>종류</th><th>설명</th><th>상세</th></tr></thead><tbody></tbody></table></div>
+    </section>
+
+    <section id="tab-actions" class="hidden">
+      <div class="row" style="margin-bottom:8px"><span class="sub" style="margin-right:auto">이 대시보드에서 누른 버튼 기록 (비밀번호가 하나라 IP 로 구분)</span><button class="btn small" id="actionsReload">새로고침</button></div>
+      <div class="tablewrap"><table class="cards" id="actionsTable"><thead><tr><th>시각</th><th>IP</th><th>작업</th><th>대상</th><th>내용</th><th>결과</th></tr></thead><tbody></tbody></table></div>
+    </section>
+  </main>
+</div>
+
+<div id="modal" class="modal hidden">
+  <div class="box">
+    <h3 id="mTitle"></h3>
+    <p id="mText"></p>
+    <input type="text" id="mInput" class="hidden" autocomplete="off" autocapitalize="off" spellcheck="false">
+    <div class="row"><button class="btn" id="mCancel">취소</button><button class="btn danger" id="mOk">확인</button></div>
+  </div>
+</div>
+
+<script>
+"use strict";
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let state = null, tab = "status", conSeq = 0, conServer = null, timers = [];
+
+async function api(path, body) {
+  const opt = { credentials: "same-origin", headers: {} };
+  if (body !== undefined) { opt.method = "POST"; opt.headers["Content-Type"] = "application/json"; opt.headers["X-Ops"] = "1"; opt.body = JSON.stringify(body); }
+  const r = await fetch(path, opt);
+  let data = {};
+  try { data = await r.json(); } catch (e) {}
+  if (r.status === 401 && path !== "/api/login") { showLogin(); throw new Error("로그인이 필요합니다"); }
+  if (!r.ok) { const e = new Error(data.error || ("HTTP " + r.status)); e.status = r.status; throw e; }
+  return data;
+}
+
+function toast(msg, bad) {
+  const t = document.createElement("div");
+  t.className = "toast" + (bad ? " bad" : "");
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), bad ? 6000 : 3000);
+}
+
+function confirmBox(title, text, typeThis) {
+  return new Promise(resolve => {
+    $("mTitle").textContent = title; $("mText").textContent = text;
+    const inp = $("mInput");
+    inp.value = ""; inp.classList.toggle("hidden", !typeThis);
+    inp.placeholder = typeThis ? "여기에 " + typeThis + " 입력" : "";
+    $("modal").classList.remove("hidden");
+    if (typeThis) setTimeout(() => inp.focus(), 50);
+    const done = (v) => { $("modal").classList.add("hidden"); $("mOk").onclick = $("mCancel").onclick = null; resolve(v); };
+    $("mCancel").onclick = () => done(null);
+    $("mOk").onclick = () => {
+      if (typeThis && inp.value.trim() !== typeThis) { inp.focus(); inp.style.borderColor = "var(--bad)"; return; }
+      done(typeThis ? inp.value.trim() : true);
+    };
+  });
+}
+
+// ---------------------------------------------------------------- 로그인
+function showLogin() {
+  timers.forEach(clearInterval); timers = [];
+  $("appView").classList.add("hidden"); $("loginView").classList.remove("hidden");
+  setTimeout(() => $("pw").focus(), 50);
+}
+$("loginForm").onsubmit = async (e) => {
+  e.preventDefault(); $("loginErr").textContent = "";
+  try { await api("/api/login", { password: $("pw").value }); $("pw").value = ""; startApp(); }
+  catch (err) { $("loginErr").textContent = err.message; }
+};
+$("logout").onclick = async () => { try { await api("/api/logout", {}); } catch (e) {} showLogin(); };
+
+function startApp() {
+  $("loginView").classList.add("hidden"); $("appView").classList.remove("hidden");
+  timers.forEach(clearInterval); timers = [];
+  refresh();
+  timers.push(setInterval(() => { if (!document.hidden) refresh(); }, 3000));
+  timers.push(setInterval(() => { if (!document.hidden && tab === "console") pollConsole(); }, 1500));
+}
+
+// ---------------------------------------------------------------- 탭
+$("tabs").onclick = (e) => {
+  const b = e.target.closest("button"); if (!b) return;
+  setTab(b.dataset.tab);
+};
+function setTab(name) {
+  tab = name;
+  document.querySelectorAll("#tabs button").forEach(b => b.classList.toggle("on", b.dataset.tab === name));
+  ["status", "console", "audit", "actions"].forEach(t => $("tab-" + t).classList.toggle("hidden", t !== name));
+  if (name === "console") pollConsole();
+  if (name === "actions") loadActions();
+  if (name === "audit") loadKinds();
+}
+
+// ---------------------------------------------------------------- 상태
+async function refresh() {
+  try { state = await api("/api/status"); render(); $("updated").textContent = "갱신 " + new Date(state.now).toLocaleTimeString("ko-KR"); }
+  catch (e) { if (e.status !== undefined || e.message !== "로그인이 필요합니다") $("updated").textContent = "연결 끊김 — " + e.message; }
+}
+
+const num = (v, d = 1) => (v == null || v < 0) ? "—" : Number(v).toFixed(d);
+function cls(kind, v) {
+  if (v == null || v < 0) return "";
+  if (kind === "tps") return v < 15 ? "bad" : v < 18 ? "warn" : "ok";
+  if (kind === "mspt") return v > 50 ? "bad" : v > 40 ? "warn" : "ok";
+  if (kind === "pct") return v > 90 ? "bad" : v > 80 ? "warn" : "ok";
+  return "";
+}
+function upTime(ms) {
+  if (!ms) return "—";
+  const m = Math.floor((Date.now() - ms) / 60000);
+  if (m < 60) return m + "분";
+  const h = Math.floor(m / 60); if (h < 48) return h + "시간 " + (m % 60) + "분";
+  return Math.floor(h / 24) + "일 " + (h % 24) + "시간";
+}
+function sparkSvg(values, max, danger, higherIsBad) {
+  const pts = values.map((v, i) => [i, v]);
+  const n = Math.max(values.length - 1, 1), W = 200, H = 38;
+  const y = (v) => H - 2 - Math.max(0, Math.min(1, v / max)) * (H - 4);
+  let d = "", pen = false;
+  for (const [i, v] of pts) {
+    if (v == null || v < 0) { pen = false; continue; }
+    d += (pen ? "L" : "M") + (i / n * W).toFixed(1) + " " + y(v).toFixed(1) + " "; pen = true;
+  }
+  const dy = y(danger).toFixed(1);
+  const last = values.length ? values[values.length - 1] : -1;
+  const bad = last >= 0 && (higherIsBad ? last > danger : last < danger);
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">
+    <line x1="0" x2="${W}" y1="${dy}" y2="${dy}" stroke="#5a2a2e" stroke-dasharray="3 3" stroke-width="1" vector-effect="non-scaling-stroke"/>
+    <path d="${d}" fill="none" stroke="${bad ? "#ff5d5d" : "#8ab4ff"}" stroke-width="1.6" vector-effect="non-scaling-stroke" stroke-linejoin="round"/>
+  </svg>`;
+}
+const STATUS_TEXT = { UP: "켜짐", DOWN: "꺼짐", NO_HEARTBEAT: "응답 없음" };
+
+function render() {
+  const s = state;
+  const crit = s.alarms.filter(a => a.critical), soft = s.alarms.filter(a => !a.critical);
+  $("alarmBox").classList.toggle("hidden", s.alarms.length === 0);
+  $("alarmList").innerHTML = crit.map(a => `<li>${esc(a.message)}</li>`).join("") + soft.map(a => `<li class="soft">${esc(a.message)}</li>`).join("");
+  $("overallDot").className = "dot " + (crit.length ? "bad" : soft.length ? "warn" : "ok");
+  document.title = (crit.length ? "(" + crit.length + ") " : "") + "차카데미 운영";
+  const h = s.host, memUsed = h.memTotal > 0 ? (h.memTotal - h.memFree) : -1;
+  $("hostLine").innerHTML =
+    `<div><span>CPU</span> <b class="${cls("pct", h.cpu)}">${num(h.cpu, 0)}%</b></div>` +
+    `<div><span>메모리</span> <b>${memUsed >= 0 ? (memUsed / 1024).toFixed(1) + " / " + (h.memTotal / 1024).toFixed(1) + " GB" : "—"}</b></div>` +
+    `<div><span>디스크 남음</span> <b>${h.diskFree >= 0 ? h.diskFree + " / " + h.diskTotal + " GB" : "—"}</b></div>` +
+    `<div><span>공유 DB</span> <b>${esc(s.db)}</b></div>`;
+  // AI
+  const ai = s.ai;
+  $("aiCount").textContent = ai.available ? `오늘 ${ai.used}/${ai.max}` + (ai.auto ? " · 경보 때 자동" : "") : "AI 키 없음";
+  $("aiAll").disabled = !ai.available || ai.running;
+  $("aiAll").textContent = ai.running ? "분석 중…" : "전체 분석";
+  if (ai.last) {
+    $("aiMeta").textContent = new Date(ai.last.at).toLocaleString("ko-KR") + " · " + ai.last.trigger;
+    $("aiText").textContent = ai.last.text;
+  }
+  // 서버 카드
+  const box = $("servers");
+  const ids = s.servers.map(v => v.id);
+  if (box.dataset.ids !== ids.join(",")) { box.innerHTML = ids.map(id => `<div class="card" id="card-${esc(id)}"></div>`).join(""); box.dataset.ids = ids.join(","); fillSelects(); }
+  for (const v of s.servers) $("card-" + v.id).outerHTML = card(v);
+}
+
+function card(v) {
+  const hb = v.hb, paper = v.kind === "paper";
+  const fresh = hb && hb.state !== "stopped" && hb.age <= 30;
+  const bad = v.status !== "UP" || v.alarms.length;
+  const heapPct = fresh && hb.heapMax > 0 ? hb.heapUsed / hb.heapMax * 100 : -1;
+  const online = v.ping.up ? v.ping.online + " / " + v.ping.max : (fresh ? hb.online + " / " + hb.maxPlayers : "—");
+  let metrics;
+  if (paper) {
+    metrics = `
+      <div class="m"><b class="${fresh ? cls("tps", hb.tps10s >= 0 ? hb.tps10s : hb.tps1m) : ""}">${fresh ? num(hb.tps10s >= 0 ? hb.tps10s : hb.tps1m) : "—"}</b><span>TPS${fresh ? " · 1분 " + num(hb.tps1m) : ""}</span></div>
+      <div class="m"><b class="${fresh ? cls("mspt", hb.mspt) : ""}">${fresh ? num(hb.mspt) : "—"}</b><span>MSPT${fresh && hb.msptMax >= 0 ? " · 최대 " + num(hb.msptMax, 0) : ""}</span></div>
+      <div class="m"><b>${fresh ? num(hb.cpu, 0) + "%" : "—"}</b><span>CPU</span></div>
+      <div class="m"><b class="${cls("pct", heapPct)}">${heapPct >= 0 ? Math.round(heapPct) + "%" : "—"}</b><span>메모리${fresh ? " · " + (hb.heapUsed / 1024).toFixed(1) + "/" + (hb.heapMax / 1024).toFixed(1) + "G" : ""}</span></div>
+      <div class="m"><b>${online}</b><span>접속자</span></div>
+      <div class="m"><b>${fresh ? upTime(hb.startedAt) : "—"}</b><span>켜진 지${fresh ? " · " + esc(hb.source) : ""}</span></div>`;
+  } else {
+    metrics = `
+      <div class="m"><b>${online}</b><span>전체 접속자</span></div>
+      <div class="m"><b>${v.ping.up ? v.ping.latency + "ms" : "—"}</b><span>응답 시간</span></div>
+      <div class="m"><b style="font-size:13px">${esc(v.ping.version || "—")}</b><span>버전</span></div>`;
+  }
+  const hist = v.history;
+  const sparks = paper ? `<div class="sparks">
+      <figure><figcaption><span>TPS 10분</span><span>15 아래 위험</span></figcaption>${sparkSvg(hist.tps, 20, 15, false)}</figure>
+      <figure><figcaption><span>MSPT 10분</span><span>50 넘으면 위험</span></figcaption>${sparkSvg(hist.mspt, Math.max(60, ...hist.mspt), 50, true)}</figure>
+    </div>` : `<div class="sparks"><figure style="grid-column:1/-1"><figcaption><span>접속자 10분</span></figcaption>${sparkSvg(hist.online, Math.max(10, ...hist.online), 1e9, true)}</figure></div>`;
+  const sp = v.spark || {};
+  let sparkInfo = "";
+  const waiting = sp.requestedAt && Date.now() - sp.requestedAt < 120000 && !(sp.at > sp.requestedAt);
+  if (waiting) sparkInfo = `측정 중… ${Math.max(0, 60 - Math.floor((Date.now() - sp.requestedAt) / 1000))}초 남음 (끝나면 링크가 여기 나옵니다)`;
+  else if (sp.link) sparkInfo = `spark 결과 <a href="${esc(sp.link)}" target="_blank" rel="noopener noreferrer">${esc(sp.link)}</a> <span class="sub">${new Date(sp.at).toLocaleTimeString("ko-KR")}</span>`;
+  else if (sp.requestedAt) sparkInfo = `<span class="sub">링크를 로그에서 못 찾음 — 콘솔 탭에서 확인${sp.reply ? " · 응답: " + esc(sp.reply.slice(0, 120)) : ""}</span>`;
+  const job = v.job ? `<div class="job"><b>${esc(v.job.action)}</b> · ${esc(v.job.state)} <span class="sub">(${new Date(v.job.startedAt).toLocaleTimeString("ko-KR")}, ${esc(v.job.ip)})</span>${v.job.output.length ? `<pre>${esc(v.job.output.join("\n"))}</pre>` : ""}</div>` : "";
+  const running = v.job && !v.job.done;
+  const logErr = v.log && v.log.error ? `<div class="sub">로그: ${esc(v.log.error)}</div>` : "";
+  return `<div class="card ${bad ? "bad" : ""}" id="card-${esc(v.id)}">
+    <h2>${esc(v.label)} <small>${esc(v.id)}</small><span class="pill ${v.status}">${STATUS_TEXT[v.status] || v.status}</span></h2>
+    <div class="metrics">${metrics}</div>
+    ${sparks}
+    ${v.alarms.map(a => `<div class="calarm">● ${esc(a)}</div>`).join("")}
+    ${logErr}
+    <div class="row">
+      <button class="btn small" onclick="openConsole('${esc(v.id)}')">콘솔</button>
+      ${v.console !== "none" ? `<button class="btn small" onclick="runSpark('${esc(v.id)}')" ${waiting ? "disabled" : ""}>spark 60초</button>` : ""}
+      <button class="btn small" onclick="aiServer('${esc(v.id)}')" ${state.ai.available && !state.ai.running ? "" : "disabled"}>AI 이 서버</button>
+      <span style="flex:1"></span>
+      ${v.manageUrl ? `<a class="btn small" href="${esc(v.manageUrl)}" target="_blank" rel="noopener noreferrer">관리 열기 ↗</a>` : ""}
+      ${v.canStart ? `<button class="btn small" onclick="ctl('${esc(v.id)}','start')" ${running ? "disabled" : ""}>시작</button>` : ""}
+      ${v.canRestart ? `<button class="btn small danger" onclick="ctl('${esc(v.id)}','restart')" ${running ? "disabled" : ""}>재시작</button>` : ""}
+      ${v.canStop ? `<button class="btn small danger" onclick="ctl('${esc(v.id)}','stop')" ${running ? "disabled" : ""}>정지</button>` : ""}
+    </div>
+    ${sparkInfo ? `<div class="sparkline">${sparkInfo}</div>` : ""}
+    ${job}
+  </div>`;
+}
+
+function serverById(id) { return state && state.servers.find(s => s.id === id); }
+
+async function ctl(id, action) {
+  const v = serverById(id); if (!v) return;
+  const names = { start: "시작", stop: "정지", restart: "재시작" };
+  let confirm;
+  if (action === "start") {
+    if (!await confirmBox(v.label + " 시작", v.label + " 서버를 시작할까요?")) return;
+  } else {
+    const who = v.kind === "proxy" ? "프록시를 " + names[action] + "하면 모든 서버의 접속자가 끊깁니다." : "이 서버 접속자가 끊깁니다.";
+    const online = v.ping.up ? "\n지금 접속자: " + v.ping.online + "명" : "";
+    confirm = await confirmBox(v.label + " " + names[action], who + online + "\n정말 " + names[action] + "하려면 서버 이름을 그대로 적어 주세요.", v.id);
+    if (!confirm) return;
+  }
+  try { await api("/api/control", { server: id, action, confirm }); toast(v.label + " " + names[action] + " 시작함"); refresh(); }
+  catch (e) { toast(e.message, true); }
+}
+
+async function runSpark(id) {
+  const v = serverById(id); if (!v) return;
+  if (!await confirmBox("spark 프로파일러", v.label + " 에서 60초 동안 측정합니다. 측정 중에는 아주 조금 더 무거울 수 있어요. 끝나면 결과 링크가 카드에 나옵니다.")) return;
+  try { const r = await api("/api/spark", { server: id }); toast("spark 측정 시작" + (r.reply ? ": " + r.reply.slice(0, 80) : "")); refresh(); }
+  catch (e) { toast(e.message, true); }
+}
+
+async function aiAnalyze(server) {
+  try { await api("/api/ai", { server }); toast("AI 분석을 시작했습니다 (10~40초)"); $("aiText").textContent = ""; $("aiMeta").textContent = "분석 중…"; refresh(); window.scrollTo({ top: 0, behavior: "smooth" }); }
+  catch (e) { toast(e.message, true); }
+}
+function aiServer(id) { aiAnalyze(id); }
+$("aiAll").onclick = () => aiAnalyze("");
+
+// ---------------------------------------------------------------- 콘솔
+function fillSelects() {
+  if (!state) return;
+  const opts = state.servers.map(v => `<option value="${esc(v.id)}">${esc(v.label)} (${esc(v.id)})</option>`).join("");
+  const cur = $("conServer").value;
+  $("conServer").innerHTML = opts;
+  if (cur) $("conServer").value = cur;
+  const as = document.querySelector('#auditForm select[name=server]');
+  as.innerHTML = '<option value="">전부</option>' + state.servers.filter(v => v.kind === "paper").map(v => `<option value="${esc(v.id)}">${esc(v.label)}</option>`).join("");
+}
+function openConsole(id) { setTab("console"); $("conServer").value = id; resetConsole(); }
+$("conServer").onchange = resetConsole;
+$("conProblems").onchange = resetConsole;
+function resetConsole() { conSeq = 0; conServer = $("conServer").value; $("log").innerHTML = ""; $("cmdReply").textContent = ""; pollConsole(); }
+
+let conBusy = false;
+async function pollConsole() {
+  const id = $("conServer").value; if (!id || conBusy) return;
+  if (id !== conServer) { conServer = id; conSeq = 0; $("log").innerHTML = ""; }
+  conBusy = true;
+  try {
+    const r = await api("/api/console?server=" + encodeURIComponent(id) + "&since=" + conSeq);
+    if (id !== $("conServer").value) return;
+    const v = serverById(id);
+    $("conInfo").textContent = r.error ? r.error : (v ? (v.console === "rcon" ? "명령: RCON" : v.console === "script" ? "명령: 스크립트" : "명령 보내기 없음") : "");
+    if (r.seq < conSeq) { conSeq = 0; $("log").innerHTML = ""; }
+    const only = $("conProblems").checked, log = $("log");
+    const atBottom = log.scrollTop + log.clientHeight >= log.scrollHeight - 30;
+    const frag = document.createDocumentFragment();
+    for (const l of r.lines) {
+      if (only && l.l === "INFO") continue;
+      const d = document.createElement("div");
+      d.className = l.x.startsWith("──") ? "sys" : l.l;
+      d.textContent = l.x;
+      frag.appendChild(d);
+    }
+    log.appendChild(frag);
+    while (log.childNodes.length > 2000) log.removeChild(log.firstChild);
+    conSeq = Math.max(conSeq, r.seq);
+    if ($("conAuto").checked && (atBottom || r.lines.length)) log.scrollTop = log.scrollHeight;
+  } catch (e) { $("conInfo").textContent = e.message; }
+  finally { conBusy = false; }
+}
+
+$("cmdForm").onsubmit = async (e) => {
+  e.preventDefault();
+  const id = $("conServer").value, command = $("cmd").value.trim();
+  if (!id || !command) return;
+  const v = serverById(id);
+  const send = async (confirm) => api("/api/command", { server: id, command, confirm });
+  try {
+    let r;
+    try { r = await send(false); }
+    catch (err) {
+      if (err.status !== 409) throw err;
+      if (!await confirmBox("위험한 명령", (v ? v.label : id) + " 에 보냅니다:\n\n" + command + "\n\n정말 보낼까요?")) return;
+      r = await send(true);
+    }
+    $("cmdReply").textContent = "> " + command + (r.reply ? "\n" + r.reply : "\n(보냄)");
+    $("cmd").value = "";
+    setTimeout(pollConsole, 400);
+  } catch (err) { $("cmdReply").textContent = "실패: " + err.message; }
+};
+
+// ---------------------------------------------------------------- 운영 기록
+let kindsLoaded = false;
+async function loadKinds() {
+  if (kindsLoaded) return;
+  try {
+    const r = await api("/api/audit/kinds");
+    const sel = document.querySelector('#auditForm select[name=kind]');
+    sel.innerHTML = '<option value="">전부</option>' + r.kinds.map(k => `<option>${esc(k)}</option>`).join("");
+    kindsLoaded = true;
+  } catch (e) {}
+}
+$("auditForm").onsubmit = async (e) => {
+  e.preventDefault();
+  const fd = new FormData(e.target), p = new URLSearchParams();
+  for (const [k, v] of fd) if (String(v).trim()) p.set(k, String(v).trim());
+  p.set("limit", "300");
+  $("auditInfo").textContent = "검색 중…";
+  try {
+    const r = await api("/api/audit?" + p.toString());
+    $("auditInfo").textContent = r.rows.length + "건" + (r.rows.length >= 300 ? " (최근 300건까지만 — 조건을 좁혀 주세요)" : "");
+    const tb = document.querySelector("#auditTable tbody");
+    tb.innerHTML = r.rows.length ? r.rows.map(x => `<tr>
+      <td data-k="시각">${esc(x.time)}</td><td data-k="서버">${esc(x.server)}</td>
+      <td data-k="플레이어">${esc(x.name)}${x.uuid ? `<div class="sub">${esc(x.uuid)}</div>` : ""}</td>
+      <td data-k="종류">${esc(x.kind)}</td><td data-k="설명">${esc(x.message)}</td><td data-k="상세" class="detail">${esc(x.detail)}</td></tr>`).join("")
+      : `<tr><td colspan="6" class="empty">결과 없음</td></tr>`;
+  } catch (err) { $("auditInfo").textContent = err.message; }
+};
+
+// ---------------------------------------------------------------- 작업 기록
+async function loadActions() {
+  try {
+    const r = await api("/api/actions");
+    document.querySelector("#actionsTable tbody").innerHTML = r.rows.length ? r.rows.map(x => `<tr>
+      <td data-k="시각">${esc(x.time)}</td><td data-k="IP">${esc(x.ip)}</td><td data-k="작업">${esc(x.action)}</td>
+      <td data-k="대상">${esc(x.target)}</td><td data-k="내용" class="detail">${esc(x.detail)}</td><td data-k="결과" class="detail">${esc(x.result)}</td></tr>`).join("")
+      : `<tr><td colspan="6" class="empty">기록 없음</td></tr>`;
+  } catch (e) { toast(e.message, true); }
+}
+$("actionsReload").onclick = loadActions;
+
+// 처음: 세션이 살아 있으면 바로, 아니면 로그인 화면
+api("/api/status").then(() => startApp()).catch(() => showLogin());
+</script>
+</body>
+</html>

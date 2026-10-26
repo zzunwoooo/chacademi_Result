@@ -1,0 +1,14 @@
+id: thawing_heat
+name: 해빙의 열기
+category: fire
+description: 얼음 봉인을 바라보고 3초 동안 열기를 불어넣어 녹입니다. 그사이 피해를 받으면 다시 얼어붙습니다.
+icon: magiccodex:textures/spells/gimmick/thawing_heat.png
+permission: magic.learned.thawing_heat
+discovery:
+  description: 화염 실습실에서 「얼음을 녹이는 열」 책 읽기.
+research: 얼음은 한 번에 녹지 않는다. 손바닥의 온기가 끝까지 머물러야 한다.
+cast:
+  command: 마법 thawing_heat
+  cooldown-seconds: 8
+  mana-cost: 40
+order: 63

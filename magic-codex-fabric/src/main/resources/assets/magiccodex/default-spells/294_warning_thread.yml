@@ -1,0 +1,14 @@
+id: warning_thread
+name: 경고의 실
+category: dark
+description: 대상 주변에 결계를 쳐 7초 동안 안에 있는 적이 밖으로 나가지 못하게 합니다.
+icon: magiccodex:textures/spells/expansion_2/warning_thread.png
+permission: magic.learned.warning_thread
+discovery:
+  description: 도서관에서 「경계를 긋는 실」 책 읽기.
+research: 팽팽하게 당겨 둔 실 하나가 잠든 야영지를 깨웠다.
+cast:
+  command: 마법 warning_thread
+  cooldown-seconds: 60
+  mana-cost: 200
+order: 294

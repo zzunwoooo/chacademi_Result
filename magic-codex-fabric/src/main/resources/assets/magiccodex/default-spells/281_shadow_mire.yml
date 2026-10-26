@@ -1,0 +1,14 @@
+id: shadow_mire
+name: 그림자 늪
+category: dark
+description: 조준한 곳에 4초 동안 그림자 늪을 펼칩니다. 늪에 들어온 적은 3초 동안 고정되고, 늪 안에서는 느려집니다.
+icon: ''
+permission: magic.learned.shadow_mire
+discovery:
+  description: 늪 바이옴에서 몬스터 30마리 처치하기.
+research: ''
+cast:
+  command: 마법 shadow_mire
+  cooldown-seconds: 20
+  mana-cost: 90
+order: 281

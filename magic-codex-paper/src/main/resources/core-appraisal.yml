@@ -1,0 +1,70 @@
+# 확률은 0~1. 4/7/10 단계는 고비, 통과 후 다음 단계 확률 회복.
+appraisal-cost: 1000
+# 일반 형성 실패가 발생했을 때 조건부 파괴 확률
+break-chance: 0.005
+# 평균 3.8056코어 / 8코어 이상 2.9626% / 10코어 0.0415% (파괴 판정 전 형성 개수)
+formation:
+  1: 1
+  2: 0.95
+  3: 0.90
+  4: 0.50
+  5: 0.70
+  6: 0.60
+  7: 0.30
+  8: 0.55
+  9: 0.35
+  10: 0.04
+# 감정에 성공한 코어의 성향(어떤 능력치가 '중심'인지) 확률 비율. 0 이상, 합에 대한 비율.
+# power = 지능 중심, mana = 마나 중심, haste = 마법 가속 중심. 예) 1/1/1 = 각 1/3, 1/0/0 = 예전처럼 항상 지능 중심.
+# (2026-10-25 이전에는 감정이 성향을 정하지 않아 모든 코어가 지능 중심이었음. 이미 감정된 코어는 그대로, 재구성 주문서로 변경)
+# 이 항목이 없는 예전 설정 파일도 각 1로 동작합니다.
+affinity-weights:
+  power: 1
+  mana: 1
+  haste: 1
+# 추후 강화 시스템이 읽을 잠재값. 실제 장비 강화는 아직 적용하지 않음.
+profiles:
+  0:
+    base-success: 0.9
+    starcatch-bonus: 0.02
+    stat-gain: 1.0
+  1:
+    base-success: 0.84
+    starcatch-bonus: 0.045
+    stat-gain: 1.5
+  2:
+    base-success: 0.78
+    starcatch-bonus: 0.07
+    stat-gain: 2.0
+  3:
+    base-success: 0.72
+    starcatch-bonus: 0.095
+    stat-gain: 2.5
+  4:
+    base-success: 0.66
+    starcatch-bonus: 0.12
+    stat-gain: 4.0
+  5:
+    base-success: 0.6
+    starcatch-bonus: 0.145
+    stat-gain: 4.5
+  6:
+    base-success: 0.54
+    starcatch-bonus: 0.17
+    stat-gain: 5.0
+  7:
+    base-success: 0.48
+    starcatch-bonus: 0.195
+    stat-gain: 7.5
+  8:
+    base-success: 0.42
+    starcatch-bonus: 0.22
+    stat-gain: 8.0
+  9:
+    base-success: 0.36
+    starcatch-bonus: 0.245
+    stat-gain: 8.5
+  10:
+    base-success: 0.3
+    starcatch-bonus: 0.27
+    stat-gain: 12.0

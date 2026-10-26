@@ -1,0 +1,14 @@
+id: crop_snare
+name: 작물 붙잡기
+category: earth
+description: 발밑에 뿌리 덫을 깔아 둡니다. 2분 동안 내가 거둔 작물이 살아나면 땅에서 나오자마자 뿌리에 3초 묶입니다.
+icon: ''
+permission: magic.learned.crop_snare
+discovery:
+  description: 살아난 작물을 처음 처치하기.
+research: ''
+cast:
+  command: 마법 crop_snare
+  cooldown-seconds: 60
+  mana-cost: 30
+order: 177

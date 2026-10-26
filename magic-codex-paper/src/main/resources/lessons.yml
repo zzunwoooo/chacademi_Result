@@ -1,0 +1,116 @@
+# 수업 (오픈 전 메모 #68·#70, 2026-10-26)
+#
+# 교수 NPC 대화창의 버튼으로 엽니다. ChacaNPC 캐릭터 파일(npcs/<교수>.yml) buttons 에:
+#   - { id: lesson, label: "수업 받으러 왔어요", action: "lesson:elena" }      ← elena = 아래 수업 키
+# 누르면 대화창이 바뀌어 "어떤 수업 들을래?" 와 함께 그 교수의 수업이 전부 선택지로 나옵니다
+# (수업 이름 · 필요 지능 · ✔ 들음 / (지능 부족)). 한 화면에 4개씩, 넘으면 이전/다음.
+#
+# 수업 내용 = books.yml 의 책 하나:
+#   title          책 제목 (수업 이름을 따로 안 적으면 선택지에 이 제목)
+#   pages          수업 내용 (책 UI 로 펼쳐짐)
+#   required-intelligence  필요 지능 (0 = 제한 없음). 모자라면 목록에 (지능 부족), 고르면 교수가 locked 대사로 막음
+#   commands       끝까지 읽고 닫을 때 실행 (플레이어당 평생 1번, 학교·야생 공유). 예:
+#                    - "lp user {player} permission set magic.learned.<마법ID> true"
+#                  commands 가 있어야 "✔ 들음" 이 표시됩니다.
+# 이미 들은 수업도 다시 펼쳐 볼 수 있어요 (명령은 다시 실행 안 됨).
+# 고친 뒤: /서버관리 새로고침 책 → /서버관리 새로고침 수업.  확인: /컨텐츠관리 수업 목록 · /컨텐츠관리 수업 열기 <키>
+#
+# 예시)
+# lessons:
+#   elena:
+#     teacher: 엘레나 교수            # 대화창 이름
+#     portrait: elena-neutral         # 대화창 일러스트 ID (스토리 대화와 같은 이름)
+#     ask: "오, 수업 들으러 왔구나! 오늘은 어떤 수업 들을래?"
+#     locked: "음… 이 수업은 아직 조금 어려울 거야. 지능을 더 키워서 오렴."
+#     all-done: "벌써 내 수업은 다 들었구나! 언제든 다시 펼쳐 봐도 좋아."
+#     classes:
+#       - { book: lesson_elena_1, name: "마법 이론 기초" }
+#       - { book: lesson_elena_2, name: "원소의 이해" }
+# 원소별 수업 (오너 2026-10-26): 기초 · 중급 · 고급 · 비전(교수 호감도로 해금), 마법이 적은 물·어둠은 응용 · 심화 추가. 수업 하나에 마법 여러 개 가능, 확률 없이 전부 습득.
+#   affinity: N  = 그 교수(npc)와의 호감도 N 이상이어야 열림. 그 전에는 "[비전] ??? · 호감도 N 필요" 로 보이고, 고르면 secret 대사.
+# 교수 배정: 바람 하르바 · 화염 세드릭 · 물 엘레나 · 대지 베르나 · 빛 이솔데(사서 겸 교수) · 어둠 그레고르 교감.
+# portrait 는 대화 일러스트 ID (런처 리소스팩 NPC 초상화 파일 이름, NPC_85_최신/portraits 기준).
+lessons:
+  harva:
+    teacher: "하르바 교수"
+    npc: teacher_harva                 # 호감도를 볼 ChacaNPC 캐릭터 ID
+    portrait: "teacher_harva-neutral"
+    ask: "…수업인가. 어느 바람부터 배울 거지."
+    locked: "아직 바람이 네 말을 듣지 않는다. 지능을 더 키워서 와."
+    secret: "(하르바 교수의 비전 마법은 조금 더 친해져야 배울 수 있을 것 같다…)"
+    all-done: "가르칠 건 다 가르쳤다. …잘했다."
+    classes:
+      - { book: lesson_wind_1, name: "[기초] 윈드 푸쉬 · 바람 화살" }
+      - { book: lesson_wind_taming, name: "[기초] 교화 — 숲의 짐승 달래기" }
+      - { book: lesson_wind_2, name: "[중급] 윈드 커터 · 되받는 바람" }
+      - { book: lesson_wind_3, name: "[고급] 퍼붓는 화살" }
+      - { book: lesson_wind_secret, name: "[비전] 중력지대 · 폭풍의 지휘", affinity: 30 }
+  cedric:
+    teacher: "세드릭 교수"
+    npc: tc_cedric                 # 호감도를 볼 ChacaNPC 캐릭터 ID
+    portrait: "tc_cedric-neutral"
+    ask: "하하! 몸이 근질근질하지? 오늘은 어떤 불을 피워 볼까!"
+    locked: "의욕은 좋은데 아직 불이 감당이 안 될 거야! 지능을 조금 더 키우고 오라고!"
+    secret: "(세드릭 교수의 비전 마법은 조금 더 친해져야 배울 수 있을 것 같다…)"
+    all-done: "내 수업은 전부 통과! 이제 남은 건 실전뿐이야!"
+    classes:
+      - { book: lesson_fire_1, name: "[기초] 파이어 볼 · 잿불 덫" }
+      - { book: lesson_fire_2, name: "[중급] 플레어 월 · 발화" }
+      - { book: lesson_fire_3, name: "[고급] 파이어 스트라이크 · 광석 재련" }
+      - { book: lesson_fire_secret, name: "[비전] 화염 채찍 · 불꽃 줄넘기", affinity: 30 }
+  elena:
+    teacher: "엘레나 교수"
+    npc: teacher_ellna                 # 호감도를 볼 ChacaNPC 캐릭터 ID
+    portrait: "elena-neutral"
+    ask: "어서 오렴. 오늘은 어떤 물을 만나 볼까?"
+    locked: "음… 이 수업은 아직 조금 어려울 거야. 지능을 더 키워서 다시 오렴."
+    secret: "(엘레나 교수의 비전 마법은 조금 더 친해져야 배울 수 있을 것 같다…)"
+    all-done: "벌써 내 수업은 다 들었구나! 언제든 다시 펼쳐 봐도 좋아."
+    classes:
+      - { book: lesson_water_1, name: "[기초] 물방울 탄환" }
+      - { book: lesson_water_2, name: "[중급] 도약하는 물방울" }
+      - { book: lesson_water_3, name: "[고급] 해일" }
+      - { book: lesson_water_4, name: "[응용] 물레 방패 · 파문방벽" }
+      - { book: lesson_water_5, name: "[심화] 물방울 인계 · 접히는 수면" }
+      - { book: lesson_water_secret, name: "[비전] 만년빙옥", affinity: 30 }
+  berna:
+    teacher: "베르나 교수"
+    npc: tc_berna                 # 호감도를 볼 ChacaNPC 캐릭터 ID
+    portrait: "tc_berna-neutral"
+    ask: "어머, 수업? 흙 냄새 좋은 날이네~ 뭐부터 해 볼까?"
+    locked: "으음~ 이건 아직 뿌리가 덜 자랐어. 지능을 좀 더 키워서 와 보렴~"
+    secret: "(베르나 교수의 비전 마법은 조금 더 친해져야 배울 수 있을 것 같다…)"
+    all-done: "다 배웠네~ 이제 온실에 놀러만 와도 돼."
+    classes:
+      - { book: lesson_earth_1, name: "[기초] 조약돌 던지기 · 돌 고르기" }
+      - { book: lesson_earth_2, name: "[중급] 석벽 · 동면의 씨앗 · 이끼 입히기" }
+      - { book: lesson_earth_3, name: "[고급] 지진 · 자재 치환" }
+      - { book: lesson_earth_secret, name: "[비전] 원초의 돌", affinity: 30 }
+  isolde:
+    teacher: "이솔데 교수"
+    npc: librarian_isolde                 # 호감도를 볼 ChacaNPC 캐릭터 ID
+    portrait: "librarian_isolde-neutral"
+    ask: "…도서관에서는 조용히. 어느 수업을 듣겠니."
+    locked: "그 수업은 아직 이르구나. 지능을 더 쌓고 오렴."
+    secret: "(이솔데 교수의 비전 마법은 조금 더 친해져야 배울 수 있을 것 같다…)"
+    all-done: "내가 가르칠 수 있는 건 여기까지란다. 나머지는 책이 알려 줄 거야."
+    classes:
+      - { book: lesson_light_1, name: "[기초] 작은 치유 · 동행 귀환" }
+      - { book: lesson_light_2, name: "[중급] 보호 결계 · 기억의 등불" }
+      - { book: lesson_light_3, name: "[고급] 자비의 화살 · 마력 예금" }
+      - { book: lesson_light_secret, name: "[비전] 성좌의 가호", affinity: 30 }
+  gregor:
+    teacher: "그레고르 교감"
+    npc: vice_gregor                 # 호감도를 볼 ChacaNPC 캐릭터 ID
+    portrait: "vice_gregor-neutral"
+    ask: "어둠 마법 수업이라. 가볍게 여길 생각이면 돌아가게. …어떤 수업인가."
+    locked: "아직 자격이 없네. 지능을 더 갖추고 오게."
+    secret: "(그레고르 교감의 비전 마법은 조금 더 친해져야 배울 수 있을 것 같다…)"
+    all-done: "…전부 마쳤군. 학교의 이름에 먹칠하지 않도록."
+    classes:
+      - { book: lesson_dark_1, name: "[기초] 그림자 매듭" }
+      - { book: lesson_dark_2, name: "[중급] 생명 갈취" }
+      - { book: lesson_dark_3, name: "[고급] 밤의 사슬" }
+      - { book: lesson_dark_4, name: "[응용] 나약함의 저주 · 회복 봉인" }
+      - { book: lesson_dark_5, name: "[심화] 마인드컨트롤 · 상처 회계" }
+      - { book: lesson_dark_secret, name: "[비전] 금서의 계약", affinity: 30 }

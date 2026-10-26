@@ -1,0 +1,1 @@
+package school.chacademia.housing;import java.util.UUID;final class HousingVisitPolicy {static boolean immediate(UUID viewer,UUID owner,boolean operator){return viewer.equals(owner)||operator;}static boolean allowed(UUID viewer,UUID owner,boolean operator,Boolean friend){return immediate(viewer,owner,operator)||Boolean.TRUE.equals(friend);}private HousingVisitPolicy(){}}

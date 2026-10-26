@@ -1,0 +1,14 @@
+id: hydro_burst
+name: 수류 탄환
+category: water
+description: 1.5초 동안 물줄기를 연달아 쏩니다. 맞은 적은 조금씩 밀려나고, 쏘는 동안에는 천천히 움직입니다.
+icon: ''
+permission: magic.learned.hydro_burst
+discovery:
+  description: 물방울 탄환으로 적을 300번 맞히기.
+research: ''
+cast:
+  command: 마법 hydro_burst
+  cooldown-seconds: 10
+  mana-cost: 45
+order: 122

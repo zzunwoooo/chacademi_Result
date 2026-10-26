@@ -1,0 +1,14 @@
+id: storm_eye
+name: 폭풍의 눈
+category: wind
+description: 4초 동안 몸 주위를 도는 바람 장벽을 두릅니다. 날아든 투사체를 궤도에 붙잡아 돌리다가, 끝날 때 바깥으로 흩뿌립니다.
+icon: ''
+permission: magic.learned.storm_eye
+discovery:
+  description: 되받는 바람을 50번 사용하기.
+research: ''
+cast:
+  command: 마법 storm_eye
+  cooldown-seconds: 30
+  mana-cost: 120
+order: 41

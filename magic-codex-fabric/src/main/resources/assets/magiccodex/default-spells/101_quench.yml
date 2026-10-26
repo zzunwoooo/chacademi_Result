@@ -1,0 +1,14 @@
+id: quench
+name: 불길 씻기
+category: water
+description: 자신에게 붙은 불을 끕니다. 이후 화염 면역을 부여하지는 않습니다.
+icon: magiccodex:textures/spells/novice_extra/quench.png
+permission: magic.learned.quench
+discovery:
+  description: 불이 붙은 채 물에 들어가 불 끄기 5번.
+research: 화염 실습을 시작하기 전에 꼭 배워 두어야 할 마법.
+cast:
+  command: 마법 quench
+  cooldown-seconds: 3
+  mana-cost: 5
+order: 101

@@ -1,0 +1,15 @@
+Id: chacademia_mooshroom
+MythicMob: ChAcademiaPetMooshroom
+Permission: chacademia.pet.mooshroom
+Distance: 8
+SpawnRange: 2
+ComingBackRange: 3
+Mountable: false
+AutoRide: false
+Icon:
+  Name: 무시룸
+  Material: MOOSHROOM_SPAWN_EGG
+  Description:
+  - 교화로 함께하게 된 동료
+CheckPermission: true
+FollowOwner: true

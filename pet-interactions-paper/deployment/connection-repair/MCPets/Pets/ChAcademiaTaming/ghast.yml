@@ -1,0 +1,15 @@
+Id: chacademia_ghast
+MythicMob: ChAcademiaPetGhast
+Permission: chacademia.pet.ghast
+Distance: 8
+SpawnRange: 2
+ComingBackRange: 3
+Mountable: false
+AutoRide: false
+Icon:
+  Name: 가스트
+  Material: GHAST_SPAWN_EGG
+  Description:
+  - 교화로 함께하게 된 동료
+CheckPermission: true
+FollowOwner: true

@@ -1,0 +1,14 @@
+id: eclipse_eye
+name: 월식의 눈
+category: dark
+description: 5초 동안 영창한 뒤 넓은 어둠의 영역을 펼칩니다. 영역 안에서 자신은 빨라지고 마나가 바닥나지 않으며, 떠도는 달빛 조각이 닿는 적에게 피해를 줍니다.
+icon: magiccodex:textures/spells/expansion_2/eclipse_eye.png
+permission: magic.learned.eclipse_eye
+discovery:
+  description: 최대 마나 1,500 달성하기.
+research: 어둠을 담을 그릇이 깊어지자, 달빛마저 그 안에 잠겼다.
+cast:
+  command: 마법 eclipse_eye
+  cooldown-seconds: 300
+  mana-cost: 450
+order: 299

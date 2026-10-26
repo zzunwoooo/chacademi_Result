@@ -1,0 +1,14 @@
+id: thorn_armor
+name: 가시 갑옷
+category: earth
+description: 8초 동안 가시 갑옷을 두릅니다. 근접 공격을 받으면 공격자에게 작은 반격 피해를 줍니다. 반격 순간 짧고 국소적인 가시 반응을 표현합니다.
+icon: magiccodex:textures/spells/expansion/thorn_armor.png
+permission: magic.learned.thorn_armor
+discovery:
+  description: 달콤한 열매 덤불에 누적 10회 찔립니다.
+research: 왜 식물에 가시가 필요한지 충분히 이해했다면, 이제 직접 둘러 볼 차례다.
+cast:
+  command: 마법 thorn_armor
+  cooldown-seconds: 25
+  mana-cost: 55
+order: 180

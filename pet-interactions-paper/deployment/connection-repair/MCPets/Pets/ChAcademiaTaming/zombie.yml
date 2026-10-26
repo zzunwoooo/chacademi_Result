@@ -1,0 +1,15 @@
+Id: chacademia_zombie
+MythicMob: ChAcademiaPetZombie
+Permission: chacademia.pet.zombie
+Distance: 8
+SpawnRange: 2
+ComingBackRange: 3
+Mountable: false
+AutoRide: false
+Icon:
+  Name: 좀비
+  Material: ZOMBIE_SPAWN_EGG
+  Description:
+  - 교화로 함께하게 된 동료
+CheckPermission: true
+FollowOwner: true

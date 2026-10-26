@@ -1,0 +1,34 @@
+package school.magiccodex.protocol;
+import java.io.*;import java.util.*;
+public final class ShopProtocol {
+ public static final String REQUEST="magiccodex:shop_request",RESPONSE="magiccodex:shop_response";public static final int MAX_BYTES=60000,MAX_PREVIEW_BYTES=32768,OPEN=0,BUY=1,SELL=2,CLOSE=3;
+ public record Request(int action,long sequence,long session,String shop,long revision,String product,String quantity,String operation,String search){}
+ /**
+  * 교환 상품(2026-10-25): costCount&gt;0 이면 돈 대신 비용 아이템 costCount 개(수량 1개당)를 낸다. 그때 buy = costCount 를 숫자 글자로(수량 계산·구매 탭용), sell = "" (판매 없음). 화면은 "G" 대신 비용 아이템으로 보인다.
+  * costName = 비용 아이템 표시 이름(서버 대체 이름), costHeld = 지금 인벤토리에 있는 그 아이템 수, costPreview = 비용 아이템 견본(상품 견본과 같은 직렬화).
+  */
+ public record Product(String id,String name,String buy,String sell,int owned,byte[] preview,String costName,int costCount,int costHeld,byte[] costPreview){
+  public Product(String id,String name,String buy,String sell,int owned,byte[] preview){this(id,name,buy,sell,owned,preview,"",0,0,new byte[0]);}
+  public boolean exchange(){return costCount>0;}
+ }
+ public record Response(long sequence,long session,String shop,String title,String portrait,long revision,String balance,String message,List<Product> products,String completedOperation,String npcName,String role){
+ /** role: 이름 위에 보이는 역할 문구(예: 잡화상인). 빈 값이면 화면이 "상점 주인"을 쓴다. */
+ public Response(long sequence,long session,String shop,String title,String portrait,long revision,String balance,String message,List<Product> products,String completedOperation,String npcName){this(sequence,session,shop,title,portrait,revision,balance,message,products,completedOperation,npcName,"");}
+ public Response(long sequence,long session,String shop,String title,String portrait,long revision,String balance,String message,List<Product> products,String completedOperation){this(sequence,session,shop,title,portrait,revision,balance,message,products,completedOperation,"");}
+ public Response(long sequence,long session,String shop,String title,String portrait,long revision,String balance,String message,List<Product> products){this(sequence,session,shop,title,portrait,revision,balance,message,products,"");}
+ }
+ private interface Write{void run(DataOutputStream o)throws IOException;}
+ /** 응답 판: SHP4 = 상품마다 교환 비용 칸이 붙는다(2026-10-25). 요청은 SHP3 그대로. 읽을 때는 SHP3 응답도 받는다(교환 없음). */
+ private static final int REQUEST_MAGIC=0x53485033,RESPONSE_MAGIC=0x53485034,MAX_COST=2304;
+ private static byte[] pack(Write f){return pack(REQUEST_MAGIC,f);}
+ private static byte[] pack(int magic,Write f){try{var b=new ByteArrayOutputStream();var o=new DataOutputStream(b);o.writeInt(magic);f.run(o);if(b.size()>MAX_BYTES)throw new IOException("size");return b.toByteArray();}catch(IOException e){throw new IllegalArgumentException(e);}}
+ public static byte[] encode(Request r){return pack(o->{o.writeByte(r.action);o.writeLong(r.sequence);o.writeLong(r.session);o.writeUTF(r.shop);o.writeLong(r.revision);o.writeUTF(r.product);o.writeUTF(r.quantity);o.writeUTF(r.operation);o.writeUTF(r.search);});}
+ public static byte[] encode(Response r){return pack(RESPONSE_MAGIC,o->{o.writeLong(r.sequence);o.writeLong(r.session);o.writeUTF(r.shop);o.writeUTF(r.title);o.writeUTF(r.portrait);o.writeLong(r.revision);o.writeUTF(r.balance);o.writeUTF(r.message);o.writeInt(r.products.size());for(var p:r.products){o.writeUTF(p.id);o.writeUTF(p.name);o.writeUTF(p.buy);o.writeUTF(p.sell);o.writeInt(p.owned);o.writeInt(p.preview.length);o.write(p.preview);o.writeUTF(p.costName);o.writeInt(p.costCount);o.writeInt(p.costHeld);o.writeInt(p.costPreview.length);o.write(p.costPreview);}o.writeUTF(r.completedOperation);o.writeUTF(r.npcName);o.writeUTF(r.role);});}
+ private static DataInputStream input(byte[] b)throws IOException{if(b.length<4||b.length>MAX_BYTES)throw new IOException("size");var i=new DataInputStream(new ByteArrayInputStream(b));if(i.readInt()!=REQUEST_MAGIC)throw new IOException("version");return i;}
+ /** 응답 머리: SHP4 면 true(교환 칸 있음), SHP3 면 false. */
+ private static boolean responseVersion(DataInputStream i)throws IOException{int v=i.readInt();if(v==RESPONSE_MAGIC)return true;if(v==REQUEST_MAGIC)return false;throw new IOException("version");}
+ private static String text(DataInputStream i,int max)throws IOException{var s=i.readUTF();if(s.length()>max)throw new IOException("text");return s;}
+ public static Request request(byte[] b){try{var i=input(b);var r=new Request(i.readUnsignedByte(),i.readLong(),i.readLong(),text(i,48),i.readLong(),text(i,36),text(i,10),text(i,36),text(i,80));if(i.available()!=0||r.action<0||r.action>CLOSE||r.sequence<=0||!r.shop.matches("[a-z0-9_-]{1,48}"))throw new IOException("request");if(r.action==BUY||r.action==SELL){UUID.fromString(r.product);UUID.fromString(r.operation);quantity(r.quantity);}return r;}catch(IOException|RuntimeException e){throw new IllegalArgumentException("shop request",e);}}
+ public static int quantity(String value){if(value==null||!value.matches("[0-9]{1,9}"))throw new IllegalArgumentException("quantity");int n=Integer.parseInt(value);if(n<1||n>576)throw new IllegalArgumentException("quantity limit");return n;}
+ public static Response response(byte[] b){try{if(b.length<4||b.length>MAX_BYTES)throw new IOException("size");var i=new DataInputStream(new ByteArrayInputStream(b));boolean costs=responseVersion(i);long sequence=i.readLong(),session=i.readLong();String shop=text(i,48),title=text(i,80),portrait=text(i,120);long revision=i.readLong();String balance=text(i,40),message=text(i,240);int n=i.readInt();if(n<0||n>256)throw new IOException("products");var ps=new ArrayList<Product>();for(int x=0;x<n;x++){String id=text(i,36),name=text(i,120),buy=text(i,32),sell=text(i,32);int owned=i.readInt(),size=i.readInt();if(owned<0||size<0||size>MAX_PREVIEW_BYTES)throw new IOException("product");byte[] preview=i.readNBytes(size);if(preview.length!=size)throw new IOException("preview");if(!costs){ps.add(new Product(id,name,buy,sell,owned,preview));continue;}String costName=text(i,120);int costCount=i.readInt(),costHeld=i.readInt(),costSize=i.readInt();if(costCount<0||costCount>MAX_COST||costHeld<0||costSize<0||costSize>MAX_PREVIEW_BYTES)throw new IOException("cost");byte[] costPreview=i.readNBytes(costSize);if(costPreview.length!=costSize)throw new IOException("cost preview");ps.add(new Product(id,name,buy,sell,owned,preview,costName,costCount,costHeld,costPreview));}String completed=text(i,36);if(!completed.isEmpty())UUID.fromString(completed);String npcName=text(i,120);String role=i.available()>0?text(i,40):"";if(i.available()!=0)throw new IOException("trailing");return new Response(sequence,session,shop,title,portrait,revision,balance,message,List.copyOf(ps),completed,npcName,role);}catch(IOException|RuntimeException e){throw new IllegalArgumentException("shop response",e);}}
+}

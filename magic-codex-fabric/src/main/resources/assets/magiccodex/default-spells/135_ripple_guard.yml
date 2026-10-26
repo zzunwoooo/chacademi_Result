@@ -1,0 +1,15 @@
+id: ripple_guard
+name: 파문방벽
+category: water
+description: 2초 동안 정면에 폭 4블록, 높이 3블록의 물 파문 방벽을 만듭니다. 정면으로 들어오는 모든 투사체를 반사하지 않고 소멸시키며
+  측면과 후방은 열려 있습니다.
+icon: magiccodex:textures/spells/reviewed_20261016/ripple_guard.png
+permission: magic.learned.ripple_guard
+discovery:
+  description: 엘레나 교수의 물 마법 응용 수업 듣기.
+research: ''
+cast:
+  command: 마법 ripple_guard
+  cooldown-seconds: 20
+  mana-cost: 120
+order: 135

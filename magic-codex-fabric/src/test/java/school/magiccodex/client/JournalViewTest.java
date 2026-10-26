@@ -1,0 +1,7 @@
+package school.magiccodex.client;
+import java.util.*;import school.magiccodex.protocol.JournalProtocol.Entry;import org.junit.jupiter.api.Test;import static org.junit.jupiter.api.Assertions.*;
+class JournalViewTest {
+ Entry row(String source,String id,boolean main,String state){return new Entry(source,id,"Title "+id,"Description "+id,state,main,"detail","");}
+ @Test void activeAndCompleteUseIdenticalCategoryAndDetailsRules(){var rows=List.of(row("story","chapter",true,"active"),row("quest","side",false,"active"),row("story","done",true,"claimed"),row("quest","done",false,"claimed"),row("story","hidden",true,"hidden"));for(boolean completed:List.of(false,true))for(boolean main:List.of(false,true)){var page=JournalView.page(rows,completed,main,999);assertEquals(1,page.total());assertEquals(0,page.index());assertEquals(main,page.entries().getFirst().main());assertEquals(completed?"claimed":"active",page.entries().getFirst().state());assertTrue(page.entries().getFirst().description().startsWith("Description"));}}
+ @Test void sourceKeysDeduplicateRetransmissionsWithoutConflatingDifferentLedgers(){var a=row("story","same",true,"active");var b=row("dialogue","same",true,"active");assertEquals(2,JournalView.page(List.of(a,a,b),false,true,0).total());var many=new ArrayList<Entry>();for(int i=0;i<14;i++)many.add(row("story","id"+i,true,"active"));assertEquals(2,JournalView.page(many,false,true,99).entries().size());assertEquals(6,JournalView.page(many,false,true,-1).entries().size());assertTrue(JournalView.page(List.of(),true,true,8).entries().isEmpty());}
+}

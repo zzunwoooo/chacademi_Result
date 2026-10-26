@@ -1,0 +1,40 @@
+plugins { id 'java' }
+group = 'kr.chacademy'
+version = '0.1.0-commands.1'
+base { archivesName = 'chaca-portrait' }
+repositories {
+    if (findProperty('localDependencyRepo')) maven { url = uri(property('localDependencyRepo')) }
+    mavenCentral()
+    maven { url = 'https://repo.papermc.io/repository/maven-public/' }
+}
+dependencies {
+    compileOnly 'io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT'
+    // ItemsAdder는 리플렉션으로만 호출한다 (컴파일 의존성 없음).
+    implementation('org.mariadb.jdbc:mariadb-java-client:3.5.10') { transitive = false }
+    testImplementation 'io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT'
+    // Official JavaCPP/OpenCV distributions from Maven Central; CPU-only Windows hosting.
+    implementation 'org.bytedeco:opencv:4.14.0-1.5.14'
+    runtimeOnly 'org.bytedeco:opencv:4.14.0-1.5.14:windows-x86_64'
+    runtimeOnly 'org.bytedeco:openblas:0.3.34-1.5.14:windows-x86_64'
+    runtimeOnly 'org.bytedeco:javacpp:1.5.14:windows-x86_64'
+    testRuntimeOnly 'org.xerial:sqlite-jdbc:3.49.1.0'
+    testImplementation platform('org.junit:junit-bom:5.11.4')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+// 일러스트 패킷 계약(Fabric UI와 공유)과 공통 DB 설정.
+sourceSets.main.java.srcDir '../chaca-portrait-protocol/src/main/java'
+sourceSets.main.java.srcDir '../magic-codex-database/src/main/java'
+sourceSets.test.java.srcDir '../chaca-portrait-protocol/src/test/java'
+jar {
+    from { configurations.runtimeClasspath.collect { zipTree(it) } }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+java { toolchain.languageVersion = JavaLanguageVersion.of(21) }
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8'; options.release = 21 }
+test { useJUnitPlatform() }
+processResources {
+    filteringCharset = 'UTF-8'
+    inputs.property 'version', project.version
+    filesMatching('plugin.yml') { expand version: project.version }
+}

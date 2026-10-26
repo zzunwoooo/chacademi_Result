@@ -1,0 +1,40 @@
+{
+  "warnings": [],
+  "out": "luka_norm.glb",
+  "bytes": 3436372,
+  "sha256": "ef446e711624bdc43a675b98719dfda51c3e38f3cda347a5a7a32f59651de574",
+  "heightBlocks": 1.8,
+  "scale": 1.7724283844304936,
+  "yawDegrees": 0.94,
+  "clips": {
+    "walk": {
+      "seconds": 2.3333,
+      "rootSpeed": 1.2307
+    },
+    "wait": {
+      "seconds": 6.0,
+      "rootSpeed": 0.0
+    },
+    "look_around": {
+      "seconds": 15.5833,
+      "rootSpeed": 0.0
+    },
+    "idle": {
+      "seconds": 15.3333,
+      "rootSpeed": 0.0
+    }
+  },
+  "triangles": 15977,
+  "joints": 65,
+  "textures": [
+    [
+      2048,
+      2048
+    ],
+    [
+      2048,
+      2048
+    ]
+  ],
+  "input": "luka.fbx"
+}

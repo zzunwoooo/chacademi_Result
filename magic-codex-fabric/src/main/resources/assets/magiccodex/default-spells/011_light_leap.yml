@@ -1,0 +1,14 @@
+id: light_leap
+name: 상승기류
+category: wind
+description: 바람의 힘으로 위로 약 7블록 도약합니다.
+icon: magiccodex:textures/spells/novice_extra/light_leap.png
+permission: magic.learned.light_leap
+discovery:
+  description: 달리면서 점프한 횟수를 30번 채우기.
+research: 더 높이 뛰려는 반복된 도약이 발밑의 공기를 깨워, 몸을 들어 올리는 바람이 되었다.
+cast:
+  command: 마법 light_leap
+  cooldown-seconds: 10
+  mana-cost: 20
+order: 11

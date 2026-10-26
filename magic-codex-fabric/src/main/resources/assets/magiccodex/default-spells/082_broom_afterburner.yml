@@ -1,0 +1,14 @@
+id: broom_afterburner
+name: 불꽃 추진
+category: fire
+description: 빗자루 솔 끝에 불꽃을 붙여 3초 동안 최고 속도를 끌어올립니다. 그동안 빗자루 자국이 불꽃으로 바뀝니다.
+icon: ''
+permission: magic.learned.broom_afterburner
+discovery:
+  description: 빗자루를 타고 누적 5,000블록 날기.
+research: ''
+cast:
+  command: 마법 broom_afterburner
+  cooldown-seconds: 40
+  mana-cost: 80
+order: 82

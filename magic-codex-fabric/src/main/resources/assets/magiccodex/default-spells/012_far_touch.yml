@@ -1,0 +1,14 @@
+id: far_touch
+name: 손길 너머
+category: wind
+description: 최대 30블록 이내의 지정된 레버나 장치를 마법의 손으로 조작합니다.
+icon: magiccodex:textures/spells/intermediate/far_touch.png
+permission: magic.learned.far_touch
+discovery:
+  description: 학교 도서관에서 '기계에 대한 이해' 책을 읽기.
+research: 여러 장치를 움직여 본 손끝의 감각은, 정교한 바람을 타고 손이 닿지 않는 곳까지 이어진다.
+cast:
+  command: 마법 far_touch
+  cooldown-seconds: 15
+  mana-cost: 20
+order: 12

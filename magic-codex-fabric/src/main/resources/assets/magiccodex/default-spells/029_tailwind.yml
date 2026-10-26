@@ -1,0 +1,14 @@
+id: tailwind
+name: 순풍
+category: wind
+description: 등 뒤로 순풍을 불러 주변 파티원의 빗자루 균형을 바로 되찾아 줍니다. 15초 동안 균형이 덜 흔들립니다.
+icon: ''
+permission: magic.learned.tailwind
+discovery:
+  description: 빗자루에서 10번 떨어지기.
+research: ''
+cast:
+  command: 마법 tailwind
+  cooldown-seconds: 45
+  mana-cost: 50
+order: 29

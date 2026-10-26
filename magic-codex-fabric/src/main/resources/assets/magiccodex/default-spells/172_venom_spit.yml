@@ -1,0 +1,15 @@
+id: venom_spit
+name: 독 뱉기
+category: earth
+description: 독 덩어리를 포물선으로 뱉습니다. 떨어진 자리 주변의 적은 피해를 입고 3초 동안 중독됩니다.
+# Existing icon reused from thorn_seeds; dedicated mob-skill artwork was not supplied.
+icon: magiccodex:textures/spells/mob_skill/venom_spit.png
+permission: magic.learned.venom_spit
+discovery:
+  description: 바실리스크를 처치하면 5% 확률로 습득합니다.
+research: 바실리스크의 독은 높이 떠올랐다가 떨어진다. 엄폐물 너머까지.
+cast:
+  command: 마법 venom_spit
+  cooldown-seconds: 10
+  mana-cost: 30
+order: 172

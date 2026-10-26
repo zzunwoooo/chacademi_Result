@@ -1,0 +1,14 @@
+id: sand_flick
+name: 모래 한 줌
+category: earth
+description: 모래 한 줌을 앞쪽으로 확 뿌립니다. 피해는 약하지만 눈에 모래가 들어간 적은 3초 동안 앞을 보지 못합니다.
+icon: ''
+permission: magic.learned.sand_flick
+discovery:
+  description: 사막 바이옴에서 몬스터 30마리 처치하기.
+research: ''
+cast:
+  command: 마법 sand_flick
+  cooldown-seconds: 10
+  mana-cost: 10
+order: 156

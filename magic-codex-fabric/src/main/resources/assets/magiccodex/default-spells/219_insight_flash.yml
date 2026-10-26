@@ -1,0 +1,14 @@
+id: insight_flash
+name: 영감의 섬광
+category: light
+description: 번뜩이는 영감을 얻습니다. 다음 연금 시도 한 번은 넣은 재료 중 몇 가지가 맞는지 숫자로 알려 줍니다.
+icon: ''
+permission: magic.learned.insight_flash
+discovery:
+  description: 연금술 공방에서 「연금술사의 번뜩임」 책 읽기.
+research: ''
+cast:
+  command: 마법 insight_flash
+  cooldown-seconds: 120
+  mana-cost: 30
+order: 219

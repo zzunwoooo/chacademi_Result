@@ -1,0 +1,14 @@
+id: arcane_imprint
+name: 마력 각인
+category: light
+description: 곡괭이에만 적용되며 20초 동안 3×3 채굴이 가능합니다.
+icon: magiccodex:textures/spells/advanced/arcane_imprint.png
+permission: magic.learned.arcane_imprint
+discovery:
+  description: 모루로 도구에 이름을 누적 10번 붙이기.
+research: 이름을 새긴 도구에 마음까지 새겨 넣을 수 있다면.
+cast:
+  command: 마법 arcane_imprint
+  cooldown-seconds: 30
+  mana-cost: 180
+order: 239

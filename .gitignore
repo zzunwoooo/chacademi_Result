@@ -1,0 +1,64 @@
+# Build products and caches
+.gradle/
+**/build/
+**/__pycache__/
+*.pyc
+*.class
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
+*.zip
+*.rar
+*.7z
+*.tar
+*.gz
+*.log
+# Local compile libraries: inventory only is versioned.
+/plugins/
+/libraries/
+**/lib/*.jar
+# Runtime/player data and credentials
+**/runtime.json
+**/data/history/
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+*.sqlite-wal
+*.sqlite-shm
+database.properties
+.env
+.env.*
+*.pem
+*.pfx
+*.key
+id_rsa*
+id_ed25519*
+authorized_keys
+known_hosts
+auth.json
+hosts.yml
+forwarding.secret
+velocity.toml
+secrets/
+private/
+credentials/
+backups/
+.idea/
+.vscode/
+
+# Nested standalone project Gradle wrappers
+!**/gradle/wrapper/gradle-wrapper.jar
+
+# Private shop/mailbox connection settings
+shop-mailbox-database.properties
+
+# Private portrait reference assets must never enter public Git.
+**/style-reference.png
+**/style-reference-full.png
+
+# Dedicated operating player-state connection is private.
+player-state-database.properties
+
+# Private artifact receipts and migration inputs
+artifact-purchase-receipts/
+*-artifact-nodes-*.tsv

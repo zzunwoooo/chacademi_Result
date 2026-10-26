@@ -1,0 +1,116 @@
+# ============================================================
+#  차카데미 운영 대시보드 설정 (메모 #92) — UTF-8 로 저장
+#  복사 위치(권장): C:/Chacademi/ops-dashboard/ops-dashboard.properties
+#  ※ 경로는 / 로 적는다 (이 형식에서 \ 는 특수 문자라 사라짐). \ 를 꼭 쓰려면 \\ 두 번.
+#  ★ 표시 = GPT 가 호스팅에서 실제 값으로 채울 것. 이 파일(실제 값)은 저장소에 올리지 않는다.
+#  바꾼 뒤에는 대시보드를 다시 시작해야 적용된다.
+# ============================================================
+
+# ---------- 웹 ----------
+http.bind=0.0.0.0
+# ★ 외부에서 열 포트 (방화벽·공유기 포트포워딩 같이)
+http.port=8470
+# 비밀번호: 환경변수 CHACA_OPS_PASSWORD 가 있으면 그것을 쓴다 (권장).
+# 파일에 둘 거면 password= (8자 이상) 또는 password.sha256= (java -jar <jar> --hash 비밀번호 로 만든 값)
+password=
+password.sha256=
+session.hours=12
+login.max-failures=5
+login.lock-minutes=15
+# 앞에 리버스 프록시(nginx 등)를 둘 때만 true
+http.trust-forwarded-for=false
+# HTTPS (선택): PKCS12 인증서. 비우면 HTTP. 비밀번호는 환경변수 CHACA_OPS_TLS_PASSWORD 도 됨
+tls.keystore=
+tls.password=
+# 작업 기록(ops-actions.log) 폴더. 상대 경로면 이 설정 파일 옆
+data-dir=data
+timezone=Asia/Seoul
+host.disk-path=C:/Chacademi
+
+# ---------- 공유 DB (하트비트 codex_server_status · 운영 기록 codex_audit_log) ----------
+# 게임 서버의 database.properties 를 그대로 읽는 것이 제일 간단 (비밀번호를 두 번 안 적음)
+# ★ 실제 경로 확인
+db.properties-file=C:/Chacademi/network/school/plugins/MagicCodexBridge/database.properties
+# 위를 비우면 아래 값 사용 (비밀번호는 환경변수 CHACA_OPS_DB_PASSWORD 도 됨). 읽기 전용 계정이면 더 좋다.
+db.host=127.0.0.1
+db.port=3306
+db.name=
+db.user=
+db.password=
+db.status-table=codex_server_status
+
+# ---------- 서버 목록 ----------
+# 순서대로 화면에 나온다. 튜토리얼 서버는 만든 뒤에 추가 (없는 서버를 넣으면 늘 "꺼짐" 빨간 표시)
+servers=proxy,school,arena,wild1,wild2
+
+# 공통 키 (server.<id>.):
+#   label        화면 이름
+#   type         paper | proxy (proxy/velocity 라는 id 는 자동 proxy)
+#   host, port   상태 핑을 보낼 주소 (게임 접속 포트)
+#   log          latest.log 경로 (콘솔 탭·오류 급증 경보·spark 링크 찾기)
+#   heartbeat-id 하트비트 server_id (기본 = id). MagicCodexBridge server-heartbeat.yml 의 server-id 와 같아야 함
+#   console      rcon | script | none  (명령 보내기 방법)
+#   rcon.port / rcon.password   (비밀번호는 환경변수 CHACA_OPS_RCON_<ID 대문자> 도 됨, 예 CHACA_OPS_RCON_SCHOOL)
+#   console.script  console=script 일 때 실행할 명령. {server} {command} 가 바뀜
+#   start / stop / restart   조작 버튼이 실행할 Windows 명령. restart 를 비우면 stop → 꺼짐 확인 → start
+#   spark-command   spark 60초 버튼이 보내는 명령
+#
+# ★ 정지는 반드시 Stop-Network.ps1 -Server <id> (Control.ps1 -Action Stop 은 -Server 를 무시하고 프록시까지 전부 끈다!)
+
+server.proxy.label=프록시 (Velocity)
+server.proxy.type=proxy
+server.proxy.host=127.0.0.1
+server.proxy.port=25565
+# ★ Velocity 로그 경로 확인
+server.proxy.log=C:/Chacademi/network/velocity/logs/latest.log
+# Velocity 는 RCON 이 없다. 감독 스크립트로 콘솔 명령을 넣을 수 있으면 script 로 (★ -Server 이름 확인)
+server.proxy.console=none
+server.proxy.console.script=
+# ★ 프록시만 시작/정지하는 명령이 있으면 채우기 (없으면 비워 두면 버튼이 안 나옴)
+server.proxy.start=
+server.proxy.stop=
+server.proxy.restart=
+server.proxy.spark-command=sparkv profiler start --timeout 60
+
+server.school.label=학교
+server.school.host=127.0.0.1
+server.school.port=25566
+server.school.log=C:/Chacademi/network/school/logs/latest.log
+server.school.console=rcon
+# ★ school server.properties 의 rcon.port 와 같게 (enable-rcon=true)
+server.school.rcon.port=25576
+# ★ 환경변수 CHACA_OPS_RCON_SCHOOL 권장
+server.school.rcon.password=
+# RCON 대신 기존 감독 콘솔을 쓰려면: console=script 와 아래 줄
+server.school.console.script="C:/Program Files/PowerShell/7/pwsh.exe" -NoProfile -File C:/Chacademi/network/scripts/Control.ps1 -Action Console -Server {server} -Command {command}
+server.school.start="C:/Program Files/PowerShell/7/pwsh.exe" -NoProfile -File C:/Chacademi/network/scripts/Control.ps1 -Action Start -Server {server}
+server.school.stop="C:/Program Files/PowerShell/7/pwsh.exe" -NoProfile -File C:/Chacademi/network/scripts/Stop-Network.ps1 -Server {server}
+server.school.restart=
+
+# 야생1·야생2 는 새 호스팅 PC(24GB)에 있다. 대시보드는 기존 PC 에서 돌므로
+#   상태·TPS·MSPT·접속자 = 공유 DB 하트비트로 보임 (각 야생 Bridge database.properties 가 공유 DB 여야 함)
+#   켜짐/꺼짐 핑 = 새 PC 주소:포트 (★ 실제 주소·포트)
+#   로그·콘솔·시작/정지 = 다른 PC 라 여기서 안 됨 (RCON 포트를 밖에 열지 말 것). 필요하면 새 PC 에 대시보드를 하나 더 설치
+server.wild1.label=야생1
+server.wild1.host=★새호스팅주소
+# ★ 야생 게임 포트 · 하트비트 server-id 는 wild1·wild2 여야 함 (server-heartbeat.yml)
+server.wild1.port=25567
+server.wild1.console=none
+
+server.wild2.label=야생2
+server.wild2.host=★새호스팅주소
+server.wild2.port=25568
+server.wild2.console=none
+
+server.arena.label=아레나
+server.arena.host=127.0.0.1
+# ★ 아레나 게임 포트 (network.json / server.properties server-port)
+server.arena.port=25568
+server.arena.log=C:/Chacademi/network/arena/logs/latest.log
+server.arena.console=rcon
+server.arena.rcon.port=25578
+server.arena.rcon.password=
+server.arena.console.script="C:/Program Files/PowerShell/7/pwsh.exe" -NoProfile -File C:/Chacademi/network/scripts/Control.ps1 -Action Console -Server {server} -Command {command}
+server.arena.start="C:/Program Files/PowerShell/7/pwsh.exe" -NoProfile -File C:/Chacademi/network/scripts/Control.ps1 -Action Start -Server {server}
+server.arena.stop="C:/Program Files/PowerShell/7/pwsh.exe" -NoProfile -File C:/Chacademi/network/scripts/Stop-Network.ps1 -Server {server}
+# 튜토리얼 서버는 없음 (2026-10-26 오너: 튜토리얼 장소는 학교 안)

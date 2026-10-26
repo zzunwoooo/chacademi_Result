@@ -1,0 +1,14 @@
+id: mirror_tune
+name: 반사 조율
+category: light
+description: 멀리 있는 반사 거울이나 회전 다이얼을 90도 돌립니다.
+icon: magiccodex:textures/spells/gimmick/mirror_tune.png
+permission: magic.learned.mirror_tune
+discovery:
+  description: 도서관에서 「거울과 빛의 길」 책 읽기.
+research: 한 칸 돌리면 다른 길이 열린다. 네 번 돌리면 처음으로 돌아온다.
+cast:
+  command: 마법 mirror_tune
+  cooldown-seconds: 1
+  mana-cost: 15
+order: 209

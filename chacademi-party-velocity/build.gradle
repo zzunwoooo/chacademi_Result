@@ -1,0 +1,26 @@
+plugins { id 'java' }
+group = 'school.magiccodex'
+version = '0.2.2-integrated-20261019.2-arenachat.1-commands.1'
+repositories { mavenCentral() }
+def velocityJar = findProperty('velocityJar') ?: 'C:/Chacademi/tools/Velocity-source/proxy/build/libs/velocity-proxy-3.6.0-SNAPSHOT-all.jar'
+dependencies {
+    compileOnly files(velocityJar)
+    // 큐디치 대기열: 경기장 서버와 같은 MariaDB의 레이팅을 읽는다 (드라이버를 jar에 넣는다).
+    implementation files('../magic-codex-database/lib/mariadb-java-client-3.5.10.jar')
+    testImplementation files(velocityJar)
+    testImplementation platform('org.junit:junit-bom:5.11.4')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'com.h2database:h2:2.3.232'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+java { toolchain.languageVersion = JavaLanguageVersion.of(21) }
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8'; options.release = 21 }
+test { useJUnitPlatform() }
+processResources { inputs.property 'version', project.version; filesMatching('velocity-plugin.json') { expand version: project.version } }
+// 큐디치 대기열 프로토콜 (KyudichiQueueProtocol) 과 DB 설정 도우미를 함께 넣는다.
+sourceSets.main.java.srcDir '../magic-codex-protocol/src/main/java'
+sourceSets.main.java.srcDir '../magic-codex-database/src/main/java'
+jar {
+    from { zipTree('../magic-codex-database/lib/mariadb-java-client-3.5.10.jar') }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}

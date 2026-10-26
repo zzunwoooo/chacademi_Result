@@ -1,0 +1,14 @@
+id: droplet_relay
+name: 물방울 인계
+category: water
+description: 몸에서 출발한 물방울이 지정한 곳까지 날아가 주변의 적을 가두고 3초 동안 띄워 올립니다.
+icon: magiccodex:textures/spells/reviewed_20261020/droplet_relay.png
+permission: magic.learned.droplet_relay
+discovery:
+  description: 엘레나 교수의 물 마법 심화 수업 듣기.
+research: ''
+cast:
+  command: 마법 droplet_relay
+  cooldown-seconds: 20
+  mana-cost: 100
+order: 137

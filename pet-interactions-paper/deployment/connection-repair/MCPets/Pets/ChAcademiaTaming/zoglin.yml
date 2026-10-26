@@ -1,0 +1,15 @@
+Id: chacademia_zoglin
+MythicMob: ChAcademiaPetZoglin
+Permission: chacademia.pet.zoglin
+Distance: 8
+SpawnRange: 2
+ComingBackRange: 3
+Mountable: false
+AutoRide: false
+Icon:
+  Name: 조글린
+  Material: ZOGLIN_SPAWN_EGG
+  Description:
+  - 교화로 함께하게 된 동료
+CheckPermission: true
+FollowOwner: true

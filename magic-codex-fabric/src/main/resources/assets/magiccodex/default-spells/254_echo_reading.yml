@@ -1,0 +1,14 @@
+id: echo_reading
+name: 잔향 읽기
+category: dark
+description: 조사할 수 있는 물건에 남아 있는 기억을 읽어 사건의 단서를 확인합니다.
+icon: magiccodex:textures/spells/intermediate/echo_reading.png
+permission: magic.learned.echo_reading
+discovery:
+  description: 마법이 적힌 책(수업 책 빼고)을 3권 읽기.
+research: 물건은 입이 없지만 아무것도 기억하지 못하는 것은 아니다.
+cast:
+  command: 마법 echo_reading
+  cooldown-seconds: 10
+  mana-cost: 25
+order: 254

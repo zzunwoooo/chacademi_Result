@@ -1,0 +1,14 @@
+id: cauldron_fill
+name: 가마솥 채우기
+category: water
+description: 기존 가마솥의 물을 한 단계 채웁니다.
+icon: magiccodex:textures/spells/expansion/cauldron_fill.png
+permission: magic.learned.cauldron_fill
+discovery:
+  description: 도서관에서 '화학기초' 책을 읽기.
+research: 물이 없는 곳에서 물을 만들어 내기 위해서는 마법 수련 뿐만 아니라 화학 공부도 동반 되어야 한다.
+cast:
+  command: 마법 cauldron_fill
+  cooldown-seconds: 3
+  mana-cost: 8
+order: 102

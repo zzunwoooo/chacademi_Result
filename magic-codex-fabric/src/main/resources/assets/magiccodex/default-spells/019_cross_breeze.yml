@@ -1,0 +1,14 @@
+id: cross_breeze
+name: 바람 화살
+category: wind
+description: 플레이어 주변에 바람 화살 하나를 띄워 약 2초간 바람을 모은 뒤, 폭발적으로 발사합니다.
+icon: magiccodex:textures/spells/expansion_2/cross_breeze.png
+permission: magic.learned.cross_breeze
+discovery:
+  description: 하르바 교수의 바람 마법 기초 수업 듣기.
+research: 오래된 화살에 바람을 감싸자, 가벼운 깃 끝에서도 뜻밖의 위력이 솟아났다.
+cast:
+  command: 마법 cross_breeze
+  cooldown-seconds: 12
+  mana-cost: 40
+order: 19

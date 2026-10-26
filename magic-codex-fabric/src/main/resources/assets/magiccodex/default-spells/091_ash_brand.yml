@@ -1,0 +1,15 @@
+id: ash_brand
+name: 재의 낙인
+category: fire
+description: 대상 머리 위에 3초 뒤 폭발하는 불꽃 시계 낙인을 새깁니다. 폭발에 맞은 다른 적에게 낙인이 전이되며, 전이 횟수에는 제한이
+  없습니다. 각 적은 약 10초 동안 재부착되지 않습니다.
+icon: magiccodex:textures/spells/expansion/ash_brand.png
+permission: magic.learned.ash_brand
+discovery:
+  description: 화염 마법으로 몬스터 300마리 처치하기.
+research: 꺼진 듯한 불씨도 다시 번진다. 불길이 어디로 퍼지는지 조심하라.
+cast:
+  command: 마법 ash_brand
+  cooldown-seconds: 60
+  mana-cost: 300
+order: 91

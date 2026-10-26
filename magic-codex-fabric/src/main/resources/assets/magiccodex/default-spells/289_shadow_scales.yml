@@ -1,0 +1,14 @@
+id: shadow_scales
+name: 어둠의 저울
+category: dark
+description: 지정한 곳에 어둠 폭발을 일으킵니다. 대상의 체력이 자신보다 많을수록 더 큰 피해를 줍니다.
+icon: magiccodex:textures/spells/expansion_2/shadow_scales.png
+permission: magic.learned.shadow_scales
+discovery:
+  description: 체력이 하트 1칸 이하인 상태에서 몬스터 처치하기.
+research: 기울어진 저울은 약한 쪽에 조금 더 무거운 추를 얹는다.
+cast:
+  command: 마법 shadow_scales
+  cooldown-seconds: 20
+  mana-cost: 100
+order: 289

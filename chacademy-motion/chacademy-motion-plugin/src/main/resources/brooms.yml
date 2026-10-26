@@ -1,0 +1,341 @@
+# 빗자루 비행 설정 (비행 마법에서 사용)
+# 수치를 바꾼 뒤 /서버관리 새로고침 빗자루 → 다음 탑승부터 적용됩니다.
+#
+# 빗자루가 있는 플레이어(/유저관리 <닉네임> 빗자루 주기 로 지급)는 시간 제한 없이 날고,
+# 없는 플레이어는 practice-broom 으로 비행 마법의 지속 시간(기본 10초)만큼 납니다.
+
+# 파일 형식 버전. 플러그인이 이보다 오래된 파일을 찾으면 brooms.yml.v1.bak 으로 옮기고 새 기본 파일을 씁니다.
+config-version: 2
+
+practice-broom: broom_1
+
+# 숙련도 100% 까지 필요한 누적 비행 시간(시간). 숙련도가 낮을수록 균형이 쉽게 깨져서 잘 떨어집니다.
+mastery-full-hours: 3
+
+# 스페이스 상승 힘 (모든 빗자루 공통, 능력치 아님). 위를 보며 W 와 같이 누르면 더 빨리 오릅니다.
+climb-power: 0.055
+
+boost-cooldown-ticks: 120   # 부스트(달리기 키) 재사용 대기 (20틱 = 1초)
+roll-cooldown-ticks: 60     # 배럴롤(A/D 두 번) 재사용 대기
+catch-window-ticks: 40      # 떨어진 뒤 공중에서 빗자루를 다시 잡을 수 있는 시간
+
+# 빗자루를 탈 수 없는 월드 이름
+blocked-worlds: []
+
+debug: false
+
+# 각 항목 (2026-10-16 기획 확정: 30종, 등급 순서 broom_1~30. 수치는 1~10단계에서 계산한 값 그대로 — 등급 배수 없음)
+#   name         표시 이름
+#   grade        등급 (일반 / 희귀 / 유일 / 전설)
+#   levels       기획 단계 [최고속도, 가속, 선회, 제동, 안정성] (참고용. 실제로 쓰는 값은 아래 수치)
+#   max-speed    최고 속도 (블록/틱). 1단계 0.545(=크리에이티브 비행 10.9 b/s) ~ 10단계 1.65(33 b/s). 부스트 ×1.45
+#   accel        W 를 누를 때 틱마다 붙는 속도. 0.025 + 0.005×(단계-1)
+#   turn         느릴 때 틱마다 돌 수 있는 각도(도). 6 + 단계. 최고 속도에서는 60% 로 줄어듦. 위아래(시선 보고 W)에도 같은 값 적용
+#   brake        S 를 누를 때 틱마다 줄어드는 속도 비율. 0.025 + 0.005×(단계-1)
+#   stability    균형 게이지가 깎이는 양을 나누는 값. 0.6 + 1.2×(단계-1)/9. 최대 균형 = 90 + 3×단계
+#   description  획득권 아이템 설명 (플러그인은 아직 쓰지 않음)
+# 오르내림: 스페이스 = 상승(공통 climb-power), 위를 보고 W = 상승(둘 다 하면 더 빠름), 아래를 보고 W = 하강, 앉기 키 = 하강, 비행 마법 키 = 하차.
+#
+# 모델은 모드의 assets/chacademy_motion/brooms/<ID>.bbmodel 입니다.
+# ItemsAdder 리소스팩에 같은 경로로 넣으면 모드를 다시 배포하지 않고 모델을 바꾸거나 새 빗자루를 추가할 수 있습니다.
+brooms:
+  broom_1:
+    name: "견습생 빗자루"
+    grade: "일반"
+    levels: [2, 2, 2, 2, 4]
+    max-speed: 0.6678
+    accel: 0.030
+    turn: 8.0
+    brake: 0.030
+    stability: 1.0000
+    description: "학교에 갓 입학한 견습생들을 위한 빗자루. 빠르지는 않지만, 안정성만큼은 확실하게 검증되었다."
+  broom_2:
+    name: "대충 만든 빗자루"
+    grade: "일반"
+    levels: [4, 3, 2, 1, 1]
+    max-speed: 0.9133
+    accel: 0.035
+    turn: 8.0
+    brake: 0.025
+    stability: 0.6000
+    description: "견습생 빗자루를 뜯어 불법으로 개조한 빗자루. 속도는 끌어올렸지만, 서툰 솜씨 탓에 안정성이 크게 떨어진다."
+  broom_3:
+    name: "먼지 털이"
+    grade: "일반"
+    levels: [1, 3, 4, 4, 3]
+    max-speed: 0.5450
+    accel: 0.035
+    turn: 10.0
+    brake: 0.040
+    stability: 0.8667
+    description: "원래는 먼지를 털던 평범한 빗자루. 호기심 많은 학생이 한번 타 보았더니, 생각보다 꽤 쓸 만했다고 한다."
+  broom_4:
+    name: "차큐스 100"
+    grade: "일반"
+    levels: [3, 3, 3, 3, 3]
+    max-speed: 0.7906
+    accel: 0.035
+    turn: 9.0
+    brake: 0.035
+    stability: 0.8667
+    description: "브랜드 '차큐스'의 시작을 알린 빗자루. 안정적인 성능과 깔끔한 몸체 덕분에 지금까지도 꾸준히 사랑받고 있다."
+  broom_5:
+    name: "차큐스 100S"
+    grade: "일반"
+    levels: [4, 4, 4, 4, 2]
+    max-speed: 0.9133
+    accel: 0.040
+    turn: 10.0
+    brake: 0.040
+    stability: 0.7333
+    description: "차큐스 100을 공식적으로 개량한 모델. 몸체를 줄여 속도감과 조작감을 높였지만, 그만큼 안정성은 조금 떨어졌다."
+  broom_6:
+    name: "차큐스 200"
+    grade: "희귀"
+    levels: [4, 4, 4, 4, 4]
+    max-speed: 0.9133
+    accel: 0.040
+    turn: 10.0
+    brake: 0.040
+    stability: 1.0000
+    description: "차큐스 100의 단점을 보완해 출시한 모델. 출력을 끌어올렸음에도 안정성은 전혀 떨어지지 않았다."
+  broom_7:
+    name: "차큐스 300"
+    grade: "희귀"
+    levels: [5, 4, 4, 4, 4]
+    max-speed: 1.0361
+    accel: 0.040
+    turn: 10.0
+    brake: 0.040
+    stability: 1.0000
+    description: "공기 저항을 최소화한 슬림한 몸체로 최고 속도를 끌어올린 모델."
+  broom_8:
+    name: "고급스러운 빗자루"
+    grade: "희귀"
+    levels: [3, 4, 5, 5, 6]
+    max-speed: 0.7906
+    accel: 0.040
+    turn: 11.0
+    brake: 0.045
+    stability: 1.2667
+    description: "어느 장인이 귀족 가문에 바친 고급 빗자루. 안장과 장식에는 진짜 금이 쓰였다."
+  broom_9:
+    name: "차큐스 레이서 1"
+    grade: "희귀"
+    levels: [6, 5, 6, 4, 3]
+    max-speed: 1.1589
+    accel: 0.045
+    turn: 12.0
+    brake: 0.040
+    stability: 0.8667
+    description: "차큐스가 처음 선보인 경주용 빗자루. 최초로 열린 큐디치 대회에서 진가를 발휘했다."
+  broom_10:
+    name: "차큐스 레이서 2"
+    grade: "희귀"
+    levels: [7, 6, 5, 2, 3]
+    max-speed: 1.2817
+    accel: 0.050
+    turn: 11.0
+    brake: 0.030
+    stability: 0.8667
+    description: "안정성을 포기하고 속도에 모든 것을 걸었지만, 발걸이 덕분에 특유의 안정감은 살려냈다."
+  broom_11:
+    name: "차큐스 400 (참나무)"
+    grade: "희귀"
+    levels: [5, 5, 5, 5, 5]
+    max-speed: 1.0361
+    accel: 0.045
+    turn: 11.0
+    brake: 0.045
+    stability: 1.1333
+    description: "차큐스 400의 참나무 버전. 한층 진화한 성능은 물론, 취향에 따라 원하는 목재를 고를 수 있다."
+  broom_12:
+    name: "차큐스 400 (벚나무)"
+    grade: "희귀"
+    levels: [5, 5, 5, 5, 5]
+    max-speed: 1.0361
+    accel: 0.045
+    turn: 11.0
+    brake: 0.045
+    stability: 1.1333
+    description: "차큐스 400의 벚나무 버전. 한층 진화한 성능은 물론, 취향에 따라 원하는 목재를 고를 수 있다."
+  broom_13:
+    name: "차큐스 400 (자작나무)"
+    grade: "희귀"
+    levels: [5, 5, 5, 5, 5]
+    max-speed: 1.0361
+    accel: 0.045
+    turn: 11.0
+    brake: 0.045
+    stability: 1.1333
+    description: "차큐스 400의 자작나무 버전. 한층 진화한 성능은 물론, 취향에 따라 원하는 목재를 고를 수 있다."
+  broom_14:
+    name: "차큐스 400 (마호가니)"
+    grade: "희귀"
+    levels: [5, 5, 5, 5, 5]
+    max-speed: 1.0361
+    accel: 0.045
+    turn: 11.0
+    brake: 0.045
+    stability: 1.1333
+    description: "차큐스 400의 마호가니 버전. 한층 진화한 성능은 물론, 취향에 따라 원하는 목재를 고를 수 있다."
+  broom_15:
+    name: "차큐스 400 (대나무)"
+    grade: "희귀"
+    levels: [5, 5, 5, 5, 5]
+    max-speed: 1.0361
+    accel: 0.045
+    turn: 11.0
+    brake: 0.045
+    stability: 1.1333
+    description: "차큐스 400의 대나무 버전. 한층 진화한 성능은 물론, 취향에 따라 원하는 목재를 고를 수 있다."
+  broom_16:
+    name: "초보 마녀의 빗자루"
+    grade: "희귀"
+    levels: [4, 7, 5, 5, 4]
+    max-speed: 0.9133
+    accel: 0.055
+    turn: 11.0
+    brake: 0.045
+    stability: 1.0000
+    description: "초보 마녀를 위한 빗자루. 성능보다 겉모습에 더 신경 쓴 패션 아이템이다."
+  broom_17:
+    name: "차큐스 500"
+    grade: "유일"
+    levels: [7, 7, 6, 6, 6]
+    max-speed: 1.2817
+    accel: 0.055
+    turn: 12.0
+    brake: 0.050
+    stability: 1.2667
+    description: "수많은 성공작과 실패작을 거쳐 온 '차큐스'가 마침내 완성한 대작. 고급스러운 디자인과 압도적인 성능으로 다른 빗자루들과는 차원이 다르다."
+  broom_18:
+    name: "차큐스 500 (미드나잇)"
+    grade: "유일"
+    levels: [6, 7, 7, 7, 6]
+    max-speed: 1.1589
+    accel: 0.055
+    turn: 13.0
+    brake: 0.055
+    stability: 1.2667
+    description: "차큐스 500의 미드나잇 버전. 클래식한 빗자루의 감성을 좋아하는 라이더들에게 인기가 많다."
+  broom_19:
+    name: "차큐스 500 (에메랄드)"
+    grade: "유일"
+    levels: [8, 3, 5, 2, 5]
+    max-speed: 1.4044
+    accel: 0.035
+    turn: 11.0
+    brake: 0.030
+    stability: 1.1333
+    description: "차큐스 500의 에메랄드 버전. 빠른 속도를 즐기는 라이더들에게 인기가 많다."
+  broom_20:
+    name: "차큐스 500 (크림슨)"
+    grade: "유일"
+    levels: [7, 7, 7, 7, 7]
+    max-speed: 1.2817
+    accel: 0.055
+    turn: 13.0
+    brake: 0.055
+    stability: 1.4000
+    description: "차큐스 500의 업그레이드 버전. 새빨간 몸체에서 고급스러움까지 느껴진다."
+  broom_21:
+    name: "쏜살같은 빗자루"
+    grade: "유일"
+    levels: [8, 7, 6, 4, 4]
+    max-speed: 1.4044
+    accel: 0.055
+    turn: 12.0
+    brake: 0.040
+    stability: 1.0000
+    description: "경주용으로 개조한 고급형 빗자루. 화살처럼 쏘아져 나가는 비행은 모든 라이더의 선망의 대상이다."
+  broom_22:
+    name: "건메탈 레이서"
+    grade: "유일"
+    levels: [6, 8, 8, 8, 8]
+    max-speed: 1.1589
+    accel: 0.060
+    turn: 14.0
+    brake: 0.060
+    stability: 1.5333
+    description: "최신 기술을 집약한 마법공학의 정수. 탑승자의 안전까지 보장한다."
+  broom_23:
+    name: "바이올렛 트윈테일"
+    grade: "유일"
+    levels: [10, 10, 1, 1, 2]
+    max-speed: 1.6500
+    accel: 0.070
+    turn: 7.0
+    brake: 0.025
+    stability: 0.7333
+    description: "어느 괴짜 속도광이 불쑥 내놓은 빗자루. 안정성 검증에서는 최악의 점수를 받았지만, 두 개의 꼬리가 뿜어내는 속도만큼은 인정할 수밖에 없다."
+  broom_24:
+    name: "마법소녀 빗자루"
+    grade: "전설"
+    levels: [9, 8, 8, 7, 8]
+    max-speed: 1.5272
+    accel: 0.060
+    turn: 14.0
+    brake: 0.055
+    stability: 1.5333
+    description: "마법소녀들의 필수 아이템! 모든 소녀들이 동경하는 빗자루다."
+  broom_25:
+    name: "타락한 마법소녀 빗자루"
+    grade: "전설"
+    levels: [9, 8, 8, 8, 7]
+    max-speed: 1.5272
+    accel: 0.060
+    turn: 14.0
+    brake: 0.060
+    stability: 1.4000
+    description: "어둠의 힘에 물든 마법소녀의 빗자루. 뿜어져 나오는 어둠의 에너지가 빗자루의 힘을 한층 끌어올린다."
+  broom_26:
+    name: "드래고니아"
+    grade: "전설"
+    levels: [9, 7, 8, 8, 8]
+    max-speed: 1.5272
+    accel: 0.055
+    turn: 14.0
+    brake: 0.060
+    stability: 1.5333
+    description: "본 드래곤의 유해로 만든 빗자루. 살아생전 드래곤이 품었던 마나가 깃들어 있어 강력한 성능을 자랑한다."
+  broom_27:
+    name: "블러디 플라이"
+    grade: "전설"
+    levels: [10, 8, 7, 7, 7]
+    max-speed: 1.6500
+    accel: 0.060
+    turn: 13.0
+    brake: 0.055
+    stability: 1.4000
+    description: "혈마법 인챈트로 강화된 전설의 빗자루. 핏빛 나비가 흩날리는 모습은 소름 끼칠 만큼 아름답다."
+  broom_28:
+    name: "아홉꼬리 빗자루"
+    grade: "전설"
+    levels: [7, 10, 10, 10, 10]
+    max-speed: 1.2817
+    accel: 0.070
+    turn: 16.0
+    brake: 0.070
+    stability: 1.8000
+    description: "마을의 수호신이던 구미호가 사라진 자리에서 발견된 빗자루. 마을 사람들을 지키고 싶었던 마음이 형상화된 것만 같다."
+  broom_29:
+    name: "차큐스 1000 (엔젤)"
+    grade: "전설"
+    levels: [8, 8, 8, 8, 8]
+    max-speed: 1.4044
+    accel: 0.060
+    turn: 14.0
+    brake: 0.060
+    stability: 1.5333
+    description: "차큐스의 끝판왕 모델. 천사의 힘이 깃들어 있다."
+  broom_30:
+    name: "차큐스 1000 (데빌)"
+    grade: "전설"
+    levels: [9, 9, 9, 9, 6]
+    max-speed: 1.5272
+    accel: 0.065
+    turn: 15.0
+    brake: 0.065
+    stability: 1.2667
+    description: "차큐스의 끝판왕 모델. 악마의 힘이 깃들어 있다."

@@ -1,0 +1,185 @@
+{
+  "version": 3,
+  "name": "broom_fall",
+  "author": "Chacademy",
+  "description": "빗자루를 놓치고 허공에서 팔다리를 크게 허우적거리다 바닐라 자세로 돌아옴",
+  "emote": {
+    "beginTick": 2,
+    "endTick": 26,
+    "stopTick": 36,
+    "isLoop": false,
+    "returnTick": 0,
+    "nsfw": false,
+    "degrees": true,
+    "moves": [
+      {
+        "tick": 2,
+        "easing": "OUTQUAD",
+        "body": {
+          "pitch": 10,
+          "y": 0
+        }
+      },
+      {
+        "tick": 2,
+        "easing": "OUTQUAD",
+        "rightArm": {
+          "pitch": -150,
+          "yaw": 0,
+          "roll": 30
+        }
+      },
+      {
+        "tick": 2,
+        "easing": "OUTQUAD",
+        "leftArm": {
+          "pitch": -110,
+          "yaw": 0,
+          "roll": -35
+        }
+      },
+      {
+        "tick": 2,
+        "easing": "OUTQUAD",
+        "rightLeg": {
+          "pitch": -28,
+          "roll": 10
+        }
+      },
+      {
+        "tick": 2,
+        "easing": "OUTQUAD",
+        "leftLeg": {
+          "pitch": 14,
+          "roll": -8
+        }
+      },
+      {
+        "tick": 10,
+        "easing": "INOUTSINE",
+        "body": {
+          "pitch": 12,
+          "y": 0
+        }
+      },
+      {
+        "tick": 10,
+        "easing": "INOUTSINE",
+        "rightArm": {
+          "pitch": -105,
+          "yaw": 0,
+          "roll": 38
+        }
+      },
+      {
+        "tick": 10,
+        "easing": "INOUTSINE",
+        "leftArm": {
+          "pitch": -150,
+          "yaw": 0,
+          "roll": -28
+        }
+      },
+      {
+        "tick": 10,
+        "easing": "INOUTSINE",
+        "rightLeg": {
+          "pitch": 16,
+          "roll": 8
+        }
+      },
+      {
+        "tick": 10,
+        "easing": "INOUTSINE",
+        "leftLeg": {
+          "pitch": -26,
+          "roll": -10
+        }
+      },
+      {
+        "tick": 18,
+        "easing": "INOUTSINE",
+        "body": {
+          "pitch": 8,
+          "y": 0
+        }
+      },
+      {
+        "tick": 18,
+        "easing": "INOUTSINE",
+        "rightArm": {
+          "pitch": -140,
+          "yaw": 0,
+          "roll": 34
+        }
+      },
+      {
+        "tick": 18,
+        "easing": "INOUTSINE",
+        "leftArm": {
+          "pitch": -115,
+          "yaw": 0,
+          "roll": -34
+        }
+      },
+      {
+        "tick": 18,
+        "easing": "INOUTSINE",
+        "rightLeg": {
+          "pitch": -20,
+          "roll": 10
+        }
+      },
+      {
+        "tick": 18,
+        "easing": "INOUTSINE",
+        "leftLeg": {
+          "pitch": 10,
+          "roll": -10
+        }
+      },
+      {
+        "tick": 26,
+        "easing": "INOUTSINE",
+        "body": {
+          "pitch": 4,
+          "y": 0
+        }
+      },
+      {
+        "tick": 26,
+        "easing": "INOUTSINE",
+        "rightArm": {
+          "pitch": -90,
+          "yaw": 0,
+          "roll": 60
+        }
+      },
+      {
+        "tick": 26,
+        "easing": "INOUTSINE",
+        "leftArm": {
+          "pitch": -90,
+          "yaw": 0,
+          "roll": -60
+        }
+      },
+      {
+        "tick": 26,
+        "easing": "INOUTSINE",
+        "rightLeg": {
+          "pitch": -6,
+          "roll": 8
+        }
+      },
+      {
+        "tick": 26,
+        "easing": "INOUTSINE",
+        "leftLeg": {
+          "pitch": 6,
+          "roll": -8
+        }
+      }
+    ]
+  }
+}

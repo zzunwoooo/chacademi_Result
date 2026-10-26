@@ -1,0 +1,14 @@
+id: scorch_lock
+name: 작열의 표적
+category: fire
+description: 대상 한 명에게 6초 동안 조준선을 겁니다. 끝까지 시야에 두면 하늘에서 화염창이 떨어져 큰 피해를 주고, 놓치면 실패하고 마나 절반을 돌려받습니다.
+icon: ''
+permission: magic.learned.scorch_lock
+discovery:
+  description: 20블록 넘게 떨어진 적을 화염 마법으로 150번 맞히기.
+research: ''
+cast:
+  command: 마법 scorch_lock
+  cooldown-seconds: 45
+  mana-cost: 250
+order: 89

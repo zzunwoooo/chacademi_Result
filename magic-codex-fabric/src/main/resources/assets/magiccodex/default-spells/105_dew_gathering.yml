@@ -1,0 +1,14 @@
+id: dew_gathering
+name: 이슬 모으기
+category: water
+description: 빈 병 최대 3개에 물을 채웁니다. 비가 오지 않아도 사용할 수 있습니다.
+icon: magiccodex:textures/spells/expansion_2/dew_gathering.png
+permission: magic.learned.dew_gathering
+discovery:
+  description: 양동이로 물을 10번 뜨기.
+research: 새벽의 이슬을 모으던 약초사의 손끝에는 늘 작은 물방울이 맺혔다.
+cast:
+  command: 마법 dew_gathering
+  cooldown-seconds: 5
+  mana-cost: 6
+order: 105

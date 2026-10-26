@@ -1,0 +1,14 @@
+id: pressure_lance
+name: 수압창
+category: water
+description: 15블록 안으로 응축한 물의 창을 날려 최대 3개의 대상을 관통합니다. 뒤에 맞는 대상일수록 피해가 감소합니다.
+icon: magiccodex:textures/spells/reviewed_20261016/pressure_lance.png
+permission: magic.learned.pressure_lance
+discovery:
+  description: 물방울 탄환으로 몬스터를 30마리 처치하기.
+research: ''
+cast:
+  command: 마법 pressure_lance
+  cooldown-seconds: 12
+  mana-cost: 110
+order: 130

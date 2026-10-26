@@ -1,0 +1,14 @@
+id: water_level
+name: 수위 조절
+category: water
+description: 수위 기둥의 물을 한 칸 올립니다. 웅크린 채 쓰면 한 칸 내립니다.
+icon: magiccodex:textures/spells/gimmick/water_level.png
+permission: magic.learned.water_level
+discovery:
+  description: 양동이로 물을 30번 붓기.
+research: 물은 높은 곳을 싫어하지만, 부탁하면 한 칸쯤은 올라가 준다.
+cast:
+  command: 마법 water_level
+  cooldown-seconds: 1.5
+  mana-cost: 20
+order: 114

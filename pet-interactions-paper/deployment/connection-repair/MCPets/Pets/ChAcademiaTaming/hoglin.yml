@@ -1,0 +1,15 @@
+Id: chacademia_hoglin
+MythicMob: ChAcademiaPetHoglin
+Permission: chacademia.pet.hoglin
+Distance: 8
+SpawnRange: 2
+ComingBackRange: 3
+Mountable: false
+AutoRide: false
+Icon:
+  Name: 호글린
+  Material: HOGLIN_SPAWN_EGG
+  Description:
+  - 교화로 함께하게 된 동료
+CheckPermission: true
+FollowOwner: true

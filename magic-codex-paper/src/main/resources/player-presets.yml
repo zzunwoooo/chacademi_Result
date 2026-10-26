@@ -1,0 +1,37 @@
+# 특정 유저 사전 설정 (메모 #89, 2026-10-25). 학교·야생·던전에 같은 파일. 수정 뒤 /서버관리 새로고침 칭호
+# 접속 3초 뒤 항목마다 한 번만 적용 (적용 기록: DB 표 codex_title_awards 의 preset.* 키). 이미 적용한 항목은 파일을 바꿔도 다시 하지 않는다.
+#  house : 기숙사 미리 정하기 = /유저관리 <닉네임> 기숙사 <기숙사> 와 같음 (분류 거울에서 창시자 연출). 이미 분류된 유저면 이 기숙사로 바뀜.
+#  titles: titles.yml 칭호 ID 목록
+#  spells: 사전 해금할 마법 ID 목록 (/유저관리 <닉네임> 마법 습득 과 같음, 최초 발견 보상 없음)
+# 키는 UUID(권장) 또는 마인크래프트 계정명. 대상 유저 목록은 오너가 채움.
+# 예)
+#  00000000-0000-0000-0000-000000000000:
+#    house: 루미나
+#    titles: [suffix_student]
+#    spells: [feather_step]
+players:
+  # ── 교수 담당 유저 (오너 2026-10-26): 담당 원소마다 간단한 마법 1 + 복잡한 마법 1 미리 해금 ──
+  madoomok:        # 마두 — 바람·대지 (원소마다 간단 5 + 복잡 2)
+    spells: [wind_push, wind_needle, mini_twister, light_leap, moon_wind, thundercloud, arrested_orbit,
+             pebble_toss, sand_flick, thorn_manners, grass_sprouting, verdant_touch, earthquake, earth_elemental]
+    # 바람: 윈드 푸쉬·바람 송곳·작은 회오리·상승기류·반달 바람날 / 뇌운·퍼붓는 화살
+    # 대지: 조약돌 던지기·모래 한 줌·가시의 예절·잔디 돋우기·풍요의 손길 / 지진·그놈
+  "424242":        # 견자희 — 빛·어둠
+    spells: [prism_shot, sunlance_drop, minor_heal, chain_arrow, seal_talismans, prism_cage, constellation_blessing,
+             shadow_fang, dusk_orb, shadow_bind, night_sight, soul_scythe, night_chain, void_maw]
+    # 빛: 프리즘 탄·햇살 꽂기·작은 치유·사슬 화살·봉인 부적 / 빛의 감옥·성좌의 가호
+    # 어둠: 그림자 송곳니·어둠 구슬·그림자 매듭·밤눈·영혼 낫 / 밤의 사슬·공허의 입
+  chunbongtv:      # 춘봉 — 화염·물
+    spells: [ember_bolt, spark_flick, ember_puff, palm_fireworks, signal_flare, volcanic_barrage, crimson_spiral,
+             water_bolt, ice_shard, tide_slash, tide_stride, water_breath, tidal_wave, eternal_ice_prison]
+    # 화염: 파이어 볼·불씨 튕기기·작은 불숨·손바닥 폭죽·봉화 신호 / 화산탄 세례·홍염 나선
+    # 물: 물방울 탄환·얼음 조각·물살 베기·물살 타기·물결 숨결 / 해일·만년빙옥
+  # ── 기숙사 미리 배정 (분류 거울에서 창시자 연출) ──
+  babymansik:
+    house: 아르케온
+  Jungryeok:
+    house: 루미나
+  Chaenna:
+    house: 베스티아즈
+  alohay0:
+    house: 노크세르

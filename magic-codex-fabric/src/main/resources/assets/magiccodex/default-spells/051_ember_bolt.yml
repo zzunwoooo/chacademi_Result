@@ -1,0 +1,14 @@
+id: ember_bolt
+name: 파이어 볼
+category: fire
+description: 작은 불씨를 날려 몬스터 하나에게 약한 피해를 줍니다.
+icon: magiccodex:textures/spells/novice_extra/ember_bolt.png
+permission: magic.learned.ember_bolt
+discovery:
+  description: 세드릭 교수의 화염 마법 기초 수업 듣기.
+research: 불에 대한 두려움을 이겨낸 손끝에서, 작은 불씨가 처음으로 뜻에 따라 날아갔다.
+cast:
+  command: 마법 ember_bolt
+  cooldown-seconds: 4
+  mana-cost: 5
+order: 51

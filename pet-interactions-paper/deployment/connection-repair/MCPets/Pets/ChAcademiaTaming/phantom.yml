@@ -1,0 +1,15 @@
+Id: chacademia_phantom
+MythicMob: ChAcademiaPetPhantom
+Permission: chacademia.pet.phantom
+Distance: 8
+SpawnRange: 2
+ComingBackRange: 3
+Mountable: false
+AutoRide: false
+Icon:
+  Name: 팬텀
+  Material: PHANTOM_SPAWN_EGG
+  Description:
+  - 교화로 함께하게 된 동료
+CheckPermission: true
+FollowOwner: true

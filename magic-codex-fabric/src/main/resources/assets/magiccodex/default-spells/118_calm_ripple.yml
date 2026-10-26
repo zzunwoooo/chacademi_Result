@@ -1,0 +1,14 @@
+id: calm_ripple
+name: 잔잔한 물결
+category: water
+description: 물결을 잔잔하게 가라앉힙니다. 다음 낚시 한 번은 줄의 장력이 천천히 오릅니다.
+icon: ''
+permission: magic.learned.calm_ripple
+discovery:
+  description: 낚시 줄이 끊겨 물고기를 5번 놓치기.
+research: ''
+cast:
+  command: 마법 calm_ripple
+  cooldown-seconds: 120
+  mana-cost: 40
+order: 118

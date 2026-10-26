@@ -1,0 +1,14 @@
+id: ward_candle
+name: 결계 향초
+category: fire
+description: 향초를 피워 결계를 칩니다. 10분 동안 그 주변 넓은 곳에 몬스터가 새로 생겨나지 않습니다. 한 사람이 하나만 켤 수 있습니다.
+icon: ''
+permission: magic.learned.ward_candle
+discovery:
+  description: 밤에 촛불에 라이터로 불을 10번 붙이기.
+research: ''
+cast:
+  command: 마법 ward_candle
+  cooldown-seconds: 600
+  mana-cost: 60
+order: 77

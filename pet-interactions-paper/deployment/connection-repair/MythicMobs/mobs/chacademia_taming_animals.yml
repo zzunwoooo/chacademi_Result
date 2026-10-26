@@ -1,0 +1,971 @@
+ChAcademiaWildSkeletonHorse:
+  Type: SKELETON_HORSE
+  Display: 스켈레톤 말
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetSkeletonHorse:
+  Type: SKELETON_HORSE
+  Display: 스켈레톤 말
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildZombieHorse:
+  Type: ZOMBIE_HORSE
+  Display: 좀비 말
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetZombieHorse:
+  Type: ZOMBIE_HORSE
+  Display: 좀비 말
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildDonkey:
+  Type: DONKEY
+  Display: 당나귀
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetDonkey:
+  Type: DONKEY
+  Display: 당나귀
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildMule:
+  Type: MULE
+  Display: 노새
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetMule:
+  Type: MULE
+  Display: 노새
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildBat:
+  Type: BAT
+  Display: 박쥐
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetBat:
+  Type: BAT
+  Display: 박쥐
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildPig:
+  Type: PIG
+  Display: 돼지
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetPig:
+  Type: PIG
+  Display: 돼지
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildSheep:
+  Type: SHEEP
+  Display: 양
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetSheep:
+  Type: SHEEP
+  Display: 양
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildCow:
+  Type: COW
+  Display: 소
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetCow:
+  Type: COW
+  Display: 소
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildChicken:
+  Type: CHICKEN
+  Display: 닭
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetChicken:
+  Type: CHICKEN
+  Display: 닭
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildMooshroom:
+  Type: MOOSHROOM
+  Display: 무시룸
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetMooshroom:
+  Type: MOOSHROOM
+  Display: 무시룸
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildOcelot:
+  Type: OCELOT
+  Display: 오실롯
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetOcelot:
+  Type: OCELOT
+  Display: 오실롯
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildHorse:
+  Type: HORSE
+  Display: 말
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetHorse:
+  Type: HORSE
+  Display: 말
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildPolarBear:
+  Type: POLAR_BEAR
+  Display: 북극곰
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetPolarBear:
+  Type: POLAR_BEAR
+  Display: 북극곰
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildLlama:
+  Type: LLAMA
+  Display: 라마
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetLlama:
+  Type: LLAMA
+  Display: 라마
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildParrot:
+  Type: PARROT
+  Display: 앵무새
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetParrot:
+  Type: PARROT
+  Display: 앵무새
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildTurtle:
+  Type: TURTLE
+  Display: 거북
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetTurtle:
+  Type: TURTLE
+  Display: 거북
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildCat:
+  Type: CAT
+  Display: 고양이
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetCat:
+  Type: CAT
+  Display: 고양이
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildPanda:
+  Type: PANDA
+  Display: 판다
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetPanda:
+  Type: PANDA
+  Display: 판다
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildTraderLlama:
+  Type: TRADER_LLAMA
+  Display: 상인 라마
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetTraderLlama:
+  Type: TRADER_LLAMA
+  Display: 상인 라마
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildBee:
+  Type: BEE
+  Display: 꿀벌
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetBee:
+  Type: BEE
+  Display: 꿀벌
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildStrider:
+  Type: STRIDER
+  Display: 스트라이더
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetStrider:
+  Type: STRIDER
+  Display: 스트라이더
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildGoat:
+  Type: GOAT
+  Display: 염소
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetGoat:
+  Type: GOAT
+  Display: 염소
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildAllay:
+  Type: ALLAY
+  Display: 알레이
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetAllay:
+  Type: ALLAY
+  Display: 알레이
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildFrog:
+  Type: FROG
+  Display: 개구리
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetFrog:
+  Type: FROG
+  Display: 개구리
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildCamel:
+  Type: CAMEL
+  Display: 낙타
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetCamel:
+  Type: CAMEL
+  Display: 낙타
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildSniffer:
+  Type: SNIFFER
+  Display: 스니퍼
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetSniffer:
+  Type: SNIFFER
+  Display: 스니퍼
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildArmadillo:
+  Type: ARMADILLO
+  Display: 아르마딜로
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetArmadillo:
+  Type: ARMADILLO
+  Display: 아르마딜로
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn

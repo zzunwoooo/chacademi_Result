@@ -1,0 +1,14 @@
+id: summons_letter
+name: 소환장
+category: light
+description: 시전자를 주인으로 하는 새로운 길들인 늑대 1마리와 고양이 1마리를 소환합니다. 30초 뒤 사망합니다.
+icon: magiccodex:textures/spells/expansion_2/summons_letter.png
+permission: magic.learned.summons_letter
+discovery:
+  description: 길들인 늑대나 고양이와 함께 누적 2000블록 이동하기.
+research: 멀리서도 제 이름을 알아듣는 친구에게 보내는 짧은 편지.
+cast:
+  command: 마법 summons_letter
+  cooldown-seconds: 30
+  mana-cost: 100
+order: 235

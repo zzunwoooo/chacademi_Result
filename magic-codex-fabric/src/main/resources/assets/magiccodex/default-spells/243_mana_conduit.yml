@@ -1,0 +1,14 @@
+id: mana_conduit
+name: 마력 전선
+category: light
+description: 빛의 사슬에 연결된 마나석 5개를 주변 무작위 위치에 생성합니다. 가까이 접근한 사용자가 획득하면 마나 50에 지능 계수에 따른 값을 더해 회복합니다.
+icon: magiccodex:textures/spells/expansion_2/mana_conduit.png
+permission: magic.learned.mana_conduit
+discovery:
+  description: 다른 플레이어의 실제 체력을 누적 100 회복시킵니다.
+research: 누군가의 상처를 돌보던 마력이 작은 돌에 맺혔다. 빛의 사슬을 풀면, 다시 싸울 힘이 흘러나온다.
+cast:
+  command: 마법 mana_conduit
+  cooldown-seconds: 30
+  mana-cost: 300
+order: 243

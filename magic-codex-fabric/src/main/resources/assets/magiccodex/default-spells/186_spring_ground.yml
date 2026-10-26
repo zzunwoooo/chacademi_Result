@@ -1,0 +1,14 @@
+id: spring_ground
+name: 용수철 지반
+category: earth
+description: 한 지점에 임시 도약판을 만듭니다. 정확한 사용 횟수, 도약 높이, 유지 시간은 미정입니다.
+icon: magiccodex:textures/spells/expansion_2/spring_ground.png
+permission: magic.learned.spring_ground
+discovery:
+  description: 슬라임 블록 위에서 30번 뛰기.
+research: 땅이 단단해야만 한다는 생각을 잠시 내려놓자. 착지할 곳까지 내려놓으면 안 된다.
+cast:
+  command: 마법 spring_ground
+  cooldown-seconds: 20
+  mana-cost: 65
+order: 186

@@ -1,0 +1,14 @@
+id: wash_letters
+name: 글씨 씻기
+category: water
+description: 수정 권한이 있는 표지판 한 면의 글씨를 지웁니다.
+icon: magiccodex:textures/spells/expansion_2/wash_letters.png
+permission: magic.learned.wash_letters
+discovery:
+  description: 도서관에서 「서기관의 지우개」 책 읽기.
+research: 지우고 다시 쓰는 일도 마법 연구의 일부다.
+cast:
+  command: 마법 wash_letters
+  cooldown-seconds: 2
+  mana-cost: 3
+order: 104

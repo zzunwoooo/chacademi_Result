@@ -1,0 +1,144 @@
+ChAcademiaWildSnowGolem:
+  Type: SNOW_GOLEM
+  Display: 눈 골렘
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetSnowGolem:
+  Type: SNOW_GOLEM
+  Display: 눈 골렘
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildIronGolem:
+  Type: IRON_GOLEM
+  Display: 철 골렘
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetIronGolem:
+  Type: IRON_GOLEM
+  Display: 철 골렘
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildVillager:
+  Type: VILLAGER
+  Display: 주민
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetVillager:
+  Type: VILLAGER
+  Display: 주민
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn
+ChAcademiaWildWanderingTrader:
+  Type: WANDERING_TRADER
+  Display: 떠돌이 상인
+  Options:
+    Despawn: true
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+ChAcademiaPetWanderingTrader:
+  Type: WANDERING_TRADER
+  Display: 떠돌이 상인
+  Health: 20
+  Damage: 0
+  Options:
+    Despawn: false
+    Invincible: true
+    PreventOtherDrops: true
+    PreventMobKillDrops: true
+    PreventRandomEquipment: true
+    PreventRenaming: true
+    PreventSunburn: true
+    PreventBlockInfection: true
+    PreventTransformation: true
+    PreventTeleporting: true
+    PreventItemPickup: true
+    Collidable: false
+    Silent: true
+  AIGoalSelectors:
+  - clear
+  - lookatplayers
+  AITargetSelectors:
+  - clear
+  Skills:
+  - addtag{t=chacademia_pet} @self ~onSpawn

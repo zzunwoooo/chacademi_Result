@@ -1,0 +1,15 @@
+id: seal_circle
+name: 봉인진
+category: light
+description: 조준한 자리에 봉인진을 그립니다. 잠시 뒤 진이 닫히며 안에 있는 적의 무장을 1.5초 동안 해제합니다.
+# Existing icon reused from sealing_thread; dedicated mob-skill artwork was not supplied.
+icon: magiccodex:textures/spells/mob_skill/seal_circle.png
+permission: magic.learned.seal_circle
+discovery:
+  description: 봉인의 술사를 처치하면 5% 확률로 습득합니다.
+research: 봉인의 술사는 칼을 빼앗지 않는다. 칼을 쥘 이유를 잊게 한다.
+cast:
+  command: 마법 seal_circle
+  cooldown-seconds: 16
+  mana-cost: 45
+order: 226

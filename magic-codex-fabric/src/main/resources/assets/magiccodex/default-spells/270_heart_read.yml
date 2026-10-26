@@ -1,0 +1,14 @@
+id: heart_read
+name: 마음 읽기
+category: dark
+description: 바라보는 NPC의 마음을 살짝 엿봅니다. 그 NPC가 좋아하는 선물 하나를 알려 줍니다. NPC마다 하루에 한 번만 읽을 수 있습니다.
+icon: ''
+permission: magic.learned.heart_read
+discovery:
+  description: NPC에게 선물을 10번 주기.
+research: ''
+cast:
+  command: 마법 heart_read
+  cooldown-seconds: 60
+  mana-cost: 40
+order: 270

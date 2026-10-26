@@ -1,0 +1,14 @@
+id: protective_ward
+name: 보호 결계
+category: light
+description: 10초 동안 투사체를 흡수하고 이를 임시 추가 체력 보호막으로 전환합니다. 보호막의 지속 시간은 10초입니다.
+icon: magiccodex:textures/spells/intermediate/protective_ward.png
+permission: magic.learned.protective_ward
+discovery:
+  description: 이솔데 교수의 빛 마법 중급 수업 듣기.
+research: 누군가의 앞을 가로막기 위해서가 아니라 뒤에 있는 이를 지키기 위한 빛.
+cast:
+  command: 마법 protective_ward
+  cooldown-seconds: 30
+  mana-cost: 100
+order: 232

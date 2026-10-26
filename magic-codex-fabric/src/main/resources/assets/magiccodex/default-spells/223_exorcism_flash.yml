@@ -1,0 +1,14 @@
+id: exorcism_flash
+name: 퇴마의 섬광
+category: light
+description: 주변의 좀비, 스켈레톤 등 언데드에게만 범위 피해를 줍니다.
+icon: magiccodex:textures/spells/expansion/exorcism_flash.png
+permission: magic.learned.exorcism_flash
+discovery:
+  description: 좀비와 스켈레톤을 합쳐 50마리 처치합니다.
+research: 밤의 손님에게는 조금 눈부신 인사일지도 모른다.
+cast:
+  command: 마법 exorcism_flash
+  cooldown-seconds: 18
+  mana-cost: 60
+order: 223

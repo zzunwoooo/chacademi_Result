@@ -1,0 +1,14 @@
+id: waterspout
+name: 용오름
+category: water
+description: 용오름을 일으켜 적을 공격합니다.
+icon: magiccodex:textures/spells/reviewed_20261016/waterspout.png
+permission: magic.learned.waterspout
+discovery:
+  description: 여름의 바다 바이옴(커스텀 바다 포함)에서 상승 기류를 사용하기.
+research: ''
+cast:
+  command: 마법 waterspout
+  cooldown-seconds: 30
+  mana-cost: 200
+order: 143

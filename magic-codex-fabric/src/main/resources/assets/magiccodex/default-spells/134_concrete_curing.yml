@@ -1,0 +1,14 @@
+id: concrete_curing
+name: 콘크리트 양생
+category: water
+description: 권한이 있는 영역의 연결된 콘크리트 가루를 최대 16개까지 같은 색의 콘크리트로 바꿉니다.
+icon: magiccodex:textures/spells/reviewed_20261016/concrete_curing.png
+permission: magic.learned.concrete_curing
+discovery:
+  description: 콘크리트 가루를 물에 닿게 놓아 32개 굳히기.
+research: ''
+cast:
+  command: 마법 concrete_curing
+  cooldown-seconds: 25
+  mana-cost: 100
+order: 134

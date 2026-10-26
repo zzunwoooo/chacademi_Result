@@ -1,0 +1,14 @@
+id: mountain_back
+name: 산맥의 등
+category: earth
+description: 커다란 바위를 전방으로 굴려 적을 밀면서 여러 번 타격합니다. 벽에 부딪히면 바위가 부서지는 연출을 보여 주며 실제 지형은 바꾸지 않습니다.
+icon: magiccodex:textures/spells/expansion_2/mountain_back.png
+permission: magic.learned.mountain_back
+discovery:
+  description: 조약돌 던지기로 몬스터 30마리 처치하기.
+research: 작은 돌로 시작한 연습이 이제 바위를 움직인다. 뒤에서 밀어 주던 동료는 먼저 비켜 서야 한다.
+cast:
+  command: 마법 mountain_back
+  cooldown-seconds: 40
+  mana-cost: 220
+order: 194

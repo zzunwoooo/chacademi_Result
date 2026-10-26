@@ -1,0 +1,6 @@
+commands:
+  ch1-3:
+    - "대화관리 재생 {player} 컷신 test"
+    - "say hello"
+  ch1-1:
+    - "say test"

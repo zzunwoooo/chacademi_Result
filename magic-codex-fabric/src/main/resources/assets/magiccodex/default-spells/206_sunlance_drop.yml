@@ -1,0 +1,14 @@
+id: sunlance_drop
+name: 햇살 꽂기
+category: light
+description: 조준한 적의 머리 위에 작은 해 문양을 띄우고, 잠시 뒤 가는 빛줄기를 내리꽂습니다. 문양을 본 적은 재빨리 피할 수도 있습니다.
+icon: ''
+permission: magic.learned.sunlance_drop
+discovery:
+  description: 빛 마법으로 몬스터 20마리 처치하기.
+research: ''
+cast:
+  command: 마법 sunlance_drop
+  cooldown-seconds: 5
+  mana-cost: 8
+order: 206

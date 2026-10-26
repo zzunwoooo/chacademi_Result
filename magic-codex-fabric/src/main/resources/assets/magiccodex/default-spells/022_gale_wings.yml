@@ -1,0 +1,15 @@
+id: gale_wings
+name: 돌풍 날갯짓
+category: wind
+description: 날개를 크게 내려쳐 앞쪽 반원에 돌풍을 일으킵니다. 적은 멀리 밀려나고 잠시 무거워집니다.
+# Existing icon reused from gale_dash; dedicated mob-skill artwork was not supplied.
+icon: magiccodex:textures/spells/mob_skill/gale_wings.png
+permission: magic.learned.gale_wings
+discovery:
+  description: 페가수스를 처치하면 5% 확률로 습득합니다.
+research: 바람이 무겁다고 느껴진다면, 그것은 날개가 너를 내려다보고 있기 때문이다.
+cast:
+  command: 마법 gale_wings
+  cooldown-seconds: 16
+  mana-cost: 40
+order: 22

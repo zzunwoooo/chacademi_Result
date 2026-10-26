@@ -1,0 +1,14 @@
+id: harvest_bell
+name: 수확제의 종
+category: light
+description: 풍년을 부르는 종을 울립니다. 1분 동안 내가 거둔 작물이 살아날 확률이 두 배가 되고, 살아난 작물은 빛나서 찾기 쉽습니다.
+icon: ''
+permission: magic.learned.harvest_bell
+discovery:
+  description: 살아난 작물을 10마리 처치하기.
+research: ''
+cast:
+  command: 마법 harvest_bell
+  cooldown-seconds: 300
+  mana-cost: 60
+order: 228

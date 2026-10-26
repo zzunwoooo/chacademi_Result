@@ -1,0 +1,44 @@
+# 한글 편의 명령 (오픈 전 메모 #95, 오너 2026-10-26)
+# 고친 뒤: /서버관리 새로고침 편의명령   (서버마다)
+#
+# 관리자(OP)만: /겜모 · /gm 0|1 · /텔포 <닉네임> · /소환 <닉네임> · /공지 <할말> · /뒤로 · /back · /스폰 · /spawn · /메모리 · /도움기록
+# 유저:        /도움 <할말> (권한 magiccodex.convenience.help) · /쓰레기통 (권한 magiccodex.convenience.trash) — 둘 다 기본 켜짐
+# /뒤로·/스폰은 HuskHomes 가 있으면 HuskHomes 의 back·spawn 으로 (서버 간 이동), 없으면 이 서버 안에서만.
+
+# true = 공지·도움을 다른 서버(Velocity 로 이어진 학교·야생 등)에도 전한다.
+cross-server: true
+
+notice:
+  # 알림창 제목 (본문은 /공지 로 적은 말)
+  title: 운영자 공지
+  # 알림 소리 (마인크래프트 소리 이름). key 를 비우거나 "없음" 이면 소리 없음. volume 0~4, pitch 0.5~2
+  sound:
+    key: minecraft:block.note_block.chime
+    volume: 1.0
+    pitch: 1.2
+
+help:
+  # 한 사람이 다시 보낼 수 있을 때까지 (초, 0~3600)
+  cooldown-seconds: 60
+  # 할말 최대 글자 수 (20~500)
+  max-length: 200
+  # 운영자에게 나는 알림 소리
+  sound:
+    key: minecraft:block.note_block.bell
+    volume: 1.0
+    pitch: 1.4
+  # 이 서버에 운영자가 없을 때 다른 서버 운영자의 확인을 기다리는 시간 (틱, 20틱 = 1초, 20~200)
+  ack-wait-ticks: 60
+  # 기억해 둘 요청 수 (/도움기록 · 운영자가 없을 때 온 요청, 10~500). 서버를 껐다 켜면 비고, 파일 기록(help-requests.log)은 남아요.
+  keep: 50
+  # 보낸 사람에게 보이는 문구
+  sent: 운영자에게 보냈어요
+  no-operator: 지금 접속한 운영자가 없어요. 기록에 남겨 두었으니 운영자가 들어오면 볼 수 있어요
+  # {초} = 남은 초
+  cooldown: 조금 뒤에 다시 보낼 수 있어요 · {초}초
+
+trash:
+  # 창 제목
+  title: 쓰레기통 · 닫으면 사라져요
+  # 줄 수 (1~6, 한 줄 9칸)
+  rows: 6

@@ -1,0 +1,14 @@
+id: season_sense
+name: 계절 예보
+category: wind
+description: 바람에 실린 계절의 기운을 읽습니다. 지금 계절과 다음 계절까지 남은 시간, 다가오는 회오리 소식을 알려 줍니다.
+icon: ''
+permission: magic.learned.season_sense
+discovery:
+  description: 도서관에서 「계절 관측 일지」 책 읽기.
+research: ''
+cast:
+  command: 마법 season_sense
+  cooldown-seconds: 60
+  mana-cost: 10
+order: 10

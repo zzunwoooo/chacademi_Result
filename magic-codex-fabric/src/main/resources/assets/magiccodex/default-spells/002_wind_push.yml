@@ -1,0 +1,14 @@
+id: wind_push
+name: 윈드 푸쉬
+category: wind
+description: 10블록 이내의 정면 몬스터 하나를 평지 기준 약 4블록 밀어냅니다.
+icon: magiccodex:textures/spells/novice_extra/wind_push.png
+permission: magic.learned.wind_push
+discovery:
+  description: 하르바 교수의 바람 마법 기초 수업 듣기.
+research: 바람을 다루는 첫 수업은 밀어내는 힘에서 시작된다. 작은 바람도 생각보다 멀리 대상을 날려 보낸다.
+cast:
+  command: 마법 wind_push
+  cooldown-seconds: 5
+  mana-cost: 10
+order: 2

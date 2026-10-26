@@ -1,0 +1,21 @@
+# 서버용 파일. 이 폴더(ch1_wakeup)를 통째로 서버 plugins/ChacademyStory/dialogues/ 안에 복사한다:
+#   plugins/ChacademyStory/dialogues/ch1_wakeup/dialogue.yml          ← 서버가 선택지·결말을 검증하는 데 씀
+#   plugins/ChacademyStory/dialogues/ch1_wakeup/server_commands.yml   ← 이 파일 (명령어·호감도)
+# 그림(png)은 서버에 없어도 된다. 바꾼 뒤에는 /cutscene reload.
+# 명령어 안의 {player} = 마인크래프트 닉네임, {nickname} = 한글 닉네임 (글자·숫자·_·- 만 남김)
+npcs: [teacher]   # 대화를 열 때 이 NPC들의 호감도를 가져옴
+# allow-replay: true   # 이미 끝낸 사람에게 다시 보여 줘도 되는 대화면 (다시 보기는 아무것도 주지 않음)
+end:
+  - "say {nickname} 님이 깨어남 대화를 마쳤습니다 (마지막 장면: {scene})"
+endings:
+  go_friend:
+    - "say {nickname} 님은 선생님과 친해졌습니다"
+events:
+  told_dream:
+    - "say {nickname} 님이 꿈 이야기를 했습니다"
+affinity:            # 실제로 적용되는 호감도 (한 항목 한도: events ±20, endings · end ±50)
+  end: {}
+  endings:
+    go_friend: {teacher: 5}
+  events:
+    c_wake_1: {teacher: 2}

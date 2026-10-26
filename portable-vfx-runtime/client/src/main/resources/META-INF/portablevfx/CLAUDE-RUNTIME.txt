@@ -1,0 +1,12 @@
+Claude vfx.json schema-1 runtime
+
+Engine-independent JSON interpreter with config/portablevfx/effects loading.
+Generic attachedFollow, box width/depth, flipbookCycles, selected countScaledLayers,
+nonuniform width with true inverse and mesh-only stretch. No spell-specific rendering.
+Legacy Unity/Effekseer backends, native binaries, SWIG classes and demo assets removed.
+Claude retained-world-depth, GL state restore and OpenGL 3.3 context hooks retained.
+Claude uses an effect-only HDR/Neutral/bloom pass to preserve the host game's color.
+Runtime uniform scale remains 1; effectWidth is a distinct once-per-cast metre input.
+Client-only diagnostic and visual preview commands are under /이펙트도구.
+Unsupported active modules are explicitly rejected; client preview performs no gameplay.
+Actual Minecraft/Iris/Complementary appearance requires in-game verification.

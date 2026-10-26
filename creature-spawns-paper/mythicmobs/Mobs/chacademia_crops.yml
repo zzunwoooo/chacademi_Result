@@ -1,0 +1,472 @@
+# 살아나는 작물 몹 (2026-10-20)
+# 소환: ChAcademiaWildlife 플러그인 crop-awakening (다 자란 작물 수확 시 5%) / 테스트: /테스트 몹 작물몹 <작물> [변색종]
+# 모델: ModelEngine blueprint crop_<작물>.bbmodel, crop_<작물>_shiny.bbmodel (애니: spawn idle walk attack death)
+# 보상(Drops)은 나중에 정함. 지금은 아무것도 안 떨어짐.
+"CA_Crop_wheat":
+  "Type": "HUSK"
+  "Display": "§f살아난 밀"
+  "Health": 6
+  "Damage": 0
+  "Options":
+    "PreventOtherDrops": true
+    "PreventRandomEquipment": true
+    "PreventSunburn": true
+    "PreventTransformation": true
+    "PreventItemPickup": true
+    "PreventRenaming": true
+    "Silent": true
+    "FollowRange": 16
+    "MovementSpeed": 0.3
+    "AlwaysShowName": false
+    "Despawn": true
+  "Drops": []
+  "Skills":
+    - "model{mid=crop_wheat;n=false;drive=true} @self ~onSpawn"
+    - "addtag{t=chacademia_custom} @self ~onSpawn"
+    - "addtag{t=chacademia_crop} @self ~onSpawn"
+    - "skill{s=CA_Crop_Awaken} @self ~onSpawn"
+    - "skill{s=CA_Crop_Hurt} @self ~onDamaged"
+  "AIGoalSelectors":
+    - "clear"
+    - "float"
+    - "fleeplayers"
+    - "randomstroll"
+    - "randomlookaround"
+  "AITargetSelectors":
+    - "clear"
+
+"CA_Crop_wheat_shiny":
+  "Type": "HUSK"
+  "Display": "§e살아난 밀"
+  "Health": 6
+  "Damage": 0
+  "Options":
+    "PreventOtherDrops": true
+    "PreventRandomEquipment": true
+    "PreventSunburn": true
+    "PreventTransformation": true
+    "PreventItemPickup": true
+    "PreventRenaming": true
+    "Silent": true
+    "FollowRange": 16
+    "MovementSpeed": 0.3
+    "AlwaysShowName": false
+    "Despawn": true
+  "Drops": []
+  "Skills":
+    - "model{mid=crop_wheat_shiny;n=false;drive=true} @self ~onSpawn"
+    - "addtag{t=chacademia_custom} @self ~onSpawn"
+    - "addtag{t=chacademia_crop} @self ~onSpawn"
+    - "addtag{t=chacademia_shiny} @self ~onSpawn"
+    - "skill{s=CA_Crop_Awaken} @self ~onSpawn"
+    - "skill{s=CA_Crop_Hurt} @self ~onDamaged"
+  "AIGoalSelectors":
+    - "clear"
+    - "float"
+    - "fleeplayers"
+    - "randomstroll"
+    - "randomlookaround"
+  "AITargetSelectors":
+    - "clear"
+
+"CA_Crop_carrot":
+  "Type": "HUSK"
+  "Display": "§f살아난 당근"
+  "Health": 6
+  "Damage": 0
+  "Options":
+    "PreventOtherDrops": true
+    "PreventRandomEquipment": true
+    "PreventSunburn": true
+    "PreventTransformation": true
+    "PreventItemPickup": true
+    "PreventRenaming": true
+    "Silent": true
+    "FollowRange": 16
+    "MovementSpeed": 0.34
+    "AlwaysShowName": false
+    "Despawn": true
+  "Drops": []
+  "Skills":
+    - "model{mid=crop_carrot;n=false;drive=true} @self ~onSpawn"
+    - "addtag{t=chacademia_custom} @self ~onSpawn"
+    - "addtag{t=chacademia_crop} @self ~onSpawn"
+    - "skill{s=CA_Crop_Awaken} @self ~onSpawn"
+    - "skill{s=CA_Crop_Hurt} @self ~onDamaged"
+  "AIGoalSelectors":
+    - "clear"
+    - "float"
+    - "fleeplayers"
+    - "randomstroll"
+    - "randomlookaround"
+  "AITargetSelectors":
+    - "clear"
+
+"CA_Crop_carrot_shiny":
+  "Type": "HUSK"
+  "Display": "§e살아난 당근"
+  "Health": 6
+  "Damage": 0
+  "Options":
+    "PreventOtherDrops": true
+    "PreventRandomEquipment": true
+    "PreventSunburn": true
+    "PreventTransformation": true
+    "PreventItemPickup": true
+    "PreventRenaming": true
+    "Silent": true
+    "FollowRange": 16
+    "MovementSpeed": 0.34
+    "AlwaysShowName": false
+    "Despawn": true
+  "Drops": []
+  "Skills":
+    - "model{mid=crop_carrot_shiny;n=false;drive=true} @self ~onSpawn"
+    - "addtag{t=chacademia_custom} @self ~onSpawn"
+    - "addtag{t=chacademia_crop} @self ~onSpawn"
+    - "addtag{t=chacademia_shiny} @self ~onSpawn"
+    - "skill{s=CA_Crop_Awaken} @self ~onSpawn"
+    - "skill{s=CA_Crop_Hurt} @self ~onDamaged"
+  "AIGoalSelectors":
+    - "clear"
+    - "float"
+    - "fleeplayers"
+    - "randomstroll"
+    - "randomlookaround"
+  "AITargetSelectors":
+    - "clear"
+
+"CA_Crop_potato":
+  "Type": "HUSK"
+  "Display": "§f살아난 감자"
+  "Health": 8
+  "Damage": 0
+  "Options":
+    "PreventOtherDrops": true
+    "PreventRandomEquipment": true
+    "PreventSunburn": true
+    "PreventTransformation": true
+    "PreventItemPickup": true
+    "PreventRenaming": true
+    "Silent": true
+    "FollowRange": 16
+    "MovementSpeed": 0.27
+    "AlwaysShowName": false
+    "Despawn": true
+  "Drops": []
+  "Skills":
+    - "model{mid=crop_potato;n=false;drive=true} @self ~onSpawn"
+    - "addtag{t=chacademia_custom} @self ~onSpawn"
+    - "addtag{t=chacademia_crop} @self ~onSpawn"
+    - "skill{s=CA_Crop_Awaken} @self ~onSpawn"
+    - "skill{s=CA_Crop_Hurt} @self ~onDamaged"
+  "AIGoalSelectors":
+    - "clear"
+    - "float"
+    - "fleeplayers"
+    - "randomstroll"
+    - "randomlookaround"
+  "AITargetSelectors":
+    - "clear"
+
+"CA_Crop_potato_shiny":
+  "Type": "HUSK"
+  "Display": "§e살아난 감자"
+  "Health": 8
+  "Damage": 0
+  "Options":
+    "PreventOtherDrops": true
+    "PreventRandomEquipment": true
+    "PreventSunburn": true
+    "PreventTransformation": true
+    "PreventItemPickup": true
+    "PreventRenaming": true
+    "Silent": true
+    "FollowRange": 16
+    "MovementSpeed": 0.27
+    "AlwaysShowName": false
+    "Despawn": true
+  "Drops": []
+  "Skills":
+    - "model{mid=crop_potato_shiny;n=false;drive=true} @self ~onSpawn"
+    - "addtag{t=chacademia_custom} @self ~onSpawn"
+    - "addtag{t=chacademia_crop} @self ~onSpawn"
+    - "addtag{t=chacademia_shiny} @self ~onSpawn"
+    - "skill{s=CA_Crop_Awaken} @self ~onSpawn"
+    - "skill{s=CA_Crop_Hurt} @self ~onDamaged"
+  "AIGoalSelectors":
+    - "clear"
+    - "float"
+    - "fleeplayers"
+    - "randomstroll"
+    - "randomlookaround"
+  "AITargetSelectors":
+    - "clear"
+
+"CA_Crop_beetroot":
+  "Type": "HUSK"
+  "Display": "§f살아난 비트"
+  "Health": 8
+  "Damage": 0
+  "Options":
+    "PreventOtherDrops": true
+    "PreventRandomEquipment": true
+    "PreventSunburn": true
+    "PreventTransformation": true
+    "PreventItemPickup": true
+    "PreventRenaming": true
+    "Silent": true
+    "FollowRange": 16
+    "MovementSpeed": 0.3
+    "AlwaysShowName": false
+    "Despawn": true
+  "Drops": []
+  "Skills":
+    - "model{mid=crop_beetroot;n=false;drive=true} @self ~onSpawn"
+    - "addtag{t=chacademia_custom} @self ~onSpawn"
+    - "addtag{t=chacademia_crop} @self ~onSpawn"
+    - "skill{s=CA_Crop_Awaken} @self ~onSpawn"
+    - "skill{s=CA_Crop_Hurt} @self ~onDamaged"
+  "AIGoalSelectors":
+    - "clear"
+    - "float"
+    - "fleeplayers"
+    - "randomstroll"
+    - "randomlookaround"
+  "AITargetSelectors":
+    - "clear"
+
+"CA_Crop_beetroot_shiny":
+  "Type": "HUSK"
+  "Display": "§e살아난 비트"
+  "Health": 8
+  "Damage": 0
+  "Options":
+    "PreventOtherDrops": true
+    "PreventRandomEquipment": true
+    "PreventSunburn": true
+    "PreventTransformation": true
+    "PreventItemPickup": true
+    "PreventRenaming": true
+    "Silent": true
+    "FollowRange": 16
+    "MovementSpeed": 0.3
+    "AlwaysShowName": false
+    "Despawn": true
+  "Drops": []
+  "Skills":
+    - "model{mid=crop_beetroot_shiny;n=false;drive=true} @self ~onSpawn"
+    - "addtag{t=chacademia_custom} @self ~onSpawn"
+    - "addtag{t=chacademia_crop} @self ~onSpawn"
+    - "addtag{t=chacademia_shiny} @self ~onSpawn"
+    - "skill{s=CA_Crop_Awaken} @self ~onSpawn"
+    - "skill{s=CA_Crop_Hurt} @self ~onDamaged"
+  "AIGoalSelectors":
+    - "clear"
+    - "float"
+    - "fleeplayers"
+    - "randomstroll"
+    - "randomlookaround"
+  "AITargetSelectors":
+    - "clear"
+
+"CA_Crop_pumpkin":
+  "Type": "HUSK"
+  "Display": "§f살아난 호박"
+  "Health": 14
+  "Damage": 0
+  "Options":
+    "PreventOtherDrops": true
+    "PreventRandomEquipment": true
+    "PreventSunburn": true
+    "PreventTransformation": true
+    "PreventItemPickup": true
+    "PreventRenaming": true
+    "Silent": true
+    "FollowRange": 16
+    "MovementSpeed": 0.24
+    "AlwaysShowName": false
+    "Despawn": true
+  "Drops": []
+  "Skills":
+    - "model{mid=crop_pumpkin;n=false;drive=true} @self ~onSpawn"
+    - "addtag{t=chacademia_custom} @self ~onSpawn"
+    - "addtag{t=chacademia_crop} @self ~onSpawn"
+    - "skill{s=CA_Crop_Awaken} @self ~onSpawn"
+    - "skill{s=CA_Crop_Hurt} @self ~onDamaged"
+  "AIGoalSelectors":
+    - "clear"
+    - "float"
+    - "fleeplayers"
+    - "randomstroll"
+    - "randomlookaround"
+  "AITargetSelectors":
+    - "clear"
+
+"CA_Crop_pumpkin_shiny":
+  "Type": "HUSK"
+  "Display": "§e살아난 호박"
+  "Health": 14
+  "Damage": 0
+  "Options":
+    "PreventOtherDrops": true
+    "PreventRandomEquipment": true
+    "PreventSunburn": true
+    "PreventTransformation": true
+    "PreventItemPickup": true
+    "PreventRenaming": true
+    "Silent": true
+    "FollowRange": 16
+    "MovementSpeed": 0.24
+    "AlwaysShowName": false
+    "Despawn": true
+  "Drops": []
+  "Skills":
+    - "model{mid=crop_pumpkin_shiny;n=false;drive=true} @self ~onSpawn"
+    - "addtag{t=chacademia_custom} @self ~onSpawn"
+    - "addtag{t=chacademia_crop} @self ~onSpawn"
+    - "addtag{t=chacademia_shiny} @self ~onSpawn"
+    - "skill{s=CA_Crop_Awaken} @self ~onSpawn"
+    - "skill{s=CA_Crop_Hurt} @self ~onDamaged"
+  "AIGoalSelectors":
+    - "clear"
+    - "float"
+    - "fleeplayers"
+    - "randomstroll"
+    - "randomlookaround"
+  "AITargetSelectors":
+    - "clear"
+
+"CA_Crop_melon":
+  "Type": "HUSK"
+  "Display": "§f살아난 수박"
+  "Health": 14
+  "Damage": 0
+  "Options":
+    "PreventOtherDrops": true
+    "PreventRandomEquipment": true
+    "PreventSunburn": true
+    "PreventTransformation": true
+    "PreventItemPickup": true
+    "PreventRenaming": true
+    "Silent": true
+    "FollowRange": 16
+    "MovementSpeed": 0.24
+    "AlwaysShowName": false
+    "Despawn": true
+  "Drops": []
+  "Skills":
+    - "model{mid=crop_melon;n=false;drive=true} @self ~onSpawn"
+    - "addtag{t=chacademia_custom} @self ~onSpawn"
+    - "addtag{t=chacademia_crop} @self ~onSpawn"
+    - "skill{s=CA_Crop_Awaken} @self ~onSpawn"
+    - "skill{s=CA_Crop_Hurt} @self ~onDamaged"
+  "AIGoalSelectors":
+    - "clear"
+    - "float"
+    - "fleeplayers"
+    - "randomstroll"
+    - "randomlookaround"
+  "AITargetSelectors":
+    - "clear"
+
+"CA_Crop_melon_shiny":
+  "Type": "HUSK"
+  "Display": "§e살아난 수박"
+  "Health": 14
+  "Damage": 0
+  "Options":
+    "PreventOtherDrops": true
+    "PreventRandomEquipment": true
+    "PreventSunburn": true
+    "PreventTransformation": true
+    "PreventItemPickup": true
+    "PreventRenaming": true
+    "Silent": true
+    "FollowRange": 16
+    "MovementSpeed": 0.24
+    "AlwaysShowName": false
+    "Despawn": true
+  "Drops": []
+  "Skills":
+    - "model{mid=crop_melon_shiny;n=false;drive=true} @self ~onSpawn"
+    - "addtag{t=chacademia_custom} @self ~onSpawn"
+    - "addtag{t=chacademia_crop} @self ~onSpawn"
+    - "addtag{t=chacademia_shiny} @self ~onSpawn"
+    - "skill{s=CA_Crop_Awaken} @self ~onSpawn"
+    - "skill{s=CA_Crop_Hurt} @self ~onDamaged"
+  "AIGoalSelectors":
+    - "clear"
+    - "float"
+    - "fleeplayers"
+    - "randomstroll"
+    - "randomlookaround"
+  "AITargetSelectors":
+    - "clear"
+
+"CA_Crop_nether_wart":
+  "Type": "HUSK"
+  "Display": "§f살아난 네더 사마귀"
+  "Health": 6
+  "Damage": 0
+  "Options":
+    "PreventOtherDrops": true
+    "PreventRandomEquipment": true
+    "PreventSunburn": true
+    "PreventTransformation": true
+    "PreventItemPickup": true
+    "PreventRenaming": true
+    "Silent": true
+    "FollowRange": 16
+    "MovementSpeed": 0.3
+    "AlwaysShowName": false
+    "Despawn": true
+  "Drops": []
+  "Skills":
+    - "model{mid=crop_nether_wart;n=false;drive=true} @self ~onSpawn"
+    - "addtag{t=chacademia_custom} @self ~onSpawn"
+    - "addtag{t=chacademia_crop} @self ~onSpawn"
+    - "skill{s=CA_Crop_Awaken} @self ~onSpawn"
+    - "skill{s=CA_Crop_Hurt} @self ~onDamaged"
+  "AIGoalSelectors":
+    - "clear"
+    - "float"
+    - "fleeplayers"
+    - "randomstroll"
+    - "randomlookaround"
+  "AITargetSelectors":
+    - "clear"
+
+"CA_Crop_nether_wart_shiny":
+  "Type": "HUSK"
+  "Display": "§e살아난 네더 사마귀"
+  "Health": 6
+  "Damage": 0
+  "Options":
+    "PreventOtherDrops": true
+    "PreventRandomEquipment": true
+    "PreventSunburn": true
+    "PreventTransformation": true
+    "PreventItemPickup": true
+    "PreventRenaming": true
+    "Silent": true
+    "FollowRange": 16
+    "MovementSpeed": 0.3
+    "AlwaysShowName": false
+    "Despawn": true
+  "Drops": []
+  "Skills":
+    - "model{mid=crop_nether_wart_shiny;n=false;drive=true} @self ~onSpawn"
+    - "addtag{t=chacademia_custom} @self ~onSpawn"
+    - "addtag{t=chacademia_crop} @self ~onSpawn"
+    - "addtag{t=chacademia_shiny} @self ~onSpawn"
+    - "skill{s=CA_Crop_Awaken} @self ~onSpawn"
+    - "skill{s=CA_Crop_Hurt} @self ~onDamaged"
+  "AIGoalSelectors":
+    - "clear"
+    - "float"
+    - "fleeplayers"
+    - "randomstroll"
+    - "randomlookaround"
+  "AITargetSelectors":
+    - "clear"

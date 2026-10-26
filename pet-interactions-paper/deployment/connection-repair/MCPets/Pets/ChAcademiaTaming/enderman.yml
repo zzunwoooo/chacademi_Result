@@ -1,0 +1,15 @@
+Id: chacademia_enderman
+MythicMob: ChAcademiaPetEnderman
+Permission: chacademia.pet.enderman
+Distance: 8
+SpawnRange: 2
+ComingBackRange: 3
+Mountable: false
+AutoRide: false
+Icon:
+  Name: 엔더맨
+  Material: ENDERMAN_SPAWN_EGG
+  Description:
+  - 교화로 함께하게 된 동료
+CheckPermission: true
+FollowOwner: true

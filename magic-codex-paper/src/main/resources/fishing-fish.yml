@@ -1,0 +1,3419 @@
+# 차카데미 낚시 물고기 200종 (2026-10-20). /서버관리 새로고침 낚시 로 다시 읽음.
+# grade: 일반·고급·유일·전설 / kind: 실제·마법 / shape: fish·shark·eel·ray·squid (그림이 없을 때 쓰는 실루엣)
+# size: cm [최소, 최대] / depth: 미니게임 깊이 m [최소, 최대] / water: 물 크기 [최소, 최대] (웅덩이·연못·호수·대형)
+# biomes: fishing.yml 의 biome-groups 이름 (비우면 어디서나) / seasons: 봄·여름·가을·겨울 (비우면 전체)
+# time: 전체·낮·밤·새벽·황혼 / weather: 전체·맑음·비·뇌우 / underground: 하늘이 안 보이는 물 / y-min·y-max: 찌 높이 / moon: full(보름달)·new(그믐달)
+# power: 힘 1~10 / pattern: 평온·몸부림·돌진·잠수·지그재그·역류·순간이동·분신
+# itemsadder: 꺼낸 물고기 아이템 (ItemsAdder, item:fish_1~200) / item: ItemsAdder 가 없을 때만 쓰는 바닐라 바탕
+fish:
+  fish_001:
+    itemsadder: item:fish_1
+    name: "붕어"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [10, 30]
+    depth: [0, 10]
+    water: [연못, 대형]
+    biomes: ["민물"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    power: 1
+    pattern: 평온
+    description: "어디서나 볼 수 있는 민물 물고기. 낚시의 시작."
+    item: minecraft:cod
+  fish_002:
+    itemsadder: item:fish_2
+    name: "잉어"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [30, 80]
+    depth: [0, 25]
+    water: [연못, 대형]
+    biomes: ["민물"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    power: 3
+    pattern: 몸부림
+    description: "덩치에 비해 힘이 센 민물의 터줏대감."
+    item: minecraft:cod
+  fish_003:
+    itemsadder: item:fish_3
+    name: "피라미"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [8, 15]
+    depth: [0, 10]
+    water: [웅덩이, 대형]
+    biomes: ["강"]
+    seasons: ["봄", "여름"]
+    time: 낮
+    weather: 전체
+    power: 1
+    pattern: 지그재그
+    description: "여름 개울을 은빛으로 수놓는 작은 물고기."
+    item: minecraft:cod
+  fish_004:
+    itemsadder: item:fish_4
+    name: "버들치"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [8, 15]
+    depth: [0, 10]
+    water: [웅덩이, 대형]
+    biomes: ["강", "산"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    power: 1
+    pattern: 지그재그
+    description: "맑고 차가운 개울에 사는 물고기."
+    item: minecraft:cod
+  fish_005:
+    itemsadder: item:fish_5
+    name: "미꾸라지"
+    grade: 일반
+    kind: 실제
+    shape: eel
+    size: [10, 20]
+    depth: [0, 10]
+    water: [웅덩이, 대형]
+    biomes: ["늪"]
+    seasons: []
+    time: 전체
+    weather: 비
+    power: 1
+    pattern: 지그재그
+    description: "비 오는 날이면 진흙 속에서 기어 나온다."
+    item: minecraft:cod
+  fish_006:
+    itemsadder: item:fish_6
+    name: "송사리"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [3, 5]
+    depth: [0, 10]
+    water: [웅덩이, 웅덩이]
+    biomes: []
+    seasons: []
+    time: 전체
+    weather: 전체
+    power: 1
+    pattern: 평온
+    description: "작은 웅덩이에서만 사는 아주 작은 물고기."
+    item: minecraft:cod
+  fish_007:
+    itemsadder: item:fish_7
+    name: "메기"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [30, 90]
+    depth: [10, 25]
+    water: [연못, 대형]
+    biomes: ["민물", "늪"]
+    seasons: []
+    time: 밤
+    weather: 전체
+    power: 4
+    pattern: 잠수
+    description: "밤이 되면 바닥에서 올라와 먹이를 찾는다."
+    item: minecraft:cod
+  fish_008:
+    itemsadder: item:fish_8
+    name: "블루길"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [10, 25]
+    depth: [0, 10]
+    water: [연못, 대형]
+    biomes: ["민물"]
+    seasons: ["여름"]
+    time: 낮
+    weather: 전체
+    power: 2
+    pattern: 몸부림
+    description: "아가미 뒤에 파란 점이 있는 물고기."
+    item: minecraft:cod
+  fish_009:
+    itemsadder: item:fish_9
+    name: "배스"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [25, 60]
+    depth: [0, 25]
+    water: [호수, 대형]
+    biomes: ["민물"]
+    seasons: ["봄", "여름"]
+    time: 전체
+    weather: 전체
+    power: 4
+    pattern: 돌진
+    description: "미끼를 덥석 무는 공격적인 사냥꾼."
+    item: minecraft:cod
+  fish_010:
+    itemsadder: item:fish_10
+    name: "가물치"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [40, 80]
+    depth: [0, 10]
+    water: [연못, 대형]
+    biomes: ["늪"]
+    seasons: ["여름"]
+    time: 전체
+    weather: 전체
+    power: 4
+    pattern: 돌진
+    description: "늪의 폭군. 물 밖에서도 한참을 버틴다."
+    item: minecraft:cod
+  fish_011:
+    itemsadder: item:fish_11
+    name: "납자루"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [5, 10]
+    depth: [0, 10]
+    water: [연못, 대형]
+    biomes: ["강"]
+    seasons: ["봄"]
+    time: 낮
+    weather: 전체
+    power: 1
+    pattern: 평온
+    description: "조개에 알을 낳는 작고 예쁜 물고기."
+    item: minecraft:cod
+  fish_012:
+    itemsadder: item:fish_12
+    name: "모래무지"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [10, 20]
+    depth: [0, 10]
+    water: [웅덩이, 대형]
+    biomes: ["강"]
+    seasons: []
+    time: 낮
+    weather: 전체
+    power: 1
+    pattern: 잠수
+    description: "모래 바닥에 숨어 눈만 내놓는다."
+    item: minecraft:cod
+  fish_013:
+    itemsadder: item:fish_13
+    name: "동자개"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [15, 30]
+    depth: [10, 25]
+    water: [연못, 대형]
+    biomes: ["강"]
+    seasons: ["여름"]
+    time: 밤
+    weather: 전체
+    power: 2
+    pattern: 몸부림
+    description: "잡으면 빠가빠가 소리를 낸다."
+    item: minecraft:cod
+  fish_014:
+    itemsadder: item:fish_14
+    name: "빙어"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [8, 15]
+    depth: [0, 10]
+    water: [연못, 대형]
+    biomes: ["설원"]
+    seasons: ["겨울"]
+    time: 전체
+    weather: 전체
+    power: 1
+    pattern: 평온
+    description: "얼음 아래에서 잡히는 투명한 물고기."
+    item: minecraft:cod
+  fish_015:
+    itemsadder: item:fish_15
+    name: "끄리"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [20, 35]
+    depth: [0, 10]
+    water: [호수, 대형]
+    biomes: ["강"]
+    seasons: ["여름"]
+    time: 낮
+    weather: 전체
+    power: 3
+    pattern: 돌진
+    description: "수면 근처 작은 물고기를 사냥한다."
+    item: minecraft:cod
+  fish_016:
+    itemsadder: item:fish_16
+    name: "누치"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [25, 50]
+    depth: [10, 25]
+    water: [호수, 대형]
+    biomes: ["강"]
+    seasons: ["봄"]
+    time: 전체
+    weather: 전체
+    power: 3
+    pattern: 몸부림
+    description: "강바닥을 훑고 다니는 커다란 잉어류."
+    item: minecraft:cod
+  fish_017:
+    itemsadder: item:fish_17
+    name: "각시붕어"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [4, 8]
+    depth: [0, 10]
+    water: [연못, 대형]
+    biomes: ["민물"]
+    seasons: ["봄"]
+    time: 낮
+    weather: 전체
+    power: 1
+    pattern: 평온
+    description: "봄이면 혼인색으로 붉게 물든다."
+    item: minecraft:cod
+  fish_018:
+    itemsadder: item:fish_18
+    name: "무지개송어"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [30, 60]
+    depth: [0, 25]
+    water: [연못, 대형]
+    biomes: ["산", "강"]
+    seasons: ["가을", "겨울"]
+    time: 전체
+    weather: 전체
+    power: 3
+    pattern: 지그재그
+    description: "옆구리에 무지갯빛 띠가 있다."
+    item: minecraft:salmon
+  fish_019:
+    itemsadder: item:fish_19
+    name: "금붕어"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [5, 15]
+    depth: [0, 10]
+    water: [웅덩이, 연못]
+    biomes: []
+    seasons: []
+    time: 낮
+    weather: 전체
+    power: 1
+    pattern: 평온
+    description: "누가 버리고 간 걸까? 작은 물에서 자주 보인다."
+    item: minecraft:cod
+  fish_020:
+    itemsadder: item:fish_20
+    name: "틸라피아"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [20, 40]
+    depth: [0, 10]
+    water: [연못, 대형]
+    biomes: ["정글", "사바나", "따뜻한 강"]
+    seasons: ["여름"]
+    time: 낮
+    weather: 전체
+    power: 2
+    pattern: 몸부림
+    description: "따뜻한 물이라면 어디서든 잘 자란다."
+    item: minecraft:tropical_fish
+  fish_021:
+    itemsadder: item:fish_21
+    name: "구피"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [3, 6]
+    depth: [0, 10]
+    water: [웅덩이, 웅덩이]
+    biomes: ["정글"]
+    seasons: []
+    time: 낮
+    weather: 전체
+    power: 1
+    pattern: 평온
+    description: "꼬리가 화려한 작은 열대어."
+    item: minecraft:tropical_fish
+  fish_022:
+    itemsadder: item:fish_22
+    name: "엔젤피시"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [10, 15]
+    depth: [0, 10]
+    water: [연못, 대형]
+    biomes: ["정글"]
+    seasons: []
+    time: 낮
+    weather: 전체
+    power: 2
+    pattern: 지그재그
+    description: "위아래로 길쭉한 우아한 열대어."
+    item: minecraft:tropical_fish
+  fish_023:
+    itemsadder: item:fish_23
+    name: "고등어"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [25, 45]
+    depth: [0, 25]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: ["가을"]
+    time: 전체
+    weather: 전체
+    power: 3
+    pattern: 돌진
+    description: "등에 푸른 물결무늬가 있는 바다 물고기."
+    item: minecraft:cod
+  fish_024:
+    itemsadder: item:fish_24
+    name: "전갱이"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [15, 35]
+    depth: [0, 10]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: ["여름"]
+    time: 전체
+    weather: 전체
+    power: 2
+    pattern: 돌진
+    description: "무리 지어 다니는 바다 물고기."
+    item: minecraft:cod
+  fish_025:
+    itemsadder: item:fish_25
+    name: "정어리"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [10, 20]
+    depth: [0, 10]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    power: 1
+    pattern: 지그재그
+    description: "거대한 무리를 이루어 다닌다."
+    item: minecraft:cod
+  fish_026:
+    itemsadder: item:fish_26
+    name: "멸치"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [5, 12]
+    depth: [0, 10]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: ["봄", "여름"]
+    time: 전체
+    weather: 전체
+    power: 1
+    pattern: 지그재그
+    description: "작지만 바다 생태계의 기둥."
+    item: minecraft:cod
+  fish_027:
+    itemsadder: item:fish_27
+    name: "학공치"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [20, 40]
+    depth: [0, 10]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: ["봄"]
+    time: 낮
+    weather: 전체
+    power: 2
+    pattern: 지그재그
+    description: "아래턱이 바늘처럼 길다."
+    item: minecraft:cod
+  fish_028:
+    itemsadder: item:fish_28
+    name: "망둥어"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [8, 20]
+    depth: [0, 10]
+    water: [웅덩이, 대형]
+    biomes: ["바다", "맹그로브 늪"]
+    seasons: ["가을"]
+    time: 전체
+    weather: 전체
+    power: 1
+    pattern: 평온
+    description: "뭐든 잘 무는 갯벌의 단골손님."
+    item: minecraft:cod
+  fish_029:
+    itemsadder: item:fish_29
+    name: "볼락"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [15, 30]
+    depth: [10, 25]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: ["겨울", "봄"]
+    time: 밤
+    weather: 전체
+    power: 2
+    pattern: 잠수
+    description: "밤에 바위 근처에서 무리를 이룬다."
+    item: minecraft:cod
+  fish_030:
+    itemsadder: item:fish_30
+    name: "노래미"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [20, 40]
+    depth: [10, 25]
+    water: [대형, 대형]
+    biomes: ["바다", "차가운 바다"]
+    seasons: ["겨울"]
+    time: 전체
+    weather: 전체
+    power: 2
+    pattern: 몸부림
+    description: "바위틈에 숨어 사는 갈색 물고기."
+    item: minecraft:cod
+  fish_031:
+    itemsadder: item:fish_31
+    name: "조피볼락"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [20, 50]
+    depth: [10, 25]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    power: 3
+    pattern: 잠수
+    description: "흔히 우럭이라 부르는 바위 사이의 물고기."
+    item: minecraft:cod
+  fish_032:
+    itemsadder: item:fish_32
+    name: "쥐치"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [15, 30]
+    depth: [10, 25]
+    water: [대형, 대형]
+    biomes: ["따뜻한 바다"]
+    seasons: ["여름"]
+    time: 낮
+    weather: 전체
+    power: 2
+    pattern: 평온
+    description: "작은 입으로 미끼만 쏙 빼먹는다."
+    item: minecraft:tropical_fish
+  fish_033:
+    itemsadder: item:fish_33
+    name: "숭어"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [30, 70]
+    depth: [0, 10]
+    water: [호수, 대형]
+    biomes: ["바다", "강"]
+    seasons: ["봄"]
+    time: 낮
+    weather: 전체
+    power: 3
+    pattern: 돌진
+    description: "가끔 물 위로 힘차게 뛰어오른다."
+    item: minecraft:cod
+  fish_034:
+    itemsadder: item:fish_34
+    name: "꽁치"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [25, 35]
+    depth: [0, 10]
+    water: [대형, 대형]
+    biomes: ["차가운 바다"]
+    seasons: ["가을"]
+    time: 밤
+    weather: 전체
+    power: 2
+    pattern: 지그재그
+    description: "가을 바다의 은빛 화살."
+    item: minecraft:cod
+  fish_035:
+    itemsadder: item:fish_35
+    name: "청어"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [20, 35]
+    depth: [10, 25]
+    water: [대형, 대형]
+    biomes: ["차가운 바다"]
+    seasons: ["겨울"]
+    time: 전체
+    weather: 전체
+    power: 2
+    pattern: 지그재그
+    description: "차가운 바다를 떼로 누빈다."
+    item: minecraft:cod
+  fish_036:
+    itemsadder: item:fish_36
+    name: "대구"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [40, 100]
+    depth: [10, 50]
+    water: [대형, 대형]
+    biomes: ["차가운 바다"]
+    seasons: ["겨울"]
+    time: 전체
+    weather: 전체
+    power: 4
+    pattern: 잠수
+    description: "입이 크고 식욕이 왕성하다."
+    item: minecraft:cod
+  fish_037:
+    itemsadder: item:fish_37
+    name: "연어"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [50, 90]
+    depth: [0, 25]
+    water: [호수, 대형]
+    biomes: ["강", "차가운 바다"]
+    seasons: ["가을"]
+    time: 전체
+    weather: 전체
+    power: 4
+    pattern: 돌진
+    description: "태어난 강으로 돌아오는 물고기."
+    item: minecraft:salmon
+  fish_038:
+    itemsadder: item:fish_38
+    name: "가자미"
+    grade: 일반
+    kind: 실제
+    shape: ray
+    size: [20, 40]
+    depth: [10, 25]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    power: 2
+    pattern: 잠수
+    description: "모래 바닥에 납작 엎드려 있다."
+    item: minecraft:cod
+  fish_039:
+    itemsadder: item:fish_39
+    name: "도다리"
+    grade: 일반
+    kind: 실제
+    shape: ray
+    size: [20, 35]
+    depth: [10, 25]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: ["봄"]
+    time: 전체
+    weather: 전체
+    power: 2
+    pattern: 잠수
+    description: "봄이 제철인 납작한 물고기."
+    item: minecraft:cod
+  fish_040:
+    itemsadder: item:fish_40
+    name: "복어"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [15, 35]
+    depth: [0, 10]
+    water: [대형, 대형]
+    biomes: ["따뜻한 바다"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    power: 2
+    pattern: 몸부림
+    description: "놀라면 몸을 공처럼 부풀린다. 먹지 말 것."
+    item: minecraft:pufferfish
+  fish_041:
+    itemsadder: item:fish_41
+    name: "흰동가리"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [6, 11]
+    depth: [0, 10]
+    water: [대형, 대형]
+    biomes: ["따뜻한 바다"]
+    seasons: []
+    time: 낮
+    weather: 전체
+    power: 1
+    pattern: 평온
+    description: "말미잘 사이에 사는 주황색 물고기."
+    item: minecraft:tropical_fish
+  fish_042:
+    itemsadder: item:fish_42
+    name: "쏨뱅이"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [15, 30]
+    depth: [10, 25]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: ["겨울"]
+    time: 밤
+    weather: 전체
+    power: 2
+    pattern: 잠수
+    description: "가시에 독이 있으니 조심."
+    item: minecraft:cod
+  fish_043:
+    itemsadder: item:fish_43
+    name: "전어"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [15, 30]
+    depth: [0, 10]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: ["가을"]
+    time: 전체
+    weather: 전체
+    power: 2
+    pattern: 지그재그
+    description: "가을이면 고소한 냄새로 유명하다."
+    item: minecraft:cod
+  fish_044:
+    itemsadder: item:fish_44
+    name: "보리멸"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [15, 25]
+    depth: [0, 10]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: ["여름"]
+    time: 낮
+    weather: 전체
+    power: 1
+    pattern: 평온
+    description: "모래사장 근처 얕은 물에 산다."
+    item: minecraft:cod
+  fish_045:
+    itemsadder: item:fish_45
+    name: "놀래기"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [10, 25]
+    depth: [0, 10]
+    water: [대형, 대형]
+    biomes: ["따뜻한 바다"]
+    seasons: ["여름"]
+    time: 낮
+    weather: 전체
+    power: 2
+    pattern: 지그재그
+    description: "알록달록한 색으로 산호 사이를 누빈다."
+    item: minecraft:tropical_fish
+  fish_046:
+    itemsadder: item:fish_46
+    name: "자리돔"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [8, 15]
+    depth: [0, 10]
+    water: [대형, 대형]
+    biomes: ["따뜻한 바다"]
+    seasons: ["여름"]
+    time: 낮
+    weather: 전체
+    power: 1
+    pattern: 평온
+    description: "작고 통통한 남쪽 바다 물고기."
+    item: minecraft:tropical_fish
+  fish_047:
+    itemsadder: item:fish_47
+    name: "갈치"
+    grade: 일반
+    kind: 실제
+    shape: eel
+    size: [60, 120]
+    depth: [10, 25]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: ["가을"]
+    time: 밤
+    weather: 전체
+    power: 3
+    pattern: 지그재그
+    description: "은빛 칼처럼 서서 헤엄친다."
+    item: minecraft:cod
+  fish_048:
+    itemsadder: item:fish_48
+    name: "오징어"
+    grade: 일반
+    kind: 실제
+    shape: squid
+    size: [20, 40]
+    depth: [10, 25]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: ["여름", "가을"]
+    time: 밤
+    weather: 전체
+    power: 3
+    pattern: 역류
+    description: "밤에 불빛을 쫓아 올라온다."
+    item: minecraft:cod
+  fish_049:
+    itemsadder: item:fish_49
+    name: "주꾸미"
+    grade: 일반
+    kind: 실제
+    shape: squid
+    size: [10, 25]
+    depth: [0, 10]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: ["봄"]
+    time: 전체
+    weather: 전체
+    power: 2
+    pattern: 역류
+    description: "봄 바다의 작은 문어."
+    item: minecraft:cod
+  fish_050:
+    itemsadder: item:fish_50
+    name: "꽃게"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [10, 25]
+    depth: [0, 10]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: ["봄", "가을"]
+    time: 전체
+    weather: 전체
+    power: 2
+    pattern: 몸부림
+    description: "집게로 미끼를 꽉 붙잡고 놓지 않는다."
+    item: minecraft:cod
+  fish_051:
+    itemsadder: item:fish_51
+    name: "새우"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [5, 15]
+    depth: [0, 10]
+    water: [웅덩이, 대형]
+    biomes: ["바다", "맹그로브 늪"]
+    seasons: []
+    time: 밤
+    weather: 전체
+    power: 1
+    pattern: 역류
+    description: "뒤로 튀어 도망가는 작은 갑각류."
+    item: minecraft:cod
+  fish_052:
+    itemsadder: item:fish_52
+    name: "해마"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [5, 20]
+    depth: [0, 10]
+    water: [대형, 대형]
+    biomes: ["따뜻한 바다"]
+    seasons: []
+    time: 낮
+    weather: 전체
+    power: 1
+    pattern: 평온
+    description: "말의 머리를 닮은 신기한 물고기."
+    item: minecraft:tropical_fish
+  fish_053:
+    itemsadder: item:fish_53
+    name: "날치"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [20, 35]
+    depth: [0, 10]
+    water: [대형, 대형]
+    biomes: ["따뜻한 바다"]
+    seasons: ["여름"]
+    time: 낮
+    weather: 맑음
+    power: 2
+    pattern: 돌진
+    description: "가슴지느러미를 펼쳐 물 위를 난다."
+    item: minecraft:tropical_fish
+  fish_054:
+    itemsadder: item:fish_54
+    name: "강준치"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [30, 70]
+    depth: [0, 25]
+    water: [호수, 대형]
+    biomes: ["강"]
+    seasons: ["여름"]
+    time: 전체
+    weather: 전체
+    power: 3
+    pattern: 돌진
+    description: "길쭉하고 은빛이 도는 강의 사냥꾼."
+    item: minecraft:cod
+  fish_055:
+    itemsadder: item:fish_55
+    name: "쉬리"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [8, 15]
+    depth: [0, 10]
+    water: [웅덩이, 대형]
+    biomes: ["강", "산"]
+    seasons: ["봄"]
+    time: 낮
+    weather: 맑음
+    power: 1
+    pattern: 지그재그
+    description: "아주 맑은 물에만 사는 귀한 손님."
+    item: minecraft:cod
+  fish_056:
+    itemsadder: item:fish_56
+    name: "동사리"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [10, 20]
+    depth: [0, 10]
+    water: [연못, 대형]
+    biomes: ["강"]
+    seasons: []
+    time: 밤
+    weather: 전체
+    power: 1
+    pattern: 잠수
+    description: "돌 밑에 숨어 있다가 밤에 나온다."
+    item: minecraft:cod
+  fish_057:
+    itemsadder: item:fish_57
+    name: "버들붕어"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [5, 10]
+    depth: [0, 10]
+    water: [웅덩이, 웅덩이]
+    biomes: ["늪"]
+    seasons: ["여름"]
+    time: 전체
+    weather: 전체
+    power: 1
+    pattern: 평온
+    description: "늪지 작은 물에 사는 화려한 물고기."
+    item: minecraft:cod
+  fish_058:
+    itemsadder: item:fish_58
+    name: "꺽지"
+    grade: 일반
+    kind: 실제
+    shape: fish
+    size: [15, 25]
+    depth: [0, 10]
+    water: [웅덩이, 대형]
+    biomes: ["강"]
+    seasons: ["여름"]
+    time: 전체
+    weather: 전체
+    power: 2
+    pattern: 몸부림
+    description: "바위틈을 지키는 텃세 강한 물고기."
+    item: minecraft:cod
+  fish_059:
+    itemsadder: item:fish_59
+    name: "반딧불 송사리"
+    grade: 일반
+    kind: 마법
+    shape: fish
+    size: [3, 6]
+    depth: [0, 10]
+    water: [웅덩이, 웅덩이]
+    biomes: []
+    seasons: ["여름"]
+    time: 밤
+    weather: 전체
+    power: 1
+    pattern: 평온
+    description: "꼬리에서 반딧불 같은 빛이 깜박인다."
+    item: minecraft:cod
+  fish_060:
+    itemsadder: item:fish_60
+    name: "마나 피라미"
+    grade: 일반
+    kind: 마법
+    shape: fish
+    size: [8, 15]
+    depth: [0, 10]
+    water: [웅덩이, 대형]
+    biomes: ["강"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    power: 1
+    pattern: 지그재그
+    description: "비늘에 흐르는 마력이 푸르게 빛난다."
+    item: minecraft:cod
+  fish_061:
+    itemsadder: item:fish_61
+    name: "이끼수염 메기"
+    grade: 일반
+    kind: 마법
+    shape: fish
+    size: [30, 60]
+    depth: [10, 25]
+    water: [연못, 대형]
+    biomes: ["늪"]
+    seasons: []
+    time: 밤
+    weather: 전체
+    power: 3
+    pattern: 잠수
+    description: "수염 끝에 이끼가 자라는 늪 메기."
+    item: minecraft:cod
+  fish_062:
+    itemsadder: item:fish_62
+    name: "물방울 복어"
+    grade: 일반
+    kind: 마법
+    shape: fish
+    size: [10, 20]
+    depth: [0, 10]
+    water: [웅덩이, 대형]
+    biomes: []
+    seasons: []
+    time: 전체
+    weather: 비
+    power: 1
+    pattern: 몸부림
+    description: "빗방울을 모아 몸을 물방울처럼 부풀린다."
+    item: minecraft:pufferfish
+  fish_063:
+    itemsadder: item:fish_63
+    name: "꽃잎 붕어"
+    grade: 일반
+    kind: 마법
+    shape: fish
+    size: [10, 20]
+    depth: [0, 10]
+    water: [연못, 대형]
+    biomes: ["벚꽃 숲", "라벤더 지대", "꽃 계곡"]
+    seasons: ["봄"]
+    time: 낮
+    weather: 전체
+    power: 1
+    pattern: 평온
+    description: "지느러미가 꽃잎처럼 하늘거린다."
+    item: minecraft:cod
+  fish_064:
+    itemsadder: item:fish_64
+    name: "단풍 잉어"
+    grade: 일반
+    kind: 마법
+    shape: fish
+    size: [30, 60]
+    depth: [0, 10]
+    water: [연못, 대형]
+    biomes: ["민물"]
+    seasons: ["가을"]
+    time: 전체
+    weather: 전체
+    power: 2
+    pattern: 몸부림
+    description: "가을이 되면 비늘이 붉게 물든다."
+    item: minecraft:cod
+  fish_065:
+    itemsadder: item:fish_65
+    name: "서리 빙어"
+    grade: 일반
+    kind: 마법
+    shape: fish
+    size: [8, 15]
+    depth: [0, 10]
+    water: [연못, 대형]
+    biomes: ["설원", "얼음 늪"]
+    seasons: ["겨울"]
+    time: 전체
+    weather: 전체
+    power: 1
+    pattern: 평온
+    description: "얼음 결정 모양의 비늘이 반짝인다."
+    item: minecraft:cod
+  fish_066:
+    itemsadder: item:fish_66
+    name: "햇살 열대어"
+    grade: 일반
+    kind: 마법
+    shape: fish
+    size: [8, 15]
+    depth: [0, 10]
+    water: [대형, 대형]
+    biomes: ["따뜻한 바다"]
+    seasons: ["여름"]
+    time: 낮
+    weather: 맑음
+    power: 1
+    pattern: 지그재그
+    description: "햇빛을 받으면 몸이 금빛으로 빛난다."
+    item: minecraft:tropical_fish
+  fish_067:
+    itemsadder: item:fish_67
+    name: "먹물 망둥어"
+    grade: 일반
+    kind: 마법
+    shape: fish
+    size: [10, 20]
+    depth: [0, 10]
+    water: [웅덩이, 대형]
+    biomes: ["바다"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    power: 2
+    pattern: 역류
+    description: "놀라면 먹물을 뿜고 도망친다."
+    item: minecraft:cod
+  fish_068:
+    itemsadder: item:fish_68
+    name: "방울 해파리"
+    grade: 일반
+    kind: 마법
+    shape: squid
+    size: [5, 15]
+    depth: [0, 10]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: ["여름"]
+    time: 밤
+    weather: 전체
+    power: 1
+    pattern: 평온
+    description: "흔들리면 작은 종소리가 난다."
+    item: minecraft:cod
+  fish_069:
+    itemsadder: item:fish_69
+    name: "깃펜 꽁치"
+    grade: 일반
+    kind: 마법
+    shape: fish
+    size: [25, 35]
+    depth: [0, 10]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    power: 2
+    pattern: 지그재그
+    description: "주둥이가 깃펜처럼 생겼다. 학생들이 좋아한다."
+    item: minecraft:cod
+  fish_070:
+    itemsadder: item:fish_70
+    name: "분필 가자미"
+    grade: 일반
+    kind: 마법
+    shape: ray
+    size: [20, 35]
+    depth: [10, 25]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    power: 2
+    pattern: 잠수
+    description: "하얀 가루가 묻어나는 납작한 물고기."
+    item: minecraft:cod
+  fish_071:
+    itemsadder: item:fish_71
+    name: "촛불 미꾸라지"
+    grade: 일반
+    kind: 마법
+    shape: eel
+    size: [10, 20]
+    depth: [0, 10]
+    water: [웅덩이, 대형]
+    biomes: ["늪"]
+    seasons: ["가을"]
+    time: 밤
+    weather: 전체
+    power: 1
+    pattern: 지그재그
+    description: "물속에서도 꼬리 끝 불꽃이 꺼지지 않는다."
+    item: minecraft:cod
+  fish_072:
+    itemsadder: item:fish_72
+    name: "졸음 붕어"
+    grade: 일반
+    kind: 마법
+    shape: fish
+    size: [10, 25]
+    depth: [0, 10]
+    water: [연못, 대형]
+    biomes: ["민물"]
+    seasons: []
+    time: 밤
+    weather: 전체
+    power: 1
+    pattern: 평온
+    description: "항상 졸고 있어 입질이 아주 느리다."
+    item: minecraft:cod
+  fish_073:
+    itemsadder: item:fish_73
+    name: "비눗방울 구피"
+    grade: 일반
+    kind: 마법
+    shape: fish
+    size: [3, 6]
+    depth: [0, 10]
+    water: [웅덩이, 웅덩이]
+    biomes: []
+    seasons: []
+    time: 낮
+    weather: 맑음
+    power: 1
+    pattern: 평온
+    description: "입에서 무지갯빛 비눗방울을 뿜는다."
+    item: minecraft:cod
+  fish_074:
+    itemsadder: item:fish_74
+    name: "돌멩이 망둥어"
+    grade: 일반
+    kind: 마법
+    shape: fish
+    size: [8, 20]
+    depth: [0, 10]
+    water: [웅덩이, 대형]
+    biomes: ["강"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    power: 1
+    pattern: 잠수
+    description: "돌과 똑같이 생겨 찾기 어렵다."
+    item: minecraft:cod
+  fish_075:
+    itemsadder: item:fish_75
+    name: "이슬 송사리"
+    grade: 일반
+    kind: 마법
+    shape: fish
+    size: [3, 5]
+    depth: [0, 10]
+    water: [웅덩이, 웅덩이]
+    biomes: ["운무 숲", "꽃 계곡"]
+    seasons: ["봄"]
+    time: 새벽
+    weather: 전체
+    power: 1
+    pattern: 평온
+    description: "새벽에만 나타나는 이슬방울 같은 물고기."
+    item: minecraft:cod
+  fish_076:
+    itemsadder: item:fish_76
+    name: "바람결 날치"
+    grade: 일반
+    kind: 마법
+    shape: fish
+    size: [20, 35]
+    depth: [0, 10]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: []
+    time: 낮
+    weather: 맑음
+    power: 2
+    pattern: 돌진
+    description: "바람을 타고 물 위를 길게 활공한다."
+    item: minecraft:cod
+  fish_077:
+    itemsadder: item:fish_77
+    name: "메아리 정어리"
+    grade: 일반
+    kind: 마법
+    shape: fish
+    size: [10, 20]
+    depth: [0, 10]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    power: 1
+    pattern: 지그재그
+    description: "무리 지어 노래하듯 소리를 낸다."
+    item: minecraft:cod
+  fish_078:
+    itemsadder: item:fish_78
+    name: "버섯갓 메기"
+    grade: 일반
+    kind: 마법
+    shape: fish
+    size: [20, 40]
+    depth: [0, 10]
+    water: [연못, 대형]
+    biomes: ["버섯 섬", "균류 동굴"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    power: 2
+    pattern: 잠수
+    description: "머리에 작은 버섯이 자라 있다."
+    item: minecraft:cod
+  fish_079:
+    itemsadder: item:fish_79
+    name: "모래비늘 붕어"
+    grade: 일반
+    kind: 마법
+    shape: fish
+    size: [10, 25]
+    depth: [0, 10]
+    water: [웅덩이, 연못]
+    biomes: ["오아시스"]
+    seasons: []
+    time: 낮
+    weather: 전체
+    power: 2
+    pattern: 잠수
+    description: "사막 오아시스에 사는 모래색 붕어."
+    item: minecraft:cod
+  fish_080:
+    itemsadder: item:fish_80
+    name: "이끼등 동굴어"
+    grade: 일반
+    kind: 마법
+    shape: fish
+    size: [10, 20]
+    depth: [0, 10]
+    water: [웅덩이, 대형]
+    biomes: ["동굴"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    underground: true
+    power: 1
+    pattern: 평온
+    description: "등에 자란 발광 이끼로 어두운 물을 밝힌다."
+    item: minecraft:cod
+  fish_081:
+    itemsadder: item:fish_81
+    name: "쏘가리"
+    grade: 고급
+    kind: 실제
+    shape: fish
+    size: [25, 50]
+    depth: [10, 25]
+    water: [호수, 대형]
+    biomes: ["강"]
+    seasons: ["여름"]
+    time: 전체
+    weather: 전체
+    power: 5
+    pattern: 돌진
+    description: "표범 무늬를 두른 강의 제왕."
+    item: minecraft:cod
+  fish_082:
+    itemsadder: item:fish_82
+    name: "피라냐"
+    grade: 고급
+    kind: 실제
+    shape: fish
+    size: [15, 30]
+    depth: [0, 10]
+    water: [연못, 대형]
+    biomes: ["정글", "따뜻한 강"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    power: 4
+    pattern: 지그재그
+    description: "날카로운 이빨로 미끼를 순식간에 뜯는다."
+    item: minecraft:tropical_fish
+  fish_083:
+    itemsadder: item:fish_83
+    name: "뱀장어"
+    grade: 고급
+    kind: 실제
+    shape: eel
+    size: [50, 100]
+    depth: [10, 25]
+    water: [연못, 대형]
+    biomes: ["강", "늪"]
+    seasons: ["여름"]
+    time: 밤
+    weather: 비
+    power: 5
+    pattern: 역류
+    description: "비 오는 밤이면 먼 길을 이동한다."
+    item: minecraft:cod
+  fish_084:
+    itemsadder: item:fish_84
+    name: "감성돔"
+    grade: 고급
+    kind: 실제
+    shape: fish
+    size: [30, 60]
+    depth: [10, 25]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: ["가을", "겨울"]
+    time: 전체
+    weather: 전체
+    power: 5
+    pattern: 잠수
+    description: "조심성이 많아 낚기 어려운 회색 돔."
+    item: minecraft:cod
+  fish_085:
+    itemsadder: item:fish_85
+    name: "참돔"
+    grade: 고급
+    kind: 실제
+    shape: fish
+    size: [40, 80]
+    depth: [10, 25]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: ["봄"]
+    time: 낮
+    weather: 전체
+    power: 5
+    pattern: 몸부림
+    description: "분홍빛 몸에 푸른 점이 박힌 바다의 여왕."
+    item: minecraft:cod
+  fish_086:
+    itemsadder: item:fish_86
+    name: "농어"
+    grade: 고급
+    kind: 실제
+    shape: fish
+    size: [50, 90]
+    depth: [0, 25]
+    water: [대형, 대형]
+    biomes: ["바다", "강"]
+    seasons: ["여름"]
+    time: 전체
+    weather: 전체
+    power: 5
+    pattern: 돌진
+    description: "파도가 칠 때 물 위로 뛰어오른다."
+    item: minecraft:cod
+  fish_087:
+    itemsadder: item:fish_87
+    name: "넙치"
+    grade: 고급
+    kind: 실제
+    shape: ray
+    size: [40, 80]
+    depth: [10, 25]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: ["겨울"]
+    time: 전체
+    weather: 전체
+    power: 4
+    pattern: 잠수
+    description: "흔히 광어라 부르는 바닥의 사냥꾼."
+    item: minecraft:cod
+  fish_088:
+    itemsadder: item:fish_88
+    name: "방어"
+    grade: 고급
+    kind: 실제
+    shape: shark
+    size: [60, 100]
+    depth: [25, 50]
+    water: [대형, 대형]
+    biomes: ["차가운 바다"]
+    seasons: ["겨울"]
+    time: 전체
+    weather: 전체
+    power: 6
+    pattern: 돌진
+    description: "겨울 바다를 누비는 힘센 물고기."
+    item: minecraft:cod
+  fish_089:
+    itemsadder: item:fish_89
+    name: "삼치"
+    grade: 고급
+    kind: 실제
+    shape: shark
+    size: [50, 100]
+    depth: [10, 25]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: ["가을"]
+    time: 전체
+    weather: 전체
+    power: 5
+    pattern: 돌진
+    description: "날렵한 몸으로 먹이를 쫓는다."
+    item: minecraft:cod
+  fish_090:
+    itemsadder: item:fish_90
+    name: "열목어"
+    grade: 고급
+    kind: 실제
+    shape: fish
+    size: [30, 70]
+    depth: [0, 25]
+    water: [연못, 대형]
+    biomes: ["산", "강"]
+    seasons: ["여름"]
+    time: 전체
+    weather: 전체
+    power: 4
+    pattern: 지그재그
+    description: "눈이 붉게 빛나는 차가운 계곡의 물고기."
+    item: minecraft:cod
+  fish_091:
+    itemsadder: item:fish_91
+    name: "아로와나"
+    grade: 고급
+    kind: 실제
+    shape: fish
+    size: [60, 100]
+    depth: [0, 10]
+    water: [호수, 대형]
+    biomes: ["정글"]
+    seasons: []
+    time: 낮
+    weather: 전체
+    power: 5
+    pattern: 돌진
+    description: "용을 닮은 비늘로 행운을 부른다고 한다."
+    item: minecraft:tropical_fish
+  fish_092:
+    itemsadder: item:fish_92
+    name: "디스커스"
+    grade: 고급
+    kind: 실제
+    shape: fish
+    size: [12, 20]
+    depth: [0, 10]
+    water: [연못, 대형]
+    biomes: ["정글"]
+    seasons: []
+    time: 낮
+    weather: 전체
+    power: 3
+    pattern: 평온
+    description: "원반처럼 둥근 몸의 열대어."
+    item: minecraft:tropical_fish
+  fish_093:
+    itemsadder: item:fish_93
+    name: "문어"
+    grade: 고급
+    kind: 실제
+    shape: squid
+    size: [50, 150]
+    depth: [10, 25]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: ["겨울"]
+    time: 밤
+    weather: 전체
+    power: 5
+    pattern: 역류
+    description: "빨판으로 바위에 붙어 버틴다."
+    item: minecraft:cod
+  fish_094:
+    itemsadder: item:fish_94
+    name: "아귀"
+    grade: 고급
+    kind: 실제
+    shape: fish
+    size: [40, 100]
+    depth: [25, 50]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: ["겨울"]
+    time: 전체
+    weather: 전체
+    power: 5
+    pattern: 잠수
+    description: "머리 위 낚싯대로 먹이를 꾀어낸다."
+    item: minecraft:cod
+  fish_095:
+    itemsadder: item:fish_95
+    name: "돌돔"
+    grade: 고급
+    kind: 실제
+    shape: fish
+    size: [30, 60]
+    depth: [10, 25]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: ["여름"]
+    time: 전체
+    weather: 전체
+    power: 6
+    pattern: 몸부림
+    description: "줄무늬가 선명한 바위 해안의 강자."
+    item: minecraft:cod
+  fish_096:
+    itemsadder: item:fish_96
+    name: "벵에돔"
+    grade: 고급
+    kind: 실제
+    shape: fish
+    size: [25, 50]
+    depth: [0, 25]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: ["겨울"]
+    time: 밤
+    weather: 전체
+    power: 5
+    pattern: 지그재그
+    description: "파도치는 갯바위 근처에 숨어 산다."
+    item: minecraft:cod
+  fish_097:
+    itemsadder: item:fish_97
+    name: "자바리"
+    grade: 고급
+    kind: 실제
+    shape: fish
+    size: [50, 120]
+    depth: [25, 50]
+    water: [대형, 대형]
+    biomes: ["따뜻한 바다"]
+    seasons: ["여름"]
+    time: 전체
+    weather: 전체
+    power: 6
+    pattern: 잠수
+    description: "바위굴에 숨어 사는 귀한 물고기."
+    item: minecraft:tropical_fish
+  fish_098:
+    itemsadder: item:fish_98
+    name: "쏠배감펭"
+    grade: 고급
+    kind: 실제
+    shape: fish
+    size: [20, 35]
+    depth: [0, 10]
+    water: [대형, 대형]
+    biomes: ["따뜻한 바다"]
+    seasons: []
+    time: 낮
+    weather: 전체
+    power: 3
+    pattern: 평온
+    description: "화려한 지느러미에 독가시를 숨겼다."
+    item: minecraft:tropical_fish
+  fish_099:
+    itemsadder: item:fish_99
+    name: "갯장어"
+    grade: 고급
+    kind: 실제
+    shape: eel
+    size: [60, 150]
+    depth: [10, 25]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: ["여름"]
+    time: 밤
+    weather: 전체
+    power: 5
+    pattern: 역류
+    description: "날카로운 이빨을 가진 바다 장어."
+    item: minecraft:cod
+  fish_100:
+    itemsadder: item:fish_100
+    name: "대게"
+    grade: 고급
+    kind: 실제
+    shape: fish
+    size: [20, 40]
+    depth: [25, 50]
+    water: [대형, 대형]
+    biomes: ["차가운 바다"]
+    seasons: ["겨울"]
+    time: 전체
+    weather: 전체
+    power: 4
+    pattern: 몸부림
+    description: "대나무처럼 긴 다리를 가진 게."
+    item: minecraft:cod
+  fish_101:
+    itemsadder: item:fish_101
+    name: "바닷가재"
+    grade: 고급
+    kind: 실제
+    shape: fish
+    size: [25, 50]
+    depth: [25, 50]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: []
+    time: 밤
+    weather: 전체
+    power: 4
+    pattern: 역류
+    description: "커다란 집게를 휘두르는 바닥의 기사."
+    item: minecraft:cod
+  fish_102:
+    itemsadder: item:fish_102
+    name: "가다랑어"
+    grade: 고급
+    kind: 실제
+    shape: shark
+    size: [40, 80]
+    depth: [10, 25]
+    water: [대형, 대형]
+    biomes: ["따뜻한 바다"]
+    seasons: ["여름"]
+    time: 낮
+    weather: 전체
+    power: 6
+    pattern: 돌진
+    description: "쉬지 않고 헤엄치는 바다의 단거리 선수."
+    item: minecraft:tropical_fish
+  fish_103:
+    itemsadder: item:fish_103
+    name: "전기뱀장어"
+    grade: 고급
+    kind: 실제
+    shape: eel
+    size: [80, 200]
+    depth: [10, 25]
+    water: [호수, 대형]
+    biomes: ["정글"]
+    seasons: []
+    time: 밤
+    weather: 전체
+    power: 5
+    pattern: 역류
+    description: "몸에서 전기를 일으킨다. 찌릿."
+    item: minecraft:tropical_fish
+  fish_104:
+    itemsadder: item:fish_104
+    name: "강꼬치고기"
+    grade: 고급
+    kind: 실제
+    shape: fish
+    size: [50, 100]
+    depth: [0, 25]
+    water: [호수, 대형]
+    biomes: ["설원", "산"]
+    seasons: ["가을", "겨울"]
+    time: 전체
+    weather: 전체
+    power: 5
+    pattern: 돌진
+    description: "긴 주둥이로 먹이를 낚아채는 호수의 늑대."
+    item: minecraft:cod
+  fish_105:
+    itemsadder: item:fish_105
+    name: "은어"
+    grade: 고급
+    kind: 실제
+    shape: fish
+    size: [15, 30]
+    depth: [0, 10]
+    water: [웅덩이, 대형]
+    biomes: ["강"]
+    seasons: ["여름"]
+    time: 낮
+    weather: 맑음
+    power: 3
+    pattern: 지그재그
+    description: "수박 향이 나는 맑은 강의 물고기."
+    item: minecraft:salmon
+  fish_106:
+    itemsadder: item:fish_106
+    name: "황복"
+    grade: 고급
+    kind: 실제
+    shape: fish
+    size: [25, 45]
+    depth: [0, 10]
+    water: [호수, 대형]
+    biomes: ["강"]
+    seasons: ["봄"]
+    time: 전체
+    weather: 전체
+    power: 4
+    pattern: 몸부림
+    description: "봄에 강을 거슬러 오르는 노란 복어."
+    item: minecraft:cod
+  fish_107:
+    itemsadder: item:fish_107
+    name: "금눈돔"
+    grade: 고급
+    kind: 실제
+    shape: fish
+    size: [25, 50]
+    depth: [25, 50]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: []
+    time: 밤
+    weather: 전체
+    power: 4
+    pattern: 잠수
+    description: "커다란 금빛 눈으로 어둠 속을 본다."
+    item: minecraft:cod
+  fish_108:
+    itemsadder: item:fish_108
+    name: "나비고기"
+    grade: 고급
+    kind: 실제
+    shape: fish
+    size: [10, 20]
+    depth: [0, 10]
+    water: [대형, 대형]
+    biomes: ["따뜻한 바다"]
+    seasons: ["여름"]
+    time: 낮
+    weather: 전체
+    power: 3
+    pattern: 지그재그
+    description: "나비처럼 팔랑이며 산호 사이를 난다."
+    item: minecraft:tropical_fish
+  fish_109:
+    itemsadder: item:fish_109
+    name: "쏠종개"
+    grade: 고급
+    kind: 실제
+    shape: fish
+    size: [15, 30]
+    depth: [0, 10]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: ["여름"]
+    time: 밤
+    weather: 전체
+    power: 3
+    pattern: 몸부림
+    description: "가시에 쏘이면 한참 아프다."
+    item: minecraft:cod
+  fish_110:
+    itemsadder: item:fish_110
+    name: "갑오징어"
+    grade: 고급
+    kind: 실제
+    shape: squid
+    size: [20, 40]
+    depth: [10, 25]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: ["봄"]
+    time: 전체
+    weather: 전체
+    power: 4
+    pattern: 역류
+    description: "몸 색을 순식간에 바꾸는 오징어."
+    item: minecraft:cod
+  fish_111:
+    itemsadder: item:fish_111
+    name: "화염지느러미 잉어"
+    grade: 고급
+    kind: 마법
+    shape: fish
+    size: [30, 60]
+    depth: [0, 10]
+    water: [연못, 대형]
+    biomes: ["화산 지대", "사바나"]
+    seasons: ["여름"]
+    time: 낮
+    weather: 맑음
+    power: 4
+    pattern: 돌진
+    description: "물속에서도 지느러미의 불꽃이 꺼지지 않는다."
+    item: minecraft:cod
+  fish_112:
+    itemsadder: item:fish_112
+    name: "얼음송곳니 꼬치"
+    grade: 고급
+    kind: 마법
+    shape: fish
+    size: [40, 80]
+    depth: [10, 25]
+    water: [호수, 대형]
+    biomes: ["설원", "서리불 동굴"]
+    seasons: ["겨울"]
+    time: 전체
+    weather: 전체
+    power: 5
+    pattern: 돌진
+    description: "얼음으로 된 송곳니로 먹이를 얼린다."
+    item: minecraft:cod
+  fish_113:
+    itemsadder: item:fish_113
+    name: "뇌운 뱀장어"
+    grade: 고급
+    kind: 마법
+    shape: eel
+    size: [60, 120]
+    depth: [10, 25]
+    water: [호수, 대형]
+    biomes: []
+    seasons: []
+    time: 전체
+    weather: 뇌우
+    power: 5
+    pattern: 역류
+    description: "천둥이 칠 때만 모습을 드러낸다."
+    item: minecraft:cod
+  fish_114:
+    itemsadder: item:fish_114
+    name: "달빛 은어"
+    grade: 고급
+    kind: 마법
+    shape: fish
+    size: [15, 30]
+    depth: [0, 10]
+    water: [웅덩이, 대형]
+    biomes: ["달빛 지대", "강"]
+    seasons: []
+    time: 밤
+    weather: 맑음
+    power: 3
+    pattern: 지그재그
+    description: "달빛을 받으면 몸이 은빛으로 빛난다."
+    item: minecraft:salmon
+  fish_115:
+    itemsadder: item:fish_115
+    name: "마나수정 붕어"
+    grade: 고급
+    kind: 마법
+    shape: fish
+    size: [15, 30]
+    depth: [0, 10]
+    water: [연못, 대형]
+    biomes: ["민물"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    power: 3
+    pattern: 평온
+    description: "등에 마나 수정이 자라는 붕어."
+    item: minecraft:cod
+  fish_116:
+    itemsadder: item:fish_116
+    name: "그림자 메기"
+    grade: 고급
+    kind: 마법
+    shape: fish
+    size: [40, 80]
+    depth: [10, 25]
+    water: [연못, 대형]
+    biomes: ["늪"]
+    seasons: []
+    time: 밤
+    weather: 전체
+    power: 4
+    pattern: 순간이동
+    description: "그림자 속으로 사라졌다 나타난다."
+    item: minecraft:cod
+  fish_117:
+    itemsadder: item:fish_117
+    name: "별비늘 고등어"
+    grade: 고급
+    kind: 마법
+    shape: fish
+    size: [30, 45]
+    depth: [10, 25]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: []
+    time: 밤
+    weather: 맑음
+    power: 4
+    pattern: 돌진
+    description: "비늘에 별자리가 새겨져 있다."
+    item: minecraft:cod
+  fish_118:
+    itemsadder: item:fish_118
+    name: "거울비늘 돔"
+    grade: 고급
+    kind: 마법
+    shape: fish
+    size: [30, 60]
+    depth: [10, 25]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: []
+    time: 낮
+    weather: 전체
+    power: 4
+    pattern: 분신
+    description: "주변을 비춰 몸을 감춘다."
+    item: minecraft:cod
+  fish_119:
+    itemsadder: item:fish_119
+    name: "독안개 가물치"
+    grade: 고급
+    kind: 마법
+    shape: fish
+    size: [40, 80]
+    depth: [0, 10]
+    water: [연못, 대형]
+    biomes: ["늪", "난초 늪"]
+    seasons: ["여름"]
+    time: 밤
+    weather: 전체
+    power: 5
+    pattern: 돌진
+    description: "숨을 쉴 때마다 보랏빛 안개를 뿜는다."
+    item: minecraft:cod
+  fish_120:
+    itemsadder: item:fish_120
+    name: "천둥 날치"
+    grade: 고급
+    kind: 마법
+    shape: fish
+    size: [25, 40]
+    depth: [0, 10]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: []
+    time: 전체
+    weather: 뇌우
+    power: 4
+    pattern: 돌진
+    description: "번개를 맞고 하늘을 나는 날치."
+    item: minecraft:cod
+  fish_121:
+    itemsadder: item:fish_121
+    name: "프리즘 열대어"
+    grade: 고급
+    kind: 마법
+    shape: fish
+    size: [8, 15]
+    depth: [0, 10]
+    water: [대형, 대형]
+    biomes: ["따뜻한 바다"]
+    seasons: []
+    time: 낮
+    weather: 맑음
+    power: 3
+    pattern: 지그재그
+    description: "몸을 통과한 빛이 무지개로 갈라진다."
+    item: minecraft:tropical_fish
+  fish_122:
+    itemsadder: item:fish_122
+    name: "태엽 복어"
+    grade: 고급
+    kind: 마법
+    shape: fish
+    size: [15, 25]
+    depth: [0, 10]
+    water: [웅덩이, 대형]
+    biomes: ["바다"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    power: 3
+    pattern: 몸부림
+    description: "등에 태엽이 달려 있어 째깍 소리가 난다."
+    item: minecraft:pufferfish
+  fish_123:
+    itemsadder: item:fish_123
+    name: "망각 붕어"
+    grade: 고급
+    kind: 마법
+    shape: fish
+    size: [15, 30]
+    depth: [0, 10]
+    water: [연못, 대형]
+    biomes: ["신기루 섬", "민물"]
+    seasons: []
+    time: 황혼
+    weather: 전체
+    power: 3
+    pattern: 순간이동
+    description: "잡으면 어디서 잡았는지 깜빡 잊게 된다."
+    item: minecraft:cod
+  fish_124:
+    itemsadder: item:fish_124
+    name: "종이학 가오리"
+    grade: 고급
+    kind: 마법
+    shape: ray
+    size: [30, 60]
+    depth: [0, 10]
+    water: [호수, 대형]
+    biomes: ["민물", "바다"]
+    seasons: []
+    time: 낮
+    weather: 전체
+    power: 4
+    pattern: 평온
+    description: "종이를 접은 듯한 각진 몸을 가졌다."
+    item: minecraft:cod
+  fish_125:
+    itemsadder: item:fish_125
+    name: "잉크 오징어"
+    grade: 고급
+    kind: 마법
+    shape: squid
+    size: [30, 60]
+    depth: [10, 25]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: []
+    time: 밤
+    weather: 전체
+    power: 4
+    pattern: 역류
+    description: "마법 잉크를 뿜어 물속에 글자를 남긴다."
+    item: minecraft:cod
+  fish_126:
+    itemsadder: item:fish_126
+    name: "루비 금붕어"
+    grade: 고급
+    kind: 마법
+    shape: fish
+    size: [10, 20]
+    depth: [0, 10]
+    water: [웅덩이, 연못]
+    biomes: []
+    seasons: []
+    time: 전체
+    weather: 전체
+    power: 3
+    pattern: 평온
+    description: "붉은 보석 비늘을 가진 금붕어."
+    item: minecraft:cod
+  fish_127:
+    itemsadder: item:fish_127
+    name: "사파이어 엔젤피시"
+    grade: 고급
+    kind: 마법
+    shape: fish
+    size: [10, 20]
+    depth: [0, 10]
+    water: [연못, 대형]
+    biomes: ["정글", "지하 정글"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    power: 3
+    pattern: 지그재그
+    description: "푸른 보석 비늘을 가진 열대어."
+    item: minecraft:tropical_fish
+  fish_128:
+    itemsadder: item:fish_128
+    name: "에메랄드 잉어"
+    grade: 고급
+    kind: 마법
+    shape: fish
+    size: [40, 70]
+    depth: [0, 10]
+    water: [호수, 대형]
+    biomes: ["민물"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    power: 4
+    pattern: 몸부림
+    description: "초록 보석 비늘을 가진 잉어."
+    item: minecraft:cod
+  fish_129:
+    itemsadder: item:fish_129
+    name: "마그마비늘 망둥어"
+    grade: 고급
+    kind: 마법
+    shape: fish
+    size: [15, 30]
+    depth: [10, 25]
+    water: [웅덩이, 대형]
+    biomes: ["열수 동굴", "맨틀 동굴"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    power: 4
+    pattern: 몸부림
+    description: "땅속 깊은 뜨거운 물에서 산다."
+    item: minecraft:cod
+  fish_130:
+    itemsadder: item:fish_130
+    name: "자수정 장어"
+    grade: 고급
+    kind: 마법
+    shape: eel
+    size: [50, 100]
+    depth: [10, 25]
+    water: [웅덩이, 대형]
+    biomes: ["자수정 지대"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    power: 4
+    pattern: 역류
+    description: "자수정 조각이 박힌 동굴 장어."
+    item: minecraft:cod
+  fish_131:
+    itemsadder: item:fish_131
+    name: "깃털지느러미 송어"
+    grade: 고급
+    kind: 마법
+    shape: fish
+    size: [30, 50]
+    depth: [0, 10]
+    water: [연못, 대형]
+    biomes: ["산"]
+    seasons: []
+    time: 낮
+    weather: 전체
+    y-min: 120
+    power: 4
+    pattern: 지그재그
+    description: "높은 산 호수에 사는 깃털 지느러미 물고기."
+    item: minecraft:salmon
+  fish_132:
+    itemsadder: item:fish_132
+    name: "구름 해파리"
+    grade: 고급
+    kind: 마법
+    shape: squid
+    size: [20, 40]
+    depth: [0, 10]
+    water: [연못, 대형]
+    biomes: ["하늘섬", "운무 숲"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    power: 3
+    pattern: 평온
+    description: "구름처럼 몽실몽실한 해파리."
+    item: minecraft:cod
+  fish_133:
+    itemsadder: item:fish_133
+    name: "유령 정어리"
+    grade: 고급
+    kind: 마법
+    shape: fish
+    size: [10, 20]
+    depth: [10, 25]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: []
+    time: 밤
+    weather: 전체
+    power: 3
+    pattern: 순간이동
+    description: "반투명한 몸이 밤바다에 비친다."
+    item: minecraft:cod
+  fish_134:
+    itemsadder: item:fish_134
+    name: "해골 물고기"
+    grade: 고급
+    kind: 마법
+    shape: fish
+    size: [20, 40]
+    depth: [10, 25]
+    water: [웅덩이, 대형]
+    biomes: []
+    seasons: ["가을"]
+    time: 밤
+    weather: 전체
+    power: 4
+    pattern: 몸부림
+    description: "뼈만 남았는데도 헤엄친다."
+    item: minecraft:cod
+  fish_135:
+    itemsadder: item:fish_135
+    name: "벚꽃 은어"
+    grade: 고급
+    kind: 마법
+    shape: fish
+    size: [15, 30]
+    depth: [0, 10]
+    water: [웅덩이, 대형]
+    biomes: ["벚꽃 숲"]
+    seasons: ["봄"]
+    time: 낮
+    weather: 전체
+    power: 3
+    pattern: 지그재그
+    description: "벚꽃잎과 함께 떠다니는 분홍 은어."
+    item: minecraft:salmon
+  fish_136:
+    itemsadder: item:fish_136
+    name: "균사 장어"
+    grade: 고급
+    kind: 마법
+    shape: eel
+    size: [50, 90]
+    depth: [10, 25]
+    water: [연못, 대형]
+    biomes: ["균류 동굴", "버섯 섬"]
+    seasons: []
+    time: 밤
+    weather: 전체
+    power: 4
+    pattern: 역류
+    description: "몸에서 포자가 피어오른다."
+    item: minecraft:cod
+  fish_137:
+    itemsadder: item:fish_137
+    name: "모래폭풍 메기"
+    grade: 고급
+    kind: 마법
+    shape: fish
+    size: [30, 60]
+    depth: [0, 10]
+    water: [웅덩이, 연못]
+    biomes: ["오아시스", "사막"]
+    seasons: ["여름"]
+    time: 낮
+    weather: 맑음
+    power: 4
+    pattern: 잠수
+    description: "수염으로 모래바람을 일으킨다."
+    item: minecraft:cod
+  fish_138:
+    itemsadder: item:fish_138
+    name: "산호왕관 놀래기"
+    grade: 고급
+    kind: 마법
+    shape: fish
+    size: [15, 30]
+    depth: [0, 10]
+    water: [대형, 대형]
+    biomes: ["따뜻한 바다"]
+    seasons: []
+    time: 낮
+    weather: 전체
+    power: 3
+    pattern: 지그재그
+    description: "머리에 산호 왕관을 쓰고 있다."
+    item: minecraft:tropical_fish
+  fish_139:
+    itemsadder: item:fish_139
+    name: "비구름 붕어"
+    grade: 고급
+    kind: 마법
+    shape: fish
+    size: [15, 30]
+    depth: [0, 10]
+    water: [웅덩이, 대형]
+    biomes: ["민물"]
+    seasons: []
+    time: 전체
+    weather: 비
+    power: 3
+    pattern: 평온
+    description: "머리 위에 작은 비구름이 따라다닌다."
+    item: minecraft:cod
+  fish_140:
+    itemsadder: item:fish_140
+    name: "연금 황금붕어"
+    grade: 고급
+    kind: 마법
+    shape: fish
+    size: [15, 30]
+    depth: [0, 10]
+    water: [연못, 대형]
+    biomes: []
+    seasons: []
+    time: 전체
+    weather: 전체
+    power: 4
+    pattern: 몸부림
+    description: "연금술 실험실에서 탈출했다는 소문이 있다."
+    item: minecraft:cod
+  fish_141:
+    itemsadder: item:fish_141
+    name: "철갑상어"
+    grade: 유일
+    kind: 실제
+    shape: shark
+    size: [100, 250]
+    depth: [25, 50]
+    water: [호수, 대형]
+    biomes: ["강"]
+    seasons: ["봄"]
+    time: 전체
+    weather: 전체
+    power: 7
+    pattern: 잠수
+    description: "공룡 시대부터 살아온 갑옷 입은 물고기."
+    item: minecraft:cod
+  fish_142:
+    itemsadder: item:fish_142
+    name: "참다랑어"
+    grade: 유일
+    kind: 실제
+    shape: shark
+    size: [100, 250]
+    depth: [25, 50]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: ["여름"]
+    time: 전체
+    weather: 전체
+    power: 8
+    pattern: 돌진
+    description: "바다에서 가장 빠르고 힘센 물고기 중 하나."
+    item: minecraft:cod
+  fish_143:
+    itemsadder: item:fish_143
+    name: "청새치"
+    grade: 유일
+    kind: 실제
+    shape: shark
+    size: [150, 300]
+    depth: [10, 25]
+    water: [대형, 대형]
+    biomes: ["따뜻한 바다"]
+    seasons: ["여름"]
+    time: 낮
+    weather: 맑음
+    power: 8
+    pattern: 돌진
+    description: "창 같은 주둥이로 물 위를 가른다."
+    item: minecraft:tropical_fish
+  fish_144:
+    itemsadder: item:fish_144
+    name: "만새기"
+    grade: 유일
+    kind: 실제
+    shape: shark
+    size: [80, 150]
+    depth: [0, 25]
+    water: [대형, 대형]
+    biomes: ["따뜻한 바다"]
+    seasons: ["여름"]
+    time: 낮
+    weather: 전체
+    power: 6
+    pattern: 지그재그
+    description: "잡히면 몸 색이 금빛에서 은빛으로 변한다."
+    item: minecraft:tropical_fish
+  fish_145:
+    itemsadder: item:fish_145
+    name: "쥐가오리"
+    grade: 유일
+    kind: 실제
+    shape: ray
+    size: [200, 500]
+    depth: [10, 25]
+    water: [대형, 대형]
+    biomes: ["따뜻한 바다"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    power: 7
+    pattern: 평온
+    description: "바닷속을 날개처럼 유유히 난다."
+    item: minecraft:tropical_fish
+  fish_146:
+    itemsadder: item:fish_146
+    name: "귀상어"
+    grade: 유일
+    kind: 실제
+    shape: shark
+    size: [150, 350]
+    depth: [25, 50]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: ["여름"]
+    time: 전체
+    weather: 전체
+    power: 8
+    pattern: 돌진
+    description: "망치 모양 머리로 먹이를 찾는다."
+    item: minecraft:cod
+  fish_147:
+    itemsadder: item:fish_147
+    name: "대왕바리"
+    grade: 유일
+    kind: 실제
+    shape: shark
+    size: [100, 200]
+    depth: [25, 50]
+    water: [대형, 대형]
+    biomes: ["따뜻한 바다"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    power: 7
+    pattern: 잠수
+    description: "동굴에 숨어 사는 거대한 바리."
+    item: minecraft:tropical_fish
+  fish_148:
+    itemsadder: item:fish_148
+    name: "아라파이마"
+    grade: 유일
+    kind: 실제
+    shape: shark
+    size: [150, 300]
+    depth: [10, 25]
+    water: [호수, 대형]
+    biomes: ["정글"]
+    seasons: []
+    time: 낮
+    weather: 전체
+    power: 7
+    pattern: 돌진
+    description: "숨을 쉬러 수면 위로 올라오는 거대 물고기."
+    item: minecraft:tropical_fish
+  fish_149:
+    itemsadder: item:fish_149
+    name: "메콩 거대메기"
+    grade: 유일
+    kind: 실제
+    shape: fish
+    size: [150, 300]
+    depth: [25, 50]
+    water: [호수, 대형]
+    biomes: ["정글", "강"]
+    seasons: ["여름"]
+    time: 밤
+    weather: 전체
+    power: 7
+    pattern: 잠수
+    description: "사람만큼 큰 거대한 메기."
+    item: minecraft:tropical_fish
+  fish_150:
+    itemsadder: item:fish_150
+    name: "블롭피시"
+    grade: 유일
+    kind: 실제
+    shape: fish
+    size: [20, 35]
+    depth: [50, 999]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    power: 5
+    pattern: 평온
+    description: "물 밖에 나오면 축 늘어진다. 표정이 슬프다."
+    item: minecraft:cod
+  fish_151:
+    itemsadder: item:fish_151
+    name: "초롱아귀"
+    grade: 유일
+    kind: 실제
+    shape: fish
+    size: [30, 60]
+    depth: [50, 999]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: []
+    time: 밤
+    weather: 전체
+    power: 6
+    pattern: 잠수
+    description: "머리의 초롱불로 심해를 밝힌다."
+    item: minecraft:cod
+  fish_152:
+    itemsadder: item:fish_152
+    name: "황새치"
+    grade: 유일
+    kind: 실제
+    shape: shark
+    size: [150, 300]
+    depth: [25, 50]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: ["가을"]
+    time: 밤
+    weather: 전체
+    power: 8
+    pattern: 돌진
+    description: "칼 같은 주둥이를 가진 깊은 바다의 검객."
+    item: minecraft:cod
+  fish_153:
+    itemsadder: item:fish_153
+    name: "불사조 잉어"
+    grade: 유일
+    kind: 마법
+    shape: fish
+    size: [60, 120]
+    depth: [0, 10]
+    water: [호수, 대형]
+    biomes: ["화산 지대", "사바나"]
+    seasons: ["여름"]
+    time: 낮
+    weather: 맑음
+    power: 7
+    pattern: 돌진
+    description: "불꽃 깃털 지느러미를 가진 잉어. 놓쳐도 다시 나타난다."
+    item: minecraft:cod
+  fish_154:
+    itemsadder: item:fish_154
+    name: "서리왕관 연어"
+    grade: 유일
+    kind: 마법
+    shape: fish
+    size: [70, 120]
+    depth: [10, 25]
+    water: [호수, 대형]
+    biomes: ["설원", "차가운 바다"]
+    seasons: ["겨울"]
+    time: 전체
+    weather: 전체
+    power: 7
+    pattern: 돌진
+    description: "머리에 얼음 왕관이 돋아 있다."
+    item: minecraft:salmon
+  fish_155:
+    itemsadder: item:fish_155
+    name: "폭풍꼬리 상어"
+    grade: 유일
+    kind: 마법
+    shape: shark
+    size: [150, 300]
+    depth: [25, 50]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: []
+    time: 전체
+    weather: 뇌우
+    power: 8
+    pattern: 돌진
+    description: "꼬리를 휘두르면 소용돌이가 일어난다."
+    item: minecraft:cod
+  fish_156:
+    itemsadder: item:fish_156
+    name: "성운 가오리"
+    grade: 유일
+    kind: 마법
+    shape: ray
+    size: [100, 200]
+    depth: [10, 25]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: []
+    time: 밤
+    weather: 맑음
+    power: 6
+    pattern: 평온
+    description: "몸에 밤하늘의 성운이 흐른다."
+    item: minecraft:cod
+  fish_157:
+    itemsadder: item:fish_157
+    name: "수정 해마"
+    grade: 유일
+    kind: 마법
+    shape: fish
+    size: [10, 25]
+    depth: [10, 25]
+    water: [대형, 대형]
+    biomes: ["따뜻한 바다"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    power: 5
+    pattern: 순간이동
+    description: "투명한 수정으로 된 해마."
+    item: minecraft:tropical_fish
+  fish_158:
+    itemsadder: item:fish_158
+    name: "룬문양 철갑어"
+    grade: 유일
+    kind: 마법
+    shape: shark
+    size: [100, 200]
+    depth: [25, 50]
+    water: [호수, 대형]
+    biomes: ["강"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    power: 7
+    pattern: 잠수
+    description: "갑옷 비늘에 고대 룬이 새겨져 있다."
+    item: minecraft:cod
+  fish_159:
+    itemsadder: item:fish_159
+    name: "역행 송어"
+    grade: 유일
+    kind: 마법
+    shape: fish
+    size: [30, 60]
+    depth: [0, 10]
+    water: [웅덩이, 대형]
+    biomes: ["강", "산"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    power: 6
+    pattern: 역류
+    description: "시간을 거슬러 거꾸로 헤엄친다."
+    item: minecraft:salmon
+  fish_160:
+    itemsadder: item:fish_160
+    name: "몽환 해파리"
+    grade: 유일
+    kind: 마법
+    shape: squid
+    size: [50, 100]
+    depth: [10, 25]
+    water: [대형, 대형]
+    biomes: ["신기루 섬", "바다"]
+    seasons: []
+    time: 밤
+    weather: 전체
+    power: 5
+    pattern: 순간이동
+    description: "보고 있으면 졸음이 쏟아진다."
+    item: minecraft:cod
+  fish_161:
+    itemsadder: item:fish_161
+    name: "그림자 장어"
+    grade: 유일
+    kind: 마법
+    shape: eel
+    size: [80, 150]
+    depth: [10, 25]
+    water: [웅덩이, 대형]
+    biomes: ["동굴"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    underground: true
+    power: 7
+    pattern: 순간이동
+    description: "빛이 닿으면 그림자 속으로 숨는다."
+    item: minecraft:cod
+  fish_162:
+    itemsadder: item:fish_162
+    name: "천공 날치"
+    grade: 유일
+    kind: 마법
+    shape: fish
+    size: [30, 50]
+    depth: [0, 10]
+    water: [연못, 대형]
+    biomes: ["하늘섬"]
+    seasons: []
+    time: 낮
+    weather: 맑음
+    power: 6
+    pattern: 돌진
+    description: "구름 위까지 날아오른다는 날치."
+    item: minecraft:cod
+  fish_163:
+    itemsadder: item:fish_163
+    name: "심연 눈알고기"
+    grade: 유일
+    kind: 마법
+    shape: fish
+    size: [40, 80]
+    depth: [50, 999]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    power: 6
+    pattern: 잠수
+    description: "몸의 절반이 거대한 눈이다."
+    item: minecraft:cod
+  fish_164:
+    itemsadder: item:fish_164
+    name: "피라냐 여왕"
+    grade: 유일
+    kind: 마법
+    shape: fish
+    size: [40, 60]
+    depth: [0, 10]
+    water: [호수, 대형]
+    biomes: ["정글"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    power: 7
+    pattern: 분신
+    description: "피라냐 무리를 거느린 왕관 쓴 피라냐."
+    item: minecraft:tropical_fish
+  fish_165:
+    itemsadder: item:fish_165
+    name: "백은 용잉어"
+    grade: 유일
+    kind: 마법
+    shape: fish
+    size: [80, 150]
+    depth: [10, 25]
+    water: [호수, 대형]
+    biomes: ["강", "산"]
+    seasons: ["봄"]
+    time: 전체
+    weather: 전체
+    power: 7
+    pattern: 돌진
+    description: "폭포를 거슬러 오르면 용이 된다는 잉어."
+    item: minecraft:cod
+  fish_166:
+    itemsadder: item:fish_166
+    name: "황혼 메기"
+    grade: 유일
+    kind: 마법
+    shape: fish
+    size: [60, 120]
+    depth: [10, 25]
+    water: [호수, 대형]
+    biomes: ["늪", "민물"]
+    seasons: []
+    time: 황혼
+    weather: 전체
+    power: 6
+    pattern: 잠수
+    description: "해 질 녘에만 노을빛으로 물든다."
+    item: minecraft:cod
+  fish_167:
+    itemsadder: item:fish_167
+    name: "오로라 연어"
+    grade: 유일
+    kind: 마법
+    shape: fish
+    size: [60, 100]
+    depth: [10, 25]
+    water: [호수, 대형]
+    biomes: ["설원", "얼음 늪"]
+    seasons: ["겨울"]
+    time: 밤
+    weather: 맑음
+    power: 6
+    pattern: 지그재그
+    description: "비늘에 오로라가 일렁인다."
+    item: minecraft:salmon
+  fish_168:
+    itemsadder: item:fish_168
+    name: "별똥 날치"
+    grade: 유일
+    kind: 마법
+    shape: fish
+    size: [30, 50]
+    depth: [0, 10]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: []
+    time: 밤
+    weather: 맑음
+    power: 6
+    pattern: 돌진
+    description: "별똥별처럼 꼬리에 빛을 끌며 난다."
+    item: minecraft:cod
+  fish_169:
+    itemsadder: item:fish_169
+    name: "화산비늘 아귀"
+    grade: 유일
+    kind: 마법
+    shape: fish
+    size: [60, 120]
+    depth: [10, 25]
+    water: [웅덩이, 대형]
+    biomes: ["맨틀 동굴", "열수 동굴"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    underground: true
+    y-max: 0
+    power: 7
+    pattern: 잠수
+    description: "용암 같은 불빛을 머리에 매달았다."
+    item: minecraft:cod
+  fish_170:
+    itemsadder: item:fish_170
+    name: "비취 왕잉어"
+    grade: 유일
+    kind: 마법
+    shape: fish
+    size: [60, 100]
+    depth: [0, 10]
+    water: [연못, 대형]
+    biomes: ["벚꽃 숲", "꽃 계곡"]
+    seasons: ["봄"]
+    time: 낮
+    weather: 전체
+    power: 6
+    pattern: 평온
+    description: "비취로 깎은 듯한 우아한 잉어."
+    item: minecraft:cod
+  fish_171:
+    itemsadder: item:fish_171
+    name: "마녀고양이 메기"
+    grade: 유일
+    kind: 마법
+    shape: fish
+    size: [50, 90]
+    depth: [10, 25]
+    water: [연못, 대형]
+    biomes: ["달빛 지대", "늪"]
+    seasons: []
+    time: 밤
+    weather: 전체
+    power: 6
+    pattern: 지그재그
+    description: "고양이 귀와 수염을 가진 메기. 냐옹."
+    item: minecraft:cod
+  fish_172:
+    itemsadder: item:fish_172
+    name: "유리 장어"
+    grade: 유일
+    kind: 마법
+    shape: eel
+    size: [60, 120]
+    depth: [10, 25]
+    water: [호수, 대형]
+    biomes: ["강", "바다"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    power: 6
+    pattern: 순간이동
+    description: "몸이 유리처럼 투명해 뼈까지 보인다."
+    item: minecraft:cod
+  fish_173:
+    itemsadder: item:fish_173
+    name: "번개 가오리"
+    grade: 유일
+    kind: 마법
+    shape: ray
+    size: [100, 200]
+    depth: [10, 25]
+    water: [대형, 대형]
+    biomes: ["따뜻한 바다"]
+    seasons: []
+    time: 전체
+    weather: 뇌우
+    power: 7
+    pattern: 역류
+    description: "몸에 번개 무늬가 흐른다."
+    item: minecraft:tropical_fish
+  fish_174:
+    itemsadder: item:fish_174
+    name: "기사갑옷 쏘가리"
+    grade: 유일
+    kind: 마법
+    shape: fish
+    size: [40, 70]
+    depth: [10, 25]
+    water: [호수, 대형]
+    biomes: ["강"]
+    seasons: []
+    time: 낮
+    weather: 전체
+    power: 7
+    pattern: 몸부림
+    description: "은빛 갑옷을 두른 강의 기사."
+    item: minecraft:cod
+  fish_175:
+    itemsadder: item:fish_175
+    name: "산호 정령어"
+    grade: 유일
+    kind: 마법
+    shape: fish
+    size: [20, 40]
+    depth: [0, 10]
+    water: [대형, 대형]
+    biomes: ["따뜻한 바다"]
+    seasons: []
+    time: 낮
+    weather: 전체
+    power: 5
+    pattern: 분신
+    description: "산호초를 지키는 작은 정령."
+    item: minecraft:tropical_fish
+  fish_176:
+    itemsadder: item:fish_176
+    name: "망령 상어"
+    grade: 유일
+    kind: 마법
+    shape: shark
+    size: [150, 300]
+    depth: [25, 50]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: []
+    time: 밤
+    weather: 전체
+    power: 8
+    pattern: 순간이동
+    description: "반투명한 몸으로 밤바다를 떠돈다."
+    item: minecraft:cod
+  fish_177:
+    itemsadder: item:fish_177
+    name: "빙하 거대꼬치"
+    grade: 유일
+    kind: 마법
+    shape: fish
+    size: [100, 180]
+    depth: [25, 50]
+    water: [호수, 대형]
+    biomes: ["설원"]
+    seasons: ["겨울"]
+    time: 전체
+    weather: 전체
+    power: 8
+    pattern: 돌진
+    description: "빙하 아래에서 잠들어 있던 거대한 꼬치고기."
+    item: minecraft:cod
+  fish_178:
+    itemsadder: item:fish_178
+    name: "태양지느러미 만새기"
+    grade: 유일
+    kind: 마법
+    shape: shark
+    size: [80, 150]
+    depth: [0, 10]
+    water: [대형, 대형]
+    biomes: ["따뜻한 바다"]
+    seasons: ["여름"]
+    time: 낮
+    weather: 맑음
+    power: 7
+    pattern: 돌진
+    description: "지느러미가 작은 태양처럼 빛난다."
+    item: minecraft:tropical_fish
+  fish_179:
+    itemsadder: item:fish_179
+    name: "그믐 오징어"
+    grade: 유일
+    kind: 마법
+    shape: squid
+    size: [50, 100]
+    depth: [25, 50]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: []
+    time: 밤
+    weather: 전체
+    moon: new
+    power: 6
+    pattern: 역류
+    description: "달이 사라진 밤에만 올라온다."
+    item: minecraft:cod
+  fish_180:
+    itemsadder: item:fish_180
+    name: "쌍둥이 그림자고기"
+    grade: 유일
+    kind: 마법
+    shape: fish
+    size: [30, 60]
+    depth: [10, 25]
+    water: [호수, 대형]
+    biomes: []
+    seasons: []
+    time: 밤
+    weather: 전체
+    power: 7
+    pattern: 분신
+    description: "두 마리가 한 몸처럼 움직인다."
+    item: minecraft:cod
+  fish_181:
+    itemsadder: item:fish_181
+    name: "실러캔스"
+    grade: 전설
+    kind: 실제
+    shape: shark
+    size: [150, 200]
+    depth: [50, 999]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: []
+    time: 밤
+    weather: 전체
+    power: 9
+    pattern: 잠수
+    description: "멸종한 줄 알았던 살아 있는 화석."
+    item: minecraft:cod
+  fish_182:
+    itemsadder: item:fish_182
+    name: "산갈치"
+    grade: 전설
+    kind: 실제
+    shape: eel
+    size: [300, 800]
+    depth: [50, 999]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: ["겨울"]
+    time: 전체
+    weather: 뇌우
+    power: 9
+    pattern: 역류
+    description: "폭풍이 오면 수면 근처로 올라온다는 전설의 물고기."
+    item: minecraft:cod
+  fish_183:
+    itemsadder: item:fish_183
+    name: "대왕오징어"
+    grade: 전설
+    kind: 실제
+    shape: squid
+    size: [500, 1200]
+    depth: [50, 999]
+    water: [대형, 대형]
+    biomes: ["차가운 바다"]
+    seasons: []
+    time: 밤
+    weather: 전체
+    power: 10
+    pattern: 역류
+    description: "심해의 거인. 눈이 축구공만 하다."
+    item: minecraft:cod
+  fish_184:
+    itemsadder: item:fish_184
+    name: "개복치"
+    grade: 전설
+    kind: 실제
+    shape: fish
+    size: [150, 300]
+    depth: [25, 50]
+    water: [대형, 대형]
+    biomes: ["따뜻한 바다"]
+    seasons: ["여름"]
+    time: 낮
+    weather: 맑음
+    power: 8
+    pattern: 평온
+    description: "햇볕을 쬐러 수면에 떠오르는 거대 물고기."
+    item: minecraft:tropical_fish
+  fish_185:
+    itemsadder: item:fish_185
+    name: "고래상어"
+    grade: 전설
+    kind: 실제
+    shape: shark
+    size: [500, 1200]
+    depth: [25, 50]
+    water: [대형, 대형]
+    biomes: ["따뜻한 바다"]
+    seasons: ["여름"]
+    time: 낮
+    weather: 전체
+    power: 9
+    pattern: 평온
+    description: "세상에서 가장 큰 물고기. 의외로 온순하다."
+    item: minecraft:tropical_fish
+  fish_186:
+    itemsadder: item:fish_186
+    name: "별나침반 물고기"
+    grade: 전설
+    kind: 마법
+    shape: fish
+    size: [60, 100]
+    depth: [25, 50]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: []
+    time: 밤
+    weather: 맑음
+    power: 8
+    pattern: 지그재그
+    description: "(아르케온) 등의 나침반 별이 언제나 북쪽을 가리킨다."
+    item: minecraft:cod
+  fish_187:
+    itemsadder: item:fish_187
+    name: "초승달 가오리"
+    grade: 전설
+    kind: 마법
+    shape: ray
+    size: [150, 250]
+    depth: [25, 50]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: []
+    time: 밤
+    weather: 맑음
+    power: 8
+    pattern: 순간이동
+    description: "(루미나) 초승달 모양 날개로 달빛을 가른다."
+    item: minecraft:cod
+  fish_188:
+    itemsadder: item:fish_188
+    name: "고목수염 메기"
+    grade: 전설
+    kind: 마법
+    shape: fish
+    size: [150, 300]
+    depth: [25, 50]
+    water: [호수, 대형]
+    biomes: ["늪", "난초 늪", "자수정 지대"]
+    seasons: []
+    time: 전체
+    weather: 비
+    power: 9
+    pattern: 잠수
+    description: "(베스티아즈) 등에서 나뭇가지와 잎이 자란다."
+    item: minecraft:cod
+  fish_189:
+    itemsadder: item:fish_189
+    name: "태양 왕잉어"
+    grade: 전설
+    kind: 마법
+    shape: fish
+    size: [100, 180]
+    depth: [10, 25]
+    water: [호수, 대형]
+    biomes: ["민물"]
+    seasons: ["여름"]
+    time: 낮
+    weather: 맑음
+    power: 8
+    pattern: 돌진
+    description: "(노크세르) 정오의 태양처럼 눈부시게 빛난다."
+    item: minecraft:cod
+  fish_190:
+    itemsadder: item:fish_190
+    name: "리바이어던 새끼"
+    grade: 전설
+    kind: 마법
+    shape: shark
+    size: [400, 800]
+    depth: [50, 999]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: []
+    time: 전체
+    weather: 뇌우
+    power: 10
+    pattern: 돌진
+    description: "새끼인데도 배 한 척만 하다."
+    item: minecraft:cod
+  fish_191:
+    itemsadder: item:fish_191
+    name: "차원틈 장어"
+    grade: 전설
+    kind: 마법
+    shape: eel
+    size: [100, 200]
+    depth: [25, 50]
+    water: [웅덩이, 대형]
+    biomes: ["깊은 동굴", "맨틀 동굴"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    underground: true
+    y-max: 0
+    power: 9
+    pattern: 순간이동
+    description: "몸이 공간의 틈을 넘나든다."
+    item: minecraft:cod
+  fish_192:
+    itemsadder: item:fish_192
+    name: "시간의 철갑어"
+    grade: 전설
+    kind: 마법
+    shape: shark
+    size: [200, 400]
+    depth: [25, 50]
+    water: [호수, 대형]
+    biomes: ["강"]
+    seasons: []
+    time: 새벽
+    weather: 전체
+    power: 9
+    pattern: 역류
+    description: "비늘 하나하나에 시계가 새겨져 있다."
+    item: minecraft:cod
+  fish_193:
+    itemsadder: item:fish_193
+    name: "무지개 용잉어"
+    grade: 전설
+    kind: 마법
+    shape: fish
+    size: [200, 350]
+    depth: [10, 25]
+    water: [호수, 대형]
+    biomes: ["강", "산", "하늘섬"]
+    seasons: ["여름"]
+    time: 낮
+    weather: 비
+    power: 10
+    pattern: 돌진
+    description: "비 그친 하늘의 무지개를 타고 오른다는 잉어."
+    item: minecraft:cod
+  fish_194:
+    itemsadder: item:fish_194
+    name: "심해 왕관아귀"
+    grade: 전설
+    kind: 마법
+    shape: fish
+    size: [100, 200]
+    depth: [50, 999]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    power: 9
+    pattern: 잠수
+    description: "심해 왕국의 왕관을 쓴 아귀."
+    item: minecraft:cod
+  fish_195:
+    itemsadder: item:fish_195
+    name: "빙결여왕 연어"
+    grade: 전설
+    kind: 마법
+    shape: fish
+    size: [120, 200]
+    depth: [25, 50]
+    water: [호수, 대형]
+    biomes: ["설원", "서리불 동굴"]
+    seasons: ["겨울"]
+    time: 밤
+    weather: 전체
+    power: 9
+    pattern: 지그재그
+    description: "지나간 자리의 물을 얼려 버린다."
+    item: minecraft:salmon
+  fish_196:
+    itemsadder: item:fish_196
+    name: "크라켄 유생"
+    grade: 전설
+    kind: 마법
+    shape: squid
+    size: [300, 600]
+    depth: [50, 999]
+    water: [대형, 대형]
+    biomes: ["차가운 바다"]
+    seasons: []
+    time: 밤
+    weather: 뇌우
+    power: 10
+    pattern: 역류
+    description: "전설 속 바다 괴물의 어린 모습."
+    item: minecraft:cod
+  fish_197:
+    itemsadder: item:fish_197
+    name: "영원 해파리"
+    grade: 전설
+    kind: 마법
+    shape: squid
+    size: [30, 60]
+    depth: [50, 999]
+    water: [대형, 대형]
+    biomes: ["바다"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    power: 8
+    pattern: 순간이동
+    description: "늙지 않고 다시 어려지기를 반복한다."
+    item: minecraft:cod
+  fish_198:
+    itemsadder: item:fish_198
+    name: "보름달 은어"
+    grade: 전설
+    kind: 마법
+    shape: fish
+    size: [30, 50]
+    depth: [0, 10]
+    water: [웅덩이, 대형]
+    biomes: ["달빛 지대", "강"]
+    seasons: ["가을"]
+    time: 밤
+    weather: 맑음
+    moon: full
+    power: 8
+    pattern: 지그재그
+    description: "보름달이 뜬 밤에만 물 위로 나온다."
+    item: minecraft:salmon
+  fish_199:
+    itemsadder: item:fish_199
+    name: "잊힌 왕국 수호어"
+    grade: 전설
+    kind: 마법
+    shape: fish
+    size: [200, 400]
+    depth: [25, 50]
+    water: [웅덩이, 대형]
+    biomes: ["깊은 동굴", "고대 모래 지대"]
+    seasons: []
+    time: 전체
+    weather: 전체
+    underground: true
+    y-max: 0
+    power: 10
+    pattern: 분신
+    description: "땅속 잊힌 왕국의 문을 지킨다."
+    item: minecraft:cod
+  fish_200:
+    itemsadder: item:fish_200
+    name: "교장의 금붕어"
+    grade: 전설
+    kind: 마법
+    shape: fish
+    size: [10, 15]
+    depth: [0, 10]
+    water: [웅덩이, 웅덩이]
+    biomes: []
+    seasons: []
+    time: 전체
+    weather: 전체
+    power: 7
+    pattern: 순간이동
+    description: "교장실 어항에서 사라진 금붕어. 왜 이런 곳에?"
+    item: minecraft:cod

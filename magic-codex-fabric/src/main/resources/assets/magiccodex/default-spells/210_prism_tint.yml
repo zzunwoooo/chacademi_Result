@@ -1,0 +1,14 @@
+id: prism_tint
+name: 프리즘 물들이기
+category: light
+description: 프리즘의 색을 바꿉니다. 프리즘을 지나는 빛줄기는 그 색으로 물듭니다. 웅크린 채 쓰면 반대 순서로 바뀝니다.
+icon: magiccodex:textures/spells/gimmick/prism_tint.png
+permission: magic.learned.prism_tint
+discovery:
+  description: 도서관에서 「프리즘 연구」 책 읽기.
+research: 흰빛 안에는 모든 색이 접혀 있다. 프리즘은 그중 하나를 골라 펼칠 뿐이다.
+cast:
+  command: 마법 prism_tint
+  cooldown-seconds: 1
+  mana-cost: 15
+order: 210

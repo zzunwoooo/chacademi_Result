@@ -1,0 +1,15 @@
+id: mana_drain
+name: 마나 흡수
+category: dark
+description: 조준한 자리의 마력을 빨아들입니다. 그 안의 적은 피해를 입고 2초 동안 마나가 타들어 갑니다.
+# Existing icon reused from mana_conduit; dedicated mob-skill artwork was not supplied.
+icon: magiccodex:textures/spells/mob_skill/mana_drain.png
+permission: magic.learned.mana_drain
+discovery:
+  description: 팬텀을 처치하면 5% 확률로 습득합니다.
+research: 팬텀은 피를 마시지 않는다. 마력이 흐르는 소리를 마신다.
+cast:
+  command: 마법 mana_drain
+  cooldown-seconds: 16
+  mana-cost: 40
+order: 266

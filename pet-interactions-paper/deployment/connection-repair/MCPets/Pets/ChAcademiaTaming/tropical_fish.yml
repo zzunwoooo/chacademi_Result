@@ -1,0 +1,15 @@
+Id: chacademia_tropical_fish
+MythicMob: ChAcademiaPetTropicalFish
+Permission: chacademia.pet.tropical_fish
+Distance: 8
+SpawnRange: 2
+ComingBackRange: 3
+Mountable: false
+AutoRide: false
+Icon:
+  Name: 열대어
+  Material: TROPICAL_FISH_SPAWN_EGG
+  Description:
+  - 교화로 함께하게 된 동료
+CheckPermission: true
+FollowOwner: true

@@ -1,0 +1,14 @@
+id: earth_shaping
+name: 대지 성형
+category: earth
+description: 정면 바깥으로 흙 블록 모양의 충격파를 보냅니다. 7블록 부채꼴 범위이며, 맞은 대상을 약하게 위로 띄웁니다. 실제 지형을 편집하지 않습니다.
+icon: magiccodex:textures/spells/reviewed_20261020/earth_shaping.png
+permission: magic.learned.earth_shaping
+discovery:
+  description: 흙, 잔디, 거친 흙 등 흙 계열 블록을 누적 100개 설치합니다.
+research: 길이 불편하면 길을 바꾸면 된다. 단, 다른 학생의 기숙사 바닥을 바꾸지는 말자.
+cast:
+  command: 마법 earth_shaping
+  cooldown-seconds: 25
+  mana-cost: 120
+order: 188

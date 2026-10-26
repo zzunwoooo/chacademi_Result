@@ -1,0 +1,14 @@
+id: starlight_survey
+name: 별빛 측량
+category: light
+description: 바라보는 블록의 좌표와 시전자에게서 그 블록까지의 거리를 표시합니다.
+icon: magiccodex:textures/spells/expansion_2/starlight_survey.png
+permission: magic.learned.starlight_survey
+discovery:
+  description: 밤에 망원경으로 하늘을 10번 올려다보기.
+research: 한 칸만 어긋나도 탑은 기울어진다. 별은 그런 실수를 하지 않는다.
+cast:
+  command: 마법 starlight_survey
+  cooldown-seconds: 3
+  mana-cost: 5
+order: 204

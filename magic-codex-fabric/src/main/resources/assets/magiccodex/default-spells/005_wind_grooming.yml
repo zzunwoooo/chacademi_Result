@@ -1,0 +1,14 @@
+id: wind_grooming
+name: 바람 털빗
+category: wind
+description: 10블록 이내의 털이 있는 양 최대 3마리의 털을 깎습니다.
+icon: magiccodex:textures/spells/expansion/wind_grooming.png
+permission: magic.learned.wind_grooming
+discovery:
+  description: 가위로 양털을 10번 깎기.
+research: 양치기에게 도움받은 마법사가 남긴 선물. 털을 다뤄 본 손끝이라면 그 사이를 흐르는 바람도 읽을 수 있다.
+cast:
+  command: 마법 wind_grooming
+  cooldown-seconds: 32
+  mana-cost: 5
+order: 5

@@ -1,0 +1,15 @@
+id: binding_pull
+name: 끌어오기
+category: wind
+description: 바람의 고리로 대상을 감아 자신의 바로 앞으로 끌어옵니다. 끌려온 적은 잠시 느려집니다.
+# Existing icon reused from feather_fall; dedicated mob-skill artwork was not supplied.
+icon: magiccodex:textures/spells/mob_skill/binding_pull.png
+permission: magic.learned.binding_pull
+discovery:
+  description: 하늘뱀을 처치하면 5% 확률로 습득합니다.
+research: 하늘뱀은 먹이를 쫓지 않는다. 바람을 감아 당길 뿐이다.
+cast:
+  command: 마법 binding_pull
+  cooldown-seconds: 18
+  mana-cost: 45
+order: 28

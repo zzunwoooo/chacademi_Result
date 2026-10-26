@@ -1,0 +1,18 @@
+# Legacy resource path only. Use default-spells/149_rainbow_collar.yml; do not add another catalog entry.
+id: rainbow_collar
+name: 교화
+category: light
+description: |-
+  12블록 안의 대상을 4초 동안 교화해 펫 도감에 등록합니다.
+  대상마다 성공 확률이 다르며, 일반 몹은 체력이 낮을수록 성공 확률이 높아집니다.
+  보스는 쓰러진 뒤 남은 시간 동안 시도할 수 있습니다.
+icon: magiccodex:textures/spells/expansion_2/rainbow_collar.png
+permission: magic.learned.rainbow_collar
+discovery:
+  description: 몬스터 교화 실습 수행하기
+research: 빛의 고리가 닫히자, 낯선 숨결이 내 이름에 답했다. 처음 만난 짐승의 눈동자에서 오래된 약속의 흔적이 잠깐 빛났다.
+cast:
+  command: 교화
+  cooldown-seconds: 60
+  mana-cost: 150
+order: 149

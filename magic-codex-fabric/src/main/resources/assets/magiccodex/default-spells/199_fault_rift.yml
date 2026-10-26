@@ -1,0 +1,14 @@
+id: fault_rift
+name: 단층 붕괴
+category: earth
+description: 앞쪽 15블록 땅에 균열을 긋고, 잠시 뒤 무너뜨립니다. 균열 위에 있던 적은 피해를 입고 3초 동안 고정됩니다. 실제 지형은 바뀌지 않습니다.
+icon: ''
+permission: magic.learned.fault_rift
+discovery:
+  description: 지진으로 적을 100번 맞히기.
+research: ''
+cast:
+  command: 마법 fault_rift
+  cooldown-seconds: 45
+  mana-cost: 280
+order: 199

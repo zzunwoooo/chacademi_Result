@@ -1,0 +1,14 @@
+id: sweet_sleep
+name: 단잠의 주문
+category: dark
+description: 잠들기 전에 거는 포근한 주문입니다. 30분 안에 침대에서 푹 자고 일어나면 10분 동안 마나가 더 빨리 찹니다.
+icon: ''
+permission: magic.learned.sweet_sleep
+discovery:
+  description: 침대에서 자고 아침에 일어나기 10번.
+research: ''
+cast:
+  command: 마법 sweet_sleep
+  cooldown-seconds: 300
+  mana-cost: 30
+order: 271

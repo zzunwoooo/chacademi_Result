@@ -1,0 +1,14 @@
+id: campfire_rest
+name: 모닥불 쉼터
+category: fire
+description: 따뜻한 마법 모닥불을 피웁니다. 60초 동안 곁에서 쉬는 파티원은 조금씩 체력과 배고픔이 차오릅니다. 싸우는 중에는 쉴 수 없습니다.
+icon: ''
+permission: magic.learned.campfire_rest
+discovery:
+  description: 모닥불에 음식을 10번 올려 굽기.
+research: ''
+cast:
+  command: 마법 campfire_rest
+  cooldown-seconds: 120
+  mana-cost: 40
+order: 68

@@ -1,0 +1,14 @@
+id: tide_stride
+name: 물살 타기
+category: water
+description: 15초 동안 수영 속도가 증가합니다.
+icon: magiccodex:textures/spells/novice/tide_stride.png
+permission: magic.learned.tide_stride
+discovery:
+  description: 수영으로 누적 500블록 이동하기.
+research: 물을 밀어내려 하지 말고, 물이 가고 싶은 방향을 읽어 보자.
+cast:
+  command: 마법 tide_stride
+  cooldown-seconds: 15
+  mana-cost: 15
+order: 111

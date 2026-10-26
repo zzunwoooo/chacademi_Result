@@ -1,0 +1,15 @@
+Id: chacademia_guardian
+MythicMob: ChAcademiaPetGuardian
+Permission: chacademia.pet.guardian
+Distance: 8
+SpawnRange: 2
+ComingBackRange: 3
+Mountable: false
+AutoRide: false
+Icon:
+  Name: 고대 유적의 수호자
+  Material: IRON_GOLEM_SPAWN_EGG
+  Description:
+  - 교화로 함께하게 된 동료
+CheckPermission: true
+FollowOwner: true

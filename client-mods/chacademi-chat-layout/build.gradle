@@ -1,0 +1,23 @@
+plugins { id 'fabric-loom' version '1.9.2' }
+version = '1.6.3-ctrlshift.1'
+group = 'kr.chacademi'
+base { archivesName = 'chacademi-chat-layout' }
+repositories { mavenCentral() }
+dependencies {
+    minecraft 'com.mojang:minecraft:1.21.4'
+    mappings loom.officialMojangMappings()
+    modImplementation 'net.fabricmc:fabric-loader:0.16.10'
+    modCompileOnly files('C:/Chacademi/downloads/chatplus-schema-check/chatplus-fabric-2.8.1.jar')
+    compileOnly 'org.jetbrains.kotlin:kotlin-stdlib:2.1.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.4'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.11.4'
+}
+loom { mixin { defaultRefmapName = 'chacademi-chat-layout.refmap.json' } }
+java { toolchain { languageVersion = JavaLanguageVersion.of(21) }; withSourcesJar() }
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8'; options.release = 21 }
+processResources {
+    inputs.property 'version', project.version
+    filesMatching('fabric.mod.json') { expand version: project.version }
+}
+test { useJUnitPlatform() }
+jar { from('LICENSE') { rename { 'LICENSE_chacademi-chat-layout' } }; from('NOTICE') }

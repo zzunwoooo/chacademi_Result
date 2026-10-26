@@ -1,0 +1,14 @@
+id: constellation_emissary
+name: 성좌의 대리인
+category: light
+description: 30초 동안 작은 별의 사역마를 소환합니다. 8블록 범위에서 체력이 낮은 동료를 찾아 매회 하트 3칸을 치유합니다. 한 번 치유한 뒤 2초를 기다리고 다음 치유를 수행합니다.
+icon: magiccodex:textures/spells/expansion_2/constellation_emissary.png
+permission: magic.learned.constellation_emissary
+discovery:
+  description: 마법으로 체력을 누적 600 치유합니다.
+research: 바쁜 별을 대신해 작은 사자가 아픈 이들을 찾아다닌다.
+cast:
+  command: 마법 constellation_emissary
+  cooldown-seconds: 120
+  mana-cost: 280
+order: 244

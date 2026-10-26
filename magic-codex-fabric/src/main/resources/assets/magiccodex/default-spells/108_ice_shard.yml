@@ -1,0 +1,14 @@
+id: ice_shard
+name: 얼음 조각
+category: water
+description: 얼음 조각 두 개를 연달아 쏩니다. 두 발을 모두 같은 적에게 맞히면 그 적이 3초 동안 느려집니다.
+icon: ''
+permission: magic.learned.ice_shard
+discovery:
+  description: 물방울 탄환으로 적을 50번 맞히기.
+research: ''
+cast:
+  command: 마법 ice_shard
+  cooldown-seconds: 5
+  mana-cost: 8
+order: 108

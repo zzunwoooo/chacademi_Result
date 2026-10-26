@@ -1,0 +1,14 @@
+id: harvest_wind
+name: 수확의 바람
+category: wind
+description: 반경 10블록 안의 다 자란 밀·당근·감자를 최대 64개까지 수확합니다.
+icon: magiccodex:textures/spells/novice/harvest_wind.png
+permission: magic.learned.harvest_wind
+discovery:
+  description: 자라지 않은 밀·당근·감자를 각각 12개씩 잘라내기.
+research: 어린 밀과 당근, 감자를 성급히 거둔 흔적에서, 익은 작물만 가려내는 바람의 실마리를 찾았다.
+cast:
+  command: 마법 harvest_wind
+  cooldown-seconds: 60
+  mana-cost: 33
+order: 16

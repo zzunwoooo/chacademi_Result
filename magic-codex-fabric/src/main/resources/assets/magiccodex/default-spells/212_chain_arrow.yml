@@ -1,0 +1,15 @@
+id: chain_arrow
+name: 사슬 화살
+category: light
+description: 금빛 사슬을 감은 화살을 쏩니다. 맞은 적은 사슬에 걸려 잠시 느려집니다.
+# Existing icon reused from guiding_fletching; dedicated mob-skill artwork was not supplied.
+icon: magiccodex:textures/spells/mob_skill/chain_arrow.png
+permission: magic.learned.chain_arrow
+discovery:
+  description: 봉인의 궁수를 처치하면 5% 확률로 습득합니다.
+research: 봉인의 궁수는 쓰러뜨리려 쏘지 않는다. 붙잡아 두려 쏜다.
+cast:
+  command: 마법 chain_arrow
+  cooldown-seconds: 6
+  mana-cost: 20
+order: 212

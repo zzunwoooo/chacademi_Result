@@ -1,0 +1,14 @@
+id: bouncing_droplet
+name: 도약하는 물방울
+category: water
+description: 물방울이 서로 다른 적을 최대 4명까지 튕겨 공격합니다. 같은 적을 다시 공격하지 않으며 다음 대상이 없으면 터집니다.
+icon: magiccodex:textures/spells/reviewed_20261016/bouncing_droplet.png
+permission: magic.learned.bouncing_droplet
+discovery:
+  description: 엘레나 교수의 물 마법 중급 수업 듣기.
+research: ''
+cast:
+  command: 마법 bouncing_droplet
+  cooldown-seconds: 30
+  mana-cost: 120
+order: 136

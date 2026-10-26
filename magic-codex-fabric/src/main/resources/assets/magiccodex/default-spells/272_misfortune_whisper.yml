@@ -1,0 +1,14 @@
+id: misfortune_whisper
+name: 나약함의 저주
+category: dark
+description: 적 하나의 공격력과 지능을 8초 동안 낮춥니다.
+icon: magiccodex:textures/spells/expansion/misfortune_whisper.png
+permission: magic.learned.misfortune_whisper
+discovery:
+  description: 그레고르 교감의 어둠 마법 응용 수업 듣기.
+research: 힘이 빠지는 기분을 알기에 상대에게도 정확히 전할 수 있다.
+cast:
+  command: 마법 misfortune_whisper
+  cooldown-seconds: 20
+  mana-cost: 60
+order: 272

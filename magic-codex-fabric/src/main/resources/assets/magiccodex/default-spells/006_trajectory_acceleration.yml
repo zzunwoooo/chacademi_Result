@@ -1,0 +1,15 @@
+id: trajectory_acceleration
+name: 미라지 슈터
+category: wind
+description: 마법 슬롯에 장착하면, 자신이 피해를 준 대상에게 바람 화살 하나를 소환·대기·유도 발사합니다. 피해 종류와 관계없이 소유자가
+  자신임이 확인되어야 합니다.
+icon: magiccodex:textures/spells/expansion/trajectory_acceleration.png
+permission: magic.learned.trajectory_acceleration
+discovery:
+  description: 활로 몬스터를 30번 맞히기.
+research: 사계절의 기이한 기류를 겪은 뒤, 공격의 궤적을 따라 신기루 같은 바람이 달리기 시작했다.
+cast:
+  command: 마법 trajectory_acceleration
+  cooldown-seconds: 0
+  mana-cost: 10
+order: 6

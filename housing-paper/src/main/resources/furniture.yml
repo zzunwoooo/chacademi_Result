@@ -1,0 +1,858 @@
+# 100 reviewed artworks plus 6 legacy-only IDs. Existing geometry/limits are retained on 8 shared IDs to avoid pruning saved rooms.
+alchemy_bench:
+  name: 연금 작업대
+  category: 가구
+  size: 2x1
+  height: 0.6
+  max: 1
+  color: '#6E5532'
+  accent: '#B97D4E'
+  icon: magiccodex:textures/gui/housing/furniture/alchemy_bench.png
+broom_rack:
+  name: 빗자루 거치대
+  category: 가구
+  size: 1x1
+  height: 1.9
+  max: 1
+  color: '#6D4534'
+  accent: '#845238'
+  icon: magiccodex:textures/gui/housing/furniture/broom_rack.png
+artifact_cabinet:
+  name: 아티팩트 진열장
+  category: 가구
+  size: 2x1
+  height: 0.9
+  max: 1
+  color: '#949B9C'
+  accent: '#B4D8F4'
+  icon: magiccodex:textures/gui/housing/furniture/artifact_cabinet.png
+mirror_wardrobe:
+  name: 거울 옷장
+  category: 가구
+  size: 1x1
+  height: 2.4
+  max: 1
+  color: '#845B40'
+  accent: '#B0CFE8'
+  icon: magiccodex:textures/gui/housing/furniture/mirror_wardrobe.png
+pet_cushion:
+  name: 펫 쿠션
+  category: 소품
+  size: 1x1
+  height: 0.3
+  max: 1
+  color: '#2C406D'
+  accent: '#55504B'
+  icon: magiccodex:textures/gui/housing/furniture/pet_cushion.png
+trophy_case:
+  name: 큐디치 트로피장
+  category: 가구
+  size: 1x1
+  height: 1.3
+  max: 1
+  color: '#61574B'
+  accent: '#A36838'
+  icon: magiccodex:textures/gui/housing/furniture/trophy_case.png
+house_scoreboard:
+  name: 기숙사 점수판
+  category: 벽걸이
+  size: 2x2
+  max: 1
+  color: '#2C323E'
+  accent: '#6F4129'
+  icon: magiccodex:textures/gui/housing/furniture/house_scoreboard.png
+profile_frame:
+  name: 내 정보 액자
+  category: 벽걸이
+  size: 1x1
+  max: 1
+  color: '#5F482C'
+  accent: '#A87D31'
+  icon: magiccodex:textures/gui/housing/furniture/profile_frame.png
+bait_box_common:
+  name: 미끼 상자
+  category: 소품
+  size: 1x1
+  height: 0.6
+  max: 1
+  color: '#8C6144'
+  accent: '#CE9456'
+  icon: magiccodex:textures/gui/housing/furniture/bait_box_common.png
+bait_box_rare:
+  name: 고급 미끼 상자
+  category: 소품
+  size: 1x1
+  height: 0.5
+  max: 1
+  color: '#553E3D'
+  accent: '#615D5C'
+  icon: magiccodex:textures/gui/housing/furniture/bait_box_rare.png
+bait_box_unique:
+  name: 유일 미끼 상자
+  category: 소품
+  size: 1x1
+  height: 0.5
+  max: 1
+  color: '#6C4839'
+  accent: '#A27B37'
+  icon: magiccodex:textures/gui/housing/furniture/bait_box_unique.png
+academy_bed:
+  name: 아카데미 침대
+  max: 1
+  category: 가구
+  size: 2x1
+  height: 0.6
+  color: '#2B3E78'
+  accent: '#E1B866'
+  icon: magiccodex:textures/gui/housing/furniture/academy_bed.png
+bunk_bed:
+  name: 2층 침대
+  category: 가구
+  size: 2x1
+  height: 1.6
+  max: 1
+  color: '#6A3E2B'
+  accent: '#776B5A'
+  icon: magiccodex:textures/gui/housing/furniture/bunk_bed.png
+canopy_bed:
+  name: 캐노피 침대
+  category: 가구
+  size: 2x2
+  height: 2.1
+  max: 1
+  color: '#6E4537'
+  accent: '#75715F'
+  icon: magiccodex:textures/gui/housing/furniture/canopy_bed.png
+wood_desk:
+  name: 나무 책상
+  max: 1
+  category: 가구
+  size: 2x1
+  height: 0.8
+  color: '#7A4E2C'
+  accent: '#C9965E'
+  icon: magiccodex:textures/gui/housing/furniture/wood_desk.png
+wizard_desk:
+  name: 마법사의 서재 책상
+  category: 가구
+  size: 2x1
+  height: 0.6
+  max: 1
+  color: '#70402B'
+  accent: '#765845'
+  icon: magiccodex:textures/gui/housing/furniture/wizard_desk.png
+academy_chair:
+  name: 아카데미 의자
+  max: 4
+  category: 가구
+  size: 1x1
+  height: 1.0
+  color: '#6B4428'
+  accent: '#2B3E78'
+  icon: magiccodex:textures/gui/housing/furniture/academy_chair.png
+armchair:
+  name: 안락의자
+  category: 가구
+  size: 1x1
+  height: 1.0
+  max: 2
+  color: '#39455E'
+  accent: '#395387'
+  icon: magiccodex:textures/gui/housing/furniture/armchair.png
+sofa:
+  name: 2인 소파
+  category: 가구
+  size: 2x1
+  height: 0.8
+  max: 1
+  color: '#253A60'
+  accent: '#404858'
+  icon: magiccodex:textures/gui/housing/furniture/sofa.png
+round_stool:
+  name: 원목 스툴
+  max: 4
+  category: 가구
+  size: 1x1
+  height: 0.5
+  color: '#8A5A33'
+  accent: '#C9965E'
+  icon: magiccodex:textures/gui/housing/furniture/round_stool.png
+tea_table:
+  name: 둥근 티 테이블
+  category: 가구
+  size: 1x1
+  height: 0.3
+  max: 2
+  color: '#314977'
+  accent: '#A96F3E'
+  icon: magiccodex:textures/gui/housing/furniture/tea_table.png
+long_table:
+  name: 긴 식탁
+  category: 가구
+  size: 3x1
+  height: 0.3
+  max: 1
+  color: '#2A3E6A'
+  accent: '#5B5857'
+  icon: magiccodex:textures/gui/housing/furniture/long_table.png
+bookshelf:
+  name: 책장
+  max: 2
+  category: 가구
+  size: 1x1
+  height: 2.0
+  color: '#5C3A22'
+  accent: '#B07A45'
+  icon: magiccodex:textures/gui/housing/furniture/bookshelf.png
+big_bookshelf:
+  name: 큰 책장
+  category: 가구
+  size: 2x1
+  height: 1.5
+  max: 2
+  color: '#834635'
+  accent: '#BE7941'
+  icon: magiccodex:textures/gui/housing/furniture/big_bookshelf.png
+dresser:
+  name: 서랍장
+  category: 가구
+  size: 1x1
+  height: 1.3
+  max: 2
+  color: '#935732'
+  accent: '#AE6937'
+  icon: magiccodex:textures/gui/housing/furniture/dresser.png
+nightstand:
+  name: 침대 협탁
+  category: 가구
+  size: 1x1
+  height: 1.2
+  max: 2
+  color: '#6E412E'
+  accent: '#A66136'
+  icon: magiccodex:textures/gui/housing/furniture/nightstand.png
+fireplace:
+  name: 벽난로
+  category: 가구
+  size: 2x1
+  height: 1.2
+  max: 1
+  color: '#AAA491'
+  accent: '#F5E9CF'
+  icon: magiccodex:textures/gui/housing/furniture/fireplace.png
+piano:
+  name: 피아노
+  category: 가구
+  size: 2x1
+  height: 1.0
+  max: 1
+  color: '#74391A'
+  accent: '#4B4B60'
+  icon: magiccodex:textures/gui/housing/furniture/piano.png
+harp:
+  name: 하프
+  category: 가구
+  size: 1x1
+  height: 2.2
+  max: 1
+  color: '#975835'
+  accent: '#CBA65F'
+  icon: magiccodex:textures/gui/housing/furniture/harp.png
+trunk:
+  name: 트렁크 가방
+  category: 가구
+  size: 1x1
+  height: 0.7
+  max: 2
+  color: '#763F26'
+  accent: '#9E6B36'
+  icon: magiccodex:textures/gui/housing/furniture/trunk.png
+treasure_chest:
+  name: 보물상자
+  category: 가구
+  size: 1x1
+  height: 0.3
+  max: 2
+  color: '#1D4AA1'
+  accent: '#DC6F1C'
+  icon: magiccodex:textures/gui/housing/furniture/treasure_chest.png
+cauldron:
+  name: 마법 가마솥
+  category: 가구
+  size: 1x1
+  height: 0.7
+  max: 1
+  color: '#203055'
+  accent: '#815D38'
+  icon: magiccodex:textures/gui/housing/furniture/cauldron.png
+telescope:
+  name: 별 관측 망원경
+  category: 가구
+  size: 1x1
+  height: 1.2
+  max: 1
+  color: '#6D492F'
+  accent: '#7C6E49'
+  icon: magiccodex:textures/gui/housing/furniture/telescope.png
+armillary:
+  name: 천구의
+  category: 가구
+  size: 1x1
+  height: 2.0
+  max: 1
+  color: '#7C5D36'
+  accent: '#C49447'
+  icon: magiccodex:textures/gui/housing/furniture/armillary.png
+crystal_ball:
+  name: 수정구 받침대
+  category: 가구
+  size: 1x1
+  height: 1.5
+  max: 1
+  color: '#6997DB'
+  accent: '#A7CEFA'
+  icon: magiccodex:textures/gui/housing/furniture/crystal_ball.png
+plant_shelf:
+  name: 화분 선반
+  category: 가구
+  size: 1x1
+  height: 1.4
+  max: 2
+  color: '#5B7C3E'
+  accent: '#C27738'
+  icon: magiccodex:textures/gui/housing/furniture/plant_shelf.png
+folding_screen:
+  name: 칸막이 병풍
+  category: 가구
+  size: 2x1
+  height: 0.8
+  max: 2
+  color: '#2A3A58'
+  accent: '#84572E'
+  icon: magiccodex:textures/gui/housing/furniture/folding_screen.png
+cat_tower:
+  name: 캣타워
+  category: 가구
+  size: 1x1
+  height: 2.4
+  max: 1
+  color: '#38456C'
+  accent: '#8D674A'
+  icon: magiccodex:textures/gui/housing/furniture/cat_tower.png
+hammock:
+  name: 해먹
+  category: 가구
+  size: 2x1
+  height: 0.7
+  max: 1
+  color: '#4C586B'
+  accent: '#C96E2D'
+  icon: magiccodex:textures/gui/housing/furniture/hammock.png
+standing_mirror:
+  name: 마법 거울 스탠드
+  category: 가구
+  size: 1x1
+  height: 1.5
+  max: 1
+  color: '#BE6833'
+  accent: '#ABDBFA'
+  icon: magiccodex:textures/gui/housing/furniture/standing_mirror.png
+potion_cabinet:
+  name: 물약 진열장
+  category: 가구
+  size: 1x1
+  height: 1.7
+  max: 2
+  color: '#80482A'
+  accent: '#A25F33'
+  icon: magiccodex:textures/gui/housing/furniture/potion_cabinet.png
+rug_arkeon:
+  name: 아르케온 나침반 러그
+  category: 소품
+  size: 2x2
+  height: 0.1
+  max: 2
+  color: '#3A4148'
+  accent: '#7D7155'
+  icon: magiccodex:textures/gui/housing/furniture/rug_arkeon.png
+rug_lumina:
+  name: 루미나 달빛 러그
+  category: 소품
+  size: 2x2
+  height: 0.1
+  max: 2
+  color: '#1D3259'
+  accent: '#747D8E'
+  icon: magiccodex:textures/gui/housing/furniture/rug_lumina.png
+rug_bestiaz:
+  name: 베스티아즈 잎새 러그
+  category: 소품
+  size: 2x2
+  height: 0.1
+  max: 2
+  color: '#3F5F44'
+  accent: '#7B9066'
+  icon: magiccodex:textures/gui/housing/furniture/rug_bestiaz.png
+rug_noxer:
+  name: 노크세르 태양 러그
+  category: 소품
+  size: 2x2
+  height: 0.1
+  max: 2
+  color: '#9A3A25'
+  accent: '#BA8036'
+  icon: magiccodex:textures/gui/housing/furniture/rug_noxer.png
+fur_rug:
+  name: 털 러그
+  category: 소품
+  size: 2x2
+  height: 0.1
+  max: 2
+  color: '#F8ECD7'
+  accent: '#FBECD5'
+  icon: magiccodex:textures/gui/housing/furniture/fur_rug.png
+big_plant:
+  name: 큰 화분
+  max: 4
+  category: 소품
+  size: 1x1
+  height: 0.9
+  color: '#3F7A44'
+  accent: '#E8E2D4'
+  icon: magiccodex:textures/gui/housing/furniture/big_plant.png
+small_plant:
+  name: 작은 화분
+  category: 소품
+  size: 1x1
+  height: 1.0
+  max: 6
+  color: '#466E3E'
+  accent: '#649847'
+  icon: magiccodex:textures/gui/housing/furniture/small_plant.png
+cactus:
+  name: 선인장
+  category: 소품
+  size: 1x1
+  height: 2.1
+  max: 4
+  color: '#A67645'
+  accent: '#96D659'
+  icon: magiccodex:textures/gui/housing/furniture/cactus.png
+magic_lamp:
+  name: 마법 등불
+  max: 4
+  category: 소품
+  size: 1x1
+  height: 0.7
+  color: '#E8B25A'
+  accent: '#6B4428'
+  icon: magiccodex:textures/gui/housing/furniture/magic_lamp.png
+candelabra:
+  name: 촛대
+  category: 소품
+  size: 1x1
+  height: 1.0
+  max: 4
+  color: '#BA8C33'
+  accent: '#E2CEA8'
+  icon: magiccodex:textures/gui/housing/furniture/candelabra.png
+book_pile:
+  name: 쌓인 마법서
+  category: 소품
+  size: 1x1
+  height: 0.9
+  max: 4
+  color: '#2C4278'
+  accent: '#D6C1A1'
+  icon: magiccodex:textures/gui/housing/furniture/book_pile.png
+cushion:
+  name: 쿠션
+  category: 소품
+  size: 1x1
+  height: 0.3
+  max: 4
+  color: '#2E4170'
+  accent: '#654F3A'
+  icon: magiccodex:textures/gui/housing/furniture/cushion.png
+beanbag:
+  name: 빈백 쿠션
+  category: 소품
+  size: 1x1
+  height: 0.7
+  max: 2
+  color: '#1F3561'
+  accent: '#284174'
+  icon: magiccodex:textures/gui/housing/furniture/beanbag.png
+teddy_bear:
+  name: 곰인형
+  category: 소품
+  size: 1x1
+  height: 1.6
+  max: 2
+  color: '#A35F3B'
+  accent: '#C9A788'
+  icon: magiccodex:textures/gui/housing/furniture/teddy_bear.png
+cat_plush:
+  name: 고양이 인형
+  category: 소품
+  size: 1x1
+  height: 1.0
+  max: 2
+  color: '#E6DDCD'
+  accent: '#FDEFD8'
+  icon: magiccodex:textures/gui/housing/furniture/cat_plush.png
+flower_vase:
+  name: 꽃병
+  category: 소품
+  size: 1x1
+  height: 1.3
+  max: 4
+  color: '#495A42'
+  accent: '#BEB4A4'
+  icon: magiccodex:textures/gui/housing/furniture/flower_vase.png
+firewood_basket:
+  name: 장작 바구니
+  category: 소품
+  size: 1x1
+  height: 0.6
+  max: 2
+  color: '#A76024'
+  accent: '#AD8458'
+  icon: magiccodex:textures/gui/housing/furniture/firewood_basket.png
+ball_basket:
+  name: 큐디치 공 바구니
+  category: 소품
+  size: 1x1
+  height: 0.4
+  max: 1
+  color: '#8E5A37'
+  accent: '#C55436'
+  icon: magiccodex:textures/gui/housing/furniture/ball_basket.png
+firefly_jar:
+  name: 반딧불 유리병
+  category: 소품
+  size: 1x1
+  height: 1.4
+  max: 4
+  color: '#8BADCB'
+  accent: '#A3C7E4'
+  icon: magiccodex:textures/gui/housing/furniture/firefly_jar.png
+owl_perch:
+  name: 부엉이 횃대
+  category: 소품
+  size: 1x1
+  height: 1.9
+  max: 1
+  color: '#444D6C'
+  accent: '#937744'
+  icon: magiccodex:textures/gui/housing/furniture/owl_perch.png
+star_lamp:
+  name: 별 무드등
+  category: 소품
+  size: 1x1
+  height: 1.8
+  max: 2
+  color: '#BD8825'
+  accent: '#FBC743'
+  icon: magiccodex:textures/gui/housing/furniture/star_lamp.png
+music_stand:
+  name: 악보대
+  category: 소품
+  size: 1x1
+  height: 1.8
+  max: 1
+  color: '#3E4D6D'
+  accent: '#897759'
+  icon: magiccodex:textures/gui/housing/furniture/music_stand.png
+potion_shelf:
+  name: 물약 선반
+  category: 소품
+  size: 1x1
+  height: 1.7
+  max: 2
+  color: '#626256'
+  accent: '#B57B43'
+  icon: magiccodex:textures/gui/housing/furniture/potion_shelf.png
+banner_arkeon:
+  name: 아르케온 배너
+  category: 벽걸이
+  size: 1x2
+  max: 2
+  color: '#142B56'
+  accent: '#8F6524'
+  icon: magiccodex:textures/gui/housing/furniture/banner_arkeon.png
+banner_lumina:
+  name: 루미나 배너
+  category: 벽걸이
+  size: 1x2
+  max: 2
+  color: '#132957'
+  accent: '#97681E'
+  icon: magiccodex:textures/gui/housing/furniture/banner_lumina.png
+banner_bestiaz:
+  name: 베스티아즈 배너
+  category: 벽걸이
+  size: 1x2
+  max: 2
+  color: '#142C59'
+  accent: '#8D6726'
+  icon: magiccodex:textures/gui/housing/furniture/banner_bestiaz.png
+banner_noxer:
+  name: 노크세르 배너
+  category: 벽걸이
+  size: 1x2
+  max: 2
+  color: '#272F41'
+  accent: '#9B6F19'
+  icon: magiccodex:textures/gui/housing/furniture/banner_noxer.png
+small_frame:
+  name: 작은 액자
+  max: 4
+  category: 벽걸이
+  size: 1x1
+  color: '#C9965E'
+  accent: '#3B5A8A'
+  icon: magiccodex:textures/gui/housing/furniture/small_frame.png
+landscape_frame:
+  name: 풍경화 액자
+  category: 벽걸이
+  size: 2x1
+  max: 2
+  color: '#935626'
+  accent: '#EBE4CD'
+  icon: magiccodex:textures/gui/housing/furniture/landscape_frame.png
+round_window:
+  name: 둥근 창문
+  category: 벽걸이
+  size: 1x1
+  max: 2
+  color: '#594034'
+  accent: '#8D602E'
+  icon: magiccodex:textures/gui/housing/furniture/round_window.png
+arch_window:
+  name: 아치형 창문
+  category: 벽걸이
+  size: 1x2
+  max: 2
+  color: '#443E3B'
+  accent: '#87622B'
+  icon: magiccodex:textures/gui/housing/furniture/arch_window.png
+curtain_window:
+  name: 별 커튼 창문
+  category: 벽걸이
+  size: 2x2
+  max: 1
+  color: '#403033'
+  accent: '#4D4B48'
+  icon: magiccodex:textures/gui/housing/furniture/curtain_window.png
+wall_shelf:
+  name: 벽 선반
+  category: 벽걸이
+  size: 1x1
+  max: 4
+  color: '#814A33'
+  accent: '#895135'
+  icon: magiccodex:textures/gui/housing/furniture/wall_shelf.png
+wall_clock:
+  name: 벽시계
+  category: 벽걸이
+  size: 1x1
+  max: 1
+  color: '#BEB9B3'
+  accent: '#F1E8D8'
+  icon: magiccodex:textures/gui/housing/furniture/wall_clock.png
+magic_tapestry:
+  name: 마법진 태피스트리
+  category: 벽걸이
+  size: 2x2
+  max: 1
+  color: '#21365F'
+  accent: '#605E5E'
+  icon: magiccodex:textures/gui/housing/furniture/magic_tapestry.png
+ivy:
+  name: 담쟁이 덩굴
+  category: 벽걸이
+  size: 1x2
+  max: 4
+  color: '#3D542E'
+  accent: '#56693A'
+  icon: magiccodex:textures/gui/housing/furniture/ivy.png
+wall_lantern:
+  name: 벽걸이 등불
+  category: 벽걸이
+  size: 1x1
+  max: 4
+  color: '#8F6433'
+  accent: '#D3C09B'
+  icon: magiccodex:textures/gui/housing/furniture/wall_lantern.png
+kyudichi_flag:
+  name: 큐디치 깃발
+  category: 벽걸이
+  size: 1x2
+  max: 2
+  color: '#19315C'
+  accent: '#8E6D34'
+  icon: magiccodex:textures/gui/housing/furniture/kyudichi_flag.png
+star_chart:
+  name: 별자리 지도
+  category: 벽걸이
+  size: 2x1
+  max: 1
+  color: '#2A2C42'
+  accent: '#8C4D2D'
+  icon: magiccodex:textures/gui/housing/furniture/star_chart.png
+wall_starry:
+  name: 별밤 벽지
+  category: 벽지
+  color: '#122141'
+  accent: '#6F4126'
+  icon: magiccodex:textures/gui/housing/wallpaper/wall_starry.png
+wall_arkeon:
+  name: 아르케온 벽지
+  category: 벽지
+  color: '#1B2C44'
+  accent: '#673E25'
+  icon: magiccodex:textures/gui/housing/wallpaper/wall_arkeon.png
+wall_lumina:
+  name: 루미나 벽지
+  category: 벽지
+  color: '#7B99B4'
+  accent: '#7B9AB6'
+  icon: magiccodex:textures/gui/housing/wallpaper/wall_lumina.png
+wall_bestiaz:
+  name: 베스티아즈 벽지
+  category: 벽지
+  color: '#65804F'
+  accent: '#6B8552'
+  icon: magiccodex:textures/gui/housing/wallpaper/wall_bestiaz.png
+wall_noxer:
+  name: 노크세르 벽지
+  category: 벽지
+  color: '#6C201F'
+  accent: '#7C442E'
+  icon: magiccodex:textures/gui/housing/wallpaper/wall_noxer.png
+wall_library:
+  name: 원목 서재 패널
+  category: 벽지
+  color: '#6E4A2D'
+  accent: '#754D2E'
+  icon: magiccodex:textures/gui/housing/wallpaper/wall_library.png
+wall_rose:
+  name: 장미 꽃무늬 벽지
+  category: 벽지
+  color: '#F5EDD8'
+  accent: '#F6EEDA'
+  icon: magiccodex:textures/gui/housing/wallpaper/wall_rose.png
+wall_check:
+  name: 체크무늬 벽지
+  category: 벽지
+  color: '#82766E'
+  accent: '#DCD3C1'
+  icon: magiccodex:textures/gui/housing/wallpaper/wall_check.png
+wall_stone:
+  name: 석조 성벽
+  category: 벽지
+  color: '#C5BDAD'
+  accent: '#C8BFAF'
+  icon: magiccodex:textures/gui/housing/wallpaper/wall_stone.png
+wall_cloud:
+  name: 하늘 구름 벽지
+  category: 벽지
+  color: '#9AC8E2'
+  accent: '#99CAE7'
+  icon: magiccodex:textures/gui/housing/wallpaper/wall_cloud.png
+floor_marble:
+  name: 대리석 바닥
+  category: 바닥재
+  color: '#FEF3D9'
+  accent: '#FEF3D9'
+  icon: magiccodex:textures/gui/housing/floor/floor_marble.png
+floor_chess:
+  name: 체스판 타일
+  category: 바닥재
+  color: '#D6C6AA'
+  accent: '#F5DFB9'
+  icon: magiccodex:textures/gui/housing/floor/floor_chess.png
+floor_birch:
+  name: 자작나무 마루
+  category: 바닥재
+  color: '#F4D69D'
+  accent: '#F6D79E'
+  icon: magiccodex:textures/gui/housing/floor/floor_birch.png
+floor_brick:
+  name: 붉은 벽돌 바닥
+  category: 바닥재
+  color: '#A15742'
+  accent: '#A75A43'
+  icon: magiccodex:textures/gui/housing/floor/floor_brick.png
+floor_moss:
+  name: 이끼 풀밭
+  category: 바닥재
+  color: '#85A35E'
+  accent: '#86A45F'
+  icon: magiccodex:textures/gui/housing/floor/floor_moss.png
+floor_starstone:
+  name: 별 문양 석판
+  category: 바닥재
+  color: '#506A83'
+  accent: '#84724F'
+  icon: magiccodex:textures/gui/housing/floor/floor_starstone.png
+carpet_arkeon:
+  name: 아르케온 카펫
+  category: 바닥재
+  color: '#142952'
+  accent: '#857150'
+  icon: magiccodex:textures/gui/housing/floor/carpet_arkeon.png
+carpet_lumina:
+  name: 루미나 카펫
+  category: 바닥재
+  color: '#092556'
+  accent: '#555757'
+  icon: magiccodex:textures/gui/housing/floor/carpet_lumina.png
+carpet_bestiaz:
+  name: 베스티아즈 카펫
+  category: 바닥재
+  color: '#2C5237'
+  accent: '#6C6E49'
+  icon: magiccodex:textures/gui/housing/floor/carpet_bestiaz.png
+carpet_noxer:
+  name: 노크세르 카펫
+  category: 바닥재
+  color: '#641927'
+  accent: '#927C49'
+  icon: magiccodex:textures/gui/housing/floor/carpet_noxer.png
+moon_rug:
+  name: 달빛 러그
+  max: 2
+  category: 소품
+  size: 2x2
+  height: 0.05
+  color: '#22346B'
+  accent: '#E1B866'
+moon_banner:
+  name: 루미나 배너
+  max: 2
+  category: 벽걸이
+  size: 1x2
+  color: '#22346B'
+  accent: '#E1B866'
+starry_wallpaper:
+  name: 별밤 벽지
+  category: 벽지
+  color: '#26315A'
+  accent: '#E1B866'
+cream_wallpaper:
+  name: 크림 벽지
+  category: 벽지
+  color: '#E6DCC6'
+  accent: '#B9A07A'
+oak_floor:
+  name: 참나무 바닥
+  category: 바닥재
+  color: '#A47447'
+  accent: '#8D6239'
+marble_floor:
+  name: 대리석 바닥
+  category: 바닥재
+  color: '#D9D6CF'
+  accent: '#B9B4AA'

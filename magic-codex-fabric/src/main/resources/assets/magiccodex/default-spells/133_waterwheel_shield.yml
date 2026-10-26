@@ -1,0 +1,14 @@
+id: waterwheel_shield
+name: 물레 방패
+category: water
+description: 다음 근접 공격의 피해를 줄이고 공격자를 옆으로 밀어냅니다.
+icon: magiccodex:textures/spells/expansion_2/waterwheel_shield.png
+permission: magic.learned.waterwheel_shield
+discovery:
+  description: 엘레나 교수의 물 마법 응용 수업 듣기.
+research: 물을 막는 대신 돌려보내자. 파도도 정면으로 부딪히는 법만 아는 것은 아니다.
+cast:
+  command: 마법 waterwheel_shield
+  cooldown-seconds: 40
+  mana-cost: 120
+order: 133

@@ -1,0 +1,14 @@
+id: vein_fracture
+name: 광맥 파쇄
+category: earth
+description: 바라보는 광석과 연결된 같은 종류의 광석을 최대 8개 채굴합니다. 도구 내구도를 소모하며 손에 든 도구의 채굴 규칙을 따릅니다. 맨손으로 시전하면 드롭이 나오지 않습니다.
+icon: magiccodex:textures/spells/expansion/vein_fracture.png
+permission: magic.learned.vein_fracture
+discovery:
+  description: 다이아몬드 광석을 누적 20개 직접 채굴합니다.
+research: 한 광석을 발견했다면 주변에도 같은 광맥이 있을 수 있다. 운보다 지질학이 도움이 될 때도 있다.
+cast:
+  command: 마법 vein_fracture
+  cooldown-seconds: 15
+  mana-cost: 35
+order: 168

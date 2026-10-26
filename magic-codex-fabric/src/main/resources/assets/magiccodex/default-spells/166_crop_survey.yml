@@ -1,0 +1,14 @@
+id: crop_survey
+name: 작물 살피기
+category: earth
+description: 땅에 새싹 물결을 퍼뜨려 주변 밭을 살핍니다. 작물이 얼마나 자랐는지 알려 주고, 다 자란 작물 위에 작은 잎 표시를 띄웁니다.
+icon: ''
+permission: magic.learned.crop_survey
+discovery:
+  description: 줄기에 열린 호박·수박을 합쳐 30개 수확하기.
+research: ''
+cast:
+  command: 마법 crop_survey
+  cooldown-seconds: 20
+  mana-cost: 15
+order: 166

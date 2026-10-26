@@ -1,0 +1,36 @@
+{
+  "warnings": [],
+  "out": "teacher_ellna.glb",
+  "bytes": 3167272,
+  "sha256": "a0540634047d6e21485e51267fa26c09617f1b1b45f90d2fd04cd5e552fafdbe",
+  "heightBlocks": 2.15,
+  "scale": 2.3064673066891435,
+  "yawDegrees": 0.99,
+  "clips": {
+    "wait": {
+      "seconds": 6.0,
+      "rootSpeed": 0.0
+    },
+    "walk": {
+      "seconds": 2.3333,
+      "rootSpeed": 0.0
+    },
+    "idle": {
+      "seconds": 15.3333,
+      "rootSpeed": 0.0
+    }
+  },
+  "triangles": 14470,
+  "joints": 65,
+  "textures": [
+    [
+      2048,
+      2048
+    ],
+    [
+      2048,
+      2048
+    ]
+  ],
+  "input": "src/tripo_convert_3febe50a-dcf5-4111-b3e7-3f6911adf3f3.fbx"
+}

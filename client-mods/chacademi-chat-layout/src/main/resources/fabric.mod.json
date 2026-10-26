@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "chacademi_chat_layout",
+  "version": "${version}",
+  "name": "Chacademi Chat Layout",
+  "description": "Dynamic ChatPlus tabs and windows with an in-pane native chat input, Alt HUD cursor controls, a gold/navy theme and unread badges.",
+  "authors": ["Chacademi"],
+  "license": "GPL-3.0-only",
+  "environment": "client",
+  "mixins": ["chacademi-chat-layout.mixins.json"],
+  "depends": {
+    "fabricloader": ">=0.16.10",
+    "minecraft": "1.21.4",
+    "java": ">=21",
+    "chatplus": "2.8.1"
+  }
+}

@@ -1,0 +1,14 @@
+id: little_giant
+name: 작은 거인
+category: earth
+description: 15초 동안 몸집, 근접 공격 거리, 근접 피해가 증가합니다.
+icon: magiccodex:textures/spells/expansion_2/little_giant.png
+permission: magic.learned.little_giant
+discovery:
+  description: 철 블록 4개와 조각된 호박으로 철 골렘을 직접 만듭니다.
+research: 몸집을 키우는 것보다 원래대로 돌아오는 것이 중요하다. 기숙사 문 앞에서 곤란해진 선배의 기록을 참고하자.
+cast:
+  command: 마법 little_giant
+  cooldown-seconds: 60
+  mana-cost: 80
+order: 185

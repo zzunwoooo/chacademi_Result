@@ -1,0 +1,15 @@
+id: bone_grasp
+name: 뼈의 손아귀
+category: dark
+description: 조준한 땅에서 뼈의 손을 솟게 합니다. 손에 붙잡힌 적은 잠시 묶이고 자신 쪽으로 끌려옵니다.
+# Existing icon reused from shadow_bind; dedicated mob-skill artwork was not supplied.
+icon: magiccodex:textures/spells/mob_skill/bone_grasp.png
+permission: magic.learned.bone_grasp
+discovery:
+  description: 망각의 해골술사를 처치하면 5% 확률로 습득합니다.
+research: 망자의 손은 놓는 법을 모른다.
+cast:
+  command: 마법 bone_grasp
+  cooldown-seconds: 16
+  mana-cost: 40
+order: 268

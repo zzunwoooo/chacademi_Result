@@ -1,0 +1,6 @@
+name: ChAcademiaWildlife
+version: 0.5.1-feedback-20261023-nova.1
+main: school.chacademia.wildlife.WildlifePlugin
+api-version: '1.21.4'
+depend: [MythicMobs]
+softdepend: [MagicCodexBridge, WorldGuard, ModelEngine]

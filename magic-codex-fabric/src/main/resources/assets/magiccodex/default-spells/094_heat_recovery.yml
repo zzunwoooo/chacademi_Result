@@ -1,0 +1,14 @@
+id: heat_recovery
+name: 열량 보존
+category: fire
+description: 10블록 안의 불에서 열을 추출해 자신을 회복합니다.
+icon: magiccodex:textures/spells/expansion_2/heat_recovery.png
+permission: magic.learned.heat_recovery
+discovery:
+  description: 도서관에서 '에너지에 관하여' 책을 읽기.
+research: 에너지는 갑자기 생겨나거나 사라지지 않는다.
+cast:
+  command: 마법 heat_recovery
+  cooldown-seconds: 60
+  mana-cost: 500
+order: 94

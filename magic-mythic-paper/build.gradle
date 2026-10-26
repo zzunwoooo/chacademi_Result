@@ -1,0 +1,31 @@
+plugins { id 'java' }
+group = 'school.chacademia'
+version = '0.2.2-wildlife-20261023-nova.1'
+base { archivesName = 'chacademia-magic-mythic' }
+repositories {
+    if (findProperty('localDependencyRepo')) maven { url = uri(property('localDependencyRepo')) }
+    mavenCentral()
+    maven { url = 'https://repo.papermc.io/repository/maven-public/' }
+}
+dependencies {
+    testImplementation files('C:/Chacademi/network/school/plugins/portable-vfx-paper-3.2.3-integrated-20261020.1-gimmick.1.jar')
+    compileOnly files('C:/Chacademi/network/school/plugins/worldguard-bukkit-7.0.13-dist.jar','C:/Chacademi/network/school/plugins/FastAsyncWorldEdit-Paper-2.13.1-SNAPSHOT-1119.jar')
+    testImplementation files('../plugins/MythicMobs-5.9.0.jar','C:/Chacademi/network/school/plugins/worldguard-bukkit-7.0.13-dist.jar','C:/Chacademi/network/school/plugins/FastAsyncWorldEdit-Paper-2.13.1-SNAPSHOT-1119.jar')
+    compileOnly files('../plugins/MythicMobs-5.9.0.jar')
+    compileOnly 'io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT'
+    testImplementation 'io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT'
+    testImplementation 'org.mockito:mockito-core:5.14.2'
+    testImplementation platform('org.junit:junit-bom:5.11.4')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+java { toolchain.languageVersion = JavaLanguageVersion.of(21) }
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8'; options.release = 21 }
+test { useJUnitPlatform() }
+// Element reaction + status wire formats are shared with the MagicCodex client; only those protocol classes are compiled in.
+sourceSets.main.java { srcDir '../magic-codex-protocol/src/main/java'; include 'school/chacademia/**', 'school/magiccodex/protocol/ElementProtocol.java', 'school/magiccodex/protocol/StatusProtocol.java', 'school/magiccodex/protocol/TelegraphProtocol.java', 'school/magiccodex/protocol/TrainingDummyProtocol.java' }
+processResources {
+    filteringCharset = 'UTF-8'
+    inputs.property 'version', project.version
+    filesMatching('plugin.yml') { expand version: project.version }
+}

@@ -1,0 +1,11 @@
+package school.chacademia.housing;
+import java.util.*;import java.util.function.Consumer;import java.io.*;import org.bukkit.Bukkit;import org.bukkit.entity.Player;import org.bukkit.plugin.messaging.PluginMessageListener;
+/** Nonce-authenticated backend request; proxy consumes requests before they reach clients. */
+final class HousingPresence implements PluginMessageListener,AutoCloseable{
+ static final String CHANNEL="chacademi:housing_roster";final HousingPlugin plugin;
+ record Pending(Player player,Set<UUID> ids,Consumer<Set<UUID>> done){}final Map<UUID,Pending> pending=new HashMap<>();
+ HousingPresence(HousingPlugin plugin){this.plugin=plugin;Bukkit.getMessenger().registerOutgoingPluginChannel(plugin,CHANNEL);Bukkit.getMessenger().registerIncomingPluginChannel(plugin,CHANNEL,this);}
+ void read(Player player,Consumer<Set<UUID>> done){if(pending.size()>=64){done.accept(null);return;}var nonce=UUID.randomUUID();pending.put(nonce,new Pending(player,new HashSet<>(),done));try{var b=new ByteArrayOutputStream();var out=new DataOutputStream(b);out.writeByte(1);out.writeLong(nonce.getMostSignificantBits());out.writeLong(nonce.getLeastSignificantBits());player.sendPluginMessage(plugin,CHANNEL,b.toByteArray());}catch(Exception e){pending.remove(nonce);done.accept(null);return;}Bukkit.getScheduler().runTaskLater(plugin,()->{var old=pending.remove(nonce);if(old!=null)old.done().accept(null);},60);}
+ public void onPluginMessageReceived(String channel,Player player,byte[] bytes){if(!channel.equals(CHANNEL)||bytes.length>9000)return;try(var in=new DataInputStream(new ByteArrayInputStream(bytes))){if(in.readUnsignedByte()!=1)return;var nonce=new UUID(in.readLong(),in.readLong());var p=pending.get(nonce);if(p==null||p.player()!=player||Bukkit.getPlayer(player.getUniqueId())!=player)return;boolean last=in.readBoolean();int n=in.readUnsignedShort();if(n>512||p.ids().size()+n>50000)return;var chunk=new HashSet<UUID>();for(int i=0;i<n;i++)chunk.add(new UUID(in.readLong(),in.readLong()));if(in.available()!=0)return;p.ids().addAll(chunk);if(last){pending.remove(nonce);p.done().accept(Set.copyOf(p.ids()));}}catch(IOException|RuntimeException ignored){}}
+ public void close(){pending.clear();Bukkit.getMessenger().unregisterIncomingPluginChannel(plugin,CHANNEL,this);Bukkit.getMessenger().unregisterOutgoingPluginChannel(plugin,CHANNEL);}
+}

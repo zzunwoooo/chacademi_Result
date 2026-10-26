@@ -1,0 +1,58 @@
+{
+ "bag_galaxy_border": {
+  "source_sha256": "301f3a1d5da89465ec304556cd1ddc88041ff8dfe533fe7be1e4a84af29280a7",
+  "size": [
+   1817,
+   866
+  ],
+  "fill_mask": "bag_galaxy_fill.png",
+  "fill_size": [
+   908,
+   433
+  ]
+ },
+ "craft_panel_border": {
+  "source_sha256": "17ef645888af1ce2eba1d2366fbfa4ee08ccb10b9a9f75357af7ebec69569cc6",
+  "size": [
+   1108,
+   1420
+  ],
+  "fill_mask": "craft_panel_fill.png",
+  "fill_size": [
+   554,
+   710
+  ]
+ },
+ "equipment_shirt": {
+  "source_sha256": "f94b9b12c370c5d5366117962867bc8f533fa69ec3f1ae941e8e59f7964793d6",
+  "size": [
+   256,
+   256
+  ],
+  "note": "uniform Lanczos downscale from 1254, alpha<2 cleared"
+ },
+ "crafting_table": {
+  "source_sha256": "c96be94919ab45a2f45606667ed5591a1d4172bbe1dd278b800674d864e918a4",
+  "size": [
+   256,
+   256
+  ],
+  "note": "uniform Lanczos downscale from 1254, alpha<2 cleared"
+ },
+ "recipe_book": {
+  "source_sha256": "e54fc72015e29537c45a7fd2fae4e49a7c53af89feba6b5ea9300c6e1a960a8b",
+  "size": [
+   256,
+   256
+  ],
+  "note": "uniform Lanczos downscale from 1254, alpha<2 cleared"
+ },
+ "locked_page_padlock": {
+  "source_sha256": "0c83960ae9a09c02679fc9af8ff87eeec96f51226150cbd8634db47ead08d769",
+  "size": [
+   384,
+   384
+  ],
+  "note": "uniform Lanczos downscale from 1254, alpha<2 cleared"
+ }
+}

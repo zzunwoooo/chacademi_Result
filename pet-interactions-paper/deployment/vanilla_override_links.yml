@@ -1,0 +1,31 @@
+{
+  "targets": {
+    "vanilla_override_cave_spider": {
+      "mythic-id": "CAVE_SPIDER",
+      "pet-id": "chacademia_cave_spider",
+      "name": "동굴 거미",
+      "boss": false,
+      "chance": 0.2,
+      "low-health-bonus": 0.25,
+      "model-scale": 0.8
+    },
+    "vanilla_override_wither_skeleton": {
+      "mythic-id": "WITHER_SKELETON",
+      "pet-id": "chacademia_wither_skeleton",
+      "name": "위더 스켈레톤",
+      "boss": false,
+      "chance": 0.08,
+      "low-health-bonus": 0.07,
+      "model-scale": 0.8
+    },
+    "vanilla_override_giant": {
+      "mythic-id": "GIANT",
+      "pet-id": "chacademia_giant",
+      "name": "거인",
+      "boss": false,
+      "chance": 0.01,
+      "low-health-bonus": 0.01,
+      "model-scale": 1.3
+    }
+  }
+}

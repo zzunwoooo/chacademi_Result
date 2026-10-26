@@ -1,0 +1,44 @@
+# 차카데미 던전 기믹 설정
+# 모델 구현: modelengine (기본. 모델·애니메이션·크기 모두 ModelEngine 4, 리소스팩은 ItemsAdder 가 함께 보냄)
+#           itemsadder  (대안. ItemsAdder 커스텀 엔티티로 변환한 경우만)
+renderer: modelengine
+# 모델 id 앞에 붙는 글자. ModelEngine 은 blueprint 이름 그대로라 "" (ItemsAdder 대안일 때만 "네임스페이스:")
+model-prefix: ""
+# 마법 투사체(chabolt)가 기믹에 닿으면 멈출지
+magic-blocks-bolts: true
+# 같은 기믹에 마법이 연속으로 닿을 때 무시하는 간격(틱). 투사체 한 발이 여러 번 맞는 것 방지
+magic-hit-gap-ticks: 10
+# 밟기(압력판)/게이트 검사 주기(틱)
+stand-check-ticks: 4
+# 텔레포트 후 다시 텔레포트되지 않는 시간(틱)
+teleport-cooldown-ticks: 60
+# 디버그 도구 (회전 90도·이동 1칸·높이 1칸은 고정, 블록 단위 설치)
+tool:
+  material: BLAZE_ROD
+  scale-step: 0.1
+# 2026-10-20 던전 기믹 마법·설치
+# 디버그 도구: 회전 90도, 이동·높이 1칸 (블록 단위 설치)
+# 바람 분출구가 위에 선 사람을 띄우는 세기
+vent-launch: 1.3
+# 씨앗 화분이 깨어나면 화분 앞에 생기는 덩굴 높이
+vine-pot-climb: 5
+# 2026-10-24 자동 연결: 붙어 있는(또는 도관으로 이어진) 입력이 전부 켜지면 출력이 열림
+# 증기 밸브(240)·풍차 터빈(바람 마법)·무게추(242)로 눌린 압력판이 켜져 있는 시간(초)
+valve-seconds: 6
+turbine-seconds: 10
+weight-seconds: 10
+# 시간차 문이 열려 있는 시간(초)
+timed-door-seconds: 8
+# 부유 발판 이동 속도(칸/초)
+platform-speed: 2
+# 248 되감기: 이 시간(초) 안에 바뀐 장치만 되돌림
+rewind-seconds: 60
+# 250 차원 표식: 두 게이트가 이어져 있는 시간(초)
+dimension-link-seconds: 120
+# 244 빛줄기: 지속 틱(시전자는 이동 불가), 최대 길이(블록)
+light-beam-ticks: 60
+light-beam-range: 32
+# 기믹 마법 이펙트 (PortableVFX, claude:<팩>/<시스템>)
+vfx:
+  enabled: true
+  range: 48

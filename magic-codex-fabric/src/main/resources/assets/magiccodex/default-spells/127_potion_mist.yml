@@ -1,0 +1,14 @@
+id: potion_mist
+name: 약액 분무
+category: water
+description: 손에 든 물약 하나를 소비해 반경 5블록 안의 동료들에게 10초 동안 푸른 약액 안개를 분무합니다.
+icon: magiccodex:textures/spells/expansion_2/potion_mist.png
+permission: magic.learned.potion_mist
+discovery:
+  description: 투척용 물약을 10번 던지기.
+research: 한 병으로 여러 사람을 구할 수는 없을까? 약제사의 고민이 안개가 되었다.
+cast:
+  command: 마법 potion_mist
+  cooldown-seconds: 30
+  mana-cost: 90
+order: 127

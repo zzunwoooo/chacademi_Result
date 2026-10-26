@@ -1,0 +1,14 @@
+id: stone_weight
+name: 무게추
+category: earth
+description: 바라보는 압력판 위에 마법 무게추를 떨어뜨려 누릅니다. 무게추는 작동한 뒤 부서져 사라집니다.
+icon: magiccodex:textures/spells/gimmick/stone_weight.png
+permission: magic.learned.stone_weight
+discovery:
+  description: 장치 실습실에서 「무게와 균형」 책 읽기.
+research: 사람 대신 돌이 서 있어도, 바닥은 그 차이를 모른다.
+cast:
+  command: 마법 stone_weight
+  cooldown-seconds: 5
+  mana-cost: 30
+order: 170

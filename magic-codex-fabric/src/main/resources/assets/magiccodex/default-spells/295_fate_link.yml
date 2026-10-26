@@ -1,0 +1,14 @@
+id: fate_link
+name: 운명의 실
+category: dark
+description: 적 둘을 운명의 실로 6초 동안 묶습니다. 둘 사이가 8블록을 넘게 벌어지면 실이 끊기며 둘 다 피해를 입고 기절합니다.
+icon: ''
+permission: magic.learned.fate_link
+discovery:
+  description: 밤의 사슬로 적을 100번 맞히기.
+research: ''
+cast:
+  command: 마법 fate_link
+  cooldown-seconds: 45
+  mana-cost: 240
+order: 295

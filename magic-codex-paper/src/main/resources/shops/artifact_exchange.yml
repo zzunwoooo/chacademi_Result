@@ -1,0 +1,17 @@
+# 아티팩트 교환소 — /상점관리 가져오기 artifact_exchange (2026-10-26, 오너 결정 #98)
+# 중복 아티팩트로 받은 아티팩트 조각(item:artifact_shard)을 등급 확정 뽑기권으로 바꾸는 상점.
+# 교환 = "비용아이템키 개수": 돈 대신 그 아이템을 개수만큼(상품 1개당) 낸다. 교환 상품은 팔 수 없다.
+# 아이템은 ItemsAdder 키라서 ItemsAdder 가 켜진 서버에서 가져와야 한다.
+# ※ 가격(10 · 30 · 80 조각)은 자리표시 — 오너 결정 필요. 바꾸면 이 파일을 고치고 다시 가져오거나
+#    /상점관리 교환 artifact_exchange <상품> item:artifact_shard <개수>
+# NPC 연결: /상점관리 NPC연결 artifact_exchange <Citizens 번호>
+상점:
+  아이디: artifact_exchange
+  이름: 아티팩트 교환소
+  초상: ""
+  주인: 교환소
+  역할: 아티팩트 교환
+상품:
+  - { 분류: 확정 뽑기권, 아이템: "item:artifact_ticket_rare", 이름: "고급 확정 뽑기권", 교환: "item:artifact_shard 10" }
+  - { 분류: 확정 뽑기권, 아이템: "item:artifact_ticket_unique", 이름: "유일 확정 뽑기권", 교환: "item:artifact_shard 30" }
+  - { 분류: 확정 뽑기권, 아이템: "item:artifact_ticket_legendary", 이름: "전설 확정 뽑기권", 교환: "item:artifact_shard 80" }

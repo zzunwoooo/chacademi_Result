@@ -1,0 +1,14 @@
+id: earthquake
+name: 지진
+category: earth
+description: 자신 주변 반경 6블록의 지면을 흔들어 적에게 피해를 줍니다. 원형 파동과 작은 돌의 진동으로 표현하며 실제 지형은 바꾸지 않습니다.
+icon: magiccodex:textures/spells/advanced/earthquake.png
+permission: magic.learned.earthquake
+discovery:
+  description: 베르나 교수의 대지 마법 고급 수업 듣기.
+research: 발밑의 작은 떨림을 한곳에 모으면 바위도 견디지 못한다. 학교 안에서는 허가 없이 사용하지 말자.
+cast:
+  command: 마법 earthquake
+  cooldown-seconds: 45
+  mana-cost: 200
+order: 193

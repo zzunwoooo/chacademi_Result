@@ -1,0 +1,15 @@
+Id: chacademia_wither_skeleton
+MythicMob: ChAcademiaPetWitherSkeleton
+Permission: chacademia.pet.wither_skeleton
+Distance: 8
+SpawnRange: 2
+ComingBackRange: 3
+Mountable: false
+AutoRide: false
+Icon:
+  Name: 위더 스켈레톤
+  Material: WITHER_SKELETON_SPAWN_EGG
+  Description:
+  - 교화로 함께하게 된 동료
+CheckPermission: true
+FollowOwner: true

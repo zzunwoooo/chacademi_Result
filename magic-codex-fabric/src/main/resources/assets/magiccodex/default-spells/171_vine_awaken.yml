@@ -1,0 +1,14 @@
+id: vine_awaken
+name: 덩굴 깨우기
+category: earth
+description: 씨앗 화분을 깨워 덩굴을 키웁니다. 자란 덩굴을 타고 높은 곳으로 오를 수 있습니다.
+icon: magiccodex:textures/spells/gimmick/vine_awaken.png
+permission: magic.learned.vine_awaken
+discovery:
+  description: 뼛가루로 묘목을 나무로 5번 키우기.
+research: 흙 속의 씨앗은 언제나 깨어날 준비가 되어 있다. 누군가 불러 주기만 하면.
+cast:
+  command: 마법 vine_awaken
+  cooldown-seconds: 10
+  mana-cost: 40
+order: 171

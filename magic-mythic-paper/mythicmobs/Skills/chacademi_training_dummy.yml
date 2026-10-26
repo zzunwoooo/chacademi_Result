@@ -1,0 +1,10 @@
+# 마법 연습장 훈련 허수아비 맞는 모션 (오픈 전 메모 #107, 2026-10-26)
+# ChAcademiaMagicMythic(TrainingDummies)이 피해를 받을 때 허수아비 몸을 시전자로 시전한다.
+#   보통 피해: CA_TrainingDummy_Hit (0.25초 안에 또 맞으면 다시 틀지 않음)
+#   큰 피해(config training-dummy.heavy-damage 이상): CA_TrainingDummy_HitHeavy (언제나)
+CA_TrainingDummy_Hit:
+  Skills:
+  - state{s=hit;li=0;lo=2} @self
+CA_TrainingDummy_HitHeavy:
+  Skills:
+  - state{s=hit_heavy;li=0;lo=2} @self

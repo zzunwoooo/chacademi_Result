@@ -1,0 +1,14 @@
+id: returning_blade
+name: 되돌이 칼날
+category: wind
+description: 큰 칼날 형태의 바람이 부메랑처럼 앞으로 날아갔다 돌아옵니다. 나갈 때와 돌아올 때 각각 한 번씩 적을 맞힙니다.
+icon: magiccodex:textures/spells/expansion_2/returning_blade.png
+permission: magic.learned.returning_blade
+discovery:
+  description: 윈드 커터를 50번 사용하기.
+research: 떠나간 칼날의 궤적을 되짚자, 작은 마나로도 한 번 더 베어내는 길이 열렸다.
+cast:
+  command: 마법 returning_blade
+  cooldown-seconds: 12
+  mana-cost: 35
+order: 20

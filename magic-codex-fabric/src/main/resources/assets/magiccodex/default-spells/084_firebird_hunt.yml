@@ -1,0 +1,14 @@
+id: firebird_hunt
+name: 불새
+category: fire
+description: 전방에 불새를 보내 범위 안의 적을 공격합니다.
+icon: magiccodex:textures/spells/expansion_2/firebird_hunt.png
+permission: magic.learned.firebird_hunt
+discovery:
+  description: 불사조·주작·가루다 관련 책을 읽기.
+research: 불과 새는 신화속에서 다양한 요소로 엮인다.
+cast:
+  command: 마법 firebird_hunt
+  cooldown-seconds: 30
+  mana-cost: 130
+order: 84

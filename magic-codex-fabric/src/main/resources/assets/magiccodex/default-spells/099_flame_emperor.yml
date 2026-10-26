@@ -1,0 +1,14 @@
+id: flame_emperor
+name: 염제 강림
+category: fire
+description: 3초 동안 영창한 뒤 8초 동안 화염의 화신이 됩니다. 지나간 자리에 불길이 남아 적을 태우고, 마법 키를 다시 누를 때마다 커다란 화염탄을 던집니다(최대 4발). 화신이 끝나면 주변이 크게 폭발합니다.
+icon: ''
+permission: magic.learned.flame_emperor
+discovery:
+  description: 화염 마법 30종 습득하기.
+research: ''
+cast:
+  command: 마법 flame_emperor
+  cooldown-seconds: 600
+  mana-cost: 450
+order: 99

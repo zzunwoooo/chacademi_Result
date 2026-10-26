@@ -1,0 +1,26 @@
+# 모드에서 보낼 수 있는 모션 이름. 여기 없는 이름은 무시합니다.
+# (모드의 assets/chacademy_motion/player_animations/*.json 안의 "name" 값)
+allowed-animations:
+  - wand_cast
+  # 아티팩트 모션 (2026-10-26, 서버가 MagicCodexBridge ArtifactMotions 에서 재생. artifact_doze·artifact_shell_hide 는 반복 모션)
+  - artifact_dance
+  - artifact_wave
+  - artifact_doze
+  - artifact_bow
+  - artifact_laugh
+  - artifact_shell_hide
+  - artifact_stretch
+  - artifact_tap_dance
+# 서버가 "stop" 을 보내면 모드는 재생 중인 모션을 멈춘다 (반복 모션 끝내기용, 모드에서 보낼 수는 없음 → 여기 넣지 마세요)
+
+# 같은 플레이어가 다시 시전 모션을 보낼 수 있을 때까지의 최소 간격 (밀리초)
+cooldown-ms: 500
+
+# 누구에게 보여줄지
+#   tracked : 시전자를 화면에 불러온 유저 전부 (추천, 서버 시야 거리를 그대로 따름)
+#   range   : 아래 range 블록 안에 있는 같은 월드 유저
+broadcast-mode: tracked
+range: 48
+
+# 로그에 패킷 수신/전송 기록 남기기 (테스트용)
+debug: false

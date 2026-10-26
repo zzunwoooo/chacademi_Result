@@ -1,0 +1,14 @@
+id: sun_drying
+name: 햇살 말림
+category: light
+description: 썩은 살점 4개를 소비해 가죽 1개를 만듭니다.
+icon: magiccodex:textures/spells/expansion_2/sun_drying.png
+permission: magic.learned.sun_drying
+discovery:
+  description: 썩은 살점을 5회 먹습니다.
+research: 먹을 수 없다면 다른 쓸모라도 찾아보자는 것이 연구자의 자세다.
+cast:
+  command: 마법 sun_drying
+  cooldown-seconds: 5
+  mana-cost: 12
+order: 208

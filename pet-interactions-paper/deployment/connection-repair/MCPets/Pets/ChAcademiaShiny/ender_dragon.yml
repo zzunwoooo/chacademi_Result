@@ -1,0 +1,16 @@
+Id: chacademia_ender_dragon_shiny
+MythicMob: ChAcademiaPetEnderDragonShiny
+Permission: chacademia.pet.ender_dragon.shiny
+Distance: 8
+SpawnRange: 2
+ComingBackRange: 3
+Mountable: false
+AutoRide: false
+Icon:
+  Name: 이로치 · 엔더 드래곤
+  Material: DRAGON_HEAD
+  Description:
+  - 희귀한 색을 가진 동료
+  - 이로치 외형은 전용 클라이언트 모드에서 표시됩니다.
+CheckPermission: true
+FollowOwner: true

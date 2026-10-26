@@ -1,0 +1,14 @@
+id: flint_sorting
+name: 돌 고르기
+category: earth
+description: 뾰족한 돌 파편 3~5개를 전방으로 빠르게 순차 발사합니다. 소박한 기본 공격 연출이며 실제 지형을 파괴하지 않습니다.
+icon: magiccodex:textures/spells/reviewed_20261020/flint_sorting.png
+permission: magic.learned.flint_sorting
+discovery:
+  description: 베르나 교수의 대지 마법 기초 수업 듣기.
+research: 모든 자갈에 쓸 만한 돌이 숨어 있는 것은 아니다. 마법으로 고르더라도 재료는 필요하다.
+cast:
+  command: 마법 flint_sorting
+  cooldown-seconds: 5
+  mana-cost: 35
+order: 169

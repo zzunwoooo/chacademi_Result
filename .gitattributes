@@ -1,0 +1,23 @@
+* text=auto
+*.java text eol=lf
+*.gradle text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.md text eol=lf
+*.html text eol=lf
+*.js text eol=lf
+*.css text eol=lf
+*.py text eol=lf
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.png binary
+*.jar binary
+
+# Preserve approved packaged asset bytes, including intentional mixed line endings.
+magic-codex-fabric/src/main/resources/assets/** -text whitespace=cr-at-eol
+
+deployment/operating-config/** -text
+
+creature-spawns-paper/mythicmobs/blueprints/*.bbmodel text eol=lf

@@ -1,0 +1,15 @@
+Id: chacademia_trader_llama
+MythicMob: ChAcademiaPetTraderLlama
+Permission: chacademia.pet.trader_llama
+Distance: 8
+SpawnRange: 2
+ComingBackRange: 3
+Mountable: false
+AutoRide: false
+Icon:
+  Name: 상인 라마
+  Material: TRADER_LLAMA_SPAWN_EGG
+  Description:
+  - 교화로 함께하게 된 동료
+CheckPermission: true
+FollowOwner: true

@@ -1,0 +1,14 @@
+id: ore_whisper
+name: 땅의 속삭임
+category: earth
+description: 반경 10블록 안의 광석을 최대 3곳까지 찾아 5초 동안 표시합니다.
+icon: magiccodex:textures/spells/novice/ore_whisper.png
+permission: magic.learned.ore_whisper
+discovery:
+  description: 석탄 광석 32개와 철 광석 16개 직접 캐기.
+research: 광석마다 마력의 울림이 다르다. 곡괭이를 들기 전에 귀부터 기울여 보자.
+cast:
+  command: 마법 ore_whisper
+  cooldown-seconds: 20
+  mana-cost: 30
+order: 167

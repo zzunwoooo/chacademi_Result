@@ -1,0 +1,14 @@
+id: pain_deferral
+name: 고통 유예
+category: dark
+description: 6초 동안 받는 피해의 절반을 미뤄 두었다가, 끝난 뒤 5초에 걸쳐 나누어 받습니다.
+icon: magiccodex:textures/spells/expansion/pain_deferral.png
+permission: magic.learned.pain_deferral
+discovery:
+  description: 피해를 누적 2,000 받기.
+research: 아프지 않은 것이 아니다. 아직 아플 차례가 오지 않았을 뿐이다.
+cast:
+  command: 마법 pain_deferral
+  cooldown-seconds: 45
+  mana-cost: 150
+order: 287

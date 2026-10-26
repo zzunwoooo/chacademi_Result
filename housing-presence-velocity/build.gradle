@@ -1,0 +1,5 @@
+plugins { id 'java' }
+group='school.chacademia';version='0.1.0';base { archivesName='chaca-housing-presence' }
+repositories { mavenCentral() }
+dependencies { compileOnly files('C:/Chacademi/tools/Velocity-source/proxy/build/libs/velocity-proxy-3.6.0-SNAPSHOT-all.jar');testImplementation files('C:/Chacademi/tools/Velocity-source/proxy/build/libs/velocity-proxy-3.6.0-SNAPSHOT-all.jar');testImplementation 'org.junit.jupiter:junit-jupiter:5.11.4';testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.11.4' }
+java { toolchain.languageVersion=JavaLanguageVersion.of(21) };tasks.withType(JavaCompile).configureEach { options.encoding='UTF-8';options.release=21 };test { useJUnitPlatform() }

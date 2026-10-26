@@ -1,0 +1,15 @@
+Id: chacademia_cave_spider
+MythicMob: ChAcademiaPetCaveSpider
+Permission: chacademia.pet.cave_spider
+Distance: 8
+SpawnRange: 2
+ComingBackRange: 3
+Mountable: false
+AutoRide: false
+Icon:
+  Name: 동굴 거미
+  Material: CAVE_SPIDER_SPAWN_EGG
+  Description:
+  - 교화로 함께하게 된 동료
+CheckPermission: true
+FollowOwner: true

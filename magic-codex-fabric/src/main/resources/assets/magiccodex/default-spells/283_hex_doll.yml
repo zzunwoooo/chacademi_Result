@@ -1,0 +1,14 @@
+id: hex_doll
+name: 저주 인형
+category: dark
+description: 대상과 이어진 저주 인형을 대상 옆에 4초 동안 세웁니다. 나나 아군이 인형을 때리면 그 피해의 일부가 대상에게 들어갑니다.
+icon: ''
+permission: magic.learned.hex_doll
+discovery:
+  description: 나약함의 저주를 30번 사용하기.
+research: ''
+cast:
+  command: 마법 hex_doll
+  cooldown-seconds: 22
+  mana-cost: 90
+order: 283

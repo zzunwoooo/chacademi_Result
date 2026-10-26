@@ -1,0 +1,2613 @@
+# 서버 마력 스냅샷: 피해 = base-damage + power-ratio * 마력. (자동 생성: magic-mythic-paper/tools/spells.py)
+# 피해 수치는 밸런스 검토 전 임시값입니다.
+# pvp-base / pvp-ratio: 전투 스펙 2026-10-26 — 플레이어가 플레이어를 맞힐 때만 이 값 (k × (40 + 지능), tools/spells.py PVP_K). 몹 상대는 위 값 그대로.
+# 사거리는 tools/spells.py RANGE_SCALE=1.7 가 이미 반영된 값 (#80). 아래 배율은 서버 판정 전체에 한 번 더 곱해집니다.
+# 전체 마법 사거리 배율 (#80). 1.0 = 아래 range 그대로. 0.25~3. 서버 판정(조준 확인·대상 탐색)에만 적용됩니다.
+# 주의: 클라이언트 조준 미리보기(spell-targeting.json)·이펙트(PortableVFX spell-bindings.yml range)·미몹 투사체(range=) 는 따로라
+#       1.0 이 아니면 미리보기 원보다 멀리/가까이 판정될 수 있습니다. 바꾸기 전에 개발자에게 클라이언트 동기화를 요청하세요.
+range-multiplier: 1.0
+spells:
+  feather_fall:
+    name: "깃털 낙하"
+    skill: "CHA_feather_step"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  wind_basket:
+    name: "바람바구니"
+    skill: "CHA_wind_basket"
+    target: "SELF"
+    range: 24
+    utility: true
+    base-damage: 0
+    power-ratio: 0
+  harvest_wind:
+    name: "수확의 바람"
+    skill: "CHA_harvest_wind"
+    target: "SELF"
+    range: 24
+    utility: true
+    base-damage: 0
+    power-ratio: 0
+  wind_push:
+    name: "윈드 푸쉬"
+    skill: "CHA_wind_push"
+    target: "ENTITY"
+    range: 17
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  light_leap:
+    name: "상승기류"
+    skill: "CHA_light_leap"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  flight:
+    name: "비행"
+    skill: "CHA_flight"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  far_touch:
+    name: "손길 너머"
+    skill: "CHA_far_touch"
+    target: "SELF"
+    range: 24
+    utility: true
+    base-damage: 0
+    power-ratio: 0
+  storm_command:
+    name: "폭풍의 지휘"
+    skill: "CHA_storm_command"
+    target: "AIM"
+    range: 17
+    utility: false
+    base-damage: 6
+    power-ratio: 0.45
+    pvp-base: 3.1072
+    pvp-ratio: 0.07768
+    ground: true
+  vacuum_cleave:
+    name: "윈드 커터"
+    skill: "CHA_vacuum_cleave"
+    target: "AIM"
+    range: 41
+    utility: false
+    base-damage: 4
+    power-ratio: 0.35
+    pvp-base: 1.3828
+    pvp-ratio: 0.03457
+  gale_dash:
+    name: "바람 걸음"
+    skill: "CHA_gale_dash"
+    target: "SELF"
+    range: 24
+    utility: true
+    base-damage: 0
+    power-ratio: 0
+  returning_wind:
+    name: "되받는 바람"
+    skill: "CHA_returning_wind"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  wind_grooming:
+    name: "바람 털빗"
+    skill: "CHA_wind_grooming"
+    target: "SELF"
+    range: 24
+    utility: true
+    base-damage: 0
+    power-ratio: 0
+  weightless_zone:
+    name: "중력지대"
+    skill: "CHA_weightless_zone"
+    target: "AIM"
+    range: 26
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+    ground: true
+  dust_duster:
+    name: "클린"
+    skill: "CHA_dust_duster"
+    target: "SELF"
+    range: 24
+    utility: true
+    base-damage: 0
+    power-ratio: 0
+  leaf_cleanup:
+    name: "잎새 청소"
+    skill: "CHA_leaf_cleanup"
+    target: "SELF"
+    range: 24
+    utility: true
+    base-damage: 0
+    power-ratio: 0
+  feather_rustle:
+    name: "깃털 털기"
+    skill: "CHA_feather_rustle"
+    target: "SELF"
+    range: 24
+    utility: true
+    base-damage: 0
+    power-ratio: 0
+  cross_breeze:
+    name: "바람 화살"
+    skill: "CHA_cross_breeze"
+    target: "AIM"
+    range: 48
+    utility: false
+    base-damage: 7
+    power-ratio: 0.55
+    pvp-base: 2.2172
+    pvp-ratio: 0.05543
+  returning_blade:
+    name: "되돌이 칼날"
+    skill: "CHA_returning_blade"
+    target: "AIM"
+    range: 31
+    utility: false
+    base-damage: 4
+    power-ratio: 0.3
+    pvp-base: 1.2208
+    pvp-ratio: 0.03052
+  pressure_press:
+    name: "윈드 프레스"
+    skill: "CHA_pressure_press"
+    target: "AIR_ENTITY"
+    range: 26
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  wind_decoy:
+    name: "바람 미끼"
+    skill: "CHA_wind_decoy"
+    target: "AIM"
+    range: 10
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+    ground: true
+  air_step:
+    name: "허공 디딤"
+    skill: "CHA_air_step"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  lightning_needle:
+    name: "라이트닝 쇼크"
+    skill: "CHA_lightning_needle"
+    target: "AIM"
+    range: 34
+    utility: false
+    base-damage: 6
+    power-ratio: 0.5
+    pvp-base: 3.382
+    pvp-ratio: 0.08455
+    ground: true
+  air_stacking:
+    name: "허공 쌓기"
+    skill: "CHA_air_stacking"
+    target: "AIM"
+    range: 10
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+    ground: true
+  arrested_orbit:
+    name: "퍼붓는 화살"
+    skill: "CHA_arrested_orbit"
+    target: "AIM"
+    range: 42
+    utility: false
+    base-damage: 3
+    power-ratio: 0.2
+    pvp-base: 1.4164
+    pvp-ratio: 0.03541
+  crossfire:
+    name: "크로스 애로우"
+    skill: "CHA_crossfire"
+    target: "ENTITY"
+    range: 26
+    utility: false
+    base-damage: 8
+    power-ratio: 0.6
+    pvp-base: 4.1332
+    pvp-ratio: 0.10333
+  pressure_rupture:
+    name: "토네이도 스핀"
+    skill: "CHA_pressure_rupture"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 4
+    power-ratio: 0.3
+    pvp-base: 1.4248
+    pvp-ratio: 0.03562
+  storm_crown:
+    name: "삼중 탄환"
+    skill: "CHA_storm_crown"
+    target: "AIM"
+    range: 26
+    utility: false
+    base-damage: 3
+    power-ratio: 0.25
+    pvp-base: 1.6912
+    pvp-ratio: 0.04228
+  hearth_touch:
+    name: "손끝의 화로"
+    skill: "CHA_hearth_touch"
+    target: "SELF"
+    range: 24
+    utility: true
+    base-damage: 0
+    power-ratio: 0
+  ember_bolt:
+    name: "파이어 볼"
+    skill: "CHA_ember_bolt"
+    target: "AIM"
+    range: 41
+    utility: false
+    base-damage: 2
+    power-ratio: 0.25
+    pvp-base: 0.9344
+    pvp-ratio: 0.02336
+  rekindle:
+    name: "다시 타오르는 불"
+    skill: "CHA_rekindle"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  ember_trap:
+    name: "잿불 덫"
+    skill: "CHA_ember_trap"
+    target: "AIM"
+    range: 26
+    utility: false
+    base-damage: 6
+    power-ratio: 0.4
+    pvp-base: 1.6692
+    pvp-ratio: 0.04173
+    ground: true
+  fire_curtain:
+    name: "플레어 월"
+    skill: "CHA_fire_curtain"
+    target: "AIM"
+    range: 20
+    utility: false
+    base-damage: 2
+    power-ratio: 0.12
+    pvp-base: 0.5992
+    pvp-ratio: 0.01498
+    ground: true
+  phoenix_oath:
+    name: "불사조의 서약"
+    skill: "CHA_phoenix_oath"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  living_furnace:
+    name: "살아 있는 화로"
+    skill: "CHA_living_furnace"
+    target: "SELF"
+    range: 24
+    utility: true
+    base-damage: 0
+    power-ratio: 0
+  falling_star:
+    name: "메테오 스트라이크"
+    skill: "CHA_falling_star"
+    target: "AIM"
+    range: 34
+    utility: false
+    base-damage: 14
+    power-ratio: 0.9
+    pvp-base: 21.48
+    pvp-ratio: 0.537
+    ground: true
+  flame_lash:
+    name: "화염 채찍"
+    skill: "CHA_flame_lash"
+    target: "ENTITY"
+    range: 8
+    utility: false
+    base-damage: 6
+    power-ratio: 0.5
+    pvp-base: 2.3264
+    pvp-ratio: 0.05816
+  palm_fireworks:
+    name: "손바닥 폭죽"
+    skill: "CHA_palm_fireworks"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  ash_brand:
+    name: "재의 낙인"
+    skill: "CHA_ash_brand"
+    target: "ENTITY"
+    range: 26
+    utility: false
+    base-damage: 5
+    power-ratio: 0.4
+    pvp-base: 2.7268
+    pvp-ratio: 0.06817
+  flame_leap:
+    name: "블레이즈 킥"
+    skill: "CHA_flame_leap"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 5
+    power-ratio: 0.4
+    pvp-base: 2.7268
+    pvp-ratio: 0.06817
+  crimson_heart:
+    name: "홍련의 심장"
+    skill: "CHA_crimson_heart"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  wick_trimming:
+    name: "심지 줄이기"
+    skill: "CHA_wick_trimming"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  charcoal_conversion:
+    name: "발화"
+    skill: "CHA_charcoal_conversion"
+    target: "ENTITY"
+    range: 34
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  sponge_drying:
+    name: "스펀지 말리기"
+    skill: "CHA_sponge_drying"
+    target: "SELF"
+    range: 24
+    utility: true
+    base-damage: 0
+    power-ratio: 0
+  boiling_armor:
+    name: "끓는 갑주"
+    skill: "CHA_boiling_armor"
+    target: "SELF"
+    range: 24
+    utility: true
+    base-damage: 0
+    power-ratio: 0
+  kiln_breath:
+    name: "가마 숨결"
+    skill: "CHA_kiln_breath"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  explosive_wedge:
+    name: "폭발 쐐기"
+    skill: "CHA_explosive_wedge"
+    target: "ENTITY"
+    range: 26
+    utility: false
+    base-damage: 7
+    power-ratio: 0.5
+    pvp-base: 3.488
+    pvp-ratio: 0.0872
+  heat_recovery:
+    name: "열량 보존"
+    skill: "CHA_heat_recovery"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  firebird_hunt:
+    name: "불새"
+    skill: "CHA_firebird_hunt"
+    target: "AIM"
+    range: 17
+    utility: false
+    base-damage: 6
+    power-ratio: 0.45
+    pvp-base: 2.1372
+    pvp-ratio: 0.05343
+  lava_suture:
+    name: "용암 봉합"
+    skill: "CHA_lava_suture"
+    target: "SELF"
+    range: 24
+    utility: true
+    base-damage: 0
+    power-ratio: 0
+  flame_sword_dance:
+    name: "화염 검무"
+    skill: "CHA_flame_sword_dance"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 4
+    power-ratio: 0.35
+    pvp-base: 2.3464
+    pvp-ratio: 0.05866
+  incandescent_break:
+    name: "파이어 스트라이크"
+    skill: "CHA_incandescent_break"
+    target: "AIM"
+    range: 26
+    utility: false
+    base-damage: 7
+    power-ratio: 0.5
+    pvp-base: 3.488
+    pvp-ratio: 0.0872
+  crimson_breath:
+    name: "드래곤 브레스"
+    skill: "CHA_crimson_breath"
+    target: "AIM"
+    range: 26
+    utility: false
+    base-damage: 12
+    power-ratio: 0.8
+    pvp-base: 3.72
+    pvp-ratio: 0.093
+  water_breath:
+    name: "물결 숨결"
+    skill: "CHA_water_breath"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  tide_stride:
+    name: "물살 타기"
+    skill: "CHA_tide_stride"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  water_bolt:
+    name: "물방울 탄환"
+    skill: "CHA_water_bolt"
+    target: "AIM"
+    range: 26
+    utility: false
+    base-damage: 2
+    power-ratio: 0.25
+    pvp-base: 0.9344
+    pvp-ratio: 0.02336
+  quench:
+    name: "불길 씻기"
+    skill: "CHA_quench"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  purifying_wave:
+    name: "정화의 물결"
+    skill: "CHA_purifying_wave"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  ice_bridge:
+    name: "얼음 다리"
+    skill: "CHA_ice_bridge"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  spring_unseal:
+    name: "수맥 개방"
+    skill: "CHA_spring_unseal"
+    target: "AIM"
+    range: 20
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+    ground: true
+  water_elemental:
+    name: "운디네"
+    skill: "CHA_water_elemental"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 3
+    power-ratio: 0.25
+    pvp-base: 1.6912
+    pvp-ratio: 0.04228
+  eternal_ice_prison:
+    name: "만년빙옥"
+    skill: "CHA_eternal_ice_prison"
+    target: "ENTITY"
+    range: 26
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  cauldron_fill:
+    name: "가마솥 채우기"
+    skill: "CHA_cauldron_fill"
+    target: "AIM"
+    range: 15
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+    ground: true
+  dye_rinse:
+    name: "염색 씻기"
+    skill: "CHA_dye_rinse"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  fish_lure:
+    name: "물고기 유인"
+    skill: "CHA_fish_lure"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  frost_rupture:
+    name: "서리 파열"
+    skill: "CHA_frost_rupture"
+    target: "AIM"
+    range: 26
+    utility: false
+    base-damage: 6
+    power-ratio: 0.45
+    pvp-base: 2.1372
+    pvp-ratio: 0.05343
+    ground: true
+  pressure_lance:
+    name: "수압창"
+    skill: "CHA_pressure_lance"
+    target: "AIM"
+    range: 26
+    utility: false
+    base-damage: 6
+    power-ratio: 0.45
+    pvp-base: 2.1372
+    pvp-ratio: 0.05343
+  life_distribution:
+    name: "생명의 분배"
+    skill: "CHA_life_distribution"
+    target: "SELF"
+    range: 6
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  moist_farmland:
+    name: "촉촉한 밭"
+    skill: "CHA_moist_farmland"
+    target: "AIM"
+    range: 15
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+    ground: true
+  wash_letters:
+    name: "글씨 씻기"
+    skill: "CHA_wash_letters"
+    target: "AIM"
+    range: 15
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+    ground: true
+  healing_rain:
+    name: "치유의 비"
+    skill: "CHA_healing_rain"
+    target: "AIM"
+    range: 26
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+    ground: true
+  dew_gathering:
+    name: "이슬 모으기"
+    skill: "CHA_dew_gathering"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  quiet_mooring:
+    name: "노아의 방주"
+    skill: "CHA_quiet_mooring"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  bubble_aria:
+    name: "물거품 아리아"
+    skill: "CHA_bubble_aria"
+    target: "AIM"
+    range: 26
+    utility: false
+    base-damage: 5
+    power-ratio: 0.4
+    pvp-base: 1.8756
+    pvp-ratio: 0.04689
+  pressure_hammer:
+    name: "수압해머"
+    skill: "CHA_pressure_hammer"
+    target: "AIM"
+    range: 26
+    utility: false
+    base-damage: 9
+    power-ratio: 0.6
+    pvp-base: 2.9224
+    pvp-ratio: 0.07306
+    ground: true
+  waterspout:
+    name: "용오름"
+    skill: "CHA_waterspout"
+    target: "AIM"
+    range: 26
+    utility: false
+    base-damage: 6
+    power-ratio: 0.45
+    pvp-base: 3.1072
+    pvp-ratio: 0.07768
+    ground: true
+  current_sorting:
+    name: "사금 추출"
+    skill: "CHA_current_sorting"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  potion_mist:
+    name: "약액 분무"
+    skill: "CHA_potion_mist"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  waterwheel_shield:
+    name: "물레 방패"
+    skill: "CHA_waterwheel_shield"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  concrete_curing:
+    name: "콘크리트 양생"
+    skill: "CHA_concrete_curing"
+    target: "AIM"
+    range: 15
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+    ground: true
+  ripple_guard:
+    name: "파문방벽"
+    skill: "CHA_ripple_guard"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  tidal_wave:
+    name: "해일"
+    skill: "CHA_tidal_wave"
+    target: "AIM"
+    range: 20
+    utility: false
+    base-damage: 6
+    power-ratio: 0.45
+    pvp-base: 3.1072
+    pvp-ratio: 0.07768
+  bouncing_droplet:
+    name: "도약하는 물방울"
+    skill: "CHA_bouncing_droplet"
+    target: "AIM"
+    range: 26
+    utility: false
+    base-damage: 3
+    power-ratio: 0.3
+    pvp-base: 1.352
+    pvp-ratio: 0.0338
+  abyssal_pressure:
+    name: "심해의 압력"
+    skill: "CHA_abyssal_pressure"
+    target: "AIM"
+    range: 26
+    utility: false
+    base-damage: 5
+    power-ratio: 0.35
+    pvp-base: 2.452
+    pvp-ratio: 0.0613
+    ground: true
+  verdant_touch:
+    name: "풍요의 손길"
+    skill: "CHA_verdant_touch"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  ore_whisper:
+    name: "땅의 속삭임"
+    skill: "CHA_ore_whisper"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  pebble_toss:
+    name: "조약돌 던지기"
+    skill: "CHA_pebble_toss"
+    target: "AIM"
+    range: 26
+    utility: false
+    base-damage: 2
+    power-ratio: 0.2
+    pvp-base: 0.7724
+    pvp-ratio: 0.01931
+  miners_rhythm:
+    name: "광부의 박자"
+    skill: "CHA_miners_rhythm"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  flame_forging:
+    name: "불꽃 단조"
+    skill: "CHA_flame_forging"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  blue_bonfire:
+    name: "푸른 화톳불"
+    skill: "CHA_blue_bonfire"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  earth_shaping:
+    name: "대지 성형"
+    skill: "CHA_earth_shaping"
+    target: "AIM"
+    range: 7
+    utility: false
+    base-damage: 4
+    power-ratio: 0.3
+    pvp-base: 1.4248
+    pvp-ratio: 0.03562
+  stone_wall:
+    name: "석벽"
+    skill: "CHA_stone_wall"
+    target: "AIM"
+    range: 8
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+    ground: true
+  earth_elemental:
+    name: "그놈"
+    skill: "CHA_earth_elemental"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 5
+    power-ratio: 0.4
+    pvp-base: 2.7268
+    pvp-ratio: 0.06817
+  earthquake:
+    name: "지진"
+    skill: "CHA_earthquake"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 6
+    power-ratio: 0.45
+    pvp-base: 3.1072
+    pvp-ratio: 0.07768
+  climate_control:
+    name: "기후 통제"
+    skill: "CHA_climate_control"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  seed_row:
+    name: "씨앗 줄심기"
+    skill: "CHA_seed_row"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  bee_calm:
+    name: "벌떼 달래기"
+    skill: "CHA_bee_calm"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  thorn_armor:
+    name: "가시 갑옷"
+    skill: "CHA_thorn_armor"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 2
+    power-ratio: 0.15
+    pvp-base: 0.7124
+    pvp-ratio: 0.01781
+  vein_fracture:
+    name: "광맥 파쇄"
+    skill: "CHA_vein_fracture"
+    target: "AIM"
+    range: 6
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+    ground: true
+  earth_anchor:
+    name: "대지의 닻"
+    skill: "CHA_earth_anchor"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  weathering_touch:
+    name: "풍화의 손길"
+    skill: "CHA_weathering_touch"
+    target: "AIM"
+    range: 6
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+    ground: true
+  iron_carapace:
+    name: "철의 외피"
+    skill: "CHA_iron_carapace"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  moss_coating:
+    name: "이끼 입히기"
+    skill: "CHA_moss_coating"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  grass_sprouting:
+    name: "잔디 돋우기"
+    skill: "CHA_grass_sprouting"
+    target: "AIM"
+    range: 8
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+    ground: true
+  flint_sorting:
+    name: "돌 고르기"
+    skill: "CHA_flint_sorting"
+    target: "AIM"
+    range: 26
+    utility: false
+    base-damage: 2
+    power-ratio: 0.2
+    pvp-base: 0.7724
+    pvp-ratio: 0.01931
+  bark_peeling:
+    name: "껍질 벗기기"
+    skill: "CHA_bark_peeling"
+    target: "AIM"
+    range: 6
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+    ground: true
+  compost_return:
+    name: "퇴비 환원"
+    skill: "CHA_compost_return"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  thorn_seeds:
+    name: "가시 씨앗"
+    skill: "CHA_thorn_seeds"
+    target: "AIM"
+    range: 26
+    utility: false
+    base-damage: 5
+    power-ratio: 0.35
+    pvp-base: 2.452
+    pvp-ratio: 0.0613
+  pollen_matchmaking:
+    name: "꽃가루 중매"
+    skill: "CHA_pollen_matchmaking"
+    target: "AIM"
+    range: 10
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+    ground: true
+  dormant_seed:
+    name: "동면의 씨앗"
+    skill: "CHA_dormant_seed"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  counterweight:
+    name: "반격의 무게추"
+    skill: "CHA_counterweight"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  material_exchange:
+    name: "자재 치환"
+    skill: "CHA_material_exchange"
+    target: "ENTITY"
+    range: 26
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  remembering_field:
+    name: "기억하는 밭"
+    skill: "CHA_remembering_field"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  little_giant:
+    name: "작은 거인"
+    skill: "CHA_little_giant"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  spring_ground:
+    name: "용수철 지반"
+    skill: "CHA_spring_ground"
+    target: "AIM"
+    range: 10
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+    ground: true
+  mountain_back:
+    name: "산맥의 등"
+    skill: "CHA_mountain_back"
+    target: "AIM"
+    range: 27
+    utility: false
+    base-damage: 8
+    power-ratio: 0.5
+    pvp-base: 3.5936
+    pvp-ratio: 0.08984
+  earth_embrace:
+    name: "대지의 품"
+    skill: "CHA_earth_embrace"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  forest_throne:
+    name: "숲의 왕좌"
+    skill: "CHA_forest_throne"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 6
+    power-ratio: 0.4
+    pvp-base: 2.8324
+    pvp-ratio: 0.07081
+  primordial_stone:
+    name: "원초의 돌"
+    skill: "CHA_primordial_stone"
+    target: "SELF"
+    range: 22
+    utility: false
+    base-damage: 20
+    power-ratio: 1.0
+    pvp-base: 7.6096
+    pvp-ratio: 0.19024
+  guiding_star:
+    name: "길잡이 별"
+    skill: "CHA_guiding_star"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  minor_heal:
+    name: "작은 치유"
+    skill: "CHA_minor_heal"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  true_sight:
+    name: "진실의 눈"
+    skill: "CHA_true_sight"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  protective_ward:
+    name: "보호 결계"
+    skill: "CHA_protective_ward"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  constellation_blessing:
+    name: "성좌의 가호"
+    skill: "CHA_constellation_blessing"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  arcane_imprint:
+    name: "마력 각인"
+    skill: "CHA_arcane_imprint"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  dawn_ritual:
+    name: "여명의 의식"
+    skill: "CHA_dawn_ritual"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  comforting_light:
+    name: "위로의 빛"
+    skill: "CHA_comforting_light"
+    target: "SELF"
+    range: 15
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  exorcism_flash:
+    name: "퇴마의 섬광"
+    skill: "CHA_exorcism_flash"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 8
+    power-ratio: 0.5
+    pvp-base: 2.4716
+    pvp-ratio: 0.06179
+  arcane_mending:
+    name: "마력 봉합"
+    skill: "CHA_arcane_mending"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  companion_return:
+    name: "동행 귀환"
+    skill: "CHA_companion_return"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  flawless_moment:
+    name: "무결의 순간"
+    skill: "CHA_flawless_moment"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  solar_judgment:
+    name: "태양의 심판"
+    skill: "CHA_solar_judgment"
+    target: "AIM"
+    range: 48
+    utility: false
+    base-damage: 10
+    power-ratio: 0.6
+    pvp-base: 13.7692
+    pvp-ratio: 0.34423
+    ground: true
+  firefly_mark:
+    name: "반딧불 표식"
+    skill: "CHA_firefly_mark"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  sun_drying:
+    name: "햇살 말림"
+    skill: "CHA_sun_drying"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  luminous_copy:
+    name: "빛의 필사"
+    skill: "CHA_luminous_copy"
+    target: "AIM"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+    ground: true
+  guiding_fletching:
+    name: "유도 깃"
+    skill: "CHA_guiding_fletching"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  sharing_table:
+    name: "나눔 식탁"
+    skill: "CHA_sharing_table"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  summons_letter:
+    name: "소환장"
+    skill: "CHA_summons_letter"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  starlight_survey:
+    name: "별빛 측량"
+    skill: "CHA_starlight_survey"
+    target: "SELF"
+    range: 48
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  luminous_handover:
+    name: "빛의 교대"
+    skill: "CHA_luminous_handover"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  mana_conduit:
+    name: "마력 전선"
+    skill: "CHA_mana_conduit"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  merciful_arrow:
+    name: "자비의 화살"
+    skill: "CHA_merciful_arrow"
+    target: "AIM"
+    range: 42
+    utility: false
+    base-damage: 4
+    power-ratio: 0.3
+    pvp-base: 1.4248
+    pvp-ratio: 0.03562
+  mana_deposit:
+    name: "마력 예금"
+    skill: "CHA_mana_deposit"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  guardian_oath:
+    name: "수호자의 서약"
+    skill: "CHA_guardian_oath"
+    target: "SELF"
+    range: 10
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  starlight_reprise:
+    name: "별빛 재현"
+    skill: "CHA_starlight_reprise"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  constellation_emissary:
+    name: "성좌의 대리인"
+    skill: "CHA_constellation_emissary"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  night_sight:
+    name: "밤눈"
+    skill: "CHA_night_sight"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  shadow_bind:
+    name: "그림자 매듭"
+    skill: "CHA_shadow_bind"
+    target: "ENTITY"
+    range: 17
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  faint_veil:
+    name: "옅은 은신"
+    skill: "CHA_faint_veil"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  fox_orbit:
+    name: "여우불 공전"
+    skill: "CHA_fox_orbit"
+    target: "AIM"
+    range: 34
+    utility: false
+    base-damage: 3
+    power-ratio: 0.25
+    pvp-base: 0.9964
+    pvp-ratio: 0.02491
+  curving_plumes:
+    name: "곡선 불깃털"
+    skill: "CHA_curving_plumes"
+    target: "AIM"
+    range: 34
+    utility: false
+    base-damage: 3
+    power-ratio: 0.25
+    pvp-base: 0.9964
+    pvp-ratio: 0.02491
+  crystal_orbit:
+    name: "결정 공전탄"
+    skill: "CHA_crystal_orbit"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 3
+    power-ratio: 0.2
+    pvp-base: 0.974
+    pvp-ratio: 0.02435
+  venom_spit:
+    name: "독 뱉기"
+    skill: "CHA_venom_spit"
+    target: "AIM"
+    range: 31
+    utility: false
+    base-damage: 3
+    power-ratio: 0.2
+    pvp-base: 0.8348
+    pvp-ratio: 0.02087
+  smoke_veil:
+    name: "연막 은신"
+    skill: "CHA_smoke_veil"
+    target: "SELF"
+    range: 6
+    utility: false
+    base-damage: 1
+    power-ratio: 0.1
+    pvp-base: 0.386
+    pvp-ratio: 0.00965
+  domain_stomp:
+    name: "영역 선포"
+    skill: "CHA_domain_stomp"
+    target: "SELF"
+    range: 6
+    utility: false
+    base-damage: 5
+    power-ratio: 0.4
+    pvp-base: 1.6068
+    pvp-ratio: 0.04017
+  seal_circle:
+    name: "봉인진"
+    skill: "CHA_seal_circle"
+    target: "AIM"
+    range: 27
+    utility: false
+    base-damage: 4
+    power-ratio: 0.3
+    pvp-base: 1.4248
+    pvp-ratio: 0.03562
+    ground: true
+  seal_talismans:
+    name: "봉인 부적"
+    skill: "CHA_seal_talismans"
+    target: "AIM"
+    range: 34
+    utility: false
+    base-damage: 3
+    power-ratio: 0.2
+    pvp-base: 0.8348
+    pvp-ratio: 0.02087
+  shield_slam:
+    name: "방패 내려찍기"
+    skill: "CHA_shield_slam"
+    target: "SELF"
+    range: 5
+    utility: false
+    base-damage: 5
+    power-ratio: 0.4
+    pvp-base: 1.6068
+    pvp-ratio: 0.04017
+  chain_arrow:
+    name: "사슬 화살"
+    skill: "CHA_chain_arrow"
+    target: "AIM"
+    range: 37
+    utility: false
+    base-damage: 4
+    power-ratio: 0.3
+    pvp-base: 1.2208
+    pvp-ratio: 0.03052
+  mana_drain:
+    name: "마나 흡수"
+    skill: "CHA_mana_drain"
+    target: "AIM"
+    range: 24
+    utility: false
+    base-damage: 3
+    power-ratio: 0.2
+    pvp-base: 0.8348
+    pvp-ratio: 0.02087
+    ground: true
+  soul_scythe:
+    name: "영혼 낫"
+    skill: "CHA_soul_scythe"
+    target: "SELF"
+    range: 5
+    utility: false
+    base-damage: 5
+    power-ratio: 0.4
+    pvp-base: 1.6068
+    pvp-ratio: 0.04017
+  oblivion_orbs:
+    name: "망각의 탄환"
+    skill: "CHA_oblivion_orbs"
+    target: "AIM"
+    range: 34
+    utility: false
+    base-damage: 3
+    power-ratio: 0.2
+    pvp-base: 0.8348
+    pvp-ratio: 0.02087
+  bone_grasp:
+    name: "뼈의 손아귀"
+    skill: "CHA_bone_grasp"
+    target: "AIM"
+    range: 26
+    utility: false
+    base-damage: 3
+    power-ratio: 0.2
+    pvp-base: 0.8348
+    pvp-ratio: 0.02087
+    ground: true
+  shadow_leap:
+    name: "그림자 도약"
+    skill: "CHA_shadow_leap"
+    target: "ENTITY"
+    range: 24
+    utility: false
+    base-damage: 5
+    power-ratio: 0.4
+    pvp-base: 1.6068
+    pvp-ratio: 0.04017
+  binding_pull:
+    name: "끌어오기"
+    skill: "CHA_binding_pull"
+    target: "ENTITY"
+    range: 24
+    utility: false
+    base-damage: 2
+    power-ratio: 0.15
+    pvp-base: 0.7124
+    pvp-ratio: 0.01781
+  fairy_dust:
+    name: "요정 가루"
+    skill: "CHA_fairy_dust"
+    target: "SELF"
+    range: 6
+    utility: false
+    base-damage: 1
+    power-ratio: 0.1
+    pvp-base: 0.386
+    pvp-ratio: 0.00965
+  moon_wind:
+    name: "반달 바람날"
+    skill: "CHA_moon_wind"
+    target: "SELF"
+    range: 10
+    utility: false
+    base-damage: 4
+    power-ratio: 0.3
+    pvp-base: 1.2208
+    pvp-ratio: 0.03052
+  gale_wings:
+    name: "돌풍 날갯짓"
+    skill: "CHA_gale_wings"
+    target: "SELF"
+    range: 6
+    utility: false
+    base-damage: 3
+    power-ratio: 0.25
+    pvp-base: 0.9964
+    pvp-ratio: 0.02491
+  feather_storm:
+    name: "깃털 폭풍"
+    skill: "CHA_feather_storm"
+    target: "SELF"
+    range: 5
+    utility: false
+    base-damage: 5
+    power-ratio: 0.4
+    pvp-base: 1.6068
+    pvp-ratio: 0.04017
+  hunting_pounce:
+    name: "사냥 도약"
+    skill: "CHA_hunting_pounce"
+    target: "ENTITY"
+    range: 20
+    utility: false
+    base-damage: 5
+    power-ratio: 0.4
+    pvp-base: 1.6068
+    pvp-ratio: 0.04017
+  roar_leap:
+    name: "포효 도약"
+    skill: "CHA_roar_leap"
+    target: "ENTITY"
+    range: 24
+    utility: false
+    base-damage: 5
+    power-ratio: 0.4
+    pvp-base: 1.6068
+    pvp-ratio: 0.04017
+  gravity_slam:
+    name: "중력 강타"
+    skill: "CHA_gravity_slam"
+    target: "SELF"
+    range: 5
+    utility: false
+    base-damage: 6
+    power-ratio: 0.45
+    pvp-base: 2.1372
+    pvp-ratio: 0.05343
+  tail_spikes:
+    name: "꼬리 가시"
+    skill: "CHA_tail_spikes"
+    target: "AIM"
+    range: 27
+    utility: false
+    base-damage: 2
+    power-ratio: 0.15
+    pvp-base: 0.6104
+    pvp-ratio: 0.01526
+    ground: true
+  shadow_double:
+    name: "그림자 분신"
+    skill: "CHA_shadow_double"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  echo_reading:
+    name: "잔향 읽기"
+    skill: "CHA_echo_reading"
+    target: "SELF"
+    range: 6
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  sealing_thread:
+    name: "봉인의 실"
+    skill: "CHA_sealing_thread"
+    target: "SELF"
+    range: 5
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  shadow_exchange:
+    name: "그림자 교환"
+    skill: "CHA_shadow_exchange"
+    target: "ENTITY"
+    range: 26
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  forbidden_contract:
+    name: "금서의 계약"
+    skill: "CHA_forbidden_contract"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  life_siphon:
+    name: "생명 갈취"
+    skill: "CHA_life_siphon"
+    target: "AIM"
+    range: 20
+    utility: false
+    base-damage: 2
+    power-ratio: 0.15
+    pvp-base: 0.6104
+    pvp-ratio: 0.01526
+    ground: true
+  drowsiness:
+    name: "졸음"
+    skill: "CHA_drowsiness"
+    target: "AIM"
+    range: 27
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+    ground: true
+  misfortune_whisper:
+    name: "나약함의 저주"
+    skill: "CHA_misfortune_whisper"
+    target: "ENTITY"
+    range: 20
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  curse_transfer:
+    name: "저주의 전가"
+    skill: "CHA_curse_transfer"
+    target: "ENTITY"
+    range: 20
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  discord:
+    name: "마인드컨트롤"
+    skill: "CHA_discord"
+    target: "ENTITY"
+    range: 20
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  night_chain:
+    name: "밤의 사슬"
+    skill: "CHA_night_chain"
+    target: "AIM"
+    range: 20
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+    ground: true
+  pain_deferral:
+    name: "고통 유예"
+    skill: "CHA_pain_deferral"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  black_harvest:
+    name: "검은 수확"
+    skill: "CHA_black_harvest"
+    target: "SELF"
+    range: 5
+    utility: false
+    base-damage: 6
+    power-ratio: 0.45
+    pvp-base: 2.1372
+    pvp-ratio: 0.05343
+  ink_fingertip:
+    name: "먹물 손끝"
+    skill: "CHA_ink_fingertip"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  shadow_nail:
+    name: "그림자 못"
+    skill: "CHA_shadow_nail"
+    target: "ENTITY"
+    range: 34
+    utility: false
+    base-damage: 12
+    power-ratio: 0.8
+    pvp-base: 5.6652
+    pvp-ratio: 0.14163
+  night_lullaby:
+    name: "밤의 자장가"
+    skill: "CHA_night_lullaby"
+    target: "SELF"
+    range: 16
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  loosen_grasp:
+    name: "손아귀 풀기"
+    skill: "CHA_loosen_grasp"
+    target: "ENTITY"
+    range: 20
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  healing_seal:
+    name: "회복 봉인"
+    skill: "CHA_healing_seal"
+    target: "ENTITY"
+    range: 20
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  shadow_scales:
+    name: "어둠의 저울"
+    skill: "CHA_shadow_scales"
+    target: "AIM"
+    range: 20
+    utility: false
+    base-damage: 6
+    power-ratio: 0.45
+    pvp-base: 2.1372
+    pvp-ratio: 0.05343
+    ground: true
+  warning_thread:
+    name: "경고의 실"
+    skill: "CHA_warning_thread"
+    target: "AIM"
+    range: 26
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+    ground: true
+  wound_accounting:
+    name: "상처 회계"
+    skill: "CHA_wound_accounting"
+    target: "ENTITY"
+    range: 34
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  ghost_tool:
+    name: "유령 도구"
+    skill: "CHA_ghost_tool"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  bell_of_fear:
+    name: "공포의 종"
+    skill: "CHA_bell_of_fear"
+    target: "SELF"
+    range: 8
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  eclipse_eye:
+    name: "월식의 눈"
+    skill: "CHA_eclipse_eye"
+    target: "AIM"
+    range: 48
+    utility: false
+    base-damage: 3
+    power-ratio: 0.2
+    pvp-base: 2.48
+    pvp-ratio: 0.062
+    ground: true
+  void_maw:
+    name: "공허의 입"
+    skill: "CHA_void_maw"
+    target: "AIM"
+    range: 27
+    utility: false
+    base-damage: 14
+    power-ratio: 0.9
+    pvp-base: 6.426
+    pvp-ratio: 0.16065
+    ground: true
+  landing_airbrake:
+    name: "빗자루 차원이동"
+    skill: "CHA_landing_airbrake"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  hushed_soles:
+    name: "고요한 밑창"
+    skill: "CHA_hushed_soles"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  thorn_manners:
+    name: "가시의 예절"
+    skill: "CHA_thorn_manners"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  cinder_skipring:
+    name: "불꽃 줄넘기"
+    skill: "CHA_cinder_skipring"
+    target: "SELF"
+    range: 7
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  droplet_relay:
+    name: "물방울 인계"
+    skill: "CHA_droplet_relay"
+    target: "AIM"
+    range: 17
+    utility: false
+    base-damage: 4
+    power-ratio: 0.3
+    pvp-base: 1.4248
+    pvp-ratio: 0.03562
+    ground: true
+  folding_tideplane:
+    name: "접히는 수면"
+    skill: "CHA_folding_tideplane"
+    target: "AIM"
+    range: 17
+    utility: false
+    base-damage: 5
+    power-ratio: 0.4
+    pvp-base: 1.8756
+    pvp-ratio: 0.04689
+    ground: true
+  thawing_heat:
+    name: "해빙의 열기"
+    skill: "CHA_thawing_heat"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  steam_ignition:
+    name: "증기 점화"
+    skill: "CHA_steam_ignition"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  water_level:
+    name: "수위 조절"
+    skill: "CHA_water_level"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  stone_weight:
+    name: "무게추"
+    skill: "CHA_stone_weight"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  vine_awaken:
+    name: "덩굴 깨우기"
+    skill: "CHA_vine_awaken"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  light_beam:
+    name: "빛줄기"
+    skill: "CHA_light_beam"
+    target: "SELF"
+    range: 32
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  mirror_tune:
+    name: "반사 조율"
+    skill: "CHA_mirror_tune"
+    target: "SELF"
+    range: 20
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  prism_tint:
+    name: "프리즘 물들이기"
+    skill: "CHA_prism_tint"
+    target: "SELF"
+    range: 20
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  statue_wake:
+    name: "석상 깨우기"
+    skill: "CHA_statue_wake"
+    target: "SELF"
+    range: 16
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  rewind:
+    name: "되감기"
+    skill: "CHA_rewind"
+    target: "SELF"
+    range: 16
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  conduit_turn:
+    name: "도관 회전"
+    skill: "CHA_conduit_turn"
+    target: "SELF"
+    range: 16
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  dimension_mark:
+    name: "차원 표식"
+    skill: "CHA_dimension_mark"
+    target: "SELF"
+    range: 24
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  spark_flick:
+    name: "불씨 튕기기"
+    skill: "CHA_spark_flick"
+    target: "AIM"
+    range: 6
+    utility: false
+    base-damage: 2
+    power-ratio: 0.2
+    pvp-base: 0.7724
+    pvp-ratio: 0.01931
+  ember_puff:
+    name: "작은 불숨"
+    skill: "CHA_ember_puff"
+    target: "AIM"
+    range: 3
+    utility: false
+    base-damage: 2.5
+    power-ratio: 0.2
+    pvp-base: 0.8036
+    pvp-ratio: 0.02009
+  tide_slash:
+    name: "물살 베기"
+    skill: "CHA_tide_slash"
+    target: "AIM"
+    range: 3
+    utility: false
+    base-damage: 2.5
+    power-ratio: 0.2
+    pvp-base: 0.8036
+    pvp-ratio: 0.02009
+  ice_shard:
+    name: "얼음 조각"
+    skill: "CHA_ice_shard"
+    target: "AIM"
+    range: 27
+    utility: false
+    base-damage: 2
+    power-ratio: 0.2
+    pvp-base: 0.7724
+    pvp-ratio: 0.01931
+  wind_needle:
+    name: "바람 송곳"
+    skill: "CHA_wind_needle"
+    target: "AIM"
+    range: 41
+    utility: false
+    base-damage: 2
+    power-ratio: 0.2
+    pvp-base: 0.7724
+    pvp-ratio: 0.01931
+  mini_twister:
+    name: "작은 회오리"
+    skill: "CHA_mini_twister"
+    target: "AIM"
+    range: 8
+    utility: false
+    base-damage: 2.5
+    power-ratio: 0.25
+    pvp-base: 0.9652
+    pvp-ratio: 0.02413
+  shadow_fang:
+    name: "그림자 송곳니"
+    skill: "CHA_shadow_fang"
+    target: "ENTITY"
+    range: 20
+    utility: false
+    base-damage: 3
+    power-ratio: 0.25
+    pvp-base: 0.9964
+    pvp-ratio: 0.02491
+  dusk_orb:
+    name: "어둠 구슬"
+    skill: "CHA_dusk_orb"
+    target: "ENTITY"
+    range: 27
+    utility: false
+    base-damage: 3
+    power-ratio: 0.25
+    pvp-base: 0.9964
+    pvp-ratio: 0.02491
+  prism_shot:
+    name: "프리즘 탄"
+    skill: "CHA_prism_shot"
+    target: "AIM"
+    range: 34
+    utility: false
+    base-damage: 3
+    power-ratio: 0.25
+    pvp-base: 0.9964
+    pvp-ratio: 0.02491
+  sand_flick:
+    name: "모래 한 줌"
+    skill: "CHA_sand_flick"
+    target: "AIM"
+    range: 4
+    utility: false
+    base-damage: 1.5
+    power-ratio: 0.15
+    pvp-base: 0.5792
+    pvp-ratio: 0.01448
+  sunlance_drop:
+    name: "햇살 꽂기"
+    skill: "CHA_sunlance_drop"
+    target: "ENTITY"
+    range: 27
+    utility: false
+    base-damage: 4
+    power-ratio: 0.3
+    pvp-base: 1.2208
+    pvp-ratio: 0.03052
+  flame_wheel:
+    name: "화염 원반"
+    skill: "CHA_flame_wheel"
+    target: "AIM"
+    range: 20
+    utility: false
+    base-damage: 5
+    power-ratio: 0.4
+    pvp-base: 1.6068
+    pvp-ratio: 0.04017
+  eruption_line:
+    name: "분화선"
+    skill: "CHA_eruption_line"
+    target: "AIM"
+    range: 10
+    utility: false
+    base-damage: 6
+    power-ratio: 0.5
+    pvp-base: 2.3264
+    pvp-ratio: 0.05816
+  flame_javelin:
+    name: "화염 투창"
+    skill: "CHA_flame_javelin"
+    target: "AIM"
+    range: 48
+    utility: false
+    base-damage: 6
+    power-ratio: 0.5
+    pvp-base: 2.3264
+    pvp-ratio: 0.05816
+  heat_haze:
+    name: "아지랑이"
+    skill: "CHA_heat_haze"
+    target: "SELF"
+    range: 2
+    utility: false
+    base-damage: 5
+    power-ratio: 0.4
+    pvp-base: 1.8756
+    pvp-ratio: 0.04689
+  frost_path:
+    name: "서리 길"
+    skill: "CHA_frost_path"
+    target: "AIM"
+    range: 8
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  hydro_burst:
+    name: "수류 탄환"
+    skill: "CHA_hydro_burst"
+    target: "AIM"
+    range: 24
+    utility: false
+    base-damage: 0.9
+    power-ratio: 0.08
+    pvp-base: 0.368
+    pvp-ratio: 0.0092
+  crystal_coat:
+    name: "결정 갑옷"
+    skill: "CHA_crystal_coat"
+    target: "SELF"
+    range: 15
+    utility: false
+    base-damage: 6
+    power-ratio: 0.3
+    pvp-base: 1.5704
+    pvp-ratio: 0.03926
+  ice_bloom:
+    name: "얼음 꽃"
+    skill: "CHA_ice_bloom"
+    target: "AIM"
+    range: 27
+    utility: false
+    base-damage: 5
+    power-ratio: 0.4
+    pvp-base: 1.8756
+    pvp-ratio: 0.04689
+    ground: true
+  vacuum_burst:
+    name: "진공 폭발"
+    skill: "CHA_vacuum_burst"
+    target: "AIM"
+    range: 27
+    utility: false
+    base-damage: 6
+    power-ratio: 0.5
+    pvp-base: 2.3264
+    pvp-ratio: 0.05816
+    ground: true
+  gale_combo:
+    name: "질풍 연격"
+    skill: "CHA_gale_combo"
+    target: "AIM"
+    range: 5
+    utility: false
+    base-damage: 2.5
+    power-ratio: 0.2
+    pvp-base: 0.8036
+    pvp-ratio: 0.02009
+  air_choke:
+    name: "숨 막힘"
+    skill: "CHA_air_choke"
+    target: "ENTITY"
+    range: 20
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  storm_eye:
+    name: "폭풍의 눈"
+    skill: "CHA_storm_eye"
+    target: "SELF"
+    range: 4
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  shadow_mire:
+    name: "그림자 늪"
+    skill: "CHA_shadow_mire"
+    target: "AIM"
+    range: 27
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+    ground: true
+  dread_dream:
+    name: "악몽"
+    skill: "CHA_dread_dream"
+    target: "ENTITY"
+    range: 20
+    utility: false
+    base-damage: 10
+    power-ratio: 0.8
+    pvp-base: 3.7512
+    pvp-ratio: 0.09378
+  shadow_step:
+    name: "그림자 걸음"
+    skill: "CHA_shadow_step"
+    target: "AIM"
+    range: 5
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  halo_throw:
+    name: "광륜 투척"
+    skill: "CHA_halo_throw"
+    target: "AIM"
+    range: 34
+    utility: false
+    base-damage: 5
+    power-ratio: 0.4
+    pvp-base: 1.8756
+    pvp-ratio: 0.04689
+  flash_blink:
+    name: "섬광 도약"
+    skill: "CHA_flash_blink"
+    target: "AIM"
+    range: 6
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  boulder_charge:
+    name: "바위 돌진"
+    skill: "CHA_boulder_charge"
+    target: "AIM"
+    range: 6
+    utility: false
+    base-damage: 6
+    power-ratio: 0.45
+    pvp-base: 2.1372
+    pvp-ratio: 0.05343
+  air_cannon:
+    name: "공기 포탄"
+    skill: "CHA_air_cannon"
+    target: "AIM"
+    range: 34
+    utility: false
+    base-damage: 3
+    power-ratio: 0.25
+    pvp-base: 1.1632
+    pvp-ratio: 0.02908
+  hex_doll:
+    name: "저주 인형"
+    skill: "CHA_hex_doll"
+    target: "ENTITY"
+    range: 20
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  crimson_spiral:
+    name: "홍염 나선"
+    skill: "CHA_crimson_spiral"
+    target: "AIM"
+    range: 31
+    utility: false
+    base-damage: 4
+    power-ratio: 0.3
+    pvp-base: 2.0716
+    pvp-ratio: 0.05179
+  volcanic_barrage:
+    name: "화산탄 세례"
+    skill: "CHA_volcanic_barrage"
+    target: "AIM"
+    range: 41
+    utility: false
+    base-damage: 7
+    power-ratio: 0.5
+    pvp-base: 3.488
+    pvp-ratio: 0.0872
+    ground: true
+  scorch_lock:
+    name: "작열의 표적"
+    skill: "CHA_scorch_lock"
+    target: "ENTITY"
+    range: 42
+    utility: false
+    base-damage: 14
+    power-ratio: 0.9
+    pvp-base: 6.426
+    pvp-ratio: 0.16065
+  freeze_field:
+    name: "빙결 지대"
+    skill: "CHA_freeze_field"
+    target: "AIM"
+    range: 34
+    utility: false
+    base-damage: 8
+    power-ratio: 0.6
+    pvp-base: 4.1432
+    pvp-ratio: 0.10358
+    ground: true
+  ebb_mark:
+    name: "썰물"
+    skill: "CHA_ebb_mark"
+    target: "ENTITY"
+    range: 34
+    utility: false
+    base-damage: 10
+    power-ratio: 0.7
+    pvp-base: 4.904
+    pvp-ratio: 0.1226
+  ice_serpent:
+    name: "얼음 뱀"
+    skill: "CHA_ice_serpent"
+    target: "AIM"
+    range: 34
+    utility: false
+    base-damage: 3.5
+    power-ratio: 0.25
+    pvp-base: 1.744
+    pvp-ratio: 0.0436
+  sky_dive:
+    name: "천공 강하"
+    skill: "CHA_sky_dive"
+    target: "AIM"
+    range: 12
+    utility: false
+    base-damage: 11
+    power-ratio: 0.8
+    pvp-base: 5.5592
+    pvp-ratio: 0.13898
+    ground: true
+  thundercloud:
+    name: "뇌운"
+    skill: "CHA_thundercloud"
+    target: "ENTITY"
+    range: 41
+    utility: false
+    base-damage: 4.5
+    power-ratio: 0.3
+    pvp-base: 2.1244
+    pvp-ratio: 0.05311
+  fate_link:
+    name: "운명의 실"
+    skill: "CHA_fate_link"
+    target: "ENTITY"
+    range: 27
+    utility: false
+    base-damage: 9
+    power-ratio: 0.6
+    pvp-base: 4.2488
+    pvp-ratio: 0.10622
+  prism_cage:
+    name: "빛의 감옥"
+    skill: "CHA_prism_cage"
+    target: "ENTITY"
+    range: 34
+    utility: false
+    base-damage: 12
+    power-ratio: 0.8
+    pvp-base: 5.6652
+    pvp-ratio: 0.14163
+  wraith_march:
+    name: "망령의 행진"
+    skill: "CHA_wraith_march"
+    target: "AIM"
+    range: 15
+    utility: false
+    base-damage: 9
+    power-ratio: 0.6
+    pvp-base: 4.2488
+    pvp-ratio: 0.10622
+  fault_rift:
+    name: "단층 붕괴"
+    skill: "CHA_fault_rift"
+    target: "AIM"
+    range: 16
+    utility: false
+    base-damage: 11
+    power-ratio: 0.8
+    pvp-base: 5.5592
+    pvp-ratio: 0.13898
+  flame_emperor:
+    name: "염제 강림"
+    skill: "CHA_flame_emperor"
+    target: "SELF"
+    range: 6
+    utility: false
+    base-damage: 18
+    power-ratio: 1.2
+    pvp-base: 3.3068
+    pvp-ratio: 0.08267
+  leviathan_rise:
+    name: "레비아탄"
+    skill: "CHA_leviathan_rise"
+    target: "AIM"
+    range: 41
+    utility: false
+    base-damage: 20
+    power-ratio: 1.3
+    pvp-base: 15.9112
+    pvp-ratio: 0.39778
+    ground: true
+  heaven_cyclone:
+    name: "하늘의 눈"
+    skill: "CHA_heaven_cyclone"
+    target: "SELF"
+    range: 8
+    utility: false
+    base-damage: 18
+    power-ratio: 1.2
+    pvp-base: 6.6132
+    pvp-ratio: 0.16533
+  abyss_gate:
+    name: "심연의 문"
+    skill: "CHA_abyss_gate"
+    target: "AIM"
+    range: 41
+    utility: false
+    base-damage: 22
+    power-ratio: 1.4
+    pvp-base: 19.8276
+    pvp-ratio: 0.49569
+    ground: true
+  aurora_veil:
+    name: "오로라"
+    skill: "CHA_aurora_veil"
+    target: "SELF"
+    range: 10
+    utility: false
+    base-damage: 4
+    power-ratio: 0.3
+    pvp-base: 1.6532
+    pvp-ratio: 0.04133
+  titan_stride:
+    name: "타이탄의 발걸음"
+    skill: "CHA_titan_stride"
+    target: "AIM"
+    range: 13
+    utility: false
+    base-damage: 16
+    power-ratio: 1.1
+    pvp-base: 3.382
+    pvp-ratio: 0.08455
+  alchemy_preheat:
+    name: "연금로 예열"
+    skill: "CHA_alchemy_preheat"
+    target: "SELF"
+    range: 8
+    utility: true
+    base-damage: 0
+    power-ratio: 0
+  water_glimpse:
+    name: "물밑 엿보기"
+    skill: "CHA_water_glimpse"
+    target: "SELF"
+    range: 24
+    utility: true
+    base-damage: 0
+    power-ratio: 0
+  calm_ripple:
+    name: "잔잔한 물결"
+    skill: "CHA_calm_ripple"
+    target: "SELF"
+    range: 8
+    utility: true
+    base-damage: 0
+    power-ratio: 0
+  treasure_scent:
+    name: "보물 냄새"
+    skill: "CHA_treasure_scent"
+    target: "SELF"
+    range: 8
+    utility: true
+    base-damage: 0
+    power-ratio: 0
+  season_sense:
+    name: "계절 예보"
+    skill: "CHA_season_sense"
+    target: "SELF"
+    range: 8
+    utility: true
+    base-damage: 0
+    power-ratio: 0
+  pack_sort:
+    name: "배낭 정리"
+    skill: "CHA_pack_sort"
+    target: "SELF"
+    range: 8
+    utility: true
+    base-damage: 0
+    power-ratio: 0
+  heart_read:
+    name: "마음 읽기"
+    skill: "CHA_heart_read"
+    target: "SELF"
+    range: 10
+    utility: true
+    base-damage: 0
+    power-ratio: 0
+  insight_flash:
+    name: "영감의 섬광"
+    skill: "CHA_insight_flash"
+    target: "SELF"
+    range: 8
+    utility: true
+    base-damage: 0
+    power-ratio: 0
+  blessed_ribbon:
+    name: "축복의 리본"
+    skill: "CHA_blessed_ribbon"
+    target: "SELF"
+    range: 8
+    utility: true
+    base-damage: 0
+    power-ratio: 0
+  broom_afterburner:
+    name: "불꽃 추진"
+    skill: "CHA_broom_afterburner"
+    target: "SELF"
+    range: 1
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  signal_flare:
+    name: "봉화 신호"
+    skill: "CHA_signal_flare"
+    target: "SELF"
+    range: 1
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  tailwind:
+    name: "순풍"
+    skill: "CHA_tailwind"
+    target: "SELF"
+    range: 8
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  harvest_bell:
+    name: "수확제의 종"
+    skill: "CHA_harvest_bell"
+    target: "SELF"
+    range: 8
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  crop_snare:
+    name: "작물 붙잡기"
+    skill: "CHA_crop_snare"
+    target: "SELF"
+    range: 1
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  light_step:
+    name: "사뿐한 발걸음"
+    skill: "CHA_light_step"
+    target: "SELF"
+    range: 1
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  herding_breeze:
+    name: "몰이 바람"
+    skill: "CHA_herding_breeze"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  campfire_rest:
+    name: "모닥불 쉼터"
+    skill: "CHA_campfire_rest"
+    target: "SELF"
+    range: 5
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  ward_candle:
+    name: "결계 향초"
+    skill: "CHA_ward_candle"
+    target: "SELF"
+    range: 24
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  bottle_fill:
+    name: "물병 가득"
+    skill: "CHA_bottle_fill"
+    target: "SELF"
+    range: 1
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  scale_appraisal:
+    name: "비늘 감정"
+    skill: "CHA_scale_appraisal"
+    target: "SELF"
+    range: 1
+    utility: true
+    base-damage: 0
+    power-ratio: 0
+  crop_survey:
+    name: "작물 살피기"
+    skill: "CHA_crop_survey"
+    target: "SELF"
+    range: 12
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  replant_touch:
+    name: "되심기 손길"
+    skill: "CHA_replant_touch"
+    target: "SELF"
+    range: 1
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  enlighten_hint:
+    name: "깨달음의 빛"
+    skill: "CHA_enlighten_hint"
+    target: "SELF"
+    range: 1
+    utility: true
+    base-damage: 0
+    power-ratio: 0
+  memory_lantern:
+    name: "기억의 등불"
+    skill: "CHA_memory_lantern"
+    target: "SELF"
+    range: 1
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  shadow_vault:
+    name: "그림자 금고"
+    skill: "CHA_shadow_vault"
+    target: "SELF"
+    range: 1
+    utility: false
+    base-damage: 0
+    power-ratio: 0
+  sweet_sleep:
+    name: "단잠의 주문"
+    skill: "CHA_sweet_sleep"
+    target: "SELF"
+    range: 1
+    utility: false
+    base-damage: 0
+    power-ratio: 0

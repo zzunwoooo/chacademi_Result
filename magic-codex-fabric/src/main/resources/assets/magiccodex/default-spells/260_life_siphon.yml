@@ -1,0 +1,14 @@
+id: life_siphon
+name: 생명 갈취
+category: dark
+description: 지정한 위치에 3초 동안 암흑지대를 만들어 그 위의 적에게서 체력을 빼앗아 자신을 회복합니다.
+icon: magiccodex:textures/spells/expansion/life_siphon.png
+permission: magic.learned.life_siphon
+discovery:
+  description: 그레고르 교감의 어둠 마법 중급 수업 듣기.
+research: 살고 싶다는 마음은 때때로 빛보다 어두운 길을 고른다.
+cast:
+  command: 마법 life_siphon
+  cooldown-seconds: 10
+  mana-cost: 30
+order: 260

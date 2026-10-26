@@ -1,0 +1,15 @@
+id: wind_decoy
+name: 바람 미끼
+category: wind
+description: 최대 10블록 거리의 지정한 위치에 바람으로 된 종을 만들어 소리를 내고, 그 위치로부터 반경 10블록의 일반 몬스터 관심을
+  끕니다.
+icon: magiccodex:textures/spells/expansion_2/wind_decoy.png
+permission: magic.learned.wind_decoy
+discovery:
+  description: 반경 7블록 안에 몬스터 10마리와 함께 있기.
+research: 몬스터에게 둘러싸인 순간, 몸 대신 시선을 끌어줄 한 줄기 바람이 희망이 되었다.
+cast:
+  command: 마법 wind_decoy
+  cooldown-seconds: 25
+  mana-cost: 90
+order: 34

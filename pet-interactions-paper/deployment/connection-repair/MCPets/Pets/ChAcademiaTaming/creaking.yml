@@ -1,0 +1,15 @@
+Id: chacademia_creaking
+MythicMob: ChAcademiaPetCreaking
+Permission: chacademia.pet.creaking
+Distance: 8
+SpawnRange: 2
+ComingBackRange: 3
+Mountable: false
+AutoRide: false
+Icon:
+  Name: 크리킹
+  Material: CREAKING_SPAWN_EGG
+  Description:
+  - 교화로 함께하게 된 동료
+CheckPermission: true
+FollowOwner: true

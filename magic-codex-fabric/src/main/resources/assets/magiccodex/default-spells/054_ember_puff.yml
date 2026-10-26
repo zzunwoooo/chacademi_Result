@@ -1,0 +1,14 @@
+id: ember_puff
+name: 작은 불숨
+category: fire
+description: 짧게 숨을 들이쉬었다가 앞쪽으로 뜨거운 열기를 훅 내뿜습니다. 열기에 닿은 적은 3초 동안 화상을 입습니다.
+icon: ''
+permission: magic.learned.ember_puff
+discovery:
+  description: 불이 붙은 몬스터 30마리 처치하기.
+research: ''
+cast:
+  command: 마법 ember_puff
+  cooldown-seconds: 6
+  mana-cost: 8
+order: 54

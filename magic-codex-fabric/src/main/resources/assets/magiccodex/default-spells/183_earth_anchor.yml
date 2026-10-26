@@ -1,0 +1,14 @@
+id: earth_anchor
+name: 대지의 닻
+category: earth
+description: 10초 동안 일반 공격에 의한 넉백을 막습니다. 이동은 가능합니다. 충격이 몸을 따라 땅으로 흐르는 연출을 사용하며 피해 감소 효과는 추가하지 않습니다.
+icon: magiccodex:textures/spells/expansion/earth_anchor.png
+permission: magic.learned.earth_anchor
+discovery:
+  description: 방패로 공격을 10번 막기.
+research: 밀리지 않는다고 움직일 수 없는 것은 아니다. 산처럼 서 있다가도 수업 종이 울리면 걸어가야 한다.
+cast:
+  command: 마법 earth_anchor
+  cooldown-seconds: 30
+  mana-cost: 80
+order: 183

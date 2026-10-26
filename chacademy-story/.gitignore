@@ -1,0 +1,9 @@
+build/
+.gradle/
+out/
+build-log.txt
+_to_delete/
+
+# 폰트(KoreanCNM)는 라이선스 확인 전이라 공개 저장소에 올리지 않음. PC의 원본 폴더에서 복사해서 빌드
+mod/src/main/resources/assets/chaca_story/font/*.ttf
+editor/fonts/*.woff

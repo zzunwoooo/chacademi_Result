@@ -1,0 +1,16 @@
+Id: chacademia_bat_shiny
+MythicMob: ChAcademiaPetBatShiny
+Permission: chacademia.pet.bat.shiny
+Distance: 8
+SpawnRange: 2
+ComingBackRange: 3
+Mountable: false
+AutoRide: false
+Icon:
+  Name: 이로치 · 박쥐
+  Material: BAT_SPAWN_EGG
+  Description:
+  - 희귀한 색을 가진 동료
+  - 이로치 외형은 전용 클라이언트 모드에서 표시됩니다.
+CheckPermission: true
+FollowOwner: true

@@ -1,0 +1,14 @@
+id: night_lullaby
+name: 밤의 자장가
+category: dark
+description: 팬텀 세 마리를 불러 10초 동안 주변의 적을 쫓아 공격하게 합니다.
+icon: magiccodex:textures/spells/expansion_2/night_lullaby.png
+permission: magic.learned.night_lullaby
+discovery:
+  description: 팬텀 30마리 처치하기.
+research: 잠 못 드는 밤의 손님에게 먼저 자장가를 불러 주었다.
+cast:
+  command: 마법 night_lullaby
+  cooldown-seconds: 60
+  mana-cost: 130
+order: 288

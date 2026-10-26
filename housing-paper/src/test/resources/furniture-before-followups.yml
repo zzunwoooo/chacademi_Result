@@ -1,0 +1,115 @@
+# 하우징 가구 목록. 이 파일을 고친 뒤 /서버관리 새로고침 하우징 → 다음에 방을 여는 사람부터 새 목록을 받습니다.
+# 학교·야생 서버의 이 파일은 같게 맞춰 주세요 (방은 두 서버가 같이 씁니다).
+#
+# 키(영문 소문자·숫자·_ , 32자 이하)가 가구 ID 입니다. 한 번 지급한 뒤에는 ID 를 바꾸지 마세요.
+# 가구는 권한으로 줍니다 (있다/없다만 봄, /유저관리 <닉네임> 가구 주기 <가구|전체>): chacademi.housing.furniture.<가구ID>   전부: chacademi.housing.furniture.*
+# 권한이 빠지면 다음 접속 때 저장된 레이아웃에서 그 가구가 빠집니다.
+#   name     : 보이는 이름 (24자 이하)
+#   category : 가구 | 소품 | 벽걸이 | 벽지 | 바닥재
+#   size     : 바닥 칸 "가로x세로" (벽걸이는 "가로x높이", 높이는 1~4칸). 벽지·바닥재는 쓰지 않음.
+#   height   : 높이 (블록 단위, 0~4, 소수 한 자리까지). 벽걸이는 size 의 높이를 씀.
+#   color    : 상자로 그릴 때의 기본 색 (#RRGGBB) — 아직 가구 모델이 없어서 상자로 보입니다.
+#   accent   : 테두리·장식 색 (#RRGGBB)
+#   max      : 권한이 있을 때 한 레이아웃에 놓을 수 있는 최대 개수 (기본 1, 벽지·바닥재는 늘 1)
+#   icon     : (선택) 보관함 아이콘 리소스 경로. 예) magiccodex:textures/gui/housing/furniture/bed.png  비워 두면 상자 미리보기.
+#
+# ※ 아래는 기능 확인용 임시 가구입니다. 실제 가구가 생기면 바꿔 주세요.
+
+academy_bed:
+  name: 아카데미 침대
+  max: 1
+  category: 가구
+  size: 2x1
+  height: 0.6
+  color: '#2B3E78'
+  accent: '#E1B866'
+wood_desk:
+  name: 나무 책상
+  max: 1
+  category: 가구
+  size: 2x1
+  height: 0.8
+  color: '#7A4E2C'
+  accent: '#C9965E'
+academy_chair:
+  name: 아카데미 의자
+  max: 4
+  category: 가구
+  size: 1x1
+  height: 1.0
+  color: '#6B4428'
+  accent: '#2B3E78'
+bookshelf:
+  name: 책장
+  max: 2
+  category: 가구
+  size: 1x1
+  height: 2.0
+  color: '#5C3A22'
+  accent: '#B07A45'
+round_stool:
+  name: 원목 스툴
+  max: 4
+  category: 가구
+  size: 1x1
+  height: 0.5
+  color: '#8A5A33'
+  accent: '#C9965E'
+big_plant:
+  name: 큰 화분
+  max: 4
+  category: 소품
+  size: 1x1
+  height: 0.9
+  color: '#3F7A44'
+  accent: '#E8E2D4'
+magic_lamp:
+  name: 마법 등불
+  max: 4
+  category: 소품
+  size: 1x1
+  height: 0.7
+  color: '#E8B25A'
+  accent: '#6B4428'
+moon_rug:
+  name: 달빛 러그
+  max: 2
+  category: 소품
+  size: 2x2
+  height: 0.05
+  color: '#22346B'
+  accent: '#E1B866'
+moon_banner:
+  name: 루미나 배너
+  max: 2
+  category: 벽걸이
+  size: 1x2
+  color: '#22346B'
+  accent: '#E1B866'
+small_frame:
+  name: 작은 액자
+  max: 4
+  category: 벽걸이
+  size: 1x1
+  color: '#C9965E'
+  accent: '#3B5A8A'
+starry_wallpaper:
+  name: 별밤 벽지
+  category: 벽지
+  color: '#26315A'
+  accent: '#E1B866'
+cream_wallpaper:
+  name: 크림 벽지
+  category: 벽지
+  color: '#E6DCC6'
+  accent: '#B9A07A'
+oak_floor:
+  name: 참나무 바닥
+  category: 바닥재
+  color: '#A47447'
+  accent: '#8D6239'
+marble_floor:
+  name: 대리석 바닥
+  category: 바닥재
+  color: '#D9D6CF'
+  accent: '#B9B4AA'

@@ -1,0 +1,14 @@
+id: mini_twister
+name: 작은 회오리
+category: wind
+description: 작은 회오리를 땅 위로 굴려 보냅니다. 회오리는 천천히 나아가며 닿은 적을 살짝 띄워 올립니다.
+icon: ''
+permission: magic.learned.mini_twister
+discovery:
+  description: 윈드 푸쉬를 50번 사용하기.
+research: ''
+cast:
+  command: 마법 mini_twister
+  cooldown-seconds: 6
+  mana-cost: 10
+order: 9

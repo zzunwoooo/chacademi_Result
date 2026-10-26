@@ -1,0 +1,57 @@
+title: 잊힌 마법의 첫 번째 단서
+start: start
+enabled: 'true'
+permission: ''
+npcs: 'tag:codex_elena'
+nodes: |-
+  start
+  accepted
+  seal
+node:
+  start:
+    speaker: 사서 엘레나
+    portrait: elena-neutral
+    text: |-
+      이 문양… 오래전에 사라진 대마법사의 인장이군요.
+      당신은 이 책을 어디에서 발견했나요?
+    choices: '3'
+    choice:
+      0:
+        text: 숲속 유적에서 발견했어요.
+        next: accepted
+        conditions: 'not-flag met_arden yes'
+        actions: 'story first_clue find_arden'
+      1:
+        text: 이 인장에 대해 더 알고 싶어요.
+        next: seal
+      2:
+        text: 아직 말씀드릴 수 없어요.
+        next: ''
+  accepted:
+    speaker: 사서 엘레나
+    portrait: elena-neutral
+    text: |-
+      북쪽 숲의 유적이군요. 그곳에는 아직 기록되지 않은 흔적이 남아 있어요.
+      숲을 조사 중인 아르덴 교수님을 찾아가 보시겠어요?
+    choices: '1'
+    choice:
+      0:
+        text: 교수님을 찾아가 볼게요.
+        next: ''
+  seal:
+    speaker: 사서 엘레나
+    portrait: elena-neutral
+    text: |-
+      이 인장은 잃어버린 마법을 기록하던 대마법사의 표식이에요.
+      함께 조사한다면, 당신의 기억도 돌아올지 모르겠군요.
+    choices: '1'
+    choice:
+      0:
+        text: 다시 질문할게요.
+        next: start
+
+story-id: first_clue
+story-title: 잊힌 마법의 첫 번째 단서
+story-stages: |-
+  find_arden=북쪽 숲을 조사 중인 아르덴 교수님을 찾아가세요.
+  completed=완료 · 교수님과 인장의 비밀을 확인했습니다.

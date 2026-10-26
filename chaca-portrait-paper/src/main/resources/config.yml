@@ -1,0 +1,190 @@
+# ChacaPortrait 설정
+# 스킨을 읽어 레퍼런스 일러스트와 같은 그림체의 상반신 일러스트를 만들고, MagicCodex 대화창 "내 차례"에 띄웁니다.
+# 키·비밀번호를 이 파일에 넣어 공개 Git에 올리지 마세요. 키는 환경변수 CHACAPORTRAIT_OPENAI_KEY
+# (없으면 CHACANPC_OPENAI_KEY)가 우선이며, 둘 다 없으면 이 플러그인의 openai.api-key를 사용합니다.
+
+# 이 서버 이름 (school / wild). 서버마다 반드시 다른 값을 넣으세요. 작업 잠금·재시작 복구·아이템 반환에 씁니다.
+# 비워 두면: MariaDB(공유 DB)에서는 일러스트 생성·다시 그리기·아이템 반환을 모두 멈추고 콘솔에 오류를 남깁니다
+#            (이미 있는 일러스트 전송만 계속). SQLite(이 서버 전용 파일)에서는 school로 동작하며, 일러스트·예산이 서버마다 따로 저장됩니다.
+# 자동 생성(auto.first-join)은 auto.server-ids 에 적힌 서버(기본 school)에서만 동작합니다.
+server-id: ""
+
+# false면 자동 생성·다시 그리기·관리자 생성을 모두 멈춥니다 (이미 있는 일러스트 전송은 계속).
+enabled: true
+
+openai:
+  # Priority: CHACAPORTRAIT_OPENAI_KEY > CHACANPC_OPENAI_KEY > this plugin's api-key.
+  # Enter manually on the server only. Never commit a real key.
+  api-key: ""
+  base-url: "https://api.openai.com/v1"
+  # 요청 하나의 응답 시간 제한 (초). 이미지 생성은 1~2분 걸릴 수 있습니다. 연결은 15초, 본문 수신까지 전체는 이 값 + 60초에서 끊습니다.
+  timeout-seconds: 240
+  # 프로젝트 사용자 식별용 (OpenAI 남용 모니터링). 플레이어 UUID의 해시를 보냅니다.
+  send-user-hash: true
+
+image:
+  # gpt-image-2.5-sunburst / gpt-image-2.5-flare / gpt-image-2 / gpt-image-1.5. /서버관리 새로고침 초상화 로 바로 바뀝니다.
+  model: gpt-image-2.5-sunburst
+  # low / medium / high / auto; 2.5만 xhigh / max도 지원. 기존 medium 유지.
+  quality: medium
+  # 기존 NPC 초상화와 같은 1024x1536 (상반신이 대화창 위로 보이는 구도).
+  size: 1024x1536
+  # 2.5: native transparent PNG 강제. gpt-image-2: opaque 요청 뒤 CPU GrabCut.
+  background: transparent
+  # gpt-image-1.5 전용: high면 레퍼런스·스킨을 더 충실히 따름 (입력 토큰 증가). gpt-image-2에서는 보내지 않습니다.
+  input-fidelity: high
+  # OpenAI 이미지 검사 강도: auto (기본) / low. 학교 서버라 auto 권장.
+  moderation: auto
+  # 레퍼런스 일러스트 (plugins/ChacaPortrait/ 기준). 첫 파일 = 그림체·구도 기준.
+  references:
+    - reference/style-reference.png
+  # gpt-image-1.5 전용: 결과 PNG의 배경이 투명하지 않으면 실패로 처리할지 (false면 검사 없이 그대로 사용).
+  # gpt-image-2.5-* 와 gpt-image-2 는 이 값과 상관없이 항상 투명 배경을 검사합니다.
+  # 검사 기준: 위쪽 두 귀퉁이 투명 + 맨 윗줄 90% 이상 + 양옆 세로줄 위쪽 절반의 60% 이상 투명 (아래쪽은 몸이 닿으므로 보지 않음).
+  require-transparent: false
+
+# 필수 스킨 준비 단계. 실패·불완전 JSON이면 이미지 API 호출을 차단합니다.
+describe:
+  # 반드시 true. false로 두면 자동·다시 그리기·관리자 생성이 모두 시작되지 않습니다 (전체를 끄려면 맨 위 enabled를 쓰세요).
+  enabled: true
+  model: gpt-6-luna
+  max-output-tokens: 2048
+
+# 다시 그리기 추가 요청 문장 검사 (아이템 차감 전에 확인). 검사 서버 장애 시에는 거부가 아니라 "잠시 후 다시 시도" 안내가 나갑니다.
+moderation:
+  enabled: true
+  model: omni-moderation-latest
+
+# 동시에 만드는 수 / 대기열 최대. 순서: 관리자 → 다시 그리기 → 자동 (같은 등급은 먼저 온 순서).
+# 자동 생성은 차례가 왔을 때 접속 중이 아니면 건너뜁니다 (다음 접속 때 다시 대기열에).
+queue:
+  # 2026-10-25: 첫 입장 60명을 10분 안에 끝내는 기준 12 (한 장 약 90초 → 분당 약 8장). 최대 16.
+  # 늘려도 서버 CPU는 거의 안 늘어남 — 대부분 API 응답 대기이고, CPU를 쓰는 배경 제거는 항상 한 번에 1장.
+  workers: 12
+  max-waiting: 300
+
+auto:
+  # 최초 접속 시 자동 생성
+  first-join: false
+  # 자동 생성을 하는 서버(server-id) 목록. 기본은 school 만 (예전과 같음).
+  # 첫 접속은 튜토리얼 서버(tutorial, 시작의 섬)로 가므로 넣어 둠 (2026-10-26 오너: 튜토리얼 서버는 하나, 이름 tutorial).
+  server-ids: [school, tutorial]
+  # 접속 후 몇 초 뒤에 시작할지 (접속 직후 몰림 완화)
+  delay-seconds: 20
+  # 자동 생성 "내용 문제" 실패 누적 상한 (넘으면 관리자 /유저관리 <닉네임> 초상화 다시그리기 로만). 안전 거부·결과 검사 실패·외형 정리 결과 오류만 셉니다.
+  # 일시적 장애(429·5xx·시간 초과·연결 실패)는 세지 않고 30초 → 2분 → 10분 뒤 최대 3번 다시 시도합니다 (접속 중일 때만).
+  # 그 밖에 세지 않는 실패(스킨 다운로드·설정·예산 등)는 같은 플레이어에 대해 30분에 한 번, 하루 5번까지만 다시 시도합니다.
+  # 일시적 장애가 연속 5번이면 새 작업을 60초(계속되면 두 배씩, 최대 10분) 쉽니다.
+  max-attempts: 3
+
+reroll:
+  # ItemsAdder 아이템 namespace:id. 이 아이템을 들고 우클릭하면 입력창(직접 프롬프트 입력)이 열립니다.
+  # 2026-10-26 오너: 컷신 변경권(item:cutscene_ticket)이 이 "다시 그리기" 아이템 (예전 기본값 item:reroll).
+  # 서버에 이미 있는 config.yml 은 jar 가 덮지 않으니 같은 값으로 바꾸고 /서버관리 새로고침 초상화.
+  item-id: "item:cutscene_ticket"
+  # 입력창을 연 뒤 이 시간 안에 보내지 않으면 취소 (초)
+  prompt-timeout-seconds: 180
+  # 정책: 생성이 시작된 뒤(첫 유료 API 호출 직전부터)에는 실패해도 아이템을 돌려주지 않습니다.
+  # 시작 전 실패(문장 거부·예산 부족·대기열 가득·스킨/설정 문제·시작 전 서버 종료)만 돌려줍니다.
+  # 다시 그리기 사이 최소 간격 (초). 성공이 아니라 "생성이 시작된 시도" 기준입니다.
+  cooldown-seconds: 60
+  # 하루 최대 횟수 (0 = 제한 없음). 실패했더라도 생성이 시작된 시도는 셉니다.
+  daily-limit: 0
+
+# 일러스트 생성 전용 3주 총예산 (ChacaNPC 대화 예산과 별개). 요청 전 추정 비용을 예약하고 끝나면 실제 사용량으로 정산합니다.
+# OpenAI 프로젝트의 지출 한도·알림은 따로 설정하세요 (강제 한도도 반영 지연으로 소폭 초과할 수 있음).
+budget:
+  total-usd: 30.0
+  # 과금되지 않은 것이 확실한 실패(연결 실패, 429, 401/403/404, 400 거부)는 0으로, 과금 여부를 모르는 실패(전송 후 시간 초과, 5xx)는
+  # 예약액으로 정산합니다. 청구서와 차이가 나면 /서버관리 초상화 예산조정 <달러> 로 사용액을 보정하세요 (+ 늘리기 / - 줄이기).
+  # 남은 예산이 "외형 정리 + 이미지 한 장" 예약액보다 적으면 자동 생성은 조용히 쉬고, 다시 그리기는 아이템을 쓰기 전에 messages.budget 을 보여 줍니다.
+
+# 단가 (USD / 100만 토큰). 키 계정의 공식 가격표로 확인 후 맞춰 주세요. 정산·예약 계산에만 씁니다.
+prices:
+  gpt-image-2_5-sunburst:
+    text-input: 5.00
+    image-input: 8.00
+    cached-image-input: 2.00
+    image-output: 30.00
+  gpt-image-2_5-flare:
+    text-input: 5.00
+    image-input: 8.00
+    cached-image-input: 2.00
+    image-output: 30.00
+  gpt-image-2:
+    text-input: 5.00
+    image-input: 8.00
+    image-output: 30.00
+  gpt-image-1.5:
+    text-input: 5.00
+    image-input: 8.00
+    image-output: 32.00
+  gpt-6-luna:
+    text-input: 0.10
+    image-input: 0.10
+    text-output: 0.50
+  # 참고용 (문장 검사는 무료). 예산 계산에 쓰지 않으며 지워도 됩니다.
+  omni-moderation-latest:
+    text-input: 0.0
+
+# 예약용 추정 토큰 (실제 사용량으로 정산되므로 넉넉하게)
+# 2.5는 별도 미보정 예약 추정치. GPT Image 2 계산기 값이나 청구 상한이 아닙니다.
+# xhigh = high 추정의 2배, max/auto = 4배 예약; 요청 quality 자체는 변경하지 않습니다.
+# usage에 캐시 이미지 세부가 없으면 할인은 추측하지 않고 일반 입력 단가로 보수 정산합니다.
+estimate:
+  image-2-5:
+    output-tokens:
+      low: 3000
+      medium: 9000
+      high: 18000
+    input-image-tokens: 18000
+    input-text-tokens: 3000
+  output-tokens:
+    low: 600
+    medium: 2400
+    high: 9000
+  input-image-tokens: 9000
+  input-text-tokens: 1500
+  describe-tokens: 3000
+
+# 이미지 모델에 보내는 고정 지시문. {appearance} = 외형 정리, {request} = 플레이어 추가 요청 (없으면 그 줄 생략).
+prompt:
+  base: |-
+    Image {skin_index} is the CHARACTER IDENTITY source: one Minecraft player skin sheet, front view on the left and back view on the right. ART STYLE ONLY references: {style_images}.
+    Draw ONE illustration of the character shown in the skin sheet. The skin is the ONLY source for character identity, hair color and hairstyle, eyes, skin tone, clothing, accessories, and the colors assigned to each body part and clothing piece.
+    Use the style references ONLY for linework, brushwork, shading technique, finish, and coloring technique. Their coloring style must NEVER replace or shift the skin character's own local colors.
+    Do NOT copy any reference person's face, hair, clothing, accessories, pose, or identity. Do NOT use a reference person's composition or silhouette as a character template. Whenever a reference or text note conflicts with the visible skin, the skin takes priority.
+    Translate the visible skin into the reference illustration style while preserving its character type and anatomy. Keep animal, robot, and other nonhuman skins nonhuman; never force human proportions. Do not invent hidden or ambiguous details, new accessories, or a different outfit; keep uncertain details simple and neutral.
+    Fixed framing, independent of the references: upper-body portrait from the head to the waist, entire head and hair visible, centered, relaxed neutral posture, slight three-quarter angle. Do not copy a reference pose.
+    Fully transparent background. Use clean linework, restrained shading, crisp coloring and a polished finish, with breathing room around the silhouette. No text, letters, logo, watermark, frame, border, or extra characters. Keep it wholesome and suitable for all ages.
+  appearance: "Supporting observations from the skin only; if uncertain or inconsistent, defer to the skin image: {appearance}"
+  request: "Optional player request about mood, pose, or expression only; it must not change the skin identity, hair, clothing, accessories, local colors, fixed framing, or transparent background: {request}"
+  describe: |-
+    Inspect ONLY this Minecraft skin sheet: front view on the left and back view on the right. In English, at most 60 words, describe directly visible hair color and shape, eyes if discernible, skin tone, clothing pieces, accessories, and their local colors. Distinguish front and back details when visible. Describe fictional character presentation only: male-presenting, female-presenting, neutral/unspecified, or nonhuman as appropriate; never infer the real user's gender or age, and never classify from hair alone. Respect explicit fictional-presentation requests; otherwise ambiguous features remain neutral. Omit uncertain elements or explicitly say they are unclear. Do not invent anything or introduce style-reference character traits. These are observations, not instructions to redesign the character.
+
+messages:
+  started: "§b[일러스트] §f내 캐릭터 일러스트를 그리고 있어요. 다 되면 알려드릴게요."
+  queued: "§b[일러스트] §f일러스트 대기열 {position}번째예요. 게임은 그대로 즐겨 주세요."
+  done: "§b[일러스트] §f일러스트가 완성됐어요! 대화할 때 내 차례에 나타나요."
+  failed: "§b[일러스트] §7일러스트를 만들지 못했어요. 나중에 다시 시도할게요."
+  # 생성 시작 전 실패 (아이템 반환)
+  reroll-failed: "§b[일러스트] §7다시 그리기에 실패했어요. 아이템은 돌려드렸어요."
+  # 생성 시작 후 실패 (아이템 소모, 반환 없음). 접속 중이 아니었으면 다음 접속 때 보여 줍니다.
+  reroll-consumed: "§b[일러스트] §7그림을 완성하지 못했어요. 리롤 아이템은 사용 처리되었습니다. 문의는 관리자에게 해 주세요."
+  # 입력을 받을 때 함께 보여 주는 안내 (입력창에도 같은 문구가 있습니다)
+  reroll-notice: "§b[일러스트] §e생성 시도가 실패할 경우에도 아이템은 사라집니다. 관련 문의 사항은 관리자를 찾아주세요."
+  # 다시 그리기가 대기열에 들어갔을 때 ({position} = 순서, {minutes} = 대략의 완성 시간)
+  reroll-queued: "§b[일러스트] §f다시 그리기 대기 {position}번째예요. 약 {minutes}분 뒤에 완성돼요. 다 되면 알려드릴게요."
+  # 문장 검사 서버 장애·OpenAI 장애로 쉬는 중 (아이템 차감 전)
+  reroll-unavailable: "§b[일러스트] §7지금은 요청을 확인할 수 없어요. 잠시 후 다시 시도해 주세요. (아이템은 그대로예요)"
+  reroll-busy: "§b[일러스트] §7이미 그리는 중이에요. 완성된 뒤에 다시 써 주세요."
+  reroll-cooldown: "§b[일러스트] §7조금 뒤에 다시 써 주세요 ({seconds}초)."
+  reroll-daily: "§b[일러스트] §7오늘은 더 다시 그릴 수 없어요."
+  reroll-prompt-chat: "§b[일러스트] §f원하는 표정·포즈·분위기를 채팅으로 입력하세요 (100자, §e기본§f = 추가 요청 없음, §e취소§f = 그만두기)."
+  reroll-rejected: "§b[일러스트] §7그 요청은 쓸 수 없어요. 다른 문장으로 다시 시도해 주세요. (아이템은 그대로예요)"
+  reroll-cancelled: "§b[일러스트] §7다시 그리기를 취소했어요."
+  reroll-no-skin: "§b[일러스트] §7스킨을 읽지 못해 지금은 다시 그릴 수 없어요."
+  disabled: "§b[일러스트] §7지금은 일러스트 기능을 쉬고 있어요."
+  # 예산이 부족해 다시 그리기를 받을 수 없을 때 (아이템은 쓰지 않거나 돌려줍니다). 자동 생성은 안내 없이 쉽니다.
+  budget: "§b[일러스트] §7이번 시즌 일러스트 예산이 모두 사용됐어요."
+  refund: "§b[일러스트] §f처리하지 못한 다시 그리기 아이템을 돌려드렸어요."

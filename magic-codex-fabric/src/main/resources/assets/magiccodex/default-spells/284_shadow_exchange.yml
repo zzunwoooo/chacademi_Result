@@ -1,0 +1,14 @@
+id: shadow_exchange
+name: 그림자 교환
+category: dark
+description: 15블록 안의 대상과 자신의 위치를 맞바꿉니다.
+icon: magiccodex:textures/spells/advanced/shadow_exchange.png
+permission: magic.learned.shadow_exchange
+discovery:
+  description: 엔더맨 30마리 처치하기.
+research: 내 그림자가 네 자리에 있었다면 결과는 달라졌을까?
+cast:
+  command: 마법 shadow_exchange
+  cooldown-seconds: 30
+  mana-cost: 100
+order: 284

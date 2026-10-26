@@ -1,0 +1,32 @@
+# PortableVFX Paper 1.21.4 / Java 21. No gameplay or third-party gameplay hooks.
+# Values outside the hard safety ceilings are clamped; the applied values are logged on load/reload.
+#
+# config-version: 2 = 100명 규모 기준 기본값(2026-10). 이 줄이 없는 예전 config.yml 에 예전 기본값
+# (max-active-handles 512, packets-per-tick 1024, play-requests-per-tick 128)이 그대로 있으면
+# 플러그인이 새 기본값을 대신 쓰고 경고를 남깁니다. 예전 값을 일부러 쓰려면 이 줄을 추가하세요.
+config-version: 2
+view:
+  max-radius: 128.0           # 1..256 blocks; play radius is capped by this value
+  default-radius: 64.0       # 1..max-radius
+limits:
+  # 살아 있는(아직 끝나지 않은) 효과 핸들 수. FINISH/IMPACT 로 끝난 핸들은 여기에 세지 않습니다.
+  max-active-handles: 4096   # 1..16384
+  # 서버 전체 tick 당 패킷 예산. POSE/LINK_POSE/ORIENT 는 이 중 최대 50% 만 쓸 수 있고,
+  # 나머지는 PLAY/IMPACT/FINISH/STOP/CLEAR 전용이라 pose 가 새 시전을 막지 못합니다.
+  packets-per-tick: 8192     # 1..32768
+  packets-per-player-per-tick: 32 # 1..128; authoritative cast starts reserve 2 packets
+  # Fixed per-viewer class caps inside the value above (strictly below the client's admission buckets):
+  # PLAY/IMPACT 48 burst +8/tick, POSE/LINK_POSE/ORIENT 16/tick, STOP/CLEAR/FINISH 10/tick.
+  play-requests-per-tick: 1024 # 1..4096; includes plays with zero eligible recipients
+  max-duration-ticks: 12000  # 1..12000; command default is min(40, configured maximum)
+  # FINISH 된 단계를 hard STOP 대상으로 더 추적하는 시간(tick). 지나면 서버 추적만 놓고,
+  # 클라이언트의 잔여 입자는 자체 수명으로 끝납니다. 끝난 핸들은 max(1024, max-active-handles x 4)개까지 따로 셉니다.
+  finish-drain-ticks: 100    # 0..1200
+  # 시청자 예산 때문에 PLAY 를 못 보낸 경우 다음 tick 들에 다시 보내는 기한(tick). 0 = 재시도 안 함.
+  # 재시도 PLAY 에는 원래 시작 tick 이 실려 클라이언트가 경과 시간을 따라잡습니다. 시청자당 최대 64개 대기.
+  play-retry-ticks: 10       # 0..40
+  # 카탈로그 마법(시전) 상한. 초과한 시전은 거부되어 MagicCodex 가 마나를 환불합니다.
+  # max-active-casts 를 512 보다 크게 올리면 시청자 100명 기준 tick 시간이 눈에 띄게 늘어납니다(움직이는 핸들 1000개에서 약 45ms/tick).
+  max-active-casts: 512      # 1..8192; 서버 전체 진행 중 시전
+  max-casts-per-player: 12   # 1..64; 플레이어 한 명의 진행 중 시전
+  max-pending-phases: 256    # 16..4096; 시전 하나에 예약해 둘 수 있는 단계 수

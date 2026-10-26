@@ -1,0 +1,14 @@
+id: quiet_mooring
+name: 노아의 방주
+category: water
+description: 현재 위치가 물일 때 보트를 생성합니다. 물이 아니면 실패합니다.
+icon: magiccodex:textures/spells/expansion_2/quiet_mooring.png
+permission: magic.learned.quiet_mooring
+discovery:
+  description: 보트를 5번 설치하기.
+research: 노를 내려놓고 책을 읽으려면 먼저 배부터 멈춰야 한다.
+cast:
+  command: 마법 quiet_mooring
+  cooldown-seconds: 15
+  mana-cost: 100
+order: 131

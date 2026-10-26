@@ -1,0 +1,14 @@
+id: black_harvest
+name: 검은 수확
+category: dark
+description: 어두운 낫을 휘둘러 주변의 적을 베고 3초 동안 침묵시킵니다.
+icon: magiccodex:textures/spells/expansion/black_harvest.png
+permission: magic.learned.black_harvest
+discovery:
+  description: 생명 갈취로 몬스터 100마리 처치하기.
+research: 충분히 익은 곡식처럼, 희미해진 생명만을 거두는 낫.
+cast:
+  command: 마법 black_harvest
+  cooldown-seconds: 12
+  mana-cost: 80
+order: 278

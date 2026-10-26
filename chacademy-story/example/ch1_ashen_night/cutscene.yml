@@ -1,0 +1,39 @@
+format: 1
+id: ch1_ashen_night
+title: 잿빛 밤 동화 (예시)
+font: medium
+font_size: 1.0
+text_color: "#EFE3C8"
+text_x: 0.5
+text_y: auto
+text_shadow: false
+italic: true
+prefix: "- "
+type_speed: 0.06
+letterbox: 0.14
+letterbox_time: 1.6
+end_fade: 1.2
+type_sound: default
+type_sound_volume: 0.5
+bgm: bgm.ogg
+bgm_volume: 0.6
+bgm_fade_in: 3.0
+bgm_fade_out: 4.0
+scenes:
+  - images: [s1_1.png, s1_2.png, s1_3.png]
+    fps: 6
+    duration: 8.0
+    zoom: {x: 0.46, y: 0.62, from: 1.0, to: 1.08}
+    transition: fade
+    transition_time: 1.2
+    lines:
+      - {text: "백 년 전, 잿빛 밤.", start: 1.7, end: 4.0}
+      - {text: "불길은 학교를 삼켰고, 교수들은 하나둘 쓰러졌다.", start: 4.2, end: 7.8}
+  - images: [s2_1.png]
+    fps: 6
+    duration: 7.0
+    zoom: {x: 0.75, y: 0.38, from: 1.0, to: 1.12}
+    transition: ink
+    transition_time: 1.4
+    lines:
+      - {text: "그리고 그날 밤, 한 사람이 빛나는 존재 앞에 무릎을 꿇었다.", start: 1.6, end: 6.6}

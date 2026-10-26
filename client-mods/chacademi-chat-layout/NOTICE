@@ -1,0 +1,9 @@
+Chacademi Chat Layout, version 1.0.0
+Copyright (C) 2026 Chacademi contributors
+License: GPL-3.0-only. See LICENSE.
+
+This companion integrates with ChatPlus 2.8.1 by ebicep and contributors:
+https://github.com/ebicep/ChatPlus
+ChatPlus is licensed under GPL-3.0 and is used as a compile-only dependency.
+No ChatPlus classes, Minecraft code or Fabric classes are bundled in this JAR.
+Fabric Loom is the build tool; Fabric Loader and ChatPlus are runtime dependencies.

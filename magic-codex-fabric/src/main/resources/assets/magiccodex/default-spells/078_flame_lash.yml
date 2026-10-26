@@ -1,0 +1,14 @@
+id: flame_lash
+name: 화염 채찍
+category: fire
+description: 8블록 이내의 대상을 화염 채찍으로 휘감아 끌어당깁니다.
+icon: magiccodex:textures/spells/expansion/flame_lash.png
+permission: magic.learned.flame_lash
+discovery:
+  description: 세드릭 교수와 친해진 뒤(호감도 30) 화염 비전 수업 듣기.
+research: 화염은 자유로운 형상을 가지고 있기 떄문에 무엇이든 될 수 있다.
+cast:
+  command: 마법 flame_lash
+  cooldown-seconds: 18
+  mana-cost: 75
+order: 78

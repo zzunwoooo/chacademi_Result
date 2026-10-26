@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "chacademy_motion",
+  "version": "${version}",
+  "name": "Chacademy Motion",
+  "description": "차카데미 마법 시전 모션과 빗자루 비행. 서버 플러그인을 통해 다른 유저에게도 보입니다.",
+  "authors": [
+    "Chacademy"
+  ],
+  "license": "All-Rights-Reserved",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "kr.chacademy.motion.ChacademyMotionClient"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.10",
+    "minecraft": "~1.21.4",
+    "java": ">=21",
+    "fabric-api": "*",
+    "playeranimator": ">=2.0.5"
+  },
+  "mixins": [
+    "chacademy_motion.mixins.json"
+  ]
+}

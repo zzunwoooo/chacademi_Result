@@ -1,0 +1,276 @@
+# 낚시 장비 (2026-10-20). id 는 아이콘 파일 이름과 같음 (textures/gui/fishing/equipment/<종류>/<id>.png).
+# 등급: 일반·고급·유일·전설. 내구도 0 = 고장(장착 불가). special 은 특수 효과 코드, special-text 는 화면에 보일 설명.
+# 각 종류의 default: true 장비가 '아무것도 없을 때' 기본 세트 (내구도·개수가 줄지 않음).
+# rods: reel-power(감는 힘), hook-window(챔질 판정 초) / floats: sink-speed(m/초), sensitivity(입질 예고 초)
+# itemsadder: 이 장비인 ItemsAdder 아이템 (낚싯대는 원본 재질 minecraft:fishing_rod). 내구도·끼운 부품은 DB(codex_fishing_gear)
+# lines: length(최대 길이 m), max-tension(최대 장력) / baits: rare-bonus(%), wait-reduction(%)
+rods:
+  bamboo_common:
+    itemsadder: item:fishing_rod_1
+    name: "대나무 낚싯대"
+    grade: 일반
+    reel-power: 10
+    hook-window: 0.6
+    durability: 50
+    special: ""
+    special-text: ""
+    description: "가볍고 다루기 쉬운 첫 낚싯대."
+    default: true
+  apprentice_common:
+    itemsadder: item:fishing_rod_2
+    name: "견습생 낚싯대"
+    grade: 일반
+    reel-power: 12
+    hook-window: 0.7
+    durability: 50
+    special: ""
+    special-text: ""
+    description: "차카데미 낚시부 지급품."
+  oak_reel_advanced:
+    itemsadder: item:fishing_rod_3
+    name: "참나무 릴 낚싯대"
+    grade: 고급
+    reel-power: 16
+    hook-window: 0.8
+    durability: 100
+    special: ""
+    special-text: ""
+    description: "단단한 참나무에 릴을 단 낚싯대."
+  silver_rim_advanced:
+    itemsadder: item:fishing_rod_4
+    name: "은테 낚싯대"
+    grade: 고급
+    reel-power: 15
+    hook-window: 1.0
+    durability: 100
+    special: "tension_rise:0.95"
+    special-text: "줄다리기 중 장력 상승 -5%"
+    description: "손잡이에 은테를 두른 섬세한 낚싯대."
+  mana_amplifier_unique:
+    itemsadder: item:fishing_rod_5
+    name: "마력증폭 낚싯대"
+    grade: 유일
+    reel-power: 22
+    hook-window: 1.0
+    durability: 150
+    special: "magic_reel:1.15"
+    special-text: "마법 물고기 상대 감기 힘 +15%"
+    description: "대에 새긴 마법진이 마력을 끌어올린다."
+  sea_dragon_bone_unique:
+    itemsadder: item:fishing_rod_6
+    name: "해룡뼈 낚싯대"
+    grade: 유일
+    reel-power: 24
+    hook-window: 0.9
+    durability: 150
+    special: "sea_reel:1.10"
+    special-text: "바다에서 감기 힘 +10%"
+    description: "바다 용의 뼈를 깎아 만든 낚싯대."
+  star_fishing_staff_legendary:
+    itemsadder: item:fishing_rod_7
+    name: "별을 낚는 지팡이"
+    grade: 전설
+    reel-power: 30
+    hook-window: 1.3
+    durability: 250
+    special: "reveal_teleport"
+    special-text: "순간이동·분신 패턴 시 물고기 위치 미리 표시"
+    description: "하늘의 별도 낚았다는 전설의 지팡이."
+floats:
+  cork_common:
+    itemsadder: item:lure_1
+    name: "코르크 찌"
+    grade: 일반
+    sink-speed: 1.5
+    sensitivity: 0.2
+    durability: 40
+    special: ""
+    special-text: ""
+    description: "가장 흔한 코르크 찌."
+    default: true
+  feather_common:
+    itemsadder: item:lure_2
+    name: "깃털 찌"
+    grade: 일반
+    sink-speed: 2.0
+    sensitivity: 0.3
+    durability: 40
+    special: ""
+    special-text: ""
+    description: "깃털을 꽂아 조금 더 빨리 내려간다."
+  glass_orb_advanced:
+    itemsadder: item:lure_3
+    name: "유리구슬 찌"
+    grade: 고급
+    sink-speed: 2.5
+    sensitivity: 0.4
+    durability: 80
+    special: ""
+    special-text: ""
+    description: "속이 비치는 유리구슬 찌."
+  seashell_advanced:
+    itemsadder: item:lure_4
+    name: "조개껍데기 찌"
+    grade: 고급
+    sink-speed: 2.5
+    sensitivity: 0.5
+    durability: 80
+    special: "sea_sink:1.2"
+    special-text: "바다에서 가라앉는 속도 +20%"
+    description: "바다에서 주운 조개껍데기로 만든 찌."
+  mana_crystal_unique:
+    itemsadder: item:lure_5
+    name: "마나수정 찌"
+    grade: 유일
+    sink-speed: 3.5
+    sensitivity: 0.6
+    durability: 120
+    special: ""
+    special-text: ""
+    description: "마나 수정의 무게로 빠르게 가라앉는다."
+  rune_stone_unique:
+    itemsadder: item:lure_6
+    name: "룬석 찌"
+    grade: 유일
+    sink-speed: 3.0
+    sensitivity: 0.8
+    durability: 120
+    special: "grade_glow"
+    special-text: "입질 직전 물고기 테두리에 등급 색 표시"
+    description: "룬이 새겨져 물고기의 기운을 읽는다."
+  abyss_lantern_legendary:
+    itemsadder: item:lure_7
+    name: "심연의 등불 찌"
+    grade: 전설
+    sink-speed: 4.5
+    sensitivity: 0.8
+    durability: 200
+    special: "abyss_approach:1.3"
+    special-text: "심해에서 물고기 접근 속도 +30%"
+    description: "심해를 밝히며 거침없이 내려간다."
+  starlight_legendary:
+    itemsadder: item:lure_8
+    name: "별빛 찌"
+    grade: 전설
+    sink-speed: 5.0
+    sensitivity: 1.0
+    durability: 200
+    special: "night_wait:0.7"
+    special-text: "밤에 입질 대기 시간 -30%"
+    description: "밤하늘의 별빛을 담은 찌."
+lines:
+  cotton_common:
+    itemsadder: item:fishing_line_1
+    name: "무명실 낚싯줄"
+    grade: 일반
+    length: 15
+    max-tension: 100
+    durability: 60
+    special: ""
+    special-text: ""
+    description: "평범한 무명실. 얕은 물까지만 닿는다."
+    default: true
+  steel_wire_advanced:
+    itemsadder: item:fishing_line_2
+    name: "강철선 낚싯줄"
+    grade: 고급
+    length: 35
+    max-tension: 140
+    durability: 120
+    special: ""
+    special-text: ""
+    description: "가는 강철을 꼬아 만든 줄."
+  silver_thread_unique:
+    itemsadder: item:fishing_line_3
+    name: "은사 낚싯줄"
+    grade: 유일
+    length: 60
+    max-tension: 190
+    durability: 180
+    special: ""
+    special-text: ""
+    description: "달빛 아래 뽑은 은실. 심해 입구까지 닿는다."
+  dragon_whisker_legendary:
+    itemsadder: item:fishing_line_4
+    name: "용수염 낚싯줄"
+    grade: 전설
+    length: 110
+    max-tension: 260
+    durability: 300
+    special: "snap_grace:0.5"
+    special-text: "장력 한계 도달 시 0.5초 버팀 (줄다리기당 1회)"
+    description: "용의 수염으로 엮어 끊어지지 않는다는 줄."
+baits:
+  earthworm_common:
+    itemsadder: item:bait_1
+    name: "지렁이"
+    grade: 일반
+    rare-bonus: 0
+    wait-reduction: 0
+    special: ""
+    special-text: ""
+    description: "어디서나 쓰는 기본 미끼."
+    default: true
+  bread_dough_common:
+    itemsadder: item:bait_2
+    name: "빵 반죽"
+    grade: 일반
+    rare-bonus: 0
+    wait-reduction: 15
+    special: "fresh_wait"
+    special-text: "민물에서만 대기 시간 감소 적용"
+    description: "민물고기가 좋아하는 말랑한 반죽."
+  shrimp_meat_common:
+    itemsadder: item:bait_3
+    name: "새우살"
+    grade: 일반
+    rare-bonus: 0
+    wait-reduction: 15
+    special: "sea_wait"
+    special-text: "바다에서만 대기 시간 감소 적용"
+    description: "바다 물고기가 좋아하는 새우살."
+  firefly_advanced:
+    itemsadder: item:bait_4
+    name: "반딧불 미끼"
+    grade: 고급
+    rare-bonus: 10
+    wait-reduction: 10
+    special: "night_fish:1.3"
+    special-text: "밤 전용 물고기 출현률 +30%"
+    description: "밤에 은은하게 빛나는 미끼."
+  mana_dumpling_advanced:
+    itemsadder: item:bait_5
+    name: "마나 경단"
+    grade: 고급
+    rare-bonus: 10
+    wait-reduction: 10
+    special: "magic_fish:1.3"
+    special-text: "마법 물고기 출현률 +30%"
+    description: "마나를 뭉쳐 만든 경단."
+  stardust_unique:
+    itemsadder: item:bait_6
+    name: "별가루 미끼"
+    grade: 유일
+    rare-bonus: 25
+    wait-reduction: 15
+    special: ""
+    special-text: ""
+    description: "별가루를 묻혀 희귀한 물고기를 꾄다."
+  kraken_ink_unique:
+    itemsadder: item:bait_7
+    name: "크라켄 먹물 미끼"
+    grade: 유일
+    rare-bonus: 20
+    wait-reduction: 10
+    special: "deep_fish:1.3;treasure:0.02"
+    special-text: "심해 물고기 출현률 +30%, 보물상자 확률 +2%p"
+    description: "심해의 먹물로 물들인 미끼."
+  world_tree_fruit_legendary:
+    itemsadder: item:bait_8
+    name: "세계수 열매"
+    grade: 전설
+    rare-bonus: 50
+    wait-reduction: 30
+    special: ""
+    special-text: ""
+    description: "모든 물고기가 탐내는 전설의 열매."

@@ -1,0 +1,14 @@
+id: night_chain
+name: 밤의 사슬
+category: dark
+description: 지정한 범위 안의 몬스터들을 8초 동안 사슬로 묶어, 한 마리가 받은 피해 일부를 나머지에게 전합니다.
+icon: magiccodex:textures/spells/expansion/night_chain.png
+permission: magic.learned.night_chain
+discovery:
+  description: 그레고르 교감의 어둠 마법 고급 수업 듣기.
+research: 같은 밤을 나누는 이들은 상처마저 조금씩 나누게 된다.
+cast:
+  command: 마법 night_chain
+  cooldown-seconds: 45
+  mana-cost: 200
+order: 292

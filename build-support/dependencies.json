@@ -1,0 +1,90 @@
+{
+  "checkedAt": "2026-10-02",
+  "note": "Local host compile-time files. Runtime installation is separate. Restore nontracked files on a new machine; do not upload credential-bearing files or paid plugin binaries automatically.",
+  "files": [
+    {
+      "path": "plugins/ModelEngine-4.0.8.jar",
+      "bytes": 2318407,
+      "sha256": "60b9037a1427f298dd2659d8e8ea629a09577c16fc49242cf7c11ae96765f097",
+      "tracked": false
+    },
+    {
+      "path": "plugins/MythicMobs-5.9.0.jar",
+      "bytes": 17968555,
+      "sha256": "94edd40858e99cfec445b0d43b24f6e31287cab75a2a71a87d0aa41f6a4ee9e7",
+      "tracked": false
+    },
+    {
+      "path": "plugins/PlaceholderAPI-2.11.6.jar",
+      "bytes": 933131,
+      "sha256": "bfea0f235da9e9d576577215acb50c74bb8122e03dcd988315b61145c7b61727",
+      "tracked": false
+    },
+    {
+      "path": "gradle/wrapper/gradle-wrapper.jar",
+      "bytes": 43583,
+      "sha256": "2db75c40782f5e8ba1fc278a5574bab070adccb2d21ca5a6e5ed840888448046",
+      "tracked": true
+    },
+    {
+      "path": "libraries/org/xerial/sqlite-jdbc/3.47.2.0/sqlite-jdbc-3.47.2.0.jar",
+      "bytes": 14260524,
+      "sha256": "d01df92d62c505beaa3cad33e41fa28876ecc111dd1f8dbc44bf7234cdcba7e3",
+      "tracked": false
+    },
+    {
+      "path": "magic-codex-database/lib/mariadb-java-client-3.5.10.jar",
+      "bytes": 791739,
+      "sha256": "919b8c1c771d9ee3465811462f242c9543ab401e140c64988ddbf1d8abcb18b2",
+      "tracked": false
+    },
+    {
+      "path": "tornado-event-paper/lib/adventure-api.jar",
+      "bytes": 420136,
+      "sha256": "14ce3a98f4d1814646cf44644a28ad4c9d6e12c58d83ee98b5ff5e755d4897cf",
+      "tracked": false
+    },
+    {
+      "path": "tornado-event-paper/lib/adventure-key.jar",
+      "bytes": 11241,
+      "sha256": "e1a5c1127cd069014b90614a217cbbefbf854403bbd6de6a5d9174601b9f2511",
+      "tracked": false
+    },
+    {
+      "path": "tornado-event-paper/lib/bungeecord-chat.jar",
+      "bytes": 158696,
+      "sha256": "5e61313bb35aae1b2be33276ab442f6e0d56258ff13297750d6ad9484d1a4fd6",
+      "tracked": false
+    },
+    {
+      "path": "tornado-event-paper/lib/joml.jar",
+      "bytes": 778846,
+      "sha256": "bf19510145178df82cd3bd37edd514c13f411531ec5545299fd3abcbc98fe7c2",
+      "tracked": false
+    },
+    {
+      "path": "tornado-event-paper/lib/mythicmobs.jar",
+      "bytes": 17968555,
+      "sha256": "94edd40858e99cfec445b0d43b24f6e31287cab75a2a71a87d0aa41f6a4ee9e7",
+      "tracked": false
+    },
+    {
+      "path": "tornado-event-paper/lib/paper-api.jar",
+      "bytes": 2557570,
+      "sha256": "3feb8489c6a603f5b7bb9f623cf67dae42b893827f8b5fedb2c2b69648c168a0",
+      "tracked": false
+    },
+    {
+      "path": "tornado-event-paper/lib/worldedit.jar",
+      "bytes": 15965166,
+      "sha256": "11e8fa8964f262136fc76abc7d1f686a89b4170855665b354611a74d04026f2a",
+      "tracked": false
+    },
+    {
+      "path": "tornado-event-paper/lib/worldguard.jar",
+      "bytes": 1165637,
+      "sha256": "73b43a46aefc76514b90994532ea18bfd6d92e7bc5dcabbef9049a71778b21b5",
+      "tracked": false
+    }
+  ]
+}

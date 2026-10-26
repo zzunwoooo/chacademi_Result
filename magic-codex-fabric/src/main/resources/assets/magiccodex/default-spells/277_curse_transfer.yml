@@ -1,0 +1,14 @@
+id: curse_transfer
+name: 저주의 전가
+category: dark
+description: 대상에게 걸린 디버프를 주변 적에게 퍼뜨립니다. 옮겨진 디버프의 지속시간은 30% 짧아집니다.
+icon: magiccodex:textures/spells/expansion/curse_transfer.png
+permission: magic.learned.curse_transfer
+discovery:
+  description: 독·나약함·구속 효과를 각각 3번 받기.
+research: 남에게 권하기 전에 자신이 먼저 맛보았다는 점에서는 정직한 마법이다.
+cast:
+  command: 마법 curse_transfer
+  cooldown-seconds: 30
+  mana-cost: 90
+order: 277

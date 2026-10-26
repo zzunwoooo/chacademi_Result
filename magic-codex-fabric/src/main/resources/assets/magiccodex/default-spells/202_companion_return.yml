@@ -1,0 +1,14 @@
+id: companion_return
+name: 동행 귀환
+category: light
+description: 시전자 혼자 마을 귀환 지점으로 이동합니다.
+icon: magiccodex:textures/spells/expansion/companion_return.png
+permission: magic.learned.companion_return
+discovery:
+  description: 이솔데 교수의 빛 마법 기초 수업 듣기.
+research: 낯선 길을 오래 걸어도 돌아갈 곳이 있다는 건 작은 안심이 된다. 눈을 감고, 익숙한 마을의 풍경을 떠올려 보자.
+cast:
+  command: 마법 companion_return
+  cooldown-seconds: 5
+  mana-cost: 10
+order: 202
