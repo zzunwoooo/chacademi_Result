@@ -1,0 +1,45 @@
+# 차카데미 대화 — Claude 작성 2026-10-20 · 2026-10-26 1장 다시 짜기 (저장소 ch1-7)
+format: 1
+id: "ch1-8"
+title: "1-8. 항구 마을"
+description: "항구 마을에 도착했어요. 브람 선장에게 입학 안내서를 받아요."
+chapter: "1장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  bram:
+    name: "브람 선장"
+    npc: "captain_bram"
+    portraits:
+      "기본": "bram-neutral.png"
+      "기쁨": "bram-happy.png"
+      "당황": "bram-flustered.png"
+      "분노": "bram-angry.png"
+      "설렘": "bram-excited.png"
+      "슬픔": "bram-sad.png"
+scenes:
+  a:
+    name: "도착"
+    lines:
+      - {who: bram, face: "기쁨", text: "자, 다 왔네! 저 언덕 위가 차카데미아고, 여긴 그 아래 마을이지."}
+      - {who: me, face: "", text: "(생각보다 작은 마을이네… 그래도 활기는 있어.)"}
+      - {who: bram, face: "기본", text: "아, 그리고 이거. 학교에서 신입생한테 꼭 전해 달라더구만."}
+      - {who: me, face: "", text: "입학 안내서…? \"신입생은 마을에서 지낼 여비를 스스로 마련할 것.\""}
+      - {who: bram, face: "기쁨", text: "마을에 가면 피피네 잡화점부터 들러 보게. 말이 좀 많은 게 흠이지만, 허허!"}
+    choices:
+      - {text: "감사합니다, 선장님.", to: "b"}
+      - {text: "선장님은 학교에 안 가세요?", to: "c"}
+  b:
+    name: "인사"
+    lines:
+      - {who: bram, face: "기쁨", text: "잘 가게! 다음에 또 배 탈 일 있으면 나를 찾고!"}
+  c:
+    name: "바다 사람"
+    lines:
+      - {who: bram, face: "기본", text: "난 바다 사람이야. 언덕은 무릎이 아파서 못 올라가, 허허."}
+      - {who: bram, face: "기쁨", text: "잘 가게! 다음에 또 배 탈 일 있으면 나를 찾고!"}

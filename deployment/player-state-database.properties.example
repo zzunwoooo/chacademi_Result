@@ -1,0 +1,13 @@
+# Dedicated player-state connection. Generic database.properties remains separate.
+# Install only with operator-provided credentials; never commit the real file.
+mode=mariadb
+host=YOUR_DATABASE_HOST
+port=3306
+database=YOUR_DATABASE_NAME
+user=YOUR_DATABASE_USER
+password=REPLACE_LOCALLY
+# Optional TLS for a hosted MariaDB: disable | trust | verify-ca | verify-full
+#ssl-mode=verify-full
+# 일반 도메인(닉네임·친구·칭호·기숙사·기부·점수·의뢰·대화·호감도·계절 공유)도 이 연결을 쓰게 한다.
+# database.properties 가 없을 때만 적용. 기본 꺼짐. SQLite → MariaDB 이관(tools/db-migrate)을 마친 뒤에만 켤 것.
+#use-for-all-domains=true

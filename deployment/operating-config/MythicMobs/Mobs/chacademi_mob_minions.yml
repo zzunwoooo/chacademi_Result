@@ -1,0 +1,29 @@
+# 차카데미 몹 특수기 소환수 (울프호크 무리 부르기 / 해골술사 뼈 소환). 10초 뒤 사라짐, 약함. GPT: 모델 id·Type 확인 후 서버 Mobs 폴더에 넣기.
+CHA_MINION_wolf:
+  Type: WOLF
+  Display: '&7무리 늑대'
+  Health: 30
+  Damage: 4
+  Options:
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    Despawn: true
+    MovementSpeed: 0.32
+  Skills:
+  - model{mid=ca_lostasset_mob1_wolf} @self ~onSpawn
+  - remove @self ~onTimer:200
+CHA_MINION_skeleton:
+  Type: HUSK
+  Display: '&7망각의 뼈병사'
+  Health: 30
+  Damage: 4
+  Options:
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventSunburn: true
+    Silent: true
+    Despawn: true
+    MovementSpeed: 0.25
+  Skills:
+  - model{mid=ca_ncr_warrior_skeleton} @self ~onSpawn
+  - remove @self ~onTimer:200

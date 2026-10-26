@@ -1,0 +1,52 @@
+# 차카데미 대화 — Claude 작성 2026-10-20 · 2026-10-26 1장 다시 짜기 (저장소 ch1-6 → 실서버 번호 ch1-7)
+format: 1
+id: "ch1-7"
+title: "1-7. 선착장"
+description: "선착장에서 브람 선장을 만나 차카데미아로 가는 배에 오르세요."
+chapter: "1장 · 차카데미아"
+start: s40
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  bram:
+    name: "브람 선장"
+    npc: "captain_bram"
+    portraits:
+      "기본": "bram-neutral.png"
+      "기쁨": "bram-happy.png"
+      "당황": "bram-flustered.png"
+      "분노": "bram-angry.png"
+      "설렘": "bram-excited.png"
+      "슬픔": "bram-sad.png"
+scenes:
+  s40:
+    name: "선착장"
+    lines:
+      - {who: me, face: "", text: "(여기가 교수님이 말씀하신 선착장인가?)"}
+      - {who: me, face: "", text: "(저기 사람이 있다.)"}
+      - {who: bram, face: "기쁨", text: "안녕, 처음 보는 학생! 아카데미까지 가야 할 예정인가?"}
+      - {who: me, face: "", text: "네, 맞아요."}
+    next: s41
+  s41:
+    name: "탑승"
+    lines:
+      - {who: bram, face: "기쁨", text: "좋아! 탑승하게! 다른 학생들을 조금 기다렸다가 같이 출발하지!"}
+      - {who: bram, face: "기본", text: "기다리는 것도 심심한데, 궁금한 게 있나?"}
+    choices:
+      - {text: "100년 전 그 사건이요…", to: "a_event"}
+      - {text: "지금은 없어요.", to: "s43"}
+  a_event:
+    name: "100년 전 그 사건"
+    lines:
+      - {who: bram, face: "슬픔", text: "…무시무시한 악마가 나타나서, 이 마을을 초토화시킨 적이 있었지."}
+      - {who: bram, face: "기본", text: "이 마을에선 그 사건을 함부로 얘기하지 않는 게 좋아."}
+    next: s43
+  s43:
+    name: "출항"
+    lines:
+      - {who: bram, face: "기쁨", text: "좋아! 출발할 시간이구만!"}
+      - {who: bram, face: "설렘", text: "출항이다!"}

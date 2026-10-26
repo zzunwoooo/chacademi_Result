@@ -1,0 +1,28 @@
+# 차카데미 대화 — Claude 작성 2026-10-27 (오너 흐름: 거울 앞에 서면 이 대화 → 끝나면 server_command 가 기숙사분류 시작 → 6문항 ch1-19)
+format: 1
+id: "ch1-18"
+title: "1-18. 분류의 거울 앞"
+description: "분류의 거울 앞에 섰어요. 거울이 깨어나요."
+chapter: "1장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  gregor:
+    name: "그레고르 교감"
+    npc: "vice_gregor"
+    portraits:
+      "기본": "vice_gregor-neutral.png"
+  mirror:
+    name: "분류의 거울"
+scenes:
+  a:
+    name: "거울 앞"
+    lines:
+      - {who: gregor, face: "기본", text: "거울 앞에 서도록. 거짓말은 통하지 않는다."}
+      - {who: me, face: "", text: "(거울 표면이 물결치기 시작했다…)"}
+      - {who: mirror, face: "", text: "…오호. 오랜만에 묵직한 마나로구나."}

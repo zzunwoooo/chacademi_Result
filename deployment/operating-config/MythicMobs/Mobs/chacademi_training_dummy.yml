@@ -1,0 +1,30 @@
+# 마법 연습장 훈련 허수아비 (오픈 전 메모 #107, 2026-10-26)
+# 소환: ChAcademiaMagicMythic 이 /컨텐츠관리 연습장 허수아비 설치 자리마다 세움 (직접 /mm 소환 불필요).
+# 모델: ModelEngine blueprint training_dummy.bbmodel (애니: idle · hit · hit_heavy). 맞는 모션은 플러그인이 큰 피해 여부를 보고
+#       CA_TrainingDummy_Hit / CA_TrainingDummy_HitHeavy 스킬을 시전한다 (Skills/chacademi_training_dummy.yml).
+# 죽지 않음·체력 다시 채움·제자리 복귀·피해 표시는 플러그인 담당. 이 미몹이 없으면 플러그인이 바닐라 허스크로 대신 세운다.
+CA_TrainingDummy:
+  Type: HUSK
+  Display: '&6훈련 허수아비'
+  Health: 1024
+  Damage: 0
+  Options:
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventSunburn: true
+    PreventTransformation: true
+    PreventItemPickup: true
+    PreventRenaming: true
+    Silent: true
+    NoAI: true
+    KnockbackResistance: 1
+    MovementSpeed: 0
+    AlwaysShowName: false
+    Despawn: true
+  Drops: []
+  Skills:
+  - model{mid=training_dummy;n=false;drive=true} @self ~onSpawn
+  AIGoalSelectors:
+  - clear
+  AITargetSelectors:
+  - clear

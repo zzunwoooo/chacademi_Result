@@ -1,0 +1,25 @@
+# 차카데미 대기대화 — Claude 작성 2026-10-25 (셀마에게 물고기 팔기 단계에서 아직 안 팔았을 때 피피를 누르면) · 2026-10-26 1장 다시 짜기 (실서버본 그대로)
+format: 1
+id: "ch1-13w-pipi"
+title: "피피 (물고기 팔기 전)"
+description: "아직 물고기를 안 팔았을 때 피피의 한마디."
+chapter: "1장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  pipi:
+    name: "피피"
+    npc: "pipi"
+    portraits:
+      "기본": "pipi-neutral.png"
+scenes:
+  a:
+    name: "셀마 씨"
+    lines:
+      - {who: pipi, face: "기본", text: "오, 낚았구나! 근데 물고기로는 계산 못 해~"}
+      - {who: pipi, face: "기본", text: "마을의 셀마 씨한테 팔고 와. 돈으로 바꿔 오면 다시 들러!"}

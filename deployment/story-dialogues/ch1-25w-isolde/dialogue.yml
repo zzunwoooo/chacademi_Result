@@ -1,0 +1,25 @@
+# 차카데미 대기대화 — Claude 작성 2026-10-25 (이론서 세 권 단계에서 아직 다 못 읽었을 때 이솔데를 누르면) · 2026-10-26 1장 다시 짜기 (실서버본 그대로)
+format: 1
+id: "ch1-25w-isolde"
+title: "이솔데 (이론서 읽는 중)"
+description: "이론서를 아직 다 못 읽었을 때 이솔데의 한마디."
+chapter: "1장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  isolde:
+    name: "이솔데"
+    npc: "librarian_isolde"
+    portraits:
+      "기본": "librarian_isolde-neutral.png"
+scenes:
+  a:
+    name: "서가"
+    lines:
+      - {who: isolde, face: "기본", text: "1층 서가의 이론서는 세 권이에요. 아직 다 읽지 않았군요."}
+      - {who: isolde, face: "기본", text: "서두르지 말고, 한 권씩 천천히. 도서관에서는 조용히요."}

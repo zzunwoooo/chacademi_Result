@@ -1,0 +1,74 @@
+# 차카데미 대화 — Claude 작성 2026-10-27 (오너 흐름: 교감 앞 → 엘레나 언급·기숙사 설명·희망 기숙사 1~4. 결말 w_* = 희망 기숙사, server_command 가 기숙사분류 희망 으로 넘김)
+format: 1
+id: "ch1-17"
+title: "1-17. 그레고르 교감"
+description: "교감에게 네 기숙사 이야기를 듣고, 가고 싶은 곳을 말해요."
+chapter: "1장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  luka:
+    name: "루카"
+    npc: "luka"
+    portraits:
+      "기본": "luka-neutral.png"
+  gregor:
+    name: "그레고르 교감"
+    npc: "vice_gregor"
+    portraits:
+      "기본": "vice_gregor-neutral.png"
+scenes:
+  a:
+    name: "교감"
+    lines:
+      - {who: gregor, face: "기본", text: "차카데미아 교감 그레고르다. 입학을 환영한다."}
+      - {who: luka, face: "기본", text: "아, 안녕하세요! 저는 루카입니다!"}
+      - {who: gregor, face: "기본", text: "…문 앞에서 내 눈썹 이야기를 하던 학생이로군."}
+      - {who: luka, face: "기본", text: "(…끝났다.)"}
+      - {who: gregor, face: "기본", text: "{player}. 엘레나 교수에게 이야기는 들었다. 첫날 상승기류를 발현했다고."}
+      - {who: luka, face: "기본", text: "뭐? 첫날에? 나는 아직 하나도 못 했는데…"}
+      - {who: gregor, face: "기본", text: "들어가기 전에 알아 둘 것이 있다. 이곳 학생은 모두 네 기숙사 중 한 곳에 속한다."}
+    next: houses
+  houses:
+    name: "네 기숙사"
+    lines:
+      - {who: gregor, face: "기본", text: "아르케온. 불과 땅, 근원의 집이다. 나침반의 별처럼 흔들리지 않고 앞장서는 자들이지."}
+      - {who: gregor, face: "기본", text: "루미나. 빛과 물, 기록하는 자들의 집. 달빛 아래에서 배우고 남기는 것을 귀히 여긴다."}
+      - {who: gregor, face: "기본", text: "베스티아즈. 바람과 야수, 자유로운 자들의 집. 잎새처럼 어디로든 뻗어 나가는 이들이다."}
+      - {who: gregor, face: "기본", text: "노크세르. 어둠, 비밀과 대가. 태양 뒤의 그림자까지 들여다볼 줄 아는 자들이다."}
+      - {who: gregor, face: "기본", text: "어느 곳에 속할지는 분류의 거울이 정한다. 다만 거울은 마음도 본다."}
+      - {who: gregor, face: "기본", text: "…가고 싶은 곳이 있나?"}
+    choices:
+      - {text: "아르케온이요.", to: "w_arkeon"}
+      - {text: "루미나요.", to: "w_lumina"}
+      - {text: "베스티아즈요.", to: "w_bestiaz"}
+      - {text: "노크세르요.", to: "w_noxer"}
+  w_arkeon:
+    name: "아르케온"
+    lines:
+      - {who: gregor, face: "기본", text: "앞장서겠다는 건가. 그 말에 책임질 수 있길 바란다."}
+      - {who: gregor, face: "기본", text: "그렇군. 그럼 분류의 거울 앞에 서도록. 솔직하게 대답하면 된다."}
+      - {who: luka, face: "기본", text: "(작게) 거울이 말을 한대… 나 떨려…"}
+  w_lumina:
+    name: "루미나"
+    lines:
+      - {who: gregor, face: "기본", text: "배우고 남기는 일은 생각보다 고되다. 각오해 두도록."}
+      - {who: gregor, face: "기본", text: "그렇군. 그럼 분류의 거울 앞에 서도록. 솔직하게 대답하면 된다."}
+      - {who: luka, face: "기본", text: "(작게) 거울이 말을 한대… 나 떨려…"}
+  w_bestiaz:
+    name: "베스티아즈"
+    lines:
+      - {who: gregor, face: "기본", text: "자유는 규칙을 아는 자에게만 허락된다. 기억해 두도록."}
+      - {who: gregor, face: "기본", text: "그렇군. 그럼 분류의 거울 앞에 서도록. 솔직하게 대답하면 된다."}
+      - {who: luka, face: "기본", text: "(작게) 거울이 말을 한대… 나 떨려…"}
+  w_noxer:
+    name: "노크세르"
+    lines:
+      - {who: gregor, face: "기본", text: "…그림자를 원하는 학생은 드물지. 대가가 무엇인지는 알고 있겠지."}
+      - {who: gregor, face: "기본", text: "그렇군. 그럼 분류의 거울 앞에 서도록. 솔직하게 대답하면 된다."}
+      - {who: luka, face: "기본", text: "(작게) 거울이 말을 한대… 나 떨려…"}

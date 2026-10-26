@@ -1,0 +1,90 @@
+{
+  "baseCommit": "807b040c74681e162603338ae0e3b8a729fdfb9e",
+  "status": "deployed_verified",
+  "jar": "magic-codex-bridge-0.31.0-expansion71.1-artifact.1-summon.2-effects.2-multi.1-alchemy.1-shared.1.jar",
+  "sha256": "4993b1afee26466eb1a672cb41cbf6bb7352fc8b4bc9303d8ba2b1c56d7d2dfe",
+  "servers": [
+    "school",
+    "wild"
+  ],
+  "sourceAuditRows": {
+    "school": 0,
+    "wild": 0,
+    "union": 0
+  },
+  "conditionalNegativeOrGroupNodes": 0,
+  "migrationReplayAppliedAgain": false,
+  "migrationMarkers": 2,
+  "equipmentOriginalRows": 3,
+  "equipmentOriginalAndAfterSha256": "c0e4098e2b27f6e240dc78fce2be18630b42744a88713026e7cd425f55374b04",
+  "otherServerFilesUnchanged": 110,
+  "backupFileCount": 51,
+  "backupRoot": "C:\\Chacademi\\backups\\artifact-shared-20261016-task10",
+  "serverTests": {
+    "chaca-npc-paper": {
+      "tests": 27,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "chaca-portrait-paper": {
+      "tests": 75,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "chacademi-party-velocity": {
+      "tests": 37,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "gimmick-paper": {
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "magic-codex-paper": {
+      "tests": 347,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "magic-discovery-paper": {
+      "tests": 35,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "magic-mythic-paper": {
+      "tests": 51,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "tornado-event-paper": {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "serverTestTotal": 588,
+  "newRegressionTests": 17,
+  "clientChanged": false,
+  "temporaryLauncherChanged": false,
+  "opMembershipChanged": false,
+  "opTemporaryAccessPreserved": true,
+  "explicitRevokeDoesNotRemoveOpTemporaryAccess": true,
+  "seasonEpochUnchanged": "2026-10-16T15:33:16+09:00",
+  "schoolReady": true,
+  "wildReady": true,
+  "sharedReadyBoth": true,
+  "bindingsEach": 157,
+  "bindingsSkipped": 0,
+  "startupErrorsEach": 0,
+  "fullLpExportPerformed": false,
+  "actualGameLoginTested": false,
+  "transactionTestsBackend": "isolated H2 MySQL mode; production MariaDB migration and replay verified"
+}

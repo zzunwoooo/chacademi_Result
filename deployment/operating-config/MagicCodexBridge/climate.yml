@@ -1,0 +1,51 @@
+# Actual calendar seasons, independent of game day/night and sleeping.
+season-clock: realtime
+calendar-timezone: Asia/Seoul
+# Spring Mar-May, summer Jun-Aug, autumn Sep-Nov, winter Dec-Feb.
+# Use season-clock: elapsed only to restore the previous tick/elapsed-time mode.
+# Configure the SAME epoch on school and wild, then switch season-clock to realtime.
+# No start date is fabricated. An empty epoch rejects realtime mode and leaves reload unchanged.
+# Each season lasts 72 real hours; a complete four-season cycle lasts 288 hours.
+real-time-season:
+  epoch: '2026-10-16T15:33:16+09:00'
+  timezone: Asia/Seoul
+  initial-season: spring
+  hours-per-season: 72
+
+enabled: true
+worlds: [world]
+clock-world: world
+# 계절 길이(마인크래프트 일). SQLite(단독) 모드: clock-world 의 월드 시간 기준.
+# MariaDB 모드: 학교·야생 서버가 DB의 같은 계절 상태를 보며 실제 시간으로 진행한다 (1일 = 실제 20분, 7일 = 2시간 20분).
+# 이때 clock-world 와 잠자기(시간 건너뛰기)는 계절에 영향을 주지 않고, 길이는 마지막으로 /계절관리 를 실행한 서버의 값을 두 서버가 함께 쓴다.
+days-per-season: 7
+automatic: true
+initial-season: spring
+
+# Temperate-biome daily minimum / maximum, in Celsius.
+seasons:
+  spring: {minimum: 8, maximum: 24, mana-regeneration: 1.25, fire-power: 1.0, water-power: 1.0}
+  summer: {minimum: 22, maximum: 36, mana-regeneration: 1.0, fire-power: 1.15, water-power: 0.90}
+  autumn: {minimum: 5, maximum: 22, mana-regeneration: 1.0, fire-power: 1.0, water-power: 1.0}
+  winter: {minimum: -12, maximum: 6, mana-regeneration: 1.0, fire-power: 1.0, water-power: 1.0}
+
+temperature:
+  # Biome temperature 0.8 is the baseline; works with custom biome temperatures too.
+  biome-offset-scale: 12
+  rain-cooling: 2
+  # Override by the actual namespaced biome key, including Terralith/custom datapacks.
+  biome-offsets: {}
+  cold-below: 0
+  severe-cold-below: -10
+  cold-speed-multiplier: 0.90
+  severe-cold-speed-multiplier: 0.80
+  cold-mana-multiplier: 0.85
+  severe-cold-mana-multiplier: 0.65
+  hot-from: 35
+  severe-hot-from: 40
+  hot-exhaustion-per-5-seconds: 0.25
+  severe-hot-exhaustion-per-5-seconds: 0.60
+
+performance:
+  player-refresh-ticks: 100
+  players-per-pass: 8

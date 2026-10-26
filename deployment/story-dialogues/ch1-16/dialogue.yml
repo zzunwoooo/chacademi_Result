@@ -1,0 +1,43 @@
+# 차카데미 대화 — Claude 작성 2026-10-27 (오너 흐름: 정문에서 루카와 이야기 → 멀리서 그레고르가 부름)
+format: 1
+id: "ch1-16"
+title: "1-16. 정문의 루카"
+description: "언덕 위 정문에서 또 다른 신입생 루카를 만나요."
+chapter: "1장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  luka:
+    name: "루카"
+    npc: "luka"
+    portraits:
+      "기본": "luka-neutral.png"
+  gregor:
+    name: "그레고르 교감"
+    npc: "vice_gregor"
+    portraits:
+      "기본": "vice_gregor-neutral.png"
+scenes:
+  a:
+    name: "정문"
+    lines:
+      - {who: luka, face: "기본", text: "저, 저기! 혹시 너도 신입생이야? 다행이다… 나 혼자인 줄 알았어."}
+      - {who: luka, face: "기본", text: "나는 루카! 너는?"}
+      - {who: me, face: "", text: "나는 {player}. 만나서 반가워."}
+      - {who: luka, face: "기본", text: "있지, 여기 교감 선생님이 엄청 무섭대. 그레고르 영감이라고…"}
+      - {who: luka, face: "기본", text: "눈썹이 이~만하고, 웃는 걸 본 사람이 아무도 없대. 틀리면 첫날부터 벌점이고…"}
+    choices:
+      - {text: "설마… 그 정도야?", to: "b"}
+      - {text: "(뒤에서 누가 보는 것 같은데…)", to: "b"}
+  b:
+    name: "들렸다"
+    lines:
+      - {who: gregor, face: "기본", text: "(멀리서) …누가 문 앞에서 그렇게 떠드나."}
+      - {who: luka, face: "기본", text: "헉…! 들, 들렸나 봐…!"}
+      - {who: gregor, face: "기본", text: "(멀리서) 신입생들인가. 거기 서 있지 말고 안으로 들어오도록."}
+      - {who: luka, face: "기본", text: "가, 가자! 빨리! 늦으면 진짜 벌점일지도 몰라!"}

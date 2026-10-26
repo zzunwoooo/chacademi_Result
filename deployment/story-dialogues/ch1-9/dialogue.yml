@@ -1,0 +1,35 @@
+# 차카데미 대화 — 2026-10-26 오너: 피피가 상점을 열지 않고 올레 아저씨에게 보냄 (예전 ch1-9 + ch1-10 합침)
+format: 1
+id: "ch1-9"
+title: "1-9. 피피의 잡화점"
+description: "마을 잡화점의 피피에게 말을 걸어 보세요."
+chapter: "1장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  pipi:
+    name: "피피"
+    npc: "pipi"
+    portraits:
+      "기본": "pipi-neutral.png"
+scenes:
+  a:
+    name: "처음 온 손님"
+    lines:
+      - {who: pipi, face: "기본", text: "어서 와요, 어서 와! 어머, 이 마을은 처음이구나?"}
+      - {who: pipi, face: "기본", text: "그 안내서… 차카데미아 신입생이네! 그럼 여비는 좀 챙겨 왔어?"}
+    choices:
+      - {text: "여비요…? 그게, 하나도 없어요.", to: "b"}
+      - {text: "(빈 주머니를 뒤집어 보인다)", to: "b"}
+  b:
+    name: "빈 주머니"
+    lines:
+      - {who: pipi, face: "기본", text: "없다구? 어머어머… 그럼 여기서 살아가기 엄청 힘들 텐데."}
+      - {who: pipi, face: "기본", text: "학교 들어가서도 이것저것 다 돈이라구. 빈손으로는 못 버텨~"}
+      - {who: pipi, face: "기본", text: "그래! 저기 항구 물가에 올레 아저씨 보이지? 가서 낚시라도 배워 볼래?"}
+      - {who: pipi, face: "기본", text: "잡은 물고기는 셀마 씨가 사 준다구. 여비 좀 벌면 다시 들러!"}

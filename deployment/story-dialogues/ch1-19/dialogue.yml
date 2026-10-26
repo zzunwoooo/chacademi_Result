@@ -1,0 +1,654 @@
+# 차카데미 대화 — Claude 작성 2026-10-20 · 2026-10-26 1장 다시 짜기 (저장소 ch1-14) · 2026-10-27 ch1-17 → ch1-19 (앞에 그레고르·거울 앞 단계가 생김, 첫 두 줄은 ch1-18 로)
+format: 1
+id: "ch1-19"
+title: "1-19. 분류의 거울"
+description: "분류의 거울 앞에 서서 네 기숙사 중 하나를 배정받으세요."
+chapter: "1장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  gregor:
+    name: "그레고르 교감"
+    npc: "vice_gregor"
+    portraits:
+      "기본": "vice_gregor-neutral.png"
+  mirror:
+    name: "분류의 거울"
+scenes:
+  a:
+    name: "거울 앞"
+    lines:
+      - {who: mirror, face: "", text: "여섯 가지를 묻겠다. 생각하지 말고, 마음이 먼저 가는 쪽을 골라라."}
+    next: q1
+  q1:
+    name: "1. 두 개의 문"
+    lines:
+      - {who: mirror, face: "", text: "끝에 문이 두 개 있다. 한쪽은 오래된 길, 한쪽은 아무도 가 본 적 없는 길이다."}
+    choices:
+      - {text: "오래된 길.", to: "q2_10_1"}
+      - {text: "아무도 가 본 적 없는 길.", to: "q2_00_2"}
+  q2_00_2:
+    name: "2. 쓰러진 사람"
+    lines:
+      - {who: mirror, face: "", text: "아무도 가 본 적 없는 길이라… 바람 냄새가 나는구나."}
+      - {who: mirror, face: "", text: "좋다. 다음."}
+      - {who: mirror, face: "", text: "길 위에 누군가 쓰러져 있다. 주위에는 아무도 없다."}
+    choices:
+      - {text: "당장 달려가 일으킨다.", to: "q3_01_1"}
+      - {text: "다가가기 전에 주위부터 살핀다. 왜 쓰러졌는지 알아야 하니까.", to: "q3_00_2"}
+  q3_00_2:
+    name: "3. 두 권의 책"
+    lines:
+      - {who: mirror, face: "", text: "흠, 눈이 먼저 움직였구나."}
+      - {who: mirror, face: "", text: "계속하지."}
+      - {who: mirror, face: "", text: "책 두 권을 주마. 백 년 동안 이어 써 온 책과, 아무것도 적히지 않은 새 책."}
+    choices:
+      - {text: "이어 써 온 책에 다음 장을 쓴다.", to: "q4_10_1"}
+      - {text: "새 책에 처음부터 내 이야기를 쓴다.", to: "q4_00_2"}
+  q4_00_2:
+    name: "4. 잠긴 상자"
+    lines:
+      - {who: mirror, face: "", text: "처음부터 쓰는 자. 겁이 없구나."}
+      - {who: mirror, face: "", text: "흐음… 하나 더."}
+      - {who: mirror, face: "", text: "잠긴 상자가 있다. 열면 무언가를 잃는다고 한다."}
+    choices:
+      - {text: "일단 열어 본다. 잃는 건 그때 생각한다.", to: "q5_01_1"}
+      - {text: "무엇을 잃는지부터 알아낸다.", to: "q5_00_2"}
+  q5_00_2:
+    name: "5. 오래된 규칙"
+    lines:
+      - {who: mirror, face: "", text: "값을 먼저 묻는구나. 영리한 건지, 조심스러운 건지."}
+      - {who: mirror, face: "", text: "거의 다 왔다."}
+      - {who: mirror, face: "", text: "모두가 지켜 온 규칙이 네 앞을 막아선다. 이유는 아무도 기억하지 못한다."}
+    choices:
+      - {text: "규칙에는 이유가 있었을 것이다. 따른다.", to: "q6_10_1"}
+      - {text: "이유를 모르는 규칙이라면, 넘는다.", to: "q6_00_2"}
+  q6_00_2:
+    name: "6. 숲으로 간 친구"
+    lines:
+      - {who: mirror, face: "", text: "벽 너머가 궁금한 눈이로군."}
+      - {who: mirror, face: "", text: "마지막이다."}
+      - {who: mirror, face: "", text: "친구가 해 질 녘 금지된 숲으로 들어갔다. 돌아오지 않는다."}
+    choices:
+      - {text: "바로 뒤쫓아 들어간다.", to: "v_01_1"}
+      - {text: "지도를 펴고, 친구가 갔을 길부터 짚어 본다.", to: "v_00_2"}
+  q6_10_1:
+    name: "6. 숲으로 간 친구"
+    lines:
+      - {who: mirror, face: "", text: "지켜 온 것을 지키는구나."}
+      - {who: mirror, face: "", text: "마지막이다."}
+      - {who: mirror, face: "", text: "친구가 해 질 녘 금지된 숲으로 들어갔다. 돌아오지 않는다."}
+    choices:
+      - {text: "바로 뒤쫓아 들어간다.", to: "v_11_1"}
+      - {text: "지도를 펴고, 친구가 갔을 길부터 짚어 본다.", to: "v_10_2"}
+  q5_01_1:
+    name: "5. 오래된 규칙"
+    lines:
+      - {who: mirror, face: "", text: "손이 빠르군. 대가는 나중에 치르겠다는 건가."}
+      - {who: mirror, face: "", text: "거의 다 왔다."}
+      - {who: mirror, face: "", text: "모두가 지켜 온 규칙이 네 앞을 막아선다. 이유는 아무도 기억하지 못한다."}
+    choices:
+      - {text: "규칙에는 이유가 있었을 것이다. 따른다.", to: "q6_11_1"}
+      - {text: "이유를 모르는 규칙이라면, 넘는다.", to: "q6_01_2"}
+  q6_01_2:
+    name: "6. 숲으로 간 친구"
+    lines:
+      - {who: mirror, face: "", text: "벽 너머가 궁금한 눈이로군."}
+      - {who: mirror, face: "", text: "마지막이다."}
+      - {who: mirror, face: "", text: "친구가 해 질 녘 금지된 숲으로 들어갔다. 돌아오지 않는다."}
+    choices:
+      - {text: "바로 뒤쫓아 들어간다.", to: "v_02_1"}
+      - {text: "지도를 펴고, 친구가 갔을 길부터 짚어 본다.", to: "v_01_2"}
+  q6_11_1:
+    name: "6. 숲으로 간 친구"
+    lines:
+      - {who: mirror, face: "", text: "지켜 온 것을 지키는구나."}
+      - {who: mirror, face: "", text: "마지막이다."}
+      - {who: mirror, face: "", text: "친구가 해 질 녘 금지된 숲으로 들어갔다. 돌아오지 않는다."}
+    choices:
+      - {text: "바로 뒤쫓아 들어간다.", to: "v_12_1"}
+      - {text: "지도를 펴고, 친구가 갔을 길부터 짚어 본다.", to: "v_11_2"}
+  q4_10_1:
+    name: "4. 잠긴 상자"
+    lines:
+      - {who: mirror, face: "", text: "이어 쓰는 자. 기억을 무겁게 여기는구나."}
+      - {who: mirror, face: "", text: "흐음… 하나 더."}
+      - {who: mirror, face: "", text: "잠긴 상자가 있다. 열면 무언가를 잃는다고 한다."}
+    choices:
+      - {text: "일단 열어 본다. 잃는 건 그때 생각한다.", to: "q5_11_1"}
+      - {text: "무엇을 잃는지부터 알아낸다.", to: "q5_10_2"}
+  q5_10_2:
+    name: "5. 오래된 규칙"
+    lines:
+      - {who: mirror, face: "", text: "값을 먼저 묻는구나. 영리한 건지, 조심스러운 건지."}
+      - {who: mirror, face: "", text: "거의 다 왔다."}
+      - {who: mirror, face: "", text: "모두가 지켜 온 규칙이 네 앞을 막아선다. 이유는 아무도 기억하지 못한다."}
+    choices:
+      - {text: "규칙에는 이유가 있었을 것이다. 따른다.", to: "q6_20_1"}
+      - {text: "이유를 모르는 규칙이라면, 넘는다.", to: "q6_10_2"}
+  q6_10_2:
+    name: "6. 숲으로 간 친구"
+    lines:
+      - {who: mirror, face: "", text: "벽 너머가 궁금한 눈이로군."}
+      - {who: mirror, face: "", text: "마지막이다."}
+      - {who: mirror, face: "", text: "친구가 해 질 녘 금지된 숲으로 들어갔다. 돌아오지 않는다."}
+    choices:
+      - {text: "바로 뒤쫓아 들어간다.", to: "v_11_1"}
+      - {text: "지도를 펴고, 친구가 갔을 길부터 짚어 본다.", to: "v_10_2"}
+  q6_20_1:
+    name: "6. 숲으로 간 친구"
+    lines:
+      - {who: mirror, face: "", text: "지켜 온 것을 지키는구나."}
+      - {who: mirror, face: "", text: "마지막이다."}
+      - {who: mirror, face: "", text: "친구가 해 질 녘 금지된 숲으로 들어갔다. 돌아오지 않는다."}
+    choices:
+      - {text: "바로 뒤쫓아 들어간다.", to: "v_21_1"}
+      - {text: "지도를 펴고, 친구가 갔을 길부터 짚어 본다.", to: "v_20_2"}
+  q5_11_1:
+    name: "5. 오래된 규칙"
+    lines:
+      - {who: mirror, face: "", text: "손이 빠르군. 대가는 나중에 치르겠다는 건가."}
+      - {who: mirror, face: "", text: "거의 다 왔다."}
+      - {who: mirror, face: "", text: "모두가 지켜 온 규칙이 네 앞을 막아선다. 이유는 아무도 기억하지 못한다."}
+    choices:
+      - {text: "규칙에는 이유가 있었을 것이다. 따른다.", to: "q6_21_1"}
+      - {text: "이유를 모르는 규칙이라면, 넘는다.", to: "q6_11_2"}
+  q6_11_2:
+    name: "6. 숲으로 간 친구"
+    lines:
+      - {who: mirror, face: "", text: "벽 너머가 궁금한 눈이로군."}
+      - {who: mirror, face: "", text: "마지막이다."}
+      - {who: mirror, face: "", text: "친구가 해 질 녘 금지된 숲으로 들어갔다. 돌아오지 않는다."}
+    choices:
+      - {text: "바로 뒤쫓아 들어간다.", to: "v_12_1"}
+      - {text: "지도를 펴고, 친구가 갔을 길부터 짚어 본다.", to: "v_11_2"}
+  q6_21_1:
+    name: "6. 숲으로 간 친구"
+    lines:
+      - {who: mirror, face: "", text: "지켜 온 것을 지키는구나."}
+      - {who: mirror, face: "", text: "마지막이다."}
+      - {who: mirror, face: "", text: "친구가 해 질 녘 금지된 숲으로 들어갔다. 돌아오지 않는다."}
+    choices:
+      - {text: "바로 뒤쫓아 들어간다.", to: "v_22_1"}
+      - {text: "지도를 펴고, 친구가 갔을 길부터 짚어 본다.", to: "v_21_2"}
+  q3_01_1:
+    name: "3. 두 권의 책"
+    lines:
+      - {who: mirror, face: "", text: "생각보다 몸이 먼저 움직이는 아이로군."}
+      - {who: mirror, face: "", text: "계속하지."}
+      - {who: mirror, face: "", text: "책 두 권을 주마. 백 년 동안 이어 써 온 책과, 아무것도 적히지 않은 새 책."}
+    choices:
+      - {text: "이어 써 온 책에 다음 장을 쓴다.", to: "q4_11_1"}
+      - {text: "새 책에 처음부터 내 이야기를 쓴다.", to: "q4_01_2"}
+  q4_01_2:
+    name: "4. 잠긴 상자"
+    lines:
+      - {who: mirror, face: "", text: "처음부터 쓰는 자. 겁이 없구나."}
+      - {who: mirror, face: "", text: "흐음… 하나 더."}
+      - {who: mirror, face: "", text: "잠긴 상자가 있다. 열면 무언가를 잃는다고 한다."}
+    choices:
+      - {text: "일단 열어 본다. 잃는 건 그때 생각한다.", to: "q5_02_1"}
+      - {text: "무엇을 잃는지부터 알아낸다.", to: "q5_01_2"}
+  q5_01_2:
+    name: "5. 오래된 규칙"
+    lines:
+      - {who: mirror, face: "", text: "값을 먼저 묻는구나. 영리한 건지, 조심스러운 건지."}
+      - {who: mirror, face: "", text: "거의 다 왔다."}
+      - {who: mirror, face: "", text: "모두가 지켜 온 규칙이 네 앞을 막아선다. 이유는 아무도 기억하지 못한다."}
+    choices:
+      - {text: "규칙에는 이유가 있었을 것이다. 따른다.", to: "q6_11_1"}
+      - {text: "이유를 모르는 규칙이라면, 넘는다.", to: "q6_01_2"}
+  q5_02_1:
+    name: "5. 오래된 규칙"
+    lines:
+      - {who: mirror, face: "", text: "손이 빠르군. 대가는 나중에 치르겠다는 건가."}
+      - {who: mirror, face: "", text: "거의 다 왔다."}
+      - {who: mirror, face: "", text: "모두가 지켜 온 규칙이 네 앞을 막아선다. 이유는 아무도 기억하지 못한다."}
+    choices:
+      - {text: "규칙에는 이유가 있었을 것이다. 따른다.", to: "q6_12_1"}
+      - {text: "이유를 모르는 규칙이라면, 넘는다.", to: "q6_02_2"}
+  q6_02_2:
+    name: "6. 숲으로 간 친구"
+    lines:
+      - {who: mirror, face: "", text: "벽 너머가 궁금한 눈이로군."}
+      - {who: mirror, face: "", text: "마지막이다."}
+      - {who: mirror, face: "", text: "친구가 해 질 녘 금지된 숲으로 들어갔다. 돌아오지 않는다."}
+    choices:
+      - {text: "바로 뒤쫓아 들어간다.", to: "v_03_1"}
+      - {text: "지도를 펴고, 친구가 갔을 길부터 짚어 본다.", to: "v_02_2"}
+  q6_12_1:
+    name: "6. 숲으로 간 친구"
+    lines:
+      - {who: mirror, face: "", text: "지켜 온 것을 지키는구나."}
+      - {who: mirror, face: "", text: "마지막이다."}
+      - {who: mirror, face: "", text: "친구가 해 질 녘 금지된 숲으로 들어갔다. 돌아오지 않는다."}
+    choices:
+      - {text: "바로 뒤쫓아 들어간다.", to: "v_13_1"}
+      - {text: "지도를 펴고, 친구가 갔을 길부터 짚어 본다.", to: "v_12_2"}
+  q4_11_1:
+    name: "4. 잠긴 상자"
+    lines:
+      - {who: mirror, face: "", text: "이어 쓰는 자. 기억을 무겁게 여기는구나."}
+      - {who: mirror, face: "", text: "흐음… 하나 더."}
+      - {who: mirror, face: "", text: "잠긴 상자가 있다. 열면 무언가를 잃는다고 한다."}
+    choices:
+      - {text: "일단 열어 본다. 잃는 건 그때 생각한다.", to: "q5_12_1"}
+      - {text: "무엇을 잃는지부터 알아낸다.", to: "q5_11_2"}
+  q5_11_2:
+    name: "5. 오래된 규칙"
+    lines:
+      - {who: mirror, face: "", text: "값을 먼저 묻는구나. 영리한 건지, 조심스러운 건지."}
+      - {who: mirror, face: "", text: "거의 다 왔다."}
+      - {who: mirror, face: "", text: "모두가 지켜 온 규칙이 네 앞을 막아선다. 이유는 아무도 기억하지 못한다."}
+    choices:
+      - {text: "규칙에는 이유가 있었을 것이다. 따른다.", to: "q6_21_1"}
+      - {text: "이유를 모르는 규칙이라면, 넘는다.", to: "q6_11_2"}
+  q5_12_1:
+    name: "5. 오래된 규칙"
+    lines:
+      - {who: mirror, face: "", text: "손이 빠르군. 대가는 나중에 치르겠다는 건가."}
+      - {who: mirror, face: "", text: "거의 다 왔다."}
+      - {who: mirror, face: "", text: "모두가 지켜 온 규칙이 네 앞을 막아선다. 이유는 아무도 기억하지 못한다."}
+    choices:
+      - {text: "규칙에는 이유가 있었을 것이다. 따른다.", to: "q6_22_1"}
+      - {text: "이유를 모르는 규칙이라면, 넘는다.", to: "q6_12_2"}
+  q6_12_2:
+    name: "6. 숲으로 간 친구"
+    lines:
+      - {who: mirror, face: "", text: "벽 너머가 궁금한 눈이로군."}
+      - {who: mirror, face: "", text: "마지막이다."}
+      - {who: mirror, face: "", text: "친구가 해 질 녘 금지된 숲으로 들어갔다. 돌아오지 않는다."}
+    choices:
+      - {text: "바로 뒤쫓아 들어간다.", to: "v_13_1"}
+      - {text: "지도를 펴고, 친구가 갔을 길부터 짚어 본다.", to: "v_12_2"}
+  q6_22_1:
+    name: "6. 숲으로 간 친구"
+    lines:
+      - {who: mirror, face: "", text: "지켜 온 것을 지키는구나."}
+      - {who: mirror, face: "", text: "마지막이다."}
+      - {who: mirror, face: "", text: "친구가 해 질 녘 금지된 숲으로 들어갔다. 돌아오지 않는다."}
+    choices:
+      - {text: "바로 뒤쫓아 들어간다.", to: "v_23_1"}
+      - {text: "지도를 펴고, 친구가 갔을 길부터 짚어 본다.", to: "v_22_2"}
+  q2_10_1:
+    name: "2. 쓰러진 사람"
+    lines:
+      - {who: mirror, face: "", text: "오래된 길이라… 발자국이 많은 길을 고르는군."}
+      - {who: mirror, face: "", text: "좋다. 다음."}
+      - {who: mirror, face: "", text: "길 위에 누군가 쓰러져 있다. 주위에는 아무도 없다."}
+    choices:
+      - {text: "당장 달려가 일으킨다.", to: "q3_11_1"}
+      - {text: "다가가기 전에 주위부터 살핀다. 왜 쓰러졌는지 알아야 하니까.", to: "q3_10_2"}
+  q3_10_2:
+    name: "3. 두 권의 책"
+    lines:
+      - {who: mirror, face: "", text: "흠, 눈이 먼저 움직였구나."}
+      - {who: mirror, face: "", text: "계속하지."}
+      - {who: mirror, face: "", text: "책 두 권을 주마. 백 년 동안 이어 써 온 책과, 아무것도 적히지 않은 새 책."}
+    choices:
+      - {text: "이어 써 온 책에 다음 장을 쓴다.", to: "q4_20_1"}
+      - {text: "새 책에 처음부터 내 이야기를 쓴다.", to: "q4_10_2"}
+  q4_10_2:
+    name: "4. 잠긴 상자"
+    lines:
+      - {who: mirror, face: "", text: "처음부터 쓰는 자. 겁이 없구나."}
+      - {who: mirror, face: "", text: "흐음… 하나 더."}
+      - {who: mirror, face: "", text: "잠긴 상자가 있다. 열면 무언가를 잃는다고 한다."}
+    choices:
+      - {text: "일단 열어 본다. 잃는 건 그때 생각한다.", to: "q5_11_1"}
+      - {text: "무엇을 잃는지부터 알아낸다.", to: "q5_10_2"}
+  q4_20_1:
+    name: "4. 잠긴 상자"
+    lines:
+      - {who: mirror, face: "", text: "이어 쓰는 자. 기억을 무겁게 여기는구나."}
+      - {who: mirror, face: "", text: "흐음… 하나 더."}
+      - {who: mirror, face: "", text: "잠긴 상자가 있다. 열면 무언가를 잃는다고 한다."}
+    choices:
+      - {text: "일단 열어 본다. 잃는 건 그때 생각한다.", to: "q5_21_1"}
+      - {text: "무엇을 잃는지부터 알아낸다.", to: "q5_20_2"}
+  q5_20_2:
+    name: "5. 오래된 규칙"
+    lines:
+      - {who: mirror, face: "", text: "값을 먼저 묻는구나. 영리한 건지, 조심스러운 건지."}
+      - {who: mirror, face: "", text: "거의 다 왔다."}
+      - {who: mirror, face: "", text: "모두가 지켜 온 규칙이 네 앞을 막아선다. 이유는 아무도 기억하지 못한다."}
+    choices:
+      - {text: "규칙에는 이유가 있었을 것이다. 따른다.", to: "q6_30_1"}
+      - {text: "이유를 모르는 규칙이라면, 넘는다.", to: "q6_20_2"}
+  q6_20_2:
+    name: "6. 숲으로 간 친구"
+    lines:
+      - {who: mirror, face: "", text: "벽 너머가 궁금한 눈이로군."}
+      - {who: mirror, face: "", text: "마지막이다."}
+      - {who: mirror, face: "", text: "친구가 해 질 녘 금지된 숲으로 들어갔다. 돌아오지 않는다."}
+    choices:
+      - {text: "바로 뒤쫓아 들어간다.", to: "v_21_1"}
+      - {text: "지도를 펴고, 친구가 갔을 길부터 짚어 본다.", to: "v_20_2"}
+  q6_30_1:
+    name: "6. 숲으로 간 친구"
+    lines:
+      - {who: mirror, face: "", text: "지켜 온 것을 지키는구나."}
+      - {who: mirror, face: "", text: "마지막이다."}
+      - {who: mirror, face: "", text: "친구가 해 질 녘 금지된 숲으로 들어갔다. 돌아오지 않는다."}
+    choices:
+      - {text: "바로 뒤쫓아 들어간다.", to: "v_31_1"}
+      - {text: "지도를 펴고, 친구가 갔을 길부터 짚어 본다.", to: "v_30_2"}
+  q5_21_1:
+    name: "5. 오래된 규칙"
+    lines:
+      - {who: mirror, face: "", text: "손이 빠르군. 대가는 나중에 치르겠다는 건가."}
+      - {who: mirror, face: "", text: "거의 다 왔다."}
+      - {who: mirror, face: "", text: "모두가 지켜 온 규칙이 네 앞을 막아선다. 이유는 아무도 기억하지 못한다."}
+    choices:
+      - {text: "규칙에는 이유가 있었을 것이다. 따른다.", to: "q6_31_1"}
+      - {text: "이유를 모르는 규칙이라면, 넘는다.", to: "q6_21_2"}
+  q6_21_2:
+    name: "6. 숲으로 간 친구"
+    lines:
+      - {who: mirror, face: "", text: "벽 너머가 궁금한 눈이로군."}
+      - {who: mirror, face: "", text: "마지막이다."}
+      - {who: mirror, face: "", text: "친구가 해 질 녘 금지된 숲으로 들어갔다. 돌아오지 않는다."}
+    choices:
+      - {text: "바로 뒤쫓아 들어간다.", to: "v_22_1"}
+      - {text: "지도를 펴고, 친구가 갔을 길부터 짚어 본다.", to: "v_21_2"}
+  q6_31_1:
+    name: "6. 숲으로 간 친구"
+    lines:
+      - {who: mirror, face: "", text: "지켜 온 것을 지키는구나."}
+      - {who: mirror, face: "", text: "마지막이다."}
+      - {who: mirror, face: "", text: "친구가 해 질 녘 금지된 숲으로 들어갔다. 돌아오지 않는다."}
+    choices:
+      - {text: "바로 뒤쫓아 들어간다.", to: "v_32_1"}
+      - {text: "지도를 펴고, 친구가 갔을 길부터 짚어 본다.", to: "v_31_2"}
+  q3_11_1:
+    name: "3. 두 권의 책"
+    lines:
+      - {who: mirror, face: "", text: "생각보다 몸이 먼저 움직이는 아이로군."}
+      - {who: mirror, face: "", text: "계속하지."}
+      - {who: mirror, face: "", text: "책 두 권을 주마. 백 년 동안 이어 써 온 책과, 아무것도 적히지 않은 새 책."}
+    choices:
+      - {text: "이어 써 온 책에 다음 장을 쓴다.", to: "q4_21_1"}
+      - {text: "새 책에 처음부터 내 이야기를 쓴다.", to: "q4_11_2"}
+  q4_11_2:
+    name: "4. 잠긴 상자"
+    lines:
+      - {who: mirror, face: "", text: "처음부터 쓰는 자. 겁이 없구나."}
+      - {who: mirror, face: "", text: "흐음… 하나 더."}
+      - {who: mirror, face: "", text: "잠긴 상자가 있다. 열면 무언가를 잃는다고 한다."}
+    choices:
+      - {text: "일단 열어 본다. 잃는 건 그때 생각한다.", to: "q5_12_1"}
+      - {text: "무엇을 잃는지부터 알아낸다.", to: "q5_11_2"}
+  q4_21_1:
+    name: "4. 잠긴 상자"
+    lines:
+      - {who: mirror, face: "", text: "이어 쓰는 자. 기억을 무겁게 여기는구나."}
+      - {who: mirror, face: "", text: "흐음… 하나 더."}
+      - {who: mirror, face: "", text: "잠긴 상자가 있다. 열면 무언가를 잃는다고 한다."}
+    choices:
+      - {text: "일단 열어 본다. 잃는 건 그때 생각한다.", to: "q5_22_1"}
+      - {text: "무엇을 잃는지부터 알아낸다.", to: "q5_21_2"}
+  q5_21_2:
+    name: "5. 오래된 규칙"
+    lines:
+      - {who: mirror, face: "", text: "값을 먼저 묻는구나. 영리한 건지, 조심스러운 건지."}
+      - {who: mirror, face: "", text: "거의 다 왔다."}
+      - {who: mirror, face: "", text: "모두가 지켜 온 규칙이 네 앞을 막아선다. 이유는 아무도 기억하지 못한다."}
+    choices:
+      - {text: "규칙에는 이유가 있었을 것이다. 따른다.", to: "q6_31_1"}
+      - {text: "이유를 모르는 규칙이라면, 넘는다.", to: "q6_21_2"}
+  q5_22_1:
+    name: "5. 오래된 규칙"
+    lines:
+      - {who: mirror, face: "", text: "손이 빠르군. 대가는 나중에 치르겠다는 건가."}
+      - {who: mirror, face: "", text: "거의 다 왔다."}
+      - {who: mirror, face: "", text: "모두가 지켜 온 규칙이 네 앞을 막아선다. 이유는 아무도 기억하지 못한다."}
+    choices:
+      - {text: "규칙에는 이유가 있었을 것이다. 따른다.", to: "q6_32_1"}
+      - {text: "이유를 모르는 규칙이라면, 넘는다.", to: "q6_22_2"}
+  q6_22_2:
+    name: "6. 숲으로 간 친구"
+    lines:
+      - {who: mirror, face: "", text: "벽 너머가 궁금한 눈이로군."}
+      - {who: mirror, face: "", text: "마지막이다."}
+      - {who: mirror, face: "", text: "친구가 해 질 녘 금지된 숲으로 들어갔다. 돌아오지 않는다."}
+    choices:
+      - {text: "바로 뒤쫓아 들어간다.", to: "v_23_1"}
+      - {text: "지도를 펴고, 친구가 갔을 길부터 짚어 본다.", to: "v_22_2"}
+  q6_32_1:
+    name: "6. 숲으로 간 친구"
+    lines:
+      - {who: mirror, face: "", text: "지켜 온 것을 지키는구나."}
+      - {who: mirror, face: "", text: "마지막이다."}
+      - {who: mirror, face: "", text: "친구가 해 질 녘 금지된 숲으로 들어갔다. 돌아오지 않는다."}
+    choices:
+      - {text: "바로 뒤쫓아 들어간다.", to: "v_33_1"}
+      - {text: "지도를 펴고, 친구가 갔을 길부터 짚어 본다.", to: "v_32_2"}
+  v_00_2:
+    name: "판정"
+    lines:
+      - {who: mirror, face: "", text: "…차갑게 들리지만, 그게 친구를 살리는 길일지도 모르지."}
+      - {who: mirror, face: "", text: "처음부터 끝까지 한 번도 흔들리지 않았구나. 이런 아이는 오랜만이다."}
+    next: p_00
+  v_01_1:
+    name: "판정"
+    lines:
+      - {who: mirror, face: "", text: "…망설임이 없구나."}
+      - {who: mirror, face: "", text: "한쪽은 분명하고, 한쪽은 조금 망설였구나."}
+    next: p_01
+  v_01_2:
+    name: "판정"
+    lines:
+      - {who: mirror, face: "", text: "…차갑게 들리지만, 그게 친구를 살리는 길일지도 모르지."}
+      - {who: mirror, face: "", text: "한쪽은 분명하고, 한쪽은 조금 망설였구나."}
+    next: p_01
+  v_02_1:
+    name: "판정"
+    lines:
+      - {who: mirror, face: "", text: "…망설임이 없구나."}
+      - {who: mirror, face: "", text: "한쪽은 분명하고, 한쪽은 조금 망설였구나."}
+    next: p_02
+  v_02_2:
+    name: "판정"
+    lines:
+      - {who: mirror, face: "", text: "…차갑게 들리지만, 그게 친구를 살리는 길일지도 모르지."}
+      - {who: mirror, face: "", text: "한쪽은 분명하고, 한쪽은 조금 망설였구나."}
+    next: p_02
+  v_03_1:
+    name: "판정"
+    lines:
+      - {who: mirror, face: "", text: "…망설임이 없구나."}
+      - {who: mirror, face: "", text: "처음부터 끝까지 한 번도 흔들리지 않았구나. 이런 아이는 오랜만이다."}
+    next: p_03
+  v_10_2:
+    name: "판정"
+    lines:
+      - {who: mirror, face: "", text: "…차갑게 들리지만, 그게 친구를 살리는 길일지도 모르지."}
+      - {who: mirror, face: "", text: "한쪽은 분명하고, 한쪽은 조금 망설였구나."}
+    next: p_10
+  v_11_1:
+    name: "판정"
+    lines:
+      - {who: mirror, face: "", text: "…망설임이 없구나."}
+      - {who: mirror, face: "", text: "…저울이 오래 흔들렸다. 그래도, 마음은 끝내 한쪽으로 기울었지."}
+    next: p_11
+  v_11_2:
+    name: "판정"
+    lines:
+      - {who: mirror, face: "", text: "…차갑게 들리지만, 그게 친구를 살리는 길일지도 모르지."}
+      - {who: mirror, face: "", text: "…저울이 오래 흔들렸다. 그래도, 마음은 끝내 한쪽으로 기울었지."}
+    next: p_11
+  v_12_1:
+    name: "판정"
+    lines:
+      - {who: mirror, face: "", text: "…망설임이 없구나."}
+      - {who: mirror, face: "", text: "…저울이 오래 흔들렸다. 그래도, 마음은 끝내 한쪽으로 기울었지."}
+    next: p_12
+  v_12_2:
+    name: "판정"
+    lines:
+      - {who: mirror, face: "", text: "…차갑게 들리지만, 그게 친구를 살리는 길일지도 모르지."}
+      - {who: mirror, face: "", text: "…저울이 오래 흔들렸다. 그래도, 마음은 끝내 한쪽으로 기울었지."}
+    next: p_12
+  v_13_1:
+    name: "판정"
+    lines:
+      - {who: mirror, face: "", text: "…망설임이 없구나."}
+      - {who: mirror, face: "", text: "한쪽은 분명하고, 한쪽은 조금 망설였구나."}
+    next: p_13
+  v_20_2:
+    name: "판정"
+    lines:
+      - {who: mirror, face: "", text: "…차갑게 들리지만, 그게 친구를 살리는 길일지도 모르지."}
+      - {who: mirror, face: "", text: "한쪽은 분명하고, 한쪽은 조금 망설였구나."}
+    next: p_20
+  v_21_1:
+    name: "판정"
+    lines:
+      - {who: mirror, face: "", text: "…망설임이 없구나."}
+      - {who: mirror, face: "", text: "…저울이 오래 흔들렸다. 그래도, 마음은 끝내 한쪽으로 기울었지."}
+    next: p_21
+  v_21_2:
+    name: "판정"
+    lines:
+      - {who: mirror, face: "", text: "…차갑게 들리지만, 그게 친구를 살리는 길일지도 모르지."}
+      - {who: mirror, face: "", text: "…저울이 오래 흔들렸다. 그래도, 마음은 끝내 한쪽으로 기울었지."}
+    next: p_21
+  v_22_1:
+    name: "판정"
+    lines:
+      - {who: mirror, face: "", text: "…망설임이 없구나."}
+      - {who: mirror, face: "", text: "…저울이 오래 흔들렸다. 그래도, 마음은 끝내 한쪽으로 기울었지."}
+    next: p_22
+  v_22_2:
+    name: "판정"
+    lines:
+      - {who: mirror, face: "", text: "…차갑게 들리지만, 그게 친구를 살리는 길일지도 모르지."}
+      - {who: mirror, face: "", text: "…저울이 오래 흔들렸다. 그래도, 마음은 끝내 한쪽으로 기울었지."}
+    next: p_22
+  v_23_1:
+    name: "판정"
+    lines:
+      - {who: mirror, face: "", text: "…망설임이 없구나."}
+      - {who: mirror, face: "", text: "한쪽은 분명하고, 한쪽은 조금 망설였구나."}
+    next: p_23
+  v_30_2:
+    name: "판정"
+    lines:
+      - {who: mirror, face: "", text: "…차갑게 들리지만, 그게 친구를 살리는 길일지도 모르지."}
+      - {who: mirror, face: "", text: "처음부터 끝까지 한 번도 흔들리지 않았구나. 이런 아이는 오랜만이다."}
+    next: p_30
+  v_31_1:
+    name: "판정"
+    lines:
+      - {who: mirror, face: "", text: "…망설임이 없구나."}
+      - {who: mirror, face: "", text: "한쪽은 분명하고, 한쪽은 조금 망설였구나."}
+    next: p_31
+  v_31_2:
+    name: "판정"
+    lines:
+      - {who: mirror, face: "", text: "…차갑게 들리지만, 그게 친구를 살리는 길일지도 모르지."}
+      - {who: mirror, face: "", text: "한쪽은 분명하고, 한쪽은 조금 망설였구나."}
+    next: p_31
+  v_32_1:
+    name: "판정"
+    lines:
+      - {who: mirror, face: "", text: "…망설임이 없구나."}
+      - {who: mirror, face: "", text: "한쪽은 분명하고, 한쪽은 조금 망설였구나."}
+    next: p_32
+  v_32_2:
+    name: "판정"
+    lines:
+      - {who: mirror, face: "", text: "…차갑게 들리지만, 그게 친구를 살리는 길일지도 모르지."}
+      - {who: mirror, face: "", text: "한쪽은 분명하고, 한쪽은 조금 망설였구나."}
+    next: p_32
+  v_33_1:
+    name: "판정"
+    lines:
+      - {who: mirror, face: "", text: "…망설임이 없구나."}
+      - {who: mirror, face: "", text: "처음부터 끝까지 한 번도 흔들리지 않았구나. 이런 아이는 오랜만이다."}
+    next: p_33
+  p_00:
+    name: "성향 00"
+    lines:
+      - {who: mirror, face: "", text: "…좋다. 네 마음은 다 보았다."}
+      - {who: mirror, face: "", text: "(거울 표면이 물결치며, 잠시 깊은 생각에 잠긴다.)"}
+  p_01:
+    name: "성향 01"
+    lines:
+      - {who: mirror, face: "", text: "…좋다. 네 마음은 다 보았다."}
+      - {who: mirror, face: "", text: "(거울 표면이 물결치며, 잠시 깊은 생각에 잠긴다.)"}
+  p_02:
+    name: "성향 02"
+    lines:
+      - {who: mirror, face: "", text: "…좋다. 네 마음은 다 보았다."}
+      - {who: mirror, face: "", text: "(거울 표면이 물결치며, 잠시 깊은 생각에 잠긴다.)"}
+  p_03:
+    name: "성향 03"
+    lines:
+      - {who: mirror, face: "", text: "…좋다. 네 마음은 다 보았다."}
+      - {who: mirror, face: "", text: "(거울 표면이 물결치며, 잠시 깊은 생각에 잠긴다.)"}
+  p_10:
+    name: "성향 10"
+    lines:
+      - {who: mirror, face: "", text: "…좋다. 네 마음은 다 보았다."}
+      - {who: mirror, face: "", text: "(거울 표면이 물결치며, 잠시 깊은 생각에 잠긴다.)"}
+  p_11:
+    name: "성향 11"
+    lines:
+      - {who: mirror, face: "", text: "…좋다. 네 마음은 다 보았다."}
+      - {who: mirror, face: "", text: "(거울 표면이 물결치며, 잠시 깊은 생각에 잠긴다.)"}
+  p_12:
+    name: "성향 12"
+    lines:
+      - {who: mirror, face: "", text: "…좋다. 네 마음은 다 보았다."}
+      - {who: mirror, face: "", text: "(거울 표면이 물결치며, 잠시 깊은 생각에 잠긴다.)"}
+  p_13:
+    name: "성향 13"
+    lines:
+      - {who: mirror, face: "", text: "…좋다. 네 마음은 다 보았다."}
+      - {who: mirror, face: "", text: "(거울 표면이 물결치며, 잠시 깊은 생각에 잠긴다.)"}
+  p_20:
+    name: "성향 20"
+    lines:
+      - {who: mirror, face: "", text: "…좋다. 네 마음은 다 보았다."}
+      - {who: mirror, face: "", text: "(거울 표면이 물결치며, 잠시 깊은 생각에 잠긴다.)"}
+  p_21:
+    name: "성향 21"
+    lines:
+      - {who: mirror, face: "", text: "…좋다. 네 마음은 다 보았다."}
+      - {who: mirror, face: "", text: "(거울 표면이 물결치며, 잠시 깊은 생각에 잠긴다.)"}
+  p_22:
+    name: "성향 22"
+    lines:
+      - {who: mirror, face: "", text: "…좋다. 네 마음은 다 보았다."}
+      - {who: mirror, face: "", text: "(거울 표면이 물결치며, 잠시 깊은 생각에 잠긴다.)"}
+  p_23:
+    name: "성향 23"
+    lines:
+      - {who: mirror, face: "", text: "…좋다. 네 마음은 다 보았다."}
+      - {who: mirror, face: "", text: "(거울 표면이 물결치며, 잠시 깊은 생각에 잠긴다.)"}
+  p_30:
+    name: "성향 30"
+    lines:
+      - {who: mirror, face: "", text: "…좋다. 네 마음은 다 보았다."}
+      - {who: mirror, face: "", text: "(거울 표면이 물결치며, 잠시 깊은 생각에 잠긴다.)"}
+  p_31:
+    name: "성향 31"
+    lines:
+      - {who: mirror, face: "", text: "…좋다. 네 마음은 다 보았다."}
+      - {who: mirror, face: "", text: "(거울 표면이 물결치며, 잠시 깊은 생각에 잠긴다.)"}
+  p_32:
+    name: "성향 32"
+    lines:
+      - {who: mirror, face: "", text: "…좋다. 네 마음은 다 보았다."}
+      - {who: mirror, face: "", text: "(거울 표면이 물결치며, 잠시 깊은 생각에 잠긴다.)"}
+  p_33:
+    name: "성향 33"
+    lines:
+      - {who: mirror, face: "", text: "…좋다. 네 마음은 다 보았다."}
+      - {who: mirror, face: "", text: "(거울 표면이 물결치며, 잠시 깊은 생각에 잠긴다.)"}

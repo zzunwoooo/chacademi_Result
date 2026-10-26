@@ -1,0 +1,1819 @@
+# 차카데미 마법 미몹 스킬 (자동 생성: magic-mythic-paper/tools/spells.py) - 이펙트는 PortableVFX 담당, 여기는 게임 효과만
+# 피해량 <skill.var.damage> 는 MagicCodexBridge spell-runtime.yml 의 base-damage + power-ratio x 마력 으로 전달됩니다.
+# cha* 메커닉은 ChAcademiaMagicMythic 플러그인이 제공합니다.
+
+# 1 깃털 낙하 - 5초 천천히 낙하
+CHA_feather_step:
+  Cooldown: 0
+  Skills:
+  - chaselfpotion{type=SLOW_FALLING;duration=100;level=0;element=wind;spell=feather_fall} @self
+
+# 15 바람바구니 - MagicCodexBridge SpellUtility가 실제 처리 (기존 유틸)
+CHA_wind_basket:
+  Cooldown: 0
+  Skills:
+  - chanote{n=1;element=wind;spell=wind_basket} @self
+
+# 16 수확의 바람 - MagicCodexBridge SpellUtility가 실제 처리 (기존 유틸)
+CHA_harvest_wind:
+  Cooldown: 0
+  Skills:
+  - chanote{n=1;element=wind;spell=harvest_wind} @self
+
+# 2 윈드 푸쉬 - 정면 몬스터 1체 약 4블록 밀기
+CHA_wind_push:
+  Cooldown: 0
+  Skills:
+  - chahit{knock=1.6;up=0.35;element=wind;spell=wind_push}
+
+# 11 상승기류 - 위로 약 7블록, 착지 피해 완화
+CHA_light_leap:
+  Cooldown: 0
+  Skills:
+  - chaselfvelocity{m=set;x=0;y=1.2;z=0;element=wind;spell=light_leap} @self
+  - delay 14
+  - chaselfpotion{type=SLOW_FALLING;duration=40;level=0;element=wind;spell=light_leap} @self
+
+# 30 비행 - 빗자루 비행 (ChacademyMotion). 빗자루 없으면 ticks 동안 연습용 빗자루, 모드 없으면 ticks 동안 바닐라 비행
+CHA_flight:
+  Cooldown: 0
+  Skills:
+  - chaworld{type=flight;ticks=200;element=wind;spell=flight} @self
+
+# 12 손길 너머 - MagicCodexBridge SpellUtility가 실제 처리 (기존 유틸)
+CHA_far_touch:
+  Cooldown: 0
+  Skills:
+  - chanote{n=1;element=wind;spell=far_touch} @self
+
+# 42 폭풍의 지휘 - 영창 1.5초 후 반경 4블록 4회 타격
+CHA_storm_command:
+  Cooldown: 0
+  Skills:
+  - delay 30
+  - chazone{r=4;ticks=40;period=10;mult=0.5;suck=0.15;element=wind;spell=storm_command}
+
+# 17 윈드 커터 - 관통 칼날, 사슬 블록 파괴
+CHA_vacuum_cleave:
+  Cooldown: 0
+  Skills:
+  - chabolt{speed=2.2;range=41;radius=0.6;pierce=99;breaks=CHAIN;element=wind;spell=vacuum_cleave}
+
+# 4 바람 걸음 - MagicCodexBridge SpellUtility가 실제 처리 (기존 유틸)
+CHA_gale_dash:
+  Cooldown: 0
+  Skills:
+  - chanote{n=1;element=wind;spell=gale_dash} @self
+
+# 31 되받는 바람 - 0.5초 투사체 반사
+CHA_returning_wind:
+  Cooldown: 0
+  Skills:
+  - chaguard{type=reflect;ticks=10;r=4;element=wind;spell=returning_wind} @self
+
+# 5 바람 털빗 - MagicCodexBridge SpellUtility가 실제 처리 (기존 유틸)
+CHA_wind_grooming:
+  Cooldown: 0
+  Skills:
+  - chanote{n=1;element=wind;spell=wind_grooming} @self
+
+# 45 중력지대 - 반경 5블록 3초 끌어당김
+CHA_weightless_zone:
+  Cooldown: 0
+  Skills:
+  - chazone{r=5;ticks=60;period=5;mult=0;suck=0.45;element=wind;spell=weightless_zone}
+
+# 7 클린 - MagicCodexBridge SpellUtility가 실제 처리 (기존 유틸)
+CHA_dust_duster:
+  Cooldown: 0
+  Skills:
+  - chanote{n=1;element=wind;spell=dust_duster} @self
+
+# 32 잎새 청소 - MagicCodexBridge SpellUtility가 실제 처리 (기존 유틸)
+CHA_leaf_cleanup:
+  Cooldown: 0
+  Skills:
+  - chanote{n=1;element=wind;spell=leaf_cleanup} @self
+
+# 18 깃털 털기 - MagicCodexBridge SpellUtility가 실제 처리 (기존 유틸)
+CHA_feather_rustle:
+  Cooldown: 0
+  Skills:
+  - chanote{n=1;element=wind;spell=feather_rustle} @self
+
+# 19 바람 화살 - 2초 충전 후 강한 화살
+CHA_cross_breeze:
+  Cooldown: 0
+  Skills:
+  - delay 40
+  - chabolt{speed=2.5;range=51;radius=0.7;pierce=1;aoe=2;aoemult=0.5;element=wind;spell=cross_breeze}
+
+# 20 되돌이 칼날 - 갔다가 돌아오며 각 1회씩 타격
+CHA_returning_blade:
+  Cooldown: 0
+  Skills:
+  - chabolt{speed=1.1;range=24;radius=1.2;pierce=99;returns=true;element=wind;spell=returning_blade}
+
+# 33 윈드 프레스 - 공중 대상을 내리꽂음 + 2초 중력 (낙하 피해는 바닐라)
+CHA_pressure_press:
+  Cooldown: 0
+  Skills:
+  - chahit{slam=2.2;status=gravity:40;element=wind;spell=pressure_press}
+
+# 34 바람 미끼 - 반경 10블록 일반 몬스터 유인 5초
+CHA_wind_decoy:
+  Cooldown: 0
+  Skills:
+  - chaworld{type=decoy;r=10;ticks=100;element=wind;spell=wind_decoy}
+
+# 38 허공 디딤 - 발밑 3x3 임시 발판 20초 (보이는 건 VFX)
+CHA_air_step:
+  Cooldown: 0
+  Skills:
+  - chaworld{type=platform;ticks=400;element=wind;spell=air_step} @self
+
+# 43 라이트닝 쇼크 - 지정 위치 낙뢰 피해
+CHA_lightning_needle:
+  Cooldown: 0
+  Skills:
+  - chahit{r=1.5;max=3;element=wind;spell=lightning_needle}
+
+# 39 허공 쌓기 - 손에 든 블록 최대 6칸 일렬 설치
+CHA_air_stacking:
+  Cooldown: 0
+  Skills:
+  - chaworld{type=line;max=6;element=wind;spell=air_stacking}
+
+# 44 퍼붓는 화살 - 화살 5발 순차 발사
+CHA_arrested_orbit:
+  Cooldown: 0
+  Skills:
+  - chabolt{speed=1.8;range=42;radius=0.5;homing=true;spread=-8;element=wind;spell=arrested_orbit}
+  - delay 4
+  - chabolt{speed=1.8;range=42;radius=0.5;homing=true;spread=8;element=wind;spell=arrested_orbit}
+  - delay 4
+  - chabolt{speed=1.8;range=42;radius=0.5;homing=true;spread=-4;element=wind;spell=arrested_orbit}
+  - delay 4
+  - chabolt{speed=1.8;range=42;radius=0.5;homing=true;spread=4;element=wind;spell=arrested_orbit}
+  - delay 4
+  - chabolt{speed=1.8;range=42;radius=0.5;homing=true;element=wind;spell=arrested_orbit}
+
+# 49 크로스 애로우 - 일반 몬스터 처형, 플레이어·보스는 체력 20% 미만일 때만
+CHA_crossfire:
+  Cooldown: 0
+  Skills:
+  - delay 10
+  - chahit{execute=0.2;element=wind;spell=crossfire}
+
+# 35 토네이도 스핀 - 주변 3블록 밀치며 피해
+CHA_pressure_rupture:
+  Cooldown: 0
+  Skills:
+  - chahit{center=caster;r=3;knock=1.2;up=0.3;element=wind;spell=pressure_rupture} @self
+
+# 46 삼중 탄환 - 3발 모두 같은 대상 적중 시 3초 신속 III
+CHA_storm_crown:
+  Cooldown: 0
+  Skills:
+  - chabolt{speed=2;range=26;radius=0.5;homing=true;combo=storm_crown;combocount=3;combobuff=SPEED:60:2;element=wind;spell=storm_crown}
+  - delay 6
+  - chabolt{speed=2;range=26;radius=0.5;homing=true;combo=storm_crown;combocount=3;combobuff=SPEED:60:2;element=wind;spell=storm_crown}
+  - delay 6
+  - chabolt{speed=2;range=26;radius=0.5;homing=true;combo=storm_crown;combocount=3;combobuff=SPEED:60:2;element=wind;spell=storm_crown}
+
+# 55 손끝의 화로 - MagicCodexBridge SpellUtility가 실제 처리 (기존 유틸)
+CHA_hearth_touch:
+  Cooldown: 0
+  Skills:
+  - chanote{n=1;element=fire;spell=hearth_touch} @self
+
+# 51 파이어 볼 - 약한 불씨 탄
+CHA_ember_bolt:
+  Cooldown: 0
+  Skills:
+  - chabolt{speed=1.6;range=41;radius=0.5;ignite=40;element=fire;spell=ember_bolt}
+
+# 52 다시 타오르는 불 - 원소 화로(기믹) 점화, 없으면 모닥불·초 (2026-10-20 Bridge 유틸에서 이동)
+CHA_rekindle:
+  Cooldown: 0
+  Skills:
+  - chagimmick{type=ignite;range=12;mana=10;element=fire;spell=rekindle} @self
+
+# 58 잿불 덫 - 60초 덫, 최대 2개, 밟으면 폭발
+CHA_ember_trap:
+  Cooldown: 0
+  Skills:
+  - chazone{r=1.5;ticks=1200;trap=true;trapr=3;key=ember_trap;limit=2;ignite=60;element=fire;spell=ember_trap}
+
+# 83 플레어 월 - 폭 6블록 화염벽 5초
+CHA_fire_curtain:
+  Cooldown: 0
+  Skills:
+  - chazone{wall=6;r=1.5;ticks=100;period=10;ignite=40;element=fire;spell=fire_curtain}
+
+# 90 불사조의 서약 - 300초 동안 치명상 1회 무효
+CHA_phoenix_oath:
+  Cooldown: 0
+  Skills:
+  - chaguard{type=lethal;ticks=6000;heal=6;element=fire;spell=phoenix_oath} @self
+
+# 70 살아 있는 화로 - MagicCodexBridge SpellUtility가 실제 처리 (기존 유틸)
+CHA_living_furnace:
+  Cooldown: 0
+  Skills:
+  - chanote{n=1;element=fire;spell=living_furnace} @self
+
+# 97 메테오 스트라이크 - 운석 낙하 반경 4블록 (A16: 서버가 착지 틱에 한 번 피해, charge/speed/sky 는 spell-bindings 운석 단계와 같아야 함)
+CHA_falling_star:
+  Cooldown: 0
+  Skills:
+  - chameteor{r=4;max=12;knock=0.8;up=0.4;ignite=60;charge=68;speed=0.6;skyx=-3;skyy=24;skyz=19;element=fire;spell=falling_star}
+
+# 78 화염 채찍 - 끌어당기며 피해
+CHA_flame_lash:
+  Cooldown: 0
+  Skills:
+  - chahit{pull=1.4;ignite=40;element=fire;spell=flame_lash}
+
+# 56 손바닥 폭죽 - 장식 마법, 게임 효과 없음
+CHA_palm_fireworks:
+  Cooldown: 0
+  Skills:
+  - chanote{n=1;element=fire;spell=palm_fireworks} @self
+
+# 91 재의 낙인 - 3초 뒤 폭발, 맞은 적에게 전이
+CHA_ash_brand:
+  Cooldown: 0
+  Skills:
+  - chamark{type=ash_brand;ticks=60;r=3;cooldown=200;element=fire;spell=ash_brand}
+
+# 85 블레이즈 킥 - 회전 발차기 근접 범위
+CHA_flame_leap:
+  Cooldown: 0
+  Skills:
+  - chahit{center=caster;r=2.5;knock=0.8;ignite=40;element=fire;spell=flame_leap} @self
+
+# 92 홍련의 심장 - 현재 체력 절반 소모, 소모량 비례 폭발
+CHA_crimson_heart:
+  Cooldown: 0
+  Skills:
+  - chahit{center=caster;r=5;max=12;mult=0;hpcost=0.5;hpscale=2.5;knock=1;element=fire;spell=crimson_heart} @self
+
+# 71 심지 줄이기 - 원소 화로(기믹) 끄기, 없으면 불 블록 끄기 (2026-10-20 Bridge 유틸에서 이동)
+CHA_wick_trimming:
+  Cooldown: 0
+  Skills:
+  - chagimmick{type=extinguish;range=12;mana=50;element=fire;spell=wick_trimming} @self
+
+# 72 발화 - 10초 발화
+CHA_charcoal_conversion:
+  Cooldown: 0
+  Skills:
+  - chahit{mult=0;ignite=200;element=fire;spell=charcoal_conversion}
+
+# 60 스펀지 말리기 - MagicCodexBridge SpellUtility가 실제 처리 (기존 유틸)
+CHA_sponge_drying:
+  Cooldown: 0
+  Skills:
+  - chanote{n=1;element=fire;spell=sponge_drying} @self
+
+# 79 끓는 갑주 - MagicCodexBridge SpellUtility가 실제 처리 (기존 유틸)
+CHA_boiling_armor:
+  Cooldown: 0
+  Skills:
+  - chanote{n=1;element=fire;spell=boiling_armor} @self
+
+# 73 가마 숨결 - 주변 화로 20초 가공 2배속
+CHA_kiln_breath:
+  Cooldown: 0
+  Skills:
+  - chaworld{type=kiln;r=6;ticks=400;element=fire;spell=kiln_breath} @self
+
+# 93 폭발 쐐기 - 근접 피격 시 폭발 (시간 경과로는 안 터짐)
+CHA_explosive_wedge:
+  Cooldown: 0
+  Skills:
+  - chamark{type=wedge;ticks=600;r=2.5;element=fire;spell=explosive_wedge}
+
+# 94 열량 보존 - 주변 불·용암 개수만큼 회복
+CHA_heat_recovery:
+  Cooldown: 0
+  Skills:
+  - chaworld{type=heat;r=10;element=fire;spell=heat_recovery} @self
+
+# 84 불새 - 넓게 관통하는 불새
+CHA_firebird_hunt:
+  Cooldown: 0
+  Skills:
+  - chabolt{speed=1.2;range=20;radius=1.6;pierce=99;ignite=60;element=fire;spell=firebird_hunt}
+
+# 62 용암 봉합 - MagicCodexBridge SpellUtility가 실제 처리 (기존 유틸)
+CHA_lava_suture:
+  Cooldown: 0
+  Skills:
+  - chanote{n=1;element=fire;spell=lava_suture} @self
+
+# 95 화염 검무 - 근접 공격마다 검 1자루 소모 추가 피해
+CHA_flame_sword_dance:
+  Cooldown: 0
+  Skills:
+  - chamark{type=swords;count=3;ticks=600;element=fire;spell=flame_sword_dance} @self
+
+# 86 파이어 스트라이크 - 짧은 레이저, 방패 5초 무력화
+CHA_incandescent_break:
+  Cooldown: 0
+  Skills:
+  - chabolt{speed=4;range=26;radius=0.6;pierce=99;shield=100;element=fire;spell=incandescent_break}
+
+# 98 드래곤 브레스 - 1.5초 영창 후 부채꼴 브레스 5회
+CHA_crimson_breath:
+  Cooldown: 0
+  Skills:
+  - delay 30
+  - chahit{center=caster;cone=50;r=9;mult=0.4;ignite=40;element=fire;spell=crimson_breath} @self
+  - delay 6
+  - chahit{center=caster;cone=50;r=9;mult=0.4;ignite=40;element=fire;spell=crimson_breath} @self
+  - delay 6
+  - chahit{center=caster;cone=50;r=9;mult=0.4;ignite=40;element=fire;spell=crimson_breath} @self
+  - delay 6
+  - chahit{center=caster;cone=50;r=9;mult=0.4;ignite=40;element=fire;spell=crimson_breath} @self
+  - delay 6
+  - chahit{center=caster;cone=50;r=9;mult=0.4;ignite=40;element=fire;spell=crimson_breath} @self
+
+# 110 물결 숨결 - 30초 수중 호흡
+CHA_water_breath:
+  Cooldown: 0
+  Skills:
+  - chaselfpotion{type=WATER_BREATHING;duration=600;level=0;element=water;spell=water_breath} @self
+
+# 111 물살 타기 - 15초 수영 속도
+CHA_tide_stride:
+  Cooldown: 0
+  Skills:
+  - chaselfpotion{type=DOLPHINS_GRACE;duration=300;level=0;element=water;spell=tide_stride} @self
+
+# 100 물방울 탄환 - 약 1블록 밀치는 물 탄환
+CHA_water_bolt:
+  Cooldown: 0
+  Skills:
+  - chabolt{speed=1.6;range=26;radius=0.5;knock=0.45;element=water;spell=water_bolt}
+
+# 101 불길 씻기 - 자신의 불 끄기
+CHA_quench:
+  Cooldown: 0
+  Skills:
+  - chaally{type=quench;element=water;spell=quench} @self
+
+# 124 정화의 물결 - 자신·아군 독/나약함/구속 해제
+CHA_purifying_wave:
+  Cooldown: 0
+  Skills:
+  - chaally{type=cleanse;r=5;element=water;spell=purifying_wave} @self
+
+# 125 얼음 다리 - 15초 차가운 걸음
+CHA_ice_bridge:
+  Cooldown: 0
+  Skills:
+  - chaworld{type=frostwalk;ticks=300;r=2;element=water;spell=ice_bridge} @self
+
+# 117 수맥 개방 - 바라보는 위치에 물 설치
+CHA_spring_unseal:
+  Cooldown: 0
+  Skills:
+  - chaworld{type=water;element=water;spell=spring_unseal}
+
+# 139 운디네 - 30초 동안 1.5초마다 근처 적 공격
+CHA_water_elemental:
+  Cooldown: 0
+  Skills:
+  - chaworld{type=companion;ticks=600;period=30;range=10;knock=0.3;element=water;spell=water_elemental} @self
+
+# 140 만년빙옥 - 일반 적 5초 봉쇄, 보스는 감속
+CHA_eternal_ice_prison:
+  Cooldown: 0
+  Skills:
+  - chamark{type=prison;ticks=100;element=water;spell=eternal_ice_prison}
+
+# 102 가마솥 채우기 - 가마솥 물 한 단계
+CHA_cauldron_fill:
+  Cooldown: 0
+  Skills:
+  - chaworld{type=cauldron;element=water;spell=cauldron_fill}
+
+# 103 염색 씻기 - 손에 든 가죽 장비 염색 제거
+CHA_dye_rinse:
+  Cooldown: 0
+  Skills:
+  - chaworld{type=dye;element=water;spell=dye_rinse} @self
+
+# 112 물고기 유인 - 던진 낚싯바늘 입질 시간 단축
+CHA_fish_lure:
+  Cooldown: 0
+  Skills:
+  - chaworld{type=lure;min=20;max=60;element=water;spell=fish_lure} @self
+
+# 119 서리 파열 - 1초 뒤 얼음 가시 범위
+CHA_frost_rupture:
+  Cooldown: 0
+  Skills:
+  - delay 20
+  - chahit{r=2.5;max=8;up=0.5;effect=SLOWNESS:40:1;element=water;spell=frost_rupture}
+
+# 130 수압창 - 최대 3체 관통, 뒤일수록 약함
+CHA_pressure_lance:
+  Cooldown: 0
+  Skills:
+  - chabolt{speed=2.5;range=26;radius=0.6;pierce=3;falloff=0.7;element=water;spell=pressure_lance}
+
+# 141 생명의 분배 - 자신+아군 최대 3명 체력 비율 분배
+CHA_life_distribution:
+  Cooldown: 0
+  Skills:
+  - chaally{type=share;r=6;max=3;element=water;spell=life_distribution} @self
+
+# 113 촉촉한 밭 - 경작지 최대 9칸 적시기
+CHA_moist_farmland:
+  Cooldown: 0
+  Skills:
+  - chaworld{type=wetfarm;r=2;max=9;element=water;spell=moist_farmland}
+
+# 104 글씨 씻기 - 표지판 한 면 글씨 지우기
+CHA_wash_letters:
+  Cooldown: 0
+  Skills:
+  - chaworld{type=sign;element=water;spell=wash_letters}
+
+# 142 치유의 비 - 5초 동안 아군 1초마다 하트 1칸 회복
+CHA_healing_rain:
+  Cooldown: 0
+  Skills:
+  - chazone{r=5;ticks=100;period=20;mult=0;heal=2;element=water;spell=healing_rain}
+
+# 105 이슬 모으기 - 빈 병 최대 3개 물병으로
+CHA_dew_gathering:
+  Cooldown: 0
+  Skills:
+  - chaworld{type=dew;max=3;element=water;spell=dew_gathering} @self
+
+# 131 노아의 방주 - 물 위에서 보트 생성
+CHA_quiet_mooring:
+  Cooldown: 0
+  Skills:
+  - chaworld{type=boat;element=water;spell=quiet_mooring} @self
+
+# 126 물거품 아리아 - 명중 지점 반경 4블록 광역
+CHA_bubble_aria:
+  Cooldown: 0
+  Skills:
+  - chabolt{speed=1.3;range=26;radius=0.6;mult=0;aoe=4;aoemult=1;element=water;spell=bubble_aria}
+
+# 132 수압해머 - 반경 3블록 강타 + 1초 기절
+CHA_pressure_hammer:
+  Cooldown: 0
+  Skills:
+  - delay 15
+  - chahit{r=3;max=10;status=stun:20;element=water;spell=pressure_hammer}
+
+# 143 용오름 - 3초 용오름, 띄우며 지속 피해
+CHA_waterspout:
+  Cooldown: 0
+  Skills:
+  - chazone{r=2.5;ticks=60;period=10;mult=0.35;lift=0.55;element=water;spell=waterspout}
+
+# 146 사금 추출 - 물 속에서 사금(금 조각) 1~3개
+CHA_current_sorting:
+  Cooldown: 0
+  Skills:
+  - chaworld{type=sapgeum;min=1;max=3;item=GOLD_NUGGET;element=water;spell=current_sorting} @self
+
+# 127 약액 분무 - 손의 물약 소비, 반경 5블록 동료 10초 적용
+CHA_potion_mist:
+  Cooldown: 0
+  Skills:
+  - chaally{type=potion;r=5;ticks=200;element=water;spell=potion_mist} @self
+
+# 133 물레 방패 - 다음 근접 피해 절반 + 공격자 밀침 (10초)
+CHA_waterwheel_shield:
+  Cooldown: 0
+  Skills:
+  - chaguard{type=deflect;ticks=200;reduce=0.5;push=1.2;element=water;spell=waterwheel_shield} @self
+
+# 134 콘크리트 양생 - 연결된 콘크리트 가루 최대 16개 굳히기
+CHA_concrete_curing:
+  Cooldown: 0
+  Skills:
+  - chaworld{type=concrete;max=16;element=water;spell=concrete_curing}
+
+# 135 파문방벽 - 2초 정면 투사체 소멸
+CHA_ripple_guard:
+  Cooldown: 0
+  Skills:
+  - chaguard{type=block;ticks=40;element=water;spell=ripple_guard} @self
+
+# 144 해일 - 전방 해일, 3블록 밀침
+CHA_tidal_wave:
+  Cooldown: 0
+  Skills:
+  - chabolt{speed=0.9;range=20;radius=2.2;pierce=99;knock=1.3;up=0.3;from=caster;element=water;spell=tidal_wave}
+
+# 136 도약하는 물방울 - 서로 다른 적 최대 4명 튕김
+CHA_bouncing_droplet:
+  Cooldown: 0
+  Skills:
+  - chabolt{speed=1.4;range=26;radius=0.5;bounce=3;bouncer=6;element=water;spell=bouncing_droplet}
+
+# 147 심해의 압력 - 6초 수압 지대, 둔화·나약함·지속 피해
+CHA_abyssal_pressure:
+  Cooldown: 0
+  Skills:
+  - chazone{r=2.5;ticks=120;period=20;mult=0.3;effect=SLOWNESS:30:2;status=physical_weakness:30;element=water;spell=abyssal_pressure}
+
+# 157 풍요의 손길 - 주변 밀·당근·감자 최대 8개 한 단계 성장
+CHA_verdant_touch:
+  Cooldown: 0
+  Skills:
+  - chaworld{type=grow;r=5;max=8;element=earth;spell=verdant_touch} @self
+
+# 167 땅의 속삭임 - 광석 최대 3곳 5초 발광 표시 (시전자만 보임)
+CHA_ore_whisper:
+  Cooldown: 0
+  Skills:
+  - chaworld{type=ore;r=10;max=3;ticks=100;element=earth;spell=ore_whisper} @self
+
+# 151 조약돌 던지기 - 약한 조약돌 탄
+CHA_pebble_toss:
+  Cooldown: 0
+  Skills:
+  - chabolt{speed=1.6;range=26;radius=0.5;element=earth;spell=pebble_toss}
+
+# 158 광부의 박자 - 15초 성급함
+CHA_miners_rhythm:
+  Cooldown: 0
+  Skills:
+  - chaselfpotion{type=HASTE;duration=300;level=0;element=earth;spell=miners_rhythm} @self
+
+# 69 불꽃 단조 - 손에 든 재료를 단조표대로 변환 (재료표 미정: config flame-forging.recipes)
+CHA_flame_forging:
+  Cooldown: 0
+  Skills:
+  - chautil{type=forge;element=fire;spell=flame_forging} @self
+
+# 87 푸른 화톳불 - 60초 화톳불, 반경 10블록 마나 회복 +10% (같은 마법끼리 미중첩)
+CHA_blue_bonfire:
+  Cooldown: 0
+  Skills:
+  - chazone{center=caster;r=10;ticks=1200;period=20;mult=0;manaregen=1.1;element=fire;spell=blue_bonfire} @self
+
+# 188 대지 성형 - 정면 7블록 부채꼴 충격파, 약하게 띄움 (피해·각도 임시)
+CHA_earth_shaping:
+  Cooldown: 0
+  Skills:
+  - chahit{center=caster;cone=60;r=7;up=0.45;knock=0.2;hitevent=external:hitBurst;element=earth;spell=earth_shaping} @self
+
+# 179 석벽 - 10초 돌벽: 적 이동·투사체 차단, 실제 블록 없음 (크기 4x3 = VFX 기준, 미정)
+CHA_stone_wall:
+  Cooldown: 0
+  Skills:
+  - chazone{wall=4;r=0.6;height=3;ticks=200;period=20;mult=0;solid=true;element=earth;spell=stone_wall}
+
+# 192 그놈 - 60초 흙 골렘(가상) 동행·근접 공격 (공격력 임시)
+CHA_earth_elemental:
+  Cooldown: 0
+  Skills:
+  - chasummon{type=golem;ticks=1200;range=8;reach=2.2;period=36;windup=12;hitr=1.5;knock=0.6;element=earth;spell=earth_elemental} @self
+
+# 193 지진 - 주변 6블록 지면 흔들기 (지속 3초·피해 임시)
+CHA_earthquake:
+  Cooldown: 0
+  Skills:
+  - chazone{center=caster;r=6;ticks=60;period=20;mult=0.5;effect=SLOWNESS:20:0;element=earth;spell=earthquake} @self
+
+# 195 기후 통제 - 맑음<->비 전환, 이후 자연 변화
+CHA_climate_control:
+  Cooldown: 0
+  Skills:
+  - chafarm{type=weather;element=earth;spell=climate_control} @self
+
+# 159 씨앗 줄심기 - 소지 씨앗으로 전방 6칸 농지 파종
+CHA_seed_row:
+  Cooldown: 0
+  Skills:
+  - chafarm{type=seedrow;max=6;element=earth;spell=seed_row} @self
+
+# 160 벌떼 달래기 - 주변 화난 벌 진정 (반경 8 임시)
+CHA_bee_calm:
+  Cooldown: 0
+  Skills:
+  - chafarm{type=bees;r=8;element=earth;spell=bee_calm} @self
+
+# 180 가시 갑옷 - 8초 근접 공격자 반격 피해 (피해 임시)
+CHA_thorn_armor:
+  Cooldown: 0
+  Skills:
+  - chaguard{type=thorns;ticks=160;element=earth;spell=thorn_armor} @self
+
+# 168 광맥 파쇄 - 연결된 같은 광석 최대 8개 채굴, 도구 규칙·내구도, 맨손 드롭 없음
+CHA_vein_fracture:
+  Cooldown: 0
+  Skills:
+  - chautil{type=vein;max=8;element=earth;spell=vein_fracture}
+
+# 183 대지의 닻 - 10초 공격 넉백 무시 (폭발 제외), 이동 가능
+CHA_earth_anchor:
+  Cooldown: 0
+  Skills:
+  - chaguard{type=anchor;ticks=200;element=earth;spell=earth_anchor} @self
+
+# 152 풍화의 손길 - 석재를 이끼·금 간 변종으로
+CHA_weathering_touch:
+  Cooldown: 0
+  Skills:
+  - chautil{type=age;element=earth;spell=weathering_touch}
+
+# 189 철의 외피 - 20초 저항 (레벨 미정: I 임시)
+CHA_iron_carapace:
+  Cooldown: 0
+  Skills:
+  - chaselfpotion{type=RESISTANCE;duration=400;level=0;element=earth;spell=iron_carapace} @self
+
+# 161 이끼 입히기 - 발아래 Deep Dark 탐지, 결과는 VFX로만 (범위·마나·쿨 미정)
+CHA_moss_coating:
+  Cooldown: 0
+  Skills:
+  - chautil{type=deepdark;depth=64;element=earth;spell=moss_coating} @self
+
+# 153 잔디 돋우기 - 조준한 2x2 흙만 잔디로
+CHA_grass_sprouting:
+  Cooldown: 0
+  Skills:
+  - chafarm{type=grass;size=2;element=earth;spell=grass_sprouting}
+
+# 169 돌 고르기 - 돌 파편 3~5발 순차 발사 (사거리·피해 임시)
+CHA_flint_sorting:
+  Cooldown: 0
+  Skills:
+  - chabolt{speed=1.8;range=26;radius=0.4;count=3;countmax=5;interval=3;element=earth;spell=flint_sorting}
+
+# 162 껍질 벗기기 - 연결된 원목 최대 6개 껍질 벗기기
+CHA_bark_peeling:
+  Cooldown: 0
+  Skills:
+  - chafarm{type=strip;max=6;element=earth;spell=bark_peeling}
+
+# 163 퇴비 환원 - 손의 식물 재료 -> 뼛가루 (바닐라 퇴비통 기대값 임시, 재료·비율 미정)
+CHA_compost_return:
+  Cooldown: 0
+  Skills:
+  - chafarm{type=compost;element=earth;spell=compost_return} @self
+
+# 196 가시 씨앗 - 선인장 가시 5발 부채꼴 동시 발사 (사거리·피해 임시)
+CHA_thorn_seeds:
+  Cooldown: 0
+  Skills:
+  - chabolt{speed=2;range=26;radius=0.5;spread=-20;element=earth;spell=thorn_seeds}
+  - chabolt{speed=2;range=26;radius=0.5;spread=-10;element=earth;spell=thorn_seeds}
+  - chabolt{speed=2;range=26;radius=0.5;spread=0;element=earth;spell=thorn_seeds}
+  - chabolt{speed=2;range=26;radius=0.5;spread=10;element=earth;spell=thorn_seeds}
+  - chabolt{speed=2;range=26;radius=0.5;spread=20;element=earth;spell=thorn_seeds}
+
+# 164 꽃가루 중매 - 번식 가능한 동물 한 쌍 번식 (먹이 불필요, 대기시간 준수)
+CHA_pollen_matchmaking:
+  Cooldown: 0
+  Skills:
+  - chafarm{type=breed;r=8;element=earth;spell=pollen_matchmaking}
+
+# 165 동면의 씨앗 - 전방 5칸 다 자란 작물만 수확, 재파종 없음
+CHA_dormant_seed:
+  Cooldown: 0
+  Skills:
+  - chafarm{type=harvest;len=5;element=earth;spell=dormant_seed} @self
+
+# 184 반격의 무게추 - 1초 안에 방패로 막으면 공격자 2초 행동 정지
+CHA_counterweight:
+  Cooldown: 0
+  Skills:
+  - chaguard{type=counter;ticks=20;extra=40;element=earth;spell=counterweight} @self
+
+# 190 자재 치환 - 대상 이동만 2초 정지, 보스 면역
+CHA_material_exchange:
+  Cooldown: 0
+  Skills:
+  - chamark{type=root;ticks=40;element=earth;spell=material_exchange}
+
+# 191 기억하는 밭 - 전방 5칸 작물 즉시 성숙
+CHA_remembering_field:
+  Cooldown: 0
+  Skills:
+  - chafarm{type=ripen;len=5;element=earth;spell=remembering_field} @self
+
+# 185 작은 거인 - 15초 몸집·근접 거리·근접 피해 증가 (증가량 임시)
+CHA_little_giant:
+  Cooldown: 0
+  Skills:
+  - chabuff{type=giant;ticks=300;scale=0.5;reach=1;damage=0.3;element=earth;spell=little_giant} @self
+
+# 186 용수철 지반 - 임시 도약판 (3회·30초·높이 임시)
+CHA_spring_ground:
+  Cooldown: 0
+  Skills:
+  - chasummon{type=spring;uses=3;ticks=600;up=1.1;forward=0.5;element=earth;spell=spring_ground}
+
+# 194 산맥의 등 - 굴러가는 바위가 밀며 여러 번 타격 (크기·사거리·피해 임시)
+CHA_mountain_back:
+  Cooldown: 0
+  Skills:
+  - delay 10
+  - chabolt{speed=0.5;range=27;radius=1.4;pierce=99;rehit=8;knock=0.9;up=0.2;from=caster;mult=0.4;missevent=external:wallBreak;element=earth;spell=mountain_back}
+
+# 181 대지의 품 - 전방 5칸, 완전히 마른 농지 위 작물 되살리기 (더위 건조 시스템 없음, 해석 확인 필요)
+CHA_earth_embrace:
+  Cooldown: 0
+  Skills:
+  - chafarm{type=revive;len=5;element=earth;spell=earth_embrace} @self
+
+# 197 숲의 왕좌 - 8초 제자리, 주변 6블록 뿌리 순차 공격·넉백
+CHA_forest_throne:
+  Cooldown: 0
+  Skills:
+  - chabuff{type=root;ticks=160;element=earth;spell=forest_throne} @self
+  - chazone{center=caster;r=6;ticks=160;period=10;max=2;pick=random;mult=0.35;knock=0.8;up=0.3;element=earth;spell=forest_throne} @self
+
+# 198 원초의 돌 - 돌핵 생성 -> 다시 사용 시 발사 (Bridge 쿨타임 API 없으면 자동 발사, 확률·피해 미정)
+CHA_primordial_stone:
+  Cooldown: 0
+  Skills:
+  - chautil{type=core;ticks=6000;speed=0.7;range=22;radius=0.8;aoe=2.5;aoemult=0.5;mana=500;element=earth;spell=primordial_stone} @self
+
+# 201 길잡이 별 - 스토리 단계 목표를 화살표로 가리킴 (10블록 안이면 사라짐), 다시 시전 = 끄기 (2026-10-23)
+CHA_guiding_star:
+  Cooldown: 0
+  Skills:
+  - chautil{type=star;element=light;spell=guiding_star} @self
+
+# 207 작은 치유 - 자신 체력 하트 1칸 회복
+CHA_minor_heal:
+  Cooldown: 0
+  Skills:
+  - chaally{type=heal;amount=2;element=light;spell=minor_heal} @self
+
+# 229 진실의 눈 - 15초 근처 투명한 적 윤곽 + 숨은 단서 이벤트 (범위 임시)
+CHA_true_sight:
+  Cooldown: 0
+  Skills:
+  - chautil{type=truesight;r=16;ticks=300;element=light;spell=true_sight} @self
+
+# 232 보호 결계 - 10초 투사체 흡수 -> 보호막 (전환량·상한 임시)
+CHA_protective_ward:
+  Cooldown: 0
+  Skills:
+  - chaguard{type=ward;ticks=200;r=2.5;per=2;reduce=10;extra=200;element=light;spell=protective_ward} @self
+
+# 238 성좌의 가호 - 자신+6블록 동료 30초 신속·저항 (레벨 임시)
+CHA_constellation_blessing:
+  Cooldown: 0
+  Skills:
+  - chaally{type=buff;r=6;effect=SPEED:600:0,RESISTANCE:600:0;element=light;spell=constellation_blessing} @self
+
+# 239 마력 각인 - 곡괭이 20초 3x3 채굴
+CHA_arcane_imprint:
+  Cooldown: 0
+  Skills:
+  - chautil{type=mine;ticks=400;element=light;spell=arcane_imprint} @self
+
+# 241 여명의 의식 - 8블록 해로운 효과 해제 + 20초 재적용 방지
+CHA_dawn_ritual:
+  Cooldown: 0
+  Skills:
+  - chaally{type=dawn;r=8;ticks=400;element=light;spell=dawn_ritual} @self
+
+# 214 위로의 빛 - 바라보는 동료 임시 하트 5칸 5초, 미중첩
+CHA_comforting_light:
+  Cooldown: 0
+  Skills:
+  - chaally{type=comfort;range=15;amount=10;ticks=100;element=light;spell=comforting_light} @self
+
+# 223 퇴마의 섬광 - 주변 언데드만 범위 피해 (반경·피해 임시)
+CHA_exorcism_flash:
+  Cooldown: 0
+  Skills:
+  - chahit{center=caster;r=8;max=16;undead=true;element=light;spell=exorcism_flash} @self
+
+# 242 마력 봉합 - 손에 든 일반 도구 완전 수리
+CHA_arcane_mending:
+  Cooldown: 0
+  Skills:
+  - chautil{type=mend;element=light;spell=arcane_mending} @self
+
+# 202 동행 귀환 - 시전자 혼자 마을 귀환 지점으로 (config return-point)
+CHA_companion_return:
+  Cooldown: 0
+  Skills:
+  - chautil{type=return;element=light;spell=companion_return} @self
+
+# 240 무결의 순간 - 3초 무적, 이동·공격 가능
+CHA_flawless_moment:
+  Cooldown: 0
+  Skills:
+  - chaguard{type=invuln;ticks=60;element=light;spell=flawless_moment} @self
+
+# 246 태양의 심판 - 12초 영창(이동·피격 시 실패) 후 3초 레이저 (피해·사거리 임시)
+CHA_solar_judgment:
+  Cooldown: 0
+  Skills:
+  - chachannel{ticks=240;move=0.3;then=CHA_solar_judgment_fire;element=light;spell=solar_judgment}
+
+# 215 반딧불 표식 - 60초 따라다니는 실제 빛
+CHA_firefly_mark:
+  Cooldown: 0
+  Skills:
+  - chasummon{type=light;ticks=1200;level=15;element=light;spell=firefly_mark} @self
+
+# 208 햇살 말림 - 썩은 살점 4 -> 가죽 1
+CHA_sun_drying:
+  Cooldown: 0
+  Skills:
+  - chafarm{type=craft;in=ROTTEN_FLESH:4;out=LEATHER:1;element=light;spell=sun_drying} @self
+
+# 203 빛의 필사 - 채팅으로 입력한 글씨를 조준 위치에 5초 표시 (입력창은 클라이언트 제안)
+CHA_luminous_copy:
+  Cooldown: 0
+  Skills:
+  - chautil{type=text;range=12;ticks=100;wait=600;element=light;spell=luminous_copy}
+
+# 216 유도 깃 - 5초 동안 쏘는 화살이 조준한 적에게 유도, 벽 우회 없음
+CHA_guiding_fletching:
+  Cooldown: 0
+  Skills:
+  - chaguard{type=homing;ticks=100;element=light;spell=guiding_fletching} @self
+
+# 234 나눔 식탁 - 자신 제외 근처 아군 허기 전부 회복 (반경 임시)
+CHA_sharing_table:
+  Cooldown: 0
+  Skills:
+  - chaally{type=feed;r=8;element=light;spell=sharing_table} @self
+
+# 235 소환장 - 길들인 늑대·고양이 새로 소환, 30초 뒤 사망
+CHA_summons_letter:
+  Cooldown: 0
+  Skills:
+  - chasummon{type=pets;ticks=600;element=light;spell=summons_letter} @self
+
+# 204 별빛 측량 - 바라보는 블록 좌표·거리 표시
+CHA_starlight_survey:
+  Cooldown: 0
+  Skills:
+  - chautil{type=survey;range=48;element=light;spell=starlight_survey} @self
+
+# 230 빛의 교대 - 주변 몬스터 도발 (보스 포함, 범위·지속 임시)
+CHA_luminous_handover:
+  Cooldown: 0
+  Skills:
+  - chautil{type=taunt;r=10;ticks=100;element=light;spell=luminous_handover} @self
+
+# 243 마력 전선 - 마나석 5개, 획득 시 마나 50+계수x마력 (계수·반경·유지 임시)
+CHA_mana_conduit:
+  Cooldown: 0
+  Skills:
+  - chasummon{type=conduit;count=5;r=6;ticks=400;amount=50;ratio=0.5;element=light;spell=mana_conduit} @self
+
+# 224 자비의 화살 - 매우 빠른 치유 화살, 맞은 아군 회복 (치유량 임시)
+CHA_merciful_arrow:
+  Cooldown: 0
+  Skills:
+  - chabolt{speed=3;range=42;radius=0.6;ally=true;pierce=1;hitevent=external:heal;element=light;spell=merciful_arrow}
+
+# 236 마력 예금 - 마나 포션(item:mana_potion) 1개 생성, 사용 시 마나 50
+CHA_mana_deposit:
+  Cooldown: 0
+  Skills:
+  - chautil{type=potion;element=light;spell=mana_deposit} @self
+
+# 237 수호자의 서약 - 바라보는 동료 피해 일부 대신 받기 (거리·지속·비율 임시)
+CHA_guardian_oath:
+  Cooldown: 0
+  Skills:
+  - chaally{type=oath;range=10;r=10;ratio=0.3;ticks=200;element=light;spell=guardian_oath} @self
+
+# 247 별빛 재현 - 다른 장착 마법 1개 쿨타임 초기화 (Bridge 쿨타임 API + 슬롯 보고 필요)
+CHA_starlight_reprise:
+  Cooldown: 0
+  Skills:
+  - chautil{type=reprise;element=light;spell=starlight_reprise} @self
+
+# 244 성좌의 대리인 - 30초 별 사역마: 체력 낮은 동료 하트 3칸, 2초 간격
+CHA_constellation_emissary:
+  Cooldown: 0
+  Skills:
+  - chasummon{type=emissary;ticks=600;r=8;amount=6;period=40;element=light;spell=constellation_emissary} @self
+
+# 249 밤눈 - 60초 야간 투시
+CHA_night_sight:
+  Cooldown: 0
+  Skills:
+  - chaselfpotion{type=NIGHT_VISION;duration=1200;level=0;element=dark;spell=night_sight} @self
+
+# 250 그림자 매듭 - 가까운 몬스터 3초 둔화 (사거리·둔화 임시)
+CHA_shadow_bind:
+  Cooldown: 0
+  Skills:
+  - chahit{mult=0;effect=SLOWNESS:60:1;element=dark;spell=shadow_bind}
+
+# 258 옅은 은신 - 8초 투명 (갑옷·손 아이템은 보임)
+CHA_faint_veil:
+  Cooldown: 0
+  Skills:
+  - chaselfpotion{type=INVISIBILITY;duration=160;level=0;element=dark;spell=faint_veil} @self
+
+# 65 여우불 공전 - 여우불 3개가 0.8초 몸 둘레를 돌다가 조준한 적에게 휘어 날아감 (불씨 2초)
+CHA_fox_orbit:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;spread=30;orbit=16;speed=0.7;homing=0.2;range=34;mult=1;ignite=40;vfx=kitsunefox/shot_normal;hitvfx=kitsunefox/hit_normal;hits=enemies;element=fire;spell=fox_orbit}
+
+# 66 곡선 불깃털 - 좌우로 퍼졌다가 휘어 들어오는 불깃털 3발 (불씨 2초)
+CHA_curving_plumes:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;spread=40;speed=0.8;homing=0.18;range=34;mult=1;ignite=40;vfx=phoenixfeather/shot_flame;hitvfx=phoenixfeather/hit_flame;hits=enemies;element=fire;spell=curving_plumes}
+
+# 120 결정 공전탄 - 얼음 결정 8개가 1초 몸 둘레를 돈 뒤 8방향으로 발사, 맞으면 1.5초 둔화
+CHA_crystal_orbit:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=8;spread=45;orbit=20;speed=0.7;range=20;mult=1;status=slow:30:0.3;vfx=glacialshards/shot_glacial;hitvfx=glacialshards/hit_glacial;hits=enemies;element=water;spell=crystal_orbit}
+
+# 172 독 뱉기 - 포물선 독 덩어리, 떨어진 자리 반경 2.5 피해 + 중독 3초 (웅덩이는 VFX)
+CHA_venom_spit:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=1;speed=0.7;rise=0.35;range=31;burst=2.5;mult=1;status=poison:60;vfx=basiliskspit/shot_wild;hitvfx=basiliskspit/hit_wild;hits=enemies;element=earth;spell=venom_spit}
+
+# 173 연막 은신 - 주변 5블록 적 실명 2초 + 자신 2초 투명
+CHA_smoke_veil:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=5;ticks=2;mult=1;status=blindness:40;vfx=smokebomb/smoke;vfxref=6;vfxlead=2;warn=false;hits=enemies;element=earth;spell=smoke_veil}
+  - chaselfpotion{type=INVISIBILITY;duration=40;level=0;element=earth;spell=smoke_veil} @self
+
+# 217 영역 선포 - 주변 6블록 적을 위로 튕겨 올림
+CHA_domain_stomp:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=6;ticks=4;mult=1;up=0.9;vfx=domainseal/domain_heavenly;vfxref=10;vfxlead=4;warn=false;hits=enemies;element=light;spell=domain_stomp}
+
+# 226 봉인진 - 조준 지점 반경 4, 0.8초 뒤 봉인 — 무장 해제 1.5초
+CHA_seal_circle:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=4;ticks=16;mult=1;status=disarm:30;vfx=sealcircle/seal;vfxref=4;vfxlead=2;warn=false;hits=enemies;element=light;spell=seal_circle}
+
+# 211 봉인 부적 - 곡선 유도 부적 3장
+CHA_seal_talismans:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;spread=30;speed=0.8;homing=0.15;range=34;mult=1;vfx=sealtalisman/shot_seal;hitvfx=sealtalisman/hit_seal;hits=enemies;element=light;spell=seal_talismans}
+
+# 218 방패 내려찍기 - 앞 부채꼴 반경 4.5 · 120° 강타 + 기절 0.5초
+CHA_shield_slam:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=4.5;angle=120;ticks=4;mult=1;status=stun:10;vfx=sealshield/shield;vfxref=3;vfxlead=4;warn=false;hits=enemies;element=light;spell=shield_slam}
+
+# 212 사슬 화살 - 빠른 사슬 화살, 맞으면 1.5초 둔화
+CHA_chain_arrow:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=1;speed=1.3;range=37;radius=0.6;mult=1;status=slow:30:0.4;vfx=chainarrow/shot_chain;hitvfx=chainarrow/hit_chain;hits=enemies;element=light;spell=chain_arrow}
+
+# 266 마나 흡수 - 조준 지점 반경 4, 0.6초 뒤 피해 + 마나 연소 2초
+CHA_mana_drain:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=4;ticks=12;mult=1;status=mana_burn:40;vfx=phantomdrain/drain_ender;vfxref=6;vfxlead=2;warn=false;hits=enemies;element=dark;spell=mana_drain}
+
+# 256 영혼 낫 - 앞 부채꼴 반경 5 · 150° 베기
+CHA_soul_scythe:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=5;angle=150;ticks=4;mult=1;vfx=phantomscythe/reap_ender;vfxref=5;vfxlead=4;warn=false;hits=enemies;element=dark;spell=soul_scythe}
+
+# 267 망각의 탄환 - 느리게 날아가는 탄 3발, 맞으면 1.5초 둔화
+CHA_oblivion_orbs:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;spread=14;speed=0.45;homing=0.08;range=34;radius=0.9;mult=1;status=slow:30:0.3;vfx=skelorb/shot;hitvfx=skelorb/hit;hits=enemies;element=dark;spell=oblivion_orbs}
+
+# 268 뼈의 손아귀 - 조준 지점 반경 4, 0.6초 뒤 묶음 1초 + 시전자 쪽으로 끌어옴
+CHA_bone_grasp:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=4;ticks=12;mult=1;status=root:20;pull=1.4;vfx=bonegrasp/grasp;vfxref=6;vfxlead=2;warn=false;hits=enemies;element=dark;spell=bone_grasp}
+
+# 269 그림자 도약 - 대상 옆으로 순간이동해 반경 2.5 타격 (2칸 빈 공간 필요)
+CHA_shadow_leap:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=2.5;ticks=4;mult=1;blink=true;vfx=specialkitsune/in_normal;vfxout=specialkitsune/out_normal;vfxref=3;vfxlead=4;warn=false;hits=enemies;element=dark;spell=shadow_leap}
+
+# 28 끌어오기 - 대상을 내 앞 1.6블록으로 순간이동시키고 1초 둔화
+CHA_binding_pull:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=1.5;ticks=4;mult=1;tpme=true;status=slow:20:0.3;vfx=specialserpent/mark_jade;vfxin=specialserpent/in_jade;vfxref=3;vfxlead=4;warn=false;hits=enemies;element=wind;spell=binding_pull}
+
+# 174 요정 가루 - 주변 5블록 적 수면 2초 (피해 받으면 깸)
+CHA_fairy_dust:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=5;ticks=4;mult=1;status=sleep:40;vfx=fairydust/dust_flower;vfxref=6;vfxlead=4;warn=false;hits=enemies;element=earth;spell=fairy_dust}
+
+# 13 반달 바람날 - 앞 직선 10 · 폭 3, 반달 바람날 2개가 밀며 지나감
+CHA_moon_wind:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=line;at=caster;length=10;width=3;ticks=4;mult=1;knock=0.8;vfx=pegasuscrescent/moon;vfxref=5;vfxlead=4;warn=false;hits=enemies;element=wind;spell=moon_wind}
+
+# 22 돌풍 날갯짓 - 앞 반원 반경 6 밀치기 + 중력 1초
+CHA_gale_wings:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=6;angle=180;ticks=4;mult=1;knock=1.6;up=0.4;status=gravity:20;vfx=galewings/gale;vfxref=10;vfxlead=4;warn=false;hits=enemies;element=wind;spell=gale_wings}
+
+# 23 깃털 폭풍 - 주변 5블록 깃털 칼날 폭풍
+CHA_feather_storm:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=5;ticks=4;mult=1;vfx=featherstorm/fstorm_common;vfxref=8;vfxlead=4;warn=false;hits=enemies;element=wind;spell=feather_storm}
+
+# 175 사냥 도약 - 대상에게 뛰어들어 착지 반경 3 피해 + 묶음 1초
+CHA_hunting_pounce:
+  Cooldown: 0
+  Skills:
+  - leap{velocity=130;noise=0} @target
+  - delay 14
+  - chatelegraph{shape=circle;at=caster;r=3;ticks=2;mult=1;status=root:20;vfx=sabertoothpounce/pounce_arctic;vfxref=6;vfxlead=2;warn=false;hits=enemies;element=earth;spell=hunting_pounce} @self
+
+# 24 포효 도약 - 대상에게 뛰어들어 착지하며 포효, 반경 4 피해 + 공포 1초
+CHA_roar_leap:
+  Cooldown: 0
+  Skills:
+  - leap{velocity=150;noise=0} @target
+  - delay 16
+  - chatelegraph{shape=circle;at=caster;r=4;ticks=2;mult=1;status=fear:20;vfx=manticoreroar/roar_aether;vfxref=8;vfxlead=2;warn=false;hits=enemies;element=wind;spell=roar_leap} @self
+
+# 182 중력 강타 - 주변 5블록 강타 + 중력 2초
+CHA_gravity_slam:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=5;ticks=6;mult=1;status=gravity:40;vfx=gravityslam/gravity_arcane;vfxref=11;vfxlead=6;warn=false;hits=enemies;element=earth;spell=gravity_slam}
+
+# 176 꼬리 가시 - 조준 지점 반경 3에 0.4초 간격 가시 3번
+CHA_tail_spikes:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=3;ticks=8;mult=1;vfx=wyvernspikes/spikes_green;vfxref=4;vfxlead=6;warn=false;hits=enemies;element=earth;spell=tail_spikes}
+  - delay 8
+  - chatelegraph{shape=circle;at=target;r=3;ticks=8;mult=1;vfx=wyvernspikes/spikes_green;vfxref=4;vfxlead=6;warn=false;hits=enemies;element=earth;spell=tail_spikes}
+  - delay 8
+  - chatelegraph{shape=circle;at=target;r=3;ticks=8;mult=1;vfx=wyvernspikes/spikes_green;vfxref=4;vfxlead=6;warn=false;hits=enemies;element=earth;spell=tail_spikes}
+
+# 276 그림자 분신 - 제자리에 분신 8초, 8초 안 재사용 시 복귀(재사용 마나 환급). 분신 유지 중 쿨 없음, 복귀/소멸 시 쿨 시작
+CHA_shadow_double:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=double;ticks=160;mana=75;cooldown=25;element=dark;spell=shadow_double} @self
+
+# 254 잔향 읽기 - 바라본 블록/엔티티(6칸)에 MagicEchoEvent 발생 - 퀘스트·던전 플러그인이 단서 문구를 넣음 (없으면 "남아 있는 기억이 없다")
+CHA_echo_reading:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=echo;range=6;element=dark;spell=echo_reading} @self
+
+# 259 봉인의 실 - 직접 설치한 문/상자/통에 봉인(다른 사람은 못 엶), 같은 대상에 다시 쓰면 해제
+CHA_sealing_thread:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=thread;range=5;ticks=6000;element=dark;spell=sealing_thread} @self
+
+# 284 그림자 교환 - 대상과 위치 교환 (0.3초 사라졌다 나타남). 남의 펫·보호구역·PvP 불가 대상 제외
+CHA_shadow_exchange:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=swap;range=26;hide=6;element=dark;spell=shadow_exchange}
+
+# 296 금서의 계약 - 최대 마나 70% 지불 → 3초간 마나 회복분을 체력으로 전환 → 이어서 15초 마나 회복 금지
+CHA_forbidden_contract:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=contract;ratio=0.7;ticks=60;lock=300;heal=0.1;element=dark;spell=forbidden_contract} @self
+
+# 260 생명 갈취 - 조준 지점 반경 3 암흑지대 3초, 0.5초마다 피해 + 준 피해 50% 회복
+CHA_life_siphon:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=siphon;r=3;ticks=60;period=10;heal=0.5;element=dark;spell=life_siphon}
+
+# 285 졸음 - 어둠 구체가 조준 지점으로 날아가 10초 감지, 처음 들어온 적 3초 속박 후 소멸
+CHA_drowsiness:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=drowse;speed=0.8;r=3;wait=200;root=60;orbvfx=claude:drowsiness/fly;element=dark;spell=drowsiness}
+
+# 272 나약함의 저주 - 대상 8초 약화(마법 피해↓) + 물리 약화(공격 피해↓)
+CHA_misfortune_whisper:
+  Cooldown: 0
+  Skills:
+  - chahit{mult=0;status=magic_weakness:160+physical_weakness:160;element=dark;spell=misfortune_whisper}
+
+# 277 저주의 전가 - 대상의 상태이상·해로운 포션을 반경 6 적 최대 5명에게 복사 (지속 70%), 원래 대상은 유지, 연쇄 없음
+CHA_curse_transfer:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=spread;r=6;max=5;keep=0.7;element=dark;spell=curse_transfer}
+
+# 286 마인드컨트롤 - 보스 제외 일반 몬스터 6초 조종: 0.5초마다 반경 10 가장 가까운 다른 몬스터를 노림, 플레이어 노림 차단
+CHA_discord:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=discord;ticks=120;r=10;element=dark;spell=discord}
+
+# 292 밤의 사슬 - 조준 지점 반경 6 몬스터(2마리 이상) 8초 연결: 한 마리가 받은 피해의 30%를 나머지에 전달, 재전파 없음, 수 제한 없음
+CHA_night_chain:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=chain;r=6;ticks=160;ratio=0.3;element=dark;spell=night_chain}
+
+# 287 고통 유예 - 6초간 받는 피해 50%를 쌓아 두고, 끝난 뒤 5초 동안 1초마다 나눠 받음
+CHA_pain_deferral:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=defer;ticks=120;after=100;ratio=0.5;element=dark;spell=pain_deferral} @self
+
+# 278 검은 수확 - 주변 5블록 베기 + 3초 침묵(무장해제), 처형 삭제
+CHA_black_harvest:
+  Cooldown: 0
+  Skills:
+  - chahit{center=caster;r=5;max=16;status=disarm:60;element=dark;spell=black_harvest} @self
+
+# 262 먹물 손끝 - 손(주/보조)에 든 염료와 같은 색 염료 64개 생성, 재료 소모 없음. 염료를 안 들면 실패(마나·쿨 환급)
+CHA_ink_fingertip:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=ink;mana=30;element=dark;spell=ink_fingertip} @self
+
+# 293 그림자 못 - 15초 저주, 시전자와 20블록 넘게 멀어지면 피해 1회 후 종료, 그냥 만료되면 피해 없음
+CHA_shadow_nail:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=nail;ticks=300;dist=20;element=dark;spell=shadow_nail}
+
+# 288 밤의 자장가 - 팬텀 3마리 10초 소환, 0.5초마다 반경 16 적 재타겟, 햇빛에 안 탐, 드롭·경험치 없음, 주인/아군 공격 안 함
+CHA_night_lullaby:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=lullaby;count=3;ticks=200;range=27;element=dark;spell=night_lullaby} @self
+
+# 273 손아귀 풀기 - 플레이어: 선택 핫바 슬롯을 무작위로 바꿈 / 몬스터: 4초 침묵(무장해제)
+CHA_loosen_grasp:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=loosen;ticks=80;element=dark;spell=loosen_grasp}
+
+# 279 회복 봉인 - 대상 8초 회복봉인 (자연 회복·물약·마법 회복 차단 = 기존 회복봉인 상태 그대로)
+CHA_healing_seal:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=seal;ticks=160;element=dark;spell=healing_seal}
+
+# 289 어둠의 저울 - 조준 지점 반경 4 폭발, 대상 체력 ÷ 시전자 체력 비율로 추가 피해 +1%~+50% (2배 이상 = 150%)
+CHA_shadow_scales:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=scales;r=4;delay=8;element=dark;spell=shadow_scales}
+
+# 294 경고의 실 - 대상(또는 조준 지점) 중심 반경 6 결계 7초: 시전 때 안에 있던 적은 밖으로 못 나감 (되밀림)
+CHA_warning_thread:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=cage;r=6;ticks=140;element=dark;spell=warning_thread}
+
+# 280 상처 회계 - 유도 먹물 덩어리가 맞으면 무작위 상태이상 1개 (기절1초·속박1.5·무장해제2·둔화3·화상3·회복봉인4·약화5·중력3·고정3·독4·물리약화5·실명2·물약봉인5·마나소각·수면2·공포1.5)
+CHA_wound_accounting:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=wound;speed=0.7;range=34;element=dark;spell=wound_accounting}
+
+# 290 유령 도구 - 30초 블록 설치·파괴 사거리 +27 (block_interaction_range), 공격 사거리 그대로
+CHA_ghost_tool:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=ghosttool;ticks=600;reach=27;element=dark;spell=ghost_tool} @self
+
+# 291 공포의 종 - 주변 8블록 일반 몬스터 3초 공포 (파동 도달 순서대로), 플레이어·보스 제외
+CHA_bell_of_fear:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=bell;r=8;ticks=60;element=dark;spell=bell_of_fear} @self
+
+# 299 월식의 눈 - 5초 영창(이동·피격 시 실패) → 조준 지점 반경 15 영역 10초: 안의 시전자 이동속도 +30%·마나 계속 채움, 달빛 6개가 떠돌며 접촉 피해(같은 적 1초 간격)
+CHA_eclipse_eye:
+  Cooldown: 0
+  Skills:
+  - chachannel{ticks=100;move=0.3;then=CHA_eclipse_eye_zone;element=dark;spell=eclipse_eye}
+
+# 297 공허의 입 - 조준 지점에서 1.25초 뒤 바닥의 입이 삼킴: 반경 4 피해
+CHA_void_maw:
+  Cooldown: 0
+  Skills:
+  - delay 25
+  - chahit{r=4;max=16;element=dark;spell=void_maw}
+
+# 21 빗자루 차원이동 - 빗자루 탑승 중 바라보는 방향 6블록 앞으로 순간이동 (막히면 그 앞까지, 속도 유지)
+CHA_landing_airbrake:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=airbrake;dist=6;element=wind;spell=landing_airbrake} @self
+
+# 274 고요한 밑창 - 20초간 자신의 걷기·달리기 진동(STEP)만 스컬크가 못 느낌. 착지·블록·아이템·공격 진동은 그대로
+CHA_hushed_soles:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=hushed;ticks=400;element=dark;spell=hushed_soles} @self
+
+# 154 가시의 예절 - 20초간 달콤한 열매 덤불의 감속·피해 무시 (자신만, 덤불은 그대로)
+CHA_thorn_manners:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=thorns;ticks=400;element=earth;spell=thorn_manners} @self
+
+# 80 불꽃 줄넘기 - 발밑 불고리 반지름 1→7 (2초, 3블록/초), 고리 띠(±0.25)에 닿은 적 1회 피해, 점프(+0.4 이상)·안쪽·다른 층은 회피
+CHA_cinder_skipring:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=skipring;r0=1;r1=7;ticks=40;element=fire;spell=cinder_skipring} @self
+
+# 137 물방울 인계 - 물방울이 조준 지점(10블록)으로 날아가 반경 2.5 적에게 피해 + 3초 공중부양
+CHA_droplet_relay:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=droplet;speed=0.6;r=2.5;ticks=60;element=water;spell=droplet_relay}
+
+# 138 접히는 수면 - 조준 지점에 6×2 물막, 1초 뒤 시전자 반대쪽으로 1.3초 동안 책장처럼 넘어감, 움직이는 막에 닿은 적 1회 피해
+CHA_folding_tideplane:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=tideplane;len=6;width=2;delay=20;turn=26;element=water;spell=folding_tideplane}
+
+# 63 해빙의 열기 - 얼음 봉인 3초 채널링 → thaw 트리거, 시전자 피해 시 취소
+CHA_thawing_heat:
+  Cooldown: 0
+  Skills:
+  - chagimmick{type=thaw;range=12;mana=40;element=fire;spell=thawing_heat} @self
+
+# 64 증기 점화 - 증기 밸브 steam 트리거 (밸브 노드 mana: out 이면 마력 신호)
+CHA_steam_ignition:
+  Cooldown: 0
+  Skills:
+  - chagimmick{type=steam;range=12;mana=30;element=fire;spell=steam_ignition} @self
+
+# 114 수위 조절 - 수위 기둥 레벨 0~3 (+1 / 웅크리면 -1)
+CHA_water_level:
+  Cooldown: 0
+  Skills:
+  - chagimmick{type=level;range=12;mana=20;element=water;spell=water_level} @self
+
+# 170 무게추 - 대지 압력판 weight 트리거 (보통 hold 짧게 + mana: out)
+CHA_stone_weight:
+  Cooldown: 0
+  Skills:
+  - chagimmick{type=weight;range=12;mana=30;element=earth;spell=stone_weight} @self
+
+# 171 덩굴 깨우기 - 씨앗 화분 grow 트리거 → 노드 climb 설정만큼 위로 덩굴(타고 오르는 블록)
+CHA_vine_awaken:
+  Cooldown: 0
+  Skills:
+  - chagimmick{type=grow;range=12;mana=40;element=earth;spell=vine_awaken} @self
+
+# 225 빛줄기 - 3초 채널링(이동 불가) 빛줄기, 거울 반사·프리즘 색 변경, 수신 수정 light 입력
+CHA_light_beam:
+  Cooldown: 0
+  Skills:
+  - chagimmick{type=beam;range=32;mana=50;element=light;spell=light_beam} @self
+
+# 209 반사 조율 - 회전 반사 거울·회전 다이얼 위치 +1 (0~3)
+CHA_mirror_tune:
+  Cooldown: 0
+  Skills:
+  - chagimmick{type=tune;range=20;mana=15;element=light;spell=mirror_tune} @self
+
+# 210 프리즘 물들이기 - 프리즘 색 흰색→빨강→노랑→초록→파랑→보라 순환 (웅크리면 반대)
+CHA_prism_tint:
+  Cooldown: 0
+  Skills:
+  - chagimmick{type=tint;range=20;mana=15;element=light;spell=prism_tint} @self
+
+# 255 석상 깨우기 - 잠든 석상 방향 +90° (노드 facing 조건)
+CHA_statue_wake:
+  Cooldown: 0
+  Skills:
+  - chagimmick{type=wake;range=16;mana=20;element=dark;spell=statue_wake} @self
+
+# 264 되감기 - 마지막 변화(방향·위치·수위·색·레버) 1단계 되돌리기, 60초 이내
+CHA_rewind:
+  Cooldown: 0
+  Skills:
+  - chagimmick{type=rewind;range=16;mana=30;element=dark;spell=rewind} @self
+
+# 155 도관 회전 - 마력 도관 방향 +90° → 마력 신호 경로 재계산
+CHA_conduit_turn:
+  Cooldown: 0
+  Skills:
+  - chagimmick{type=conduit;range=16;mana=10;element=earth;spell=conduit_turn} @self
+
+# 265 차원 표식 - 첫 시전 = 표식(30초), 두 번째 = 다른 게이트와 연결(120초, 걸어 들어가면 이동)
+CHA_dimension_mark:
+  Cooldown: 0
+  Skills:
+  - chagimmick{type=mark;range=24;mana=40;element=dark;spell=dimension_mark} @self
+
+# 53 불씨 튕기기 - 손끝 불씨 3개를 전방 6블록 ±17° 부채꼴로 0.10/0.13/0.16초에 튕김, 불씨마다 1회 피해 (가까울수록 여러 발)
+CHA_spark_flick:
+  Cooldown: 0
+  Skills:
+  - chanova{type=spark_flick;pack=sparkflick;aim=cone:6:34;element=fire;spell=spark_flick}
+
+# 54 작은 불숨 - 전방 3블록 ±30° 원뿔, 0.1초에 숨이 나가 초속 9블록으로 퍼지며 닿는 순서대로 피해 + 화상 3초 (시야 막힌 적 제외)
+CHA_ember_puff:
+  Cooldown: 0
+  Skills:
+  - chanova{type=ember_puff;pack=emberpuff;aim=cone:3:60;element=fire;spell=ember_puff}
+
+# 107 물살 베기 - 전방 3블록 반원을 0.1초에 베어 피해 + 시전자 반대쪽으로 약 1블록 밀침
+CHA_tide_slash:
+  Cooldown: 0
+  Skills:
+  - chanova{type=tide_slash;pack=tideslash;aim=cone:3:180;element=water;spell=tide_slash}
+
+# 108 얼음 조각 - 얼음 조각 2발을 0.12/0.27초에 발사 (16블록), 발마다 피해, 두 발 모두 같은 적에게 맞으면 둔화 3초
+CHA_ice_shard:
+  Cooldown: 0
+  Skills:
+  - chanova{type=ice_shard;pack=iceshard;aim=line:27:0.6;range=27;element=water;spell=ice_shard}
+
+# 8 바람 송곳 - 0.12초에 바늘 발사, 24블록을 틱당 3블록으로 날며 닿는 적 모두 1번씩 관통 피해
+CHA_wind_needle:
+  Cooldown: 0
+  Skills:
+  - chanova{type=wind_needle;pack=windneedle;aim=line:41:0.5;range=41;element=wind;spell=wind_needle}
+
+# 9 작은 회오리 - 0.15초에 앞 0.9블록에서 회오리 출발, 땅을 따라 틱당 0.18블록으로 8블록 (약 2.2초), 막히면 멈춤. 닿은 적(반경 0.75)마다 1번 피해 + 살짝 띄움
+CHA_mini_twister:
+  Cooldown: 0
+  Skills:
+  - chanova{type=mini_twister;pack=minitwister;aim=line:8:1.5;element=wind;spell=mini_twister}
+
+# 251 그림자 송곳니 - 대상 발밑(0.08초)에 그림자 웅덩이, 0.2초 뒤 송곳니가 솟아 피해. 그 사이 웅덩이(반경 1.8) 밖으로 피하면 빗나감
+CHA_shadow_fang:
+  Cooldown: 0
+  Skills:
+  - chanova{type=shadow_fang;pack=shadowfang;aim=point;range=20;element=dark;spell=shadow_fang}
+
+# 252 어둠 구슬 - 0.15초에 느린 구슬(틱당 0.18블록)이 대상을 6초 동안 따라감. 처음 닿은 적에게 피해 + 약화 3초, 벽에 막히거나 6초가 지나면 사라짐
+CHA_dusk_orb:
+  Cooldown: 0
+  Skills:
+  - chanova{type=dusk_orb;pack=duskorb;aim=point;range=27;element=dark;spell=dusk_orb}
+
+# 205 프리즘 탄 - 0.18초에 빛탄 발사 (20블록). 적에게 맞으면 그 자리에서 굴절돼 반경 6 안의 다른 적 최대 2명에게 작은 빛탄 (각 60% 피해). 벽·빗나감은 굴절 없음
+CHA_prism_shot:
+  Cooldown: 0
+  Skills:
+  - chanova{type=prism_shot;pack=prismshot;aim=line:34:0.6;range=34;element=light;spell=prism_shot}
+
+# 156 모래 한 줌 - 전방 3.5블록 ±30° 원뿔, 0.12초에 모래가 나가 초속 9블록으로 퍼지며 닿는 순서대로 약한 피해 + 실명 3초 (시야 막힌 적 제외)
+CHA_sand_flick:
+  Cooldown: 0
+  Skills:
+  - chanova{type=sand_flick;pack=sandflick;aim=cone:3.5:60;element=earth;spell=sand_flick}
+
+# 206 햇살 꽂기 - 대상 발밑 위로 해 문양(0.05초), 0.43초 뒤 빛줄기가 땅에 닿아 피해. 그 사이 표시 원(반경 1.3) 밖으로 피하면 빗나감
+CHA_sunlance_drop:
+  Cooldown: 0
+  Skills:
+  - chanova{type=sunlance_drop;pack=sunlancedrop;aim=point;range=27;element=light;spell=sunlance_drop}
+
+# 67 화염 원반 - +0.30초에 발밑 불 바퀴 발사, 지면 따라 12블록(0.75블록/틱) 관통. 첫 벽에 닿으면 반사 방향으로 남은 거리만큼 되굴러옴(왕복 각 1회 피해)
+CHA_flame_wheel:
+  Cooldown: 0
+  Skills:
+  - chanova{type=flame_wheel;pack=flamewheel;aim=line:20:1.4;range=20;element=fire;spell=flame_wheel}
+
+# 74 분화선 - 정면 2.5/4.6/6.7/8.8블록에 불기둥 4개가 +0.45/0.70/0.95/1.20초에 솟음(반경 1.2). 적마다 1회 피해 + 살짝 띄움, 벽 너머는 안 솟음
+CHA_eruption_line:
+  Cooldown: 0
+  Skills:
+  - chanova{type=eruption_line;pack=eruptionline;aim=line:10:2.4;element=fire;spell=eruption_line}
+
+# 75 화염 투창 - 조준 미리보기에서 좌클릭을 누른 시간(최대 1.5초, 클라가 chacademia:spell_charge로 알림, 없으면 완충)만큼 사거리 10→30, 피해 x0.5→x1.5. 꽂힌 자리 폭발 반경 1.5(완충 2.5)
+CHA_flame_javelin:
+  Cooldown: 0
+  Skills:
+  - chanova{type=flame_javelin;pack=flamejavelin;aim=line:51:1;min=17;max=51;element=fire;spell=flame_javelin}
+
+# 81 아지랑이 - 옆으로 2블록 미끄러짐(좌우 이동 키 방향, 없으면 오른쪽 / 빗자루 위에서는 미끄러짐 없이 허상만). 제자리에 허상 3초: 10블록 안 몬스터는 시전자 대신 허상으로 감. 끝날 때 반경 2.5 폭발 + 화상 3초
+CHA_heat_haze:
+  Cooldown: 0
+  Skills:
+  - chanova{type=heat_haze;pack=heathaze;ticks=60;lure=10;r=2.5;element=fire;spell=heat_haze}
+
+# 121 서리 길 - 발밑부터 정면 폭 2 x 길이 8 얼음길 5초(+0.5초부터 판정). 위의 적 둔화 3초(풀리면 다시), 시전자는 길 위에서 이동속도 +30%
+CHA_frost_path:
+  Cooldown: 0
+  Skills:
+  - chanova{type=frost_path;pack=frostpath;aim=line:8.4:2;ticks=100;haste=0.3;element=water;spell=frost_path}
+
+# 122 수류 탄환 - 1.5초 채널링: +0.20초부터 0.17초마다 물줄기 8발(지금 보는 방향, 14블록). 맞으면 피해 + 조금 밀림. 시전 중 자기 이동속도 -50%, 기절·수면·공포·무장해제 시 끊김
+CHA_hydro_burst:
+  Cooldown: 0
+  Skills:
+  - chanova{type=hydro_burst;pack=hydroburst;aim=line:24:1;speed=1.25;range=24;knock=0.25;element=water;spell=hydro_burst}
+
+# 128 결정 갑옷 - 바라본 15블록 안 아군 1명(없으면 자신)에게 4초 얼음 보호막(임시 체력 = 6+0.3x마력). 다 깎이면 깨지며 반경 3 적 둔화 3초, 4초 지나면 조용히 녹음
+CHA_crystal_coat:
+  Cooldown: 0
+  Skills:
+  - chanova{type=crystal_coat;pack=crystalcoat;range=15;ticks=80;r=3;element=water;spell=crystal_coat}
+
+# 129 얼음 꽃 - 조준 지면에 얼음 꽃, 1.5초 뒤 6방향(60° 간격, 0번 = 정면) 6블록 파편. 줄 0.9 안의 적은 파편이 닿는 순간(1.5+거리/20초) 1회 피해
+CHA_ice_bloom:
+  Cooldown: 0
+  Skills:
+  - chanova{type=ice_bloom;pack=icebloom;aim=area:6;len=6;w=0.9;element=water;spell=ice_bloom}
+
+# 36 진공 폭발 - 조준 지면 반경 4: 0.8초 동안 적을 가운데로 끌어당김(보스 제외), +0.8초에 터지며 피해 + 바깥으로 살짝 밀침
+CHA_vacuum_burst:
+  Cooldown: 0
+  Skills:
+  - chanova{type=vacuum_burst;pack=vacuumburst;aim=area:4;r=4;pull=0.35;knock=0.45;element=wind;spell=vacuum_burst}
+
+# 25 질풍 연격 - 2초 안에 다시 쓰면 다음 타: 1·2타 정면 3.5블록 130° 베기(+0.05초), 3타 4.5블록 130° 밀쳐내기(+0.10초, 피해 x1.4). 마나는 첫 타만(2·3타 환급), 3타 뒤 또는 2초 창이 지나면 쿨 10초
+CHA_gale_combo:
+  Cooldown: 0
+  Skills:
+  - chanova{type=gale_combo;pack=galecombo;aim=cone:4.5:130;mana=30;cooldown=10;r=3.5;push_r=4.5;push_mult=1.4;knock=1.3;element=wind;spell=gale_combo}
+
+# 40 숨 막힘 - 대상 1명: 0.2초에 바람 실이 목에 닿으며 무장해제 3초. 정화되거나 20블록 넘게 멀어지면 바로 풀림(풀림 연출)
+CHA_air_choke:
+  Cooldown: 0
+  Skills:
+  - chanova{type=air_choke;pack=airchoke;aim=point;mana=100;keep=34;element=wind;spell=air_choke}
+
+# 41 폭풍의 눈 - 4초간 몸 주위 바람 장벽: 반경 2.4 안으로 날아드는(빠른 화살은 다음 틱 경로까지 봄) 적의 바닐라 투사체(화살·삼지창·화염구·눈덩이 등, 최대 16개)를 붙잡아 반경 1.6 궤도로 돌리고, 4.1초에 바깥으로 흩뿌림. 흩뿌린 투사체는 시전자 소유, 시전자·아군은 맞지 않음. 엔더 진주·낚싯찌·폭죽 제외, 물약은 터뜨려 없앰, 삼지창은 땅에 닿으면 원래 주인에게 돌아감
+CHA_storm_eye:
+  Cooldown: 0
+  Skills:
+  - chanova{type=storm_eye;pack=stormeye;mana=120;element=wind;spell=storm_eye}
+
+# 281 그림자 늪 - 조준한 땅에 반경 3 늪 4초. 안의 적: 처음 한 번 고정 3초(붙잡는 연출), 안에 있는 동안 둔화 30%(나온 뒤 1.5초)
+CHA_shadow_mire:
+  Cooldown: 0
+  Skills:
+  - chanova{type=shadow_mire;pack=shadowmire;aim=area:3;mana=90;element=dark;spell=shadow_mire}
+
+# 282 악몽 - 대상이 수면·공포 상태면 0.62초에 악몽의 아가리가 물어 큰 피해 + 수면·공포 해제, 아니면 0.36초에 공포 1초 (피해 없음)
+CHA_dread_dream:
+  Cooldown: 0
+  Skills:
+  - chanova{type=dread_dream;pack=dreaddream;aim=point;mana=70;element=dark;spell=dread_dream}
+
+# 275 그림자 걸음 - 바라보는 수평 방향으로 0.25초에 5블록 이동(적은 통과, 벽·보호 구역 앞에서 멈춤, 한 칸 턱은 오름). 이동 중 잠깐 투명, 지나친 적 실명 3초. 빗자루 탑승 중 불가
+CHA_shadow_step:
+  Cooldown: 0
+  Skills:
+  - chanova{type=shadow_step;pack=shadowstep;aim=line:5:1.2;mana=60;element=dark;spell=shadow_step}
+
+# 227 광륜 투척 - 0.45초에 빛 고리 발사(20블록, 탄속 1.2). 처음 맞은 적 피해 + 둔화 3초, 그 자리에서 8블록 안 가장 가까운 다른 적에게 한 번 튕겨 피해 80%
+CHA_halo_throw:
+  Cooldown: 0
+  Skills:
+  - chanova{type=halo_throw;pack=halothrow;aim=line:34:1;range=34;element=light;spell=halo_throw}
+
+# 231 섬광 도약 - 바라보는 방향 6블록 안의 안전한 설 자리로 순간이동(벽·보호 구역 너머 불가). 출발 자리 반경 3 적 실명 3초. 빗자루 탑승 중 불가(마나·쿨 돌려줌)
+CHA_flash_blink:
+  Cooldown: 0
+  Skills:
+  - chanova{type=flash_blink;pack=flashblink;aim=line:6:1;mana=90;element=light;spell=flash_blink}
+
+# 187 바위 돌진 - 0.45초 바위 갑옷 뒤 바라보는 수평 방향으로 6블록 돌진(틱당 0.9). 처음 부딪힌 적 피해 + 기절 1초 + 밀침 1.4, 돌진은 거기서 멈춤. 벽·보호 구역 앞에서 멈춤, 빗자루 탑승 중 불가
+CHA_boulder_charge:
+  Cooldown: 0
+  Skills:
+  - chanova{type=boulder_charge;pack=bouldercharge;aim=line:6:1.2;mana=80;element=earth;spell=boulder_charge}
+
+# 37 공기 포탄 - 0.40/0.65/0.90초에 바라보는 방향으로 공기 포탄 3발(20블록, 탄속 1.5). 맞을 때마다 피해 + 0.35 밀침, 한 대상이 3발 모두 맞으면 중력 3초
+CHA_air_cannon:
+  Cooldown: 0
+  Skills:
+  - chanova{type=air_cannon;pack=aircannon;aim=line:34:1;range=34;element=wind;spell=air_cannon}
+
+# 283 저주 인형 - 대상 옆 1.4블록에 4초간 저주 인형(보이지 않는 갑옷 거치대, 0.3초부터 맞음, 드롭·저장 없음). 시전자·아군이 인형을 때리면 그 피해의 50%(최대 12, 같은 사람 0.25초 간격)를 0.2초 뒤 대상에게 마법 피해로. 적이 때리면 아무 일 없음. 대상이 멀리 가도 유지, 대상이 죽으면 끝
+CHA_hex_doll:
+  Cooldown: 0
+  Skills:
+  - chanova{type=hex_doll;pack=hexdoll;aim=point;mana=90;element=dark;spell=hex_doll}
+
+# 88 홍염 나선 - 0.35초 뒤 두 화염 줄기가 감긴 나선이 18블록 관통 (멈추지 않음). 닿은 적마다 0/0.12/0.24초 3회 피해, 3번째 타에 화상 3초
+CHA_crimson_spiral:
+  Cooldown: 0
+  Skills:
+  - chanova{type=crimson_spiral;pack=crimsonspiral;aim=line:31:1.6;mana=220;range=31;element=fire;spell=crimson_spiral}
+
+# 96 화산탄 세례 - 화산탄 6발을 쏘아 올려 조준 반경 6 안 6곳에 떨어뜨림. 낙하 자리마다 1.2초 빨간 예고 뒤 착탄 (반경 2 피해 + 둔화 3초)
+CHA_volcanic_barrage:
+  Cooldown: 0
+  Skills:
+  - chanova{type=volcanic_barrage;pack=volcanicbarrage;aim=area:6;mana=300;element=fire;spell=volcanic_barrage}
+
+# 89 작열의 표적 - 대상 1명에 조준선 6초 (0.25초마다 눈→대상 시야·25블록 검사, 0.5초 넘게 놓치면 실패). 성공 시 하늘의 화염창이 0.43초 뒤 꽂혀 큰 피해, 실패 시 마나 절반 환급
+CHA_scorch_lock:
+  Cooldown: 0
+  Skills:
+  - chanova{type=scorch_lock;pack=scorchlock;aim=point;mana=250;range=42;element=fire;spell=scorch_lock}
+
+# 148 빙결 지대 - 조준 반경 5 냉기 6초. 안에 누적 3초 머문 적은 기절 1초 (대상마다 1회), 0.9초 뒤 얼음이 깨지며 피해
+CHA_freeze_field:
+  Cooldown: 0
+  Skills:
+  - chanova{type=freeze_field;pack=freezefield;aim=area:5;element=water;spell=freeze_field}
+
+# 145 썰물 - 0.22초 뒤 물살 탄 (유도). 맞은 적 발밑에 물결 표식, 3초 뒤 대상이 표식 자리로 0.35초 동안 쓸려 돌아가며 피해 (보스는 끌지 않고 피해만)
+CHA_ebb_mark:
+  Cooldown: 0
+  Skills:
+  - chanova{type=ebb_mark;pack=ebbmark;aim=point;element=water;spell=ebb_mark}
+
+# 149 얼음 뱀 - 0.3초 뒤 얼음 뱀이 S자(좌우 ±1.4블록)로 지면을 따라 20블록 관통 전진. 지나간 적마다 0/0.15/0.3초 3회 피해 + 둔화 3초
+CHA_ice_serpent:
+  Cooldown: 0
+  Skills:
+  - chanova{type=ice_serpent;pack=iceserpent;aim=line:34:3;mana=350;range=34;element=water;spell=ice_serpent}
+
+# 47 천공 강하 - 7블록 위로 솟구쳤다가 조준 지점(12블록)으로 급강하. 착지 반경 3 피해 + 중력 3초, 이 강하의 낙하 피해 없음. 빗자루 탑승 중 불가 (마나 환급)
+CHA_sky_dive:
+  Cooldown: 0
+  Skills:
+  - chanova{type=sky_dive;pack=skydive;aim=area:3;mana=260;element=wind;spell=sky_dive}
+
+# 48 뇌운 - 대상 머리 위 먹구름 6초, 대상을 따라감. 1.5/3.0/4.5/6.0초에 대상 자리로 낙뢰 (낙뢰 지점 반경 1.5 적 피해)
+CHA_thundercloud:
+  Cooldown: 0
+  Skills:
+  - chanova{type=thundercloud;pack=thundercloud;aim=point;element=wind;spell=thundercloud}
+
+# 295 운명의 실 - 대상 + 대상 8블록 안의 가장 가까운 다른 적(없으면 조준선 위의 적)을 실로 6초 연결. 둘 사이가 8블록을 넘으면 둘 다 피해 + 기절 1초 후 끊김. 둘째 적이 없으면 시전 안 됨 (마나 환급)
+CHA_fate_link:
+  Cooldown: 0
+  Skills:
+  - chanova{type=fate_link;pack=fatelink;aim=point;mana=240;range=27;element=dark;spell=fate_link}
+
+# 245 빛의 감옥 - 대상 발밑에 빛기둥 6개 (반경 2.4), 1.5초 뒤 레이저가 모임. 그때 대상이 감옥(반경 2.6) 안에 있으면 피해 + 기절 1초, 빠져나가면 빗나감
+CHA_prism_cage:
+  Cooldown: 0
+  Skills:
+  - chanova{type=prism_cage;pack=prismcage;aim=point;element=light;spell=prism_cage}
+
+# 298 망령의 행진 - 망령 5체가 바라보는 방향 15블록(폭 2)을 초속 7.5블록으로 행진 (선두 0.42초 출발, 벽 통과). 행렬에 닿은 적마다 1회 피해 + 공포 1초
+CHA_wraith_march:
+  Cooldown: 0
+  Skills:
+  - chanova{type=wraith_march;pack=wraithmarch;aim=line:15:2;element=dark;spell=wraith_march}
+
+# 199 단층 붕괴 - 바라보는 방향 땅에 균열 (폭 2.5, 0.8~16.2블록), 1.4초 뒤 무너짐: 그때 균열 위(발이 땅 근처)의 적 피해 + 고정 3초. 실제 지형 변화 없음
+CHA_fault_rift:
+  Cooldown: 0
+  Skills:
+  - chanova{type=fault_rift;pack=faultrift;aim=line:16:2.5;element=earth;spell=fault_rift}
+
+# 99 염제 강림 - 3초 영창(이동·피격 시 실패) → 8초 화신: 걸은 자리에 화염길(밟은 적 화상 3초, 점마다 약 1.7초, 실제 불 없음), 화신 중 이 마법 키 = 대형 화염탄(최대 4발, 반경 2.5 폭발 + 화상, 마나·쿨 없음), 끝날 때 반경 6 폭발(끝 + 0.35초) + 화상. 쿨 600초는 화신이 끝날 때부터
+CHA_flame_emperor:
+  Cooldown: 0
+  Skills:
+  - chachannel{ticks=60;move=0.3;then=CHA_flame_emperor_x;element=fire;spell=flame_emperor}
+
+# 150 레비아탄 - 5초 영창(이동·피격 시 실패) → 조준 지점 반경 10: 바다뱀이 솟아 삼킴(+0.4초, 피해 x0.35 + 둔화 3초) → 내려찍음(+1.4초, 피해 + 기절 1초)
+CHA_leviathan_rise:
+  Cooldown: 0
+  Skills:
+  - chanova{type=leviathan_rise_mark;pack=leviathanrise;aim=area:10;element=water;spell=leviathan_rise}
+  - chachannel{ticks=100;move=0.3;then=CHA_leviathan_rise_x;element=water;spell=leviathan_rise}
+
+# 50 하늘의 눈 - 시전 위치 반경 8 대폭풍 10초: 안의 적을 1.5초에 걸쳐 4블록 띄워 붙잡음(속도로 유지, 플레이어는 중력 = 비행·빗자루 불가, 보스는 안 뜸), 끝 + 0.4초에 한꺼번에 내리꽂고 끝 + 0.55초 피해
+CHA_heaven_cyclone:
+  Cooldown: 0
+  Skills:
+  - chanova{type=heaven_cyclone;pack=heavencyclone;r=8;lift=4;ticks=200;element=wind;spell=heaven_cyclone}
+
+# 300 심연의 문 - 3초 영창(이동·피격 시 실패) → 조준 지점에 문 8초: 반경 8 적을 문 쪽으로 끌어당김(보스 30%), 닫힐 때(끝 + 0.45초) 큰 피해 + 수면 1초
+CHA_abyss_gate:
+  Cooldown: 0
+  Skills:
+  - chanova{type=abyss_gate_mark;pack=abyssgate;aim=area:8;element=dark;spell=abyss_gate}
+  - chachannel{ticks=60;move=0.3;then=CHA_abyss_gate_x;element=dark;spell=abyss_gate}
+
+# 248 오로라 - 지원형: 시전 위치 반경 10 오로라 12초. 안의 아군(본인 + 파티원) 2초마다 회복(시전 + 2.3초부터 5회) + 안에 있는 동안 새 디버프 면역, 안의 적 약화(나가면 1.5초 뒤 풀림)
+CHA_aurora_veil:
+  Cooldown: 0
+  Skills:
+  - chanova{type=aurora_veil;pack=auroraveil;r=10;ticks=240;element=light;spell=aurora_veil}
+
+# 200 타이탄의 발걸음 - 바라보는 방향 3.5 / 7 / 11블록에 거인의 발이 차례로 내려찍음(각 1초 예고): +1.0초·+1.8초 반경 2.2 피해 x0.6, +2.8초 반경 3.5 피해 + 기절 1초
+CHA_titan_stride:
+  Cooldown: 0
+  Skills:
+  - chanova{type=titan_stride;pack=titanstride;aim=line:13:7;element=earth;spell=titan_stride}
+
+# 76 연금로 예열 - Bridge 유틸: 10분 안의 다음 연금 제작 1회 경험치 30% 감소 (성공한 제작에서만 쓰임, 이미 걸려 있으면 거절). 메모리 버프, 나가면 사라짐
+CHA_alchemy_preheat:
+  Cooldown: 0
+  Skills:
+  - chanote{n=1;element=fire;spell=alchemy_preheat} @self
+
+# 115 물밑 엿보기 - Bridge 유틸: 바라보는 물(24블록)의 깊이·넓이·바이옴 묶음과 이 물에서 낚이는 물고기 등급별 목록(도감 미등록 ???), 0.85초 뒤 채팅·알림. 물이 아니면 거절
+CHA_water_glimpse:
+  Cooldown: 0
+  Skills:
+  - chanote{n=1;element=water;spell=water_glimpse} @self
+
+# 118 잔잔한 물결 - Bridge 유틸: 다음 낚시 1회(입질 때 적용) 물고기 strain x0.7 → 장력 상승·당기는 힘이 30% 줄어듦. 이미 걸려 있으면 거절
+CHA_calm_ripple:
+  Cooldown: 0
+  Skills:
+  - chanote{n=1;element=water;spell=calm_ripple} @self
+
+# 123 보물 냄새 - Bridge 유틸: 10분 동안 입질마다 보물상자 확률 x2
+CHA_treasure_scent:
+  Cooldown: 0
+  Skills:
+  - chanote{n=1;element=water;spell=treasure_scent} @self
+
+# 10 계절 예보 - Bridge 유틸: 지금 계절, 다음 계절까지 남은 시간(계절 시계 방식대로), 회오리 이벤트 안내(이 서버의 ChAcademiaTornado 상태), 2.2초 뒤 채팅·알림
+CHA_season_sense:
+  Cooldown: 0
+  Skills:
+  - chanote{n=1;element=wind;spell=season_sense} @self
+
+# 253 배낭 정리 - Bridge 유틸: 해금된 아공간 배낭 모든 쪽(지금 인벤토리 27칸 포함, 핫바 제외)을 합치고 종류별 정렬. 쪽 넘기기와 같은 WAL·잠금·CAS 경로 한 번, 동기화 중·창 열림·이미 정리됨이면 거절
+CHA_pack_sort:
+  Cooldown: 0
+  Skills:
+  - chanote{n=1;element=dark;spell=pack_sort} @self
+
+# 270 마음 읽기 - Bridge 유틸: 바라보는 ChacaNPC(10블록)가 좋아하는 선물(gift_likes loved+liked) 하나를 1.25초 뒤 채팅·알림으로. NPC마다 하루 1번(플레이어별, 서버 메모리). NPC가 아니거나 오늘 읽었으면 거절
+CHA_heart_read:
+  Cooldown: 0
+  Skills:
+  - chanote{n=1;element=dark;spell=heart_read} @self
+
+# 219 영감의 섬광 - Bridge 유틸: 다음 연금 시도 1회(재료가 다 있는 합성 누르기), 넣은 재료 종류 중 가장 가까운 레시피에 든 종류 수를 숫자로 알림. 이미 걸려 있으면 거절
+CHA_insight_flash:
+  Cooldown: 0
+  Skills:
+  - chanote{n=1;element=light;spell=insight_flash} @self
+
+# 220 축복의 리본 - Bridge 유틸: 손에 든 선물 1개에 리본(PDC gift_ribbon + 설명 한 줄). 그 선물은 좋아하는 선물 점수 x1.2(반올림, 최소 +1), 상한·퀘스트 규칙 그대로. 선물이 아니거나 이미 리본이면 거절
+CHA_blessed_ribbon:
+  Cooldown: 0
+  Skills:
+  - chanote{n=1;element=light;spell=blessed_ribbon} @self
+
+# 82 불꽃 추진 - 빗자루 탑승 중에만: 3초간 최고 속도 ×1.2, 빗자루 궤적을 숨기고 불꽃 분사 VFX가 대신 그림. 내리면 바로 끝. 안 타고 있으면 거절(마나 환급)
+CHA_broom_afterburner:
+  Cooldown: 0
+  Skills:
+  - chanova{type=broom_afterburner;pack=broomafterburner;mana=80;ticks=60;speed=1.2;element=fire;spell=broom_afterburner}
+
+# 57 봉화 신호 - 발밑에서 25m 불꽃 기둥(약 13초). 30초 동안 같은 서버·같은 세계의 파티원 지도 창에 시전자 위치가 표시(1초마다 갱신) + 파티원 알림. 이 서버에 파티원이 없으면 거절(마나 환급)
+CHA_signal_flare:
+  Cooldown: 0
+  Skills:
+  - chanova{type=signal_flare;pack=signalflare;mana=20;ticks=600;element=fire;spell=signal_flare}
+
+# 29 순풍 - 빗자루 탑승 중에만: 0.24초 뒤 반경 8 안 빗자루 탄 파티원(자신 포함) 균형 게이지 즉시 가득 + 15초 균형 감소 ×0.7. 안 타고 있으면 거절(마나 환급)
+CHA_tailwind:
+  Cooldown: 0
+  Skills:
+  - chanova{type=tailwind;pack=tailwind;mana=50;r=8;ticks=300;drain=0.7;element=wind;spell=tailwind}
+
+# 228 수확제의 종 - 첫 종소리(0.78초)부터 1분 동안 내가 수확한 작물이 살아날 확률 ×2. 살아난 작물마다 그 자리에 표시 VFX + 30초 발광
+CHA_harvest_bell:
+  Cooldown: 0
+  Skills:
+  - chanova{type=harvest_bell;pack=harvestbell;mana=60;ticks=1200;chance=2;element=light;spell=harvest_bell}
+
+# 177 작물 붙잡기 - 2분 동안 내 수확으로 살아난 작물이 땅에서 나오는 그 틱에 속박 3초 + 뿌리 VFX
+CHA_crop_snare:
+  Cooldown: 0
+  Skills:
+  - chanova{type=crop_snare;pack=cropsnare;mana=30;ticks=2400;root=60;element=earth;spell=crop_snare}
+
+# 14 사뿐한 발걸음 - 10분 동안(자신만): 밟거나 뛰어내린 농지가 흙으로 안 바뀜(PlayerInteractEvent PHYSICAL + EntityChangeBlockEvent 취소), 거미줄·가루눈·달콤한 열매 덤불 안에 있을 때의 감속(가루눈 얼어붙음 포함)을 EntityInsideBlockEvent 취소로 무시. 땅 위를 걸으면 0.5초마다 step VFX. 다시 쓰면 10분 새로 시작
+CHA_light_step:
+  Cooldown: 0
+  Skills:
+  - chanova{type=light_step;pack=lightstep;mana=20;ticks=12000;element=wind;spell=light_step}
+
+# 26 몰이 바람 - 반경 12 가축(소·양·돼지·닭·말 무리·토끼·염소; 줄 맨 것, 남의 펫, 미몹·NPC 제외) 가까운 순 최대 12마리가 30초 동안 따라옴(10틱마다 3칸보다 멀면 길찾기 이동, 30칸 넘게 멀어지거나 세계가 바뀌면 빠짐), 각 동물에 lead VFX. 따라오는 동안 Bridge 쿨을 지워 다시 누를 수 있게 하고, 다시 쓰면 풀어 줌(마나 환급); 쿨 60초는 무리가 끝난 때부터 자체 계산(168 그림자 분신 방식). 동물이 없으면 거절(마나 환급)
+CHA_herding_breeze:
+  Cooldown: 0
+  Skills:
+  - chanova{type=herding_breeze;pack=herdingbreeze;mana=30;r=12;max=12;ticks=600;speed=1.25;cooldown=60;element=wind;spell=herding_breeze}
+
+# 68 모닥불 쉼터 - 시전 자리에 60초 모닥불(실제 블록 없음). 2초마다 반경 5 파티원(자신 포함) 중 최근 5초 안에 엔티티 피해를 주거나 받지 않은 사람: 체력 +1(회복봉인이면 안 됨)·배고픔 +1, 도움받은 사람마다 warm VFX
+CHA_campfire_rest:
+  Cooldown: 0
+  Skills:
+  - chanova{type=campfire_rest;pack=campfirerest;mana=40;ticks=1200;every=40;calm=100;r=5;heal=1;food=1;element=fire;spell=campfire_rest}
+
+# 77 결계 향초 - 시전 자리 반경 24(구) 10분: 적대 몹(Enemy) 바닐라 스폰 취소(NATURAL·DEFAULT·REINFORCEMENTS·PATROL) + 차카데미 야생 스폰(ChAcademiaWildlife 서식지 검사 "결계 향초", 자체 루프·무리·미몹 스폰 이벤트 모두). 한 사람당 1개(다시 켜면 옮겨짐)
+CHA_ward_candle:
+  Cooldown: 0
+  Skills:
+  - chanova{type=ward_candle;pack=wardcandle;mana=60;ticks=12000;r=24;element=fire;spell=ward_candle}
+
+# 116 물병 가득 - 인벤토리의 빈 유리병(메타 없는 바닐라 병)을 전부 물병으로(자리가 모자라면 발밑에 떨굼). 빈 병이 없으면 거절(마나 환급)
+CHA_bottle_fill:
+  Cooldown: 0
+  Skills:
+  - chanova{type=bottle_fill;pack=bottlefill;mana=15;element=water;spell=bottle_fill}
+
+# 109 비늘 감정 - Bridge 유틸: 손에 든 물고기 아이템의 등급·크기(종 최소~최대 중 위치, 내 낚시 도감 최고 기록 대비)·판매가(아공간 수조에 넣고 판매소에서 팔 때, FishShopBridge 가격식). 1초 뒤 알림+채팅. 물고기가 아니면 거절
+CHA_scale_appraisal:
+  Cooldown: 0
+  Skills:
+  - chanote{n=1;element=water;spell=scale_appraisal} @self
+
+# 166 작물 살피기 - 반경 12(높이 ±4, 로드된 청크만, 한 번 읽음) 작물(밀·당근·감자·비트·네더 사마귀·코코아·달콤한 열매·횃불꽃·벌레잡이풀) 종류별 개수·다 자란 비율 알림+채팅, 다 자란 작물 가까운 순 최대 40개 위에 새싹 물결이 닿는 때(거리 비례 0~1.5초) ripe VFX. 작물이 없으면 거절(마나 환급)
+CHA_crop_survey:
+  Cooldown: 0
+  Skills:
+  - chanova{type=crop_survey;pack=cropsurvey;mana=15;r=12;h=4;marks=40;element=earth;spell=crop_survey}
+
+# 178 되심기 손길 - 60초 동안 내가 부순 다 자란 밀·당근·감자·비트·네더 사마귀: 그 블록 드롭(BlockDropItemEvent)에서 씨앗 1개를 빼서 1틱 뒤 같은 작물 0단계로 다시 심음(농지/영혼 모래가 남아 있을 때, 못 심으면 씨앗을 돌려줌), sprout VFX(초당 최대 4번)
+CHA_replant_touch:
+  Cooldown: 0
+  Skills:
+  - chanova{type=replant_touch;pack=replanttouch;mana=30;ticks=1200;element=earth;spell=replant_touch}
+
+# 221 깨달음의 빛 - Bridge 유틸: 아직 못 배운 마법(MagicDiscovery discoveries.yml condition-text가 있는 것, 궁극·버린 마법·미구현 조건 제외) 하나를 골라 ChacaNPC 마법 힌트처럼 목격담으로 돌려 말함 — ChacaNPC hints.yml 목격담 재료가 있으면 그것, 없으면 조건 문구를 숫자를 흐려 "그러고 보니 예전에 어떤 마법사가 ~하더니 새 마법을 깨쳤다던데…". 1.2초 뒤 채팅·알림. 하루 1번(쿨 24시간). 남은 마법이 없으면 거절
+CHA_enlighten_hint:
+  Cooldown: 0
+  Skills:
+  - chanote{n=1;element=light;spell=enlighten_hint} @self
+
+# 213 기억의 등불 - 마지막으로 죽은 곳(이 서버 메모리, 같은 세계만)의 방위·거리·시선 기준 방향·좌표 알림+채팅, 그 자리에 빛기둥 beam 10초 + 시전자→그 자리 guide. 기록 없거나 다른 세계면 거절(마나 환급)
+CHA_memory_lantern:
+  Cooldown: 0
+  Skills:
+  - chanova{type=memory_lantern;pack=memorylantern;mana=20;element=light;spell=memory_lantern}
+
+# 257 그림자 금고 - 0.3초 뒤(금고 문이 열릴 때) 자기 엔더 상자 창을 엶 (어디서든)
+CHA_shadow_vault:
+  Cooldown: 0
+  Skills:
+  - chanova{type=shadow_vault;pack=shadowvault;mana=20;element=dark;spell=shadow_vault}
+
+# 271 단잠의 주문 - 30분 안에 침대에서 실제로 자고 일어나면(잠 100틱 이상 또는 누운 채 밤이 넘어감) 10분 동안 마나 회복 ×1.2(Bridge 회복 배수 키 sweet_sleep, 나가면 해제) + 일어날 때 wake VFX(PortableVfxService.follow로 직접 재생). 이미 걸려 있거나 효과 중이면 거절(마나 환급)
+CHA_sweet_sleep:
+  Cooldown: 0
+  Skills:
+  - chanova{type=sweet_sleep;pack=sweetsleep;mana=30;wait=36000;ticks=12000;regen=1.2;element=dark;spell=sweet_sleep}
+
+# (추가 스킬) 태양의 심판 영창 완료 후 3초 레이저 (chachannel then=)
+CHA_solar_judgment_fire:
+  Cooldown: 0
+  Skills:
+  - chazone{r=4;ticks=60;period=5;mult=0.15;element=light;spell=solar_judgment}
+
+# (추가 스킬) 월식의 눈 영창 완료 후 10초 영역 (chachannel then=)
+CHA_eclipse_eye_zone:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=eclipse;r=15;ticks=200;shards=6;speed=0.3;contact=20;haste=0.3;element=dark;spell=eclipse_eye}
+
+# (추가 스킬) 염제 강림 영창 완료 후 8초 화신 (chachannel then=)
+CHA_flame_emperor_x:
+  Cooldown: 0
+  Skills:
+  - chanova{type=flame_emperor;pack=flameemperor;ticks=160;shots=4;r=6;cooldown=600;element=fire;spell=flame_emperor}
+
+# (추가 스킬) 레비아탄 영창 완료 후 바다뱀 (chachannel then=)
+CHA_leviathan_rise_x:
+  Cooldown: 0
+  Skills:
+  - chanova{type=leviathan_rise;pack=leviathanrise;r=10;element=water;spell=leviathan_rise}
+
+# (추가 스킬) 심연의 문 영창 완료 후 문 8초 (chachannel then=)
+CHA_abyss_gate_x:
+  Cooldown: 0
+  Skills:
+  - chanova{type=abyss_gate;pack=abyssgate;r=8;ticks=160;element=dark;spell=abyss_gate}

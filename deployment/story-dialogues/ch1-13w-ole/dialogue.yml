@@ -1,0 +1,25 @@
+# 차카데미 대화 — Claude 작성 2026-10-26 1장 다시 짜기
+format: 1
+id: "ch1-13w-ole"
+title: "올레 (물고기 팔기 전)"
+description: "물고기를 아직 안 팔았을 때 올레의 한마디."
+chapter: "1장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  ole:
+    name: "올레"
+    npc: "vl_ole"
+    portraits:
+      "기본": "vl_ole-neutral.png"
+scenes:
+  a:
+    name: "셀마한테"
+    lines:
+      - {who: ole, face: "기본", text: "물고기는 셀마한테 가져가라. 생선 가게, 저기다."}
+      - {who: ole, face: "기본", text: "…길을 모르겠으면 아까 그 별을 띄워 봐."}

@@ -1,0 +1,30 @@
+# 차카데미 대화 — Claude 작성 2026-10-20 · 2026-10-26 1장 다시 짜기 (저장소 ch1-14m-bestiaz)
+format: 1
+id: "ch1-19m-bestiaz"
+title: "1-19. 기숙사 발표"
+description: "분류의 거울이 고민 끝에 베스티아즈에 배정했어요."
+chapter: "1장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  gregor:
+    name: "그레고르 교감"
+    npc: "vice_gregor"
+    portraits:
+      "기본": "vice_gregor-neutral.png"
+  mirror:
+    name: "분류의 거울"
+scenes:
+  a:
+    name: "흔들림"
+    lines:
+      - {who: mirror, face: "", text: "음… 하지만 네 마음 한구석은, 다른 곳을 원하고 있군?"}
+      - {who: mirror, face: "", text: "…아니. 다시 보니, 역시 여기도 잘 어울려."}
+      - {who: mirror, face: "", text: "바람과 야수, 자유로운 자들의 집."}
+      - {who: mirror, face: "", text: "베스티아즈!"}
+      - {who: gregor, face: "기본", text: "기숙사는 정해졌다. 기숙사의 로웰 사감에게 가서 방을 안내받도록."}

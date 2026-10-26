@@ -1,0 +1,39 @@
+{
+  "school": {
+    "genericFileExists": false,
+    "genericMode": "SQLite",
+    "dedicatedFile": "player-state-database.properties",
+    "dedicatedMode": "MariaDB",
+    "select1": true,
+    "codexPlayerStateTable": true,
+    "artifactEquippedColumn": true,
+    "sqliteFilesHeaderVerified": [
+      "friends.db",
+      "school.db",
+      "titles.db"
+    ]
+  },
+  "wild": {
+    "genericFileExists": false,
+    "genericMode": "SQLite",
+    "dedicatedFile": "player-state-database.properties",
+    "dedicatedMode": "MariaDB",
+    "select1": true,
+    "codexPlayerStateTable": true,
+    "artifactEquippedColumn": true,
+    "sqliteFilesHeaderVerified": [
+      "friends.db",
+      "school.db",
+      "titles.db"
+    ]
+  },
+  "databaseModifiedByAudit": false,
+  "playerRowsRead": false,
+  "luckPermsStorage": "separate H2",
+  "loader": "MagicCodexBridge.onEnable -> DatabaseSettings.load(dedicated if present, otherwise generic) -> PlayerStateBridge constructor -> PlayerStateStore constructor",
+  "auditQueries": [
+    "SELECT 1",
+    "information_schema.tables existence for codex_player_state in current database",
+    "information_schema.columns existence for artifact_equipped in current database"
+  ]
+}

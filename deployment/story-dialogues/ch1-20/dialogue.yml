@@ -1,0 +1,65 @@
+# 차카데미 대화 — Claude 작성 2026-10-20 · 2026-10-26 1장 다시 짜기 (저장소 ch1-15 + 실서버 ch1-16-waypoint)
+format: 1
+id: "ch1-20"
+title: "1-20. 내 방과 웨이포인트"
+description: "로웰 사감에게 기숙사 생활과 학교 곳곳을 오가는 법을 안내받으세요."
+chapter: "1장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  lowell:
+    name: "로웰 사감"
+    npc: "dorm_lowell"
+    portraits:
+      "기본": "dorm_lowell-neutral.png"
+scenes:
+  a:
+    name: "사감"
+    lines:
+      - {who: lowell, face: "기본", text: "아이고, 신입생이네요. 사감 로웰입니다. 먼지 하나도 허락하지 않습니다."}
+      - {who: lowell, face: "기본", text: "방 안내부터 하죠. 이 기숙사실 문을 열면, 그게 바로 학생 방이에요."}
+      - {who: lowell, face: "기본", text: "처음엔 작은 방이지만, 돈을 모아 넓힐 수 있어요. 가구는 방 화면에서 골라 원하는 자리에 놓으면 됩니다."}
+    choices:
+      - {text: "다른 사람 방도 볼 수 있나요?", to: "b"}
+      - {text: "가구는 어디서 구하나요?", to: "c"}
+  b:
+    name: "방 구경"
+    lines:
+      - {who: lowell, face: "기본", text: "친구 방에 놀러 갈 수 있어요. 방명록도 남길 수 있고요."}
+      - {who: lowell, face: "기본", text: "…다만 남의 방을 어지럽히면 제가 압니다."}
+    next: e
+  c:
+    name: "가구"
+    lines:
+      - {who: lowell, face: "기본", text: "상점에서 사거나, 학교생활을 하다 보면 얻게 될 거예요."}
+    next: e
+  e:
+    name: "연금실"
+    lines:
+      - {who: lowell, face: "기본", text: "짐 정리가 끝나면 연금실의 베르나 교수님께 인사드리고 오세요. 신입생은 다들 한 번씩 가거든요."}
+    next: w
+  w:
+    name: "웨이포인트"
+    lines:
+      - {who: lowell, face: "기본", text: "아, 하나 더. 학교가 넓어서 처음엔 다들 길을 잃어요."}
+      - {who: lowell, face: "기본", text: "곳곳에 빛나는 구체가 떠 있는 곳이 있죠? 웨이포인트예요. 가까이 가기만 하면 저절로 등록돼요."}
+      - {who: lowell, face: "기본", text: "연금실 문 앞에도 하나 있어요. 가는 길에 꼭 등록해 두세요."}
+      - {who: lowell, face: "기본", text: "등록한 곳은 지도에서 골라 바로 갈 수 있어요. 지도는 J 키. 등록하고 나면 한번 열어 봐요."}
+    choices:
+      - {text: "제 마음대로 정한 곳으로도 갈 수 있나요?", to: "wb"}
+      - {text: "알겠습니다.", to: "wc"}
+  wb:
+    name: "공간 도약"
+    lines:
+      - {who: lowell, face: "기본", text: "웨이포인트를 하나라도 찾으면 공간 도약 마법을 떠올리게 될 거예요."}
+      - {who: lowell, face: "기본", text: "그걸로 내 자리 하나를 지도에 남겨 둘 수 있죠. …복도에서 함부로 쓰지는 말고요."}
+    next: wc
+  wc:
+    name: "복도"
+    lines:
+      - {who: lowell, face: "기본", text: "…그리고 흙 묻은 신발로 복도 다니지 말고요!"}

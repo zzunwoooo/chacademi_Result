@@ -1,0 +1,47 @@
+# 차카데미 대화 — Claude 작성 2026-10-26 1장 다시 짜기
+format: 1
+id: "ch1-12"
+title: "1-12. 첫 물고기"
+description: "낚은 물고기를 올레에게 보여 주고 길잡이 별을 배우세요."
+chapter: "1장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  ole:
+    name: "올레"
+    npc: "vl_ole"
+    portraits:
+      "기본": "vl_ole-neutral.png"
+scenes:
+  a:
+    name: "첫 물고기"
+    lines:
+      - {who: me, face: "", text: "올레 아저씨! 저 잡았어요!"}
+      - {who: ole, face: "기본", text: "…어디 보자."}
+      - {who: ole, face: "기본", text: "첫 물고기 치고는 나쁘지 않군. 챔질 타이밍을 몸이 기억했겠지."}
+    choices:
+      - {text: "바다가 생각보다 넓네요.", to: "b"}
+      - {text: "이제 셀마 씨한테 팔러 갈게요.", to: "c"}
+  b:
+    name: "넓은 바다"
+    lines:
+      - {who: ole, face: "기본", text: "넓지. 그래서 뱃사람은 고기 잡는 법보다 길 잃지 않는 법을 먼저 배운다."}
+    next: star
+  c:
+    name: "급한 녀석"
+    lines:
+      - {who: ole, face: "기본", text: "급하긴. 마을도 처음일 텐데, 길은 알고 가나?"}
+    next: star
+  star:
+    name: "길잡이 별"
+    lines:
+      - {who: ole, face: "기본", text: "손 내밀어 봐. 밤바다에서 내 할아버지가 가르쳐 준 거다."}
+      - {who: ole, face: "기본", text: "가야 할 곳을 마음에 품고, 마나를 머리 위로 살짝 띄워. 작은 별이 그쪽을 가리킬 거다."}
+      - {who: me, face: "", text: "(손끝에 작은 빛이 맺혔다… 어딘가를 가리키는 것 같아.)"}
+      - {who: ole, face: "기본", text: "길잡이 별이다. 길이 헷갈리면 띄워 봐라."}
+      - {who: ole, face: "기본", text: "셀마는 저기 생선 가게에 있다. 바가지 씌우면 내 이름 대고."}

@@ -1,0 +1,68 @@
+{
+  "chaca-npc-paper": {
+    "tests": 27,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "chaca-portrait-paper": {
+    "tests": 75,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "chacademi-party-velocity": {
+    "tests": 37,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "chacademy-motion/chacademy-motion-plugin": {
+    "tests": 24,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "gimmick-paper": {
+    "tests": 14,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "magic-codex-fabric": {
+    "tests": 329,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "magic-codex-paper": {
+    "tests": 330,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "magic-discovery-paper": {
+    "tests": 35,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "magic-mythic-paper": {
+    "tests": 51,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "portable-vfx-runtime/paper": {
+    "tests": 132,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "tornado-event-paper": {
+    "tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  }
+}

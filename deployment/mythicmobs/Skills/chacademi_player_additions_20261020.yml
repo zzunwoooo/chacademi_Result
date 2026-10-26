@@ -1,0 +1,244 @@
+# Deployment-only split of newly added definitions; do not load together with the full source chacademi_spells.yml.
+CHA_fox_orbit:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;spread=30;orbit=16;speed=0.7;homing=0.2;range=20;mult=1;ignite=40;vfx=kitsunefox/shot_normal;hitvfx=kitsunefox/hit_normal;hits=enemies;element=fire;spell=fox_orbit}
+CHA_curving_plumes:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;spread=40;speed=0.8;homing=0.18;range=20;mult=1;ignite=40;vfx=phoenixfeather/shot_flame;hitvfx=phoenixfeather/hit_flame;hits=enemies;element=fire;spell=curving_plumes}
+CHA_crystal_orbit:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=8;spread=45;orbit=20;speed=0.7;range=12;mult=1;status=slow:30:0.3;vfx=glacialshards/shot_glacial;hitvfx=glacialshards/hit_glacial;hits=enemies;element=water;spell=crystal_orbit}
+CHA_venom_spit:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=1;speed=0.7;rise=0.35;range=18;burst=2.5;mult=1;status=poison:60;vfx=basiliskspit/shot_wild;hitvfx=basiliskspit/hit_wild;hits=enemies;element=earth;spell=venom_spit}
+CHA_smoke_veil:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=5;ticks=2;mult=1;status=blindness:40;vfx=smokebomb/smoke;vfxref=6;vfxlead=2;warn=false;hits=enemies;element=earth;spell=smoke_veil}
+  - chaselfpotion{type=INVISIBILITY;duration=40;level=0;element=earth;spell=smoke_veil}
+    @self
+CHA_domain_stomp:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=6;ticks=4;mult=1;up=0.9;vfx=domainseal/domain_heavenly;vfxref=10;vfxlead=4;warn=false;hits=enemies;element=light;spell=domain_stomp}
+CHA_seal_circle:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=4;ticks=16;mult=1;status=disarm:30;vfx=sealcircle/seal;vfxref=4;vfxlead=2;warn=false;hits=enemies;element=light;spell=seal_circle}
+CHA_seal_talismans:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;spread=30;speed=0.8;homing=0.15;range=20;mult=1;vfx=sealtalisman/shot_seal;hitvfx=sealtalisman/hit_seal;hits=enemies;element=light;spell=seal_talismans}
+CHA_shield_slam:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=4.5;angle=120;ticks=4;mult=1;status=stun:10;vfx=sealshield/shield;vfxref=3;vfxlead=4;warn=false;hits=enemies;element=light;spell=shield_slam}
+CHA_chain_arrow:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=1;speed=1.3;range=22;radius=0.6;mult=1;status=slow:30:0.4;vfx=chainarrow/shot_chain;hitvfx=chainarrow/hit_chain;hits=enemies;element=light;spell=chain_arrow}
+CHA_mana_drain:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=4;ticks=12;mult=1;status=mana_burn:40;vfx=phantomdrain/drain_ender;vfxref=6;vfxlead=2;warn=false;hits=enemies;element=dark;spell=mana_drain}
+CHA_soul_scythe:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=5;angle=150;ticks=4;mult=1;vfx=phantomscythe/reap_ender;vfxref=5;vfxlead=4;warn=false;hits=enemies;element=dark;spell=soul_scythe}
+CHA_oblivion_orbs:
+  Cooldown: 0
+  Skills:
+  - chamobshot{count=3;spread=14;speed=0.45;homing=0.08;range=20;radius=0.9;mult=1;status=slow:30:0.3;vfx=skelorb/shot;hitvfx=skelorb/hit;hits=enemies;element=dark;spell=oblivion_orbs}
+CHA_bone_grasp:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=4;ticks=12;mult=1;status=root:20;pull=1.4;vfx=bonegrasp/grasp;vfxref=6;vfxlead=2;warn=false;hits=enemies;element=dark;spell=bone_grasp}
+CHA_shadow_leap:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=2.5;ticks=4;mult=1;blink=true;vfx=specialkitsune/in_normal;vfxout=specialkitsune/out_normal;vfxref=3;vfxlead=4;warn=false;hits=enemies;element=dark;spell=shadow_leap}
+CHA_binding_pull:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=1.5;ticks=4;mult=1;tpme=true;status=slow:20:0.3;vfx=specialserpent/mark_jade;vfxin=specialserpent/in_jade;vfxref=3;vfxlead=4;warn=false;hits=enemies;element=wind;spell=binding_pull}
+CHA_fairy_dust:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=5;ticks=4;mult=1;status=sleep:40;vfx=fairydust/dust_flower;vfxref=6;vfxlead=4;warn=false;hits=enemies;element=earth;spell=fairy_dust}
+CHA_moon_wind:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=line;at=caster;length=10;width=3;ticks=4;mult=1;knock=0.8;vfx=pegasuscrescent/moon;vfxref=5;vfxlead=4;warn=false;hits=enemies;element=wind;spell=moon_wind}
+CHA_gale_wings:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=6;angle=180;ticks=4;mult=1;knock=1.6;up=0.4;status=gravity:20;vfx=galewings/gale;vfxref=10;vfxlead=4;warn=false;hits=enemies;element=wind;spell=gale_wings}
+CHA_feather_storm:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=5;ticks=4;mult=1;vfx=featherstorm/fstorm_common;vfxref=8;vfxlead=4;warn=false;hits=enemies;element=wind;spell=feather_storm}
+CHA_hunting_pounce:
+  Cooldown: 0
+  Skills:
+  - leap{velocity=130;noise=0} @target
+  - delay 14
+  - chatelegraph{shape=circle;at=caster;r=3;ticks=2;mult=1;status=root:20;vfx=sabertoothpounce/pounce_arctic;vfxref=6;vfxlead=2;warn=false;hits=enemies;element=earth;spell=hunting_pounce}
+    @self
+CHA_roar_leap:
+  Cooldown: 0
+  Skills:
+  - leap{velocity=150;noise=0} @target
+  - delay 16
+  - chatelegraph{shape=circle;at=caster;r=4;ticks=2;mult=1;status=fear:20;vfx=manticoreroar/roar_aether;vfxref=8;vfxlead=2;warn=false;hits=enemies;element=wind;spell=roar_leap}
+    @self
+CHA_gravity_slam:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=caster;r=5;ticks=6;mult=1;status=gravity:40;vfx=gravityslam/gravity_arcane;vfxref=11;vfxlead=6;warn=false;hits=enemies;element=earth;spell=gravity_slam}
+CHA_tail_spikes:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=3;ticks=8;mult=1;vfx=wyvernspikes/spikes_green;vfxref=4;vfxlead=6;warn=false;hits=enemies;element=earth;spell=tail_spikes}
+  - delay 8
+  - chatelegraph{shape=circle;at=target;r=3;ticks=8;mult=1;vfx=wyvernspikes/spikes_green;vfxref=4;vfxlead=6;warn=false;hits=enemies;element=earth;spell=tail_spikes}
+  - delay 8
+  - chatelegraph{shape=circle;at=target;r=3;ticks=8;mult=1;vfx=wyvernspikes/spikes_green;vfxref=4;vfxlead=6;warn=false;hits=enemies;element=earth;spell=tail_spikes}
+CHA_shadow_double:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=double;ticks=160;mana=75;cooldown=25;element=dark;spell=shadow_double}
+    @self
+CHA_echo_reading:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=echo;range=6;element=dark;spell=echo_reading} @self
+CHA_sealing_thread:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=thread;range=5;ticks=6000;element=dark;spell=sealing_thread} @self
+CHA_shadow_exchange:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=swap;range=15;hide=6;element=dark;spell=shadow_exchange}
+CHA_forbidden_contract:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=contract;ratio=0.7;ticks=60;lock=300;heal=0.1;element=dark;spell=forbidden_contract}
+    @self
+CHA_life_siphon:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=siphon;r=3;ticks=60;period=10;heal=0.5;element=dark;spell=life_siphon}
+CHA_drowsiness:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=drowse;speed=0.8;r=3;wait=200;root=60;element=dark;spell=drowsiness}
+CHA_misfortune_whisper:
+  Cooldown: 0
+  Skills:
+  - chahit{mult=0;status=magic_weakness:160+physical_weakness:160;element=dark;spell=misfortune_whisper}
+CHA_curse_transfer:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=spread;r=6;max=5;keep=0.7;element=dark;spell=curse_transfer}
+CHA_discord:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=discord;ticks=120;r=10;element=dark;spell=discord}
+CHA_night_chain:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=chain;r=6;ticks=160;ratio=0.3;element=dark;spell=night_chain}
+CHA_pain_deferral:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=defer;ticks=120;after=100;ratio=0.5;element=dark;spell=pain_deferral}
+    @self
+CHA_black_harvest:
+  Cooldown: 0
+  Skills:
+  - chahit{center=caster;r=5;max=16;status=disarm:60;element=dark;spell=black_harvest}
+    @self
+CHA_ink_fingertip:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=ink;mana=30;element=dark;spell=ink_fingertip} @self
+CHA_shadow_nail:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=nail;ticks=300;dist=20;element=dark;spell=shadow_nail}
+CHA_night_lullaby:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=lullaby;count=3;ticks=200;range=16;element=dark;spell=night_lullaby}
+    @self
+CHA_loosen_grasp:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=loosen;ticks=80;element=dark;spell=loosen_grasp}
+CHA_healing_seal:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=seal;ticks=160;element=dark;spell=healing_seal}
+CHA_shadow_scales:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=scales;r=4;delay=8;element=dark;spell=shadow_scales}
+CHA_warning_thread:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=cage;r=6;ticks=140;element=dark;spell=warning_thread}
+CHA_wound_accounting:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=wound;speed=0.7;range=20;element=dark;spell=wound_accounting}
+CHA_ghost_tool:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=ghosttool;ticks=600;reach=27;element=dark;spell=ghost_tool} @self
+CHA_bell_of_fear:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=bell;r=8;ticks=60;element=dark;spell=bell_of_fear} @self
+CHA_eclipse_eye:
+  Cooldown: 0
+  Skills:
+  - chachannel{ticks=100;move=0.3;then=CHA_eclipse_eye_zone;element=dark;spell=eclipse_eye}
+CHA_void_maw:
+  Cooldown: 0
+  Skills:
+  - delay 25
+  - chahit{r=4;max=16;element=dark;spell=void_maw}
+CHA_landing_airbrake:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=airbrake;dist=6;element=wind;spell=landing_airbrake} @self
+CHA_hushed_soles:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=hushed;ticks=400;element=dark;spell=hushed_soles} @self
+CHA_thorn_manners:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=thorns;ticks=400;element=earth;spell=thorn_manners} @self
+CHA_cinder_skipring:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=skipring;r0=1;r1=7;ticks=40;element=fire;spell=cinder_skipring}
+    @self
+CHA_droplet_relay:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=droplet;speed=0.6;r=2.5;ticks=60;element=water;spell=droplet_relay}
+CHA_folding_tideplane:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=tideplane;len=6;width=2;delay=20;turn=26;element=water;spell=folding_tideplane}
+CHA_eclipse_eye_zone:
+  Cooldown: 0
+  Skills:
+  - chaarcana{type=eclipse;r=15;ticks=200;shards=6;speed=0.3;contact=20;haste=0.3;element=dark;spell=eclipse_eye}

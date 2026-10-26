@@ -1,0 +1,34 @@
+# 차카데미 대화 — Claude 작성 2026-10-20, 2026-10-25 실서버 번호(ch1-12)·셀마로 고침 · 2026-10-26 1장 다시 짜기 · 2026-10-27 준비물 사기 없앰 → 피피에게 돌아가 매입 안내 (오너)
+format: 1
+id: "ch1-14"
+title: "1-14. 여비 마련"
+description: "낚시로 여비를 벌어 피피에게 돌아왔어요."
+chapter: "1장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  pipi:
+    name: "피피"
+    npc: "pipi"
+    portraits:
+      "기본": "pipi-neutral.png"
+scenes:
+  a:
+    name: "여비 마련"
+    lines:
+      - {who: pipi, face: "기본", text: "어머, 왔어? 얼굴 보니까 셀마 씨한테 제값 받았나 보네!"}
+      - {who: me, face: "", text: "네! 올레 아저씨한테 낚시도 배웠어요."}
+      - {who: pipi, face: "기본", text: "거봐, 할 만하지? 여기선 손이 부지런하면 굶을 일은 없다구."}
+    choices:
+      - {text: "피피 씨 가게도 물건을 사 주세요?", to: "b"}
+      - {text: "다음엔 뭘 해서 벌죠?", to: "b"}
+  b:
+    name: "매입 중"
+    lines:
+      - {who: pipi, face: "기본", text: "그럼! 우리 가게도 이것저것 매입 중이야. 너도 쓸 만한 거 구하면 가져와! 값은 잘 쳐줄게~"}
+      - {who: pipi, face: "기본", text: "아, 학교 가는 길에 마을 광장 지나가지? 거기 동상에 인사 한번 하고 가. 다들 그러니까!"}

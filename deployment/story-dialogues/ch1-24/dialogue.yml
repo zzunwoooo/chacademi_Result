@@ -1,0 +1,43 @@
+# 차카데미 대화 — Claude 작성 2026-10-20 · 2026-10-26 1장 다시 짜기 (저장소 ch1-18)
+format: 1
+id: "ch1-24"
+title: "1-24. 대도서관"
+description: "대도서관의 사서 이솔데를 만나 첫 과제를 시작하세요."
+chapter: "1장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  isolde:
+    name: "이솔데"
+    npc: "librarian_isolde"
+    portraits:
+      "기본": "librarian_isolde-neutral.png"
+scenes:
+  a:
+    name: "사서"
+    lines:
+      - {who: isolde, face: "기본", text: "…대도서관입니다. 조용히 해 주세요."}
+      - {who: isolde, face: "기본", text: "사서 이솔데예요. 이론서는 1층, 역사서는 2층. 금서는… 없습니다."}
+    choices:
+      - {text: "금서가 없다고요?", to: "b"}
+      - {text: "반갑습니다.", to: "c"}
+  b:
+    name: "금서"
+    lines:
+      - {who: isolde, face: "기본", text: "없습니다. 백 년 전에 전부 태웠어요."}
+    next: e
+  c:
+    name: "인사"
+    lines:
+      - {who: isolde, face: "기본", text: "…네."}
+    next: e
+  e:
+    name: "과제"
+    lines:
+      - {who: isolde, face: "기본", text: "엘레나 교수님 과제라면, 1층 서가에 신입생용 이론서 세 권을 꺼내 두었어요."}
+      - {who: isolde, face: "기본", text: "불, 물, 바람. 다 읽으면 제자리에 꽂아 주세요."}

@@ -1,0 +1,110 @@
+{
+ "_comment": "tools/operating_overlay.py 설정. files = overlay ↔ 원본. keep = 의도된 운영 값(재생성해도 overlay 값 유지). pending = 다른 작업 묶음이 고치는 항목(재생성 시 overlay 그대로, 검사 시 경고만). 배포 전: python3 tools/operating_overlay.py check",
+ "files": [
+  {
+   "overlay": "deployment/operating-config/MagicCodexBridge/mana-spells.yml",
+   "source": "magic-codex-paper/src/main/resources/mana-spells.yml",
+   "entries": "spells"
+  },
+  {
+   "overlay": "deployment/operating-config/MagicCodexBridge/spell-runtime.yml",
+   "source": "magic-mythic-paper/server-config/spell-runtime.yml",
+   "entries": "spells",
+   "generator": "magic-mythic-paper/tools/spells.py"
+  },
+  {
+   "overlay": "deployment/operating-config/MagicCodexBridge/artifacts.yml",
+   "source": "magic-codex-paper/src/main/resources/artifacts.yml",
+   "entries": "artifacts"
+  },
+  {
+   "overlay": "deployment/operating-config/MagicCodexBridge/climate.yml",
+   "source": "magic-codex-paper/src/main/resources/climate.yml"
+  },
+  {
+   "overlay": "deployment/operating-config/MagicCodexBridge/loot-boxes.yml",
+   "source": "magic-codex-paper/src/main/resources/loot-boxes.yml"
+  },
+  {
+   "overlay": "deployment/operating-config/MagicCodexBridge/books.yml",
+   "source": "magic-codex-paper/src/main/resources/books.yml",
+   "entries": "books"
+  },
+  {
+   "overlay": "deployment/operating-config/PortableVFX/spell-catalog.yml",
+   "source": "portable-vfx-runtime/paper/src/main/resources/spell-catalog.yml",
+   "entries": "spells"
+  },
+  {
+   "overlay": "deployment/operating-config/PortableVFX/spell-bindings.yml",
+   "source": "portable-vfx-runtime/paper/src/main/resources/spell-bindings.yml",
+   "entries": "bindings"
+  },
+  {
+   "overlay": "deployment/operating-config/MythicMobs/Skills/chacademi_spells.yml",
+   "source": "magic-mythic-paper/mythicmobs/Skills/chacademi_spells.yml",
+   "kind": "mythic",
+   "generator": "magic-mythic-paper/tools/spells.py"
+  },
+  {
+   "overlay": "deployment/operating-config/MagicCodexBridge/pet-companions.yml",
+   "source": "magic-codex-paper/src/main/resources/pet-companions.yml",
+   "entries": "pets",
+   "generator": "magic-mythic-paper/tools/pet_companions.py"
+  },
+  {
+   "overlay": "deployment/operating-config/MythicMobs/Skills/chacademi_pet_skills.yml",
+   "source": "magic-mythic-paper/mythicmobs/Skills/chacademi_pet_skills.yml",
+   "kind": "mythic",
+   "generator": "magic-mythic-paper/tools/pet_companions.py"
+  },
+  {
+   "overlay": "deployment/operating-config/MythicMobs/Mobs/chacademi_training_dummy.yml",
+   "source": "magic-mythic-paper/mythicmobs/Mobs/chacademi_training_dummy.yml",
+   "kind": "mythic"
+  },
+  {
+   "overlay": "deployment/operating-config/MythicMobs/Skills/chacademi_training_dummy.yml",
+   "source": "magic-mythic-paper/mythicmobs/Skills/chacademi_training_dummy.yml",
+   "kind": "mythic"
+  },
+  {
+   "overlay": "deployment/operating-config/MythicMobs/Skills/chacademi_mob_skills.yml",
+   "source": "magic-mythic-paper/mythicmobs/Skills/chacademi_mob_skills.yml",
+   "kind": "mythic",
+   "generator": "tools/mob_spec.py"
+  },
+  {
+   "overlay": "deployment/operating-config/MythicMobs/Mobs/chacademi_mob_minions.yml",
+   "source": "magic-mythic-paper/mythicmobs/Mobs/chacademi_mob_minions.yml",
+   "kind": "mythic",
+   "generator": "tools/mob_spec.py"
+  }
+ ],
+ "keep": [
+  {
+   "file": "deployment/operating-config/MagicCodexBridge/climate.yml",
+   "path": [
+    "season-clock"
+   ],
+   "reason": "운영은 실시간 계절(realtime)"
+  },
+  {
+   "file": "deployment/operating-config/MagicCodexBridge/climate.yml",
+   "path": [
+    "real-time-season",
+    "epoch"
+   ],
+   "reason": "운영에 적용된 계절 기준 시각 (바꾸면 계절이 튐)"
+  }
+ ],
+ "pending": [],
+ "donation": {
+  "catalog": "magic-codex-paper/src/main/resources/donation-spells.yml",
+  "spells": "magic-codex-paper/src/main/resources/mana-spells.yml",
+  "exclude": [],
+  "orphans": [
+   "wind_vault"
+  ]
+ }
+}

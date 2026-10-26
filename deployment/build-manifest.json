@@ -1,0 +1,52 @@
+{
+  "status": "deployed_verified",
+  "versions": [
+    {
+      "module": "magic-codex-paper",
+      "file": "magic-codex-bridge-0.31.0-expansion71.1-artifact.1-summon.2-effects.2-multi.1-alchemy.1-shared.1.jar",
+      "sha256": "4993b1afee26466eb1a672cb41cbf6bb7352fc8b4bc9303d8ba2b1c56d7d2dfe",
+      "bytes": 1929697
+    },
+    {
+      "module": "magic-mythic-paper",
+      "file": "chacademia-magic-mythic-0.2.0-expansion71.1-reaction.2-vfx103134.1-effects.1-carrier.1.jar",
+      "sha256": "e8fb746c6cb110926c8c93346b28ae6f27f072bf39ca8e75bb0bb43a18eda0b1",
+      "bytes": 269193
+    },
+    {
+      "module": "portable-vfx-runtime/paper",
+      "file": "portable-vfx-paper-3.2.1-expansion71.1-carrier.1.jar",
+      "sha256": "5095aa266870c43fa69065a6bbf89c0131c75c8a7e544fadba8bdcd31e4b9969",
+      "bytes": 203834
+    },
+    {
+      "module": "chacademy-motion/chacademy-motion-plugin",
+      "file": "chacademy-motion-plugin-0.3.0-codex.3-carrier.1.jar",
+      "sha256": "f37ecb4e8821cdf482b807c0c45393ac775480c87524a7dd95c57252ba846f05",
+      "bytes": 53864
+    },
+    {
+      "module": "magic-codex-fabric",
+      "file": "magic-codex-ui-0.40.0-expansion71.1-artifact.1-unitring.1-summon.2-multi.1-alchemy.1+mc1.21.4.jar",
+      "sha256": "17b63d62e71ee4011ea14d28c1afdc95e44e0c39ba6288211ca32b89aae10d67",
+      "bytes": 139668121
+    }
+  ],
+  "tests": 1056,
+  "baselinePreserved": true,
+  "temporaryLauncherChanged": false,
+  "realTimeSeasonApplied": true,
+  "seasonEpoch": "2026-10-16T15:33:16+09:00",
+  "hoursPerSeason": 72,
+  "seasonReloadVerifiedBoth": true,
+  "temporaryScriptRemoved": true,
+  "serverJarReplacements": 8,
+  "personalUiReplaced": true,
+  "personalOtherFilesUnchanged": 2832,
+  "serverOtherBackupFilesUnchanged": 131,
+  "serverForceKilled": false,
+  "staleTask9TestWorkerStopped": 15072,
+  "firstAttemptRolledBackDueToStaleWorkerJarLock": true,
+  "sourceCommitNote": "See the commit containing artifact-shared-deployment.json; source built and deployed from this integration branch.",
+  "artifactOwnershipShared": true
+}

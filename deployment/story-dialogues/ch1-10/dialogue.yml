@@ -1,0 +1,33 @@
+# 차카데미 대화 — Claude 작성 2026-10-20, 2026-10-25 실서버 번호(ch1-10)·셀마로 고침 · 2026-10-26 1장 다시 짜기 (실서버본 그대로)
+format: 1
+id: "ch1-10"
+title: "1-10. 돈이 부족해"
+description: "준비물을 사려는데 돈이 모자라요. 피피에게 방법을 물어보세요."
+chapter: "1장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  pipi:
+    name: "피피"
+    npc: "pipi"
+    portraits:
+      "기본": "pipi-neutral.png"
+scenes:
+  a:
+    name: "빈 주머니"
+    lines:
+      - {who: me, face: "", text: "(교복에, 지팡이에, 마법서까지… 다 합치면 꽤 되는데.)"}
+      - {who: me, face: "", text: "(…잠깐. 돈이 부족해. 나 가진 돈이 없었지?)"}
+    choices:
+      - {text: "피피 씨, 저… 돈이 모자라요. 어떡하죠?", to: "b"}
+  b:
+    name: "피피의 꾀"
+    lines:
+      - {who: pipi, face: "기본", text: "어머, 빈손으로 왔어? 하긴 신입생들이 다 그렇지 뭐."}
+      - {who: pipi, face: "기본", text: "그럼 저기 항구 어부 올레 아저씨한테 가서 낚시라도 좀 해 보던가!"}
+      - {who: pipi, face: "기본", text: "잡은 물고기는 마을의 셀마 씨가 사 준다구. 돈 모아서 다시 와! 물건은 안 도망가니까."}

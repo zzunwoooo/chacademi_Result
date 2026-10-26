@@ -1,0 +1,18 @@
+# 차카데미 TAB groups.yml 예시 — 오픈 전 메모 #110 (2026-10-25)
+# plugins/TAB/groups.yml 에 넣는다 (원래 파일에 다른 그룹이 있으면 _DEFAULT_ 줄만 맞추고 나머지는 그대로).
+#
+# customtabname = Tab 목록에 보이는 이름. %magiccodex_nickname% 은 MagicCodex 한글 닉네임이고,
+#   닉네임을 아직 정하지 않은 사람은 마인크래프트 계정 이름이 나온다 (NicknameBridge.placeholder: 저장된 닉네임이 비면 계정명).
+# 이름표(tagprefix / tagsuffix)는 넣지 않는다 — 머리 위 이름표는 MagicCodex 명찰이 그린다.
+
+_DEFAULT_:
+  tabprefix: ""
+  customtabname: "%magiccodex_nickname%"
+  tabsuffix: ""
+
+# 운영자 그룹이 따로 있으면 예를 들어 이렇게 (LuckPerms 그룹 이름과 같아야 함).
+# 앞에 붙는 표시는 오너가 정한다. 정하기 전까지는 비워 둔다.
+#admin:
+#  tabprefix: ""
+#  customtabname: "%magiccodex_nickname%"
+#  tabsuffix: ""

@@ -1,0 +1,12 @@
+{
+  "epoch": "2026-10-16T15:33:16+09:00",
+  "epochUtc": "2026-10-16T06:33:16Z",
+  "nextTransition": "2026-10-19T15:33:16+09:00",
+  "hoursPerSeason": 72,
+  "automatic": true,
+  "season": "spring",
+  "schoolReloadVerified": true,
+  "wildReloadVerified": true,
+  "command": "\uacc4\uc808\uad00\ub9ac \uc0c8\ub85c\uace0\uce68",
+  "transport": "Existing Skript one-shot on-load dispatched the exact command internally; then disabled and removed. Direct supervisor console mangled Korean input. No supervisor configuration changed."
+}

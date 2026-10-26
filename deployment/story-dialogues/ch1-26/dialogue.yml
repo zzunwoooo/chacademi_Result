@@ -1,0 +1,44 @@
+# 차카데미 대화 — Claude 작성 2026-10-20 · 2026-10-26 1장 다시 짜기 (저장소 ch1-20, 보상 보류)
+format: 1
+id: "ch1-26"
+title: "1-26. 1장 엔딩"
+description: "잿빛 밤 이야기를 다 읽었어요. 도서관 문 닫을 시간이에요."
+chapter: "1장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  isolde:
+    name: "이솔데"
+    npc: "librarian_isolde"
+    portraits:
+      "기본": "librarian_isolde-neutral.png"
+scenes:
+  a:
+    name: "그림"
+    lines:
+      - {who: me, face: "", text: "(이 대마법사… 아까 그 동상이네.)"}
+      - {who: me, face: "", text: "(근데 왜 이렇게 낯익지…)"}
+      - {who: me, face: "", text: "(그리고 이 사람은… 얼굴이 긁혀 있어. 모르디안…?)"}
+    choices:
+      - {text: "(그림을 더 들여다본다)", to: "b"}
+      - {text: "(책을 덮는다)", to: "c"}
+  b:
+    name: "들여다보기"
+    lines:
+      - {who: me, face: "", text: "(…왜인지 싫다. 보고 있으면 속이 좋지 않아.)"}
+    next: e
+  c:
+    name: "덮기"
+    lines:
+      - {who: me, face: "", text: "(…왜인지 싫다.)"}
+    next: e
+  e:
+    name: "문 닫을 시간"
+    lines:
+      - {who: isolde, face: "기본", text: "도서관 문 닫을 시간입니다."}
+      - {who: isolde, face: "기본", text: "…얼굴이 안 좋아 보여요. 그 책, 처음 읽는 사람은 다들 그래요."}

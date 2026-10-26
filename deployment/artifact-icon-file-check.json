@@ -1,0 +1,30 @@
+[
+  {
+    "jar": "magic-codex-ui-0.40.0-expansion71.1-artifact.1-unitring.1-summon.2-multi.1+mc1.21.4.jar",
+    "server": "school",
+    "icons": 150,
+    "present": 150,
+    "missing": []
+  },
+  {
+    "jar": "magic-codex-ui-0.40.0-expansion71.1-artifact.1-unitring.1-summon.2-multi.1+mc1.21.4.jar",
+    "server": "wild",
+    "icons": 150,
+    "present": 150,
+    "missing": []
+  },
+  {
+    "jar": "magic-codex-ui-0.40.0-expansion71.1-artifact.1-unitring.1-summon.2-multi.1-alchemy.1+mc1.21.4.jar",
+    "server": "school",
+    "icons": 150,
+    "present": 150,
+    "missing": []
+  },
+  {
+    "jar": "magic-codex-ui-0.40.0-expansion71.1-artifact.1-unitring.1-summon.2-multi.1-alchemy.1+mc1.21.4.jar",
+    "server": "wild",
+    "icons": 150,
+    "present": 150,
+    "missing": []
+  }
+]

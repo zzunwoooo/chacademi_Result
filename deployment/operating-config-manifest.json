@@ -1,0 +1,92 @@
+[
+  {
+    "path": "deployment/operating-config/MagicCodexBridge/mana-spells.yml",
+    "sha256": "7a8cef6b8ff0479a6e11277667e322789d482a41b5aacea8817607e2d425b521",
+    "sameOnSchoolAndWild": true,
+    "role": "non-secret gameplay configuration; deployment overlay, not player data"
+  },
+  {
+    "path": "deployment/operating-config/MagicCodexBridge/spell-runtime.yml",
+    "sha256": "551f794b0696575f7bb0dfbe7d7adfff2556a2bad3478f01deba8d3fd4475ff1",
+    "sameOnSchoolAndWild": true,
+    "role": "non-secret gameplay configuration; deployment overlay, not player data"
+  },
+  {
+    "path": "deployment/operating-config/MagicCodexBridge/artifacts.yml",
+    "sha256": "15f87b3323e7fd2e4ec371aebb5c8d90e35734ebca48d02df6a257660cf501d2",
+    "sameOnSchoolAndWild": true,
+    "role": "non-secret gameplay configuration; deployment overlay, not player data"
+  },
+  {
+    "path": "deployment/operating-config/PortableVFX/spell-catalog.yml",
+    "sha256": "7267089f541d501372a1f4c1dcedf7596a05de666d4235c4545a51d1a933e542",
+    "sameOnSchoolAndWild": true,
+    "role": "non-secret gameplay configuration; deployment overlay, not player data"
+  },
+  {
+    "path": "deployment/operating-config/PortableVFX/spell-bindings.yml",
+    "sha256": "c62fc827da02d613242658f00b946dbafffcede1d39f9da8114946d3ee1eae21",
+    "sameOnSchoolAndWild": true,
+    "role": "non-secret gameplay configuration; deployment overlay, not player data"
+  },
+  {
+    "path": "deployment/operating-config/MythicMobs/Skills/chacademi_spells.yml",
+    "sha256": "19e6bef350d088adae8826addaba1513ab3207313faebf493c7f2d30e8ab56a6",
+    "sameOnSchoolAndWild": true,
+    "role": "non-secret gameplay configuration; deployment overlay, not player data"
+  },
+  {
+    "path": "deployment/operating-config/MagicCodexBridge/climate.yml",
+    "sha256": "a5ce3279b4fdda18950d53109096a21adf493bdf3e6ce3685680b8b3ce3f8227",
+    "sameOnSchoolAndWild": true,
+    "role": "non-secret applied realtime season configuration; preserve this epoch when reproducing this deployment"
+  },
+  {
+    "path": "deployment/operating-config/MagicCodexBridge/pet-companions.yml",
+    "sha256": "6df097c87b6c22e3e477683b09c6863a3557985674949dad4a81e66d52cf55c3",
+    "sameOnSchoolAndWild": true,
+    "role": "non-secret gameplay configuration; deployment overlay, not player data"
+  },
+  {
+    "path": "deployment/operating-config/MythicMobs/Skills/chacademi_pet_skills.yml",
+    "sha256": "f0cd318c6545001cd3f09e2a4b5635d62bdba077909a9b22ef452c453bff9e5f",
+    "sameOnSchoolAndWild": true,
+    "role": "non-secret gameplay configuration; deployment overlay, not player data"
+  },
+  {
+    "path": "deployment/operating-config/MythicMobs/Mobs/chacademi_training_dummy.yml",
+    "sha256": "a1d87ff0302542a3adebeab5c97cc6bf8c9ae24a5b83944bdda6b01d43ed04c1",
+    "sameOnSchoolAndWild": true,
+    "role": "non-secret gameplay configuration; deployment overlay, not player data"
+  },
+  {
+    "path": "deployment/operating-config/MythicMobs/Skills/chacademi_training_dummy.yml",
+    "sha256": "7312856dd96f02e91955ec164b121ccb55cfb5f158d138d0c7a66ee17e6bff86",
+    "sameOnSchoolAndWild": true,
+    "role": "non-secret gameplay configuration; deployment overlay, not player data"
+  },
+  {
+    "path": "deployment/operating-config/MagicCodexBridge/books.yml",
+    "sha256": "30b6fa8a6d5954008cd8be5bc468e4b31bca434cf7b9ef76e8898928663b2d2a",
+    "sameOnSchoolAndWild": true,
+    "role": "non-secret gameplay configuration; deployment overlay, not player data"
+  },
+  {
+    "path": "deployment/operating-config/MagicCodexBridge/loot-boxes.yml",
+    "sha256": "1079e01c96af34fa5a1f1c0c24e237f3a25c3d0f28c0b4480d99dbab7f3ffba6",
+    "sameOnSchoolAndWild": true,
+    "role": "non-secret gameplay configuration; deployment overlay, not player data"
+  },
+  {
+    "path": "deployment/operating-config/MythicMobs/Skills/chacademi_mob_skills.yml",
+    "sha256": "c3188a75fec57375b1e596ce6f9847634dd23813ad79308e05452e3b76795a14",
+    "sameOnSchoolAndWild": true,
+    "role": "non-secret gameplay configuration; deployment overlay, not player data"
+  },
+  {
+    "path": "deployment/operating-config/MythicMobs/Mobs/chacademi_mob_minions.yml",
+    "sha256": "c7bc6d4400961814663dd2b01f2c4416036df010708718e7bd119b9b9178a889",
+    "sameOnSchoolAndWild": true,
+    "role": "non-secret gameplay configuration; deployment overlay, not player data"
+  }
+]

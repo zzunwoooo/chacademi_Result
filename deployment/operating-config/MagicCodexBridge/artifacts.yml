@@ -1,0 +1,1155 @@
+# 차카데미 아티팩트 도감 정의 (검수 완료 목록, 2026-10-15)
+#
+# 이 파일만 고치면 도감 내용이 바뀝니다. 고친 뒤 /서버관리 새로고침 아티팩트 (접속 중인 플레이어 도감도 바로 갱신).
+# 모드(클라이언트)는 다시 배포할 필요 없습니다. 서버가 이 내용을 접속자에게 보내 줍니다. (아이콘 그림만 모드에 들어 있음)
+#
+# 보유: 권한 magiccodex.artifact.own.<아이디>  (전부: magiccodex.artifact.own.*)
+#   예) /lp user 닉네임 permission set magiccodex.artifact.own.sturdy_vest true
+# 장착: 도감에서 [장착]/[해제]. 장착 개수는 settings.max-equipped.
+# 사용: use: true 인 아티팩트는 장착한 채 아티팩트 사용 키(기본 X)로 씁니다. cooldown = 재사용 대기(초, 0 = 없음).
+# 효과: 150개 전부 구현 (2026-10-26 보류 29개 추가; ArtifactEffects / ArtifactActions / ArtifactLife, 2026-10-15, CC·원소 반응 개편 2026-10-20). 아이디가 효과와 묶여 있으니 아이디는 바꾸지 마세요.
+#   (2026-10-21 보류 29개는 enabled: false 였으나 2026-10-26 모두 구현해 켬 — 모션·빗자루·마법 규칙·소환 묶음, docs/handoff/CLAUDE_ARTIFACTS29_*.md)
+
+settings:
+  max-equipped: 1          # 동시에 장착할 수 있는 아티팩트 수 (1~8)
+  test-owns-all: false     # true면 모든 플레이어가 전부 보유한 것으로 표시 (UI 확인용, 운영 중에는 false)
+
+# 유물함 소환 (/아티팩트소환 으로 창 열기 → [소환하기] 를 누르면 열쇠를 쓰고 결과는 서버가 정함)
+summon:
+  item: "item:random_artifact"   # 소모 아이템 (아이템애더 네임스페이스:아이디)
+  item-name: "유물함 열쇠"        # 소환 창 안내문에 보이는 이 아이템의 이름 (아이템애더 표시 이름과 맞춰 주세요)
+  cost: 1                        # 한 번에 쓰는 개수
+  weights:                       # 등급 확률 비율 (합에 대한 비율, 5:3:1:0.1 = 일반 55% / 고급 33% / 유일 11% / 전설 1.1%)
+    common: 5
+    rare: 3
+    unique: 1
+    legendary: 0.1
+  decoy-weights:                 # 고르지 않은 4상자에 잠깐 보이는 등급 (연출용, 실제 보상 없음). 4:3:2:1 = 전설 10%로 "아깝다" 느낌
+    common: 4
+    rare: 3
+    unique: 2
+    legendary: 1
+  duplicate:                     # 이미 가진 아티팩트가 나오면 조각을 우편으로 보냄
+    item: "item:artifact_shard"
+    amount: {common: 1, rare: 1, unique: 1, legendary: 1}
+    mail-title: "아티팩트 조각"
+    mail-body: "이미 가진 아티팩트가 나와 조각으로 바꿔 드렸습니다."
+  # 천장(pity)은 폐기 (2026-10-26 오너 결정 #98). 중복 조각은 상점 "아티팩트 교환소"(shops/artifact_exchange.yml)에서
+  # 아래 등급 확정 뽑기권으로 바꾼다.
+  tickets:                       # 등급 확정 뽑기권: 우클릭하면 소환 창이 열리고 그 등급으로 1회 뽑기 (중복이면 위 조각, 열쇠 뽑기와 같음)
+                                 # 등급 키: common/rare/unique/legendary. 줄을 빼면 그 등급 확정권 없음. 그림은 ItemsAdder 쪽에서.
+    common:    {item: "item:artifact_ticket_common",    name: "일반 확정 뽑기권"}
+    rare:      {item: "item:artifact_ticket_rare",      name: "고급 확정 뽑기권"}
+    unique:    {item: "item:artifact_ticket_unique",    name: "유일 확정 뽑기권"}
+    legendary: {item: "item:artifact_ticket_legendary", name: "전설 확정 뽑기권"}
+
+
+# 항목 형식
+#   아이디(영문 소문자·숫자·_):
+#     name: 도감에 보이는 이름 (최대 40자)
+#     grade: common(일반) / rare(고급) / unique(유일) / legendary(전설)
+#     description: 상세 패널에 보이는 짧은 설명 (최대 3줄, 200자). 줄바꿈은 \n
+#     effect: 상세 효과. 설명에 마우스를 올리면 툴팁으로 전부 보임 (최대 600자)
+#     icon: 아이콘 이미지 경로. 비워 두면 빈칸 (예: magiccodex:textures/artifact/sturdy_vest.png)
+#     use: true면 사용형 (아티팩트 사용 키), cooldown: 재사용 대기 초 (0~86400)
+#     order: 같은 등급 안에서의 정렬 순서 (작을수록 앞). 검수 목록 번호 × 10
+#     enabled: false로 두면 도감에서 숨김 (보류 항목)
+artifacts:
+
+  # ---------------------------------------------------------------- 일반
+  sturdy_vest:
+    name: "튼튼한 조끼"
+    grade: common
+    description: "견습생에게 처음 지급되는 두툼한 가죽 조끼."
+    effect: "최대 체력 +2 (하트 1칸)"
+    icon: "magiccodex:textures/artifact/sturdy_vest.png"
+    order: 10
+  small_mana_stone:
+    name: "작은 마나석"
+    grade: common
+    description: "손톱만 한 결정 안에서 마력이 희미하게 빛난다."
+    effect: "최대 마나 +20"
+    icon: "magiccodex:textures/artifact/small_mana_stone.png"
+    order: 20
+  light_shoes:
+    name: "가벼운 신발"
+    grade: common
+    description: "발목에 작은 날개 장식이 달린 천 신발."
+    effect: "이동 속도 +3%"
+    icon: "magiccodex:textures/artifact/light_shoes.png"
+    order: 30
+  thick_gloves:
+    name: "두꺼운 장갑"
+    grade: common
+    description: "누빈 천에 가죽을 덧댄 작업 장갑."
+    effect: "받는 근접 피해 -3%"
+    icon: "magiccodex:textures/artifact/thick_gloves.png"
+    order: 40
+  element_ring_fire:
+    name: "원소 반지 (화염)"
+    grade: common
+    description: "타오르는 주황 보석이 박힌 쇠 반지."
+    effect: "화염 마법 피해 +4%"
+    icon: "magiccodex:textures/artifact/element_ring_fire.png"
+    order: 50
+  element_ring_water:
+    name: "원소 반지 (물)"
+    grade: common
+    description: "맑은 물빛 보석이 박힌 쇠 반지."
+    effect: "물 마법 피해 +4%"
+    icon: "magiccodex:textures/artifact/element_ring_water.png"
+    order: 51
+  element_ring_wind:
+    name: "원소 반지 (바람)"
+    grade: common
+    description: "연둣빛 바람이 감도는 보석 반지."
+    effect: "바람 마법 피해 +4%"
+    icon: "magiccodex:textures/artifact/element_ring_wind.png"
+    order: 52
+  element_ring_earth:
+    name: "원소 반지 (대지)"
+    grade: common
+    description: "흙빛 보석이 단단히 박힌 쇠 반지."
+    effect: "대지 마법 피해 +4%"
+    icon: "magiccodex:textures/artifact/element_ring_earth.png"
+    order: 53
+  element_ring_light:
+    name: "원소 반지 (빛)"
+    grade: common
+    description: "작은 햇살을 머금은 노란 보석 반지."
+    effect: "빛 마법 피해 +4%"
+    icon: "magiccodex:textures/artifact/element_ring_light.png"
+    order: 54
+  element_ring_dark:
+    name: "원소 반지 (어둠)"
+    grade: common
+    description: "보랏빛 어둠이 일렁이는 보석 반지."
+    effect: "어둠 마법 피해 +4%"
+    icon: "magiccodex:textures/artifact/element_ring_dark.png"
+    order: 55
+  catalyst_powder:
+    name: "촉매 가루"
+    grade: common
+    description: "여러 원소가 섞여 반짝이는 고운 가루."
+    effect: "내가 남긴 원소 표식 지속 시간 +0.5초"
+    icon: "magiccodex:textures/artifact/catalyst_powder.png"
+    order: 60
+  farmer_straw_hat:
+    name: "농부의 밀짚모자"
+    grade: common
+    description: "밀 이삭을 꽂은 챙 넓은 밀짚모자."
+    effect: "작물을 수확할 때 5% 확률로 1개 더"
+    icon: "magiccodex:textures/artifact/farmer_straw_hat.png"
+    order: 70
+  miner_lantern:
+    name: "광부의 랜턴"
+    grade: common
+    description: "갱도를 수없이 밝혀 온 작은 쇠 랜턴."
+    effect: "광석을 캘 때 3% 확률로 1개 더"
+    icon: "magiccodex:textures/artifact/miner_lantern.png"
+    order: 80
+  lumberjack_bandana:
+    name: "나무꾼 손수건"
+    grade: common
+    description: "톱밥 냄새가 배어 있는 체크무늬 손수건."
+    effect: "원목을 캘 때 5% 확률로 1개 더"
+    icon: "magiccodex:textures/artifact/lumberjack_bandana.png"
+    order: 90
+  fishing_bobber:
+    name: "낚시꾼의 찌"
+    grade: common
+    description: "입질을 먼저 알아채는 빨간 찌."
+    effect: "낚시할 때 5% 확률로 1마리 더"
+    icon: "magiccodex:textures/artifact/fishing_bobber.png"
+    order: 100
+  chef_apron:
+    name: "요리사 앞치마"
+    grade: common
+    description: "주머니에 나무 국자가 꽂힌 하얀 앞치마."
+    effect: "음식을 먹으면 포만감 +1"
+    icon: "magiccodex:textures/artifact/chef_apron.png"
+    order: 110
+  chatty_feather:
+    name: "수다쟁이 깃털"
+    grade: common
+    description: "쓰기만 하면 말이 술술 나오는 깃털 펜."
+    effect: "NPC 호감도 상승량 +5%"
+    icon: "magiccodex:textures/artifact/chatty_feather.png"
+    order: 120
+  exp_pouch:
+    name: "경험 주머니"
+    grade: common
+    description: "연둣빛 구슬이 비치는 작은 천 주머니."
+    effect: "경험치 획득량 +5%"
+    icon: "magiccodex:textures/artifact/exp_pouch.png"
+    order: 130
+  sturdy_strap:
+    name: "튼튼한 가방끈"
+    grade: common
+    description: "무슨 일이 있어도 끊어지지 않는 가방끈."
+    effect: "쓰러질 때 인벤토리의 아이템 하나를 떨어뜨리지 않고 지킴"
+    icon: "magiccodex:textures/artifact/sturdy_strap.png"
+    order: 140
+  broom_cord:
+    name: "빗자루 끈"
+    grade: common
+    description: "빗자루 손잡이에 감는 땋은 끈."
+    effect: "빗자루로 이륙한 뒤 3초간 가속"
+    icon: "magiccodex:textures/artifact/broom_cord.png"
+    order: 150
+  squeaky_shoes:
+    name: "삑삑이 신발"
+    grade: common
+    description: "몰래 다니기는 글렀다."
+    effect: "걸을 때 발소리가 장난감 삑삑 소리로 바뀜"
+    icon: "magiccodex:textures/artifact/squeaky_shoes.png"
+    order: 160
+  dancing_ribbon:
+    name: "춤추는 리본"
+    grade: common
+    description: "맞아도 흥은 멈추지 않는다."
+    effect: "맞을 때 10% 확률로 짧은 춤 모션 (효과 없음)"
+    icon: "magiccodex:textures/artifact/dancing_ribbon.png"
+    order: 170
+  waving_glove:
+    name: "인사 장갑"
+    grade: common
+    description: "인사성 밝은 학생의 필수품."
+    effect: "다른 플레이어를 보고 웅크리면 손을 흔드는 모션"
+    icon: "magiccodex:textures/artifact/waving_glove.png"
+    order: 180
+  sleepy_pillow:
+    name: "졸린 베개"
+    grade: common
+    description: "베고 있지 않아도 졸음이 쏟아진다."
+    effect: "2분 동안 가만히 있으면 앉아서 꾸벅꾸벅 조는 모션"
+    icon: "magiccodex:textures/artifact/sleepy_pillow.png"
+    order: 190
+  shy_mask:
+    name: "수줍은 가면"
+    grade: common
+    description: "볼이 발그레한 웃는 얼굴의 반가면."
+    effect: "NPC와 대화를 시작할 때 고개 숙여 인사하는 모션"
+    icon: "magiccodex:textures/artifact/shy_mask.png"
+    order: 200
+  lucky_coin:
+    name: "행운 동전"
+    grade: common
+    description: "네잎클로버가 새겨진 낡은 금화."
+    effect: "몹을 처치할 때 1% 확률로 동전이 튀어 오르며 보유금 1000원 획득"
+    icon: "magiccodex:textures/artifact/lucky_coin.png"
+    order: 210
+  sturdy_belt:
+    name: "단단한 허리띠"
+    grade: common
+    description: "굵은 쇠 버클이 달린 가죽 허리띠."
+    effect: "넉백 저항 +10%"
+    icon: "magiccodex:textures/artifact/sturdy_belt.png"
+    order: 670
+  leather_bracer:
+    name: "가죽 팔목 보호대"
+    grade: common
+    description: "화살이 스친 자국이 남은 팔목 보호대."
+    effect: "받는 투사체 피해 -4%"
+    icon: "magiccodex:textures/artifact/leather_bracer.png"
+    order: 680
+  scorched_apron:
+    name: "그을린 앞치마"
+    grade: common
+    description: "아랫단이 검게 그을린 캔버스 앞치마."
+    effect: "나에게 걸린 둔화·중력 지속 시간 -30%"
+    icon: "magiccodex:textures/artifact/scorched_apron.png"
+    order: 690
+  practice_wand:
+    name: "연습용 지팡이"
+    grade: common
+    description: "끝에 작은 수정이 박힌 소박한 지팡이."
+    effect: "스킬 가속 +3"
+    icon: "magiccodex:textures/artifact/practice_wand.png"
+    order: 700
+  bug_repellent_incense:
+    name: "벌레 퇴치 향"
+    grade: common
+    description: "벌레들이 싫어하는 매캐한 향."
+    effect: "나에게 걸린 독·화상 지속 시간 -30%"
+    icon: "magiccodex:textures/artifact/bug_repellent_incense.png"
+    order: 710
+  breather_whistle:
+    name: "숨 고르기 호루라기"
+    grade: common
+    description: "한 번 불면 숨이 차분해진다."
+    effect: "전투가 끝나면 5초간 체력 재생 속도 증가"
+    icon: "magiccodex:textures/artifact/breather_whistle.png"
+    order: 720
+  potion_belt:
+    name: "물약 벨트"
+    grade: common
+    description: "물약병 세 개가 꽂힌 가죽 벨트."
+    effect: "마신 물약의 지속 시간 +10%"
+    icon: "magiccodex:textures/artifact/potion_belt.png"
+    order: 730
+  small_shield_badge:
+    name: "작은 방패 배지"
+    grade: common
+    description: "손바닥만 한 둥근 방패 모양 배지."
+    effect: "나에게 걸리는 CC 지속 시간 -15%"
+    icon: "magiccodex:textures/artifact/small_shield_badge.png"
+    order: 740
+  fur_scarf:
+    name: "털 목도리"
+    grade: common
+    description: "복슬복슬한 털이 달린 빨간 목도리."
+    effect: "가루눈 속에서 어는 속도 -50%"
+    icon: "magiccodex:textures/artifact/fur_scarf.png"
+    order: 750
+  revival_boots:
+    name: "부활 장화"
+    grade: common
+    description: "뒤꿈치에 새싹이 돋은 낡은 장화."
+    effect: "다시 살아난 뒤 10분간 신속 1"
+    icon: "magiccodex:textures/artifact/revival_boots.png"
+    order: 760
+  mana_drop_earring:
+    name: "마나 물방울 귀걸이"
+    grade: common
+    description: "거의 비어 있는 물방울 유리 귀걸이."
+    effect: "마나가 10% 이하로 떨어지면 3초간 마나 회복 +20% (60초에 한 번)"
+    icon: "magiccodex:textures/artifact/mana_drop_earring.png"
+    order: 770
+  element_chalk:
+    name: "원소 색분필"
+    grade: common
+    description: "어디에 쓰는 건지 아무도 모른다."
+    effect: "장착하면 내가 일으킨 원소 반응의 효과가 사라짐 (이름만 뜸)"
+    icon: "magiccodex:textures/artifact/element_chalk.png"
+    order: 780
+  discovery_journal:
+    name: "반응 일지"
+    grade: common
+    description: "마법 문양 쪽지가 끼워진 가죽 수첩."
+    effect: "새 마법을 발견할 때마다 경험치 보상"
+    icon: "magiccodex:textures/artifact/discovery_journal.png"
+    order: 790
+  sand_pouch:
+    name: "모래 주머니"
+    grade: common
+    description: "틈으로 금빛 모래가 흘러나오는 삼베 주머니."
+    effect: "모래 회오리가 끌어당기는 범위 +1블록"
+    icon: "magiccodex:textures/artifact/sand_pouch.png"
+    order: 800
+  ember_pouch:
+    name: "작은 불씨 주머니"
+    grade: common
+    description: "틈으로 불씨가 새어 나오는 가죽 주머니."
+    effect: "원소 반응을 일으키면 2초간 이동 속도 +5%"
+    icon: "magiccodex:textures/artifact/ember_pouch.png"
+    order: 810
+  milk_bottle:
+    name: "우유 병"
+    grade: common
+    description: "체크무늬 리본을 묶은 우유 병."
+    effect: "우유를 마시면 체력 반 칸 회복"
+    icon: "magiccodex:textures/artifact/milk_bottle.png"
+    order: 820
+  egg_basket:
+    name: "달걀 바구니"
+    grade: common
+    description: "짚을 깐 작은 버들 바구니."
+    effect: "달걀을 주울 때 10% 확률로 1개 더"
+    icon: "magiccodex:textures/artifact/egg_basket.png"
+    order: 830
+  gardener_gloves:
+    name: "정원사 장갑"
+    grade: common
+    description: "꽃무늬가 수놓인 정원 장갑."
+    effect: "꽃을 꺾을 때 10% 확률로 1송이 더"
+    icon: "magiccodex:textures/artifact/gardener_gloves.png"
+    order: 840
+  squirrel_acorn:
+    name: "다람쥐 도토리"
+    grade: common
+    description: "다람쥐가 숨겨 둔 반들반들한 도토리."
+    effect: "나뭇잎을 부술 때 묘목·사과가 나올 확률 증가"
+    icon: "magiccodex:textures/artifact/squirrel_acorn.png"
+    order: 850
+  hiking_stick:
+    name: "등산 지팡이"
+    grade: common
+    description: "끝에 쇠촉을 단 나무 지팡이."
+    effect: "전투 중이 아닐 때 1블록 턱을 걸어서 오름"
+    icon: "magiccodex:textures/artifact/hiking_stick.png"
+    order: 860
+  thermos_lunchbox:
+    name: "보온 도시락"
+    grade: common
+    description: "언제 열어도 따끈한 2단 도시락."
+    effect: "음식 먹는 속도 +20%"
+    icon: "magiccodex:textures/artifact/thermos_lunchbox.png"
+    order: 870
+  candy_pouch:
+    name: "사탕 주머니"
+    grade: common
+    description: "알록달록한 사탕과 쿠키가 든 주머니."
+    effect: "케이크·쿠키·파이를 먹으면 5초간 이동 속도 +10%"
+    icon: "magiccodex:textures/artifact/candy_pouch.png"
+    order: 880
+  name_tag:
+    name: "이름 꼬리표"
+    grade: common
+    description: "내 것에는 내 이름을."
+    effect: "사용하면 손에 든 아이템 설명 끝에 '주인 : 내 이름'을 새김"
+    icon: "magiccodex:textures/artifact/name_tag.png"
+    use: true
+    cooldown: 0
+    order: 890
+  carpenter_pencil:
+    name: "목수 연필"
+    grade: common
+    description: "대패 밥 냄새가 나는 납작한 연필."
+    effect: "판자·막대기를 만들 때 5% 확률로 1개 더"
+    icon: "magiccodex:textures/artifact/carpenter_pencil.png"
+    order: 900
+  mason_trowel:
+    name: "벽돌공 흙손"
+    grade: common
+    description: "회반죽이 조금 묻은 쇠 흙손."
+    effect: "흙·돌 블록을 놓을 때 3% 확률로 소모되지 않음"
+    icon: "magiccodex:textures/artifact/mason_trowel.png"
+    order: 910
+  lamplighter_matches:
+    name: "등불지기 성냥"
+    grade: common
+    description: "불이 잘 붙는 등불지기의 성냥."
+    effect: "횃불을 놓을 때 10% 확률로 소모되지 않음"
+    icon: "magiccodex:textures/artifact/lamplighter_matches.png"
+    order: 920
+  mail_bag:
+    name: "우체부 가방"
+    grade: common
+    description: "편지가 삐져나온 갈색 우편 가방."
+    effect: "던진 아이템이 2배 멀리 날아감"
+    icon: "magiccodex:textures/artifact/mail_bag.png"
+    order: 930
+  inn_key:
+    name: "여관 열쇠"
+    grade: common
+    description: "달 문양 번호패가 달린 놋쇠 열쇠."
+    effect: "침대에서 자고 일어나면 배고픔 2칸 회복"
+    icon: "magiccodex:textures/artifact/inn_key.png"
+    order: 940
+  weather_vane:
+    name: "기상 풍향계"
+    grade: common
+    description: "비구름 냄새를 먼저 맡는 수탉."
+    effect: "비가 오기 1분 전에 알려 줌"
+    icon: "magiccodex:textures/artifact/weather_vane.png"
+    order: 950
+  laughing_mask:
+    name: "웃음 가면"
+    grade: common
+    description: "쓰기만 하면 웃음이 터진다."
+    effect: "채팅에 ㅋㅋ를 치면 웃는 모션"
+    icon: "magiccodex:textures/artifact/laughing_mask.png"
+    order: 960
+  bubblewrap_cape:
+    name: "뽁뽁이 망토"
+    grade: common
+    description: "맞을 때마다 뽁, 뽁."
+    effect: "맞을 때 뽁뽁이 터지는 소리"
+    icon: "magiccodex:textures/artifact/bubblewrap_cape.png"
+    order: 970
+  turtle_shell_backpack:
+    name: "거북이 등껍질 배낭"
+    grade: common
+    description: "숨고 싶을 때 딱 좋은 배낭."
+    effect: "웅크리고 가만히 있으면 등껍질 속에 숨는 모션 (효과 없음)"
+    icon: "magiccodex:textures/artifact/turtle_shell_backpack.png"
+    order: 980
+  stretch_headband:
+    name: "기지개 밴드"
+    grade: common
+    description: "졸린 눈 그림이 수놓인 머리띠."
+    effect: "접속하면 기지개를 켜는 모션"
+    icon: "magiccodex:textures/artifact/stretch_headband.png"
+    order: 990
+  jack_in_the_box:
+    name: "깜짝 상자"
+    grade: common
+    description: "쓰러져도 웃음은 남긴다."
+    effect: "쓰러질 때 용수철 인형이 튀어나오는 연출"
+    icon: "magiccodex:textures/artifact/jack_in_the_box.png"
+    order: 1000
+  yum_bib:
+    name: "냠냠 턱받이"
+    grade: common
+    description: "하트 무늬 흰 턱받이."
+    effect: "먹는 소리가 귀여운 냠냠 소리로 바뀜"
+    icon: "magiccodex:textures/artifact/yum_bib.png"
+    order: 1010
+  konpeito_crown:
+    name: "별사탕 왕관"
+    grade: common
+    description: "별사탕이 박힌 작은 종이 왕관."
+    effect: "레벨업하면 머리 위에서 별사탕 폭죽이 터짐"
+    icon: "magiccodex:textures/artifact/konpeito_crown.png"
+    order: 1020
+  metronome:
+    name: "박자 메트로놈"
+    grade: common
+    description: "박자를 맞추면 기분이 좋아진다."
+    effect: "같은 간격으로 마법을 3번 쓰면 '딱!' 효과음"
+    icon: "magiccodex:textures/artifact/metronome.png"
+    order: 1030
+  party_handkerchief:
+    name: "파티 손수건"
+    grade: common
+    description: "모서리마다 다른 색 별이 수놓인 손수건."
+    effect: "피해를 받을 때 파티원이 5블록 안에 있으면 그 피해 -2%"
+    icon: "magiccodex:textures/artifact/party_handkerchief.png"
+    order: 1040
+  cheer_flag:
+    name: "응원 깃발"
+    grade: common
+    description: "끝에 술이 달린 삼각 응원 깃발."
+    effect: "파티원이 쓰러지면 내 다음 마법 피해 +10%"
+    icon: "magiccodex:textures/artifact/cheer_flag.png"
+    order: 1050
+  friendship_bracelet:
+    name: "우정 팔찌"
+    grade: common
+    description: "여러 색 실을 꼬아 만든 팔찌."
+    effect: "내가 파티원을 회복시키는 양 +5%"
+    icon: "magiccodex:textures/artifact/friendship_bracelet.png"
+    order: 1060
+  broom_cushion:
+    name: "빗자루 쿠션"
+    grade: common
+    description: "빗자루 자루에 묶는 폭신한 쿠션."
+    effect: "빗자루에서 떨어질 때 받는 피해 -30%"
+    icon: "magiccodex:textures/artifact/broom_cushion.png"
+    order: 1070
+  pocket_crafting_table:
+    name: "주머니 작업대"
+    grade: common
+    description: "손바닥만 하게 줄어든 작업대."
+    effect: "사용하면 작업대 창이 열림"
+    icon: "magiccodex:textures/artifact/pocket_crafting_table.png"
+    use: true
+    cooldown: 0
+    order: 1080
+  snack_box:
+    name: "간식 상자"
+    grade: common
+    description: "열 때마다 쿠키가 하나씩 들어 있다."
+    effect: "사용하면 쿠키 1개"
+    icon: "magiccodex:textures/artifact/snack_box.png"
+    use: true
+    cooldown: 60
+    order: 1090
+  canteen:
+    name: "물 수통"
+    grade: common
+    description: "천 덮개를 씌운 둥근 수통."
+    effect: "사용하면 배고픔 1칸 회복"
+    icon: "magiccodex:textures/artifact/canteen.png"
+    use: true
+    cooldown: 180
+    order: 1100
+  folding_spyglass:
+    name: "접이식 망원경"
+    grade: common
+    description: "놋쇠 마디가 쭉 늘어나는 망원경."
+    effect: "사용 키를 누르고 있는 동안 화면 확대"
+    icon: "magiccodex:textures/artifact/folding_spyglass.png"
+    use: true
+    cooldown: 0
+    order: 1110
+  party_popper:
+    name: "축하 폭죽통"
+    grade: common
+    description: "언제든 축하할 준비가 되어 있다."
+    effect: "사용하면 머리 위로 축하 폭죽 발사"
+    icon: "magiccodex:textures/artifact/party_popper.png"
+    use: true
+    cooldown: 30
+    order: 1120
+  lucky_die:
+    name: "행운 주사위"
+    grade: common
+    description: "6의 눈에 작은 클로버가 그려진 주사위."
+    effect: "사용하면 1~6을 굴려 주변에 보여 주고, 6이 나오면 10초간 이동 속도 +10%"
+    icon: "magiccodex:textures/artifact/lucky_die.png"
+    use: true
+    cooldown: 60
+    order: 1130
+  cheer_light_stick:
+    name: "응원봉"
+    grade: common
+    description: "끝에 별이 달린 반짝이는 응원봉."
+    effect: "사용하면 응원봉을 흔들고, 바라보는 플레이어 머리 위에 ♥가 뜸"
+    icon: "magiccodex:textures/artifact/cheer_light_stick.png"
+    use: true
+    cooldown: 10
+    order: 1140
+  wave_flag:
+    name: "손 인사 깃발"
+    grade: common
+    description: "작은 손바닥이 그려진 노란 깃발."
+    effect: "사용하면 깃발을 흔들며 '여기!' 말풍선"
+    icon: "magiccodex:textures/artifact/wave_flag.png"
+    use: true
+    cooldown: 5
+    order: 1150
+  signal_whistle:
+    name: "위치 호루라기"
+    grade: common
+    description: "화살표 모양으로 깎은 은빛 호루라기."
+    effect: "사용하면 32블록 안 파티원 화면에 내 방향 화살표가 5초간 표시됨"
+    icon: "magiccodex:textures/artifact/signal_whistle.png"
+    use: true
+    cooldown: 30
+    order: 1160
+
+  # ---------------------------------------------------------------- 고급
+  knight_breastplate_shard:
+    name: "기사의 흉갑 조각"
+    grade: rare
+    description: "옛 기사단의 깨진 흉갑 한 조각."
+    effect: "최대 체력 +4"
+    icon: "magiccodex:textures/artifact/knight_breastplate_shard.png"
+    order: 220
+  mana_necklace:
+    name: "마력의 목걸이"
+    grade: rare
+    description: "물방울 모양 보석이 마력을 머금고 있다."
+    effect: "최대 마나 +50"
+    icon: "magiccodex:textures/artifact/mana_necklace.png"
+    order: 230
+  sprint_charm:
+    name: "질주 부적"
+    grade: rare
+    description: "바람 무늬가 그려진 종이 부적."
+    effect: "전투 중이 아닐 때 이동 속도 +20%"
+    icon: "magiccodex:textures/artifact/sprint_charm.png"
+    order: 240
+  close_combat_charm:
+    name: "백병 부적"
+    grade: rare
+    description: "가까이 붙을수록 마법이 거세진다."
+    effect: "5블록 안의 적에게 마법 피해 +8%"
+    icon: "magiccodex:textures/artifact/close_combat_charm.png"
+    order: 250
+  sniper_monocle:
+    name: "저격 외눈 안경"
+    grade: rare
+    description: "렌즈에 십자 조준선이 새겨진 금테 안경."
+    effect: "15블록보다 멀리 있는 적에게 마법 피해 +8%"
+    icon: "magiccodex:textures/artifact/sniper_monocle.png"
+    order: 260
+  emergency_herb_pouch:
+    name: "응급 약초 주머니"
+    grade: rare
+    description: "위급할 때 달릴 힘을 주는 약초 냄새."
+    effect: "체력이 10% 이하가 되면 3초간 이동 속도 +100% (120초에 한 번)"
+    icon: "magiccodex:textures/artifact/emergency_herb_pouch.png"
+    order: 270
+  sticky_ink:
+    name: "끈적한 잉크"
+    grade: rare
+    description: "한 번 묻으면 좀처럼 지워지지 않는다."
+    effect: "내가 남긴 원소 표식 지속 시간 3초 → 4초"
+    icon: "magiccodex:textures/artifact/sticky_ink.png"
+    order: 280
+  reaction_catalyst:
+    name: "반응 촉진제"
+    grade: rare
+    description: "두 원소가 섞이며 거품이 이는 플라스크."
+    effect: "내가 일으킨 원소 반응의 일반 CC(3초짜리) 시간 +1초"
+    icon: "magiccodex:textures/artifact/reaction_catalyst.png"
+    order: 290
+  resonance_earring:
+    name: "공명 귀걸이"
+    grade: rare
+    description: "반응이 일어날 때마다 맑게 울린다."
+    effect: "원소 반응을 일으킬 때마다 체력 반 칸 회복"
+    icon: "magiccodex:textures/artifact/resonance_earring.png"
+    order: 300
+  chain_glove:
+    name: "연쇄 장갑"
+    grade: rare
+    description: "손끝에서 작은 번개가 튀는 가죽 장갑."
+    effect: "연쇄 번개가 1번 더 튐"
+    icon: "magiccodex:textures/artifact/chain_glove.png"
+    order: 310
+  veteran_chef_pot:
+    name: "숙련 요리사 냄비"
+    grade: rare
+    description: "무엇을 담아도 맛있어지는 구리 냄비."
+    effect: "음식을 먹으면 2초간 재생"
+    icon: "magiccodex:textures/artifact/veteran_chef_pot.png"
+    order: 320
+  artisan_hammer:
+    name: "장인의 망치"
+    grade: rare
+    description: "손잡이가 닳도록 쓴 대장장이의 망치."
+    effect: "모루 수리·합성 비용 -20%"
+    icon: "magiccodex:textures/artifact/artisan_hammer.png"
+    order: 330
+  traveler_notebook:
+    name: "여행자 수첩"
+    grade: rare
+    description: "지도 조각이 삐져나온 낡은 수첩."
+    effect: "처음 가 보는 바이옴에 들어가면 경험치 보상"
+    icon: "magiccodex:textures/artifact/traveler_notebook.png"
+    order: 340
+  tap_dance_shoes:
+    name: "탭댄스 구두"
+    grade: rare
+    description: "맞을 때마다 발이 저절로 박자를 탄다."
+    effect: "맞을 때 20% 확률로 1초간 탭댄스 모션, 그동안 받는 피해 -30%"
+    icon: "magiccodex:textures/artifact/tap_dance_shoes.png"
+    order: 350
+  frog_crown:
+    name: "개구리 왕관"
+    grade: rare
+    description: "연못의 왕이 쓰던 작은 금관."
+    effect: "점프 높이 +0.5블록, 점프할 때마다 개굴 소리"
+    icon: "magiccodex:textures/artifact/frog_crown.png"
+    order: 360
+  chatty_parrot:
+    name: "수다 앵무새"
+    grade: rare
+    description: "한번 들은 말은 절대 잊지 않는다."
+    effect: "어깨에 앵무새가 앉아 내 마지막 채팅을 말풍선으로 따라 함"
+    icon: "magiccodex:textures/artifact/chatty_parrot.png"
+    order: 370
+  wish_coin:
+    name: "소원 동전"
+    grade: rare
+    description: "별 문양이 새겨진 반짝이는 동전."
+    effect: "사용하면 10분간 무작위 버프 하나"
+    icon: "magiccodex:textures/artifact/wish_coin.png"
+    use: true
+    cooldown: 1800
+    order: 380
+  war_drum:
+    name: "전투 북"
+    grade: rare
+    description: "푸른 끈으로 조인 작은 가죽 북."
+    effect: "전투가 시작되면 10초간 스킬 가속 +10"
+    icon: "magiccodex:textures/artifact/war_drum.png"
+    order: 1170
+  focus_headband:
+    name: "제압의 머리띠"
+    grade: rare
+    description: "단단히 동여매면 눈앞의 적만 보인다."
+    effect: "CC에 걸린 적(기절·수면·속박·공포·무장해제·둔화·중력·고정·실명)에게 마법 피해 +8%"
+    icon: "magiccodex:textures/artifact/focus_headband.png"
+    order: 1180
+  running_caster_badge:
+    name: "달리는 시전자 배지"
+    grade: rare
+    description: "날개 달린 신발이 새겨진 은 배지."
+    effect: "달리면서 쓴 마법 피해 +6%"
+    icon: "magiccodex:textures/artifact/running_caster_badge.png"
+    order: 1190
+  highland_telescope:
+    name: "닻 장식"
+    grade: rare
+    description: "작은 쇠닻 모양 장식. 묵직하게 발밑을 붙잡는다."
+    effect: "모래 회오리에 끌려가지 않고, 나에게 걸린 고정 지속 시간 -50%"
+    icon: "magiccodex:textures/artifact/highland_telescope.png"
+    order: 1200
+  melee_bell:
+    name: "혼전 방울"
+    grade: rare
+    description: "적이 많을수록 맑게 울리는 은방울."
+    effect: "피해를 받을 때 10블록 안에 적이 3마리 이상이면 그 피해 -8%"
+    icon: "magiccodex:textures/artifact/melee_bell.png"
+    order: 1210
+  hunter_mark_ring:
+    name: "사냥감 표식 반지"
+    grade: rare
+    description: "과녁 문양이 새겨진 은반지."
+    effect: "같은 적을 연속으로 맞힐 때마다 피해 +3% (최대 5번)"
+    icon: "magiccodex:textures/artifact/hunter_mark_ring.png"
+    order: 1220
+  cushion_cotton:
+    name: "완충 솜뭉치"
+    grade: rare
+    description: "은실로 묶은 폭신한 솜뭉치."
+    effect: "체력이 가득할 때 받는 피해 -30%"
+    icon: "magiccodex:textures/artifact/cushion_cotton.png"
+    order: 1230
+  mana_cycle_ring:
+    name: "마력 순환 고리"
+    grade: rare
+    description: "쓴 마력이 생명으로 돌아오는 고리."
+    effect: "마나를 200 쓸 때마다 체력 2칸 회복"
+    icon: "magiccodex:textures/artifact/mana_cycle_ring.png"
+    order: 1240
+  twilight_cape:
+    name: "잠깨기 종"
+    grade: rare
+    description: "딸랑, 하고 울리면 졸음이 싹 달아나는 작은 종."
+    effect: "수면에 걸리지 않음"
+    icon: "magiccodex:textures/artifact/twilight_cape.png"
+    order: 1250
+  storm_lightning_rod:
+    name: "폭풍우 피뢰침"
+    grade: rare
+    description: "꼭대기에 작은 번개가 맺힌 피뢰침."
+    effect: "나에게 걸린 기절·무장해제 지속 시간 -30%"
+    icon: "magiccodex:textures/artifact/storm_lightning_rod.png"
+    order: 1260
+  double_mark_lens:
+    name: "이중 표식 렌즈"
+    grade: rare
+    description: "렌즈 두 개가 겹친 은테 돋보기."
+    effect: "내 원소 표식이 붙은 적에게 피해 +5%"
+    icon: "magiccodex:textures/artifact/double_mark_lens.png"
+    order: 1270
+  rainbow_watering_can:
+    name: "무지개 물뿌리개"
+    grade: rare
+    description: "물을 뿌리면 작은 무지개가 뜬다."
+    effect: "무지개 반응의 회복량이 반 칸 → 한 칸"
+    icon: "magiccodex:textures/artifact/rainbow_watering_can.png"
+    order: 1280
+  star_collector_jar:
+    name: "별 수집가 병"
+    grade: rare
+    description: "작은 별 몇 개가 빛나는 유리병."
+    effect: "밤에 하늘이 보이는 곳에서 처치하면 경험치 +10%"
+    icon: "magiccodex:textures/artifact/star_collector_jar.png"
+    order: 1290
+  smoke_button:
+    name: "연막 단추"
+    grade: rare
+    description: "가장자리에서 연기가 피어오르는 은 단추."
+    effect: "체력이 5% 미만이 되면 펑 하는 연기와 함께 '후퇴!' 말풍선 (60초에 한 번)"
+    icon: "magiccodex:textures/artifact/smoke_button.png"
+    order: 1300
+  cheer_megaphone:
+    name: "응원 메가폰"
+    grade: rare
+    description: "응원이 마력이 되는 메가폰."
+    effect: "원소 반응을 일으키면 주변 파티원 5초간 스킬 가속 +3"
+    icon: "magiccodex:textures/artifact/cheer_megaphone.png"
+    order: 1310
+  pinwheel_charm:
+    name: "바람개비 장식"
+    grade: rare
+    description: "바람을 읽는 작은 바람개비."
+    effect: "빗자루로 급하게 방향을 틀어도 떨어질 위험이 줄어듦"
+    icon: "magiccodex:textures/artifact/pinwheel_charm.png"
+    order: 1320
+  element_ink_bottle:
+    name: "원소 잉크병"
+    grade: rare
+    description: "여섯 원소가 층층이 담긴 잉크병."
+    effect: "사용하면 바라보는 적(16블록 안)에게 내가 마지막으로 쓴 원소의 표식을 남김 (반응 후 3초 면역도 무시)"
+    icon: "magiccodex:textures/artifact/element_ink_bottle.png"
+    use: true
+    cooldown: 20
+    order: 1330
+  reaction_detonator_glove:
+    name: "반응 기폭 장갑"
+    grade: rare
+    description: "손끝에 원소 불꽃이 맺힌 검은 장갑."
+    effect: "사용하면 원소 표식이 하나만 붙은 적의 표식을 터뜨려 내 지능에 비례한 피해"
+    icon: "magiccodex:textures/artifact/reaction_detonator_glove.png"
+    use: true
+    cooldown: 30
+    order: 1340
+  mana_battery:
+    name: "마력 배터리"
+    grade: rare
+    description: "푸른 마나가 가득 찬 원통."
+    effect: "사용하면 마나를 전부 회복"
+    icon: "magiccodex:textures/artifact/mana_battery.png"
+    use: true
+    cooldown: 180
+    order: 1350
+  pocket_anvil:
+    name: "주머니 모루"
+    grade: rare
+    description: "손바닥만 하게 줄어든 쇠 모루."
+    effect: "사용하면 모루 창이 열림"
+    icon: "magiccodex:textures/artifact/pocket_anvil.png"
+    use: true
+    cooldown: 0
+    order: 1360
+  shapeshift_mask:
+    name: "변신 가면"
+    grade: rare
+    description: "반은 사람, 반은 여우인 은 가면."
+    effect: "사용하면 보유한 펫 중 하나의 모습으로 30초간 변신"
+    icon: "magiccodex:textures/artifact/shapeshift_mask.png"
+    use: true
+    cooldown: 60
+    order: 1370
+  war_horn:
+    name: "함성 뿔피리"
+    grade: rare
+    description: "은 장식을 두른 휘어진 뿔피리."
+    effect: "사용하면 8블록 안 파티원 10초간 스킬 가속 +10"
+    icon: "magiccodex:textures/artifact/war_horn.png"
+    use: true
+    cooldown: 90
+    order: 1380
+  tactics_flag:
+    name: "작전 깃발"
+    grade: rare
+    description: "남색 깃발에 별 하나."
+    effect: "사용하면 바라보는 곳에 깃발을 꽂아 파티원 화면에 30초간 표시"
+    icon: "magiccodex:textures/artifact/tactics_flag.png"
+    use: true
+    cooldown: 20
+    order: 1390
+
+  # ---------------------------------------------------------------- 유일
+  giant_heart:
+    name: "거인의 심장"
+    grade: unique
+    description: "거인의 박동이 아직 남아 있는 붉은 결정."
+    effect: "최대 체력 +30%, 대신 이동 속도 -5%"
+    icon: "magiccodex:textures/artifact/giant_heart.png"
+    order: 390
+  glass_heart:
+    name: "유리 심장"
+    grade: unique
+    description: "금 간 틈으로 마력이 새어 나오는 유리 심장."
+    effect: "최대 체력 -20%, 대신 마법 피해 +12%"
+    icon: "magiccodex:textures/artifact/glass_heart.png"
+    order: 400
+  bargain_contract:
+    name: "거래 계약서"
+    grade: unique
+    description: "작은 그릇에 빠르게 채우는 계약."
+    effect: "최대 마나 -50%, 대신 마나 회복 +100%"
+    icon: "magiccodex:textures/artifact/bargain_contract.png"
+    order: 410
+  leisure_clock:
+    name: "여유 시계"
+    grade: unique
+    description: "느긋하게 녹아내리는 회중시계."
+    effect: "스킬 가속 효과를 받지 않음, 대신 마법 피해 +50%"
+    icon: "magiccodex:textures/artifact/leisure_clock.png"
+    order: 420
+  calm_lake_orb:
+    name: "고요한 호수 구슬"
+    grade: unique
+    description: "잔잔한 수면이 담긴 유리구슬."
+    effect: "5초 동안 맞지 않으면 다음 마법 피해 +20%"
+    icon: "magiccodex:textures/artifact/calm_lake_orb.png"
+    order: 430
+  final_blow_quill:
+    name: "마지막 한 방 깃"
+    grade: unique
+    description: "끝이 붉게 물든 검은 깃털."
+    effect: "체력 20% 이하인 적에게 마법 피해 +30%"
+    icon: "magiccodex:textures/artifact/final_blow_quill.png"
+    order: 440
+  hermit_lantern:
+    name: "은둔자의 등불"
+    grade: unique
+    description: "혼자일 때 가장 밝게 타는 등불."
+    effect: "파티가 아니면 마법 피해 +20%, 파티 중이면 -20%"
+    icon: "magiccodex:textures/artifact/hermit_lantern.png"
+    order: 450
+  balance_scale:
+    name: "굳센 심장"
+    grade: unique
+    description: "무엇에도 흔들리지 않는 묵직한 심장 모양 돌."
+    effect: "나에게 걸리는 CC 지속 시간 -50%, 대신 받는 피해 +10%"
+    icon: "magiccodex:textures/artifact/balance_scale.png"
+    order: 460
+  element_collector_note:
+    name: "원소 수집가 노트"
+    grade: unique
+    description: "여섯 원소 문양 스티커로 가득한 노트."
+    effect: "30초 안에 서로 다른 원소 반응 5종을 일으키면 10초간 스킬 가속 +50"
+    icon: "magiccodex:textures/artifact/element_collector_note.png"
+    order: 470
+  reaction_master_seal:
+    name: "반응 장인의 인장"
+    grade: unique
+    description: "두 원소 문양이 맞물린 보라 도장."
+    effect: "내가 일으킨 원소 반응의 CC 시간 +20%"
+    icon: "magiccodex:textures/artifact/reaction_master_seal.png"
+    order: 480
+  slow_inkwell:
+    name: "느린 잉크병"
+    grade: unique
+    description: "잉크가 아주 천천히 떨어진다."
+    effect: "내 원소 표식 지속 시간 2배, 대신 내가 일으킨 원소 반응의 CC 시간 -30%"
+    icon: "magiccodex:textures/artifact/slow_inkwell.png"
+    order: 490
+  love_letter:
+    name: "연서 봉투"
+    grade: unique
+    description: "하트 밀랍으로 봉한 분홍 봉투."
+    effect: "호감도가 최고 단계인 NPC 1명당 받는 피해 -1%"
+    icon: "magiccodex:textures/artifact/love_letter.png"
+    order: 500
+  time_mortgage_deed:
+    name: "시간 저당 증서"
+    grade: unique
+    description: "생명을 담보로 시간을 빌리는 계약."
+    effect: "최대 체력 -50%, 대신 스킬 가속 +30"
+    icon: "magiccodex:textures/artifact/time_mortgage_deed.png"
+    order: 1400
+  element_cycle_bracelet:
+    name: "원소 순환 팔찌"
+    grade: unique
+    description: "원소 보석 사이를 빛이 돌아간다."
+    effect: "직전 마법과 같은 원소면 피해 -20%, 다른 원소면 +20%"
+    icon: "magiccodex:textures/artifact/element_cycle_bracelet.png"
+    order: 1410
+  sequence_necklace:
+    name: "순서의 목걸이"
+    grade: unique
+    description: "끝으로 갈수록 밝아지는 보석 목걸이."
+    effect: "키세팅 1번부터 6번까지 차례로 쓰면 마지막 마법 피해 +40%"
+    icon: "magiccodex:textures/artifact/sequence_necklace.png"
+    order: 1420
+  reaction_chain_orb:
+    name: "반응 연쇄 구슬"
+    grade: unique
+    description: "두 원소가 사슬처럼 엮여 도는 구슬."
+    effect: "원소 반응을 일으킨 적이 3초 안에 쓰러지면 근처 적 1마리에게 같은 원소 표식이 옮겨 감"
+    icon: "magiccodex:textures/artifact/reaction_chain_orb.png"
+    order: 1430
+  chant_candlestick:
+    name: "영창 촛대"
+    grade: unique
+    description: "보라 불꽃이 타는 은 촛대."
+    effect: "사용하면 다음에 쓰는 마법 1개의 마나 소모가 0"
+    icon: "magiccodex:textures/artifact/chant_candlestick.png"
+    use: true
+    cooldown: 180
+    order: 1440
+
+  # ---------------------------------------------------------------- 전설
+  fire_spirit_lantern:
+    name: "화염 정령의 등불"
+    grade: legendary
+    description: "작은 불꽃 정령이 사는 금빛 등불."
+    effect: "키세팅이 전부 화염 마법이면 화염 정령이 따라다니며 내 화염 마법을 따라 씀 (정령의 피해는 내 피해의 20%)"
+    icon: "magiccodex:textures/artifact/fire_spirit_lantern.png"
+    order: 510
+  mirror_twin:
+    name: "거울 쌍둥이"
+    grade: legendary
+    description: "거울 속의 나는 언제나 반 박자 늦다."
+    effect: "반투명한 분신이 0.5초 늦게 내 동작을 따라 하고 내 마법도 따라 씀 (피해 30%, 원소 반응 없음)"
+    icon: "magiccodex:textures/artifact/mirror_twin.png"
+    order: 520
+  rainbow_prism:
+    name: "무지개 프리즘"
+    grade: legendary
+    description: "여러 원소의 빛을 품은 프리즘."
+    effect: "키세팅 6칸이 6원소 하나씩이면 내가 일으킨 원소 반응의 피해·회복·범위 2배, CC 시간 +50%"
+    icon: "magiccodex:textures/artifact/rainbow_prism.png"
+    order: 530
+  chaos_dice:
+    name: "혼돈의 주사위"
+    grade: legendary
+    description: "면마다 다른 원소가 빛나는 주사위."
+    effect: "마법을 쓸 때마다 원소가 무작위로 바뀌어 혼자서도 반응이 일어남"
+    icon: "magiccodex:textures/artifact/chaos_dice.png"
+    order: 540
+  the_only_tome:
+    name: "단 하나의 서"
+    grade: legendary
+    description: "단 하나의 주문만 기억하는 책."
+    effect: "키세팅에 마법을 1개만 넣으면 최대 4번까지 충전해 연속으로 쓸 수 있음. 재사용 대기 30초 이하 마법만 가능하며, 지능 -50%, 그 마법의 재사용 대기 2배, 대기가 끝나면 충전이 모두 찬다."
+    icon: "magiccodex:textures/artifact/the_only_tome.png"
+    order: 550
+  inverted_mana_flask:
+    name: "거꾸로 된 마나병"
+    grade: legendary
+    description: "뒤집혀도 액체가 위로 차오르는 병."
+    effect: "마나가 과열 게이지로 바뀜. 마법을 쓰면 과열이 차고 초당 5씩 식으며, 가득 차면 30초간 마법을 쓸 수 없음. 마나 재생량에 비례해 게이지 최대치가 늘어남."
+    icon: "magiccodex:textures/artifact/inverted_mana_flask.png"
+    order: 560
+  tilted_scales:
+    name: "기울어진 천칭"
+    grade: legendary
+    description: "한쪽으로 크게 기운 금 천칭."
+    effect: "내 체력이 낮을수록 마법 피해 증가 (최대 +60%)"
+    icon: "magiccodex:textures/artifact/tilted_scales.png"
+    order: 570
+  shadow_lord_mask:
+    name: "그림자 군주의 가면"
+    grade: legendary
+    description: "쓰러진 자들이 그림자로 무릎 꿇는다."
+    effect: "처치한 몹이 검은 그림자로 일어나 10초간 함께 싸움. 그림자는 무적이고 나를 따라오며, 내가 공격하거나 나를 공격하는 적을 공격한다. 생전의 능력과 기술을 그대로 쓴다. 보스는 제외, 동시에 최대 10마리."
+    icon: "magiccodex:textures/artifact/shadow_lord_mask.png"
+    order: 580
+  philosopher_stone:
+    name: "현자의 돌"
+    grade: legendary
+    description: "금빛 테두리 안에서 붉게 빛나는 보석."
+    effect: "경험치 레벨 1당 마법 피해 +0.5% (최대 +40%)"
+    icon: "magiccodex:textures/artifact/philosopher_stone.png"
+    order: 590
+  comeback_medal:
+    name: "역전의 메달"
+    grade: legendary
+    description: "금이 간 메달의 리본이 불꽃처럼 타오른다."
+    effect: "파티에서 혼자 살아남으면 10초간 피해 2배, 이동 속도 증가"
+    icon: "magiccodex:textures/artifact/comeback_medal.png"
+    order: 600
+  tactics_map:
+    name: "작전 지도"
+    grade: legendary
+    description: "깃발 핀이 빼곡히 꽂힌 양피지 지도."
+    effect: "파티원 1명당 파티 전원 스킬 가속 +20 (나만 장착해도 적용)"
+    icon: "magiccodex:textures/artifact/tactics_map.png"
+    order: 610
+  bard_lute:
+    name: "음유시인의 류트"
+    grade: legendary
+    description: "승리의 노래가 줄마다 배어 있다."
+    effect: "파티원이 처치할 때마다 음표가 쌓이고, 10개가 되면 파티 전원 10초간 스킬 가속 +100"
+    icon: "magiccodex:textures/artifact/bard_lute.png"
+    order: 620
+  star_echo:
+    name: "별의 잔향"
+    grade: legendary
+    description: "지나간 하늘에 별가루가 오래 머문다."
+    effect: "빗자루 비행 궤적이 더 오래 남고, 그 궤적을 따라 날면 가속"
+    icon: "magiccodex:textures/artifact/star_echo.png"
+    order: 630
+  storm_wings:
+    name: "폭풍 날개"
+    grade: legendary
+    description: "푸른 번개가 감도는 깃털 날개 장식."
+    effect: "빗자루 최고 속도 +15%, 비행 중 스킬 가속 +20"
+    icon: "magiccodex:textures/artifact/storm_wings.png"
+    order: 640
+  blacksmith_amulet:
+    name: "대장장이의 부적"
+    grade: legendary
+    description: "모루와 망치가 새겨진 금 부적."
+    effect: "모든 도구의 내구도가 줄지 않음"
+    icon: "magiccodex:textures/artifact/blacksmith_amulet.png"
+    order: 650
+  village_friend:
+    name: "마을의 친구"
+    grade: legendary
+    description: "창문마다 따뜻한 불빛이 새어 나오는 집 모양 펜던트."
+    effect: "NPC 호감도가 깎이지 않고, 오르는 양 2배"
+    icon: "magiccodex:textures/artifact/village_friend.png"
+    order: 660
+  rewind_hourglass:
+    name: "되감기 모래시계"
+    grade: legendary
+    description: "모래가 아래에서 위로 흐른다."
+    effect: "사용하면 5초 전의 위치·체력·마나로 되감김"
+    icon: "magiccodex:textures/artifact/rewind_hourglass.png"
+    use: true
+    cooldown: 300
+    order: 1450

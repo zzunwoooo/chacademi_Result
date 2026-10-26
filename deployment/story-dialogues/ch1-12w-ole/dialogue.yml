@@ -1,0 +1,25 @@
+# 차카데미 대기대화 — Claude 작성 2026-10-25 (낚시 체험 단계에서 아직 못 낚았을 때 올레를 누르면) · 2026-10-26 1장 다시 짜기 (실서버본 그대로)
+format: 1
+id: "ch1-12w-ole"
+title: "올레 (낚시 중)"
+description: "아직 물고기를 못 낚았을 때 올레의 한마디."
+chapter: "1장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  ole:
+    name: "올레"
+    npc: "vl_ole"
+    portraits:
+      "기본": "vl_ole-neutral.png"
+scenes:
+  a:
+    name: "아직도"
+    lines:
+      - {who: ole, face: "기본", text: "…아직도 못 잡았나?"}
+      - {who: ole, face: "기본", text: "찌가 쑥 들어갈 때까지 참아. 툭툭 건드릴 땐 그냥 간 보는 거다."}

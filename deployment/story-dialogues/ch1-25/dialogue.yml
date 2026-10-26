@@ -1,0 +1,54 @@
+# 차카데미 대화 — Claude 작성 2026-10-20 · 2026-10-26 1장 다시 짜기 (저장소 ch1-19, 책 고르기는 책장 블록 조건으로)
+format: 1
+id: "ch1-25"
+title: "1-25. 이론서 세 권"
+description: "이론서 세 권을 다 읽었어요. 루카가 찾아낸 연대기를 펼쳐 보세요."
+chapter: "1장 · 차카데미아"
+start: start
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  luka:
+    name: "루카"
+    npc: "luka"
+    portraits:
+      "기본": "luka-neutral.png"
+  isolde:
+    name: "이솔데"
+    npc: "librarian_isolde"
+    portraits:
+      "기본": "librarian_isolde-neutral.png"
+scenes:
+  start:
+    name: "세 권"
+    lines:
+      - {who: me, face: "", text: "(『불을 모으는 이론』, 『물의 흐름에 관하여』, 『바람을 빚는 법』… 세 권을 다 읽었다.)"}
+      - {who: me, face: "", text: "(마나를 모아 열로, 물은 흐름에 얹고, 바람은 작게 둥글게… 머릿속에서 뭔가 떠오르는 느낌이야.)"}
+    next: luka
+  luka:
+    name: "또 발현"
+    lines:
+      - {who: luka, face: "기본", text: "너 방금 또 발현했지? 오늘만 몇 개째야…"}
+    choices:
+      - {text: "이론서가 설명을 잘 해 줘서 그래.", to: "l1"}
+      - {text: "나도 잘 모르겠어.", to: "l2"}
+  l1:
+    name: "부러움"
+    lines:
+      - {who: luka, face: "기본", text: "같은 책 보는데 나는 왜…"}
+    next: chron
+  l2:
+    name: "의심"
+    lines:
+      - {who: luka, face: "기본", text: "모르는 사람이 그렇게 해?"}
+    next: chron
+  chron:
+    name: "연대기"
+    lines:
+      - {who: luka, face: "기본", text: "난 포기할래. 역사서나 볼래. 그건 그냥 읽기만 하면 되잖아."}
+      - {who: me, face: "", text: "(역사서… 차카데미아 연대기?)"}
+      - {who: isolde, face: "기본", text: "…그 책, 잘 안 빌려 가는데. 잿빛 밤 부분은 그림이 많아요. 천천히 읽으세요."}

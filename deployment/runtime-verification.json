@@ -1,0 +1,47 @@
+{
+  "jarHashesVerified": 8,
+  "unchangedBackedUpFiles": 131,
+  "expectedChangedFiles": [
+    "school/plugins/chacademia-magic-mythic-0.2.0-expansion71.1-reaction.2-vfx103134.1-effects.1.jar",
+    "school/plugins/chacademy-motion-plugin-0.3.0-codex.3.jar",
+    "school/plugins/magic-codex-bridge-0.31.0-expansion71.1-artifact.1-summon.2-effects.2-multi.1.jar",
+    "school/plugins/portable-vfx-paper-3.2.1-expansion71.1.jar",
+    "school/plugins/MagicCodexBridge/climate.yml",
+    "wild/plugins/chacademia-magic-mythic-0.2.0-expansion71.1-reaction.2-vfx103134.1-effects.1.jar",
+    "wild/plugins/chacademy-motion-plugin-0.3.0-codex.3.jar",
+    "wild/plugins/magic-codex-bridge-0.31.0-expansion71.1-artifact.1-summon.2-effects.2-multi.1.jar",
+    "wild/plugins/portable-vfx-paper-3.2.1-expansion71.1.jar",
+    "wild/plugins/MagicCodexBridge/climate.yml"
+  ],
+  "unexpectedChanges": [],
+  "servers": {
+    "school": {
+      "ready": true,
+      "startupErrorCount": 0,
+      "vfxBindings157Skipped0": true,
+      "seasonClock": "realtime",
+      "realtimeSeason": {
+        "epoch": "2026-10-16T15:33:16+09:00",
+        "timezone": "Asia/Seoul",
+        "initial-season": "spring",
+        "hours-per-season": 72
+      },
+      "automatic": true,
+      "alchemyRecipes": 0
+    },
+    "wild": {
+      "ready": true,
+      "startupErrorCount": 0,
+      "vfxBindings157Skipped0": true,
+      "seasonClock": "realtime",
+      "realtimeSeason": {
+        "epoch": "2026-10-16T15:33:16+09:00",
+        "timezone": "Asia/Seoul",
+        "initial-season": "spring",
+        "hours-per-season": 72
+      },
+      "automatic": true,
+      "alchemyRecipes": 0
+    }
+  }
+}

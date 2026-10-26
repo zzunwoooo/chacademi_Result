@@ -1,0 +1,20 @@
+# 차카데미 대화 — Claude 작성 2026-10-26 1장 다시 짜기
+format: 1
+id: "ch1-21"
+title: "1-21. 지도"
+description: "연금실 앞 웨이포인트를 등록하고 지도를 열어 봤어요."
+chapter: "1장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+scenes:
+  a:
+    name: "지도"
+    lines:
+      - {who: me, face: "", text: "(연금실 앞 웨이포인트… 등록됐다. 지도에도 표시가 생겼어.)"}
+      - {who: me, face: "", text: "(이제 길 잃을 일은 없겠지. 베르나 교수님께 인사드리러 가자.)"}

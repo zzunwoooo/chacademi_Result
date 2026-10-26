@@ -1,0 +1,32 @@
+[
+  {
+    "path": "plugins/ModelEngine-4.0.8.jar",
+    "sha256": "60b9037a1427f298dd2659d8e8ea629a09577c16fc49242cf7c11ae96765f097",
+    "bytes": 2318407,
+    "redistributed": false
+  },
+  {
+    "path": "plugins/MythicMobs-5.9.0.jar",
+    "sha256": "94edd40858e99cfec445b0d43b24f6e31287cab75a2a71a87d0aa41f6a4ee9e7",
+    "bytes": 17968555,
+    "redistributed": false
+  },
+  {
+    "path": "plugins/PlaceholderAPI-2.11.6.jar",
+    "sha256": "bfea0f235da9e9d576577215acb50c74bb8122e03dcd988315b61145c7b61727",
+    "bytes": 933131,
+    "redistributed": false
+  },
+  {
+    "path": "libraries/org/xerial/sqlite-jdbc/3.47.2.0/sqlite-jdbc-3.47.2.0.jar",
+    "sha256": "d01df92d62c505beaa3cad33e41fa28876ecc111dd1f8dbc44bf7234cdcba7e3",
+    "bytes": 14260524,
+    "redistributed": false
+  },
+  {
+    "path": "magic-codex-database/lib/mariadb-java-client-3.5.10.jar",
+    "sha256": "919b8c1c771d9ee3465811462f242c9543ab401e140c64988ddbf1d8abcb18b2",
+    "bytes": 791739,
+    "redistributed": false
+  }
+]

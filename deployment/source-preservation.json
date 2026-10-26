@@ -1,0 +1,19 @@
+{
+  "baseline": "C:\\Chacademi\\staging\\vfx-b0a50cd-20261016-task10",
+  "baselineSourceFiles": 2361,
+  "unchangedSourceFiles": 2350,
+  "missing": [],
+  "changed": [
+    "chacademy-motion/chacademy-motion-plugin/src/main/java/kr/chacademy/motionplugin/ChacademyMotionPlugin.java",
+    "chacademy-motion/chacademy-motion-plugin/src/main/java/kr/chacademy/motionplugin/broom/BroomService.java",
+    "magic-codex-fabric/src/main/java/school/magiccodex/client/MagicCodexClient.java",
+    "magic-codex-paper/src/main/resources/plugin.yml",
+    "magic-codex-paper/src/main/java/school/magiccodex/paper/ArtifactGrants.java",
+    "magic-codex-paper/src/main/java/school/magiccodex/paper/MagicCodexBridge.java",
+    "magic-mythic-paper/src/main/java/school/chacademia/magicmythic/BoltMech.java",
+    "magic-mythic-paper/src/main/java/school/chacademia/magicmythic/BroomLink.java",
+    "portable-vfx-runtime/paper/src/main/java/dev/portablevfx/paper/internal/spell/CatalogVisualEngine.java",
+    "portable-vfx-runtime/paper/src/test/java/dev/portablevfx/paper/internal/spell/CatalogCastBehaviourTest.java",
+    "portable-vfx-runtime/paper/src/test/java/dev/portablevfx/paper/internal/spell/CatalogMeteorCastTest.java"
+  ]
+}

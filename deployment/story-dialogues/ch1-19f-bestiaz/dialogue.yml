@@ -1,0 +1,32 @@
+# 차카데미 대화 — Claude 작성 2026-10-20 · 2026-10-26 1장 다시 짜기 (저장소 ch1-14f-bestiaz)
+format: 1
+id: "ch1-19f-bestiaz"
+title: "1-19. 분류의 거울"
+description: "분류의 거울이 질문도 없이 베스티아즈를 외쳤어요."
+chapter: "1장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  gregor:
+    name: "그레고르 교감"
+    npc: "vice_gregor"
+    portraits:
+      "기본": "vice_gregor-neutral.png"
+  mirror:
+    name: "분류의 거울"
+scenes:
+  a:
+    name: "창시자의 마나"
+    lines:
+      - {who: gregor, face: "기본", text: "거울 앞에 서도록. 거짓말은 통하지 않는다."}
+      - {who: mirror, face: "", text: "…오호. 오랜만에 묵직한 마나로구나. 자, 그럼 질문을—"}
+      - {who: mirror, face: "", text: "…아니. 잠깐. 이 마나는… 베스티아즈를 처음 세운 그분과 정말 비슷하구나."}
+      - {who: gregor, face: "기본", text: "…창시자와?"}
+      - {who: mirror, face: "", text: "고민할 것도 없다!"}
+      - {who: mirror, face: "", text: "베스티아즈!"}
+      - {who: gregor, face: "기본", text: "기숙사는 정해졌다. 기숙사의 로웰 사감에게 가서 방을 안내받도록."}

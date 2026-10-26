@@ -1,0 +1,45 @@
+# 차카데미 대화 — Claude 작성 2026-10-20 · 2026-10-26 1장 다시 짜기 (저장소 ch1-16, 연금실 창 열기 보류)
+format: 1
+id: "ch1-22"
+title: "1-22. 연금술"
+description: "연금실의 베르나 교수에게 연금술의 기초를 배우세요."
+chapter: "1장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  berna:
+    name: "베르나 교수"
+    npc: "tc_berna"
+    portraits:
+      "기본": "tc_berna-neutral.png"
+scenes:
+  a:
+    name: "연금실"
+    lines:
+      - {who: berna, face: "기본", text: "흐음, 로웰 사감이 보냈어요? 반가워요. 약초랑 연금술을 맡은 베르나예요."}
+      - {who: berna, face: "기본", text: "…아, 그 화분 밟지 마요. 웃음이 멈추질 않거든."}
+      - {who: berna, face: "기본", text: "연금술은 마법진 둘레 칸에 재료를 넣고, 경험치를 써서 만드는 거예요. 넣는 순서는 상관없어요."}
+    choices:
+      - {text: "만드는 법은 어디서 알 수 있어요?", to: "b"}
+      - {text: "경험치가 모자라면요?", to: "c"}
+  b:
+    name: "레시피"
+    lines:
+      - {who: berna, face: "기본", text: "그게 재미있는 부분이에요. 레시피는 숨어 있어서, 맞는 재료를 넣어 봐야 발견돼요."}
+      - {who: berna, face: "기본", text: "거의 맞으면 '무언가 반응할 것 같다'는 느낌이 올 거예요. 흐음, 그럼 거의 다 온 거죠."}
+    next: e
+  c:
+    name: "경험치"
+    lines:
+      - {who: berna, face: "기본", text: "마법진이 반응하지 않아요. 넉넉히 모아 와요."}
+    next: e
+  e:
+    name: "마법진"
+    lines:
+      - {who: berna, face: "기본", text: "마법진은 다음에 제대로 보여 줄게요. 오늘은 얼굴 익힌 걸로 충분해요."}
+      - {who: berna, face: "기본", text: "…아, 엘레나 교수 첫 수업이 곧이네요. 끝나면 교실로 가 봐요."}

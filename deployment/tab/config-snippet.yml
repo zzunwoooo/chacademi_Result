@@ -1,0 +1,39 @@
+# 차카데미 TAB(NEZNAMY) 설정 예시 — 오픈 전 메모 #110 (2026-10-25)
+#
+# 이 파일은 plugins/TAB/config.yml 전체가 아니다. TAB을 한 번 켜서 만들어진 config.yml 에서
+# 아래 세 부분(tablist-name-formatting · scoreboard-teams · placeholder-refresh-intervals)만 찾아 같은 값으로 바꾼다.
+# 다른 항목(header-footer, scoreboard, bossbar 등)은 건드리지 않는다. 바꾼 뒤 /tab reload.
+# 학교·야생(·아레나) 서버에 똑같이 넣는다. 닉네임은 공유 DB에서 오므로 서버마다 같은 이름이 보인다.
+#
+# 필요: PlaceholderAPI + MagicCodexBridge (Bridge가 %magiccodex_nickname% 를 등록한다).
+# 자세한 설명: deployment/tab/README.md
+
+# Tab 목록(` 키)에 보이는 이름 → groups.yml 의 customtabname 이 실제 값을 정한다 (groups.yml 예시 참고).
+tablist-name-formatting:
+  enabled: true
+  disable-condition: ""
+
+# 머리 위 이름표(nametag)와 Tab 목록 정렬은 TAB 안에서 "scoreboard-teams" 하나로 묶여 있다.
+# - 이름표 글자는 MagicCodex 모드가 직접 그린다(NameplateBridge → 클라이언트 NameplateClient).
+#   모드가 있는 플레이어는 바닐라 이름표가 이미 숨겨져서, TAB 이름표 앞뒤 글자(tagprefix/tagsuffix)는 화면에 나오지 않는다.
+# - 그래서 TAB 이름표는 꾸미지 않는다 = groups.yml 에 tagprefix/tagsuffix 를 넣지 않는다.
+# - invisible-nametags 는 반드시 false. true 면 팀 규칙이 NEVER 가 되고, MagicCodex 이름표도
+#   팀 규칙(NEVER)을 따라 숨겨진다 (NameplatePolicy.visible 의 "NEVER" → false).
+# - enabled 를 false 로 끄면 Tab 목록 정렬(sorting-types)도 같이 꺼진다. 정렬이 필요 없으면 꺼도 된다 (README 참고).
+scoreboard-teams:
+  enabled: true
+  enable-collision: true
+  invisible-nametags: false
+  can-see-friendly-invisibles: false
+  # Tab 목록 순서: 운영자 그룹 먼저, 그다음 한글 닉네임 가나다순.
+  # 그룹 이름은 실제 LuckPerms 그룹 이름으로 바꾼다 (모르면 첫 줄을 지우고 닉네임 순서만 써도 된다).
+  sorting-types:
+    - "GROUPS:admin,default"
+    - "PLACEHOLDER_A_TO_Z:%magiccodex_nickname%"
+  case-sensitive-sorting: false
+  disable-condition: ""
+
+# 닉네임은 거의 바뀌지 않는다(최초 1회 + 관리자 변경). 2초마다 다시 읽으면 충분하다.
+# (Bridge는 다른 서버에서 바뀐 닉네임을 45초마다 가져오므로 그보다 자주 읽어도 의미가 없다.)
+placeholder-refresh-intervals:
+  "%magiccodex_nickname%": 2000

@@ -1,0 +1,26 @@
+# 차카데미 대화 — Claude 작성 2026-10-26 1장 다시 짜기
+format: 1
+id: "ch1-13"
+title: "1-13. 셀마의 생선 가게"
+description: "셀마에게 첫 물고기를 팔았어요."
+chapter: "1장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  selma:
+    name: "셀마"
+    npc: "vl_selma"
+    portraits:
+      "기본": "vl_selma-neutral.png"
+scenes:
+  a:
+    name: "첫 손님"
+    lines:
+      - {who: selma, face: "기본", text: "어이, 신입생! 첫 물고기 판 거지? 손맛 좋았지?"}
+      - {who: selma, face: "기본", text: "이 정도면 당분간 여비 걱정은 없겠네. 모자라면 또 낚아 와, 언제든 사 줄 테니까!"}
+      - {who: me, face: "", text: "(주머니가 든든해졌다. 피피 씨한테 다시 가 보자.)"}

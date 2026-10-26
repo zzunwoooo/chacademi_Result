@@ -1,0 +1,89 @@
+# 차카데미 컷신 — 1장 끝 연대기 「잿빛 밤」 (ch1-25, 오너 그림 7장 + 음악, Claude 조립 2026-10-26)
+format: 1
+id: "ch1_chronicle"
+title: "1장 끝 · 차카데미아 연대기 (ch1-25)"
+font: "medium"
+font_size: 1
+text_color: "#efe3c8"
+text_x: 0.5
+text_y: auto
+text_shadow: false
+italic: true
+prefix: ""
+type_speed: 0.06
+letterbox: 0.12
+letterbox_time: 1.6
+end_fade: 2.0
+type_sound: "none"
+type_sound_volume: 0.5
+bgm: "bgm.ogg"
+bgm_volume: 0.7
+bgm_start: 0
+bgm_fade_in: 2
+bgm_fade_out: 5
+scenes:
+  # 1. 연대기 책이 펼쳐짐
+  - images: ["s1_1.png"]
+    fps: 6
+    duration: 10
+    zoom: {x: 0.55, y: 0.48, from: 1, to: 1.07}
+    transition: "fade"
+    transition_time: 2.0
+    lines:
+      - {text: "차카데미아 연대기 — 잿빛 밤.", start: 2.5, end: 8.8}
+  # 2. 전성기의 학교 · 네 기숙사 깃발 · 대마법사 동상
+  - images: ["s2_1.png"]
+    fps: 6
+    duration: 11
+    zoom: {x: 0.55, y: 0.55, from: 1, to: 1.06}
+    transition: "ink"
+    transition_time: 1.6
+    lines:
+      - {text: "백 년 전, 차카데미아는 대륙에서 가장 빛나는 학교였다.", start: 2.0, end: 10.2}
+  # 3. 잿빛 하늘, 불길에 휩싸인 학교
+  - images: ["s3_1.png"]
+    fps: 6
+    duration: 13
+    zoom: {x: 0.6, y: 0.4, from: 1, to: 1.1}
+    transition: "ink"
+    transition_time: 1.4
+    lines:
+      - {text: "백 년 전, 잿빛 밤.", start: 1.6, end: 5.4}
+      - {text: "불길은 학교를 삼켰고, 교수들은 하나둘 쓰러졌다.", start: 5.8, end: 12.4}
+  # 4. 소환진 앞, 얼굴이 긁혀 지워진 모르디안
+  - images: ["s4_1.png"]
+    fps: 6
+    duration: 11
+    zoom: {x: 0.32, y: 0.28, from: 1, to: 1.12}
+    transition: "cut"
+    transition_time: 0
+    lines:
+      - {text: "기록은 말한다. 배신자 모르디안이 악마를 불러냈다고.", start: 1.8, end: 10.2}
+  # 5. 하늘을 덮은 재의 악마
+  - images: ["s5_1.png"]
+    fps: 6
+    duration: 10
+    zoom: {x: 0.5, y: 0.25, from: 1, to: 1.08}
+    transition: "fade"
+    transition_time: 1.4
+    lines:
+      - {text: "재로 된 악마가 하늘을 덮었다.", start: 2.0, end: 9.2}
+  # 6. 대마법사의 봉인
+  - images: ["s6_1.png"]
+    fps: 6
+    duration: 11
+    zoom: {x: 0.5, y: 0.4, from: 1, to: 1.08}
+    transition: "ink"
+    transition_time: 1.4
+    lines:
+      - {text: "대마법사는 마지막 빛으로 악마를 봉인했다.", start: 1.8, end: 10.2}
+  # 7. 빛나는 존재 앞에 무릎 꿇은 사람 → 끝
+  - images: ["s7_1.png"]
+    fps: 6
+    duration: 16
+    zoom: {x: 0.5, y: 0.5, from: 1, to: 1.06}
+    transition: "ink"
+    transition_time: 1.6
+    lines:
+      - {text: "그리고 그날 밤, 한 사람이 빛나는 존재 앞에 무릎을 꿇었다.", start: 2.0, end: 9.0}
+      - {text: "잿빛 밤 이후, 학교는 다시 예전으로 돌아가지 못했다.", start: 9.4, end: 15.6}

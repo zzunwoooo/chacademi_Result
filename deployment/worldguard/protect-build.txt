@@ -1,0 +1,73 @@
+# 차카데미 WorldGuard — 일반 유저 블록 파괴·설치 방지 (오픈 전 메모 #4, 2026-10-25)
+# 설명: deployment/worldguard/README.md
+#
+# 서버 콘솔에 한 줄씩 그대로 붙여 넣는다 (콘솔에서는 앞에 / 를 붙이지 않는다).
+# <월드> 를 실제 월드 이름으로 바꾼다. 서버마다(학교 서버 · 튜토리얼 서버) 그 서버의 월드에만 넣는다.
+# 야생 서버(야생1·야생2)에는 넣지 않는다 — 야생은 땅을 직접 부수고 짓는 곳이다.
+# 되돌리기: 같은 줄에서 마지막 값(deny/allow)을 지우고 실행하면 그 플래그가 없어진다.
+#   예) rg flag -w <월드> __global__ block-break
+
+# ──────────────── 방법 A: 월드 전체 (학교·마을·튜토리얼 월드에 유저가 캐거나 지을 곳이 없을 때) ────────────────
+
+# 1) 막는 것: 블록 부수기·놓기, 불, 폭발, 몹의 지형 훼손, 밭 밟기, 액자·그림 부수기
+rg flag -w <월드> __global__ block-break deny
+rg flag -w <월드> __global__ block-place deny
+rg flag -w <월드> __global__ lighter deny
+rg flag -w <월드> __global__ fire-spread deny
+rg flag -w <월드> __global__ lava-fire deny
+rg flag -w <월드> __global__ tnt deny
+rg flag -w <월드> __global__ creeper-explosion deny
+rg flag -w <월드> __global__ other-explosion deny
+rg flag -w <월드> __global__ ghast-fireball deny
+rg flag -w <월드> __global__ wither-damage deny
+rg flag -w <월드> __global__ enderman-grief deny
+rg flag -w <월드> __global__ ravager-grief deny
+rg flag -w <월드> __global__ block-trampling deny
+rg flag -w <월드> __global__ entity-item-frame-destroy deny
+rg flag -w <월드> __global__ entity-painting-destroy deny
+rg flag -w <월드> __global__ item-frame-rotation deny
+
+# 2) 허용을 확실히 해 두는 것: 문·버튼·레버·상자·작업대, NPC·펫 클릭, 아이템 줍기·버리기, 침대
+#    (월드 전체(__global__)에서는 원래 허용이지만, 다른 플러그인·이전 설정이 바꿔 놓았을 수 있어 명시한다)
+rg flag -w <월드> __global__ use allow
+rg flag -w <월드> __global__ interact allow
+rg flag -w <월드> __global__ chest-access allow
+rg flag -w <월드> __global__ item-pickup allow
+rg flag -w <월드> __global__ item-drop allow
+rg flag -w <월드> __global__ sleep allow
+
+# ──────────────── 방법 B: 구역만 (같은 월드에 막을 곳과 열어 둘 곳이 섞여 있을 때) ────────────────
+# 게임 안(OP)에서 WorldEdit 로 구역을 고른 뒤 만든다:
+#   //wand  → 막대로 왼클릭 지점1, 오른클릭 지점2  → //expand vert  (위아래 끝까지)
+#   /rg define school        (이름은 school · village · tutorial 처럼 자유)
+# 그다음 아래 줄을 구역 이름으로 바꿔 넣는다 (콘솔이면 -w <월드> 필요).
+# 구역은 "구성원(member)이 아닌 사람"의 부수기·놓기·문 열기·상자 열기를 모두 기본으로 막으므로,
+# 열어 둘 것(use·interact·chest-access 등)을 반드시 allow 로 적어야 한다.
+#
+# rg flag -w <월드> school block-break deny
+# rg flag -w <월드> school block-place deny
+# rg flag -w <월드> school use allow
+# rg flag -w <월드> school interact allow
+# rg flag -w <월드> school chest-access allow
+# rg flag -w <월드> school item-pickup allow
+# rg flag -w <월드> school item-drop allow
+# rg flag -w <월드> school sleep allow
+# rg flag -w <월드> school ride allow
+# rg flag -w <월드> school lighter deny
+# rg flag -w <월드> school tnt deny
+# rg flag -w <월드> school creeper-explosion deny
+# rg flag -w <월드> school other-explosion deny
+# rg flag -w <월드> school enderman-grief deny
+# rg flag -w <월드> school ravager-grief deny
+# rg flag -w <월드> school block-trampling deny
+# rg flag -w <월드> school entity-item-frame-destroy deny
+# rg flag -w <월드> school entity-painting-destroy deny
+# rg flag -w <월드> school item-frame-rotation deny
+#
+# 구역 안에 유저가 캐도 되는 곳(예: 마을 밭)이 있으면 그 칸만 더 작은 구역으로 만들고 우선순위를 높여 연다:
+#   /rg define village_farm  →  rg flag -w <월드> village_farm block-break allow  →  rg setpriority -w <월드> village_farm 10
+
+# ──────────────── 확인 ────────────────
+# rg info -w <월드> __global__       (또는 구역 이름)  → 위 플래그가 보이면 적용됨
+# OP 아닌 테스트 계정으로: 블록 부수기 X · 문 열기 O · 상자 열기 O · NPC 클릭 O · 아이템 줍기 O · 펫 소환·클릭 O
+# OP 계정으로: 블록 부수기 O (막히면 /rg bypass 로 우회를 켠다)

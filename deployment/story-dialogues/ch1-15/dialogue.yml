@@ -1,0 +1,44 @@
+# 차카데미 대화 — Claude 작성 2026-10-20 · 2026-10-26 1장 다시 짜기 (저장소 ch1-12)
+format: 1
+id: "ch1-15"
+title: "1-15. 광장의 동상"
+description: "마을 광장의 대마법사 동상 앞에 서 보세요."
+chapter: "1장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  gustav:
+    name: "구스타프 영감"
+    npc: "vl_gustav"
+    portraits:
+      "기본": "vl_gustav-neutral.png"
+scenes:
+  a:
+    name: "동상"
+    lines:
+      - {who: me, face: "", text: "(이게 피피 씨가 말한 동상인가…)"}
+      - {who: me, face: "", text: "(지팡이를 든 마법사… 왜지? 발이 안 떨어져.)"}
+      - {who: gustav, face: "기본", text: "처음 보는 얼굴이구먼. 신입생인가?"}
+      - {who: gustav, face: "기본", text: "잘 봐 두거라. 잿빛 밤에 이 학교를 구한 분이란다."}
+    choices:
+      - {text: "잿빛 밤이요?", to: "b"}
+      - {text: "(고개를 숙인다)", to: "c"}
+  b:
+    name: "잿빛 밤"
+    lines:
+      - {who: gustav, face: "기본", text: "입학하면 책에서 배울 게다. 여기서 함부로 할 얘기가 아니야."}
+    next: e
+  c:
+    name: "인사"
+    lines:
+      - {who: gustav, face: "기본", text: "허허, 예의 바른 아이구나."}
+    next: e
+  e:
+    name: "낯익은 얼굴"
+    lines:
+      - {who: me, face: "", text: "(처음 보는 동상인데… 왜 이렇게 익숙한 느낌이지.)"}
