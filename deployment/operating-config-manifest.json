@@ -19,13 +19,13 @@
   },
   {
     "path": "deployment/operating-config/PortableVFX/spell-catalog.yml",
-    "sha256": "7267089f541d501372a1f4c1dcedf7596a05de666d4235c4545a51d1a933e542",
+    "sha256": "18f77aec3966df9c4637eeb83bc737e9fbb899e73a514ee3f3face11487db2b9",
     "sameOnSchoolAndWild": true,
     "role": "non-secret gameplay configuration; deployment overlay, not player data"
   },
   {
     "path": "deployment/operating-config/PortableVFX/spell-bindings.yml",
-    "sha256": "c62fc827da02d613242658f00b946dbafffcede1d39f9da8114946d3ee1eae21",
+    "sha256": "c2956e54cd8b6f510dce15bccc446aa26d64bd2b5d8ae8dc7430b25c49bb3f1e",
     "sameOnSchoolAndWild": true,
     "role": "non-secret gameplay configuration; deployment overlay, not player data"
   },
@@ -67,7 +67,7 @@
   },
   {
     "path": "deployment/operating-config/MagicCodexBridge/books.yml",
-    "sha256": "30b6fa8a6d5954008cd8be5bc468e4b31bca434cf7b9ef76e8898928663b2d2a",
+    "sha256": "d693dc0c00d3b5d0f6bb267cd15d827a5091574ec69f7dd5fb2068da89402911",
     "sameOnSchoolAndWild": true,
     "role": "non-secret gameplay configuration; deployment overlay, not player data"
   },

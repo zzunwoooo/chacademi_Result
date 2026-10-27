@@ -5574,33 +5574,6 @@ bindings:
         anchor: caster
         delay-ticks: 0
         duration-ticks: 19
-      - role: link
-        trigger: external:form
-        effect: claude:guidingstar/form
-        anchor: impact
-        delay-ticks: 0
-        duration-ticks: 19
-        link-source: caster-hand
-        link-target: event-point
-      - role: link
-        trigger: external:form
-        effect: claude:guidingstar/hold
-        anchor: impact
-        delay-ticks: 7
-        duration-ticks: 280
-        link-source: caster-hand
-        link-target: event-point
-        finish-after-ticks: 193
-      - role: link
-        trigger: external:form
-        effect: claude:guidingstar/fade
-        anchor: impact
-        delay-ticks: 200
-        duration-ticks: 18
-        link-source: caster-hand
-        link-target: event-point
-        stop-effects:
-          - claude:guidingstar/hold
     review: Connected against delivered NOTES and implemented gameplay events; visual game QA pending
   minor_heal:
     folder: MinorHeal

@@ -161,7 +161,7 @@ books:
       - "유저관리 {player} 마법조건 주기 rainbow_collar"
   lesson_wind_secret:
     title: "하르바의 비전 — 하늘을 누르는 바람"
-    required-intelligence: 0
+    required-intelligence: 60
     pages:
       - left: |
           …이건 수업 목록에 없는 거다.
@@ -257,7 +257,7 @@ books:
       - "유저관리 {player} 마법조건 주기 glass_firing"
   lesson_fire_secret:
     title: "세드릭의 비전 — 경기장의 불꽃"
-    required-intelligence: 0
+    required-intelligence: 60
     pages:
       - left: |
           이건 내가 선수 시절 쓰던 기술이야!
@@ -383,7 +383,7 @@ books:
       - "유저관리 {player} 마법조건 주기 folding_tideplane"
   lesson_water_secret:
     title: "엘레나의 비전 — 만년빙옥"
-    required-intelligence: 0
+    required-intelligence: 60
     pages:
       - left: |
           물이 멈추면 얼음이 되지.
@@ -473,7 +473,7 @@ books:
       - "유저관리 {player} 마법조건 주기 material_exchange"
   lesson_earth_secret:
     title: "베르나의 비전 — 원초의 돌"
-    required-intelligence: 0
+    required-intelligence: 60
     pages:
       - left: |
           이건 땅이 처음 생겼을 때의 돌 이야기야.
@@ -563,7 +563,7 @@ books:
       - "유저관리 {player} 마법조건 주기 mana_deposit"
   lesson_light_secret:
     title: "이솔데의 비전 — 성좌의 가호"
-    required-intelligence: 0
+    required-intelligence: 60
     pages:
       - left: |
           별자리마다 이야기가 있다.
@@ -687,7 +687,7 @@ books:
       - "유저관리 {player} 마법조건 주기 wound_accounting"
   lesson_dark_secret:
     title: "그레고르의 비전 — 금서의 계약"
-    required-intelligence: 0
+    required-intelligence: 60
     pages:
       - left: |
           이것은 금서에 적혀 있던 계약이다.
