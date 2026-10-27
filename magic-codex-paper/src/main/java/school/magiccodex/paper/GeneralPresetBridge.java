@@ -15,7 +15,7 @@ final class GeneralPresetBridge implements PluginMessageListener,Listener,AutoCl
   int stored=player.getPersistentDataContainer().getOrDefault(key,PersistentDataType.INTEGER,1);int selected=mode&&GeneralPresetModeProtocol.valid(stored)?stored:stored==2?2:1;
   boolean ready=plugin.playerStateReady(player)&&!player.isDead()&&player.getGameMode()!=GameMode.SPECTATOR;
   int status=mode?GeneralPresetModePolicy.status(selected,target,ready,combat(id),casting.test(id),mana.account(id).cooldowns,now):GeneralPresetPolicy.status(selected,target,ready,combat(id),casting.test(id),mana.account(id).cooldowns,now);
-  if(status==GeneralPresetProtocol.OK&&target!=0){selected=target;if(stored!=selected)player.getPersistentDataContainer().set(key,PersistentDataType.INTEGER,selected);}
+  if(status==GeneralPresetProtocol.OK&&target!=0){selected=target;if(stored!=selected){player.getPersistentDataContainer().set(key,PersistentDataType.INTEGER,selected);player.playSound(player,Sound.ITEM_BOOK_PAGE_TURN,SoundCategory.PLAYERS,0.9f,1.25f);}} // 프리셋이 실제로 바뀔 때만 소리 (2026-10-27, 접속 때 맞추기는 제외)
   String response=mode?GeneralPresetModeProtocol.RESPONSE:GeneralPresetProtocol.RESPONSE;
   if(player.getListeningPluginChannels().contains(response))player.sendPluginMessage(plugin,response,mode?GeneralPresetModeProtocol.encode(new GeneralPresetModeProtocol.Response(seq,selected,status)):GeneralPresetProtocol.encode(new GeneralPresetProtocol.Response(seq,selected,status)));
  }

@@ -193,8 +193,9 @@ public final class MagicCodexBridge extends JavaPlugin implements PluginMessageL
     void savePlayerState(Player p){if(playerState!=null)playerState.save(p);}
     /** 잦은 변경(마법 시전)용: 표시만 하고 다음 주기 저장에 묶는다. 종료·서버 이동 시에는 항상 저장된다. */
     void markPlayerStateDirty(Player p){if(playerState!=null)playerState.markDirty(p);}
-    Double equipmentPower(UUID id,Double base){Double v=equipment==null?base:equipment.power(id,base);if(v!=null&&artifactEffects!=null)v=v*artifactEffects.rules.powerFactor(id); // 단 하나의 서: 지능 -50%
-        var c=pets==null?null:pets.companions();return v==null||c==null?v:v*c.powerFactor(id);} // 동행 펫 combat intelligence
+    Double equipmentPower(UUID id,Double base){base=DiscoveryIntel.add(mana,id,base); // 발견한 마법 수 × 0.2 (2026-10-27)
+        Double v=equipment==null?base:equipment.power(id,base);if(v!=null&&artifactEffects!=null)v=v*artifactEffects.rules.powerFactor(id); // 단 하나의 서: 지능 -50%
+        var c=pets==null?null:pets.companions();if(v==null||c==null)return v;return v*c.powerFactor(id);} // 동행 펫 combat intelligence. 삼항식이면 null v 를 언박싱해 NPE (2026-10-27 길잡이 별 등 시전 실패)
     /** mana-spells.yml entry (cost, cooldown) of an enabled spell, or null. */
     ManaSpells.Spell spellRule(String id){return mana==null?null:mana.reviewSpell(id);}
     /** 단 하나의 서: may change the cooldown of a successful cast before the client hears it. */

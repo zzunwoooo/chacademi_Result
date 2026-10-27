@@ -165,6 +165,7 @@ final class Rooms {
 
     // ------------------------------------------------------------ 요청
     void handle(Player p, Request r) {
+        if (WindowlessVisit.handle(this, p, r)) return; // 정보창 "내 방 가기" 등 창 없이 온 VISIT (2026-10-27)
         UUID id = p.getUniqueId();
         Session s = sessions.get(id);
         if (r instanceof Close) { close(p); return; }

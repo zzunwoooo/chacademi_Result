@@ -17,7 +17,7 @@ import org.bukkit.entity.Player;
  * <ul>
  *   <li>lessons.yml — 교수별 수업 목록 (/서버관리 새로고침 수업).</li>
  *   <li>수업 내용·지능 컷·끝날 때 명령 = books.yml 의 그 책 (title·pages·required-intelligence·commands).</li>
- *   <li>지능이 모자란 수업은 목록에 "(지능 부족)" 으로 보이고, 고르면 교수 대사로 막는다.</li>
+ *   <li>목록은 "수업 이름 - 지능 N" 만 보이고, 지능이 모자란 수업을 고르면 교수 대사로 막는다.</li>
  *   <li>이미 들은 수업도 다시 펼쳐 볼 수 있다 (명령은 다시 실행되지 않음).</li>
  * </ul>
  */
@@ -27,7 +27,7 @@ final class LessonBridge {
     /** npc = 호감도를 볼 ChacaNPC 캐릭터 ID (비전 수업이 없으면 비워도 됨). */
     record Teacher(String id, String name, String npc, String portrait, String ask, String locked, String secret, String allDone, List<Lesson> lessons) {}
 
-    static final int PER_PAGE = 4, MAX_LESSONS = 40;
+    static final int PER_PAGE = 4, MAX_LESSONS = 40, MY_LINE_TICKS = 30;
     private final MagicCodexBridge plugin;
     private final BookBridge books;
     private final DialogueBridge dialogues;
@@ -102,6 +102,13 @@ final class LessonBridge {
         long now = System.currentTimeMillis();
         if (now - lastOpen.getOrDefault(p.getUniqueId(), 0L) < 500) return true;
         lastOpen.put(p.getUniqueId(), now);
+        // NPC 버튼이면 대화창의 "내 차례"(내가 고른 문장)가 다 나온 뒤에 수업 창으로 바꾼다 (2026-10-27).
+        if (anchor != null) { Bukkit.getScheduler().runTaskLater(plugin, () -> { if (p.isOnline()) load(p, t, anchor); }, MY_LINE_TICKS); return true; }
+        load(p, t, anchor);
+        return true;
+    }
+
+    private void load(Player p, Teacher t, Entity anchor) {
         books.readBooks(p.getUniqueId(), read -> {
             if (!p.isOnline()) return;
             if (read == null) { CmdKit.notify(p, "warning", "lesson-store", "수업 기록을 불러오지 못했어요", "잠시 후 다시 말을 걸어 주세요", 3000); return; }
@@ -113,7 +120,6 @@ final class LessonBridge {
                 menu(p, t, read, row == null ? 0 : row.score(), anchor);
             }));
         });
-        return true;
     }
 
     private void menu(Player p, Teacher t, Set<String> read, int affinity, Entity anchor) {
@@ -134,7 +140,7 @@ final class LessonBridge {
             if (pages > 1) text += "\n(" + (page + 1) + " / " + pages + ")";
             nodes.put("p" + page, new DialogueDefinition.Node(t.name(), t.portrait(), text, List.of(), List.copyOf(choices)));
         }
-        dialogues.openMenu(p, anchor, t.name() + " · 수업", "p0", nodes, (who, choice) -> pick(who, t, lessons, affinity, choice));
+        dialogues.openMenu(p, anchor, "", "p0", nodes, (who, choice) -> pick(who, t, lessons, affinity, choice));
     }
 
     private String label(Lesson l, Set<String> read, double intelligence, int affinity) {
@@ -142,10 +148,10 @@ final class LessonBridge {
         String name = l.name().isEmpty() ? book.title() : l.name();
         int need = book.requiredIntelligence();
         if (l.affinity() > affinity && !read.contains(l.book()))   // 비전 수업: 친해지기 전에는 이름을 숨긴다
-            return "[비전] ??? · 호감도 " + l.affinity() + " 필요";
-        String s = name + (need > 0 ? " · 필요 지능 " + need : "");
+            return "[비전] ??? - 호감도 " + l.affinity() + (need > 0 ? " · 지능 " + need : "");
+        // 오너 2026-10-27: "[중급] 도약하는 물방울 - 지능 20" 형식, (지능 부족) 표시 없음
+        String s = name + (need > 0 ? " - 지능 " + need : "");
         if (read.contains(l.book())) s += "  ✔ 들음";
-        else if (!BookBridge.intelligenceMet(need, intelligence)) s += "  (지능 부족)";
         return s.length() > 140 ? s.substring(0, 140) : s;
     }
 

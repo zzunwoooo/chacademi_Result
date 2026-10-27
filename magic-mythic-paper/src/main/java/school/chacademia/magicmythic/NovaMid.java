@@ -31,6 +31,8 @@ final class NovaMid {
     // 345: caster -> {step, window end tick}; caster -> own cooldown end tick (after a lapsed window)
     private static final Map<UUID, int[]> COMBO = new HashMap<>();
     private static final Map<UUID, Long> COMBO_CD = new HashMap<>();
+    /** 질풍 연격 다음 타 입력 시간 (틱). */
+    private static final int COMBO_WINDOW = 100;
 
     private static long now() { return Bukkit.getCurrentTick(); }
     /** Right of the horizontal facing f (Minecraft: facing south +Z, right = west -X). */
@@ -311,7 +313,7 @@ final class NovaMid {
             return true;
         });
 
-        // 345 질풍 연격 (GaleCombo): recast within 2 s = next step (slash, slash, push). Mana only for step 1 (steps 2/3 refunded),
+        // 345 질풍 연격 (GaleCombo): recast within 5 s = next step (slash, slash, push). Mana only for step 1 (steps 2/3 refunded),
         // no cooldown between steps (Links.clearCooldown); the real cooldown after step 3 (Bridge) or when the window lapses (own).
         m.put("gale_combo", n -> {
             Player pl = n.pl; UUID id = pl.getUniqueId(); long t0 = now();
@@ -328,14 +330,15 @@ final class NovaMid {
             if (step > 1) n.refund(mana);
             Vector f = n.flat();
             if (step < 3) {
-                int[] mine = {step, (int) (t0 + 40)};
+                // 2026-10-27: 2 s → 5 s. 조준 표시(누르고 확인)를 거치면 2초 안에 다음 타를 넣기 어려워 "재사용 대기"로 끊겼다.
+                int[] mine = {step, (int) (t0 + COMBO_WINDOW)};
                 COMBO.put(id, mine);
                 n.clearCooldown();
                 Bukkit.getScheduler().runTaskLater(n.plugin, () -> {
                     if (COMBO.get(id) != mine) return;
                     COMBO.remove(id);
                     if (pl.isOnline()) COMBO_CD.put(id, now() + cd);
-                }, 41);
+                }, COMBO_WINDOW + 1);
             } else COMBO.remove(id);
             String sys = step == 1 ? "gale_combo_slash1" : step == 2 ? "gale_combo_slash2" : "gale_combo_push3";
             n.later(0, () -> n.fx(sys, pl.getLocation(), pl));
