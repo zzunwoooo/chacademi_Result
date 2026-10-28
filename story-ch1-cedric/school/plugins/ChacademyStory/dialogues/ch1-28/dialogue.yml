@@ -1,0 +1,47 @@
+# 차카데미 대화 — Claude 작성 2026-10-27, 2026-10-28 수정 (오너: "역시 재능 있군" + 세드릭 교수에게 보내기)
+id: "ch1-28"
+title: "1-28. 첫 교화"
+description: "야생동물을 교화한 뒤 하르바 교수에게 알려요."
+chapter: "1장 · 차카데미아"
+format: 1
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  harva:
+    name: "하르바 교수"
+    npc: "teacher_harva"
+    portraits:
+      "기본": "teacher_harva-neutral.png"
+scenes:
+  a:
+    name: "보고"
+    lines:
+      - {who: me, face: "", text: "교수님, 한 마리 교화했어요!"}
+      - {who: harva, face: "기본", text: "…봤다. 덤비던 녀석이 얌전히 물러나더군."}
+      - {who: harva, face: "기본", text: "…역시 재능이 있군. 처음인데 힘으로 누르지 않고 마음을 돌려놨으니까."}
+    choices:
+      - {text: "생각보다 어렵진 않았어요.", to: "b"}
+      - {text: "솔직히 좀 무서웠어요.", to: "c"}
+  b:
+    name: "자만"
+    lines:
+      - {who: harva, face: "기본", text: "그게 제일 위험한 생각이다. 숲 안쪽 짐승들은 차원이 다르다."}
+    next: d
+  c:
+    name: "두려움"
+    lines:
+      - {who: harva, face: "기본", text: "무서운 게 정상이다. 무서운 줄 알아야 오래 산다."}
+    next: d
+  d:
+    name: "다음"
+    lines:
+      - {who: harva, face: "기본", text: "교화는 많이 해 볼수록 손에 익는다. 마주치는 짐승마다 달래 봐라."}
+      - {who: harva, face: "기본", text: "…숲이 왜 이렇게 됐는지는 아직 모른다. 이상한 걸 보면 나한테 먼저 말해라."}
+      - {who: me, face: "", text: "(1년 전부터 탁해진 숲… 언젠가 그 이유를 알게 될까.)"}
+      - {who: harva, face: "기본", text: "그리고… 다음은 세드릭 교수를 찾아가 봐라. 짐승을 달래는 것만으론 부족하다."}
+      - {who: harva, face: "기본", text: "마법사로 살아남으려면 맞서는 법도 알아야 하지. 그건 그 녀석이 잘 가르친다."}

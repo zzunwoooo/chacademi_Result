@@ -59,7 +59,9 @@ final class QuestDefs {
     }
 
     enum CondType {
-        ITEM("아이템"), SUBMIT("제출"), KILL("처치"), INTERACT("상호작용"), DIALOGUE("대화완료"), SIGNAL("신호");
+        ITEM("아이템"), SUBMIT("제출"), KILL("처치"), INTERACT("상호작용"), DIALOGUE("대화완료"), SIGNAL("신호"),
+        /** 대상 = 권한 노드. 다른 서버가 LuckPerms 로 찍어 준 도장 (예: 아레나 1:1 결투 한 판 → chacademi.story.duel, 2026-10-28). */
+        PERMISSION("권한");
         final String ko;
         CondType(String ko) { this.ko = ko; }
         static CondType of(String s) {
@@ -103,6 +105,7 @@ final class QuestDefs {
                 case INTERACT -> "조사하기";
                 case DIALOGUE -> "대화 마치기";
                 case SIGNAL -> target + " 하기";
+                case PERMISSION -> "조건 달성하기";
             };
         }
 

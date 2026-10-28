@@ -1,0 +1,43 @@
+# 차카데미 대화 — Claude 작성 2026-10-28 (오너: 큐디치·1:1 결투 설명, 실전 경험)
+format: 1
+id: "ch1-29"
+title: "1-29. 세드릭 교수"
+description: "세드릭 교수에게 큐디치와 1:1 결투 이야기를 들어요."
+chapter: "1장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  cedric:
+    name: "세드릭 교수"
+    npc: "tc_cedric"
+    portraits:
+      "기본": "tc_cedric-neutral.png"
+scenes:
+  a:
+    name: "세드릭"
+    lines:
+      - {who: cedric, face: "기본", text: "오! 네가 하르바가 말한 그 신입이구나? 짐승을 벌써 교화했다며! 하하!"}
+      - {who: me, face: "", text: "하르바 교수님이 세드릭 교수님께 가 보라고 하셨어요."}
+      - {who: cedric, face: "기본", text: "잘 왔어! 불을 다루는 세드릭이다. 마음 달래는 건 하르바한테 배웠으니, 나한테선 맞서는 법을 배워 봐야지!"}
+    choices:
+      - {text: "맞서는 법이요?", to: "b"}
+      - {text: "큐디치라는 건 들어 봤어요.", to: "c"}
+  b:
+    name: "실전"
+    lines:
+      - {who: cedric, face: "기본", text: "그래! 책으로 아무리 읽어도, 진짜로 마법이 날아올 때 몸이 굳으면 끝이거든."}
+    next: c
+  c:
+    name: "큐디치와 결투"
+    lines:
+      - {who: cedric, face: "기본", text: "우리 학교엔 두 가지 시합이 있어. 하나는 큐디치! 빗자루 타고 팀끼리 공을 다투는 경기지."}
+      - {who: cedric, face: "기본", text: "다른 하나는 1:1 결투. 마법사끼리 정면으로 붙는 거야. 3판 2선승, 숨을 데도 없지!"}
+      - {who: me, face: "", text: "그냥 들어도 무서운데요…"}
+      - {who: cedric, face: "기본", text: "하하! 무서운 게 정상이야. 그런데 말이지, 마법사에게 가장 중요한 건 실전 경험이다."}
+      - {who: cedric, face: "기본", text: "위험한 만큼 빠르게 성장시켜 주거든. 이기든 지든 한 판 붙고 나면 눈빛부터 달라져."}
+      - {who: cedric, face: "기본", text: "과제다! 1:1 결투 한 판 해 보고 와라. 결과는 상관없어. 끝까지 부딪혀 보고 나한테 다시 와!"}

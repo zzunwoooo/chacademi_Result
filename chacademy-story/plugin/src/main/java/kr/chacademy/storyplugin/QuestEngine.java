@@ -233,7 +233,11 @@ final class QuestEngine implements Listener {
     void reload() {
         loadDefs(null);
         loadGate();
-        for (Player p : Bukkit.getOnlinePlayers()) needStep.add(p.getUniqueId());
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            needStep.add(p.getUniqueId());
+            P st = prog.players.get(p.getUniqueId());
+            if (st != null) resumeFinished(p, st);
+        }
         scheduleSend();
     }
 
@@ -528,6 +532,19 @@ final class QuestEngine implements Listener {
         }
     }
 
+    /**
+     * 스토리가 끝난 유저(지금 단계 없음)의 마지막 단계에 다음 단계가 나중에 생겼으면 거기서 이어 준다 (오너 2026-10-28:
+     * ch1-27 의 다음이 비어 있던 동안 끝낸 유저 약 148명). 이미 끝낸 단계로는 되돌아가지 않는다. 접속·새로고침·단계 편집 때.
+     */
+    private boolean resumeFinished(Player p, P st) {
+        if (!st.step.isEmpty() || !st.started || st.history.isEmpty()) return false;
+        Step last = defs.get(st.history.get(0));
+        if (last == null || last.next.isEmpty() || defs.get(last.next) == null || st.history.contains(last.next)) return false;
+        plugin.getLogger().info("[스토리 단계] " + p.getName() + ": 끝낸 단계 " + last.id + " 에 다음 단계 " + last.next + " 이(가) 생겨 이어서 진행합니다");
+        enter(p, st, last.next, true);
+        return true;
+    }
+
     private void advance(Player p, P st, Step s) {
         st.finished(s.id);
         String next = s.next.isEmpty() || defs.get(s.next) == null ? "" : s.next;
@@ -652,6 +669,7 @@ final class QuestEngine implements Listener {
                 case ITEM -> p == null ? 0 : sc == null ? countItems(p, c.target()) : sc.computeIfAbsent(c.target(), t -> countItems(p, t));
                 case SUBMIT -> st.submitted ? c.required() : p == null ? 0 : sc == null ? countItems(p, c.target()) : sc.computeIfAbsent(c.target(), t -> countItems(p, t));
                 case INTERACT -> st.hits.getOrDefault(i, Set.of()).size();
+                case PERMISSION -> p != null && p.hasPermission(c.target()) ? c.required() : 0;
                 default -> st.counts.getOrDefault(i, 0);
             };
             out[i] = Math.min(v, c.required());
@@ -819,6 +837,7 @@ final class QuestEngine implements Listener {
             st = prog.of(uuid);
             enter(p, st, defs.startStep, true);
         }
+        if (st != null) resumeFinished(p, st);
         // 대화를 보다가 나갔으면 다시 호출할 수 있게 (컷신은 스토리 대기열이 이어서 재생하므로 기다린다)
         if (st != null && st.phase == Phase.PLAYING && st.waiting.startsWith("d:")) { st.phase = Phase.ACTIVE; st.waiting = ""; saveSoon(null); }
         // 접속 직후에는 모드 채널이 늦게 잡히므로 조금 뒤에 보낸다
@@ -1089,7 +1108,7 @@ final class QuestEngine implements Listener {
 
     /** 플러그인 이름 → 성공 이벤트 클래스. 각 기능이 저장·지급이 끝난 뒤에만 부른다 (getPlayer/getKey/getAmount). */
     private static final String[][] PROGRESS_EVENTS = {
-            {"MagicCodexBridge", "school.magiccodex.paper.StoryProgressEvent"},   // 교화성공 · 낚시성공 · 물고기판매 · 연금술성공 · 지도열기 · 웨이포인트등록 · 튜토리얼재료구매
+            {"MagicCodexBridge", "school.magiccodex.paper.StoryProgressEvent"},   // 교화성공 · 낚시성공 · 물고기판매 · 연금술성공 · 승급성공 · 지도열기 · 웨이포인트등록 · 튜토리얼재료구매
             {"ChacaHousing", "school.chacademia.housing.StoryProgressEvent"},     // 내방열기
     };
     private final List<String> progressHooks = new ArrayList<>();
@@ -1333,9 +1352,12 @@ final class QuestEngine implements Listener {
         return null;
     }
 
+    /** 위아래로 이만큼 넘게 떨어져 있으면 가까워도 화살표를 띄운다 (배포 jar final-guide-20261024 에 있던 값, 2026-10-28 소스에 옮김). */
+    private static final double GUIDE_NEAR_HEIGHT = 3.0;
+
     private static boolean flatNear(Location a, Location b) {
         double dx = a.getX() - b.getX(), dz = a.getZ() - b.getZ();
-        return dx * dx + dz * dz <= GUIDE_NEAR_DISTANCE * GUIDE_NEAR_DISTANCE;
+        return dx * dx + dz * dz <= GUIDE_NEAR_DISTANCE * GUIDE_NEAR_DISTANCE && Math.abs(a.getY() - b.getY()) <= GUIDE_NEAR_HEIGHT;
     }
 
     /**
@@ -1549,7 +1571,7 @@ final class QuestEngine implements Listener {
 
     private static final String ID = "단계ID";
     /** 기숙사 분류 6문항 대화 ID (SchoolBridge 가 띄움 — SchoolBridge 의 "ch1-19"·"ch1-19r/m/f-" 와 같아야 함. 2026-10-27 정문·그레고르·거울 앞 단계가 생겨 ch1-17 → ch1-19). */
-    static final String SORTING_DIALOGUE = "ch1-19";
+    static final String SORTING_DIALOGUE = "ch1-17";   // 배포 jar 와 같게 (2026-10-28)
 
     void registerCommands() {
         if (!ChacaLink.ready()) return;
@@ -1576,8 +1598,8 @@ final class QuestEngine implements Listener {
                 .executes(ctx -> edit(ctx, s -> s.next = idArg(ctx, "다음단계"), "다음 단계"))));
 
         var cond = Commands.literal("조건");
-        cond.then(Commands.literal("추가").then(Commands.argument("종류", ChacaLink.word(() -> List.of("아이템", "제출", "처치", "상호작용", "대화완료", "신호")))
-                .then(Commands.argument("대상", ChacaLink.word(() -> List.of("손", "*", "블록지정", "교화성공", "낚시성공", "연금술성공", "기숙사배정", "내방열기")))
+        cond.then(Commands.literal("추가").then(Commands.argument("종류", ChacaLink.word(() -> List.of("아이템", "제출", "처치", "상호작용", "대화완료", "신호", "권한")))
+                .then(Commands.argument("대상", ChacaLink.word(() -> List.of("손", "*", "블록지정", "교화성공", "낚시성공", "연금술성공", "승급성공", "기숙사배정", "내방열기", "chacademi.story.duel")))
                         .then(Commands.argument("개수", IntegerArgumentType.integer(1, 10000))
                                 .executes(ctx -> cmdCondAdd(ctx, ""))
                                 .then(Commands.argument("표시", StringArgumentType.greedyString())
@@ -1645,7 +1667,7 @@ final class QuestEngine implements Listener {
 
         ChacaLink.branch(plugin, ChacaLink.대화관리, Commands.literal("신호")
                 .then(Commands.argument("닉네임", ChacaLink.player())
-                        .then(Commands.argument("키", ChacaLink.word(() -> List.of("교화성공", "낚시성공", "물고기판매", "연금술성공", "기숙사배정", "내방열기", "지도열기", "웨이포인트등록", "튜토리얼재료구매")))
+                        .then(Commands.argument("키", ChacaLink.word(() -> List.of("교화성공", "낚시성공", "물고기판매", "연금술성공", "승급성공", "기숙사배정", "내방열기", "지도열기", "웨이포인트등록", "튜토리얼재료구매")))
                                 .executes(ctx -> cmdSignal(ctx, 1))
                                 .then(Commands.argument("개수", IntegerArgumentType.integer(1, 10000))
                                         .executes(ctx -> cmdSignal(ctx, ctx.getArgument("개수", Integer.class)))))),
@@ -1734,6 +1756,7 @@ final class QuestEngine implements Listener {
         for (Player p : Bukkit.getOnlinePlayers()) {
             P st = prog.players.get(p.getUniqueId());
             if (st != null && st.step.equals(s.id)) needStep.add(p.getUniqueId());
+            else if (st != null) resumeFinished(p, st);   // 예: 끝낸 단계의 '다음' 을 지금 정함
         }
         scheduleSend();
     }
@@ -1781,7 +1804,7 @@ final class QuestEngine implements Listener {
         for (int i = 0; i < s.conds.size(); i++) {
             Cond c = s.conds.get(i);
             if (c.type() == CondType.INTERACT && c.blocks().isEmpty()) out.add("조건 " + (i + 1) + " 상호작용 블록 미지정 (/대화관리 단계 " + s.id + " 조건 블록지정 " + (i + 1) + ")");
-            if (c.type() == CondType.SIGNAL && !List.of("교화성공", "낚시성공", "연금술성공", "내방열기").contains(c.target()))
+            if (c.type() == CondType.SIGNAL && !List.of("교화성공", "낚시성공", "연금술성공", "승급성공", "내방열기").contains(c.target()))
                 out.add("조건 " + (i + 1) + " 신호 " + c.target() + " 는 자동으로 보내는 기능이 없음 (관리자 /대화관리 신호 로만 채워짐)");
         }
         if (!s.next.isEmpty() && defs.get(s.next) == null) out.add("다음 단계 " + s.next + " 없음");
@@ -1857,7 +1880,7 @@ final class QuestEngine implements Listener {
         Step s = step(ctx);
         if (s.conds.size() >= QuestDefs.MAX_CONDITIONS) throw ChacaLink.error("조건은 " + QuestDefs.MAX_CONDITIONS + "개까지예요");
         CondType type = CondType.of(ctx.getArgument("종류", String.class));
-        if (type == null) throw ChacaLink.error("종류는 아이템·제출·처치·상호작용·대화완료·신호 중 하나예요");
+        if (type == null) throw ChacaLink.error("종류는 아이템·제출·처치·상호작용·대화완료·신호·권한 중 하나예요");
         String target = ctx.getArgument("대상", String.class).strip();
         int amount = ctx.getArgument("개수", Integer.class);
         CommandSender sender = ctx.getSource().getSender();
@@ -1878,6 +1901,7 @@ final class QuestEngine implements Listener {
             case DIALOGUE -> { if (!QuestDefs.validDialoguePattern(target)) throw ChacaLink.error("대화 ID는 영문 소문자·숫자·_·-만 (여러 개는 | 로, 앞부분이 같은 것은 끝에 *)"); }
             case SIGNAL -> { if (!QuestDefs.KEY.matcher(target).matches()) throw ChacaLink.error("신호 이름은 글자·숫자·_·- 1~32자예요"); }
             case INTERACT -> target = "블록지정";
+            case PERMISSION -> { if (!target.matches("[a-z0-9_.-]{1,64}")) throw ChacaLink.error("권한 노드는 영문 소문자·숫자·_·.·- 1~64자예요"); }
             case KILL -> { }
         }
         Cond c = new Cond(type, target, amount, label.strip(), false, List.of());

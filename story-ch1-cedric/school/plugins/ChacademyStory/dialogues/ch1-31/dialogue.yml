@@ -1,0 +1,27 @@
+# 차카데미 대화 — Claude 작성 2026-10-28 (오너: 클래스 승급 1→2 뒤)
+format: 1
+id: "ch1-31"
+title: "1-31. 어엿한 마법사"
+description: "클래스 승급에 성공하고 세드릭 교수에게 알려요."
+chapter: "1장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  cedric:
+    name: "세드릭 교수"
+    npc: "tc_cedric"
+    portraits:
+      "기본": "tc_cedric-neutral.png"
+scenes:
+  a:
+    name: "승급"
+    lines:
+      - {who: me, face: "", text: "교수님…! 저 해냈어요!"}
+      - {who: cedric, face: "기본", text: "하하하! 봤다, 봤어! 마나가 한 단계 위로 확 올라섰구나!"}
+      - {who: cedric, face: "기본", text: "그래, 이제 어디 가서든 어엿한 마법사로 볼 수 있겠구나."}
+      - {who: cedric, face: "기본", text: "오늘 느낀 그 감각 잊지 마라. 앞으로 더 큰 문들이 기다리고 있을 테니까!"}

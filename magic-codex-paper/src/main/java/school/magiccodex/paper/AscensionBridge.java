@@ -73,7 +73,20 @@ final class AscensionBridge implements Listener,PluginMessageListener,AutoClosea
                     else ChacaApi.ok(sender,ChacaApi.name(id)+" 님의 서클을 "+to+"(으)로 정했어요");
                 });
                 return Command.SINGLE_SUCCESS;
-            }))),"서클 보기·설정 (승급 권한도 함께 정리)","서클 보기");
+            })))
+            // 스토리 시작명령용 (1-31 세드릭, 2026-10-28): 다음 서클 승급 조건을 열어 주고, 권한이 반영되면 그 유저에게 승급 창을 띄운다.
+            .then(Commands.literal("승급창").executes(ctx->{
+                var p=ChacaApi.targetOnline(ctx);var sender=CodexCommands.sender(ctx);int c=current(p);
+                if(c>=9)throw ChacaApi.error("이미 최고 서클이에요");
+                UUID id=p.getUniqueId();
+                ChacaApi.permission(id,permission(c+1),true).whenComplete((v,error)->Bukkit.getScheduler().runTask(plugin,()->{
+                    if(error!=null){ChacaApi.fail(sender,"승급 조건을 열지 못했어요",error);return;}
+                    var now=Bukkit.getPlayer(id);if(now==null||!now.isOnline())return;
+                    try{open(now);ChacaApi.ok(sender,ChacaApi.name(id)+" 님의 "+(c+1)+"서클 승급 조건을 열고 승급 창을 띄웠어요");}
+                    catch(com.mojang.brigadier.exceptions.CommandSyntaxException e){ChacaApi.fail(sender,"승급 창을 띄우지 못했어요: "+e.getMessage(),null);}
+                }));
+                return Command.SINGLE_SUCCESS;
+            })),"서클 보기·설정 (승급 권한도 함께 정리)·승급창","서클 보기");
     }
     /** 서클 저장: PDC player_circle + codex_player_state.circle(다음 저장) + 스탯창 값. */
     private void setCircle(Player p,int to){
@@ -98,6 +111,7 @@ final class AscensionBridge implements Listener,PluginMessageListener,AutoClosea
         plugin.savePlayerState(p);
         var extra=stats.get(p.getUniqueId());stats.set(p.getUniqueId(),new StatsService.Additional(to,extra.dormitory(),extra.power(),extra.popularity()));
         send(p,new Response(AscensionProtocol.SUCCESS,r.token(),from,to,true,""));
+        StoryProgressEvent.fire(p,StoryProgressEvent.ASCEND);   // 스토리 1-31 (세드릭과 첫 승급, 2026-10-28)
     }
     @EventHandler public void quit(PlayerQuitEvent e){gate.remove(e.getPlayer().getUniqueId());next.remove(e.getPlayer().getUniqueId());nextClaim.remove(e.getPlayer().getUniqueId());}
     @Override public void close(){gate.clear();next.clear();nextClaim.clear();}

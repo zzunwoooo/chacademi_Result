@@ -1,0 +1,25 @@
+# 차카데미 대화 — Claude 작성 2026-10-28 (ch1-31 대기 대사: 아직 승급 전에 세드릭을 누르면)
+format: 1
+id: "ch1-31w-cedric"
+title: "1-31. 세드릭 (대기)"
+description: "아직 클래스 승급을 안 했을 때 세드릭 교수의 대사."
+chapter: "1장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  cedric:
+    name: "세드릭 교수"
+    npc: "tc_cedric"
+    portraits:
+      "기본": "tc_cedric-neutral.png"
+scenes:
+  a:
+    name: "집중"
+    lines:
+      - {who: cedric, face: "기본", text: "흐트러졌구나! 괜찮아, 다시 해 보자. 마나를 심장 쪽으로 천천히 모아."}
+      - {who: me, face: "", text: "(/클래스승급 으로 다시 마나를 모을 수 있다.)"}

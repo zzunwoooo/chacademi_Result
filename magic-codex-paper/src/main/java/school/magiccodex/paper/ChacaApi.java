@@ -169,6 +169,22 @@ public final class ChacaApi {
      */
     public static void stat(UUID player, String key, long amount) {
         AuditStats.add(player, key, amount);
+        // 스토리 1-30 (세드릭: 1:1 결투 한 판 해 보고 와라, 2026-10-28): 아레나 큐디치가 결투가 끝나면 "결투참가" 를 보낸다
+        // (승패·나감 상관없이, 경기장에 온 사람만). 공유 LuckPerms 도장 → 학교 스토리가 권한 조건으로 본다.
+        if ("결투참가".equals(key)) stampStoryDuel(player);
+    }
+
+    static final String STORY_DUEL = "chacademi.story.duel";
+
+    private static void stampStoryDuel(UUID player) {
+        Player online = Bukkit.getPlayer(player);
+        if (online != null && online.hasPermission(STORY_DUEL)) return;
+        try {
+            permission(player, STORY_DUEL, true).exceptionally(ex -> {
+                Bukkit.getLogger().warning("[MagicCodexBridge] 스토리 결투 도장을 찍지 못했습니다 " + player + ": " + ex);
+                return null;
+            });
+        } catch (RuntimeException ex) { Bukkit.getLogger().warning("[MagicCodexBridge] 스토리 결투 도장을 찍지 못했습니다 " + player + ": " + ex); }
     }
 
     @FunctionalInterface

@@ -10,7 +10,7 @@ import org.bukkit.event.HandlerList;
  * ChacademyStory 는 이 클래스를 리플렉션으로 듣는다 (getPlayer / getKey / getAmount). 실패·취소·재전송에는 부르지 않는다.
  */
 public final class StoryProgressEvent extends Event {
-    public static final String TAMING = "교화성공", FISH = "낚시성공", ALCHEMY = "연금술성공";
+    public static final String TAMING = "교화성공", FISH = "낚시성공", ALCHEMY = "연금술성공", ASCEND = "승급성공";
     /** 2026-10-25 (1장 재기획): 물고기 판매소에서 돈을 받고 판매 기록까지 끝남 · 지도 이동 창을 엶 · 공개 웨이포인트를 처음 등록함. */
     public static final String FISH_SOLD = "물고기판매", MAP_OPEN = "지도열기", WAYPOINT = "웨이포인트등록";
     private static final HandlerList HANDLERS = new HandlerList();

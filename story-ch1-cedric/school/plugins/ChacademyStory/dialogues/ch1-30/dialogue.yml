@@ -1,0 +1,32 @@
+# 차카데미 대화 — Claude 작성 2026-10-28 (오너: 결투 뒤 준비, 심장 쪽 마나, 승급 직전)
+format: 1
+id: "ch1-30"
+title: "1-30. 심장의 마나"
+description: "결투를 마치고 세드릭 교수에게 돌아가요."
+chapter: "1장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  cedric:
+    name: "세드릭 교수"
+    npc: "tc_cedric"
+    portraits:
+      "기본": "tc_cedric-neutral.png"
+scenes:
+  a:
+    name: "돌아옴"
+    lines:
+      - {who: cedric, face: "기본", text: "왔구나! 어땠어? …아니, 말 안 해도 알겠다. 눈빛이 확 달라졌는걸!"}
+      - {who: cedric, face: "기본", text: "좋아. 이제 준비가 다 된 것 같군."}
+      - {who: me, face: "", text: "예? 무슨 준비요?"}
+      - {who: cedric, face: "기본", text: "심장 쪽에 흐르는 마나를 잘 느껴 봐라. 뭔가 달라진 느낌이 들지 않아?"}
+      - {who: me, face: "", text: "(가슴 깊은 곳이 뜨겁게 뛴다…)"}
+      - {who: me, face: "", text: "아… 처음인데 익숙한 감각… 어디선가 경험해 본 적 있는 것 같아요…"}
+      - {who: cedric, face: "기본", text: "실전에서 마나가 한 번 크게 흔들리면, 다음 단계로 넘어갈 문이 열리지. 지금 네가 딱 그 앞이야."}
+      - {who: cedric, face: "기본", text: "내가 도와줄 테니, 마나를 심장 쪽에 집중시켜 봐라."}
+      - {who: me, face: "", text: "알겠습니다!"}
