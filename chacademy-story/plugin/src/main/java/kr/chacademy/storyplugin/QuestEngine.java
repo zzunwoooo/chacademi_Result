@@ -233,7 +233,11 @@ final class QuestEngine implements Listener {
     void reload() {
         loadDefs(null);
         loadGate();
-        for (Player p : Bukkit.getOnlinePlayers()) needStep.add(p.getUniqueId());
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            needStep.add(p.getUniqueId());
+            P st = prog.players.get(p.getUniqueId());
+            if (st != null) resumeFinished(p, st);
+        }
         scheduleSend();
     }
 
@@ -528,6 +532,19 @@ final class QuestEngine implements Listener {
         }
     }
 
+    /**
+     * 스토리가 끝난 유저(지금 단계 없음)의 마지막 단계에 다음 단계가 나중에 생겼으면 거기서 이어 준다 (오너 2026-10-28:
+     * ch1-27 의 다음이 비어 있던 동안 끝낸 유저 약 148명). 이미 끝낸 단계로는 되돌아가지 않는다. 접속·새로고침·단계 편집 때.
+     */
+    private boolean resumeFinished(Player p, P st) {
+        if (!st.step.isEmpty() || !st.started || st.history.isEmpty()) return false;
+        Step last = defs.get(st.history.get(0));
+        if (last == null || last.next.isEmpty() || defs.get(last.next) == null || st.history.contains(last.next)) return false;
+        plugin.getLogger().info("[스토리 단계] " + p.getName() + ": 끝낸 단계 " + last.id + " 에 다음 단계 " + last.next + " 이(가) 생겨 이어서 진행합니다");
+        enter(p, st, last.next, true);
+        return true;
+    }
+
     private void advance(Player p, P st, Step s) {
         st.finished(s.id);
         String next = s.next.isEmpty() || defs.get(s.next) == null ? "" : s.next;
@@ -819,6 +836,7 @@ final class QuestEngine implements Listener {
             st = prog.of(uuid);
             enter(p, st, defs.startStep, true);
         }
+        if (st != null) resumeFinished(p, st);
         // 대화를 보다가 나갔으면 다시 호출할 수 있게 (컷신은 스토리 대기열이 이어서 재생하므로 기다린다)
         if (st != null && st.phase == Phase.PLAYING && st.waiting.startsWith("d:")) { st.phase = Phase.ACTIVE; st.waiting = ""; saveSoon(null); }
         // 접속 직후에는 모드 채널이 늦게 잡히므로 조금 뒤에 보낸다
@@ -1734,6 +1752,7 @@ final class QuestEngine implements Listener {
         for (Player p : Bukkit.getOnlinePlayers()) {
             P st = prog.players.get(p.getUniqueId());
             if (st != null && st.step.equals(s.id)) needStep.add(p.getUniqueId());
+            else if (st != null) resumeFinished(p, st);   // 예: 끝낸 단계의 '다음' 을 지금 정함
         }
         scheduleSend();
     }
