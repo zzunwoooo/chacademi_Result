@@ -6,7 +6,7 @@
 CA_Boss_Archlich:
   Type: ZOMBIE
   Display: '&5&l무덤의 대현자 &d모르바스'
-  Health: 1800
+  Health: 4000         # 2026-10-29 오너: 1800 → 4000 (평균 스펙에 비해 짧음). 바꾸면 아래 2페이즈 조건(절반)도 같이
   Damage: 0            # 피해는 전부 스킬(chatelegraph)로. 기본 근접공격은 이동용으로만 둠
   Armor: 12
   BossBar:
@@ -51,7 +51,7 @@ CA_Boss_Archlich:
   - skill{s=CHA_ARCHLICH_SPAWN_LOCK} @self ~onSpawn
   # --- 2페이즈 전환 (HP 50% 이하, 한 번만) ---
   # health 조건은 절대값: Health 를 바꾸면 이 값(절반)도 같이 바꾼다
-  - skill{s=CHA_ARCHLICH_PHASE2} @self ~onDamaged ?health{h=<900} ?variableequals{var=caster.phase;value=1}
+  - skill{s=CHA_ARCHLICH_PHASE2} @self ~onDamaged ?health{h=<2000} ?variableequals{var=caster.phase;value=1}
   # --- 스킬 선택: 2초마다, 시전 중이 아니면 ---
   - skill{s=CHA_ARCHLICH_AI} @target ~onTimer:40 ?variableequals{var=caster.busy;value=0} ?targetwithin{d=30}
   # --- 사망 ---

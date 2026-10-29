@@ -27,7 +27,7 @@
 6. **보스바 제목·색 바꾸기**(`setbossbartitle/color`)는 MythicMobs 에 없는 메커닉이라 뺐다. (원하면 barCreate 로 따로 만들어야 함)
 7. **2페이즈 병사 색**: 초안은 world 변수(`world.archlich_phase`) → 같은 월드에 던전 칸이 3개라 다른 칸과 섞임 → 병사 자신의 변수 `caster.p2`.
 8. **병사 베기**: `damage @EntitiesInCone` (보스·다른 병사도 맞음) → 예고 없는 `chatelegraph{shape=cone;warn=false}` (플레이어만).
-9. **2페이즈 조건**: `health{h=<50%}` → `health{h=<900}` (Health 1800 의 절반, 절대값). Health 를 바꾸면 이것도 바꿀 것.
+9. **체력·2페이즈 조건**: 오너 결정으로 체력 1800 → **4000**. 조건 `health{h=<50%}` → `health{h=<2000}` (절반, 절대값). Health 를 바꾸면 이것도 바꿀 것.
 10. `lookat{}` → `look{}` (같은 메커닉의 기본 이름).
 
 영혼탄 투사체 VFX(`bolt`, 움직이는 효과)는 아직 서버 연결이 없어 초안대로 바닐라 파티클 + 명중 VFX(`bolt_hit`).
@@ -38,7 +38,7 @@
 2. 학교 MythicMobs 에 Mobs·Skills yml → `/mm reload` (콘솔에 모르는 메커닉·조건 경고 없는지).
 3. VFX: 런처 distribution.json 에 `config/portablevfx/effects/ArchlichMorvath/**` File 줄 추가 + 학교 PortableVFX effects 에 같은 폴더.
 4. ChacaDungeon(새 플러그인) 이 있어야 `chavfx` 가 동작 (없으면 그 줄만 "모르는 메커닉" 경고, 나머지는 동작).
-5. 시험: `/mm m spawn CA_Boss_Archlich` (dungeon1 빈 곳) → 1페이즈 스킬·병사 소환·HP 900 이하 전환·2페이즈 스킬·사망 시 병사 무너짐.
+5. 시험: `/mm m spawn CA_Boss_Archlich` (dungeon1 빈 곳) → 1페이즈 스킬·병사 소환·HP 2000 이하 전환·2페이즈 스킬·사망 시 병사 무너짐.
    던전에서는 `/던전관리 보스 lich CA_Boss_Archlich` 로 칸마다 자리 등록.
 
 ## 확인한 것 / 못 한 것
@@ -47,6 +47,6 @@
   RandomLocationsNearCaster, MobsNearOrigin, MobsInRadius, mobsinradius, health, variableequals). chatelegraph·chastatus 인자 = 배포 MagicMythic 와 같음.
 - ✔ 모델 3개: 애니 이름이 스킬과 맞음 (1페이즈 idle·walk·attack·skill_summon·skill_curse·death·spawn·phase_shift / 2페이즈 + skill_storm·skill_reap / 병사 spawn·idle·walk·attack·death), hitbox 본 있음.
 - ✔ ChacaDungeon 빌드 (chavfx 포함).
-- ✘ 게임 안 시험 안 함 (스킬 타이밍·예고·VFX·모델 교체·밸런스). 보스 체력 1800·피해 수치는 오너 확인 필요.
+- ✘ 게임 안 시험 안 함 (스킬 타이밍·예고·VFX·모델 교체·밸런스). 보스 체력 4000(오너 결정)·피해 수치는 실제 클리어 기록(codex_dungeon_run.time_ms)을 보고 다시 맞출 것.
 - ✘ VFX 팩의 클라이언트 호환 검사는 만든 쪽(client_compat OK) 결과를 믿음 — 런처 반영 뒤 실제로 보이는지 확인.
 - ✘ ModelEngine 큰 본 크기 제한은 /meg reload 콘솔에서 확인 (보스 3.3블록·지팡이 3.4블록).
