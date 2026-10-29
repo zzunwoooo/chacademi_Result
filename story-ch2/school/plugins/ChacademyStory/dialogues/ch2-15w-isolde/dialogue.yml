@@ -1,0 +1,24 @@
+# 차카데미 대화 — Claude 작성 2026-10-29 (오너 2장 기획)
+format: 1
+id: "ch2-15w-isolde"
+title: "2-15. 이솔데 (대기)"
+description: "아직 책을 읽지 않았을 때."
+chapter: "2장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  isolde:
+    name: "이솔데"
+    npc: "librarian_isolde"
+    portraits:
+      "기본": "librarian_isolde-neutral.png"
+scenes:
+  a:
+    name: "아직"
+    lines:
+      - {who: isolde, face: "기본", text: "『100년 전 몬스터에 관한 기록』은 서가에 있어요. 다 읽고 다시 오세요."}

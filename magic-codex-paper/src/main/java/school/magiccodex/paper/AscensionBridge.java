@@ -20,12 +20,15 @@ final class AscensionBridge implements Listener,PluginMessageListener,AutoClosea
     private final AscensionGate gate=new AscensionGate();
     private final Map<UUID,Long> next=new HashMap<>();
     private final Map<UUID,Long> nextClaim=new HashMap<>();
+    private StorySignals storySignals;
     AscensionBridge(MagicCodexBridge plugin,StatsService stats){
         this.plugin=plugin;this.stats=stats;key=new NamespacedKey(plugin,"player_circle");
         Bukkit.getPluginManager().registerEvents(this,plugin);
         Bukkit.getMessenger().registerIncomingPluginChannel(plugin,AscensionProtocol.REQUEST,this);
         Bukkit.getMessenger().registerOutgoingPluginChannel(plugin,AscensionProtocol.RESPONSE);
         registerCommands();
+        // 스토리 신호 (2026-10-29, 2장): 본체(MagicCodexBridge)를 바꾸지 않으려고 여기서 만들고 close 에서 닫는다
+        try{storySignals=new StorySignals(plugin);}catch(RuntimeException|LinkageError e){plugin.getLogger().warning("스토리 신호를 켜지 못했습니다: "+e);}
     }
     int current(Player p){
         Integer stored=p.getPersistentDataContainer().get(key,PersistentDataType.INTEGER);
@@ -114,5 +117,5 @@ final class AscensionBridge implements Listener,PluginMessageListener,AutoClosea
         StoryProgressEvent.fire(p,StoryProgressEvent.ASCEND);   // 스토리 1-31 (세드릭과 첫 승급, 2026-10-28)
     }
     @EventHandler public void quit(PlayerQuitEvent e){gate.remove(e.getPlayer().getUniqueId());next.remove(e.getPlayer().getUniqueId());nextClaim.remove(e.getPlayer().getUniqueId());}
-    @Override public void close(){gate.clear();next.clear();nextClaim.clear();}
+    @Override public void close(){gate.clear();next.clear();nextClaim.clear();if(storySignals!=null){storySignals.close();storySignals=null;}}
 }

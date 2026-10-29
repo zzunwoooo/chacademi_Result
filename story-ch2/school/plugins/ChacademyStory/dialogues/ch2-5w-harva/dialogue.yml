@@ -1,0 +1,24 @@
+# 차카데미 대화 — Claude 작성 2026-10-29 (오너 2장 기획)
+format: 1
+id: "ch2-5w-harva"
+title: "2-5. 하르바 (대기)"
+description: "아직 펫 도감 20을 못 채웠을 때."
+chapter: "2장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  harva:
+    name: "하르바 교수"
+    npc: "teacher_harva"
+    portraits:
+      "기본": "teacher_harva-neutral.png"
+scenes:
+  a:
+    name: "아직"
+    lines:
+      - {who: harva, face: "기본", text: "…아직 스무 마리가 안 됐군. 서두르지 마라. 짐승은 조급한 손을 먼저 알아챈다."}

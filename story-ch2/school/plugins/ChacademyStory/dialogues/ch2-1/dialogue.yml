@@ -1,0 +1,30 @@
+# 차카데미 대화 — Claude 작성 2026-10-29 (오너 2장 기획)
+format: 1
+id: "ch2-1"
+title: "2-1. 세드릭의 큐디치 수업"
+description: "세드릭 교수에게 큐디치를 배워요."
+chapter: "2장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  cedric:
+    name: "세드릭 교수"
+    npc: "tc_cedric"
+    portraits:
+      "기본": "tc_cedric-neutral.png"
+scenes:
+  a:
+    name: "큐디치"
+    lines:
+      - {who: cedric, face: "기본", text: "왔구나! 1장에서 결투 한 판 해 본 그 녀석이지? 하하!"}
+      - {who: cedric, face: "기본", text: "오늘은 큐디치를 제대로 가르쳐 주마. 우리 학교 최고의 구경거리이자, 최고의 훈련이지."}
+      - {who: me, face: "", text: "빗자루 타고 하는 경기라고 들었어요."}
+      - {who: cedric, face: "기본", text: "그래! 팀끼리 빗자루를 타고 공중에서 붙는다. 공을 상대 골대에 넣으면 10점이야."}
+      - {who: cedric, face: "기본", text: "블러저는 사람을 노리고 날아다니니 조심하고, 경기 중반쯤엔 스니치가 나타나지. 그걸 잡으면 판이 뒤집힌다!"}
+      - {who: cedric, face: "기본", text: "결투가 혼자 버티는 실력이라면, 큐디치는 팀과 호흡을 맞추는 실력이다. 둘 다 마법사에게 꼭 필요하지."}
+      - {who: cedric, face: "기본", text: "과제다. 큐디치 한 경기 해 보고 와라. 이기든 지든 상관없다. 공중에서 마법을 써 보는 감각을 익히는 게 먼저야!"}

@@ -1,0 +1,24 @@
+# 차카데미 대화 — Claude 작성 2026-10-29 (오너 2장 기획)
+format: 1
+id: "ch2-2w-cedric"
+title: "2-2. 세드릭 (대기)"
+description: "아직 큐디치를 안 했을 때."
+chapter: "2장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  cedric:
+    name: "세드릭 교수"
+    npc: "tc_cedric"
+    portraits:
+      "기본": "tc_cedric-neutral.png"
+scenes:
+  a:
+    name: "아직"
+    lines:
+      - {who: cedric, face: "기본", text: "아직 경기장 공기도 못 마셔 봤구나? 큐디치 한 경기면 된다. 다녀와!"}

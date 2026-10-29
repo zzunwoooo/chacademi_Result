@@ -1,0 +1,28 @@
+# 차카데미 대화 — Claude 작성 2026-10-29 (오너 2장 기획)
+format: 1
+id: "ch2-18"
+title: "2-18. 조사를 맡기다"
+description: "샘플 세 개를 그레고르 교감에게 가져가요."
+chapter: "2장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  gregor:
+    name: "그레고르 교감"
+    npc: "vice_gregor"
+    portraits:
+      "기본": "vice_gregor-neutral.png"
+scenes:
+  a:
+    name: "조사를 맡기다"
+    lines:
+      - {who: gregor, face: "기본", text: "…모두 가져왔군. 수고했네."}
+      - {who: gregor, face: "기본", text: "그러고 보니 지금까지 배운 마법이 %chacastory_spells%개라… 꽤 놀랍군."}
+      - {who: gregor, face: "기본", text: "좋네. 너에게 이 일의 조사를 맡기겠네."}
+      - {who: gregor, face: "기본", text: "그보다… 또 한 단계 성장한 것 같군. 마나가 심장 쪽에서 요동치는 게 느껴지지 않나?"}
+      - {who: gregor, face: "기본", text: "집중하게. 이번엔 내가 도와주지."}

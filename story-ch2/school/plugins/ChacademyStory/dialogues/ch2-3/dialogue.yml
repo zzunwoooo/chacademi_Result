@@ -1,0 +1,25 @@
+# 차카데미 대화 — Claude 작성 2026-10-29 (오너 2장 기획)
+format: 1
+id: "ch2-3"
+title: "2-3. 세드릭의 합격"
+description: "결투 3승을 하고 세드릭 교수에게 돌아가요."
+chapter: "2장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  cedric:
+    name: "세드릭 교수"
+    npc: "tc_cedric"
+    portraits:
+      "기본": "tc_cedric-neutral.png"
+scenes:
+  a:
+    name: "합격"
+    lines:
+      - {who: cedric, face: "기본", text: "세 번이나 이겼다고? 하하, 내 눈이 틀리지 않았군!"}
+      - {who: cedric, face: "기본", text: "좋아, 내 과제는 합격이다. 다음은 하르바 교수를 찾아가 봐라. 그 사람도 너를 기다리고 있을 거다."}

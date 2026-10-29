@@ -1,0 +1,27 @@
+# 차카데미 대화 — Claude 작성 2026-10-29 (오너 2장 기획)
+format: 1
+id: "ch2-17"
+title: "2-17. 말썽쟁이군"
+description: "그레고르 교감에게 직접 물어봐요."
+chapter: "2장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  gregor:
+    name: "그레고르 교감"
+    npc: "vice_gregor"
+    portraits:
+      "기본": "vice_gregor-neutral.png"
+scenes:
+  a:
+    name: "말썽쟁이"
+    lines:
+      - {who: me, face: "", text: "교감 선생님, 도서관 기록이랑 구스타프 할아버지께 들은 얘기가 있어서요…"}
+      - {who: gregor, face: "기본", text: "…여기저기 캐묻고 다녔군. 말썽쟁이 같으니. 알겠네."}
+      - {who: gregor, face: "기본", text: "몬스터들에게 이상 반응이 일어나고 있네. 기록에 따르면 100년 전 몬스터들이 난폭해졌을 때도 이런 일이 생겼다고 하지."}
+      - {who: gregor, face: "기본", text: "더 많은 샘플이 필요해. 세 가지를 더 정해 주겠네. 구해 오게."}

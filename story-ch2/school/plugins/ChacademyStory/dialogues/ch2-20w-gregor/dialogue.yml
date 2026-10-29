@@ -1,0 +1,24 @@
+# 차카데미 대화 — Claude 작성 2026-10-29 (오너 2장 기획)
+format: 1
+id: "ch2-20w-gregor"
+title: "2-20. 그레고르 (대기)"
+description: "아직 장신구 세 칸을 다 끼지 않았을 때."
+chapter: "2장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  gregor:
+    name: "그레고르 교감"
+    npc: "vice_gregor"
+    portraits:
+      "기본": "vice_gregor-neutral.png"
+scenes:
+  a:
+    name: "아직"
+    lines:
+      - {who: gregor, face: "기본", text: "반지, 귀걸이, 목걸이. 셋 다 장착하고 오게. 펠릭스에게 가 보게."}

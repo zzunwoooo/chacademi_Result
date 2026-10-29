@@ -1,0 +1,24 @@
+# 차카데미 대화 — Claude 작성 2026-10-29 (오너 2장 기획)
+format: 1
+id: "ch2-3w-cedric"
+title: "2-3. 세드릭 (대기)"
+description: "아직 결투 3승을 못 했을 때."
+chapter: "2장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  cedric:
+    name: "세드릭 교수"
+    npc: "tc_cedric"
+    portraits:
+      "기본": "tc_cedric-neutral.png"
+scenes:
+  a:
+    name: "아직"
+    lines:
+      - {who: cedric, face: "기본", text: "몇 번 이겼나? 세 번이다, 세 번! 지는 것도 공부지만 이기는 법을 몸에 새겨 와라."}

@@ -1,0 +1,35 @@
+# 차카데미 대화 — Claude 작성 2026-10-29 (오너 2장 기획)
+format: 1
+id: "ch2-15"
+title: "2-15. 100년 전의 기록"
+description: "책을 읽고 이솔데에게 돌아가요."
+chapter: "2장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  isolde:
+    name: "이솔데"
+    npc: "librarian_isolde"
+    portraits:
+      "기본": "librarian_isolde-neutral.png"
+  luka:
+    name: "루카"
+    npc: "luka"
+    portraits:
+      "기본": "luka-neutral.png"
+scenes:
+  a:
+    name: "기록"
+    lines:
+      - {who: me, face: "", text: "다 읽었어요. 옛날엔 몬스터들이 사람을 먼저 공격하지 않았다니…"}
+      - {who: isolde, face: "기본", text: "그 이야기는 과거의 기록이에요. 그 사건 이후로 몬스터들이 사람을 공격하기 시작했다고 하네요."}
+      - {who: isolde, face: "기본", text: "그리고 교화 마법도 그때 만들어졌어요. 전설의 대마법사였던 ■■■님이 만드셨다고 해요."}
+      - {who: me, face: "", text: "(이름 부분이… 번져서 읽을 수가 없다.)"}
+      - {who: me, face: "", text: "그렇구나… 그 대마법사님에 대해 더 알아보고 싶어요."}
+      - {who: luka, face: "기본", text: "구스타프 할아버지라면 뭔가 알지 않을까? 마을에서 제일 오래 사신 분이잖아."}
+      - {who: me, face: "", text: "좋아, 가서 여쭤보자."}

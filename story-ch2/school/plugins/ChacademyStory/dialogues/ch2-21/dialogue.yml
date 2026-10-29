@@ -1,0 +1,29 @@
+# 차카데미 대화 — Claude 작성 2026-10-29 (오너 2장 기획)
+format: 1
+id: "ch2-21"
+title: "2-21. 언데드 리치"
+description: "던전을 클리어하고 그레고르 교감에게 보고해요."
+chapter: "2장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  gregor:
+    name: "그레고르 교감"
+    npc: "vice_gregor"
+    portraits:
+      "기본": "vice_gregor-neutral.png"
+scenes:
+  a:
+    name: "리치"
+    lines:
+      - {who: me, face: "", text: "교감 선생님, 던전 안쪽에 언데드 리치가 있었어요…"}
+      - {who: gregor, face: "기본", text: "뭐? 언데드 리치?? 몸은 무사한 거냐?"}
+      - {who: gregor, face: "기본", text: "대체 3클래스 마법사가 어떻게 살아남은 거지…?"}
+      - {who: me, face: "", text: "(교감 선생님이 한참 동안 말을 잇지 못한다.)"}
+      - {who: gregor, face: "기본", text: "…조사가 끝날 때까지 던전 출입은 금지한다."}
+      - {who: gregor, face: "기본", text: "다른 곳도 다시 출입 금지다. 가지 마! 알겠나?"}

@@ -1,0 +1,27 @@
+# 차카데미 대화 — Claude 작성 2026-10-29 (오너 2장 기획)
+format: 1
+id: "ch2-13"
+title: "2-13. 루카의 걱정"
+description: "루카와 이야기해요."
+chapter: "2장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  luka:
+    name: "루카"
+    npc: "luka"
+    portraits:
+      "기본": "luka-neutral.png"
+scenes:
+  a:
+    name: "루카"
+    lines:
+      - {who: luka, face: "기본", text: "야, 아까 교감 선생님 표정 봤어? 무슨 일이 있는 걸까?"}
+      - {who: me, face: "", text: "그러게… 뭔가 좋지 않은 느낌이야."}
+      - {who: luka, face: "기본", text: "음… 이솔데 사서님은 뭘 알지 않을까? 도서관에 없는 책이 없잖아."}
+      - {who: me, face: "", text: "좋아, 가 보자."}

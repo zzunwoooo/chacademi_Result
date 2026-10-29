@@ -1,0 +1,44 @@
+# 차카데미 대화 — Claude 작성 2026-10-29 (오너 2장 기획)
+format: 1
+id: "ch2-16"
+title: "2-16. 구스타프의 옛이야기"
+description: "구스타프에게 대마법사 이야기를 들어요."
+chapter: "2장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  gustav:
+    name: "구스타프"
+    npc: "vl_gustav"
+    portraits:
+      "기본": "vl_gustav-neutral.png"
+  luka:
+    name: "루카"
+    npc: "luka"
+    portraits:
+      "기본": "luka-neutral.png"
+scenes:
+  a:
+    name: "옛이야기"
+    lines:
+      - {who: me, face: "", text: "할아버지, 혹시 교화 마법을 만든 대마법사님에 대해 아세요?"}
+      - {who: gustav, face: "기본", text: "허허, 그건 내가 태어나기도 전 얘기라 나도 잘은 모른다."}
+      - {who: gustav, face: "기본", text: "다만 우리 아버님이 하시던 말씀이 있지. 아버님이 그 마법사랑 동기였거든."}
+      - {who: gustav, face: "기본", text: "당시에 두 학생이 유명했단다. 한 명은 매우 뛰어났고, 한 명은 매우 모자랐지."}
+      - {who: gustav, face: "기본", text: "모자란 녀석이 사고를 치면, 뛰어난 그 대마법사가 수습하는 일이 많았다더구나."}
+      - {who: gustav, face: "기본", text: "그 대마법사는 모든 원소의 마법을 잘 다뤘어. 결국 세계 최초로 9클래스를 달성했지."}
+      - {who: gustav, face: "기본", text: "그 사건 때도 모든 원소의 마법을 써서 악마를 봉인하셨다고 한다."}
+      - {who: luka, face: "기본", text: "대단한데… 9클래스라니. 나는 아직 2클래스인걸."}
+      - {who: luka, face: "기본", text: "그러고 보니 너도 모든 원소를 다 잘 다루지 않아? 나는 물 마법에만 재능이 있는 것 같던데."}
+      - {who: me, face: "", text: "어? 다들 그런 거 아니었어? …내가 좀 특이한 건가 보네."}
+    next: b
+  b:
+    name: "교감"
+    lines:
+      - {who: me, face: "", text: "알겠어요, 할아버지. 아, 혹시 오늘 그레고르 교감 선생님이 몬스터 전리품을 보시고 문제가 생겼다고 하셨는데요…"}
+      - {who: gustav, face: "기본", text: "음? 그건 잘 모르겠는데? 직접 가서 물어보는 게 좋지 않을까?"}

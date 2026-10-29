@@ -27,6 +27,8 @@ final class QuestProgress {
         int run;
         final Map<Integer, Integer> counts = new HashMap<>();
         final Map<Integer, Set<String>> hits = new HashMap<>();
+        /** 랜덤제출 조건 번호 → 이 회차에 뽑힌 아이템 대상 (단계에 들어갈 때 정해지고 그 회차 동안 그대로). */
+        final Map<Integer, String> picks = new HashMap<>();
         /** 제출 조건의 아이템을 이미 걷었는지 (걷은 뒤에는 버려도 충족으로 남는다). */
         boolean submitted;
         Phase phase = Phase.ACTIVE;
@@ -45,6 +47,7 @@ final class QuestProgress {
             run++;
             counts.clear();
             hits.clear();
+            picks.clear();
             submitted = false;
             phase = Phase.ACTIVE;
             waiting = "";
@@ -89,6 +92,11 @@ final class QuestProgress {
                 p.hits.forEach((k, v) -> h.put(String.valueOf(k), new ArrayList<>(v)));
                 m.put("hits", h);
             }
+            if (!p.picks.isEmpty()) {
+                Map<String, Object> k = new LinkedHashMap<>();
+                p.picks.forEach((i, v) -> k.put(String.valueOf(i), v));
+                m.put("picks", k);
+            }
             if (!p.history.isEmpty()) m.put("history", new ArrayList<>(p.history));
             all.put(e.getKey().toString(), m);
         }
@@ -118,6 +126,12 @@ final class QuestProgress {
             if (m.get("counts") instanceof Map<?, ?> c) {
                 for (var ce : c.entrySet()) {
                     try { p.counts.put(Integer.parseInt(String.valueOf(ce.getKey())), ((Number) ce.getValue()).intValue()); }
+                    catch (RuntimeException ignored) { }
+                }
+            }
+            if (m.get("picks") instanceof Map<?, ?> k) {
+                for (var ke : k.entrySet()) {
+                    try { if (ke.getValue() != null) p.picks.put(Integer.parseInt(String.valueOf(ke.getKey())), String.valueOf(ke.getValue())); }
                     catch (RuntimeException ignored) { }
                 }
             }

@@ -172,6 +172,8 @@ public final class ChacaApi {
         // 스토리 1-30 (세드릭: 1:1 결투 한 판 해 보고 와라, 2026-10-28): 아레나 큐디치가 결투가 끝나면 "결투참가" 를 보낸다
         // (승패·나감 상관없이, 경기장에 온 사람만). 공유 LuckPerms 도장 → 학교 스토리가 권한 조건으로 본다.
         if ("결투참가".equals(key)) stampStoryDuel(player);
+        // 스토리 2장 (2026-10-29): 결투승리·큐디치참가 → 스토리 신호 (아레나에서 나면 StorySignals 가 학교로 전달)
+        StorySignals.stat(player, key);
     }
 
     static final String STORY_DUEL = "chacademi.story.duel";

@@ -1,0 +1,26 @@
+# 차카데미 대화 — Claude 작성 2026-10-29 (오너 2장 기획)
+format: 1
+id: "ch2-20"
+title: "2-20. 조심히 다녀와라"
+description: "장신구를 다 끼고 그레고르 교감에게 가요."
+chapter: "2장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  gregor:
+    name: "그레고르 교감"
+    npc: "vice_gregor"
+    portraits:
+      "기본": "vice_gregor-neutral.png"
+scenes:
+  a:
+    name: "출발"
+    lines:
+      - {who: gregor, face: "기본", text: "…이제야 마법사 모양새가 나는군."}
+      - {who: gregor, face: "기본", text: "조심히 다녀오게. 위험하면 바로 돌아오고, 다녀오면 꼭 보고하게."}
+      - {who: me, face: "", text: "알겠습니다. 지금 한번 가 볼게요."}

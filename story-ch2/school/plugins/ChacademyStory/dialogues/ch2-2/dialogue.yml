@@ -1,0 +1,28 @@
+# 차카데미 대화 — Claude 작성 2026-10-29 (오너 2장 기획)
+format: 1
+id: "ch2-2"
+title: "2-2. 역시 재능 있는 학생"
+description: "큐디치를 마치고 세드릭 교수에게 돌아가요."
+chapter: "2장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  cedric:
+    name: "세드릭 교수"
+    npc: "tc_cedric"
+    portraits:
+      "기본": "tc_cedric-neutral.png"
+scenes:
+  a:
+    name: "재능"
+    lines:
+      - {who: cedric, face: "기본", text: "다녀왔구나! 얼굴을 보니 제법 날아다녔나 보군."}
+      - {who: cedric, face: "기본", text: "역시 재능 있는 학생이구만! 하하하!"}
+      - {who: cedric, face: "기본", text: "그럼 하나 묻지. 1:1 대전에서 승리는 해 봤나?"}
+      - {who: me, face: "", text: "해 보기는 했는데… 이기는 건 또 다른 얘기더라고요."}
+      - {who: cedric, face: "기본", text: "그렇지! 해 보는 것과 이기는 건 하늘과 땅 차이다. 가서 1:1 결투 세 번 이기고 와라!"}

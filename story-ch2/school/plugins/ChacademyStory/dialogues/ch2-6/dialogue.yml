@@ -1,0 +1,25 @@
+# 차카데미 대화 — Claude 작성 2026-10-29 (오너 2장 기획)
+format: 1
+id: "ch2-6"
+title: "2-6. 하르바의 인정"
+description: "변색종을 교화하고 하르바 교수에게 돌아가요."
+chapter: "2장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  harva:
+    name: "하르바 교수"
+    npc: "teacher_harva"
+    portraits:
+      "기본": "teacher_harva-neutral.png"
+scenes:
+  a:
+    name: "인정"
+    lines:
+      - {who: harva, face: "기본", text: "…해냈군. 털빛이 곱다. 잘 돌봐 줘라."}
+      - {who: harva, face: "기본", text: "다음은 엘레나 교수에게 가 봐라. 마법끼리 부딪힐 때 생기는 걸 배울 때가 됐다."}

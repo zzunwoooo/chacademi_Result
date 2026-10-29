@@ -1,0 +1,28 @@
+# 차카데미 대화 — Claude 작성 2026-10-29 (오너 2장 기획)
+format: 1
+id: "ch2-14"
+title: "2-14. 이솔데에게 묻다"
+description: "이솔데에게 무슨 일인지 물어봐요."
+chapter: "2장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  isolde:
+    name: "이솔데"
+    npc: "librarian_isolde"
+    portraits:
+      "기본": "librarian_isolde-neutral.png"
+scenes:
+  a:
+    name: "이솔데"
+    lines:
+      - {who: me, face: "", text: "사서님, 아까 교감 선생님께 몬스터 전리품을 가져다드렸는데요…"}
+      - {who: me, face: "", text: "보시더니 문제가 생겼다고 하셨어요. 무슨 일인지 아세요?"}
+      - {who: isolde, face: "기본", text: "…저도 잘 모르겠네요. 교감 선생님이 그렇게 말씀하셨다면 가볍지 않은 일이겠지요."}
+      - {who: isolde, face: "기본", text: "몬스터라… 몬스터와 관련된 책이 하나 있어요. 아주 오래된 기록이에요."}
+      - {who: isolde, face: "기본", text: "서가 어딘가에 『100년 전 몬스터에 관한 기록』이 있을 거예요. 찾아서 읽어 보세요."}

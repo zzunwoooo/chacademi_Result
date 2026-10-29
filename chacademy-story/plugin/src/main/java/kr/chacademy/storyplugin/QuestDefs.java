@@ -61,7 +61,11 @@ final class QuestDefs {
     enum CondType {
         ITEM("아이템"), SUBMIT("제출"), KILL("처치"), INTERACT("상호작용"), DIALOGUE("대화완료"), SIGNAL("신호"),
         /** 대상 = 권한 노드. 다른 서버가 LuckPerms 로 찍어 준 도장 (예: 아레나 1:1 결투 한 판 → chacademi.story.duel, 2026-10-28). */
-        PERMISSION("권한");
+        PERMISSION("권한"),
+        /** 대상 = PlaceholderAPI 값 (예: %chacastory_petdex%). 숫자가 개수 이상이면 채움 (2026-10-29, 2장 펫도감·장신구). */
+        VALUE("값"),
+        /** 대상 = random-pools.yml 의 후보 목록 이름. 단계에 들어갈 때 유저마다 하나를 뽑아 제출처럼 걷는다 (2026-10-29, 2장 그레고르 샘플). */
+        RANDOM("랜덤제출");
         final String ko;
         CondType(String ko) { this.ko = ko; }
         static CondType of(String s) {
@@ -105,8 +109,19 @@ final class QuestDefs {
                 case INTERACT -> "조사하기";
                 case DIALOGUE -> "대화 마치기";
                 case SIGNAL -> target + " 하기";
-                case PERMISSION -> "조건 달성하기";
+                case PERMISSION, VALUE -> "조건 달성하기";
+                case RANDOM -> "지정된 전리품 가져가기";
             };
+        }
+
+        /** 제출처럼 아이템을 걷는 조건 (랜덤제출은 유저마다 뽑힌 아이템). */
+        boolean submits() { return type == CondType.SUBMIT || type == CondType.RANDOM; }
+
+        /** 랜덤제출: 뽑힌 아이템 대상(예: "이름:독시 날개")으로 HUD 글. 표시글이 있으면 "<표시글>: <아이템>". */
+        String displayPicked(String picked) {
+            if (picked == null || picked.isEmpty()) return display();
+            String item = itemName(picked);
+            return label.isBlank() ? item + " 가져가기" : label + ": " + item;
         }
 
         private static String itemName(String target) {

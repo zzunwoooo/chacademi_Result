@@ -1,0 +1,27 @@
+# 차카데미 대화 — Claude 작성 2026-10-29 (오너 2장 기획)
+format: 1
+id: "ch2-4"
+title: "2-4. 하르바의 과제"
+description: "하르바 교수에게 교화 과제를 받아요."
+chapter: "2장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  harva:
+    name: "하르바 교수"
+    npc: "teacher_harva"
+    portraits:
+      "기본": "teacher_harva-neutral.png"
+scenes:
+  a:
+    name: "과제"
+    lines:
+      - {who: harva, face: "기본", text: "…왔나. 세드릭이 떠들고 다니더군. 꽤 하는 녀석이라고."}
+      - {who: harva, face: "기본", text: "교화는 한두 번으로 익혀지는 게 아니다. 짐승마다 마음을 여는 방식이 다르니까."}
+      - {who: harva, face: "기본", text: "교화 20마리. 펫 도감을 스무 마리까지 채워 와라."}
+      - {who: harva, face: "기본", text: "…이미 그만큼 채웠다면 바로 와도 된다."}

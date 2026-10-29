@@ -1,0 +1,26 @@
+# 차카데미 대화 — Claude 작성 2026-10-29 (오너 2장 기획)
+format: 1
+id: "ch2-8"
+title: "2-8. 엘레나의 칭찬"
+description: "원소 반응 30회를 하고 엘레나 교수에게 돌아가요."
+chapter: "2장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  elena:
+    name: "엘레나 교수"
+    npc: "teacher_ellna"
+    portraits:
+      "기본": "elena-neutral.png"
+scenes:
+  a:
+    name: "칭찬"
+    lines:
+      - {who: elena, face: "기본", text: "벌써 30번이나? 원소를 바꿔 가며 쓰는 게 전혀 어색하지 않구나."}
+      - {who: elena, face: "기본", text: "보통은 자기 원소 하나 다루기도 벅찬데… 정말 신기한 아이야."}
+      - {who: elena, face: "기본", text: "다음은 베르나 교수님께 가 보렴. 연금술로 만들어야 할 게 있을 거야."}

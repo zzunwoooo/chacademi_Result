@@ -1,0 +1,40 @@
+# 차카데미 대화 — Claude 작성 2026-10-29 (오너 2장 기획)
+format: 1
+id: "ch2-19"
+title: "2-19. 봉인된 지하 던전"
+description: "3클래스로 승급하고 그레고르 교감에게 알려요."
+chapter: "2장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  gregor:
+    name: "그레고르 교감"
+    npc: "vice_gregor"
+    portraits:
+      "기본": "vice_gregor-neutral.png"
+  luka:
+    name: "루카"
+    npc: "luka"
+    portraits:
+      "기본": "luka-neutral.png"
+scenes:
+  a:
+    name: "지하 던전"
+    lines:
+      - {who: gregor, face: "기본", text: "3클래스라… 이제 맡길 수 있겠군."}
+      - {who: gregor, face: "기본", text: "1층 로비 왼쪽을 보면 내려가는 길이 있을 거네. 막아 뒀었지만 이제는 열어 둬야겠군."}
+      - {who: gregor, face: "기본", text: "그곳은 지하 던전을 봉인해 둔 장소네. 며칠 전부터 그곳에서 불길한 잿빛 기운이 흘러나와서 말이야."}
+      - {who: luka, face: "기본", text: "재밌어 보여!!!"}
+      - {who: gregor, face: "기본", text: "다른 학생들은 절대 출입 금지네. 루카, 너도."}
+      - {who: luka, face: "기본", text: "힝… 알았어요."}
+    next: b
+  b:
+    name: "준비"
+    lines:
+      - {who: gregor, face: "기본", text: "하지만 아직 준비가 다 안 된 것 같군. 모든 장비를 다 장착하고 오도록 하게."}
+      - {who: gregor, face: "기본", text: "반지, 귀걸이, 목걸이. 펠릭스에게 가면 장신구를 구할 수 있을 걸세."}

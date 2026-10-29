@@ -1,0 +1,29 @@
+# 차카데미 대화 — Claude 작성 2026-10-29 (오너 2장 기획)
+format: 1
+id: "ch2-7"
+title: "2-7. 엘레나의 원소 반응 수업"
+description: "엘레나 교수에게 원소 반응을 배워요."
+chapter: "2장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  elena:
+    name: "엘레나 교수"
+    npc: "teacher_ellna"
+    portraits:
+      "기본": "elena-neutral.png"
+scenes:
+  a:
+    name: "원소 반응"
+    lines:
+      - {who: elena, face: "기본", text: "어서 오렴! 하르바 교수님이 보내셨구나."}
+      - {who: elena, face: "기본", text: "오늘은 원소 반응을 알려 줄게. 마법을 맞은 적에게는 그 원소의 표식이 남아."}
+      - {who: elena, face: "기본", text: "표식이 남아 있을 때 다른 원소 마법을 맞히면, 두 원소가 섞이면서 반응이 일어나지."}
+      - {who: elena, face: "기본", text: "물과 불이 만나면 증기가, 불과 바람이 만나면 불길이 번지는 것처럼 말이야."}
+      - {who: me, face: "", text: "원소를 섞어서 쓰라는 거군요."}
+      - {who: elena, face: "기본", text: "맞아. 한 원소만 쓰는 마법사보다 훨씬 강해질 수 있어. 원소 반응을 30번 일으켜 보고 오렴!"}

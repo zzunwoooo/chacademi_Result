@@ -112,6 +112,13 @@ final class QuestEngine implements Listener {
     /** 아이템 조건 개수 캐시 (주기 확인용). 인벤토리 변경 이벤트가 오면 지운다. */
     private record ItemScan(long at, Map<String, Integer> counts) {}
     private final Map<UUID, ItemScan> itemScans = new HashMap<>();
+
+    /** random-pools.yml: 랜덤제출 후보 목록 이름 → 아이템 대상들 ("이름:독시 날개" 처럼 제출 대상과 같은 형식). */
+    private Map<String, List<String>> pools = Map.of();
+    /** 값 조건: "유저|자리표시자" → (읽은 때, 값). 0.5초 주기 확인마다 PlaceholderAPI 를 부르지 않게 2초 동안 재사용. 메모리 전용. */
+    private record ValueRead(long at, long value) {}
+    private final Map<String, ValueRead> values = new HashMap<>();
+    static final long VALUE_CACHE_MS = 2_000L;
     /** 위치 포탈 대화를 중간에 닫은 유저: 포탈 밖으로 나가야 다시 호출된다 (메모리 전용 — 단계 변경·재접속·초기화 때 지움). */
     private final Set<UUID> mustLeave = new HashSet<>();
     /** 장 공개 제한 (config.yml chapter-release). */
@@ -252,6 +259,75 @@ final class QuestEngine implements Listener {
         }
         for (String w : warnings) plugin.getLogger().warning("[스토리 단계] " + w);
         plugin.getLogger().info("[스토리 단계] " + defs.steps.size() + "개 (시작 " + (defs.startStep.isEmpty() ? "-" : defs.startStep) + ")");
+        loadPools();
+    }
+
+    /** random-pools.yml (없으면 빈 목록): pools: { 이름: [대상, …] }. 대상 형식은 제출과 같다. */
+    private void loadPools() {
+        File f = new File(plugin.getDataFolder(), "random-pools.yml");
+        Map<String, List<String>> next = new HashMap<>();
+        if (f.isFile()) {
+            try {
+                Map<?, ?> root = StoryPlugin.readYaml(f);
+                if (root.get("pools") instanceof Map<?, ?> all) for (var e : all.entrySet()) {
+                    if (!(e.getValue() instanceof List<?> l)) continue;
+                    List<String> items = new ArrayList<>();
+                    for (Object o : l) if (o != null && !String.valueOf(o).isBlank() && items.size() < 1000) items.add(String.valueOf(o).strip());
+                    if (!items.isEmpty()) next.put(String.valueOf(e.getKey()).strip(), List.copyOf(items));
+                }
+            } catch (Exception e) {
+                plugin.getLogger().log(Level.SEVERE, "random-pools.yml 을 읽지 못했습니다 — 랜덤제출 후보는 예전 것을 그대로 씁니다", e);
+                return;
+            }
+        }
+        pools = next;
+        if (!next.isEmpty()) plugin.getLogger().info("[스토리 단계] 랜덤제출 후보 " + next.size() + "개 목록 (" + next.entrySet().stream().map(e -> e.getKey() + " " + e.getValue().size()).collect(java.util.stream.Collectors.joining(", ")) + ")");
+    }
+
+    /**
+     * 랜덤제출 조건마다 아이템 하나를 뽑는다 (이미 뽑힌 조건은 그대로). 같은 단계의 랜덤제출끼리는 겹치지 않게 (후보가 모자라면 겹침 허용).
+     * @return 새로 뽑은 것이 있으면 true (저장 필요)
+     */
+    private boolean assignPicks(P st, Step s) {
+        if (s == null) return false;
+        boolean changed = false;
+        var rnd = java.util.concurrent.ThreadLocalRandom.current();
+        for (int i = 0; i < s.conds.size(); i++) {
+            Cond c = s.conds.get(i);
+            if (c.type() != CondType.RANDOM || st.picks.containsKey(i)) continue;
+            List<String> pool = pools.get(c.target());
+            if (pool == null || pool.isEmpty()) continue;
+            List<String> free = new ArrayList<>(pool);
+            free.removeAll(st.picks.values());
+            List<String> from = free.isEmpty() ? pool : free;
+            st.picks.put(i, from.get(rnd.nextInt(from.size())));
+            changed = true;
+        }
+        return changed;
+    }
+
+    /** 조건의 실제 대상: 랜덤제출은 이 유저에게 뽑힌 아이템 (없으면 빈 값 = 채울 수 없음). */
+    private static String targetOf(P st, int i, Cond c) {
+        return c.type() == CondType.RANDOM ? (st == null ? "" : st.picks.getOrDefault(i, "")) : c.target();
+    }
+
+    /** 값 조건: PlaceholderAPI 값을 숫자로 (숫자가 아니거나 못 읽으면 0). */
+    private long valueOf(Player p, String placeholder) {
+        if (p == null) return 0;
+        String key = p.getUniqueId() + "|" + placeholder;
+        long now = System.currentTimeMillis();
+        ValueRead old = values.get(key);
+        if (old != null && now - old.at() < VALUE_CACHE_MS) return old.value();
+        long v = 0;
+        MagicCodexLink codex = plugin.codex();
+        String raw = codex == null ? null : codex.placeholder(p, placeholder);
+        if (raw != null && !raw.equals(placeholder)) {
+            String digits = org.bukkit.ChatColor.stripColor(raw).replaceAll("[^0-9-]", "");
+            try { if (!digits.isEmpty()) v = Long.parseLong(digits); } catch (NumberFormatException ignored) { }
+        }
+        if (values.size() > 4000) values.clear();
+        values.put(key, new ValueRead(now, v));
+        return v;
     }
 
     // ================================================================ 장 공개 제한
@@ -462,6 +538,7 @@ final class QuestEngine implements Listener {
     private void enter(Player p, P st, String stepId, boolean tell) {
         UUID uuid = p.getUniqueId();
         st.enter(stepId);
+        assignPicks(st, defs.get(stepId));
         mustLeave.remove(uuid);
         guiding.remove(uuid);
         follows.remove(uuid);
@@ -580,7 +657,7 @@ final class QuestEngine implements Listener {
         if (now < retryAt.getOrDefault(uuid, 0L)) return;
         if (!st.submitted && hasSubmit(s)) {
             if (submitting.contains(uuid)) return;
-            for (Cond c : s.conds) if (c.type() == CondType.SUBMIT && countItems(p, c.target()) < c.required()) return;
+            for (int i = 0; i < s.conds.size(); i++) { Cond c = s.conds.get(i); if (c.submits() && countItems(p, targetOf(st, i, c)) < c.required()) return; }
             // 제출: "걷었음"을 먼저 디스크에 저장하고, 저장이 끝난 뒤 개수를 다시 세서 걷는다 (이중 차감 없음).
             // 저장 뒤 ~ 걷기 전에 서버가 멈추면 아이템은 남고 단계는 진행된다 (손해는 서버 쪽).
             st.submitted = true;
@@ -628,7 +705,7 @@ final class QuestEngine implements Listener {
         if (st.run != run || !st.submitted || !st.step.equals(s.id)) return;
         Player p = Bukkit.getPlayer(uuid);
         boolean enough = p != null && p.isOnline();
-        if (enough) for (Cond c : s.conds) if (c.type() == CondType.SUBMIT && countItems(p, c.target()) < c.required()) { enough = false; break; }
+        if (enough) for (int i = 0; i < s.conds.size(); i++) { Cond c = s.conds.get(i); if (c.submits() && countItems(p, targetOf(st, i, c)) < c.required()) { enough = false; break; } }
         if (!enough) {
             st.submitted = false;
             saveSoon(null);
@@ -637,14 +714,14 @@ final class QuestEngine implements Listener {
             if (p != null && p.isOnline()) ChacaLink.fail(p, "가져갈 아이템이 부족해요", null);
             return;
         }
-        for (Cond c : s.conds) if (c.type() == CondType.SUBMIT) takeItems(p, c.target(), c.required());
+        for (int i = 0; i < s.conds.size(); i++) { Cond c = s.conds.get(i); if (c.submits()) takeItems(p, targetOf(st, i, c), c.required()); }
         try { p.saveData(); } catch (RuntimeException ex) { plugin.getLogger().log(Level.WARNING, "[스토리 단계] " + p.getName() + " 제출 뒤 플레이어 데이터 저장 실패", ex); }
         itemScans.remove(uuid);
         if (st.phase == Phase.ACTIVE) fire(p, st, s, why);
     }
 
     private static boolean hasSubmit(Step s) {
-        for (Cond c : s.conds) if (c.type() == CondType.SUBMIT) return true;
+        for (Cond c : s.conds) if (c.submits()) return true;
         return false;
     }
 
@@ -662,12 +739,16 @@ final class QuestEngine implements Listener {
             if (old == null || now - old.at() > ITEM_RESCAN_MS) itemScans.put(p.getUniqueId(), old = new ItemScan(now, new HashMap<>()));
             scan = old.counts();
         }
+        // 랜덤제출이 아직 안 뽑혔으면 (배포 전에 들어온 단계, 후보 목록을 나중에 넣음) 지금 뽑는다
+        if (assignPicks(st, s)) { saveSoon(null); if (p != null) needStep.add(p.getUniqueId()); }
         for (int i = 0; i < out.length; i++) {
             Cond c = s.conds.get(i);
             Map<String, Integer> sc = scan;
+            String target = targetOf(st, i, c);
             int v = switch (c.type()) {
                 case ITEM -> p == null ? 0 : sc == null ? countItems(p, c.target()) : sc.computeIfAbsent(c.target(), t -> countItems(p, t));
-                case SUBMIT -> st.submitted ? c.required() : p == null ? 0 : sc == null ? countItems(p, c.target()) : sc.computeIfAbsent(c.target(), t -> countItems(p, t));
+                case SUBMIT, RANDOM -> st.submitted ? c.required() : p == null || target.isEmpty() ? 0 : sc == null ? countItems(p, target) : sc.computeIfAbsent(target, t -> countItems(p, t));
+                case VALUE -> (int) Math.min(Integer.MAX_VALUE, Math.max(0, valueOf(p, c.target())));
                 case INTERACT -> st.hits.getOrDefault(i, Set.of()).size();
                 case PERMISSION -> p != null && p.hasPermission(c.target()) ? c.required() : 0;
                 default -> st.counts.getOrDefault(i, 0);
@@ -1217,7 +1298,7 @@ final class QuestEngine implements Listener {
         }
         int[] cur = currents(p, st, s, true);
         boolean r = isReadyFrom(s, cur) && st.phase == Phase.ACTIVE && !chapterLocked(s);
-        p.sendPluginMessage(plugin, QuestCodec.STEP, QuestCodec.step(view(session, s, st.run, cur, r)));
+        p.sendPluginMessage(plugin, QuestCodec.STEP, QuestCodec.step(view(session, s, st.run, cur, r, true, st.picks)));
         sentKey.put(uuid, st.run + ":" + isReadyFrom(s, cur) + ":" + java.util.Arrays.toString(cur));
         sendPoints(p, session, st, s, true);
     }
@@ -1297,10 +1378,10 @@ final class QuestEngine implements Listener {
         return out;
     }
 
-    private QuestCodec.StepView view(int session, Step s, int run, int[] cur, boolean readyFlag) { return view(session, s, run, cur, readyFlag, true); }
+    private QuestCodec.StepView view(int session, Step s, int run, int[] cur, boolean readyFlag) { return view(session, s, run, cur, readyFlag, true, Map.of()); }
 
     /** gated = false: 운영자 미리보기 (잠긴 장의 포탈·NPC 위치도 보여 준다). */
-    private QuestCodec.StepView view(int session, Step s, int run, int[] cur, boolean readyFlag, boolean gated) {
+    private QuestCodec.StepView view(int session, Step s, int run, int[] cur, boolean readyFlag, boolean gated, Map<Integer, String> picks) {
         if (gated && chapterLocked(s)) {
             // 공개 전인 장: 장 이름·설명·목표 위치를 보내지 않는다 (미리 보이지 않게, 포탈·징표 없음)
             return new QuestCodec.StepView(session, s.id, run, "스토리", gate.title, false, List.of(), QuestCodec.TARGET_NONE, "", 0, 0, 0, 0, "");
@@ -1308,7 +1389,7 @@ final class QuestEngine implements Listener {
         List<QuestCodec.CondView> conds = new ArrayList<>();
         for (int i = 0; i < s.conds.size(); i++) {
             Cond c = s.conds.get(i);
-            if (!c.hidden()) conds.add(new QuestCodec.CondView(c.display(), cur.length > i ? cur[i] : 0, c.required()));
+            if (!c.hidden()) conds.add(new QuestCodec.CondView(c.type() == CondType.RANDOM ? c.displayPicked(picks.get(i)) : c.display(), cur.length > i ? cur[i] : 0, c.required()));
         }
         Trigger t = s.trigger;
         int type = QuestCodec.TARGET_NONE;
@@ -1558,7 +1639,7 @@ final class QuestEngine implements Listener {
         int session = sessions.merge(p.getUniqueId(), 1, Integer::sum);
         int[] cur = new int[s.conds.size()];
         for (int i = 0; i < cur.length; i++) cur[i] = s.conds.get(i).required();
-        p.sendPluginMessage(plugin, QuestCodec.STEP, QuestCodec.step(view(session, s, 0, cur, true, false)));
+        p.sendPluginMessage(plugin, QuestCodec.STEP, QuestCodec.step(view(session, s, 0, cur, true, false, Map.of())));
     }
 
     private void endPreview(Player p) {
@@ -1598,8 +1679,8 @@ final class QuestEngine implements Listener {
                 .executes(ctx -> edit(ctx, s -> s.next = idArg(ctx, "다음단계"), "다음 단계"))));
 
         var cond = Commands.literal("조건");
-        cond.then(Commands.literal("추가").then(Commands.argument("종류", ChacaLink.word(() -> List.of("아이템", "제출", "처치", "상호작용", "대화완료", "신호", "권한")))
-                .then(Commands.argument("대상", ChacaLink.word(() -> List.of("손", "*", "블록지정", "교화성공", "낚시성공", "연금술성공", "승급성공", "기숙사배정", "내방열기", "chacademi.story.duel")))
+        cond.then(Commands.literal("추가").then(Commands.argument("종류", ChacaLink.word(() -> List.of("아이템", "제출", "처치", "상호작용", "대화완료", "신호", "권한", "값", "랜덤제출")))
+                .then(Commands.argument("대상", ChacaLink.word(() -> List.of("손", "*", "블록지정", "교화성공", "낚시성공", "연금술성공", "승급성공", "결투승리", "큐디치참가", "변색종교화", "원소반응", "마력코어제작", "던전클리어", "몬스터기록", "기숙사배정", "내방열기", "chacademi.story.duel")))
                         .then(Commands.argument("개수", IntegerArgumentType.integer(1, 10000))
                                 .executes(ctx -> cmdCondAdd(ctx, ""))
                                 .then(Commands.argument("표시", StringArgumentType.greedyString())
@@ -1667,7 +1748,7 @@ final class QuestEngine implements Listener {
 
         ChacaLink.branch(plugin, ChacaLink.대화관리, Commands.literal("신호")
                 .then(Commands.argument("닉네임", ChacaLink.player())
-                        .then(Commands.argument("키", ChacaLink.word(() -> List.of("교화성공", "낚시성공", "물고기판매", "연금술성공", "승급성공", "기숙사배정", "내방열기", "지도열기", "웨이포인트등록", "튜토리얼재료구매")))
+                        .then(Commands.argument("키", ChacaLink.word(() -> List.of("교화성공", "낚시성공", "물고기판매", "연금술성공", "승급성공", "결투승리", "큐디치참가", "변색종교화", "원소반응", "마력코어제작", "던전클리어", "몬스터기록", "기숙사배정", "내방열기", "지도열기", "웨이포인트등록", "튜토리얼재료구매")))
                                 .executes(ctx -> cmdSignal(ctx, 1))
                                 .then(Commands.argument("개수", IntegerArgumentType.integer(1, 10000))
                                         .executes(ctx -> cmdSignal(ctx, ctx.getArgument("개수", Integer.class)))))),
@@ -1804,8 +1885,9 @@ final class QuestEngine implements Listener {
         for (int i = 0; i < s.conds.size(); i++) {
             Cond c = s.conds.get(i);
             if (c.type() == CondType.INTERACT && c.blocks().isEmpty()) out.add("조건 " + (i + 1) + " 상호작용 블록 미지정 (/대화관리 단계 " + s.id + " 조건 블록지정 " + (i + 1) + ")");
-            if (c.type() == CondType.SIGNAL && !List.of("교화성공", "낚시성공", "연금술성공", "승급성공", "내방열기").contains(c.target()))
+            if (c.type() == CondType.SIGNAL && !List.of("교화성공", "낚시성공", "연금술성공", "승급성공", "결투승리", "큐디치참가", "변색종교화", "원소반응", "마력코어제작", "던전클리어", "몬스터기록", "내방열기").contains(c.target()))
                 out.add("조건 " + (i + 1) + " 신호 " + c.target() + " 는 자동으로 보내는 기능이 없음 (관리자 /대화관리 신호 로만 채워짐)");
+            if (c.type() == CondType.RANDOM && !pools.containsKey(c.target())) out.add("조건 " + (i + 1) + " 랜덤제출 후보 목록 " + c.target() + " 이(가) random-pools.yml 에 없음 (채울 수 없음)");
         }
         if (!s.next.isEmpty() && defs.get(s.next) == null) out.add("다음 단계 " + s.next + " 없음");
         // 기숙사 분류: 6문항 대화(ch1-14)의 끝 명령이 결정을 실행해야 배정된다 (dialogues/server_command.yml)
@@ -1880,7 +1962,7 @@ final class QuestEngine implements Listener {
         Step s = step(ctx);
         if (s.conds.size() >= QuestDefs.MAX_CONDITIONS) throw ChacaLink.error("조건은 " + QuestDefs.MAX_CONDITIONS + "개까지예요");
         CondType type = CondType.of(ctx.getArgument("종류", String.class));
-        if (type == null) throw ChacaLink.error("종류는 아이템·제출·처치·상호작용·대화완료·신호·권한 중 하나예요");
+        if (type == null) throw ChacaLink.error("종류는 아이템·제출·처치·상호작용·대화완료·신호·권한·값·랜덤제출 중 하나예요");
         String target = ctx.getArgument("대상", String.class).strip();
         int amount = ctx.getArgument("개수", Integer.class);
         CommandSender sender = ctx.getSource().getSender();
@@ -1902,6 +1984,8 @@ final class QuestEngine implements Listener {
             case SIGNAL -> { if (!QuestDefs.KEY.matcher(target).matches()) throw ChacaLink.error("신호 이름은 글자·숫자·_·- 1~32자예요"); }
             case INTERACT -> target = "블록지정";
             case PERMISSION -> { if (!target.matches("[a-z0-9_.-]{1,64}")) throw ChacaLink.error("권한 노드는 영문 소문자·숫자·_·.·- 1~64자예요"); }
+            case VALUE -> { if (!target.matches("%[A-Za-z0-9_\\-:.]{1,60}%")) throw ChacaLink.error("값 조건의 대상은 %자리표시자% 예요 (예: %chacastory_petdex%)"); }
+            case RANDOM -> { if (!pools.containsKey(target)) throw ChacaLink.error("random-pools.yml 에 없는 후보 목록이에요: " + target); }
             case KILL -> { }
         }
         Cond c = new Cond(type, target, amount, label.strip(), false, List.of());

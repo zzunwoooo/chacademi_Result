@@ -1,0 +1,27 @@
+# 차카데미 대화 — Claude 작성 2026-10-29 (오너 2장 기획)
+format: 1
+id: "ch2-11"
+title: "2-11. 그레고르의 조사"
+description: "그레고르 교감에게 조사 의뢰를 받아요."
+chapter: "2장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  gregor:
+    name: "그레고르 교감"
+    npc: "vice_gregor"
+    portraits:
+      "기본": "vice_gregor-neutral.png"
+scenes:
+  a:
+    name: "조사"
+    lines:
+      - {who: gregor, face: "기본", text: "왔나. …마침 잘 왔네. 갑자기 조사할 게 생겼어."}
+      - {who: gregor, face: "기본", text: "최근 학교 밖 몬스터들 상태가 이상하다는 보고가 들어오고 있네."}
+      - {who: gregor, face: "기본", text: "샘플이 필요해. 내가 정해 주는 몬스터 전리품을 하나 구해 오게."}
+      - {who: gregor, face: "기본", text: "무엇을 가져와야 하는지는 목표 알림에 적어 두었네. 조심해서 다녀오게."}

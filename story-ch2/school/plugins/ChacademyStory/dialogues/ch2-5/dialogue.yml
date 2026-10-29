@@ -1,0 +1,27 @@
+# 차카데미 대화 — Claude 작성 2026-10-29 (오너 2장 기획)
+format: 1
+id: "ch2-5"
+title: "2-5. 벌써 잡아 왔나?"
+description: "펫 도감 20을 채우고 하르바 교수에게 돌아가요."
+chapter: "2장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  harva:
+    name: "하르바 교수"
+    npc: "teacher_harva"
+    portraits:
+      "기본": "teacher_harva-neutral.png"
+scenes:
+  a:
+    name: "변색종"
+    lines:
+      - {who: harva, face: "기본", text: "…벌써 잡아 왔나?"}
+      - {who: harva, face: "기본", text: "제법이군. 그럼 하나 더 알려 주지. 변색종이라는 것도 있다."}
+      - {who: harva, face: "기본", text: "같은 짐승인데 털빛이 다르게 태어난 녀석들이지. 드물고, 그만큼 경계심도 강하다."}
+      - {who: harva, face: "기본", text: "한 마리 잡아 와라. 그 녀석까지 달랠 수 있다면 교화는 제대로 익힌 거다."}

@@ -1,0 +1,24 @@
+# 차카데미 대화 — Claude 작성 2026-10-29 (오너 2장 기획)
+format: 1
+id: "ch2-19w-gregor"
+title: "2-19. 그레고르 (대기)"
+description: "아직 3클래스 승급 전일 때."
+chapter: "2장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  gregor:
+    name: "그레고르 교감"
+    npc: "vice_gregor"
+    portraits:
+      "기본": "vice_gregor-neutral.png"
+scenes:
+  a:
+    name: "아직"
+    lines:
+      - {who: gregor, face: "기본", text: "흐트러졌군. 다시 마나를 심장에 모으게. (/클래스승급)"}

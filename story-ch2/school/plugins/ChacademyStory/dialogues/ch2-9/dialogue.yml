@@ -1,0 +1,27 @@
+# 차카데미 대화 — Claude 작성 2026-10-29 (오너 2장 기획)
+format: 1
+id: "ch2-9"
+title: "2-9. 베르나의 연금술 과제"
+description: "베르나 교수에게 마력코어 과제를 받아요."
+chapter: "2장 · 차카데미아"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  berna:
+    name: "베르나 교수"
+    npc: "tc_berna"
+    portraits:
+      "기본": "tc_berna-neutral.png"
+scenes:
+  a:
+    name: "마력코어"
+    lines:
+      - {who: berna, face: "기본", text: "어머, 왔구나~ 엘레나 교수님이 칭찬을 엄청 하던걸?"}
+      - {who: berna, face: "기본", text: "이번엔 연금솥으로 마력코어를 하나 만들어 볼 거야. 마법 도구의 심장 같은 거지."}
+      - {who: berna, face: "기본", text: "레시피는 여러 가지가 있으니 아무거나 괜찮아. 만들어지기만 하면 돼~"}
+      - {who: berna, face: "기본", text: "다 만들면 나한테 보여 줘. 미감정 상태 그대로 가져오면 돼!"}
