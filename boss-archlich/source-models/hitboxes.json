@@ -1,0 +1,17 @@
+{
+  "archlich": {
+    "width": 1.4,
+    "height": 3.3,
+    "eye_height": 2.6,
+    "java": "EntityType.Builder.of(ArchlichEntity::new, MobCategory.MONSTER).sized(1.4f, 3.3f).eyeHeight(2.6f)",
+    "phase2_model": "archlich_p2.bbmodel",
+    "phase2_texture": "archlich_p2.png",
+    "note": "\uac19\uc740 \uc5d4\ud2f0\ud2f0. HP 50% \uc774\ud558\uc5d0\uc11c phase_shift \uc7ac\uc0dd \ud6c4 \ub05d\ub098\ub294 \uc21c\uac04 archlich_p2 \ubaa8\ub378\ub85c \uad50\uccb4\ud558\uace0 spawn(\uac01\uc131) \uc7ac\uc0dd. \ud788\ud2b8\ubc15\uc2a4\ub294 \ub450 \ud398\uc774\uc988 \ub3d9\uc77c."
+  },
+  "archlich_thrall": {
+    "width": 0.7,
+    "height": 1.95,
+    "eye_height": 1.7,
+    "java": "EntityType.Builder.of(ArchlichThrallEntity::new, MobCategory.MONSTER).sized(0.7f, 1.95f).eyeHeight(1.7f)"
+  }
+}

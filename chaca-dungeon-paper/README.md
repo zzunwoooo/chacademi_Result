@@ -15,7 +15,8 @@
 
 | 파일 | 내용 |
 |---|---|
-| `chaca-dungeon-paper/` (새 모듈) | 서버 플러그인 ChacaDungeon |
+| `chaca-dungeon-paper/` (새 모듈) | 서버 플러그인 ChacaDungeon (+ 보스 스킬용 MythicMobs 메커닉 `chavfx`) |
+| `boss-archlich/` (새) | 모르바스 보스·망자 병사 등록본 (모델·MythicMobs·VFX) — 그 폴더 README |
 | `chaca-dungeon-protocol/` (새) | 서버 ↔ 클라 메시지 형식 (둘이 같은 소스를 씀) |
 | `client-mods/chacademi-dungeon/` (새) | 클라 모드 (입장·대기·결과 창, 던전 메뉴, 은색 단계창, 포탈 홀로그램) + PNG 26장 |
 | `settings.gradle` | `chaca-dungeon-paper` 추가 |
@@ -118,6 +119,6 @@
 
 - 클리어 보상 아이템 (첫 클리어 / 반복) — 오너가 `/던전관리 보상` 으로 넣기.
 - 실제 단계 구성과 방·몹·기믹 (지금은 예시).
-- 모르바스 보스·망자 병사 등록 (ModelEngine·MythicMobs·VFX·스킬, 별도 작업) — 등록 전에는 보스 단계 소환이 실패(콘솔 경고)한다.
+- 모르바스 보스·망자 병사: `boss-archlich/README.md` (등록본 준비됨, 반영 전에는 보스 단계 소환이 실패·콘솔 경고).
 - 재접속 유예·중도 포기 환불·실패 보상: 오너 결정으로 **전부 없음**(실패 처리, 환불 없음). 바꾸려면 코드 수정 필요.
 - 포탈에서 멀어져도 대기는 항상 유지 (오너 결정). 멀어지면 취소하는 설정은 만들지 않았다.

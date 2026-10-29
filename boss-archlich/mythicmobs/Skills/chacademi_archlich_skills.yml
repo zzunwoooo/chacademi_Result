@@ -1,0 +1,217 @@
+# 무덤의 대현자 모르바스 + 망자 병사 — 스킬 (MythicMobs 5 + ModelEngine 4 + 차카데미 chatelegraph / chavfx)
+# 0초 = 애니메이션 시작 = 예고 시작 = VFX 시작. delay 는 틱(20틱 = 1초).
+# VFX 팩: ArchlichMorvath (1페이즈 초록 / _p2·storm·reap 진홍) → PortableVFX id = claude:archlichmorvath/<system>
+#
+# 2026-10-29 등록본 (초안 ★ 항목 확정):
+#  ★1 직선 = width/length, 부채꼴 = angle (TelegraphMech 실제 이름).
+#  ★2 chavfx{id=;r=;ticks=;tint=} = 예고 없이 VFX 만. ChacaDungeon 플러그인이 등록 (MagicMythic jar 는 안 바꿈).
+#     r 을 주면 그 반경(m)으로 키움(팩의 areaRadius 기준), 안 주면 만든 크기 그대로.
+#     ※ ArchlichMorvath 팩은 scale 모듈이 없음(scale: null) → r 을 쓰지 말 것. chatelegraph 도 vfxref = 반경(크기 1배)으로만 씀.
+#  ★3 영혼탄 투사체 VFX(bolt)는 움직이는 효과라 아직 서버 연결 없음 → 바닐라 파티클 + 명중 VFX(bolt_hit) 유지.
+#  ★4 상태이상 (16종 id): 영혼탄 mana_burn 40 · 저주 장판 recovery_seal 60 · 손아귀 균열 root 30 · 폭풍 폭발 fear 30 (제어 1.5초 이하).
+#  ★5 피해: chatelegraph 는 flat= 가 피해량 (초안의 flat=true 는 0 피해였음). 기존 몹 스킬 범위(2~13)에 맞춘 초안 수치 그대로.
+#  - 보스바 제목·색 바꾸는 메커닉은 MythicMobs 에 없어 뺐다 (setbossbartitle/color).
+#  - 2페이즈 병사 표시를 world 변수 → 병사 자신의 변수(caster.p2)로: 같은 월드에 던전 칸이 3개라 다른 칸과 섞이지 않게.
+#  - 병사 베기: 예고 없는 chatelegraph(warn=false, 플레이어만) — 보스·다른 병사를 때리지 않게.
+
+# ============================================================ 공통
+CHA_ARCHLICH_SPAWN_LOCK:            # 등장 3초 동안 움직이지 않음 (spawn 애니)
+  Skills:
+  - setvariable{var=caster.busy;value=1;type=INTEGER} @self
+  - setAI{ai=false} @self
+  - delay 60
+  - setAI{ai=true} @self
+  - setvariable{var=caster.busy;value=0;type=INTEGER} @self
+
+CHA_ARCHLICH_BEGIN:                 # 시전 시작: 바쁨 표시 + 제자리 고정
+  Skills:
+  - setvariable{var=caster.busy;value=1;type=INTEGER} @self
+  - setAI{ai=false} @self
+CHA_ARCHLICH_END:
+  Skills:
+  - setAI{ai=true} @self
+  - setvariable{var=caster.busy;value=0;type=INTEGER} @self
+
+CHA_ARCHLICH_AI:                    # 2초마다 호출, 페이즈에 따라 스킬 하나
+  Conditions:
+  - variableequals{var=caster.busy;value=0}
+  Skills:
+  - skill{s=CHA_ARCHLICH_AI_P1} @target ?variableequals{var=caster.phase;value=1}
+  - skill{s=CHA_ARCHLICH_AI_P2} @target ?variableequals{var=caster.phase;value=2}
+CHA_ARCHLICH_AI_P1:
+  Skills:
+  - randomskill{skills=CHA_ARCHLICH_BOLT,CHA_ARCHLICH_BOLT,CHA_ARCHLICH_CURSE,CHA_ARCHLICH_SUMMON_TRY} @target
+CHA_ARCHLICH_AI_P2:
+  Skills:
+  - randomskill{skills=CHA_ARCHLICH_BOLT_P2,CHA_ARCHLICH_CURSE_P2,CHA_ARCHLICH_STORM,CHA_ARCHLICH_REAP,CHA_ARCHLICH_SUMMON_TRY_P2} @target
+
+# ============================================================ 1) 영혼탄 (attack 1.2초, 0.55초 발사) — 예고 없음(단일 대상 투사체)
+CHA_ARCHLICH_BOLT:
+  Cooldown: 3
+  Skills:
+  - skill{s=CHA_ARCHLICH_BEGIN} @self
+  - state{s=attack;li=0;lo=3} @self
+  - delay 11
+  - projectile{onTick=CHA_ARCHLICH_BOLT_TICK;onHit=CHA_ARCHLICH_BOLT_HIT;onEnd=CHA_ARCHLICH_BOLT_END;v=18;i=1;hR=0.8;vR=0.8;md=30;sy=2.9;sfo=0.9;g=0} @target
+  - delay 13
+  - skill{s=CHA_ARCHLICH_END} @self
+CHA_ARCHLICH_BOLT_TICK:
+  Skills:
+  - effect:particles{p=soul_fire_flame;a=6;hs=0.15;vs=0.15;s=0.01} @origin
+  - effect:particles{p=dust;color=#78FFAA;size=1.2;a=4;hs=0.25;vs=0.25} @origin
+CHA_ARCHLICH_BOLT_HIT:
+  Skills:
+  - damage{a=8} @target
+  - chastatus{type=mana_burn;ticks=40} @target
+CHA_ARCHLICH_BOLT_END:
+  Skills:
+  - chavfx{id=ArchlichMorvath/bolt_hit} @origin
+
+# ============================================================ 2) 망자 소환 (skill_summon 2.4초) — 원 r4 보스 중심, 1.3초
+CHA_ARCHLICH_SUMMON_TRY:            # 주변 병사가 6마리 미만일 때만, 아니면 저주 장판
+  Skills:
+  - skill{s=CHA_ARCHLICH_SUMMON} @target ?mobsinradius{types=CA_Mob_ArchlichThrall;a=<6;r=24}
+  - skill{s=CHA_ARCHLICH_CURSE} @target ?!mobsinradius{types=CA_Mob_ArchlichThrall;a=<6;r=24}
+CHA_ARCHLICH_SUMMON:
+  Cooldown: 14
+  Skills:
+  - skill{s=CHA_ARCHLICH_BEGIN} @self
+  - state{s=skill_summon;li=0;lo=3} @self
+  - chatelegraph{shape=circle;at=self;r=4;ticks=26;flat=10;knock=0.8;element=dark;vfx=ArchlichMorvath/summon;vfxref=4;vfxlead=2;spell=mob_archlich_summon} @self
+  - delay 26
+  - skill{s=CHA_ARCHLICH_GRAVE} @RandomLocationsNearCaster{a=3;minr=2.5;r=4.5;s=1}
+  - delay 22
+  - skill{s=CHA_ARCHLICH_END} @self
+CHA_ARCHLICH_GRAVE:                 # 소환 지점 하나: 무덤 VFX → 0.45초 뒤 병사가 땅에서 솟음
+  Skills:
+  - chavfx{id=ArchlichMorvath/grave} @origin
+  - delay 9
+  - summon{type=CA_Mob_ArchlichThrall;amount=1;noise=0} @origin
+
+CHA_ARCHLICH_SUMMON_TRY_P2:
+  Skills:
+  - skill{s=CHA_ARCHLICH_SUMMON_P2} @target ?mobsinradius{types=CA_Mob_ArchlichThrall;a=<6;r=24}
+  - skill{s=CHA_ARCHLICH_CURSE_P2} @target ?!mobsinradius{types=CA_Mob_ArchlichThrall;a=<6;r=24}
+CHA_ARCHLICH_SUMMON_P2:
+  Cooldown: 12
+  Skills:
+  - skill{s=CHA_ARCHLICH_BEGIN} @self
+  - state{s=skill_summon;li=0;lo=3} @self
+  - chatelegraph{shape=circle;at=self;r=4;ticks=26;flat=10;knock=0.8;element=dark;vfx=ArchlichMorvath/summon_p2;vfxref=4;vfxlead=2;spell=mob_archlich_summon} @self
+  - delay 26
+  - skill{s=CHA_ARCHLICH_GRAVE_P2} @RandomLocationsNearCaster{a=3;minr=2.5;r=4.5;s=1}
+  - delay 22
+  - skill{s=CHA_ARCHLICH_END} @self
+CHA_ARCHLICH_GRAVE_P2:
+  Skills:
+  - chavfx{id=ArchlichMorvath/grave_p2} @origin
+  - delay 9
+  - summon{type=CA_Mob_ArchlichThrall;amount=1;noise=0} @origin
+  - delay 1
+  - setvariable{var=target.p2;value=1;type=INTEGER} @MobsNearOrigin{types=CA_Mob_ArchlichThrall;r=1.5}   # 2페이즈 병사 = 진홍 베기
+
+# ============================================================ 3) 저주 장판 (skill_curse 2.0초) — 원 r5 대상 발밑, 1.5초
+CHA_ARCHLICH_CURSE:
+  Cooldown: 8
+  Skills:
+  - skill{s=CHA_ARCHLICH_BEGIN} @self
+  - state{s=skill_curse;li=0;lo=3} @self
+  - chatelegraph{shape=circle;at=target;r=5;ticks=30;flat=12;element=dark;status=recovery_seal:60;vfx=ArchlichMorvath/curse;vfxref=5;vfxlead=2;spell=mob_archlich_curse} @target
+  - delay 40
+  - skill{s=CHA_ARCHLICH_END} @self
+CHA_ARCHLICH_CURSE_P2:
+  Cooldown: 7
+  Skills:
+  - skill{s=CHA_ARCHLICH_BEGIN} @self
+  - state{s=skill_curse;li=0;lo=3} @self
+  - chatelegraph{shape=circle;at=target;r=5;ticks=30;flat=12;element=dark;status=recovery_seal:60;vfx=ArchlichMorvath/curse_p2;vfxref=5;vfxlead=2;spell=mob_archlich_curse} @target
+  - delay 40
+  - skill{s=CHA_ARCHLICH_END} @self
+
+# ============================================================ 2페이즈 영혼탄 (진홍)
+CHA_ARCHLICH_BOLT_P2:
+  Cooldown: 2.5
+  Skills:
+  - skill{s=CHA_ARCHLICH_BEGIN} @self
+  - state{s=attack;li=0;lo=3} @self
+  - delay 11
+  - projectile{onTick=CHA_ARCHLICH_BOLT_TICK_P2;onHit=CHA_ARCHLICH_BOLT_HIT_P2;onEnd=CHA_ARCHLICH_BOLT_END_P2;v=20;i=1;hR=0.8;vR=0.8;md=30;sy=2.9;sfo=0.9;g=0} @target
+  - delay 13
+  - skill{s=CHA_ARCHLICH_END} @self
+CHA_ARCHLICH_BOLT_TICK_P2:
+  Skills:
+  - effect:particles{p=dust;color=#FF3050;size=1.3;a=6;hs=0.2;vs=0.2} @origin
+  - effect:particles{p=soul;a=2;hs=0.1;vs=0.1;s=0.01} @origin
+CHA_ARCHLICH_BOLT_HIT_P2:
+  Skills:
+  - damage{a=10} @target
+  - chastatus{type=mana_burn;ticks=40} @target
+CHA_ARCHLICH_BOLT_END_P2:
+  Skills:
+  - chavfx{id=ArchlichMorvath/bolt_hit_p2} @origin
+
+# ============================================================ 4) 영혼 폭풍 (2페이즈, skill_storm 3.2초) — 원 r8 보스 중심
+CHA_ARCHLICH_STORM:
+  Cooldown: 16
+  Skills:
+  - skill{s=CHA_ARCHLICH_BEGIN} @self
+  - state{s=skill_storm;li=0;lo=3} @self
+  - chavfx{id=ArchlichMorvath/storm;ticks=80} @self                         # VFX 하나가 3.2초 전체
+  - chatelegraph{shape=circle;at=self;r=8;ticks=20;flat=4;element=dark;spell=mob_archlich_storm} @self    # 1.0초 펄스
+  - delay 20
+  - chatelegraph{shape=circle;at=self;r=8;ticks=12;flat=4;element=dark;spell=mob_archlich_storm} @self    # 1.6초 펄스
+  - delay 12
+  - chatelegraph{shape=circle;at=self;r=8;ticks=12;flat=4;element=dark;spell=mob_archlich_storm} @self    # 2.2초 펄스
+  - delay 12
+  - chatelegraph{shape=circle;at=self;r=8;ticks=8;flat=12;knock=1.2;element=dark;status=fear:30;spell=mob_archlich_storm_burst} @self   # 2.6초 폭발
+  - delay 20
+  - skill{s=CHA_ARCHLICH_END} @self
+
+# ============================================================ 5) 사신의 손아귀 (2페이즈, skill_reap 2.4초) — 보스 정면
+CHA_ARCHLICH_REAP:
+  Cooldown: 10
+  Skills:
+  - skill{s=CHA_ARCHLICH_BEGIN} @self
+  - look{} @target
+  - state{s=skill_reap;li=0;lo=3} @self
+  - chatelegraph{shape=line;at=self;width=4;length=14;ticks=17;flat=14;element=dark;status=root:30;vfx=ArchlichMorvath/reap;vfxref=14;vfxlead=2;spell=mob_archlich_reap_slam} @target    # 0.85초 균열
+  - chatelegraph{shape=cone;at=self;r=6.5;angle=150;ticks=29;flat=12;element=dark;spell=mob_archlich_reap_slash} @target   # 1.45초 낫 베기
+  - delay 48
+  - skill{s=CHA_ARCHLICH_END} @self
+
+# ============================================================ 2페이즈 전환 (HP 50%)
+CHA_ARCHLICH_PHASE2:
+  Skills:
+  - setvariable{var=caster.phase;value=2;type=INTEGER} @self
+  - setvariable{var=caster.busy;value=1;type=INTEGER} @self
+  - setAI{ai=false} @self
+  - potion{type=RESISTANCE;lvl=4;duration=110;p=false} @self            # 전환 5.4초 동안 거의 무적
+  - state{s=phase_shift;li=0;lo=0} @self
+  - delay 60                                                             # phase_shift 3.0초 끝 = 웅크린 자세
+  - model{mid=ca_archlich;remove=true} @self
+  - model{mid=ca_archlich_p2;hb=true;n=false} @self
+  - state{s=spawn;li=0;lo=3} @self                                       # 각성 2.4초
+  - chavfx{id=ArchlichMorvath/storm;ticks=60} @self                     # 교체 순간을 덮는 폭발 (전용 VFX 없음 → 폭풍. 팩에 크기 모듈이 없어 원래 크기 r8)
+  - delay 48
+  - setAI{ai=true} @self
+  - setvariable{var=caster.busy;value=0;type=INTEGER} @self
+
+CHA_ARCHLICH_DEATH:
+  Skills:
+  - state{s=death;li=0;lo=0} @self
+  - damage{a=9999;ia=true} @MobsInRadius{types=CA_Mob_ArchlichThrall;r=40}   # 보스가 죽으면 병사도 무너짐
+
+# ============================================================ 망자 병사
+CHA_ARCHLICH_THRALL_SPAWN_LOCK:     # spawn 1.6초 동안 정지
+  Skills:
+  - setAI{ai=false} @self
+  - delay 32
+  - setAI{ai=true} @self
+
+CHA_ARCHLICH_THRALL_SLASH:          # attack 1.0초, 0.45초 베기. 근접(체술) → 빨간 예고 없음, 플레이어만
+  Cooldown: 1.6
+  Skills:
+  - state{s=attack;li=0;lo=2} @self
+  - chavfx{id=ArchlichMorvath/thrall_slash} @self ?!variableequals{var=caster.p2;value=1}
+  - chavfx{id=ArchlichMorvath/thrall_slash_p2} @self ?variableequals{var=caster.p2;value=1}
+  - chatelegraph{shape=cone;at=self;r=2.6;angle=100;ticks=9;warn=false;flat=5;element=dark;spell=mob_archlich_thrall} @target

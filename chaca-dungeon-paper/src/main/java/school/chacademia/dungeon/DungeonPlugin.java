@@ -51,6 +51,9 @@ public final class DungeonPlugin extends JavaPlugin {
             catch (java.io.IOException e) { getLogger().fine("잘못된 던전 메시지 " + player.getName() + ": " + e.getMessage()); }
         });
         getServer().getPluginManager().registerEvents(new DungeonListener(service), this);
+        // 보스 스킬용 MythicMobs 메커닉 chavfx (예고 없이 VFX 만). MythicMobs 가 스킬을 읽기 전에 등록돼야 한다 (softdepend 로 뒤에 켜짐, 스킬은 서버 시작 뒤 읽힘).
+        if (getServer().getPluginManager().getPlugin("MythicMobs") != null)
+            getServer().getPluginManager().registerEvents(new VfxMechanic(getLogger()), this);
         Bukkit.getScheduler().runTaskTimer(this, service::tick, 20L, 10L);
         if (ChacaLink.ready()) {
             try { new AdminCommands(this).register(); }

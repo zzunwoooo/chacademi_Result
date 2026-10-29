@@ -1,6 +1,6 @@
 # feature/dungeon-lich-20261029 — 1인 던전 (리치의 지하 연구실)
 
-이 브랜치 = 아래 2장 브랜치 + 1인 던전. 던전 설명·반영 순서·확인 결과는 **`chaca-dungeon-paper/README.md`**.
+이 브랜치 = 아래 2장 브랜치 + 1인 던전 + 모르바스 보스. 던전 = **`chaca-dungeon-paper/README.md`**, 보스 = **`boss-archlich/README.md`**.
 2장 steps.yml 의 ch2-21·ch2-22 에 던전 입장 권한 시작명령을 더했다.
 
 ---
