@@ -1,0 +1,37 @@
+plugins { id 'java' }
+group = 'school.chacademia'
+version = '0.1.0-lich-20261029'
+base { archivesName = 'chaca-dungeon' }
+repositories {
+    if (findProperty('localDependencyRepo')) maven { url = uri(property('localDependencyRepo')) }
+    mavenCentral()
+    maven { url = 'https://repo.papermc.io/repository/maven-public/' }
+}
+// MythicMobs: 서버에 있는 jar 로 컴파일만 (같이 넣지 않음). 다른 경로면 -PmythicJar=... 로 바꾼다.
+def mythicJar = findProperty('mythicJar') ?: 'C:/Chacademi/network/wild1/plugins/MythicMobs-5.9.0.jar'
+dependencies {
+    compileOnly 'io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT'
+    compileOnly files(mythicJar)
+    // MagicCodexBridge(보상 전달·닉네임·명령 허브)·ChacaGimmick·ItemsAdder 는 리플렉션으로만 부른다 (배포 jar 가 소스와 달라도 안전).
+    // 드라이버만 (딸린 jna·waffle·slf4j 는 넣지 않는다: 서버 쪽과 겹침)
+    implementation('org.mariadb.jdbc:mariadb-java-client:3.5.1') { transitive = false }
+    testImplementation 'io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT'
+    testImplementation platform('org.junit:junit-bom:5.11.4')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+sourceSets.main.java.srcDir '../chaca-dungeon-protocol/src/main/java'
+sourceSets.main.java.srcDir '../magic-codex-database/src/main/java'
+jar {
+    from { configurations.runtimeClasspath.collect { zipTree(it) } }
+    exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+java { toolchain.languageVersion = JavaLanguageVersion.of(21) }
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8'; options.release = 21 }
+test { useJUnitPlatform() }
+processResources {
+    filteringCharset = 'UTF-8'
+    inputs.property 'version', project.version
+    filesMatching('plugin.yml') { expand version: project.version }
+}

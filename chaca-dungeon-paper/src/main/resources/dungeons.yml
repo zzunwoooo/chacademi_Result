@@ -1,0 +1,45 @@
+# 던전 정의. 위치·구역·방·보스·기믹·보상은 인게임 /던전관리 명령으로 채우는 것을 권장 (/던전관리 선택 <던전> <칸번호> 먼저).
+# 단계(stages)는 여기서 직접 적고 /서버관리 새로고침 던전입장.
+#
+# 단계 종류 (type):
+#   room    : 방(target) 안의 몬스터를 모두 처치
+#   kill    : 몹(target = MythicMobs 내부 이름, 바닐라는 minecraft:zombie, 아무거나는 *) 을 count 마리 처치 (이 칸 안에서)
+#   boss    : 보스(target = /던전관리 보스 로 등록한 이름) 를 단계 시작 때 소환하고 처치
+#             예) /던전관리 보스 lich CA_Boss_Archlich  (모르바스 — 2페이즈는 같은 몹 안에서 바뀌므로 죽음은 한 번)
+#   gimmick : 기믹(target = /던전관리 기믹 으로 등록한 이름) 이 열림 (문·상자·다리·발판)
+#   reach   : 지점(target = /던전관리 지점 으로 등록한 이름) 반경 radius 안에 도착
+# start-commands: 단계 시작 때 콘솔 명령 ({player} = 계정 이름)
+dungeons:
+  lich_lab:
+    name: 리치의 지하 연구실
+    subtitle: 언데드 리치가 숨어든 지하 흑마법 연구실
+    world: dungeon1
+    # 이 권한이 있어야 입장 (2장 ch2-21 시작 때 스토리가 줌). 비우면 누구나.
+    permission: chacademi.dungeon.enter.lich_lab
+    lock-message: 2장 이야기를 진행하면 열려요.
+    ticket:
+      item: item:dungeon_ticket
+      amount: 1
+      # 첫 클리어 전까지는 입장권 없이 입장 (스토리 첫 입장)
+      free-until-first-clear: true
+    instances: 3
+    portal: ''
+    portal-radius: 2.5
+    exit: ''
+    # 클리어 때 콘솔 명령 ({player} = 계정 이름). 2장 스토리 신호.
+    clear-commands:
+    - 유저관리 {player} 스토리신호 던전클리어
+    rewards:
+      first: []
+      repeat: []
+    stages:
+    # ↓ 배치 확인용 예시 단계 (확정 기획 아님 — 오너가 정해서 바꾼다)
+    - name: 연구실 입구
+      goal: 입구를 지키는 언데드를 모두 처치하세요
+      type: room
+      target: entrance
+    - name: 모르바스
+      goal: 무덤의 대현자 모르바스를 처치하세요
+      type: boss
+      target: lich
+    slots: {}

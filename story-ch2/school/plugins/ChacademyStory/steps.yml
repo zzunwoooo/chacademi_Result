@@ -840,6 +840,10 @@
     대화: ch2-21
     컷신: ''
     다음: ch2-22
+    # 리치의 지하 연구실 입장 허가 (ChacaDungeon 이 이 권한을 보고 입장창을 연다, 2026-10-29)
+    시작명령:
+    - lp user {player} permission set chacademi.dungeon.enter.lich_lab true
+    시작명령-한번: false
     대기대화:
     - NPC: 15
       대화: ch2-21w-gregor
@@ -852,3 +856,7 @@
     대화: ''
     컷신: ''
     다음: ''
+    # 던전 입장 허가 유지 (클리어 뒤에도 반복 입장 가능, 2026-10-29)
+    시작명령:
+    - lp user {player} permission set chacademi.dungeon.enter.lich_lab true
+    시작명령-한번: false

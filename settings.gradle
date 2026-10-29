@@ -16,3 +16,6 @@ include 'housing-presence-velocity'
 
 // 운영 대시보드 (메모 #92): 게임과 따로 도는 웹 앱
 include 'ops-dashboard'
+
+// 1인 던전 (2026-10-29): 입장·대기열·인스턴스·기록·보상. 화면은 client-mods/chacademi-dungeon
+include 'chaca-dungeon-paper'

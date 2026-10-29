@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "chacademi_dungeon",
+  "version": "${version}",
+  "name": "Chacademi Dungeon",
+  "description": "차카데미 1인 던전 화면 (입장·대기열·던전 메뉴·진행 단계·결과·포탈)",
+  "authors": ["Chacademi"],
+  "environment": "client",
+  "entrypoints": {
+    "client": ["kr.chacademi.dungeon.DungeonClient"]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.10",
+    "fabric-api": "*",
+    "minecraft": "1.21.4"
+  },
+  "suggests": {
+    "magiccodex": "*",
+    "chaca_story": "*"
+  }
+}

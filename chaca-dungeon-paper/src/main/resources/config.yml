@@ -1,0 +1,18 @@
+# ChacaDungeon 전체 설정. 던전마다의 설정은 dungeons.yml (인게임 /던전관리 명령으로 대부분 채운다).
+# 고친 뒤 /서버관리 새로고침 던전입장
+
+# 입장 준비 안내(자리가 났을 때)에 응답할 시간. 지나면 다음 사람에게 넘기고 대기 등록이 취소된다.
+offer-seconds: 60
+# 대기 중 접속을 끊으면 대기 등록을 취소한다 (false = 유지).
+cancel-queue-on-quit: true
+# 포탈 반경 안에 들어왔다고 볼 때 / 다시 열 수 있게 되는 거리 배수 (반경 × 이 값보다 멀어지면 다시 다가갔을 때 열림).
+portal-rearm-factor: 1.6
+
+# 도전 시작 판정: 도착한 뒤 이만큼 움직이면 시작 (블록). 움직이지 않아도 아래 초가 지나면 시작.
+start-move-distance: 0.6
+start-fallback-seconds: 10
+
+# 기록 저장 DB. MagicCodexBridge 의 공용 MariaDB 설정 파일을 그대로 읽는다 (없거나 sqlite 면 이 폴더의 records.db).
+database-file: ../MagicCodexBridge/player-state-database.properties
+# 칭호 이름·색 (MagicCodexBridge titles.yml)
+titles-file: ../MagicCodexBridge/titles.yml

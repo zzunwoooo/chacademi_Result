@@ -1,0 +1,12 @@
+name: ChacaDungeon
+version: '${version}'
+main: school.chacademia.dungeon.DungeonPlugin
+api-version: '1.21.4'
+description: 1인 던전 입장·대기열·인스턴스·기록·보상
+softdepend: [MagicCodexBridge, MythicMobs, ChacaGimmick, ItemsAdder, HuskSync, Multiverse-Core]
+permissions:
+  chacademi.dungeon.admin:
+    default: op
+  chacademi.dungeon.build:
+    description: 던전 월드에서 블록을 부수고 놓을 수 있음 (맵 작업용)
+    default: op
