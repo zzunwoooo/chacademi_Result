@@ -54,6 +54,8 @@ public final class DungeonClient implements ClientModInitializer {
         ClientPlayConnectionEvents.JOIN.register((h, s, c) -> c.execute(DungeonClient::clear));
         HudRenderCallback.EVENT.register(DungeonHud::render);
         WorldRenderEvents.AFTER_TRANSLUCENT.register(PortalRender::render);
+        WorldRenderEvents.AFTER_TRANSLUCENT.register(WorldDraw::render);
+        Placing.install();
         ClientTickEvents.END_CLIENT_TICK.register(DungeonClient::tick);
         ScreenEvents.AFTER_INIT.register((client, screen, w, h) -> {
             if (!hudScreen(screen)) return;
@@ -69,6 +71,7 @@ public final class DungeonClient implements ClientModInitializer {
         queue = new DungeonProtocol.Queue(DungeonProtocol.Q_NONE, "", 0, 0, 0, 0, 0, 0);
         run = DungeonProtocol.Run.NONE;
         portals = List.of();
+        EditorState.clear();
         Art.reset();
     }
 
@@ -116,6 +119,7 @@ public final class DungeonClient implements ClientModInitializer {
             case DungeonProtocol.RunMsg r -> { run = r.run(); runAt = now(); }
             case DungeonProtocol.ResultMsg r -> { pendingResult = r.result(); pendingResultAt = now(); }
             case DungeonProtocol.PortalsMsg p -> portals = p.portals();
+            case DungeonProtocol.JsonMsg j -> EditorState.receive(j.kind(), j.json());
             case DungeonProtocol.CloseMsg c -> {
                 pendingEntry = null;
                 if (mc.screen instanceof UiScreens.EntryScreen || mc.screen instanceof UiScreens.QueueScreen) mc.setScreen(null);

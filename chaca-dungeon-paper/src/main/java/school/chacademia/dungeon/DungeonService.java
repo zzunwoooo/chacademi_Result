@@ -56,11 +56,13 @@ final class DungeonService {
     private final Map<UUID, Location> respawnTo = new HashMap<>();
     private final Map<UUID, DungeonProtocol.Result> pendingResult = new HashMap<>();
     private final Map<String, Holder> bestCache = new HashMap<>();
+    final Doors doors;
     private final AtomicInteger sessions = new AtomicInteger((int) (System.nanoTime() & 0x3FFFFFFF));
     private int ticks;
 
     DungeonService(DungeonPlugin plugin, Hooks hooks, ItemsAdderItems items, Records records) {
         this.plugin = plugin; this.hooks = hooks; this.items = items; this.records = records;
+        this.doors = new Doors(plugin.getLogger(), new java.io.File(plugin.getDataFolder(), "doors-ledger.yml"));
     }
 
     private int session() { return sessions.incrementAndGet() & 0x7FFFFFFF; }
@@ -238,6 +240,7 @@ final class DungeonService {
             case DungeonProtocol.C_ENTER -> enter(p, a.session());
             case DungeonProtocol.C_QUEUE_JOIN -> queueJoin(p, a.session());
             case DungeonProtocol.C_QUEUE_LEAVE -> queueLeave(p);
+            case DungeonProtocol.C_EDIT -> plugin.editor().action(p, a.json());
             case DungeonProtocol.C_EXIT -> {
                 Run run = runs.get(p.getUniqueId());
                 if (run != null) finish(run, false, "중도 포기", false);
@@ -413,6 +416,9 @@ final class DungeonService {
         var def = d == null ? null : d.slots.get(run.slot.no);
         // 앞 판에서 남은 것 한 번 더 정리 (청크가 막 불러와진 뒤)
         if (def != null && def.region() != null) clean(p.getWorld(), def.region(), run);
+        // 문: 판 시작 때 전부 닫음 (처음부터 닫힘)
+        if (def != null) for (var door : def.doors.values()) doors.close(Doors.key(run.slot.dungeon, run.slot.no, door.name), p.getWorld(), door.box());
+        sendDoors(run, p);
         syncRun(run, p);
     }
 
@@ -432,6 +438,12 @@ final class DungeonService {
                 beginStage(run, d, def, 0, p);
             }
             if (run.startedAt == 0) return;
+        }
+        // 기믹과 연결한 문: 그 기믹이 열리면 문도 열림
+        for (var door : def.doors.values()) {
+            if (door.gimmick.isBlank()) continue;
+            String k = Doors.key(run.slot.dungeon, run.slot.no, door.name);
+            if (doors.closed(k) && hooks.gimmickOpen(d.world, def.gimmicks.get(door.gimmick))) openDoor(run, p, door.name);
         }
         Location at = p.getLocation();
         for (var room : def.rooms.values()) {
@@ -485,21 +497,41 @@ final class DungeonService {
     private void triggerRoom(Run run, Defs.Dungeon d, Defs.Slot def, Defs.Room room, Player p) {
         run.roomsTriggered.add(room.name);
         int spawned = 0;
-        for (var sp : room.spawns) {
-            Location at = sp.at.location();
-            if (at == null) continue;
-            for (int i = 0; i < sp.count; i++) {
-                Location l = at.clone().add((Math.random() - .5) * 2.4, 0, (Math.random() - .5) * 2.4);
-                Entity e = hooks.spawn(sp.mob, l.getBlock().isPassable() ? l : at);
+        World w = p.getWorld();
+        for (var z : room.zones) {
+            var spots = safeSpots(w, z.box(), z.count);
+            for (Location l : spots) {
+                Entity e = hooks.spawn(z.mob, l);
                 if (e != null) { track(run, e, room.name); spawned++; }
             }
+            if (spots.size() < z.count) plugin.getLogger().warning(run.slot.dungeon + " " + run.slot.no + "번 칸 방 " + room.name + ": 몹 구역에 안전한 땅이 모자라 "
+                    + spots.size() + "/" + z.count + "마리만 소환");
         }
+        run.roomTotals.put(room.name, spawned);
         if (spawned == 0) { roomCleared(run, d, def, room.name, p); return; }
-        if (room.lock) {
-            run.lockedRoom = room.name;
-            ChacaLink.notify(p, "warning", "dungeon:room", "출구가 봉인되었어요", "이 방의 몬스터를 모두 처치해야 나갈 수 있어요.", 0);
-        }
         syncRun(run, p);
+    }
+
+    /** 상자 안에서 발밑이 단단하고 몸(2칸)이 들어갈 자리를 무작위로 count 곳 (같은 칸 겹침 허용 안 함). */
+    static List<Location> safeSpots(World w, Defs.Box box, int count) {
+        var out = new ArrayList<Location>();
+        var rng = java.util.concurrent.ThreadLocalRandom.current();
+        var used = new HashSet<Long>();
+        int tries = count * 30;
+        while (out.size() < count && tries-- > 0) {
+            int x = rng.nextInt(box.minX(), box.maxX() + 1), z = rng.nextInt(box.minZ(), box.maxZ() + 1);
+            // 상자 아래쪽부터 위로: 처음 만나는 "단단한 바닥 + 빈 두 칸"
+            for (int y = box.minY(); y <= box.maxY(); y++) {
+                var feet = w.getBlockAt(x, y, z);
+                if (!feet.isPassable() || !feet.getRelative(org.bukkit.block.BlockFace.UP).isPassable() || feet.isLiquid()) continue;
+                var floor = feet.getRelative(org.bukkit.block.BlockFace.DOWN);
+                if (!floor.getType().isSolid()) continue;
+                long k = ((long) x << 40) ^ ((long) y << 20) ^ z;
+                if (used.add(k)) out.add(new Location(w, x + .5, y, z + .5, rng.nextFloat() * 360, 0));
+                break;
+            }
+        }
+        return out;
     }
 
     private void track(Run run, Entity e, String room) {
@@ -570,9 +602,39 @@ final class DungeonService {
 
     private void completeStage(Run run, Defs.Dungeon d, Defs.Slot def, Player p) {
         if (run.ended) return;
+        // 이 단계가 끝나면 열 문
+        if (run.stage >= 0 && run.stage < d.stages.size()) for (String name : d.stages.get(run.stage).openDoors) openDoor(run, p, name);
         if (run.stage + 1 >= d.stages.size()) { finish(run, true, "", false); return; }
         ChacaLink.notify(p, "system", "dungeon:stage", "단계 완료", d.stages.get(run.stage).name, 0);
         beginStage(run, d, def, run.stage + 1, p);
+    }
+
+    /** 문 열기 (배리어 걷기) + 홀로그램 갱신. 이미 열렸으면 아무 일 없음. */
+    private void openDoor(Run run, Player p, String name) {
+        String k = Doors.key(run.slot.dungeon, run.slot.no, name);
+        if (!doors.closed(k)) return;
+        doors.open(k);
+        p.playSound(p.getLocation(), org.bukkit.Sound.BLOCK_IRON_DOOR_OPEN, 0.8f, 0.7f);
+        ChacaLink.notify(p, "system", "dungeon:door", "문이 열렸어요", name, 0);
+        sendDoors(run, p);
+    }
+
+    /** 이 판의 닫힌 문 상자 → 클라이언트 홀로그램 (JSON). run=null 이면 비움. */
+    void sendDoors(Run run, Player p) {
+        var json = new com.google.gson.JsonObject();
+        var list = new com.google.gson.JsonArray();
+        var d = run == null ? null : dungeons.get(run.slot.dungeon);
+        var def = d == null ? null : d.slots.get(run.slot.no);
+        World w = d == null ? null : Bukkit.getWorld(d.world);
+        if (def != null && w != null) {
+            json.addProperty("dim", w.getKey().toString());
+            for (var door : def.doors.values()) {
+                if (!doors.closed(Doors.key(run.slot.dungeon, run.slot.no, door.name))) continue;
+                list.add(Editor.box(door.box(), door.name));
+            }
+        }
+        json.add("doors", list);
+        send(p, new DungeonProtocol.JsonMsg(DungeonProtocol.K_DOORS, json.toString()));
     }
 
     // ------------------------------------------------------------ 끝
@@ -596,6 +658,7 @@ final class DungeonService {
         Location exit = exitOf(d);
         if (p != null) {
             send(p, new DungeonProtocol.RunMsg(DungeonProtocol.Run.NONE));
+            sendDoors(null, p);
             if (p.isDead()) respawnTo.put(run.player, exit);
             else if (d != null && p.getWorld().getName().equals(d.world)) {
                 ourTeleport.add(run.player);
@@ -691,6 +754,7 @@ final class DungeonService {
                 clean(w, def.region(), null);
                 hooks.resetGimmicks(w, def.region());
             }
+            doors.openSlot(slot.dungeon, slot.no);
             slot.state = State.FREE;
             slot.broken = "";
         } catch (Exception e) {
@@ -873,9 +937,7 @@ final class DungeonService {
                 case "kill" -> { cur = run.progress; req = st.count; }
                 case "room" -> {
                     if (run.roomsTriggered.contains(st.target)) {
-                        int total = 0;
-                        var room = def == null ? null : def.rooms.get(st.target);
-                        if (room != null) for (var sp : room.spawns) total += sp.count;
+                        int total = run.roomTotals.getOrDefault(st.target, 0);
                         req = total;
                         cur = Math.max(0, total - run.roomAlive(st.target));
                     }

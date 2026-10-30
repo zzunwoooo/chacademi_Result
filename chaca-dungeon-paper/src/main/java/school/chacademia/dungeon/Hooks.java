@@ -179,6 +179,12 @@ final class Hooks {
         return e.getType().getKey().toString();
     }
 
+    /** MythicMobs 몹 이름 목록 (설정 창의 몹 고르기). 없으면 빈 목록. */
+    java.util.List<String> mobNames() {
+        if (!mythicReady()) return java.util.List.of();
+        return Mythic.names();
+    }
+
     /** MythicMobs API 는 이 안에서만 (플러그인이 없으면 이 클래스를 안 불러온다). */
     private static final class Mythic {
         static Entity spawn(String mob, Location at, Logger log) {
@@ -186,6 +192,10 @@ final class Hooks {
                 var active = io.lumine.mythic.bukkit.MythicBukkit.inst().getMobManager().spawnMob(mob, at);
                 return active == null ? null : active.getEntity().getBukkitEntity();
             } catch (RuntimeException | LinkageError e) { log.warning("MythicMobs 소환 실패 " + mob + ": " + e); return null; }
+        }
+        static java.util.List<String> names() {
+            try { return new java.util.TreeSet<>(io.lumine.mythic.bukkit.MythicBukkit.inst().getMobManager().getMobNames()).stream().toList(); }
+            catch (RuntimeException | LinkageError e) { return java.util.List.of(); }
         }
         static String name(Entity e) {
             try {

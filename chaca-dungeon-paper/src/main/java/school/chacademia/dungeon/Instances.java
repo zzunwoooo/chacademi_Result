@@ -51,6 +51,8 @@ final class Instances {
         /** 이 판에서 소환한 몹 → 방 이름 ("" = 방 아님, "#boss" = 보스). */
         final Map<UUID, String> mobs = new LinkedHashMap<>();
         final Set<String> roomsTriggered = new HashSet<>(), roomsCleared = new HashSet<>();
+        /** 방마다 실제로 소환한 수 (진행도 분모). */
+        final Map<String, Integer> roomTotals = new HashMap<>();
         String lockedRoom;
         UUID boss;
         long lastSync;

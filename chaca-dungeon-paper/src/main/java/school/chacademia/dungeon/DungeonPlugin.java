@@ -16,10 +16,12 @@ import school.chacademia.dungeon.protocol.DungeonProtocol;
  */
 public final class DungeonPlugin extends JavaPlugin {
     private DungeonService service;
+    private Editor editor;
     private Records records;
     private File dungeonsFile;
 
     DungeonService service() { return service; }
+    Editor editor() { return editor; }
     int offerSeconds() { return Math.max(10, getConfig().getInt("offer-seconds", 60)); }
     double rearmFactor() { return Math.max(1.1, getConfig().getDouble("portal-rearm-factor", 1.6)); }
     double startMoveDistance() { return Math.max(0.1, getConfig().getDouble("start-move-distance", 0.6)); }
@@ -44,13 +46,22 @@ public final class DungeonPlugin extends JavaPlugin {
         messenger.registerOutgoingPluginChannel(this, DungeonProtocol.S2C);
         var limiter = new java.util.HashMap<java.util.UUID, Long>();
         messenger.registerIncomingPluginChannel(this, DungeonProtocol.C2S, (channel, player, data) -> {
+            DungeonProtocol.Action action;
+            try { action = DungeonProtocol.decodeAction(data); }
+            catch (java.io.IOException e) { getLogger().fine("잘못된 던전 메시지 " + player.getName() + ": " + e.getMessage()); return; }
             long now = System.currentTimeMillis();
+            // 연타 1차 거름 (실제 중복 방지는 서비스의 busy 표시). 설정 도구 버튼은 50ms.
             Long last = limiter.put(player.getUniqueId(), now);
-            if (last != null && now - last < 150) return; // 연타 1차 거름 (실제 중복 방지는 서비스의 busy 표시)
-            try { service.action(player, DungeonProtocol.decodeAction(data)); }
-            catch (java.io.IOException e) { getLogger().fine("잘못된 던전 메시지 " + player.getName() + ": " + e.getMessage()); }
+            if (last != null && now - last < (action.kind() == DungeonProtocol.C_EDIT ? 50 : 150)) return;
+            try { service.action(player, action); }
+            catch (RuntimeException e) { getLogger().warning("던전 메시지 처리 실패 " + player.getName() + ": " + e); }
         });
         getServer().getPluginManager().registerEvents(new DungeonListener(service), this);
+        // 설정 도구 (구역 지정·설정 창·기믹 설치). 문 배리어: 지난번 서버가 꺼질 때 못 걷은 것 걷기.
+        editor = new Editor(this);
+        getServer().getPluginManager().registerEvents(editor, this);
+        service.doors.recover();
+        Bukkit.getScheduler().runTaskTimer(this, editor::tick, 40L, 10L);
         // 보스 스킬용 MythicMobs 메커닉 chavfx (예고 없이 VFX 만). MythicMobs 가 스킬을 읽기 전에 등록돼야 한다 (softdepend 로 뒤에 켜짐, 스킬은 서버 시작 뒤 읽힘).
         if (getServer().getPluginManager().getPlugin("MythicMobs") != null)
             getServer().getPluginManager().registerEvents(new VfxMechanic(getLogger()), this);

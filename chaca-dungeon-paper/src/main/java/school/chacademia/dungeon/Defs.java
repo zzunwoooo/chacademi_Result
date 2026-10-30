@@ -60,18 +60,31 @@ final class Defs {
 
     static String block(int[] b) { return b == null ? "" : b[0] + "," + b[1] + "," + b[2]; }
 
-    static final class Spawn {
-        String mob; int count; Loc at;
-        Spawn(String mob, int count, Loc at) { this.mob = mob; this.count = count; this.at = at; }
+    /** 몹 구역: 방에 들어가면 이 상자 안의 안전한 땅(발밑 단단·머리 위 두 칸 빔)에서 mob 을 count 마리 무작위로. */
+    static final class Zone {
+        int[] corner1, corner2; String mob; int count;
+        Zone(int[] c1, int[] c2, String mob, int count) { corner1 = c1; corner2 = c2; this.mob = mob; this.count = count; }
+        Box box() { return Box.of(corner1, corner2); }
     }
 
     static final class Room {
         final String name;
         int[] corner1, corner2;
-        boolean lock = true;
-        final List<Spawn> spawns = new ArrayList<>();
+        final List<Zone> zones = new ArrayList<>();
         Room(String name) { this.name = name; }
         Box box() { return corner1 == null || corner2 == null ? null : Box.of(corner1, corner2); }
+    }
+
+    /**
+     * 문: 판이 시작되면 닫힘(구역의 빈칸을 배리어로 막고 보라 홀로그램), 정해 둔 단계가 끝나거나 연결한 기믹이 열리면 열림.
+     * gimmick = 이 칸의 기믹 이름 (비우면 단계로만 열림).
+     */
+    static final class Door {
+        final String name;
+        int[] corner1, corner2;
+        String gimmick = "";
+        Door(String name, int[] c1, int[] c2) { this.name = name; corner1 = c1; corner2 = c2; }
+        Box box() { return Box.of(corner1, corner2); }
     }
 
     static final class Boss {
@@ -87,6 +100,7 @@ final class Defs {
         final Map<String, Boss> bosses = new LinkedHashMap<>();
         final Map<String, Loc> points = new LinkedHashMap<>();
         final Map<String, int[]> gimmicks = new LinkedHashMap<>();
+        final Map<String, Door> doors = new LinkedHashMap<>();
         Slot(int no) { this.no = no; }
         Box region() { return corner1 == null || corner2 == null ? null : Box.of(corner1, corner2); }
     }
@@ -96,6 +110,8 @@ final class Defs {
         int count = 1;
         double radius = 3;
         List<String> startCommands = List.of();
+        /** 이 단계가 끝나면 열 문 이름들. */
+        List<String> openDoors = new ArrayList<>();
     }
 
     /**
@@ -160,6 +176,7 @@ final class Defs {
                 st.count = m.get("count") instanceof Number n ? Math.max(1, n.intValue()) : 1;
                 st.radius = m.get("radius") instanceof Number n ? Math.max(0.5, n.doubleValue()) : 3;
                 if (m.get("start-commands") instanceof List<?> l) st.startCommands = l.stream().map(String::valueOf).toList();
+                if (m.get("open-doors") instanceof List<?> l) st.openDoors = new ArrayList<>(l.stream().map(String::valueOf).toList());
                 if (!List.of("room", "kill", "boss", "gimmick", "reach").contains(st.type)) {
                     warnings.add(id + " 단계 '" + st.name + "': 모르는 종류 " + st.type + " → 건너뜀");
                     continue;
@@ -183,12 +200,12 @@ final class Defs {
                     var room = new Room(rn);
                     room.corner1 = block(r.getString("1", ""));
                     room.corner2 = block(r.getString("2", ""));
-                    room.lock = r.getBoolean("lock", true);
-                    for (var m : r.getMapList("spawns")) {
-                        Loc at = Loc.parse(str(m.get("at")));
+                    // 예전 몹 자리(spawns)·가두기(lock)는 읽지 않는다 (2026-10-30 오너: 지우고 구역 방식으로 다시)
+                    for (var m : r.getMapList("zones")) {
+                        int[] a = block(str(m.get("1"))), b = block(str(m.get("2")));
                         String mob = str(m.get("mob"));
                         int count = m.get("count") instanceof Number n ? Math.max(1, Math.min(50, n.intValue())) : 1;
-                        if (at != null && !mob.isBlank()) room.spawns.add(new Spawn(mob, count, at));
+                        if (a != null && b != null && !mob.isBlank()) room.zones.add(new Zone(a, b, mob, count));
                     }
                     slot.rooms.put(rn, room);
                 }
@@ -207,6 +224,14 @@ final class Defs {
                 if (gimmicks != null) for (String gn : gimmicks.getKeys(false)) {
                     int[] b = block(gimmicks.getString(gn, ""));
                     if (b != null) slot.gimmicks.put(gn, b);
+                }
+                var doors = c.getConfigurationSection("doors");
+                if (doors != null) for (String dn : doors.getKeys(false)) {
+                    int[] a = block(doors.getString(dn + ".1", "")), b = block(doors.getString(dn + ".2", ""));
+                    if (a == null || b == null) continue;
+                    var door = new Door(dn, a, b);
+                    door.gimmick = doors.getString(dn + ".gimmick", "");
+                    slot.doors.put(dn, door);
                 }
             }
             for (int no = 1; no <= d.instances; no++) d.slot(no);
@@ -254,6 +279,7 @@ final class Defs {
             if (st.type.equals("kill")) m.put("count", st.count);
             if (st.type.equals("reach")) m.put("radius", st.radius);
             if (!st.startCommands.isEmpty()) m.put("start-commands", st.startCommands);
+            if (!st.openDoors.isEmpty()) m.put("open-doors", st.openDoors);
             stages.add(m);
         }
         s.set("stages", stages);
@@ -268,14 +294,13 @@ final class Defs {
                 var r = rooms.createSection(room.name);
                 r.set("1", block(room.corner1));
                 r.set("2", block(room.corner2));
-                r.set("lock", room.lock);
-                var spawns = new ArrayList<Map<String, Object>>();
-                for (var sp : room.spawns) {
+                var zones = new ArrayList<Map<String, Object>>();
+                for (var z : room.zones) {
                     var m = new LinkedHashMap<String, Object>();
-                    m.put("mob", sp.mob); m.put("count", sp.count); m.put("at", sp.at.text());
-                    spawns.add(m);
+                    m.put("1", block(z.corner1)); m.put("2", block(z.corner2)); m.put("mob", z.mob); m.put("count", z.count);
+                    zones.add(m);
                 }
-                r.set("spawns", spawns);
+                r.set("zones", zones);
             }
             var bosses = c.createSection("bosses");
             for (var e : slot.bosses.entrySet()) { bosses.set(e.getKey() + ".mob", e.getValue().mob); bosses.set(e.getKey() + ".at", e.getValue().at.text()); }
@@ -283,6 +308,12 @@ final class Defs {
             for (var e : slot.points.entrySet()) points.set(e.getKey(), e.getValue().text());
             var gimmicks = c.createSection("gimmicks");
             for (var e : slot.gimmicks.entrySet()) gimmicks.set(e.getKey(), block(e.getValue()));
+            var doors = c.createSection("doors");
+            for (var door : slot.doors.values()) {
+                doors.set(door.name + ".1", block(door.corner1));
+                doors.set(door.name + ".2", block(door.corner2));
+                if (!door.gimmick.isBlank()) doors.set(door.name + ".gimmick", door.gimmick);
+            }
         }
     }
 
@@ -298,4 +329,42 @@ final class Defs {
         }
         return out;
     }
+
+    // ------------------------------------------------------------ 칸 복사 (1번 칸 설정 → 2·3번 칸, 시작점 차이만큼 옮김)
+
+    private static int[] shift(int[] b, int dx, int dy, int dz) { return b == null ? null : new int[]{b[0] + dx, b[1] + dy, b[2] + dz}; }
+
+    private static Loc shift(Loc l, int dx, int dy, int dz) {
+        return l == null ? null : new Loc(l.world(), l.x() + dx, l.y() + dy, l.z() + dz, l.yaw(), l.pitch());
+    }
+
+    /** to 의 시작점은 두고 나머지(구역·방·몹 구역·문·보스·지점·기믹 이름)를 from 에서 (dx,dy,dz) 만큼 옮겨 덮어쓴다. */
+    static void copySlot(Slot from, Slot to, int dx, int dy, int dz) {
+        to.corner1 = shift(from.corner1, dx, dy, dz);
+        to.corner2 = shift(from.corner2, dx, dy, dz);
+        to.rooms.clear(); to.doors.clear(); to.bosses.clear(); to.points.clear(); to.gimmicks.clear();
+        for (var r : from.rooms.values()) {
+            var c = new Room(r.name);
+            c.corner1 = shift(r.corner1, dx, dy, dz); c.corner2 = shift(r.corner2, dx, dy, dz);
+            for (var z : r.zones) c.zones.add(new Zone(shift(z.corner1, dx, dy, dz), shift(z.corner2, dx, dy, dz), z.mob, z.count));
+            to.rooms.put(c.name, c);
+        }
+        for (var d : from.doors.values()) {
+            var c = new Door(d.name, shift(d.corner1, dx, dy, dz), shift(d.corner2, dx, dy, dz));
+            c.gimmick = d.gimmick;
+            to.doors.put(c.name, c);
+        }
+        for (var e : from.bosses.entrySet()) to.bosses.put(e.getKey(), new Boss(e.getValue().mob, shift(e.getValue().at, dx, dy, dz)));
+        for (var e : from.points.entrySet()) to.points.put(e.getKey(), shift(e.getValue(), dx, dy, dz));
+        for (var e : from.gimmicks.entrySet()) to.gimmicks.put(e.getKey(), shift(e.getValue(), dx, dy, dz));
+    }
+
+    /** 칸 설정 비우기 (시작점 포함). */
+    static void clearSlot(Slot s) {
+        s.start = null; s.corner1 = null; s.corner2 = null;
+        s.rooms.clear(); s.doors.clear(); s.bosses.clear(); s.points.clear(); s.gimmicks.clear();
+    }
+
+    /** 설정 이름: 한글·영문·숫자·_·-·공백, 32자. 점(.)은 yml 경로라 안 됨. */
+    static boolean validName(String n) { return n != null && n.matches("[A-Za-z0-9_가-힣 -]{1,32}") && !n.isBlank(); }
 }

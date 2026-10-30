@@ -58,6 +58,15 @@ final class Art {
         font = null; fontTried = false;
     }
 
+    /** 흰 4×4 그림 (색만 입혀 칠할 때: 문 홀로그램 면). */
+    static Optional<Tex> white() {
+        return IMAGES.computeIfAbsent("white", k -> {
+            var img = new NativeImage(4, 4, false);
+            for (int y = 0; y < 4; y++) for (int x = 0; x < 4; x++) img.setPixel(x, y, 0xFFFFFFFF);
+            return Optional.of(upload(img, false));
+        });
+    }
+
     /** 이 모드 그림: textures/gui/&lt;path&gt;.png (예: "panels/modal-panel"). */
     static Optional<Tex> ui(String path) { return IMAGES.computeIfAbsent("ui:" + path, k -> load("chacademi_dungeon", "textures/gui/" + path + ".png", false)); }
 

@@ -103,6 +103,28 @@ class InstancesTest {
         assertThrows(java.io.IOException.class, () -> DungeonProtocol.decodeAction(new byte[]{1, 99, 0, 0, 0, 0}));
     }
 
+    @Test void copySlotShifts() {
+        var a = new Defs.Slot(1);
+        a.start = new Defs.Loc("dungeon1", 0.5, 65, 0.5, 90, 0);
+        a.corner1 = new int[]{-8, 46, -95}; a.corner2 = new int[]{175, 110, 89};
+        var room = new Defs.Room("1번방"); room.corner1 = new int[]{0, 60, 0}; room.corner2 = new int[]{10, 70, 10};
+        room.zones.add(new Defs.Zone(new int[]{1, 61, 1}, new int[]{9, 61, 9}, "CA_Mob_ArchlichThrall", 6));
+        a.rooms.put(room.name, room);
+        var door = new Defs.Door("1-1 door", new int[]{11, 61, 4}, new int[]{11, 64, 6}); door.gimmick = "화로";
+        a.doors.put(door.name, door);
+        a.gimmicks.put("화로", new int[]{5, 61, 5});
+        var b = new Defs.Slot(2);
+        b.start = new Defs.Loc("dungeon1", 300.5, 65, 0.5, 90, 0);
+        Defs.copySlot(a, b, 300, 0, 0);
+        assertEquals(300.5, b.start.x(), 1e-9, "복사해도 대상 칸 시작점은 그대로");
+        assertArrayEquals(new int[]{292, 46, -95}, b.corner1);
+        assertArrayEquals(new int[]{301, 61, 1}, b.rooms.get("1번방").zones.get(0).corner1);
+        assertArrayEquals(new int[]{311, 61, 4}, b.doors.get("1-1 door").corner1);
+        assertEquals("화로", b.doors.get("1-1 door").gimmick);
+        assertArrayEquals(new int[]{305, 61, 5}, b.gimmicks.get("화로"));
+        assertTrue(Defs.validName("1-1 door") && Defs.validName("입구방") && !Defs.validName("a.b") && !Defs.validName(" "));
+    }
+
     @Test void boxContains() {
         var box = Defs.Box.of(new int[]{10, 5, 10}, new int[]{0, 0, 0});
         assertTrue(box.contains(0, 0, 0));

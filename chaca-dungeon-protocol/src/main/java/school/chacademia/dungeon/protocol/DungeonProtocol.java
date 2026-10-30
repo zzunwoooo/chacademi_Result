@@ -20,14 +20,19 @@ public final class DungeonProtocol {
     public static final String S2C = "chacademi:dungeon";
     public static final String C2S = "chacademi:dungeon_act";
     /** 2 (2026-10-30): 입장창 보상을 묶음(기본·첫 클리어·확률)으로, 체력 자동 회복 없음 표시. 서버·클라 같이 바꿔야 함. */
-    public static final int VERSION = 2;
+    public static final int VERSION = 3; // 3 (2026-10-30): 문 홀로그램·설정 도구(편집 JSON)
     public static final int MAX_BYTES = 1 << 20;
     public static final int MAX_ITEMS = 54;
 
     // 서버 → 클라이언트
     public static final int K_ENTRY = 1, K_QUEUE = 2, K_RUN = 3, K_RESULT = 4, K_PORTALS = 5, K_CLOSE = 6;
+    /** JSON 본문: K_DOORS = 닫힌 문 상자들(홀로그램), K_EDITOR = 설정 창 열기·갱신, K_VIEW = 설정 도구를 들었을 때 보이는 구역들. */
+    public static final int K_DOORS = 7, K_EDITOR = 8, K_VIEW = 9;
+    public static final int MAX_JSON = 512 * 1024;
     // 클라이언트 → 서버
     public static final int C_ENTER = 1, C_QUEUE_JOIN = 2, C_QUEUE_LEAVE = 3, C_EXIT = 4;
+    /** 설정 도구 동작 (JSON {"a": 동작, ...}). 서버가 권한을 확인한다. */
+    public static final int C_EDIT = 5;
 
     /** 입장창 버튼 상태. */
     public static final int BTN_ENTER = 0, BTN_QUEUE = 1, BTN_QUEUED = 2, BTN_LOCKED = 3, BTN_IN_RUN = 4, BTN_READY = 5;
@@ -71,15 +76,20 @@ public final class DungeonProtocol {
 
     public record Portal(String dimension, double x, double y, double z, float radius, String label) {}
 
-    public sealed interface ToClient permits EntryMsg, QueueMsg, RunMsg, ResultMsg, PortalsMsg, CloseMsg {}
+    public sealed interface ToClient permits EntryMsg, QueueMsg, RunMsg, ResultMsg, PortalsMsg, CloseMsg, JsonMsg {}
     public record EntryMsg(Entry entry) implements ToClient {}
     public record QueueMsg(Queue queue) implements ToClient {}
     public record RunMsg(Run run) implements ToClient {}
     public record ResultMsg(Result result) implements ToClient {}
     public record PortalsMsg(List<Portal> portals) implements ToClient {}
     public record CloseMsg() implements ToClient {}
+    /** kind = K_DOORS · K_EDITOR · K_VIEW, json = UTF-8 JSON 문자열. */
+    public record JsonMsg(int kind, String json) implements ToClient {}
 
-    public record Action(int kind, int session) {}
+    /** json = C_EDIT 일 때만 (나머지는 ""). */
+    public record Action(int kind, int session, String json) {
+        public Action(int kind, int session) { this(kind, session, ""); }
+    }
 
     // ------------------------------------------------------------ encode
 
@@ -119,6 +129,7 @@ public final class DungeonProtocol {
                     }
                 }
                 case CloseMsg m -> out.writeByte(K_CLOSE);
+                case JsonMsg m -> { out.writeByte(m.kind()); writeText(out, m.json()); }
             }
         } catch (IOException e) {
             throw new UncheckedIOException(e);
@@ -130,6 +141,7 @@ public final class DungeonProtocol {
         var bytes = new ByteArrayOutputStream();
         try (var out = new DataOutputStream(bytes)) {
             out.writeByte(VERSION); out.writeByte(action.kind()); out.writeInt(action.session());
+            if (action.kind() == C_EDIT) writeText(out, action.json());
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
@@ -205,6 +217,7 @@ public final class DungeonProtocol {
                 yield new PortalsMsg(List.copyOf(list));
             }
             case K_CLOSE -> new CloseMsg();
+            case K_DOORS, K_EDITOR, K_VIEW -> new JsonMsg(kind, readText(in));
             default -> throw new IOException("unknown kind " + kind);
         };
         if (in.available() != 0) throw new IOException("trailing bytes");
@@ -212,12 +225,30 @@ public final class DungeonProtocol {
     }
 
     public static Action decodeAction(byte[] data) throws IOException {
-        if (data == null || data.length != 6) throw new IOException("bad size");
+        if (data == null || data.length < 6 || data.length > MAX_JSON + 16) throw new IOException("bad size");
         var in = new DataInputStream(new ByteArrayInputStream(data));
         if (in.readUnsignedByte() != VERSION) throw new IOException("bad version");
         int kind = in.readUnsignedByte();
-        if (kind < C_ENTER || kind > C_EXIT) throw new IOException("unknown action");
-        return new Action(kind, in.readInt());
+        if (kind < C_ENTER || kind > C_EDIT) throw new IOException("unknown action");
+        int session = in.readInt();
+        String json = kind == C_EDIT ? readText(in) : "";
+        if (in.available() != 0) throw new IOException("trailing bytes");
+        return new Action(kind, session, json);
+    }
+
+    private static void writeText(DataOutputStream out, String text) throws IOException {
+        byte[] b = text.getBytes(java.nio.charset.StandardCharsets.UTF_8);
+        if (b.length > MAX_JSON) throw new IOException("json too large");
+        out.writeInt(b.length);
+        out.write(b);
+    }
+
+    private static String readText(DataInputStream in) throws IOException {
+        int n = in.readInt();
+        if (n < 0 || n > MAX_JSON) throw new IOException("bad json size");
+        byte[] b = new byte[n];
+        in.readFully(b);
+        return new String(b, java.nio.charset.StandardCharsets.UTF_8);
     }
 
     private static Holder readHolder(DataInputStream in) throws IOException {
