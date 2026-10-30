@@ -5,13 +5,13 @@
 ## 왜
 - 호감도는 30·60·90 에서 멈추고 그 NPC 의 호감도 퀘스트를 깨야 다음 구간이 열린다. 학교 `affinity.yml` 에 `gate-quests` 가 없어서 **모든 NPC 가 30 에서 잠겨 있다**.
 - 기능 자체(NpcSocialService gate-quests)는 배포 jar 에 이미 있다 → 설정만 넣으면 동작. 이미 30 에서 멈춘 유저도 그 NPC 와 **대화를 열면** 퀘스트를 자동으로 받는다.
-- 마법은 유저들이 이미 다 발견해서, 보상 = **아티팩트 열쇠 1** (`item:random_artifact`, 오너 2026-10-30 변경).
+- 마법은 유저들이 이미 다 발견해서, 보상 = **NPC마다 쓸만한 아이템 1개** (오너 2026-10-30): 아티팩트 열쇠 6 · 미감정 마력코어 3 · 재화 주머니 3 · 확성기 3 · 강화 초기화 주문서 2 · 복구의 주문서 2 · 성향 변환 주문서 2 · 변색종 염색 티켓 2.
 
 ## 바꾼 것
 ### 설정 — `affinity-quests/school/plugins/MagicCodexBridge/`
 - `quests-add-affinity30.yml` — 의뢰 23개 `aff30_<캐릭터ID>`. 학교 `quests.yml` 의 `quests:` 아래에 붙인다.
   - 목표: 야생 커스텀 몹 처치(MYTHIC_KILL, 전부 야생 MythicMobs 에 있는 ID), 바닐라 아이템 제출(SUBMIT), 다른 NPC 방문(NPC, 학교 Citizens 번호).
-  - 보상 명령: `iagive {player} item:random_artifact 1 silent` (ItemsAdder 아이템은 보상 items 칸에 못 넣어서 명령으로).
+  - 보상 명령: `iagive {player} item:<아이템> 1 silent` 한 줄 (ItemsAdder 아이템은 보상 items 칸에 못 넣어서 명령으로). 아이템 ID 는 전부 ItemsAdder chacademi_utilities.yml 에 있음.
   - `main: true` = 진행 중 일반 의뢰 3개 제한에 안 걸림 (3개 차 있어도 NPC 가 줄 수 있게).
 - `affinity-gate-quests.yml` — `affinity.yml` 의 `gate-quests: {}` 를 이것으로 바꾼다 (23명, 30 만).
 - 대상 NPC (게임에 배치된 주요 NPC, 오너): 엘레나·하르바·베르나·세드릭·그레고르·이솔데·로웰·브람·피피·올레·셀마·펠릭스·구스타프·클라라·벤·브루노·힐데·이안·리아·카이·준·보미·루카.

@@ -1,13 +1,13 @@
 # 호감도 30 상한 퀘스트 23개 (2026-10-30, 신기능 세션). 학교 plugins/MagicCodexBridge/quests.yml 의 quests: 아래에 붙인 뒤 /의뢰관리 reload.
-# 보상 = 아티팩트 열쇠 1 (오너 2026-10-30, ItemsAdder 아이템이라 보상 명령 iagive 로 지급). main: true = 진행 중 의뢰 3개 제한에 안 걸림.
+# 보상 = NPC마다 하나 (아티팩트 열쇠·미감정 마력코어·강화 초기화·복구·성향 변환 주문서·확성기·변색종 염색 티켓·재화 주머니, 오너 2026-10-30). ItemsAdder 아이템이라 보상 명령 iagive 로 지급. main: true = 진행 중 의뢰 3개 제한에 안 걸림.
 quests:
   aff30_teacher_ellna:
     title: "물의 정령 관찰"
     description: "요즘 호숫가 정령들이 들떠 있어. 달물결 요정과 청빛 해파리를 직접 만나 보고, 물의 기운이 어떤지 알려 주렴."
     reward:
-      label: "아티팩트 열쇠 1"
+      label: "미감정 마력코어 1"
       commands:
-      - "iagive {player} item:random_artifact 1 silent"
+      - "iagive {player} item:core_unidentified 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -23,22 +23,22 @@ quests:
     - type: MYTHIC_KILL
       target: 'CA_Wild_lostasset_mob2_lakefairy'
       server: ''
-      label: "달물결 요정"
+      label: "미감정 마력코어 1"
       amount: 5
       world: ''
     - type: MYTHIC_KILL
       target: 'CA_Wild_jellyfish_blue'
       server: ''
-      label: "청빛 해파리"
+      label: "미감정 마력코어 1"
       amount: 5
       world: ''
   aff30_teacher_harva:
     title: "숲의 질서"
     description: "숲늑대 무리가 선을 넘고 있다. 열 마리만 정리하고, 무리를 이끄는 송곳니 우두머리도 꺾고 와라."
     reward:
-      label: "아티팩트 열쇠 1"
+      label: "변색종 염색 티켓 1"
       commands:
-      - "iagive {player} item:random_artifact 1 silent"
+      - "iagive {player} item:shiny_change 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -54,22 +54,22 @@ quests:
     - type: MYTHIC_KILL
       target: 'CA_Wild_timber_wolf'
       server: ''
-      label: "침엽 숲늑대"
+      label: "변색종 염색 티켓 1"
       amount: 10
       world: ''
     - type: MYTHIC_KILL
       target: 'CA_Wild_alpha_boar'
       server: ''
-      label: "송곳니 우두머리"
+      label: "변색종 염색 티켓 1"
       amount: 1
       world: ''
   aff30_tc_berna:
     title: "온실 손질"
     description: "온실 흙이 지쳤어~ 뼛가루랑 이끼 블록을 모아 주고, 온실을 넘보는 포자 요정들도 좀 쫓아 줄래?"
     reward:
-      label: "아티팩트 열쇠 1"
+      label: "미감정 마력코어 1"
       commands:
-      - "iagive {player} item:random_artifact 1 silent"
+      - "iagive {player} item:core_unidentified 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -85,28 +85,28 @@ quests:
     - type: SUBMIT
       target: 'BONE_MEAL'
       server: ''
-      label: "뼛가루"
+      label: "미감정 마력코어 1"
       amount: 32
       world: ''
     - type: SUBMIT
       target: 'MOSS_BLOCK'
       server: ''
-      label: "이끼 블록"
+      label: "미감정 마력코어 1"
       amount: 16
       world: ''
     - type: MYTHIC_KILL
       target: 'CA_Wild_lostasset_mob2_mushroomfairy'
       server: ''
-      label: "포자 요정"
+      label: "미감정 마력코어 1"
       amount: 5
       world: ''
   aff30_tc_cedric:
     title: "유적 실전 훈련"
     description: "책상 앞 공부는 그만! 옛 유적의 해골 병사들을 상대로 실전 감각을 길러 와라. 검병, 창병, 궁수 전부다!"
     reward:
-      label: "아티팩트 열쇠 1"
+      label: "강화 초기화 주문서 1"
       commands:
-      - "iagive {player} item:random_artifact 1 silent"
+      - "iagive {player} item:core_scroll_red 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -122,28 +122,28 @@ quests:
     - type: MYTHIC_KILL
       target: 'CA_Wild_ncr_warrior_skeleton'
       server: ''
-      label: "유적의 검병"
+      label: "강화 초기화 주문서 1"
       amount: 10
       world: ''
     - type: MYTHIC_KILL
       target: 'CA_Wild_ncr_spear_skeleton'
       server: ''
-      label: "유적의 창병"
+      label: "강화 초기화 주문서 1"
       amount: 10
       world: ''
     - type: MYTHIC_KILL
       target: 'CA_Wild_ncr_archer_skeleton'
       server: ''
-      label: "유적의 궁수"
+      label: "강화 초기화 주문서 1"
       amount: 5
       world: ''
   aff30_vice_gregor:
     title: "봉인 유적 점검"
     description: "봉인 유적을 지키는 자들이 예전보다 거칠어졌다는 보고가 있네. 봉인의 기사와 술사를 상대해 보고 그 기세를 확인해 주게."
     reward:
-      label: "아티팩트 열쇠 1"
+      label: "성향 변환 주문서 1"
       commands:
-      - "iagive {player} item:random_artifact 1 silent"
+      - "iagive {player} item:core_scroll_purple 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -159,22 +159,22 @@ quests:
     - type: MYTHIC_KILL
       target: 'CA_Wild_mf_warden_knight'
       server: ''
-      label: "봉인의 기사"
+      label: "성향 변환 주문서 1"
       amount: 5
       world: ''
     - type: MYTHIC_KILL
       target: 'CA_Wild_mf_warden_mage'
       server: ''
-      label: "봉인의 술사"
+      label: "성향 변환 주문서 1"
       amount: 5
       world: ''
   aff30_librarian_isolde:
     title: "서고 보수"
     description: "오래된 책들이 낡아서 새로 엮어야 해요. 책과 먹물을 모아 주시고, 대출 장부는 그레고르 교감 선생님께 전해 주세요."
     reward:
-      label: "아티팩트 열쇠 1"
+      label: "복구의 주문서 1"
       commands:
-      - "iagive {player} item:random_artifact 1 silent"
+      - "iagive {player} item:core_scroll_blue 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -190,19 +190,19 @@ quests:
     - type: SUBMIT
       target: 'BOOK'
       server: ''
-      label: "책"
+      label: "복구의 주문서 1"
       amount: 16
       world: ''
     - type: SUBMIT
       target: 'INK_SAC'
       server: ''
-      label: "먹물 주머니"
+      label: "복구의 주문서 1"
       amount: 16
       world: ''
     - type: NPC
       target: '15'
       server: school
-      label: "그레고르 교감에게 장부 전하기"
+      label: "복구의 주문서 1"
       amount: 1
       world: ''
   aff30_dorm_lowell:
@@ -227,28 +227,28 @@ quests:
     - type: SUBMIT
       target: 'OAK_PLANKS'
       server: ''
-      label: "참나무 판자"
+      label: "아티팩트 열쇠 1"
       amount: 64
       world: ''
     - type: SUBMIT
       target: 'WHITE_WOOL'
       server: ''
-      label: "흰색 양털"
+      label: "아티팩트 열쇠 1"
       amount: 32
       world: ''
     - type: NPC
       target: '31'
       server: school
-      label: "브루노에게 공구 받기"
+      label: "아티팩트 열쇠 1"
       amount: 1
       world: ''
   aff30_captain_bram:
     title: "출항 준비"
     description: "이보게, 다음 항해 준비 좀 도와주겠나? 밧줄 감을 실과 통나무가 필요하고, 뱃전을 물어뜯는 피라냐도 좀 쫓아 주게나!"
     reward:
-      label: "아티팩트 열쇠 1"
+      label: "재화 주머니 1"
       commands:
-      - "iagive {player} item:random_artifact 1 silent"
+      - "iagive {player} item:money_pouch 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -264,28 +264,28 @@ quests:
     - type: SUBMIT
       target: 'STRING'
       server: ''
-      label: "실"
+      label: "재화 주머니 1"
       amount: 32
       world: ''
     - type: SUBMIT
       target: 'OAK_LOG'
       server: ''
-      label: "참나무 원목"
+      label: "재화 주머니 1"
       amount: 32
       world: ''
     - type: MYTHIC_KILL
       target: 'CA_Wild_piranha'
       server: ''
-      label: "붉은이빨 피라냐"
+      label: "재화 주머니 1"
       amount: 5
       world: ''
   aff30_pipi:
     title: "새 진열대"
     description: "새 진열대를 채우고 싶어! 달콤한 열매랑 꿀병이면 손님들이 엄청 좋아할 거야. 도와줄 거지?"
     reward:
-      label: "아티팩트 열쇠 1"
+      label: "재화 주머니 1"
       commands:
-      - "iagive {player} item:random_artifact 1 silent"
+      - "iagive {player} item:money_pouch 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -301,19 +301,19 @@ quests:
     - type: SUBMIT
       target: 'SWEET_BERRIES'
       server: ''
-      label: "달콤한 열매"
+      label: "재화 주머니 1"
       amount: 32
       world: ''
     - type: SUBMIT
       target: 'GLOW_BERRIES'
       server: ''
-      label: "발광 열매"
+      label: "재화 주머니 1"
       amount: 16
       world: ''
     - type: SUBMIT
       target: 'HONEY_BOTTLE'
       server: ''
-      label: "꿀이 든 병"
+      label: "재화 주머니 1"
       amount: 8
       world: ''
   aff30_vl_ole:
@@ -338,22 +338,22 @@ quests:
     - type: MYTHIC_KILL
       target: 'CA_Wild_swordfish'
       server: ''
-      label: "푸른창 황새치"
+      label: "아티팩트 열쇠 1"
       amount: 3
       world: ''
     - type: MYTHIC_KILL
       target: 'CA_Wild_catfish'
       server: ''
-      label: "온수 메기"
+      label: "아티팩트 열쇠 1"
       amount: 5
       world: ''
   aff30_vl_selma:
     title: "생선 주문"
     description: "주문이 밀려서 손이 모자라요! 구운 연어랑 구운 대구 좀 넉넉히 가져다주실래요?"
     reward:
-      label: "아티팩트 열쇠 1"
+      label: "재화 주머니 1"
       commands:
-      - "iagive {player} item:random_artifact 1 silent"
+      - "iagive {player} item:money_pouch 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -369,22 +369,22 @@ quests:
     - type: SUBMIT
       target: 'COOKED_SALMON'
       server: ''
-      label: "구운 연어"
+      label: "재화 주머니 1"
       amount: 16
       world: ''
     - type: SUBMIT
       target: 'COOKED_COD'
       server: ''
-      label: "구운 대구"
+      label: "재화 주머니 1"
       amount: 16
       world: ''
   aff30_vl_felix:
     title: "장신구 원석"
     description: "새 장신구를 만들려는데 원석이 부족해. 자수정 조각이랑 금괴, 그리고 자수정 새싹에서 나오는 결정 기운도 확인해 줘."
     reward:
-      label: "아티팩트 열쇠 1"
+      label: "미감정 마력코어 1"
       commands:
-      - "iagive {player} item:random_artifact 1 silent"
+      - "iagive {player} item:core_unidentified 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -400,19 +400,19 @@ quests:
     - type: SUBMIT
       target: 'AMETHYST_SHARD'
       server: ''
-      label: "자수정 조각"
+      label: "미감정 마력코어 1"
       amount: 32
       world: ''
     - type: SUBMIT
       target: 'GOLD_INGOT'
       server: ''
-      label: "금괴"
+      label: "미감정 마력코어 1"
       amount: 16
       world: ''
     - type: MYTHIC_KILL
       target: 'CA_Wild_bulb_amethyst'
       server: ''
-      label: "자수정 새싹"
+      label: "미감정 마력코어 1"
       amount: 5
       world: ''
   aff30_vl_gustav:
@@ -437,13 +437,13 @@ quests:
     - type: MYTHIC_KILL
       target: 'CA_Wild_lostasset_mob3_herbthief'
       server: ''
-      label: "약초 도둑"
+      label: "아티팩트 열쇠 1"
       amount: 5
       world: ''
     - type: MYTHIC_KILL
       target: 'CA_Wild_lostasset_mob3_mossyboar'
       server: ''
-      label: "이끼 등멧돼지"
+      label: "아티팩트 열쇠 1"
       amount: 5
       world: ''
   aff30_vl_clara:
@@ -468,22 +468,22 @@ quests:
     - type: SUBMIT
       target: 'STRING'
       server: ''
-      label: "실"
+      label: "아티팩트 열쇠 1"
       amount: 64
       world: ''
     - type: MYTHIC_KILL
       target: 'CA_Wild_lostasset_mob1_sheep'
       server: ''
-      label: "구름 양"
+      label: "아티팩트 열쇠 1"
       amount: 10
       world: ''
   aff30_vl_ben:
     title: "항구 심부름"
     description: "형, 누나! 심부름 좀 같이 해 줘요. 올레 할아버지, 셀마 누나, 피피한테 소식만 전하면 돼요. 수고비는 확실히 챙겨 드릴게요!"
     reward:
-      label: "아티팩트 열쇠 1"
+      label: "확성기 1"
       commands:
-      - "iagive {player} item:random_artifact 1 silent"
+      - "iagive {player} item:megaphone 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -499,28 +499,28 @@ quests:
     - type: NPC
       target: '12'
       server: school
-      label: "올레에게 소식 전하기"
+      label: "확성기 1"
       amount: 1
       world: ''
     - type: NPC
       target: '13'
       server: school
-      label: "셀마에게 소식 전하기"
+      label: "확성기 1"
       amount: 1
       world: ''
     - type: NPC
       target: '11'
       server: school
-      label: "피피에게 소식 전하기"
+      label: "확성기 1"
       amount: 1
       world: ''
   aff30_sf_bruno:
     title: "빗자루 창고 정리"
     description: "창고에 빗자루 손잡이 감이 바닥났구먼. 막대기랑 건초 더미, 가죽을 좀 모아 주게. 솔 묶는 데 다 쓰인다네."
     reward:
-      label: "아티팩트 열쇠 1"
+      label: "강화 초기화 주문서 1"
       commands:
-      - "iagive {player} item:random_artifact 1 silent"
+      - "iagive {player} item:core_scroll_red 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -536,28 +536,28 @@ quests:
     - type: SUBMIT
       target: 'STICK'
       server: ''
-      label: "막대기"
+      label: "강화 초기화 주문서 1"
       amount: 64
       world: ''
     - type: SUBMIT
       target: 'HAY_BLOCK'
       server: ''
-      label: "건초 더미"
+      label: "강화 초기화 주문서 1"
       amount: 16
       world: ''
     - type: SUBMIT
       target: 'LEATHER'
       server: ''
-      label: "가죽"
+      label: "강화 초기화 주문서 1"
       amount: 16
       world: ''
   aff30_sf_hilde:
     title: "의무실 약초"
     description: "다친 학생이 많아서 약이 모자라요. 반짝이는 수박과 황금 당근을 모아 주고, 약초 수호골렘이 지키는 약초밭도 정리해 주세요."
     reward:
-      label: "아티팩트 열쇠 1"
+      label: "복구의 주문서 1"
       commands:
-      - "iagive {player} item:random_artifact 1 silent"
+      - "iagive {player} item:core_scroll_blue 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -573,28 +573,28 @@ quests:
     - type: SUBMIT
       target: 'GLISTERING_MELON_SLICE'
       server: ''
-      label: "반짝이는 수박 조각"
+      label: "복구의 주문서 1"
       amount: 8
       world: ''
     - type: SUBMIT
       target: 'GOLDEN_CARROT'
       server: ''
-      label: "황금 당근"
+      label: "복구의 주문서 1"
       amount: 16
       world: ''
     - type: MYTHIC_KILL
       target: 'CA_Wild_lostasset_mob3_herbgolem'
       server: ''
-      label: "약초 수호골렘"
+      label: "복구의 주문서 1"
       amount: 3
       world: ''
   aff30_st_ian:
     title: "밤의 유적"
     description: "…노크세르라서 밤 유적에 간다고 또 수군대겠지. 상관없어. 망각의 해골술사를 상대하고, 엔더 진주도 좀 모아 와."
     reward:
-      label: "아티팩트 열쇠 1"
+      label: "성향 변환 주문서 1"
       commands:
-      - "iagive {player} item:random_artifact 1 silent"
+      - "iagive {player} item:core_scroll_purple 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -610,13 +610,13 @@ quests:
     - type: MYTHIC_KILL
       target: 'CA_Wild_ncr_mage_skeleton'
       server: ''
-      label: "망각의 해골술사"
+      label: "성향 변환 주문서 1"
       amount: 5
       world: ''
     - type: SUBMIT
       target: 'ENDER_PEARL'
       server: ''
-      label: "엔더 진주"
+      label: "성향 변환 주문서 1"
       amount: 8
       world: ''
   aff30_st_lia:
@@ -641,28 +641,28 @@ quests:
     - type: MYTHIC_KILL
       target: 'CA_Wild_ogre_club'
       server: ''
-      label: "숲몽둥이 오우거"
+      label: "아티팩트 열쇠 1"
       amount: 3
       world: ''
     - type: MYTHIC_KILL
       target: 'CA_Wild_ogre_axe'
       server: ''
-      label: "벌목꾼 오우거"
+      label: "아티팩트 열쇠 1"
       amount: 3
       world: ''
     - type: MYTHIC_KILL
       target: 'CA_Wild_ogre_hammer'
       server: ''
-      label: "산울림 오우거"
+      label: "아티팩트 열쇠 1"
       amount: 3
       world: ''
   aff30_st_kai:
     title: "동물 친구 먹이"
     description: "숲 친구들 먹이가 모자라! 밀이랑 당근 좀 모아서, 하르바 교수님께 같이 가져다드리자."
     reward:
-      label: "아티팩트 열쇠 1"
+      label: "변색종 염색 티켓 1"
       commands:
-      - "iagive {player} item:random_artifact 1 silent"
+      - "iagive {player} item:shiny_change 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -678,28 +678,28 @@ quests:
     - type: SUBMIT
       target: 'WHEAT'
       server: ''
-      label: "밀"
+      label: "변색종 염색 티켓 1"
       amount: 32
       world: ''
     - type: SUBMIT
       target: 'CARROT'
       server: ''
-      label: "당근"
+      label: "변색종 염색 티켓 1"
       amount: 32
       world: ''
     - type: NPC
       target: '25'
       server: school
-      label: "하르바 교수에게 먹이 전하기"
+      label: "변색종 염색 티켓 1"
       amount: 1
       world: ''
   aff30_st_jun:
     title: "반장의 부탁"
     description: "반장으로서 부탁 하나 할게. 루카, 보미, 카이가 잘 지내는지 한 명씩 들러서 이야기 좀 나눠 줘."
     reward:
-      label: "아티팩트 열쇠 1"
+      label: "확성기 1"
       commands:
-      - "iagive {player} item:random_artifact 1 silent"
+      - "iagive {player} item:megaphone 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -715,28 +715,28 @@ quests:
     - type: NPC
       target: '14'
       server: school
-      label: "루카와 이야기하기"
+      label: "확성기 1"
       amount: 1
       world: ''
     - type: NPC
       target: '35'
       server: school
-      label: "보미와 이야기하기"
+      label: "확성기 1"
       amount: 1
       world: ''
     - type: NPC
       target: '33'
       server: school
-      label: "카이와 이야기하기"
+      label: "확성기 1"
       amount: 1
       world: ''
   aff30_st_bomi:
     title: "소문 확인"
     description: "있잖아, 마을에 이상한 소문이 돌아! 펠릭스, 클라라, 구스타프 할아버지한테 진짜인지 물어봐 줄래?"
     reward:
-      label: "아티팩트 열쇠 1"
+      label: "확성기 1"
       commands:
-      - "iagive {player} item:random_artifact 1 silent"
+      - "iagive {player} item:megaphone 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -752,19 +752,19 @@ quests:
     - type: NPC
       target: '23'
       server: school
-      label: "펠릭스에게 물어보기"
+      label: "확성기 1"
       amount: 1
       world: ''
     - type: NPC
       target: '27'
       server: school
-      label: "클라라에게 물어보기"
+      label: "확성기 1"
       amount: 1
       world: ''
     - type: NPC
       target: '38'
       server: school
-      label: "구스타프에게 물어보기"
+      label: "확성기 1"
       amount: 1
       world: ''
   aff30_luka:
@@ -789,18 +789,18 @@ quests:
     - type: MYTHIC_KILL
       target: 'CA_Wild_crocodile'
       server: ''
-      label: "난초늪 악어"
+      label: "아티팩트 열쇠 1"
       amount: 3
       world: ''
     - type: MYTHIC_KILL
       target: 'CA_Wild_bear_polar'
       server: ''
-      label: "빙하 백곰"
+      label: "아티팩트 열쇠 1"
       amount: 2
       world: ''
     - type: MYTHIC_KILL
       target: 'CA_Wild_elk'
       server: ''
-      label: "고산 엘크"
+      label: "아티팩트 열쇠 1"
       amount: 5
       world: ''
