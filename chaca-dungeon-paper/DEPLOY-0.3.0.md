@@ -107,3 +107,16 @@ jar uf chaca-gimmick-…-hitcontract.1.jar -C out school/chacademia/gimmick/Gimm
 - 수정: 도구로 **배리어를 우클릭하면 가장 가까운 기믹(3칸 안) 조절 창**을 연다. 그 칸을 모서리로 찍고 싶으면 **Shift+우클릭**.
 - 반영: **서버 jar 하나만** `chaca-dungeon-0.3.1-gimmickclick-20261030.jar` (901130 바이트, md5 142f6f3075e1d394acb190f73b1719fb) 로 0.3.0 jar 교체.
   클라 모드·기믹 jar·메시지 형식은 그대로 (클라 0.3.0 과 같이 씀). 플러그인 교체라 재시작 필요 → 정기 점검 때.
+
+## 추가: 0.3.2 (2026-10-30) — 기믹 클릭 때 설정 창이 덮어쓰던 것 (0.3.1 대신 이것)
+
+- 증상: 설정 도구로 기믹(봉인문 등)을 우클릭하면 기믹 조절 창 대신 일반 설정 창이 뜸.
+- 원인: 기믹 히트박스 우클릭 뒤에 같은 클릭의 "허공 우클릭" 이 바로 따라와 조절 창을 덮어씀.
+- 수정: 기믹을 고른 뒤 0.4초 안의 허공 우클릭은 무시 + 허공 우클릭 때 바라보는 엔티티가 기믹이면 그 기믹 조절 창. (0.3.1 의 배리어 우클릭 = 기믹 포함)
+- 반영: 서버 jar 하나만 `chaca-dungeon-0.3.2-gimmickclick-20261030.jar` (901280 바이트, md5 81a0d79d4fcf69f65a1f76b066222c3e). 0.3.0/0.3.1 jar 는 지우기. 클라·기믹 jar 그대로. 재시작 필요.
+
+## 참고: 2026-10-30 실서버에서 바로 고친 것 (신기능 세션, 오너 승인)
+
+- 학교 `plugins/ModelEngine/blueprints/gm_*.bbmodel` 37개: 애니 이름 `animation.<모델>.` 앞꼬리 제거 (기믹 애니가 하나도 안 나오던 원인). 백업 `plugins/ChacaGimmick/backup-blueprints-animname-20261030/`.
+- 같은 파일 34개 activate/deactivate 에 소리 = timeline 스크립트 `mm:CHA_GMS_*` (ModelEngine 4.0.8 은 Blockbench 소리 표시를 무시하고 스크립트만 실행). 소리 스킬 = `plugins/MythicMobs/skills/chacademi_gimmick_sounds.yml` (24개). 백업 `plugins/ChacaGimmick/backup-blueprints-sound-20261030/`.
+- 오너가 `/mm reload` · `/meg reload` · `/서버관리 새로고침 던전` 직접 실행. 다른 서버로 기믹 모델을 옮길 때는 이 파일들을 기준으로.

@@ -51,6 +51,8 @@ final class Editor implements Listener {
         String lastView = "";
         long lastViewAt;
         String msg = "";
+        /** 기믹을 클릭한 시각: 같은 클릭에 따라오는 "허공 우클릭" 이 기믹 조절 창을 덮지 않게. */
+        long gimmickAt;
     }
     private final Map<UUID, State> states = new HashMap<>();
 
@@ -104,12 +106,21 @@ final class Editor implements Listener {
                 // 기믹이 차지한 칸은 배리어라 우클릭이 기믹 대신 블록에 맞는다 → 배리어 우클릭 = 그 기믹 조절 (Shift 면 모서리)
                 if (b.getType() == Material.BARRIER && !p.isSneaking()) {
                     String id = gimmicks.nearest(b.getLocation().add(.5, .5, .5), 3);
-                    if (id != null) { s.gimmick = id; sendEditor(p, true, ""); return; }
+                    if (id != null) { s.gimmick = id; s.gimmickAt = System.currentTimeMillis(); sendEditor(p, true, ""); return; }
                 }
                 s.b = new int[]{b.getX(), b.getY(), b.getZ()};
                 selected(p, s, "반대 모서리");
             }
-            case RIGHT_CLICK_AIR -> { s.gimmick = null; sendEditor(p, true, ""); }
+            case RIGHT_CLICK_AIR -> {
+                // 기믹(히트박스)을 클릭하면 같은 클릭으로 "허공 우클릭" 도 따라온다 → 방금 기믹을 골랐으면 무시
+                if (System.currentTimeMillis() - s.gimmickAt < 400) return;
+                // 바라보는 엔티티가 기믹이면 그 기믹 조절 창
+                var target = p.getTargetEntity(6, false);
+                String id = target == null ? null : gimmicks.byEntity(target);
+                s.gimmick = id;
+                if (id != null) s.gimmickAt = System.currentTimeMillis();
+                sendEditor(p, true, "");
+            }
             case LEFT_CLICK_AIR -> { if (p.isSneaking()) { s.a = s.b = null; p.sendActionBar(Component.text("고른 구역을 지웠어요", NamedTextColor.GRAY)); sendView(p, true); } }
             default -> { }
         }
@@ -130,6 +141,7 @@ final class Editor implements Listener {
         String id = gimmicks.byEntity(e.getRightClicked());
         if (id == null) { p.sendActionBar(Component.text("기믹이 아니에요", NamedTextColor.GRAY)); return; }
         state(p).gimmick = id;
+        state(p).gimmickAt = System.currentTimeMillis();
         sendEditor(p, true, "");
     }
 
