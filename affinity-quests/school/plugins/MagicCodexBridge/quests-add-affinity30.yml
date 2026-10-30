@@ -1,14 +1,13 @@
 # 호감도 30 상한 퀘스트 23개 (2026-10-30, 신기능 세션). 학교 plugins/MagicCodexBridge/quests.yml 의 quests: 아래에 붙인 뒤 /의뢰관리 reload.
-# 보상 = 마법의 타로카드 1 + 아티팩트 일반 확정 뽑기권 1 (ItemsAdder 아이템이라 보상 명령 iagive 로 지급). main: true = 진행 중 의뢰 3개 제한에 안 걸림.
+# 보상 = 아티팩트 열쇠 1 (오너 2026-10-30, ItemsAdder 아이템이라 보상 명령 iagive 로 지급). main: true = 진행 중 의뢰 3개 제한에 안 걸림.
 quests:
   aff30_teacher_ellna:
     title: "물의 정령 관찰"
     description: "요즘 호숫가 정령들이 들떠 있어. 달물결 요정과 청빛 해파리를 직접 만나 보고, 물의 기운이 어떤지 알려 주렴."
     reward:
-      label: "마법의 타로카드 1 · 아티팩트 일반 확정 뽑기권 1"
+      label: "아티팩트 열쇠 1"
       commands:
-      - "iagive {player} item:spell_hint 1 silent"
-      - "iagive {player} item:artifact_ticket_common 1 silent"
+      - "iagive {player} item:random_artifact 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -37,10 +36,9 @@ quests:
     title: "숲의 질서"
     description: "숲늑대 무리가 선을 넘고 있다. 열 마리만 정리하고, 무리를 이끄는 송곳니 우두머리도 꺾고 와라."
     reward:
-      label: "마법의 타로카드 1 · 아티팩트 일반 확정 뽑기권 1"
+      label: "아티팩트 열쇠 1"
       commands:
-      - "iagive {player} item:spell_hint 1 silent"
-      - "iagive {player} item:artifact_ticket_common 1 silent"
+      - "iagive {player} item:random_artifact 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -69,10 +67,9 @@ quests:
     title: "온실 손질"
     description: "온실 흙이 지쳤어~ 뼛가루랑 이끼 블록을 모아 주고, 온실을 넘보는 포자 요정들도 좀 쫓아 줄래?"
     reward:
-      label: "마법의 타로카드 1 · 아티팩트 일반 확정 뽑기권 1"
+      label: "아티팩트 열쇠 1"
       commands:
-      - "iagive {player} item:spell_hint 1 silent"
-      - "iagive {player} item:artifact_ticket_common 1 silent"
+      - "iagive {player} item:random_artifact 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -107,10 +104,9 @@ quests:
     title: "유적 실전 훈련"
     description: "책상 앞 공부는 그만! 옛 유적의 해골 병사들을 상대로 실전 감각을 길러 와라. 검병, 창병, 궁수 전부다!"
     reward:
-      label: "마법의 타로카드 1 · 아티팩트 일반 확정 뽑기권 1"
+      label: "아티팩트 열쇠 1"
       commands:
-      - "iagive {player} item:spell_hint 1 silent"
-      - "iagive {player} item:artifact_ticket_common 1 silent"
+      - "iagive {player} item:random_artifact 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -145,10 +141,9 @@ quests:
     title: "봉인 유적 점검"
     description: "봉인 유적을 지키는 자들이 예전보다 거칠어졌다는 보고가 있네. 봉인의 기사와 술사를 상대해 보고 그 기세를 확인해 주게."
     reward:
-      label: "마법의 타로카드 1 · 아티팩트 일반 확정 뽑기권 1"
+      label: "아티팩트 열쇠 1"
       commands:
-      - "iagive {player} item:spell_hint 1 silent"
-      - "iagive {player} item:artifact_ticket_common 1 silent"
+      - "iagive {player} item:random_artifact 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -177,10 +172,9 @@ quests:
     title: "서고 보수"
     description: "오래된 책들이 낡아서 새로 엮어야 해요. 책과 먹물을 모아 주시고, 대출 장부는 그레고르 교감 선생님께 전해 주세요."
     reward:
-      label: "마법의 타로카드 1 · 아티팩트 일반 확정 뽑기권 1"
+      label: "아티팩트 열쇠 1"
       commands:
-      - "iagive {player} item:spell_hint 1 silent"
-      - "iagive {player} item:artifact_ticket_common 1 silent"
+      - "iagive {player} item:random_artifact 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -215,10 +209,9 @@ quests:
     title: "기숙사 보수 공사"
     description: "기숙사 마루가 삐걱거리고 이불도 모자라다. 참나무 판자와 흰 양털을 모아 오고, 공구는 관리인 브루노에게 받아 와라."
     reward:
-      label: "마법의 타로카드 1 · 아티팩트 일반 확정 뽑기권 1"
+      label: "아티팩트 열쇠 1"
       commands:
-      - "iagive {player} item:spell_hint 1 silent"
-      - "iagive {player} item:artifact_ticket_common 1 silent"
+      - "iagive {player} item:random_artifact 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -253,10 +246,9 @@ quests:
     title: "출항 준비"
     description: "이보게, 다음 항해 준비 좀 도와주겠나? 밧줄 감을 실과 통나무가 필요하고, 뱃전을 물어뜯는 피라냐도 좀 쫓아 주게나!"
     reward:
-      label: "마법의 타로카드 1 · 아티팩트 일반 확정 뽑기권 1"
+      label: "아티팩트 열쇠 1"
       commands:
-      - "iagive {player} item:spell_hint 1 silent"
-      - "iagive {player} item:artifact_ticket_common 1 silent"
+      - "iagive {player} item:random_artifact 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -291,10 +283,9 @@ quests:
     title: "새 진열대"
     description: "새 진열대를 채우고 싶어! 달콤한 열매랑 꿀병이면 손님들이 엄청 좋아할 거야. 도와줄 거지?"
     reward:
-      label: "마법의 타로카드 1 · 아티팩트 일반 확정 뽑기권 1"
+      label: "아티팩트 열쇠 1"
       commands:
-      - "iagive {player} item:spell_hint 1 silent"
-      - "iagive {player} item:artifact_ticket_common 1 silent"
+      - "iagive {player} item:random_artifact 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -329,10 +320,9 @@ quests:
     title: "큰 놈들"
     description: "허허, 요즘 바다에 큰 놈들이 돌아왔다더군! 푸른창 황새치랑 온수 메기를 상대해 보고 오게. 낚시꾼이라면 한 번은 겨뤄 봐야지!"
     reward:
-      label: "마법의 타로카드 1 · 아티팩트 일반 확정 뽑기권 1"
+      label: "아티팩트 열쇠 1"
       commands:
-      - "iagive {player} item:spell_hint 1 silent"
-      - "iagive {player} item:artifact_ticket_common 1 silent"
+      - "iagive {player} item:random_artifact 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -361,10 +351,9 @@ quests:
     title: "생선 주문"
     description: "주문이 밀려서 손이 모자라요! 구운 연어랑 구운 대구 좀 넉넉히 가져다주실래요?"
     reward:
-      label: "마법의 타로카드 1 · 아티팩트 일반 확정 뽑기권 1"
+      label: "아티팩트 열쇠 1"
       commands:
-      - "iagive {player} item:spell_hint 1 silent"
-      - "iagive {player} item:artifact_ticket_common 1 silent"
+      - "iagive {player} item:random_artifact 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -393,10 +382,9 @@ quests:
     title: "장신구 원석"
     description: "새 장신구를 만들려는데 원석이 부족해. 자수정 조각이랑 금괴, 그리고 자수정 새싹에서 나오는 결정 기운도 확인해 줘."
     reward:
-      label: "마법의 타로카드 1 · 아티팩트 일반 확정 뽑기권 1"
+      label: "아티팩트 열쇠 1"
       commands:
-      - "iagive {player} item:spell_hint 1 silent"
-      - "iagive {player} item:artifact_ticket_common 1 silent"
+      - "iagive {player} item:random_artifact 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -431,10 +419,9 @@ quests:
     title: "옛길 순찰"
     description: "허허, 마을 옛길에 약초 도둑이랑 이끼 멧돼지가 자꾸 나타난단다. 늙은이 대신 한 바퀴 돌아 주겠니?"
     reward:
-      label: "마법의 타로카드 1 · 아티팩트 일반 확정 뽑기권 1"
+      label: "아티팩트 열쇠 1"
       commands:
-      - "iagive {player} item:spell_hint 1 silent"
-      - "iagive {player} item:artifact_ticket_common 1 silent"
+      - "iagive {player} item:random_artifact 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -463,10 +450,9 @@ quests:
     title: "좋은 천"
     description: "좋은 천은 좋은 실에서 나옵니다. 실을 넉넉히 모아 오시고, 구름 양의 털 상태도 직접 확인해 주세요. 대충은 안 됩니다."
     reward:
-      label: "마법의 타로카드 1 · 아티팩트 일반 확정 뽑기권 1"
+      label: "아티팩트 열쇠 1"
       commands:
-      - "iagive {player} item:spell_hint 1 silent"
-      - "iagive {player} item:artifact_ticket_common 1 silent"
+      - "iagive {player} item:random_artifact 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -495,10 +481,9 @@ quests:
     title: "항구 심부름"
     description: "형, 누나! 심부름 좀 같이 해 줘요. 올레 할아버지, 셀마 누나, 피피한테 소식만 전하면 돼요. 수고비는 확실히 챙겨 드릴게요!"
     reward:
-      label: "마법의 타로카드 1 · 아티팩트 일반 확정 뽑기권 1"
+      label: "아티팩트 열쇠 1"
       commands:
-      - "iagive {player} item:spell_hint 1 silent"
-      - "iagive {player} item:artifact_ticket_common 1 silent"
+      - "iagive {player} item:random_artifact 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -533,10 +518,9 @@ quests:
     title: "빗자루 창고 정리"
     description: "창고에 빗자루 손잡이 감이 바닥났구먼. 막대기랑 건초 더미, 가죽을 좀 모아 주게. 솔 묶는 데 다 쓰인다네."
     reward:
-      label: "마법의 타로카드 1 · 아티팩트 일반 확정 뽑기권 1"
+      label: "아티팩트 열쇠 1"
       commands:
-      - "iagive {player} item:spell_hint 1 silent"
-      - "iagive {player} item:artifact_ticket_common 1 silent"
+      - "iagive {player} item:random_artifact 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -571,10 +555,9 @@ quests:
     title: "의무실 약초"
     description: "다친 학생이 많아서 약이 모자라요. 반짝이는 수박과 황금 당근을 모아 주고, 약초 수호골렘이 지키는 약초밭도 정리해 주세요."
     reward:
-      label: "마법의 타로카드 1 · 아티팩트 일반 확정 뽑기권 1"
+      label: "아티팩트 열쇠 1"
       commands:
-      - "iagive {player} item:spell_hint 1 silent"
-      - "iagive {player} item:artifact_ticket_common 1 silent"
+      - "iagive {player} item:random_artifact 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -609,10 +592,9 @@ quests:
     title: "밤의 유적"
     description: "…노크세르라서 밤 유적에 간다고 또 수군대겠지. 상관없어. 망각의 해골술사를 상대하고, 엔더 진주도 좀 모아 와."
     reward:
-      label: "마법의 타로카드 1 · 아티팩트 일반 확정 뽑기권 1"
+      label: "아티팩트 열쇠 1"
       commands:
-      - "iagive {player} item:spell_hint 1 silent"
-      - "iagive {player} item:artifact_ticket_common 1 silent"
+      - "iagive {player} item:random_artifact 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -641,10 +623,9 @@ quests:
     title: "힘겨루기"
     description: "나랑 내기 하나 할래? 숲의 오우거 세 종류를 다 쓰러뜨리고 오면 인정해 줄게. 몽둥이, 도끼, 망치 전부야!"
     reward:
-      label: "마법의 타로카드 1 · 아티팩트 일반 확정 뽑기권 1"
+      label: "아티팩트 열쇠 1"
       commands:
-      - "iagive {player} item:spell_hint 1 silent"
-      - "iagive {player} item:artifact_ticket_common 1 silent"
+      - "iagive {player} item:random_artifact 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -679,10 +660,9 @@ quests:
     title: "동물 친구 먹이"
     description: "숲 친구들 먹이가 모자라! 밀이랑 당근 좀 모아서, 하르바 교수님께 같이 가져다드리자."
     reward:
-      label: "마법의 타로카드 1 · 아티팩트 일반 확정 뽑기권 1"
+      label: "아티팩트 열쇠 1"
       commands:
-      - "iagive {player} item:spell_hint 1 silent"
-      - "iagive {player} item:artifact_ticket_common 1 silent"
+      - "iagive {player} item:random_artifact 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -717,10 +697,9 @@ quests:
     title: "반장의 부탁"
     description: "반장으로서 부탁 하나 할게. 루카, 보미, 카이가 잘 지내는지 한 명씩 들러서 이야기 좀 나눠 줘."
     reward:
-      label: "마법의 타로카드 1 · 아티팩트 일반 확정 뽑기권 1"
+      label: "아티팩트 열쇠 1"
       commands:
-      - "iagive {player} item:spell_hint 1 silent"
-      - "iagive {player} item:artifact_ticket_common 1 silent"
+      - "iagive {player} item:random_artifact 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -755,10 +734,9 @@ quests:
     title: "소문 확인"
     description: "있잖아, 마을에 이상한 소문이 돌아! 펠릭스, 클라라, 구스타프 할아버지한테 진짜인지 물어봐 줄래?"
     reward:
-      label: "마법의 타로카드 1 · 아티팩트 일반 확정 뽑기권 1"
+      label: "아티팩트 열쇠 1"
       commands:
-      - "iagive {player} item:spell_hint 1 silent"
-      - "iagive {player} item:artifact_ticket_common 1 silent"
+      - "iagive {player} item:random_artifact 1 silent"
       money: 0.0
       items: []
       house-points: 0
@@ -793,10 +771,9 @@ quests:
     title: "탐험 대결"
     description: "누가 더 멀리 탐험하나 대결하자! 난초늪 악어, 빙하 백곰, 고산 엘크까지 만나고 오면 네가 이긴 걸로 할게!"
     reward:
-      label: "마법의 타로카드 1 · 아티팩트 일반 확정 뽑기권 1"
+      label: "아티팩트 열쇠 1"
       commands:
-      - "iagive {player} item:spell_hint 1 silent"
-      - "iagive {player} item:artifact_ticket_common 1 silent"
+      - "iagive {player} item:random_artifact 1 silent"
       money: 0.0
       items: []
       house-points: 0
