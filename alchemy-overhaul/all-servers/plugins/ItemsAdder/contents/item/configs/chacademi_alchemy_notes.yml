@@ -1,0 +1,51 @@
+info:
+  namespace: item
+items:
+  alchemy_note_1:
+    name: "&f낡은 연금 쪽지"
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+      - chacademi/items/alchemy_note_1.png
+    lore:
+    - "&7소모품"
+    - "일반"
+    - "&f누군가 급히 적어 둔 조합식의 흔적이 희미하게 남아 있다."
+    - "&8우클릭하여 펼쳐 봅니다."
+  alchemy_note_2:
+    name: "&f연금 쪽지"
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+      - chacademi/items/alchemy_note_2.png
+    lore:
+    - "&7소모품"
+    - "고급"
+    - "&f푸른 밀랍 아래 또렷한 조합식 일부가 적혀 있다."
+    - "&8우클릭하여 펼쳐 봅니다."
+  alchemy_note_3:
+    name: "&f봉인된 연금 쪽지"
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+      - chacademi/items/alchemy_note_3.png
+    lore:
+    - "&7소모품"
+    - "유일"
+    - "&f금이 간 봉인 틈으로 조합식의 재료가 비친다."
+    - "&8우클릭하여 펼쳐 봅니다."
+  alchemy_note_4:
+    name: "&f대마법사의 연금 쪽지"
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+      - chacademi/items/alchemy_note_4.png
+    lore:
+    - "&7소모품"
+    - "전설"
+    - "&f옛 대마법사가 남긴 조합식이 빠짐없이 적혀 있다."
+    - "&8우클릭하여 펼쳐 봅니다."
