@@ -40,6 +40,11 @@ public final class DungeonClient implements ClientModInitializer {
     private static DungeonProtocol.Result pendingResult;
     private static long pendingResultAt;
     private static int lastEntrySession, lastReadySession;
+    // [기능:파티던전 시작] 파티 입장 수락 창 (state 0 동안만 값이 있음). acceptTotal = 이 창의 처음 남은 시간 (타이머 막대 길이)
+    static DungeonProtocol.Accept accept;
+    static long acceptAt, acceptTotal;
+    private static boolean pendingAccept;
+    // [기능:파티던전 끝]
 
     @Override public void onInitializeClient() {
         PayloadTypeRegistry.playS2C().register(Net.ToClient.TYPE, Net.ToClient.CODEC);
@@ -61,9 +66,20 @@ public final class DungeonClient implements ClientModInitializer {
             if (!hudScreen(screen)) return;
             ScreenMouseEvents.allowMouseClick(screen).register((s, mx, my, button) -> {
                 if (button == 0 && DungeonHud.hitExit(mx, my)) { open(new UiScreens.ExitConfirm()); return false; }
+                // [기능:파티던전 시작] 파티 던전: Ctrl 포인터 화면 클릭 = 핑 (큐디치와 같은 조작)
+                if (PartyPing.press(s, mx, my, button)) return false;
+                // [기능:파티던전 끝]
                 return true;
             });
+            // [기능:파티던전 시작]
+            ScreenMouseEvents.allowMouseRelease(screen).register((s, mx, my, button) -> !PartyPing.release(mx, my, button));
+            ScreenEvents.afterRender(screen).register((s, g, mx, my, delta) -> PartyPing.wheel(s, g, mx, my));
+            ScreenEvents.remove(screen).register(s -> PartyPing.cancel());
+            // [기능:파티던전 끝]
         });
+        // [기능:파티던전 시작]
+        WorldRenderEvents.LAST.register(PartyPing::capture);
+        // [기능:파티던전 끝]
     }
 
     private static void clear() {
@@ -71,6 +87,10 @@ public final class DungeonClient implements ClientModInitializer {
         queue = new DungeonProtocol.Queue(DungeonProtocol.Q_NONE, "", 0, 0, 0, 0, 0, 0);
         run = DungeonProtocol.Run.NONE;
         portals = List.of();
+        // [기능:파티던전 시작]
+        accept = null; pendingAccept = false;
+        PartyPing.clear();
+        // [기능:파티던전 끝]
         EditorState.clear();
         Art.reset();
     }
@@ -120,6 +140,22 @@ public final class DungeonClient implements ClientModInitializer {
             case DungeonProtocol.ResultMsg r -> { pendingResult = r.result(); pendingResultAt = now(); }
             case DungeonProtocol.PortalsMsg p -> portals = p.portals();
             case DungeonProtocol.JsonMsg j -> EditorState.receive(j.kind(), j.json());
+            // [기능:파티던전 시작]
+            case DungeonProtocol.AcceptMsg a -> {
+                var x = a.accept();
+                if (x.state() != 0) { // 1 출발 · 2 취소: 창을 닫는다
+                    if (accept != null && accept.session() == x.session()) { accept = null; pendingAccept = false; }
+                    if (x.state() == 1) pendingEntry = null; // 출발: 기다리던 입장창은 열지 않는다
+                    if (mc.screen instanceof UiScreens.AcceptScreen s && s.session() == x.session()) mc.setScreen(null);
+                    return;
+                }
+                if (accept == null || accept.session() != x.session()) acceptTotal = x.leftMs();
+                accept = x;
+                acceptAt = now();
+                if (!(mc.screen instanceof UiScreens.AcceptScreen s && s.session() == x.session())) pendingAccept = true; // 같은 번호면 열린 창이 새 값으로 다시 그림
+            }
+            case DungeonProtocol.PingMsg p -> PartyPing.receive(p.ping());
+            // [기능:파티던전 끝]
             case DungeonProtocol.CloseMsg c -> {
                 pendingEntry = null;
                 if (mc.screen instanceof UiScreens.EntryScreen || mc.screen instanceof UiScreens.QueueScreen) mc.setScreen(null);
@@ -130,6 +166,14 @@ public final class DungeonClient implements ClientModInitializer {
     private static void tick(Minecraft mc) {
         if (mc.player == null) return;
         long now = now();
+        // [기능:파티던전 시작] 수락 창이 먼저: 다른 던전 창은 덮고(바꾸고), 던전과 상관없는 창 위에는 기다렸다가
+        if (pendingAccept) {
+            if (accept == null || now - acceptAt > accept.leftMs()) pendingAccept = false;
+            else if (canOpen()) { open(new UiScreens.AcceptScreen(accept.session())); pendingAccept = false; }
+            return;
+        }
+        if (mc.screen instanceof UiScreens.AcceptScreen) return; // 수락 창 위로 입장창·대기창·결과창을 열지 않는다
+        // [기능:파티던전 끝]
         if (pendingResult != null) {
             if (canOpen() && !(mc.screen instanceof UiScreens.ResultScreen)) { open(new UiScreens.ResultScreen(pendingResult)); pendingResult = null; }
             else if (now - pendingResultAt > 120_000) pendingResult = null;

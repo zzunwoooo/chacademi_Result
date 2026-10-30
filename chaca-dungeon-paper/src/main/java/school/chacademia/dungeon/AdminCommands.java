@@ -46,8 +46,128 @@ final class AdminCommands {
             ChacaLink.ok(ctx.getSource().getSender(), "던전에서 내보냈어요 (실패 처리)");
             return 1;
         })), "던전에서 내보내기", "강제퇴장 닉네임");
+        // [기능:파티던전 시작]
+        ChacaLink.branch(plugin, root, newDungeon(), "새 던전 등록 (기본값은 첫 던전에서 복사, 칸 3개)", "새던전 crypt 지하 묘지");
+        ChacaLink.branch(plugin, root, dungeonInfo(), "던전 정보 바꾸기: 이름·부제·월드·칸수·인원·권한·잠금문구·입장권·입장권수·첫입장무료·체력회복·포탈이름·배경", "던전정보 crypt 인원 3");
+        ChacaLink.branch(plugin, root, placeHere("입구", true), "지금 선 자리를 그 던전의 입장 포탈로 (반경 선택)", "입구 crypt 2.5");
+        ChacaLink.branch(plugin, root, placeHere("퇴장위치", false), "지금 선 자리를 그 던전에서 나왔을 때 서는 곳으로", "퇴장위치 crypt");
+        ChacaLink.branch(plugin, root, Commands.literal("던전목록").executes(ctx -> {
+            var out = new ArrayList<String>();
+            out.add("── 던전 " + plugin.service().dungeons.size() + "개 ──");
+            for (var d : plugin.service().dungeons.values())
+                out.add(" " + d.id + " · " + d.name + " · " + (d.partySize > 1 ? d.partySize + "인 파티" : "1인") + " · 칸 " + d.instances + " · 월드 " + d.world
+                        + (d.portal == null ? " · 입구 없음" : "") + (d.exit == null ? " · 퇴장위치 없음" : ""));
+            ChacaLink.lines(ctx.getSource().getSender(), out);
+            return 1;
+        }), "등록된 던전 목록", "던전목록");
+        // [기능:파티던전 끝]
         ChacaLink.reload(plugin, "던전입장", "config·dungeons.yml 다시 읽기", plugin::reload);
     }
+
+    // [기능:파티던전 시작]
+    /** 던전 목록에 하나 더 넣고 저장 (진행 중인 판은 그대로). */
+    private void putDungeon(Defs.Dungeon d) {
+        var next = new java.util.LinkedHashMap<>(plugin.service().dungeons);
+        next.put(d.id, d);
+        plugin.service().apply(next);
+        plugin.saveDungeons();
+    }
+
+    private LiteralArgumentBuilder<CommandSourceStack> newDungeon() {
+        return Commands.literal("새던전").then(Commands.argument("id", com.mojang.brigadier.arguments.StringArgumentType.word())
+                .then(Commands.argument("이름", com.mojang.brigadier.arguments.StringArgumentType.greedyString()).executes(ctx -> {
+                    String id = ctx.getArgument("id", String.class);
+                    String name = ctx.getArgument("이름", String.class).trim();
+                    if (!id.matches("[a-z0-9_]{1,32}")) throw ChacaLink.error("id 는 영문 소문자·숫자·_ 로 32자까지예요 (예: crypt)");
+                    if (plugin.service().dungeons.containsKey(id)) throw ChacaLink.error("이미 있는 id 예요: " + id);
+                    if (!Defs.validName(name)) throw ChacaLink.error("이름은 한글·영문·숫자·공백 32자까지예요");
+                    var d = new Defs.Dungeon(id);
+                    d.name = name;
+                    d.portalLabel = name;
+                    d.lockMessage = "아직 들어갈 수 없어요.";
+                    var template = plugin.service().dungeons.values().stream().findFirst().orElse(null);
+                    if (template != null) {
+                        d.world = template.world;
+                        d.ticketItem = template.ticketItem;
+                        d.ticketAmount = template.ticketAmount;
+                        d.freeUntilFirstClear = template.freeUntilFirstClear;
+                    } else if (ctx.getSource().getSender() instanceof Player p) d.world = p.getWorld().getName();
+                    d.instances = 3;
+                    for (int no = 1; no <= d.instances; no++) d.slot(no);
+                    putDungeon(d);
+                    ChacaLink.ok(ctx.getSource().getSender(), "새 던전 등록: " + id + " (" + name + ") · 월드 " + d.world + " · 칸 3 · 1인. "
+                            + "다음: /던전관리 입구 " + id + " · 퇴장위치 " + id + " · 던전정보 " + id + " 인원 3 · 설정 도구로 칸 설정");
+                    return 1;
+                })));
+    }
+
+    private LiteralArgumentBuilder<CommandSourceStack> dungeonInfo() {
+        var keys = List.of("이름", "부제", "월드", "칸수", "인원", "권한", "잠금문구", "입장권", "입장권수", "첫입장무료", "체력회복", "포탈이름", "배경");
+        return Commands.literal("던전정보").then(Commands.argument("던전", ChacaLink.word(() -> plugin.service().dungeons.keySet()))
+                .then(Commands.argument("항목", ChacaLink.word(() -> keys))
+                        .then(Commands.argument("값", com.mojang.brigadier.arguments.StringArgumentType.greedyString()).executes(ctx -> {
+                            var d = plugin.service().dungeons.get(ctx.getArgument("던전", String.class));
+                            if (d == null) throw ChacaLink.error("그런 던전이 없어요");
+                            String key = ctx.getArgument("항목", String.class), v = ctx.getArgument("값", String.class).trim();
+                            String shown = v;
+                            switch (key) {
+                                case "이름" -> { if (!Defs.validName(v)) throw ChacaLink.error("이름은 한글·영문·숫자·공백 32자까지예요"); d.name = v; }
+                                case "부제" -> d.subtitle = v;
+                                case "월드" -> { if (org.bukkit.Bukkit.getWorld(v) == null) throw ChacaLink.error("그런 월드가 없어요: " + v); d.world = v; }
+                                case "칸수" -> { d.instances = Math.max(1, Math.min(16, number(v))); for (int no = 1; no <= d.instances; no++) d.slot(no); shown = String.valueOf(d.instances); }
+                                case "인원" -> {
+                                    int n = number(v);
+                                    if (n < 1 || n > 5) throw ChacaLink.error("인원은 1(1인 던전)~5 예요");
+                                    d.partySize = n; shown = n == 1 ? "1인 던전" : n + "인 파티 던전";
+                                }
+                                case "권한" -> d.permission = v.equals("없음") ? "" : v;
+                                case "잠금문구" -> d.lockMessage = v;
+                                case "입장권" -> d.ticketItem = v.equals("없음") ? "" : v;
+                                case "입장권수" -> { d.ticketAmount = Math.max(0, number(v)); shown = String.valueOf(d.ticketAmount); }
+                                case "첫입장무료" -> d.freeUntilFirstClear = bool(v);
+                                case "체력회복" -> d.naturalRegen = bool(v);
+                                case "포탈이름" -> d.portalLabel = v;
+                                case "배경" -> { if (!v.matches("[a-z0-9_]{1,32}|없음")) throw ChacaLink.error("배경 이름은 영문 소문자·숫자·_ (예: halloween, lich)"); d.art = v.equals("없음") ? "" : v; }
+                                default -> throw ChacaLink.error("항목: " + String.join(" · ", keys));
+                            }
+                            putDungeon(d);
+                            ChacaLink.ok(ctx.getSource().getSender(), d.id + " " + key + " = " + shown);
+                            return 1;
+                        }))));
+    }
+
+    private static int number(String v) throws CommandSyntaxException {
+        try { return Integer.parseInt(v.trim()); } catch (NumberFormatException e) { throw ChacaLink.error("숫자를 적어 주세요: " + v); }
+    }
+
+    private static boolean bool(String v) throws CommandSyntaxException {
+        return switch (v.trim()) {
+            case "켜기", "예", "true", "on" -> true;
+            case "끄기", "아니오", "false", "off" -> false;
+            default -> throw ChacaLink.error("켜기 또는 끄기로 적어 주세요");
+        };
+    }
+
+    /** 입구(포탈) 또는 퇴장 위치를 지금 선 자리로. */
+    private LiteralArgumentBuilder<CommandSourceStack> placeHere(String word, boolean portal) {
+        com.mojang.brigadier.Command<CommandSourceStack> run = ctx -> {
+            Player p = self(ctx);
+            var d = plugin.service().dungeons.get(ctx.getArgument("던전", String.class));
+            if (d == null) throw ChacaLink.error("그런 던전이 없어요");
+            var at = Defs.Loc.of(p.getLocation());
+            if (portal) {
+                d.portal = at;
+                try { d.portalRadius = Math.max(0.5, ctx.getArgument("반경", Double.class)); } catch (IllegalArgumentException none) { }
+            } else d.exit = at;
+            putDungeon(d);
+            ChacaLink.ok(p, d.name + " " + (portal ? "입구 포탈 = " + at.shortText() + " (반경 " + d.portalRadius + ")" : "퇴장 위치 = " + at.shortText()));
+            return 1;
+        };
+        var arg = Commands.argument("던전", ChacaLink.word(() -> plugin.service().dungeons.keySet())).executes(run);
+        if (portal) arg.then(Commands.argument("반경", DoubleArgumentType.doubleArg(0.5, 10)).executes(run));
+        return Commands.literal(word).then(arg);
+    }
+    // [기능:파티던전 끝]
 
     // ------------------------------------------------------------ 도우미
 
@@ -120,7 +240,7 @@ final class AdminCommands {
                     try { chance = ctx.getArgument("확률", Double.class); }
                     catch (IllegalArgumentException missing) { throw ChacaLink.error("확률(%)을 적어 주세요: /던전관리 보상 확률 추가 12.5"); }
                 }
-                String ia = plugin.service().items.idOf(hand);
+                String ia = RewardKeep.ia(plugin.service().items.idOf(hand), hand); // [기능:던전보상능력치유지]
                 Defs.Reward r;
                 if (ia != null) r = new Defs.Reward(ia, hand.getAmount(), "", chance);
                 else if (!hand.hasItemMeta() || hand.isSimilar(new ItemStack(hand.getType()))) r = new Defs.Reward(hand.getType().getKey().toString(), hand.getAmount(), "", chance);

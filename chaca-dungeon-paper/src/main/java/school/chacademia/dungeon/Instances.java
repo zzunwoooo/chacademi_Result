@@ -56,9 +56,36 @@ final class Instances {
         String lockedRoom;
         UUID boss;
         long lastSync;
+        // [기능:파티던전 시작]
+        /**
+         * 함께 도전하는 사람들 (1인 던전 = player 하나). player = 처음 입장한 사람(장부 기준), leader = 지금 파티장 (나가면 다음 사람).
+         * 나가거나 접속이 끊긴 사람은 members 에서 빠진다. dead = 쓰러져 관전 중 (members 에 남음).
+         */
+        final Set<UUID> members = new java.util.LinkedHashSet<>();
+        final Set<UUID> dead = new HashSet<>();
+        UUID leader;
+        boolean party;
+        /** 이동이 끝난(도착한) 사람. 모두 도착하거나 이동에 실패한 사람이 빠지면 판이 시작된다. */
+        final Set<UUID> landed = new HashSet<>();
+        /** 사람마다 걷은 입장권 (이동 실패 때 돌려줄 양). */
+        final Map<UUID, Integer> tickets = new HashMap<>();
+        /** 던전 구역 밖에 나간 시각 (돌아오면 지움). */
+        final Map<UUID, Long> outSince = new HashMap<>();
+        /** 보스 처치 뒤 출구가 열린 상태: 0 = 아님, 아니면 강제 퇴장 시각. */
+        long exitAt;
+        Location exitPoint, bossFell;
+        /** 보스가 교화 봉인에 들어갔음 (그 뒤 사라지면 교화 성공 = 처치). */
+        boolean bossSealed;
+        /** 클리어 결과창 (나갈 때 보여 줌). */
+        final Map<UUID, school.chacademia.dungeon.protocol.DungeonProtocol.Result> results = new HashMap<>();
+
+        boolean has(UUID id) { return members.contains(id); }
+        int alive() { int n = 0; for (UUID id : members) if (!dead.contains(id)) n++; return n; }
+        // [기능:파티던전 끝]
 
         Run(UUID player, Slot slot, int ticketsTaken, String ticketItem) {
             this.player = player; this.slot = slot; this.ticketsTaken = ticketsTaken; this.ticketItem = ticketItem;
+            this.leader = player; members.add(player); tickets.put(player, ticketsTaken); // [기능:파티던전]
         }
 
         long elapsed(long now) {

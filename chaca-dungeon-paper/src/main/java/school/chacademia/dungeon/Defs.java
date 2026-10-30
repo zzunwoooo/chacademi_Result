@@ -128,6 +128,12 @@ final class Defs {
         boolean freeUntilFirstClear = true;
         /** 던전 안에서 배고픔으로 체력이 저절로 차는지 (마나는 상관없음). 기본 false = 자동 회복 없음 (오너 2026-10-30). */
         boolean naturalRegen;
+        // [기능:파티던전 시작]
+        /** 함께 들어가는 인원: 1 = 1인 던전, 2 이상 = 그 인원의 파티만 (파티장이 입장 → 모두 수락). 오너 2026-10-31: 3인 파티. */
+        int partySize = 1;
+        /** 입장창 배경 그림 이름 (클라 textures/gui/art/&lt;art&gt;.png). 빈 값 = 기본 배경. */
+        String art = "";
+        // [기능:파티던전 끝]
         Loc portal, exit;
         double portalRadius = 2.5;
         List<String> clearCommands = new ArrayList<>();
@@ -167,6 +173,8 @@ final class Defs {
             readRewards(s.getMapList(s.contains("rewards.base") ? "rewards.base" : "rewards.repeat"), d.baseRewards);
             readRewards(s.getMapList("rewards.random"), d.randomRewards);
             d.naturalRegen = s.getBoolean("natural-regen", false);
+            d.partySize = Math.max(1, Math.min(5, s.getInt("party-size", 1))); // [기능:파티던전]
+            d.art = s.getString("art", ""); // [기능:파티던전]
             for (var m : s.getMapList("stages")) {
                 var st = new Stage();
                 st.name = str(m.get("name"));
@@ -272,6 +280,8 @@ final class Defs {
         s.set("rewards.base", rewards(d.baseRewards));
         s.set("rewards.random", rewards(d.randomRewards));
         s.set("natural-regen", d.naturalRegen);
+        s.set("party-size", d.partySize); // [기능:파티던전]
+        s.set("art", d.art); // [기능:파티던전]
         var stages = new ArrayList<Map<String, Object>>();
         for (var st : d.stages) {
             var m = new LinkedHashMap<String, Object>();

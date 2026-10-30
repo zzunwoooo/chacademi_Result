@@ -45,6 +45,14 @@ final class Net {
         ClientPlayNetworking.send(new ToServer(DungeonProtocol.encode(new DungeonProtocol.Action(kind, session))));
     }
 
+    // [기능:파티던전 시작]
+    /** JSON 본문이 있는 동작 (C_PING). */
+    static void send(int kind, int session, String json) {
+        if (!ClientPlayNetworking.canSend(ToServer.TYPE)) return;
+        ClientPlayNetworking.send(new ToServer(DungeonProtocol.encode(new DungeonProtocol.Action(kind, session, json))));
+    }
+    // [기능:파티던전 끝]
+
     /** 서버가 보낸 아이템 바이트 (Paper serializeAsBytes = 압축 NBT) → ItemStack. 실패하면 빈 아이템(목록에서 빠짐). */
     static List<ItemStack> items(List<byte[]> raw) {
         var mc = Minecraft.getInstance();

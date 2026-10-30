@@ -45,7 +45,41 @@ final class DungeonHud {
         float[] actualMenu = HudLink.box(MENU_ID);
         float[] q = HudPlacement.quest(sw, sh, QW, h, quest, actualMenu != null ? actualMenu : menu, party);
         drawQuest(g, q[0], q[1], h, lines);
+        // [기능:파티던전 시작]
+        notices(g, sw, sh);
+        PartyPing.hud(g, dt.getGameTimeDeltaPartialTick(false));
+        // [기능:파티던전 끝]
     }
+
+    // [기능:파티던전 시작]
+    /**
+     * 가운데 위 알림: 보스 처치 뒤 출구 카운트다운(countdown_panel) · 구역 이탈 경고(warning_panel, 왼쪽이 붉음) · 관전 중 한 줄.
+     * 크기는 큐디치 HUD 와 같은 기준 (1672×941 화면에서 폭 560). 남은 초는 받은 값에서 흐른 만큼 뺀다.
+     */
+    private static void notices(GuiGraphics g, float sw, float sh) {
+        var run = DungeonClient.run;
+        float s = Math.min(sw / 1672f, sh / 941f), pw = 560 * s, x = (sw - pw) / 2, y = sh * 0.12f;
+        long passed = Math.max(0, DungeonClient.now() - DungeonClient.runAt);
+        if (run.exitLeftMs() >= 0) {
+            long left = Math.max(0, run.exitLeftMs() - passed);
+            float ph = pw * 220 / 1024f;
+            Art.ui(g, "ref/countdown_panel", x, y, pw, ph, 0xF2FFFFFF);
+            Art.textCenter(g, Art.fit(g, "보스를 처치했어요! 출구 포탈로 나가세요", 25 * s, pw * 0.86f), sw / 2, y + ph * 0.38f, 25 * s, WHITE);
+            Art.textCenter(g, (left + 999) / 1000 + "초 뒤 마을로 이동해요", sw / 2, y + ph * 0.66f, 21 * s, 0xFFFFE08A);
+            y += ph + 6 * s;
+        }
+        if (run.warnLeftMs() >= 0) {
+            long left = Math.max(0, run.warnLeftMs() - passed);
+            float ph = pw * 243 / 1024f;
+            Art.ui(g, "ref/warning_panel", x, y, pw, ph, 0xF2FFFFFF);
+            Art.textCenter(g, "던전 구역을 벗어났어요", sw / 2, y + ph * 0.38f, 25 * s, 0xFFF4B4B4);
+            Art.textCenter(g, (left + 999) / 1000 + "초 안에 돌아와 주세요", sw / 2, y + ph * 0.64f, 21 * s, WHITE);
+            y += ph + 6 * s;
+        }
+        if (run.spectating())
+            Art.textCenter(g, "쓰러졌어요 · 관전 중 (남은 파티원 " + run.alive() + "/" + run.members() + ")", sw / 2, y + 14 * s, 20 * s, SILVER_HI);
+    }
+    // [기능:파티던전 끝]
 
     private static void drawMenu(GuiGraphics g, Minecraft mc, float x, float y) {
         var run = DungeonClient.run;

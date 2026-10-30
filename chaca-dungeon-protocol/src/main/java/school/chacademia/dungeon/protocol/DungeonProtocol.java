@@ -20,7 +20,10 @@ public final class DungeonProtocol {
     public static final String S2C = "chacademi:dungeon";
     public static final String C2S = "chacademi:dungeon_act";
     /** 2 (2026-10-30): 입장창 보상을 묶음(기본·첫 클리어·확률)으로, 체력 자동 회복 없음 표시. 서버·클라 같이 바꿔야 함. */
-    public static final int VERSION = 3; // 3 (2026-10-30): 문 홀로그램·설정 도구(편집 JSON)
+    // 3 (2026-10-30): 문 홀로그램·설정 도구(편집 JSON)
+    // [기능:파티던전 시작] 4 (2026-10-31): 3인 파티 던전 (입장 수락 창·핑) · 보스 처치 뒤 출구 30초 · 구역 이탈 경고
+    public static final int VERSION = 4;
+    // [기능:파티던전 끝]
     public static final int MAX_BYTES = 1 << 20;
     public static final int MAX_ITEMS = 54;
 
@@ -28,14 +31,28 @@ public final class DungeonProtocol {
     public static final int K_ENTRY = 1, K_QUEUE = 2, K_RUN = 3, K_RESULT = 4, K_PORTALS = 5, K_CLOSE = 6;
     /** JSON 본문: K_DOORS = 닫힌 문 상자들(홀로그램), K_EDITOR = 설정 창 열기·갱신, K_VIEW = 설정 도구를 들었을 때 보이는 구역들. */
     public static final int K_DOORS = 7, K_EDITOR = 8, K_VIEW = 9;
+    // [기능:파티던전 시작]
+    /** K_ACCEPT = 파티 입장 수락 창 (열기·갱신·닫기), K_PING = 파티원이 찍은 핑. */
+    public static final int K_ACCEPT = 10, K_PING = 11;
+    // [기능:파티던전 끝]
     public static final int MAX_JSON = 512 * 1024;
     // 클라이언트 → 서버
     public static final int C_ENTER = 1, C_QUEUE_JOIN = 2, C_QUEUE_LEAVE = 3, C_EXIT = 4;
     /** 설정 도구 동작 (JSON {"a": 동작, ...}). 서버가 권한을 확인한다. */
     public static final int C_EDIT = 5;
+    // [기능:파티던전 시작]
+    /** C_ACCEPT·C_REJECT = 수락 창 버튼 (session = 수락 창 번호). C_PING = 핑 (JSON {"k":종류,"x","y","z","t":대상 UUID 또는 없음}). */
+    public static final int C_ACCEPT = 6, C_REJECT = 7, C_PING = 8;
+    /** 핑 종류 (큐디치와 같은 번호·그림): 0 위치 1 아군 2 적 3 경고 4 가는 중 5 도움 6 힐 줘. */
+    public static final int PING_MAX = 6;
+    // [기능:파티던전 끝]
 
     /** 입장창 버튼 상태. */
     public static final int BTN_ENTER = 0, BTN_QUEUE = 1, BTN_QUEUED = 2, BTN_LOCKED = 3, BTN_IN_RUN = 4, BTN_READY = 5;
+    // [기능:파티던전 시작]
+    /** 파티 입장 수락을 기다리는 중. */
+    public static final int BTN_ACCEPTING = 6;
+    // [기능:파티던전 끝]
     /** 대기 상태. */
     public static final int Q_NONE = 0, Q_WAITING = 1, Q_READY = 2;
 
@@ -58,25 +75,50 @@ public final class DungeonProtocol {
      */
     public record RewardGroup(int kind, String label, boolean done, List<byte[]> items, List<Integer> chances) {}
 
-    /** ticketFree = 첫 클리어 전이라 이번 입장은 입장권 없이 (ticketNeed 는 평소 필요한 장수). noRegen = 던전 안 체력 자동 회복 없음. */
+    /**
+     * ticketFree = 첫 클리어 전이라 이번 입장은 입장권 없이 (ticketNeed 는 평소 필요한 장수). noRegen = 던전 안 체력 자동 회복 없음.
+     * partySize = 1 이면 1인 던전, 3 이면 3인 파티 던전. partyCount = 지금 내 파티 인원 (1인 던전이면 1). leader = 내가 파티장 (1인 던전은 true).
+     * art = 입장창 배경 그림 이름 (클라 textures/gui/art/&lt;art&gt;.png, 없거나 빈 값이면 기본 배경).
+     */
     public record Entry(int session, String name, String subtitle, boolean cleared, long personalBestMs, Holder best,
                         int active, int max, int ticketNeed, int ticketHave, String ticketName, boolean ticketFree,
-                        int button, String lockReason, boolean noRegen, List<RewardGroup> rewards) {}
+                        int button, String lockReason, boolean noRegen, List<RewardGroup> rewards,
+                        int partySize, int partyCount, boolean leader, String art) {}
 
     public record Queue(int state, String name, int position, int queued, int active, int max, long offerLeftMs, int session) {}
 
-    /** 던전 안 상태. active=false 면 던전 HUD 를 내린다. timing=false 면 아직 도전 시작 전(시간 0). */
+    /**
+     * 던전 안 상태. active=false 면 던전 HUD 를 내린다. timing=false 면 아직 도전 시작 전(시간 0).
+     * party = 파티 던전, leader = 내가 파티장 (나가기 = 모두 나가기), spectating = 쓰러져 관전 중, alive/members = 살아 있는 파티원 / 전체.
+     * exitLeftMs ≥ 0 = 보스 처치 뒤 강제 퇴장까지 남은 시간 (출구 포탈 열림), warnLeftMs ≥ 0 = 던전 구역을 벗어나 종료까지 남은 시간.
+     */
     public record Run(boolean active, String name, long elapsedMs, boolean timing, boolean finished,
-                      int stage, int stages, String stageName, String goal, int current, int required, boolean locked) {
-        public static final Run NONE = new Run(false, "", 0, false, false, 0, 0, "", "", 0, 0, false);
+                      int stage, int stages, String stageName, String goal, int current, int required, boolean locked,
+                      boolean party, boolean leader, boolean spectating, int alive, int members, long exitLeftMs, long warnLeftMs) {
+        public static final Run NONE = new Run(false, "", 0, false, false, 0, 0, "", "", 0, 0, false, false, false, false, 0, 0, -1, -1);
     }
+
+    // [기능:파티던전 시작]
+    /** 수락 창 한 줄. state: 0 기다리는 중 · 1 수락 · 2 거절(또는 나감). */
+    public record AcceptMember(java.util.UUID id, String name, int state) {}
+
+    /** 파티 입장 수락 창. state: 0 진행 중 · 1 모두 수락(출발) · 2 취소 (1·2 면 창을 닫는다). leftMs = 남은 시간. */
+    public record Accept(int session, String name, int state, long leftMs, List<AcceptMember> members) {}
+
+    /** 파티원이 찍은 핑. target = 찍은 대상(플레이어·몹), 없으면 null. */
+    public record Ping(int kind, java.util.UUID sender, String nick, float x, float y, float z, java.util.UUID target) {}
+    // [기능:파티던전 끝]
 
     public record Result(boolean cleared, String name, String reason, long timeMs, long previousBestMs, Holder best,
                          boolean newPersonal, boolean newServer, boolean firstClear, String rewardNote, List<byte[]> given) {}
 
     public record Portal(String dimension, double x, double y, double z, float radius, String label) {}
 
-    public sealed interface ToClient permits EntryMsg, QueueMsg, RunMsg, ResultMsg, PortalsMsg, CloseMsg, JsonMsg {}
+    public sealed interface ToClient permits EntryMsg, QueueMsg, RunMsg, ResultMsg, PortalsMsg, CloseMsg, JsonMsg, AcceptMsg, PingMsg {}
+    // [기능:파티던전 시작]
+    public record AcceptMsg(Accept accept) implements ToClient {}
+    public record PingMsg(Ping ping) implements ToClient {}
+    // [기능:파티던전 끝]
     public record EntryMsg(Entry entry) implements ToClient {}
     public record QueueMsg(Queue queue) implements ToClient {}
     public record RunMsg(Run run) implements ToClient {}
@@ -111,6 +153,22 @@ public final class DungeonProtocol {
                     out.writeBoolean(r.active()); out.writeUTF(r.name()); out.writeLong(r.elapsedMs()); out.writeBoolean(r.timing());
                     out.writeBoolean(r.finished()); out.writeInt(r.stage()); out.writeInt(r.stages()); out.writeUTF(r.stageName());
                     out.writeUTF(r.goal()); out.writeInt(r.current()); out.writeInt(r.required()); out.writeBoolean(r.locked());
+                    out.writeBoolean(r.party()); out.writeBoolean(r.leader()); out.writeBoolean(r.spectating());
+                    out.writeByte(r.alive()); out.writeByte(r.members()); out.writeLong(r.exitLeftMs()); out.writeLong(r.warnLeftMs());
+                }
+                case AcceptMsg m -> {
+                    var a = m.accept();
+                    out.writeByte(K_ACCEPT);
+                    out.writeInt(a.session()); out.writeUTF(a.name()); out.writeByte(a.state()); out.writeLong(a.leftMs());
+                    out.writeByte(Math.min(a.members().size(), 8));
+                    for (var x : a.members().subList(0, Math.min(a.members().size(), 8))) { writeUuid(out, x.id()); out.writeUTF(x.name()); out.writeByte(x.state()); }
+                }
+                case PingMsg m -> {
+                    var p = m.ping();
+                    out.writeByte(K_PING);
+                    out.writeByte(p.kind()); writeUuid(out, p.sender()); out.writeUTF(p.nick());
+                    out.writeFloat(p.x()); out.writeFloat(p.y()); out.writeFloat(p.z());
+                    out.writeBoolean(p.target() != null); if (p.target() != null) writeUuid(out, p.target());
                 }
                 case ResultMsg m -> {
                     var r = m.result();
@@ -141,7 +199,7 @@ public final class DungeonProtocol {
         var bytes = new ByteArrayOutputStream();
         try (var out = new DataOutputStream(bytes)) {
             out.writeByte(VERSION); out.writeByte(action.kind()); out.writeInt(action.session());
-            if (action.kind() == C_EDIT) writeText(out, action.json());
+            if (action.kind() == C_EDIT || action.kind() == C_PING) writeText(out, action.json());
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
@@ -159,7 +217,14 @@ public final class DungeonProtocol {
             out.writeShort(Math.min(g.chances().size(), MAX_ITEMS));
             for (int i = 0; i < Math.min(g.chances().size(), MAX_ITEMS); i++) out.writeShort(Math.clamp(g.chances().get(i), 0, 10000));
         }
+        out.writeByte(e.partySize()); out.writeByte(e.partyCount()); out.writeBoolean(e.leader()); out.writeUTF(e.art());
     }
+
+    private static void writeUuid(DataOutputStream out, java.util.UUID id) throws IOException {
+        out.writeLong(id.getMostSignificantBits()); out.writeLong(id.getLeastSignificantBits());
+    }
+
+    private static java.util.UUID readUuid(DataInputStream in) throws IOException { return new java.util.UUID(in.readLong(), in.readLong()); }
 
     private static List<RewardGroup> readGroups(DataInputStream in) throws IOException {
         int n = in.readUnsignedByte();
@@ -201,11 +266,26 @@ public final class DungeonProtocol {
         ToClient out = switch (kind) {
             case K_ENTRY -> new EntryMsg(new Entry(in.readInt(), in.readUTF(), in.readUTF(), in.readBoolean(), in.readLong(),
                     readHolder(in), in.readInt(), in.readInt(), in.readInt(), in.readInt(), in.readUTF(), in.readBoolean(),
-                    in.readUnsignedByte(), in.readUTF(), in.readBoolean(), readGroups(in)));
+                    in.readUnsignedByte(), in.readUTF(), in.readBoolean(), readGroups(in),
+                    in.readUnsignedByte(), in.readUnsignedByte(), in.readBoolean(), in.readUTF()));
             case K_QUEUE -> new QueueMsg(new Queue(in.readUnsignedByte(), in.readUTF(), in.readInt(), in.readInt(), in.readInt(),
                     in.readInt(), in.readLong(), in.readInt()));
             case K_RUN -> new RunMsg(new Run(in.readBoolean(), in.readUTF(), in.readLong(), in.readBoolean(), in.readBoolean(),
-                    in.readInt(), in.readInt(), in.readUTF(), in.readUTF(), in.readInt(), in.readInt(), in.readBoolean()));
+                    in.readInt(), in.readInt(), in.readUTF(), in.readUTF(), in.readInt(), in.readInt(), in.readBoolean(),
+                    in.readBoolean(), in.readBoolean(), in.readBoolean(), in.readUnsignedByte(), in.readUnsignedByte(), in.readLong(), in.readLong()));
+            case K_ACCEPT -> {
+                int session = in.readInt(); String name = in.readUTF(); int state = in.readUnsignedByte(); long left = in.readLong();
+                int n = in.readUnsignedByte();
+                if (n > 8) throw new IOException("too many members");
+                var list = new ArrayList<AcceptMember>(n);
+                for (int i = 0; i < n; i++) list.add(new AcceptMember(readUuid(in), in.readUTF(), in.readUnsignedByte()));
+                yield new AcceptMsg(new Accept(session, name, state, left, List.copyOf(list)));
+            }
+            case K_PING -> {
+                int k = in.readUnsignedByte(); var sender = readUuid(in); String nick = in.readUTF();
+                float x = in.readFloat(), y = in.readFloat(), z = in.readFloat();
+                yield new PingMsg(new Ping(k, sender, nick, x, y, z, in.readBoolean() ? readUuid(in) : null));
+            }
             case K_RESULT -> new ResultMsg(new Result(in.readBoolean(), in.readUTF(), in.readUTF(), in.readLong(), in.readLong(),
                     readHolder(in), in.readBoolean(), in.readBoolean(), in.readBoolean(), in.readUTF(), readItems(in)));
             case K_PORTALS -> {
@@ -229,9 +309,9 @@ public final class DungeonProtocol {
         var in = new DataInputStream(new ByteArrayInputStream(data));
         if (in.readUnsignedByte() != VERSION) throw new IOException("bad version");
         int kind = in.readUnsignedByte();
-        if (kind < C_ENTER || kind > C_EDIT) throw new IOException("unknown action");
+        if (kind < C_ENTER || kind > C_PING) throw new IOException("unknown action");
         int session = in.readInt();
-        String json = kind == C_EDIT ? readText(in) : "";
+        String json = kind == C_EDIT || kind == C_PING ? readText(in) : "";
         if (in.available() != 0) throw new IOException("trailing bytes");
         return new Action(kind, session, json);
     }

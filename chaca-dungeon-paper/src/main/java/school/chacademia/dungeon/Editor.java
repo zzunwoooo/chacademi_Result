@@ -519,7 +519,7 @@ final class Editor implements Listener {
                 String kind = str(a, "kind");
                 double chance = kind.equals("random") ? Math.clamp(dnum(a, "chance", 0), 0, 100) : 0;
                 if (kind.equals("random") && chance <= 0) throw new Refused("확률(%)을 적어 주세요");
-                String ia = svc().items.idOf(hand);
+                String ia = RewardKeep.ia(svc().items.idOf(hand), hand); // [기능:던전보상능력치유지]
                 Defs.Reward r;
                 if (ia != null) r = new Defs.Reward(ia, hand.getAmount(), "", chance);
                 else if (!hand.hasItemMeta() || hand.isSimilar(new ItemStack(hand.getType()))) r = new Defs.Reward(hand.getType().getKey().toString(), hand.getAmount(), "", chance);

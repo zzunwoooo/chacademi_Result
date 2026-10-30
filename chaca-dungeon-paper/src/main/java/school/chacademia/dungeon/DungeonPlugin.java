@@ -26,6 +26,13 @@ public final class DungeonPlugin extends JavaPlugin {
     double rearmFactor() { return Math.max(1.1, getConfig().getDouble("portal-rearm-factor", 1.6)); }
     double startMoveDistance() { return Math.max(0.1, getConfig().getDouble("start-move-distance", 0.6)); }
     int startFallbackSeconds() { return Math.max(1, getConfig().getInt("start-fallback-seconds", 10)); }
+    // [기능:파티던전 시작]
+    int exitSeconds() { return Math.max(5, getConfig().getInt("exit-seconds", 30)); }
+    double exitRadius() { return Math.max(0.5, getConfig().getDouble("exit-radius", 1.5)); }
+    int leaveGraceSeconds() { return Math.max(1, getConfig().getInt("leave-grace-seconds", 5)); }
+    int acceptSeconds() { return Math.max(5, getConfig().getInt("accept-seconds", 10)); }
+    double bossShinyChance() { return Math.clamp(getConfig().getDouble("boss-shiny-chance", 0.01), 0, 1); }
+    // [기능:파티던전 끝]
 
     @Override public void onEnable() {
         saveDefaultConfig();

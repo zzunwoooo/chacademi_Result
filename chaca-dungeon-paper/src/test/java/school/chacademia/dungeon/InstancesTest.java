@@ -89,14 +89,20 @@ class InstancesTest {
         var groups = List.of(new DungeonProtocol.RewardGroup(DungeonProtocol.R_BASE, "기본 보상", false, List.of(new byte[]{1, 2, 3}), List.of()),
                 new DungeonProtocol.RewardGroup(DungeonProtocol.R_RANDOM, "확률 보상", false, List.of(new byte[]{4}, new byte[]{5}), List.of(1250, 10000)));
         var entry = new DungeonProtocol.Entry(7, "리치의 지하 연구실", "부제", true, 99_000, holder, 2, 3, 1, 4, "던전 입장권",
-                true, DungeonProtocol.BTN_ENTER, "", true, groups);
+                true, DungeonProtocol.BTN_ENTER, "", true, groups, 3, 3, true, "halloween");
         var back = (DungeonProtocol.EntryMsg) DungeonProtocol.decodeToClient(DungeonProtocol.encode(new DungeonProtocol.EntryMsg(entry)));
         assertEquals("별빛", back.entry().best().name());
         assertEquals("용사", back.entry().best().suffix().name());
         assertEquals(3, back.entry().rewards().get(0).items().get(0).length);
         assertEquals(List.of(1250, 10000), back.entry().rewards().get(1).chances());
         assertTrue(back.entry().ticketFree() && back.entry().noRegen());
-        var run = new DungeonProtocol.Run(true, "던전", 5000, true, false, 2, 3, "단계", "목표", 1, 4, true);
+        var run = new DungeonProtocol.Run(true, "던전", 5000, true, false, 2, 3, "단계", "목표", 1, 4, true, true, false, true, 2, 3, 12_000, -1);
+        assertEquals("halloween", back.entry().art());
+        var accept = new DungeonProtocol.Accept(9, "던전", 0, 8000, List.of(new DungeonProtocol.AcceptMember(java.util.UUID.randomUUID(), "별빛", 1)));
+        assertEquals(accept, ((DungeonProtocol.AcceptMsg) DungeonProtocol.decodeToClient(DungeonProtocol.encode(new DungeonProtocol.AcceptMsg(accept)))).accept());
+        var ping = new DungeonProtocol.Ping(2, java.util.UUID.randomUUID(), "별빛", 1, 2, 3, null);
+        assertEquals(ping, ((DungeonProtocol.PingMsg) DungeonProtocol.decodeToClient(DungeonProtocol.encode(new DungeonProtocol.PingMsg(ping)))).ping());
+        assertEquals("{\"k\":1}", DungeonProtocol.decodeAction(DungeonProtocol.encode(new DungeonProtocol.Action(DungeonProtocol.C_PING, 0, "{\"k\":1}"))).json());
         assertEquals(run, ((DungeonProtocol.RunMsg) DungeonProtocol.decodeToClient(DungeonProtocol.encode(new DungeonProtocol.RunMsg(run)))).run());
         var action = DungeonProtocol.decodeAction(DungeonProtocol.encode(new DungeonProtocol.Action(DungeonProtocol.C_ENTER, 42)));
         assertEquals(42, action.session());

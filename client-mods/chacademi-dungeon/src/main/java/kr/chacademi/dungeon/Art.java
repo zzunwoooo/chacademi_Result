@@ -32,7 +32,17 @@ import org.lwjgl.opengl.GL30;
  */
 final class Art {
     record Tex(ResourceLocation id, int width, int height, RenderType layer) {}
-    private record TextKey(String value, int pixelSize64) {}
+    // [기능:파티던전 시작]
+    /** 글꼴: BOLD = Pretendard Bold (기본), MEDIUM = Pretendard Medium (항목 이름), SERIF = 마루부리 Bold (제목·기록 시간·큰 버튼). */
+    enum Face {
+        BOLD("pretendard_bold"), MEDIUM("pretendard_medium"), SERIF("maruburi_bold");
+        final String file;
+        Face(String file) { this.file = file; }
+    }
+    private record TextKey(String value, int pixelSize64, Face face) {
+        TextKey(String value, int pixelSize64) { this(value, pixelSize64, Face.BOLD); }
+    }
+    // [기능:파티던전 끝]
 
     private static final Map<String, Optional<Tex>> IMAGES = new HashMap<>();
     private static final Map<TextKey, Tex> TEXT = new LinkedHashMap<>(64, .75f, true);
@@ -40,8 +50,9 @@ final class Art {
     private static final Map<String, RenderType> WORLD_LAYERS = new HashMap<>();
     private static final FontRenderContext CONTEXT = new FontRenderContext(null, true, true);
     private static final int PADDING = 2;
-    private static Font font;
-    private static boolean fontTried;
+    // [기능:파티던전 시작] 글꼴 여러 개 (Face 별로 한 번만 읽는다)
+    private static final Map<Face, Optional<Font>> FONTS = new java.util.EnumMap<>(Face.class);
+    // [기능:파티던전 끝]
     private static int serial;
 
     private Art() {}
@@ -55,7 +66,7 @@ final class Art {
         WORLD_TEXT.values().forEach(t -> t.ifPresent(v -> textures.release(v.id())));
         WORLD_TEXT.clear();
         WORLD_LAYERS.clear();
-        font = null; fontTried = false;
+        FONTS.clear();
     }
 
     /** 흰 4×4 그림 (색만 입혀 칠할 때: 문 홀로그램 면). */
@@ -74,6 +85,17 @@ final class Art {
     static Optional<Tex> quest(String name, boolean silver) {
         return IMAGES.computeIfAbsent((silver ? "silver:" : "quest:") + name, k -> load("chaca_story", "textures/quest/" + name + ".png", silver));
     }
+
+    // [기능:파티던전 시작]
+    /** MagicCodex 그림 (예: "textures/gui/kyudichi/ping/ally.png" = 큐디치 핑). 없으면 빈 값. */
+    static Optional<Tex> mc(String path) { return IMAGES.computeIfAbsent("mc:" + path, k -> load("magiccodex", path, false)); }
+
+    /** 단색 사각형 (실수 좌표). */
+    static void rect(GuiGraphics g, float x, float y, float w, float h, int color) { white().ifPresent(t -> quad(g, t, x, y, x + w, y + h, 0, 0, 1, 1, color)); }
+
+    /** 128px 아이콘을 가운데 (cx, cy) 기준으로. */
+    static void icon(GuiGraphics g, String path, float cx, float cy, float size, int color) { ui(g, path, cx - size / 2, cy - size / 2, size, size, color); }
+    // [기능:파티던전 끝]
 
     private static Optional<Tex> load(String namespace, String path, boolean silver) {
         var mc = Minecraft.getInstance();
@@ -176,33 +198,39 @@ final class Art {
 
     // ---- 글자
 
-    private static Font font() {
-        if (!fontTried) {
-            fontTried = true;
-            var id = ResourceLocation.fromNamespaceAndPath("magiccodex", "font/pretendard_bold.ttf");
+    private static Font font() { return font(Face.BOLD); }
+
+    // [기능:파티던전 시작]
+    private static Font font(Face face) {
+        return FONTS.computeIfAbsent(face, k -> {
+            var id = ResourceLocation.fromNamespaceAndPath("magiccodex", "font/" + k.file + ".ttf");
             try (var stream = Minecraft.getInstance().getResourceManager().getResourceOrThrow(id).open()) {
-                font = Font.createFont(Font.TRUETYPE_FONT, stream);
+                return Optional.of(Font.createFont(Font.TRUETYPE_FONT, stream));
             } catch (Exception missing) {
-                font = null;
+                return k == Face.BOLD ? Optional.empty() : Optional.ofNullable(font(Face.BOLD));
             }
-        }
-        return font;
+        }).orElse(null);
     }
+    // [기능:파티던전 끝]
 
     private static float pixelsPerUnit(GuiGraphics g) {
         return Math.abs(g.pose().last().pose().m11()) * (float) Minecraft.getInstance().getWindow().getGuiScale();
     }
 
-    static float width(GuiGraphics g, String value, float size) {
-        var f = font();
+    static float width(GuiGraphics g, String value, float size) { return width(g, Face.BOLD, value, size); }
+
+    static float width(GuiGraphics g, Face face, String value, float size) {
+        var f = font(face);
         if (f == null) return Minecraft.getInstance().font.width(value) * size / 9f;
         return value.isEmpty() ? 0 : new TextLayout(value, f.deriveFont(size), CONTEXT).getAdvance();
     }
 
     /** 왼쪽 정렬 글자 (세로 가운데 = cy). 그린 폭을 돌려준다. */
-    static float text(GuiGraphics g, String value, float x, float cy, float size, int color) {
+    static float text(GuiGraphics g, String value, float x, float cy, float size, int color) { return text(g, Face.BOLD, value, x, cy, size, color); }
+
+    static float text(GuiGraphics g, Face face, String value, float x, float cy, float size, int color) {
         if (value == null || value.isBlank()) return 0;
-        var f = font();
+        var f = font(face);
         int alpha = (color >>> 24) & 0xFF;
         int outline = ((int) (alpha * .9f) << 24) | 0x0A0A0E;
         if (f == null) {
@@ -217,7 +245,7 @@ final class Art {
         }
         float ppu = pixelsPerUnit(g);
         int px64 = Math.max(64, Math.round(size * ppu * 64));
-        var t = TEXT.computeIfAbsent(new TextKey(value, px64), key -> bake(f, key, false));
+        var t = TEXT.computeIfAbsent(new TextKey(value, px64, face), key -> bake(f, key, false));
         if (TEXT.size() > 200) {
             var it = TEXT.entrySet().iterator();
             var oldest = it.next();
@@ -232,22 +260,36 @@ final class Art {
         return w - PADDING * 2 / ppu;
     }
 
-    static void textCenter(GuiGraphics g, String value, float cx, float cy, float size, int color) {
-        text(g, value, cx - width(g, value, size) / 2, cy, size, color);
+    static void textCenter(GuiGraphics g, String value, float cx, float cy, float size, int color) { textCenter(g, Face.BOLD, value, cx, cy, size, color); }
+
+    static void textRight(GuiGraphics g, String value, float right, float cy, float size, int color) { textRight(g, Face.BOLD, value, right, cy, size, color); }
+
+    static void textCenter(GuiGraphics g, Face face, String value, float cx, float cy, float size, int color) {
+        text(g, face, value, cx - width(g, face, value, size) / 2, cy, size, color);
     }
 
-    static void textRight(GuiGraphics g, String value, float right, float cy, float size, int color) {
-        text(g, value, right - width(g, value, size), cy, size, color);
+    static void textRight(GuiGraphics g, Face face, String value, float right, float cy, float size, int color) {
+        text(g, face, value, right - width(g, face, value, size), cy, size, color);
     }
 
     /** 폭에 맞게 자른 글자 (넘치면 …). */
-    static String fit(GuiGraphics g, String value, float size, float maxW) {
+    static String fit(GuiGraphics g, String value, float size, float maxW) { return fit(g, Face.BOLD, value, size, maxW); }
+
+    static String fit(GuiGraphics g, Face face, String value, float size, float maxW) {
         if (value == null) return "";
-        if (width(g, value, size) <= maxW) return value;
+        if (width(g, face, value, size) <= maxW) return value;
         String s = value;
-        while (s.length() > 1 && width(g, s + "…", size) > maxW) s = s.substring(0, s.length() - 1);
+        while (s.length() > 1 && width(g, face, s + "…", size) > maxW) s = s.substring(0, s.length() - 1);
         return s + "…";
     }
+
+    // [기능:파티던전 시작]
+    /** 폭에 맞게 줄인 글자 크기 (최소 min). */
+    static float shrink(GuiGraphics g, Face face, String value, float size, float maxW, float min) {
+        float w = width(g, face, value, size);
+        return w <= maxW ? size : Math.max(min, size * maxW / w);
+    }
+    // [기능:파티던전 끝]
 
     static Optional<Tex> worldText(String value) {
         if (value == null || value.isBlank()) return Optional.empty();
