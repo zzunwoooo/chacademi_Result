@@ -808,6 +808,9 @@ final class DungeonService {
         int spawned = 0;
         for (var z : room.zones) {
             var spots = safeSpots(w, z.box(), z.count);
+            // [기능:던전안전소환] 몹 구역을 잘못 잡아 안전한 자리가 모자라면 방 전체에서 마저 찾는다 (그래도 없으면 덜 소환)
+            var roomBox = room.box();
+            if (spots.size() < z.count && roomBox != null) spots.addAll(safeSpots(w, roomBox, z.count - spots.size()));
             for (Location l : spots) {
                 Entity e = hooks.spawn(z.mob, l);
                 if (e != null) { track(run, e, room.name); spawned++; }
@@ -820,20 +823,25 @@ final class DungeonService {
         syncAll(run);
     }
 
-    /** 상자 안에서 발밑이 단단하고 몸(2칸)이 들어갈 자리를 무작위로 count 곳 (같은 칸 겹침 허용 안 함). */
+    /**
+     * 상자 안에서 발밑이 단단하고 몸이 들어갈 자리를 무작위로 count 곳 (같은 칸 겹침 허용 안 함).
+     * [기능:던전안전소환] 2026-10-31 오너: 벽에 끼어 소환 → 가운데 칸뿐 아니라 둘레 8칸도 발·머리·머리 위(3칸 높이)가 비어 있어야 하고,
+     * 둘레 바닥도 꺼져 있지 않아야 한다 (큰 모델 몹이 벽·천장에 박히지 않게).
+     */
     static List<Location> safeSpots(World w, Defs.Box box, int count) {
         var out = new ArrayList<Location>();
         var rng = java.util.concurrent.ThreadLocalRandom.current();
         var used = new HashSet<Long>();
-        int tries = count * 30;
+        int tries = count * 40;
         while (out.size() < count && tries-- > 0) {
             int x = rng.nextInt(box.minX(), box.maxX() + 1), z = rng.nextInt(box.minZ(), box.maxZ() + 1);
-            // 상자 아래쪽부터 위로: 처음 만나는 "단단한 바닥 + 빈 두 칸"
+            // 상자 아래쪽부터 위로: 처음 만나는 "단단한 바닥 + 주변까지 빈 세 칸"
             for (int y = box.minY(); y <= box.maxY(); y++) {
                 var feet = w.getBlockAt(x, y, z);
                 if (!feet.isPassable() || !feet.getRelative(org.bukkit.block.BlockFace.UP).isPassable() || feet.isLiquid()) continue;
                 var floor = feet.getRelative(org.bukkit.block.BlockFace.DOWN);
                 if (!floor.getType().isSolid()) continue;
+                if (!roomy(w, x, y, z)) continue;
                 long k = ((long) x << 40) ^ ((long) y << 20) ^ z;
                 if (used.add(k)) out.add(new Location(w, x + .5, y, z + .5, rng.nextFloat() * 360, 0));
                 break;
@@ -841,6 +849,21 @@ final class DungeonService {
         }
         return out;
     }
+
+    // [기능:던전안전소환 시작]
+    /** (x,y,z) 둘레 3×3 기둥의 y·y+1·y+2 가 모두 지나갈 수 있고(물·용암 아님), 둘레 바닥 아래가 낭떠러지(2칸 이상 빔)가 아님. */
+    private static boolean roomy(World w, int x, int y, int z) {
+        for (int dx = -1; dx <= 1; dx++)
+            for (int dz = -1; dz <= 1; dz++) {
+                for (int dy = 0; dy <= 2; dy++) {
+                    var b = w.getBlockAt(x + dx, y + dy, z + dz);
+                    if (!b.isPassable() || b.isLiquid()) return false;
+                }
+                if (!w.getBlockAt(x + dx, y - 1, z + dz).getType().isSolid() && !w.getBlockAt(x + dx, y - 2, z + dz).getType().isSolid()) return false;
+            }
+        return true;
+    }
+    // [기능:던전안전소환 끝]
 
     private void track(Run run, Entity e, String room) {
         e.setPersistent(false);
