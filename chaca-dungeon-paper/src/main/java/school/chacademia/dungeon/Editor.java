@@ -76,7 +76,8 @@ final class Editor implements Listener {
         meta.displayName(Component.text("던전 설정 도구", NamedTextColor.LIGHT_PURPLE).decoration(net.kyori.adventure.text.format.TextDecoration.ITALIC, false));
         meta.lore(List.of(
                 Component.text("블록 좌클릭: 첫 모서리 · 우클릭: 반대 모서리", NamedTextColor.GRAY),
-                Component.text("허공 우클릭: 설정 창 · 기믹 우클릭: 기믹 조절", NamedTextColor.GRAY)));
+                Component.text("허공 우클릭: 설정 창 · 기믹 우클릭: 기믹 조절", NamedTextColor.GRAY),
+                Component.text("기믹 칸을 모서리로 찍을 땐 Shift+우클릭", NamedTextColor.GRAY)));
         meta.getPersistentDataContainer().set(toolKey, PersistentDataType.BYTE, (byte) 1);
         meta.setEnchantmentGlintOverride(true);
         it.setItemMeta(meta);
@@ -98,7 +99,16 @@ final class Editor implements Listener {
         var s = state(p);
         switch (e.getAction()) {
             case LEFT_CLICK_BLOCK -> { var b = e.getClickedBlock(); s.a = new int[]{b.getX(), b.getY(), b.getZ()}; selected(p, s, "첫 모서리"); }
-            case RIGHT_CLICK_BLOCK -> { var b = e.getClickedBlock(); s.b = new int[]{b.getX(), b.getY(), b.getZ()}; selected(p, s, "반대 모서리"); }
+            case RIGHT_CLICK_BLOCK -> {
+                var b = e.getClickedBlock();
+                // 기믹이 차지한 칸은 배리어라 우클릭이 기믹 대신 블록에 맞는다 → 배리어 우클릭 = 그 기믹 조절 (Shift 면 모서리)
+                if (b.getType() == Material.BARRIER && !p.isSneaking()) {
+                    String id = gimmicks.nearest(b.getLocation().add(.5, .5, .5), 3);
+                    if (id != null) { s.gimmick = id; sendEditor(p, true, ""); return; }
+                }
+                s.b = new int[]{b.getX(), b.getY(), b.getZ()};
+                selected(p, s, "반대 모서리");
+            }
             case RIGHT_CLICK_AIR -> { s.gimmick = null; sendEditor(p, true, ""); }
             case LEFT_CLICK_AIR -> { if (p.isSneaking()) { s.a = s.b = null; p.sendActionBar(Component.text("고른 구역을 지웠어요", NamedTextColor.GRAY)); sendView(p, true); } }
             default -> { }

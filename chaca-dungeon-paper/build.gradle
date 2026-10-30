@@ -1,6 +1,6 @@
 plugins { id 'java' }
 group = 'school.chacademia'
-version = '0.3.0-editor-20261030'
+version = '0.3.1-gimmickclick-20261030'
 base { archivesName = 'chaca-dungeon' }
 repositories {
     if (findProperty('localDependencyRepo')) maven { url = uri(property('localDependencyRepo')) }
