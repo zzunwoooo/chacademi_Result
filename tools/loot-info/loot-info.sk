@@ -637,244 +637,244 @@ on load:
     set {-lootname::loot_echo_down} to "메아리 솜털"
     add "&6── 메아리 솜털 &7(고급) &6──" to {-lootinfo::loot_echo_down::*}
     add "&f· &e알레이 &7· 1~2개" to {-lootinfo::loot_echo_down::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 알레이처럼 나와요)" to {-lootinfo::loot_echo_down::*}
+    add "    &7서식지: &f자연에서 나오는 보통 알레이 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_echo_down::*}
     set {-lootkey::loot_rounded_carapace_fragment} to "둥근갑피조각"
     set {-lootname::loot_rounded_carapace_fragment} to "둥근 갑피 조각"
     add "&6── 둥근 갑피 조각 &7(일반) &6──" to {-lootinfo::loot_rounded_carapace_fragment::*}
     add "&f· &e아르마딜로 &7· 1~2개" to {-lootinfo::loot_rounded_carapace_fragment::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 아르마딜로처럼 나와요)" to {-lootinfo::loot_rounded_carapace_fragment::*}
+    add "    &7서식지: &f자연에서 나오는 보통 아르마딜로 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_rounded_carapace_fragment::*}
     set {-lootkey::loot_axolotl_gill_tuft} to "아홀로틀아가미술"
     set {-lootname::loot_axolotl_gill_tuft} to "아홀로틀 아가미 술"
     add "&6── 아홀로틀 아가미 술 &7(고급) &6──" to {-lootinfo::loot_axolotl_gill_tuft::*}
     add "&f· &e아홀로틀 &7· 1~2개" to {-lootinfo::loot_axolotl_gill_tuft::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 아홀로틀처럼 나와요)" to {-lootinfo::loot_axolotl_gill_tuft::*}
+    add "    &7서식지: &f자연에서 나오는 보통 아홀로틀 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_axolotl_gill_tuft::*}
     set {-lootkey::loot_thin_night_wing_membrane} to "얇은밤날개막"
     set {-lootname::loot_thin_night_wing_membrane} to "얇은 밤날개막"
     add "&6── 얇은 밤날개막 &7(일반) &6──" to {-lootinfo::loot_thin_night_wing_membrane::*}
     add "&f· &e박쥐 &7· 1~2개" to {-lootinfo::loot_thin_night_wing_membrane::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 박쥐처럼 나와요)" to {-lootinfo::loot_thin_night_wing_membrane::*}
+    add "    &7서식지: &f자연에서 나오는 보통 박쥐 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_thin_night_wing_membrane::*}
     set {-lootkey::loot_beeswax_pollen_clump} to "밀랍꽃가루덩이"
     set {-lootname::loot_beeswax_pollen_clump} to "밀랍 꽃가루 덩이"
     add "&6── 밀랍 꽃가루 덩이 &7(일반) &6──" to {-lootinfo::loot_beeswax_pollen_clump::*}
     add "&f· &e꿀벌 &7· 1~2개" to {-lootinfo::loot_beeswax_pollen_clump::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 꿀벌처럼 나와요)" to {-lootinfo::loot_beeswax_pollen_clump::*}
+    add "    &7서식지: &f자연에서 나오는 보통 꿀벌 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_beeswax_pollen_clump::*}
     set {-lootkey::loot_spinning_flame_heart} to "회전하는화염심"
     set {-lootname::loot_spinning_flame_heart} to "회전하는 화염심"
     add "&6── 회전하는 화염심 &7(고급) &6──" to {-lootinfo::loot_spinning_flame_heart::*}
     add "&f· &e블레이즈 &7· 1~2개" to {-lootinfo::loot_spinning_flame_heart::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 블레이즈처럼 나와요)" to {-lootinfo::loot_spinning_flame_heart::*}
+    add "    &7서식지: &f자연에서 나오는 보통 블레이즈 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_spinning_flame_heart::*}
     set {-lootkey::loot_swamp_moss_bone_fragment} to "늪이끼뼛조각"
     set {-lootname::loot_swamp_moss_bone_fragment} to "늪이끼 뼛조각"
     add "&6── 늪이끼 뼛조각 &7(고급) &6──" to {-lootinfo::loot_swamp_moss_bone_fragment::*}
     add "&f· &e보그드 &7· 1~2개" to {-lootinfo::loot_swamp_moss_bone_fragment::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 보그드처럼 나와요)" to {-lootinfo::loot_swamp_moss_bone_fragment::*}
+    add "    &7서식지: &f자연에서 나오는 보통 보그드 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_swamp_moss_bone_fragment::*}
     set {-lootkey::loot_whirlwind_feather} to "소용돌이깃결"
     set {-lootname::loot_whirlwind_feather} to "소용돌이 깃결"
     add "&6── 소용돌이 깃결 &7(고급) &6──" to {-lootinfo::loot_whirlwind_feather::*}
     add "&f· &e브리즈 &7· 1~2개" to {-lootinfo::loot_whirlwind_feather::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 브리즈처럼 나와요)" to {-lootinfo::loot_whirlwind_feather::*}
+    add "    &7서식지: &f자연에서 나오는 보통 브리즈 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_whirlwind_feather::*}
     set {-lootkey::loot_desert_back_fur_tuft} to "사막등털뭉치"
     set {-lootname::loot_desert_back_fur_tuft} to "사막 등털 뭉치"
     add "&6── 사막 등털 뭉치 &7(일반) &6──" to {-lootinfo::loot_desert_back_fur_tuft::*}
     add "&f· &e낙타 &7· 1~2개" to {-lootinfo::loot_desert_back_fur_tuft::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 낙타처럼 나와요)" to {-lootinfo::loot_desert_back_fur_tuft::*}
+    add "    &7서식지: &f자연에서 나오는 보통 낙타 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_desert_back_fur_tuft::*}
     set {-lootkey::loot_cat_whisker_bundle} to "고양이수염묶음"
     set {-lootname::loot_cat_whisker_bundle} to "고양이 수염 묶음"
     add "&6── 고양이 수염 묶음 &7(일반) &6──" to {-lootinfo::loot_cat_whisker_bundle::*}
     add "&f· &e고양이 &7· 1~2개" to {-lootinfo::loot_cat_whisker_bundle::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 고양이처럼 나와요)" to {-lootinfo::loot_cat_whisker_bundle::*}
+    add "    &7서식지: &f자연에서 나오는 보통 고양이 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_cat_whisker_bundle::*}
     set {-lootkey::loot_cave_venom_silk_skein} to "동굴독실타래"
     set {-lootname::loot_cave_venom_silk_skein} to "동굴 독실 타래"
     add "&6── 동굴 독실 타래 &7(고급) &6──" to {-lootinfo::loot_cave_venom_silk_skein::*}
     add "&f· &e동굴 거미 &7· 1~2개" to {-lootinfo::loot_cave_venom_silk_skein::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 동굴 거미처럼 나와요)" to {-lootinfo::loot_cave_venom_silk_skein::*}
+    add "    &7서식지: &f자연에서 나오는 보통 동굴 거미 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_cave_venom_silk_skein::*}
     set {-lootkey::loot_sunshine_down_feather} to "햇살솜깃"
     set {-lootname::loot_sunshine_down_feather} to "햇살 솜깃"
     add "&6── 햇살 솜깃 &7(일반) &6──" to {-lootinfo::loot_sunshine_down_feather::*}
     add "&f· &e닭 &7· 1~2개" to {-lootinfo::loot_sunshine_down_feather::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 닭처럼 나와요)" to {-lootinfo::loot_sunshine_down_feather::*}
+    add "    &7서식지: &f자연에서 나오는 보통 닭 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_sunshine_down_feather::*}
     set {-lootkey::loot_silver_gill_plate} to "은빛아가미판"
     set {-lootname::loot_silver_gill_plate} to "은빛 아가미판"
     add "&6── 은빛 아가미판 &7(일반) &6──" to {-lootinfo::loot_silver_gill_plate::*}
     add "&f· &e대구 &7· 1~2개" to {-lootinfo::loot_silver_gill_plate::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 대구처럼 나와요)" to {-lootinfo::loot_silver_gill_plate::*}
+    add "    &7서식지: &f자연에서 나오는 보통 대구 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_silver_gill_plate::*}
     set {-lootkey::loot_soft_leather_cord} to "부드러운가죽끈"
     set {-lootname::loot_soft_leather_cord} to "부드러운 가죽끈"
     add "&6── 부드러운 가죽끈 &7(일반) &6──" to {-lootinfo::loot_soft_leather_cord::*}
     add "&f· &e소 &7· 1~2개" to {-lootinfo::loot_soft_leather_cord::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 소처럼 나와요)" to {-lootinfo::loot_soft_leather_cord::*}
+    add "    &7서식지: &f자연에서 나오는 보통 소 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_soft_leather_cord::*}
     set {-lootkey::loot_heartwood_resin_fragment} to "심목수지조각"
     set {-lootname::loot_heartwood_resin_fragment} to "심목 수지 조각"
     add "&6── 심목 수지 조각 &7(유일) &6──" to {-lootinfo::loot_heartwood_resin_fragment::*}
     add "&f· &e크리킹 &7· 1~2개" to {-lootinfo::loot_heartwood_resin_fragment::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 크리킹처럼 나와요)" to {-lootinfo::loot_heartwood_resin_fragment::*}
+    add "    &7서식지: &f자연에서 나오는 보통 크리킹 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_heartwood_resin_fragment::*}
     set {-lootkey::loot_lightning_gunpowder_stone} to "번개무늬화약석"
     set {-lootname::loot_lightning_gunpowder_stone} to "번개무늬 화약석"
     add "&6── 번개무늬 화약석 &7(고급) &6──" to {-lootinfo::loot_lightning_gunpowder_stone::*}
     add "&f· &e크리퍼 &7· 1~2개" to {-lootinfo::loot_lightning_gunpowder_stone::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 크리퍼처럼 나와요)" to {-lootinfo::loot_lightning_gunpowder_stone::*}
+    add "    &7서식지: &f자연에서 나오는 보통 크리퍼 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_lightning_gunpowder_stone::*}
     set {-lootkey::loot_waterway_pearl} to "물길진주"
     set {-lootname::loot_waterway_pearl} to "물길 진주"
     add "&6── 물길 진주 &7(고급) &6──" to {-lootinfo::loot_waterway_pearl::*}
     add "&f· &e돌고래 &7· 1~2개" to {-lootinfo::loot_waterway_pearl::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 돌고래처럼 나와요)" to {-lootinfo::loot_waterway_pearl::*}
+    add "    &7서식지: &f자연에서 나오는 보통 돌고래 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_waterway_pearl::*}
     set {-lootkey::loot_sturdy_mane_cord} to "튼튼한갈기끈"
     set {-lootname::loot_sturdy_mane_cord} to "튼튼한 갈기끈"
     add "&6── 튼튼한 갈기끈 &7(일반) &6──" to {-lootinfo::loot_sturdy_mane_cord::*}
     add "&f· &e당나귀 &7· 1~2개" to {-lootinfo::loot_sturdy_mane_cord::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 당나귀처럼 나와요)" to {-lootinfo::loot_sturdy_mane_cord::*}
+    add "    &7서식지: &f자연에서 나오는 보통 당나귀 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_sturdy_mane_cord::*}
     set {-lootkey::loot_waterlogged_verdigris_fragment} to "물먹은녹청조각"
     set {-lootname::loot_waterlogged_verdigris_fragment} to "물먹은 녹청 조각"
     add "&6── 물먹은 녹청 조각 &7(고급) &6──" to {-lootinfo::loot_waterlogged_verdigris_fragment::*}
     add "&f· &e드라운드 &7· 1~2개" to {-lootinfo::loot_waterlogged_verdigris_fragment::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 드라운드처럼 나와요)" to {-lootinfo::loot_waterlogged_verdigris_fragment::*}
+    add "    &7서식지: &f자연에서 나오는 보통 드라운드 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_waterlogged_verdigris_fragment::*}
     set {-lootkey::loot_ancient_ocean_eye} to "고대해저의눈"
     set {-lootname::loot_ancient_ocean_eye} to "고대 해저의 눈"
     add "&6── 고대 해저의 눈 &7(전설) &6──" to {-lootinfo::loot_ancient_ocean_eye::*}
     add "&f· &e엘더 가디언 &7· 1~2개" to {-lootinfo::loot_ancient_ocean_eye::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 엘더 가디언처럼 나와요)" to {-lootinfo::loot_ancient_ocean_eye::*}
+    add "    &7서식지: &f자연에서 나오는 보통 엘더 가디언 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_ancient_ocean_eye::*}
     set {-lootkey::loot_end_dragonheart_shard} to "종언의용심파편"
     set {-lootname::loot_end_dragonheart_shard} to "종언의 용심 파편"
     add "&6── 종언의 용심 파편 &7(전설) &6──" to {-lootinfo::loot_end_dragonheart_shard::*}
     add "&f· &e엔더 드래곤 &7· 1~2개" to {-lootinfo::loot_end_dragonheart_shard::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 엔더 드래곤처럼 나와요)" to {-lootinfo::loot_end_dragonheart_shard::*}
+    add "    &7서식지: &f자연에서 나오는 보통 엔더 드래곤 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_end_dragonheart_shard::*}
     set {-lootkey::loot_folded_space_membrane} to "접힌공간막"
     set {-lootname::loot_folded_space_membrane} to "접힌 공간막"
     add "&6── 접힌 공간막 &7(고급) &6──" to {-lootinfo::loot_folded_space_membrane::*}
     add "&f· &e엔더맨 &7· 1~2개" to {-lootinfo::loot_folded_space_membrane::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 엔더맨처럼 나와요)" to {-lootinfo::loot_folded_space_membrane::*}
+    add "    &7서식지: &f자연에서 나오는 보통 엔더맨 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_folded_space_membrane::*}
     set {-lootkey::loot_void_mite_shell} to "공허진드기껍질"
     set {-lootname::loot_void_mite_shell} to "공허 진드기 껍질"
     add "&6── 공허 진드기 껍질 &7(고급) &6──" to {-lootinfo::loot_void_mite_shell::*}
     add "&f· &e엔더마이트 &7· 1~2개" to {-lootinfo::loot_void_mite_shell::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 엔더마이트처럼 나와요)" to {-lootinfo::loot_void_mite_shell::*}
+    add "    &7서식지: &f자연에서 나오는 보통 엔더마이트 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_void_mite_shell::*}
     set {-lootkey::loot_summoning_pattern_cloth} to "소환문양천조각"
     set {-lootname::loot_summoning_pattern_cloth} to "소환문양 천 조각"
     add "&6── 소환문양 천 조각 &7(유일) &6──" to {-lootinfo::loot_summoning_pattern_cloth::*}
     add "&f· &e소환사 &7· 1~2개" to {-lootinfo::loot_summoning_pattern_cloth::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 소환사처럼 나와요)" to {-lootinfo::loot_summoning_pattern_cloth::*}
+    add "    &7서식지: &f자연에서 나오는 보통 소환사 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_summoning_pattern_cloth::*}
     set {-lootkey::loot_fox_tail_down} to "여우꼬리솜"
     set {-lootname::loot_fox_tail_down} to "여우 꼬리솜"
     add "&6── 여우 꼬리솜 &7(일반) &6──" to {-lootinfo::loot_fox_tail_down::*}
     add "&f· &e붉은 여우 &7· 1~2개" to {-lootinfo::loot_fox_tail_down::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 붉은 여우처럼 나와요)" to {-lootinfo::loot_fox_tail_down::*}
+    add "    &7서식지: &f자연에서 나오는 보통 붉은 여우 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_fox_tail_down::*}
     set {-lootkey::loot_ripple_jelly_orb} to "물결젤리구슬"
     set {-lootname::loot_ripple_jelly_orb} to "물결 젤리 구슬"
     add "&6── 물결 젤리 구슬 &7(일반) &6──" to {-lootinfo::loot_ripple_jelly_orb::*}
     add "&f· &e개구리 &7· 1~2개" to {-lootinfo::loot_ripple_jelly_orb::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 개구리처럼 나와요)" to {-lootinfo::loot_ripple_jelly_orb::*}
+    add "    &7서식지: &f자연에서 나오는 보통 개구리 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_ripple_jelly_orb::*}
     add "&f· &e올챙이 &7· 1~2개" to {-lootinfo::loot_ripple_jelly_orb::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 올챙이처럼 나와요)" to {-lootinfo::loot_ripple_jelly_orb::*}
+    add "    &7서식지: &f자연에서 나오는 보통 올챙이 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_ripple_jelly_orb::*}
     set {-lootkey::loot_sobbing_white_membrane} to "흐느낌의백막"
     set {-lootname::loot_sobbing_white_membrane} to "흐느낌의 백막"
     add "&6── 흐느낌의 백막 &7(고급) &6──" to {-lootinfo::loot_sobbing_white_membrane::*}
     add "&f· &e가스트 &7· 1~2개" to {-lootinfo::loot_sobbing_white_membrane::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 가스트처럼 나와요)" to {-lootinfo::loot_sobbing_white_membrane::*}
+    add "    &7서식지: &f자연에서 나오는 보통 가스트 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_sobbing_white_membrane::*}
     set {-lootkey::loot_giant_weathered_bone_fragment} to "거대한묵은뼛조각"
     set {-lootname::loot_giant_weathered_bone_fragment} to "거대한 묵은 뼛조각"
     add "&6── 거대한 묵은 뼛조각 &7(유일) &6──" to {-lootinfo::loot_giant_weathered_bone_fragment::*}
     add "&f· &e거인 &7· 1~2개" to {-lootinfo::loot_giant_weathered_bone_fragment::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 거인처럼 나와요)" to {-lootinfo::loot_giant_weathered_bone_fragment::*}
+    add "    &7서식지: &f자연에서 나오는 보통 거인 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_giant_weathered_bone_fragment::*}
     set {-lootkey::loot_glowing_ink_sac} to "발광먹물낭"
     set {-lootname::loot_glowing_ink_sac} to "발광 먹물낭"
     add "&6── 발광 먹물낭 &7(고급) &6──" to {-lootinfo::loot_glowing_ink_sac::*}
     add "&f· &e발광 오징어 &7· 1~2개" to {-lootinfo::loot_glowing_ink_sac::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 발광 오징어처럼 나와요)" to {-lootinfo::loot_glowing_ink_sac::*}
+    add "    &7서식지: &f자연에서 나오는 보통 발광 오징어 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_glowing_ink_sac::*}
     set {-lootkey::loot_ridge_horn_fragment} to "산등성이뿔조각"
     set {-lootname::loot_ridge_horn_fragment} to "산등성이 뿔조각"
     add "&6── 산등성이 뿔조각 &7(일반) &6──" to {-lootinfo::loot_ridge_horn_fragment::*}
     add "&f· &e염소 &7· 1~2개" to {-lootinfo::loot_ridge_horn_fragment::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 염소처럼 나와요)" to {-lootinfo::loot_ridge_horn_fragment::*}
+    add "    &7서식지: &f자연에서 나오는 보통 염소 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_ridge_horn_fragment::*}
     set {-lootkey::loot_coarse_red_mane} to "거친붉은갈기"
     set {-lootname::loot_coarse_red_mane} to "거친 붉은 갈기"
     add "&6── 거친 붉은 갈기 &7(고급) &6──" to {-lootinfo::loot_coarse_red_mane::*}
     add "&f· &e호글린 &7· 1~2개" to {-lootinfo::loot_coarse_red_mane::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 호글린처럼 나와요)" to {-lootinfo::loot_coarse_red_mane::*}
+    add "    &7서식지: &f자연에서 나오는 보통 호글린 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_coarse_red_mane::*}
     set {-lootkey::loot_glossy_horse_mane} to "윤기나는말갈기"
     set {-lootname::loot_glossy_horse_mane} to "윤기 나는 말갈기"
     add "&6── 윤기 나는 말갈기 &7(일반) &6──" to {-lootinfo::loot_glossy_horse_mane::*}
     add "&f· &e말 &7· 1~2개" to {-lootinfo::loot_glossy_horse_mane::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 말처럼 나와요)" to {-lootinfo::loot_glossy_horse_mane::*}
+    add "    &7서식지: &f자연에서 나오는 보통 말 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_glossy_horse_mane::*}
     set {-lootkey::loot_dry_desert_bandage} to "마른사막붕대"
     set {-lootname::loot_dry_desert_bandage} to "마른 사막 붕대"
     add "&6── 마른 사막 붕대 &7(고급) &6──" to {-lootinfo::loot_dry_desert_bandage::*}
     add "&f· &e허스크 &7· 1~2개" to {-lootinfo::loot_dry_desert_bandage::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 허스크처럼 나와요)" to {-lootinfo::loot_dry_desert_bandage::*}
+    add "    &7서식지: &f자연에서 나오는 보통 허스크 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_dry_desert_bandage::*}
     set {-lootkey::loot_layered_shadow_mirror_shard} to "겹그림자거울편"
     set {-lootname::loot_layered_shadow_mirror_shard} to "겹그림자 거울편"
     add "&6── 겹그림자 거울편 &7(유일) &6──" to {-lootinfo::loot_layered_shadow_mirror_shard::*}
     add "&f· &e환술사 &7· 1~2개" to {-lootinfo::loot_layered_shadow_mirror_shard::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 환술사처럼 나와요)" to {-lootinfo::loot_layered_shadow_mirror_shard::*}
+    add "    &7서식지: &f자연에서 나오는 보통 환술사 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_layered_shadow_mirror_shard::*}
     set {-lootkey::loot_guardian_iron_flower} to "수호의철꽃"
     set {-lootname::loot_guardian_iron_flower} to "수호의 철꽃"
     add "&6── 수호의 철꽃 &7(고급) &6──" to {-lootinfo::loot_guardian_iron_flower::*}
     add "&f· &e철 골렘 &7· 1~2개" to {-lootinfo::loot_guardian_iron_flower::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 철 골렘처럼 나와요)" to {-lootinfo::loot_guardian_iron_flower::*}
+    add "    &7서식지: &f자연에서 나오는 보통 철 골렘 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_guardian_iron_flower::*}
     set {-lootkey::loot_cozy_llama_fur} to "포근한라마털"
     set {-lootname::loot_cozy_llama_fur} to "포근한 라마털"
     add "&6── 포근한 라마털 &7(일반) &6──" to {-lootinfo::loot_cozy_llama_fur::*}
     add "&f· &e라마 &7· 1~2개" to {-lootinfo::loot_cozy_llama_fur::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 라마처럼 나와요)" to {-lootinfo::loot_cozy_llama_fur::*}
+    add "    &7서식지: &f자연에서 나오는 보통 라마 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_cozy_llama_fur::*}
     set {-lootkey::loot_molten_gel_fragment} to "용융겔조각"
     set {-lootname::loot_molten_gel_fragment} to "용융 겔 조각"
     add "&6── 용융 겔 조각 &7(고급) &6──" to {-lootinfo::loot_molten_gel_fragment::*}
     add "&f· &e마그마 큐브 &7· 1~2개" to {-lootinfo::loot_molten_gel_fragment::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 마그마 큐브처럼 나와요)" to {-lootinfo::loot_molten_gel_fragment::*}
+    add "    &7서식지: &f자연에서 나오는 보통 마그마 큐브 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_molten_gel_fragment::*}
     set {-lootkey::loot_mushroom_pattern_mycelium} to "버섯무늬균사"
     set {-lootname::loot_mushroom_pattern_mycelium} to "버섯무늬 균사"
     add "&6── 버섯무늬 균사 &7(고급) &6──" to {-lootinfo::loot_mushroom_pattern_mycelium::*}
     add "&f· &e무시룸 &7· 1~2개" to {-lootinfo::loot_mushroom_pattern_mycelium::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 무시룸처럼 나와요)" to {-lootinfo::loot_mushroom_pattern_mycelium::*}
+    add "    &7서식지: &f자연에서 나오는 보통 무시룸 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_mushroom_pattern_mycelium::*}
     set {-lootkey::loot_tough_tail_fur_cord} to "질긴꼬리털끈"
     set {-lootname::loot_tough_tail_fur_cord} to "질긴 꼬리털 끈"
     add "&6── 질긴 꼬리털 끈 &7(일반) &6──" to {-lootinfo::loot_tough_tail_fur_cord::*}
     add "&f· &e노새 &7· 1~2개" to {-lootinfo::loot_tough_tail_fur_cord::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 노새처럼 나와요)" to {-lootinfo::loot_tough_tail_fur_cord::*}
+    add "    &7서식지: &f자연에서 나오는 보통 노새 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_tough_tail_fur_cord::*}
     set {-lootkey::loot_ocean_spiny_scale} to "해저가시비늘"
     set {-lootname::loot_ocean_spiny_scale} to "해저 가시비늘"
     add "&6── 해저 가시비늘 &7(고급) &6──" to {-lootinfo::loot_ocean_spiny_scale::*}
     add "&f· &e가디언 &7· 1~2개" to {-lootinfo::loot_ocean_spiny_scale::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 가디언처럼 나와요)" to {-lootinfo::loot_ocean_spiny_scale::*}
+    add "    &7서식지: &f자연에서 나오는 보통 가디언 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_ocean_spiny_scale::*}
     set {-lootkey::loot_spotted_fur_fragment} to "반점털조각"
     set {-lootname::loot_spotted_fur_fragment} to "반점 털조각"
     add "&6── 반점 털조각 &7(고급) &6──" to {-lootinfo::loot_spotted_fur_fragment::*}
     add "&f· &e오실롯 &7· 1~2개" to {-lootinfo::loot_spotted_fur_fragment::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 오실롯처럼 나와요)" to {-lootinfo::loot_spotted_fur_fragment::*}
+    add "    &7서식지: &f자연에서 나오는 보통 오실롯 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_spotted_fur_fragment::*}
     set {-lootkey::loot_bamboo_scented_down} to "대나무향털솜"
     set {-lootname::loot_bamboo_scented_down} to "대나무 향 털솜"
     add "&6── 대나무 향 털솜 &7(고급) &6──" to {-lootinfo::loot_bamboo_scented_down::*}
     add "&f· &e판다 &7· 1~2개" to {-lootinfo::loot_bamboo_scented_down::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 판다처럼 나와요)" to {-lootinfo::loot_bamboo_scented_down::*}
+    add "    &7서식지: &f자연에서 나오는 보통 판다 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_bamboo_scented_down::*}
     set {-lootkey::loot_melodic_tail_feather} to "선율꽁지깃"
     set {-lootname::loot_melodic_tail_feather} to "선율 꽁지깃"
     add "&6── 선율 꽁지깃 &7(고급) &6──" to {-lootinfo::loot_melodic_tail_feather::*}
     add "&f· &e앵무새 &7· 1~2개" to {-lootinfo::loot_melodic_tail_feather::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 앵무새처럼 나와요)" to {-lootinfo::loot_melodic_tail_feather::*}
+    add "    &7서식지: &f자연에서 나오는 보통 앵무새 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_melodic_tail_feather::*}
     set {-lootkey::loot_nightflight_membrane_fragment} to "밤비행막조각"
     set {-lootname::loot_nightflight_membrane_fragment} to "밤비행 막조각"
     add "&6── 밤비행 막조각 &7(고급) &6──" to {-lootinfo::loot_nightflight_membrane_fragment::*}
     add "&f· &e팬텀 &7· 1~2개" to {-lootinfo::loot_nightflight_membrane_fragment::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 팬텀처럼 나와요)" to {-lootinfo::loot_nightflight_membrane_fragment::*}
+    add "    &7서식지: &f자연에서 나오는 보통 팬텀 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_nightflight_membrane_fragment::*}
     set {-lootkey::loot_curled_tail_ring} to "말린꼬리고리"
     set {-lootname::loot_curled_tail_ring} to "말린 꼬리 고리"
     add "&6── 말린 꼬리 고리 &7(일반) &6──" to {-lootinfo::loot_curled_tail_ring::*}
     add "&f· &e돼지 &7· 1~2개" to {-lootinfo::loot_curled_tail_ring::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 돼지처럼 나와요)" to {-lootinfo::loot_curled_tail_ring::*}
+    add "    &7서식지: &f자연에서 나오는 보통 돼지 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_curled_tail_ring::*}
     set {-lootkey::loot_gold_trade_tag} to "금거래표찰"
     set {-lootname::loot_gold_trade_tag} to "금거래 표찰"
     add "&6── 금거래 표찰 &7(고급) &6──" to {-lootinfo::loot_gold_trade_tag::*}
     add "&f· &e피글린 &7· 1~2개" to {-lootinfo::loot_gold_trade_tag::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 피글린처럼 나와요)" to {-lootinfo::loot_gold_trade_tag::*}
+    add "    &7서식지: &f자연에서 나오는 보통 피글린 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_gold_trade_tag::*}
     set {-lootkey::loot_black_gold_bracer_fragment} to "흑금완갑조각"
     set {-lootname::loot_black_gold_bracer_fragment} to "흑금 완갑 조각"
     add "&6── 흑금 완갑 조각 &7(유일) &6──" to {-lootinfo::loot_black_gold_bracer_fragment::*}
     add "&f· &e피글린 야수 &7· 1~2개" to {-lootinfo::loot_black_gold_bracer_fragment::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 피글린 야수처럼 나와요)" to {-lootinfo::loot_black_gold_bracer_fragment::*}
+    add "    &7서식지: &f자연에서 나오는 보통 피글린 야수 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_black_gold_bracer_fragment::*}
     set {-lootkey::loot_worn_raid_map_fragment} to "낡은습격지도편"
     set {-lootname::loot_worn_raid_map_fragment} to "낡은 습격 지도편"
     add "&6── 낡은 습격 지도편 &7(고급) &6──" to {-lootinfo::loot_worn_raid_map_fragment::*}
     add "&f· &e약탈자 &7· 1~2개" to {-lootinfo::loot_worn_raid_map_fragment::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 약탈자처럼 나와요)" to {-lootinfo::loot_worn_raid_map_fragment::*}
+    add "    &7서식지: &f자연에서 나오는 보통 약탈자 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_worn_raid_map_fragment::*}
     set {-lootkey::loot_chilly_white_pelt} to "서늘한흰털가죽"
     set {-lootname::loot_chilly_white_pelt} to "서늘한 흰 털가죽"
     add "&6── 서늘한 흰 털가죽 &7(고급) &6──" to {-lootinfo::loot_chilly_white_pelt::*}
@@ -882,173 +882,173 @@ on load:
     add "    &7서식지: &fterralith:ice_marsh, terralith:snowy_shield" to {-lootinfo::loot_chilly_white_pelt::*}
     add "    &7조건: &f낮 · 지상 &7· 희귀도 1" to {-lootinfo::loot_chilly_white_pelt::*}
     add "&f· &e북극곰 &7· 1~2개" to {-lootinfo::loot_chilly_white_pelt::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 북극곰처럼 나와요)" to {-lootinfo::loot_chilly_white_pelt::*}
+    add "    &7서식지: &f자연에서 나오는 보통 북극곰 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_chilly_white_pelt::*}
     set {-lootkey::loot_swelling_venom_spine} to "팽창독가시"
     set {-lootname::loot_swelling_venom_spine} to "팽창 독가시"
     add "&6── 팽창 독가시 &7(고급) &6──" to {-lootinfo::loot_swelling_venom_spine::*}
     add "&f· &e복어 &7· 1~2개" to {-lootinfo::loot_swelling_venom_spine::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 복어처럼 나와요)" to {-lootinfo::loot_swelling_venom_spine::*}
+    add "    &7서식지: &f자연에서 나오는 보통 복어 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_swelling_venom_spine::*}
     set {-lootkey::loot_rabbit_paw_down} to "토끼발솜"
     set {-lootname::loot_rabbit_paw_down} to "토끼 발솜"
     add "&6── 토끼 발솜 &7(일반) &6──" to {-lootinfo::loot_rabbit_paw_down::*}
     add "&f· &e숲 토끼 &7· 1~2개" to {-lootinfo::loot_rabbit_paw_down::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 숲 토끼처럼 나와요)" to {-lootinfo::loot_rabbit_paw_down::*}
+    add "    &7서식지: &f자연에서 나오는 보통 숲 토끼 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_rabbit_paw_down::*}
     set {-lootkey::loot_charging_molar} to "돌격어금니"
     set {-lootname::loot_charging_molar} to "돌격 어금니"
     add "&6── 돌격 어금니 &7(유일) &6──" to {-lootinfo::loot_charging_molar::*}
     add "&f· &e파괴수 &7· 1~2개" to {-lootinfo::loot_charging_molar::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 파괴수처럼 나와요)" to {-lootinfo::loot_charging_molar::*}
+    add "    &7서식지: &f자연에서 나오는 보통 파괴수 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_charging_molar::*}
     set {-lootkey::loot_red_ripple_scale} to "붉은물결비늘"
     set {-lootname::loot_red_ripple_scale} to "붉은 물결비늘"
     add "&6── 붉은 물결비늘 &7(일반) &6──" to {-lootinfo::loot_red_ripple_scale::*}
     add "&f· &e연어 &7· 1~2개" to {-lootinfo::loot_red_ripple_scale::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 연어처럼 나와요)" to {-lootinfo::loot_red_ripple_scale::*}
+    add "    &7서식지: &f자연에서 나오는 보통 연어 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_red_ripple_scale::*}
     set {-lootkey::loot_soft_wool_skein} to "말랑한양털타래"
     set {-lootname::loot_soft_wool_skein} to "말랑한 양털 타래"
     add "&6── 말랑한 양털 타래 &7(일반) &6──" to {-lootinfo::loot_soft_wool_skein::*}
     add "&f· &e양 &7· 1~2개" to {-lootinfo::loot_soft_wool_skein::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 양처럼 나와요)" to {-lootinfo::loot_soft_wool_skein::*}
+    add "    &7서식지: &f자연에서 나오는 보통 양 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_soft_wool_skein::*}
     set {-lootkey::loot_folding_shell_fragment} to "접이식껍질편"
     set {-lootname::loot_folding_shell_fragment} to "접이식 껍질편"
     add "&6── 접이식 껍질편 &7(유일) &6──" to {-lootinfo::loot_folding_shell_fragment::*}
     add "&f· &e셜커 &7· 1~2개" to {-lootinfo::loot_folding_shell_fragment::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 셜커처럼 나와요)" to {-lootinfo::loot_folding_shell_fragment::*}
+    add "    &7서식지: &f자연에서 나오는 보통 셜커 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_folding_shell_fragment::*}
     set {-lootkey::loot_crevice_silver_armor_fragment} to "틈새은갑조각"
     set {-lootname::loot_crevice_silver_armor_fragment} to "틈새 은갑 조각"
     add "&6── 틈새 은갑 조각 &7(일반) &6──" to {-lootinfo::loot_crevice_silver_armor_fragment::*}
     add "&f· &e좀벌레 &7· 1~2개" to {-lootinfo::loot_crevice_silver_armor_fragment::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 좀벌레처럼 나와요)" to {-lootinfo::loot_crevice_silver_armor_fragment::*}
+    add "    &7서식지: &f자연에서 나오는 보통 좀벌레 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_crevice_silver_armor_fragment::*}
     set {-lootkey::loot_hollow_bone_joint} to "속빈뼈마디"
     set {-lootname::loot_hollow_bone_joint} to "속빈 뼈마디"
     add "&6── 속빈 뼈마디 &7(일반) &6──" to {-lootinfo::loot_hollow_bone_joint::*}
     add "&f· &e스켈레톤 &7· 1~2개" to {-lootinfo::loot_hollow_bone_joint::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 스켈레톤처럼 나와요)" to {-lootinfo::loot_hollow_bone_joint::*}
+    add "    &7서식지: &f자연에서 나오는 보통 스켈레톤 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_hollow_bone_joint::*}
     set {-lootkey::loot_skeletal_horseshoe} to "백골말발굽"
     set {-lootname::loot_skeletal_horseshoe} to "백골 말발굽"
     add "&6── 백골 말발굽 &7(유일) &6──" to {-lootinfo::loot_skeletal_horseshoe::*}
     add "&f· &e스켈레톤 말 &7· 1~2개" to {-lootinfo::loot_skeletal_horseshoe::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 스켈레톤 말처럼 나와요)" to {-lootinfo::loot_skeletal_horseshoe::*}
+    add "    &7서식지: &f자연에서 나오는 보통 스켈레톤 말 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_skeletal_horseshoe::*}
     set {-lootkey::loot_elastic_slime_clump} to "탄력점액덩이"
     set {-lootname::loot_elastic_slime_clump} to "탄력 점액덩이"
     add "&6── 탄력 점액덩이 &7(일반) &6──" to {-lootinfo::loot_elastic_slime_clump::*}
     add "&f· &e슬라임 &7· 1~2개" to {-lootinfo::loot_elastic_slime_clump::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 슬라임처럼 나와요)" to {-lootinfo::loot_elastic_slime_clump::*}
+    add "    &7서식지: &f자연에서 나오는 보통 슬라임 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_elastic_slime_clump::*}
     set {-lootkey::loot_ancient_seed_pouch} to "고대씨앗주머니"
     set {-lootname::loot_ancient_seed_pouch} to "고대 씨앗주머니"
     add "&6── 고대 씨앗주머니 &7(유일) &6──" to {-lootinfo::loot_ancient_seed_pouch::*}
     add "&f· &e스니퍼 &7· 1~2개" to {-lootinfo::loot_ancient_seed_pouch::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 스니퍼처럼 나와요)" to {-lootinfo::loot_ancient_seed_pouch::*}
+    add "    &7서식지: &f자연에서 나오는 보통 스니퍼 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_ancient_seed_pouch::*}
     set {-lootkey::loot_unmelting_snowflake} to "녹지않는눈송이"
     set {-lootname::loot_unmelting_snowflake} to "녹지 않는 눈송이"
     add "&6── 녹지 않는 눈송이 &7(고급) &6──" to {-lootinfo::loot_unmelting_snowflake::*}
     add "&f· &e눈 골렘 &7· 1~2개" to {-lootinfo::loot_unmelting_snowflake::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 눈 골렘처럼 나와요)" to {-lootinfo::loot_unmelting_snowflake::*}
+    add "    &7서식지: &f자연에서 나오는 보통 눈 골렘 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_unmelting_snowflake::*}
     set {-lootkey::loot_tough_spider_silk_bundle} to "질긴거미실뭉치"
     set {-lootname::loot_tough_spider_silk_bundle} to "질긴 거미실 뭉치"
     add "&6── 질긴 거미실 뭉치 &7(일반) &6──" to {-lootinfo::loot_tough_spider_silk_bundle::*}
     add "&f· &e거미 &7· 1~2개" to {-lootinfo::loot_tough_spider_silk_bundle::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 거미처럼 나와요)" to {-lootinfo::loot_tough_spider_silk_bundle::*}
+    add "    &7서식지: &f자연에서 나오는 보통 거미 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_tough_spider_silk_bundle::*}
     set {-lootkey::loot_dark_ink_sac} to "짙은먹물낭"
     set {-lootname::loot_dark_ink_sac} to "짙은 먹물낭"
     add "&6── 짙은 먹물낭 &7(일반) &6──" to {-lootinfo::loot_dark_ink_sac::*}
     add "&f· &e오징어 &7· 1~2개" to {-lootinfo::loot_dark_ink_sac::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 오징어처럼 나와요)" to {-lootinfo::loot_dark_ink_sac::*}
+    add "    &7서식지: &f자연에서 나오는 보통 오징어 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_dark_ink_sac::*}
     set {-lootkey::loot_frost_bone_tip} to "서리낀뼈촉"
     set {-lootname::loot_frost_bone_tip} to "서리 낀 뼈촉"
     add "&6── 서리 낀 뼈촉 &7(고급) &6──" to {-lootinfo::loot_frost_bone_tip::*}
     add "&f· &e스트레이 &7· 1~2개" to {-lootinfo::loot_frost_bone_tip::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 스트레이처럼 나와요)" to {-lootinfo::loot_frost_bone_tip::*}
+    add "    &7서식지: &f자연에서 나오는 보통 스트레이 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_frost_bone_tip::*}
     set {-lootkey::loot_hot_ground_hoof_fragment} to "열바닥발굽편"
     set {-lootname::loot_hot_ground_hoof_fragment} to "열바닥 발굽편"
     add "&6── 열바닥 발굽편 &7(고급) &6──" to {-lootinfo::loot_hot_ground_hoof_fragment::*}
     add "&f· &e스트라이더 &7· 1~2개" to {-lootinfo::loot_hot_ground_hoof_fragment::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 스트라이더처럼 나와요)" to {-lootinfo::loot_hot_ground_hoof_fragment::*}
+    add "    &7서식지: &f자연에서 나오는 보통 스트라이더 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_hot_ground_hoof_fragment::*}
     set {-lootkey::loot_iridescent_water_scale} to "오색물빛비늘"
     set {-lootname::loot_iridescent_water_scale} to "오색 물빛비늘"
     add "&6── 오색 물빛비늘 &7(일반) &6──" to {-lootinfo::loot_iridescent_water_scale::*}
     add "&f· &e열대어 &7· 1~2개" to {-lootinfo::loot_iridescent_water_scale::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 열대어처럼 나와요)" to {-lootinfo::loot_iridescent_water_scale::*}
+    add "    &7서식지: &f자연에서 나오는 보통 열대어 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_iridescent_water_scale::*}
     set {-lootkey::loot_ripple_back_shell_fragment} to "물결등갑편"
     set {-lootname::loot_ripple_back_shell_fragment} to "물결 등갑편"
     add "&6── 물결 등갑편 &7(고급) &6──" to {-lootinfo::loot_ripple_back_shell_fragment::*}
     add "&f· &e거북 &7· 1~2개" to {-lootinfo::loot_ripple_back_shell_fragment::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 거북처럼 나와요)" to {-lootinfo::loot_ripple_back_shell_fragment::*}
+    add "    &7서식지: &f자연에서 나오는 보통 거북 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_ripple_back_shell_fragment::*}
     set {-lootkey::loot_small_spectral_wing} to "작은망령날개"
     set {-lootname::loot_small_spectral_wing} to "작은 망령날개"
     add "&6── 작은 망령날개 &7(고급) &6──" to {-lootinfo::loot_small_spectral_wing::*}
     add "&f· &e벡스 &7· 1~2개" to {-lootinfo::loot_small_spectral_wing::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 벡스처럼 나와요)" to {-lootinfo::loot_small_spectral_wing::*}
+    add "    &7서식지: &f자연에서 나오는 보통 벡스 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_small_spectral_wing::*}
     set {-lootkey::loot_daily_ledger_fragment} to "생활장부조각"
     set {-lootname::loot_daily_ledger_fragment} to "생활 장부 조각"
     add "&6── 생활 장부 조각 &7(일반) &6──" to {-lootinfo::loot_daily_ledger_fragment::*}
     add "&f· &e주민 &7· 1~2개" to {-lootinfo::loot_daily_ledger_fragment::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 주민처럼 나와요)" to {-lootinfo::loot_daily_ledger_fragment::*}
+    add "    &7서식지: &f자연에서 나오는 보통 주민 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_daily_ledger_fragment::*}
     set {-lootkey::loot_split_axe_wedge} to "갈라진도끼쐐기"
     set {-lootname::loot_split_axe_wedge} to "갈라진 도끼 쐐기"
     add "&6── 갈라진 도끼 쐐기 &7(고급) &6──" to {-lootinfo::loot_split_axe_wedge::*}
     add "&f· &e변명자 &7· 1~2개" to {-lootinfo::loot_split_axe_wedge::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 변명자처럼 나와요)" to {-lootinfo::loot_split_axe_wedge::*}
+    add "    &7서식지: &f자연에서 나오는 보통 변명자 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_split_axe_wedge::*}
     set {-lootkey::loot_long_road_trade_note} to "먼길거래쪽지"
     set {-lootname::loot_long_road_trade_note} to "먼길 거래 쪽지"
     add "&6── 먼길 거래 쪽지 &7(고급) &6──" to {-lootinfo::loot_long_road_trade_note::*}
     add "&f· &e상인 라마 &7· 1~2개" to {-lootinfo::loot_long_road_trade_note::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 상인 라마처럼 나와요)" to {-lootinfo::loot_long_road_trade_note::*}
+    add "    &7서식지: &f자연에서 나오는 보통 상인 라마 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_long_road_trade_note::*}
     add "&f· &e떠돌이 상인 &7· 1~2개" to {-lootinfo::loot_long_road_trade_note::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 떠돌이 상인처럼 나와요)" to {-lootinfo::loot_long_road_trade_note::*}
+    add "    &7서식지: &f자연에서 나오는 보통 떠돌이 상인 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_long_road_trade_note::*}
     set {-lootkey::loot_deep_vibration_core} to "심층진동핵"
     set {-lootname::loot_deep_vibration_core} to "심층 진동핵"
     add "&6── 심층 진동핵 &7(전설) &6──" to {-lootinfo::loot_deep_vibration_core::*}
     add "&f· &e워든 &7· 1~2개" to {-lootinfo::loot_deep_vibration_core::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 워든처럼 나와요)" to {-lootinfo::loot_deep_vibration_core::*}
+    add "    &7서식지: &f자연에서 나오는 보통 워든 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_deep_vibration_core::*}
     set {-lootkey::loot_purple_reagent_residue} to "보랏빛시약찌꺼기"
     set {-lootname::loot_purple_reagent_residue} to "보랏빛 시약 찌꺼기"
     add "&6── 보랏빛 시약 찌꺼기 &7(고급) &6──" to {-lootinfo::loot_purple_reagent_residue::*}
     add "&f· &e마녀 &7· 1~2개" to {-lootinfo::loot_purple_reagent_residue::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 마녀처럼 나와요)" to {-lootinfo::loot_purple_reagent_residue::*}
+    add "    &7서식지: &f자연에서 나오는 보통 마녀 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_purple_reagent_residue::*}
     set {-lootkey::loot_withering_black_heart} to "쇠락의검은심장"
     set {-lootname::loot_withering_black_heart} to "쇠락의 검은 심장"
     add "&6── 쇠락의 검은 심장 &7(전설) &6──" to {-lootinfo::loot_withering_black_heart::*}
     add "&f· &e위더 &7· 1~2개" to {-lootinfo::loot_withering_black_heart::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 위더처럼 나와요)" to {-lootinfo::loot_withering_black_heart::*}
+    add "    &7서식지: &f자연에서 나오는 보통 위더 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_withering_black_heart::*}
     set {-lootkey::loot_scorched_black_bone} to "그을린흑골"
     set {-lootname::loot_scorched_black_bone} to "그을린 흑골"
     add "&6── 그을린 흑골 &7(고급) &6──" to {-lootinfo::loot_scorched_black_bone::*}
     add "&f· &e위더 스켈레톤 &7· 1~2개" to {-lootinfo::loot_scorched_black_bone::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 위더 스켈레톤처럼 나와요)" to {-lootinfo::loot_scorched_black_bone::*}
+    add "    &7서식지: &f자연에서 나오는 보통 위더 스켈레톤 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_scorched_black_bone::*}
     set {-lootkey::loot_forest_wolf_fang} to "숲늑대송곳니"
     set {-lootname::loot_forest_wolf_fang} to "숲늑대 송곳니"
     add "&6── 숲늑대 송곳니 &7(일반) &6──" to {-lootinfo::loot_forest_wolf_fang::*}
     add "&f· &e새끼 펜리르 &7(이로치 포함) &7· 1~2개" to {-lootinfo::loot_forest_wolf_fang::*}
     add "    &7서식지: &f아직 자연에서 나오지 않아요" to {-lootinfo::loot_forest_wolf_fang::*}
     add "&f· &e회색 늑대 &7· 1~2개" to {-lootinfo::loot_forest_wolf_fang::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 회색 늑대처럼 나와요)" to {-lootinfo::loot_forest_wolf_fang::*}
+    add "    &7서식지: &f자연에서 나오는 보통 회색 늑대 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_forest_wolf_fang::*}
     set {-lootkey::loot_rotten_red_tusk} to "부패한붉은엄니"
     set {-lootname::loot_rotten_red_tusk} to "부패한 붉은 엄니"
     add "&6── 부패한 붉은 엄니 &7(고급) &6──" to {-lootinfo::loot_rotten_red_tusk::*}
     add "&f· &e조글린 &7· 1~2개" to {-lootinfo::loot_rotten_red_tusk::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 조글린처럼 나와요)" to {-lootinfo::loot_rotten_red_tusk::*}
+    add "    &7서식지: &f자연에서 나오는 보통 조글린 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_rotten_red_tusk::*}
     set {-lootkey::loot_faded_knotted_cloth} to "바랜매듭천"
     set {-lootname::loot_faded_knotted_cloth} to "바랜 매듭천"
     add "&6── 바랜 매듭천 &7(일반) &6──" to {-lootinfo::loot_faded_knotted_cloth::*}
     add "&f· &e좀비 주민 &7· 1~2개" to {-lootinfo::loot_faded_knotted_cloth::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 좀비 주민처럼 나와요)" to {-lootinfo::loot_faded_knotted_cloth::*}
+    add "    &7서식지: &f자연에서 나오는 보통 좀비 주민 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_faded_knotted_cloth::*}
     set {-lootkey::loot_worn_dark_mane} to "낡은어둠갈기"
     set {-lootname::loot_worn_dark_mane} to "낡은 어둠갈기"
     add "&6── 낡은 어둠갈기 &7(유일) &6──" to {-lootinfo::loot_worn_dark_mane::*}
     add "&f· &e어미 펜리르 &7(이로치 포함) &7· 1~2개" to {-lootinfo::loot_worn_dark_mane::*}
     add "    &7서식지: &f아직 자연에서 나오지 않아요" to {-lootinfo::loot_worn_dark_mane::*}
     add "&f· &e좀비 말 &7· 1~2개" to {-lootinfo::loot_worn_dark_mane::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 좀비 말처럼 나와요)" to {-lootinfo::loot_worn_dark_mane::*}
+    add "    &7서식지: &f자연에서 나오는 보통 좀비 말 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_worn_dark_mane::*}
     set {-lootkey::loot_smudged_name_tag} to "번진이름표"
     set {-lootname::loot_smudged_name_tag} to "번진 이름표"
     add "&6── 번진 이름표 &7(고급) &6──" to {-lootinfo::loot_smudged_name_tag::*}
     add "&f· &e좀비 &7· 1~2개" to {-lootinfo::loot_smudged_name_tag::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 좀비처럼 나와요)" to {-lootinfo::loot_smudged_name_tag::*}
+    add "    &7서식지: &f자연에서 나오는 보통 좀비 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_smudged_name_tag::*}
     set {-lootkey::loot_rusted_gilt_fragment} to "녹슨금장조각"
     set {-lootname::loot_rusted_gilt_fragment} to "녹슨 금장 조각"
     add "&6── 녹슨 금장 조각 &7(고급) &6──" to {-lootinfo::loot_rusted_gilt_fragment::*}
     add "&f· &e좀비화 피글린 &7· 1~2개" to {-lootinfo::loot_rusted_gilt_fragment::*}
-    add "    &7서식지: &f바닐라 자연 스폰 (일반 좀비화 피글린처럼 나와요)" to {-lootinfo::loot_rusted_gilt_fragment::*}
+    add "    &7서식지: &f자연에서 나오는 보통 좀비화 피글린 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_rusted_gilt_fragment::*}
 
 command /전리품 [<text>]:
     description: 전리품이 어떤 몹에게서 · 어디서 나오는지

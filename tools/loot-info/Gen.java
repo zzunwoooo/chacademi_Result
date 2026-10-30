@@ -94,7 +94,7 @@ public class Gen {
                     lines.add("    &7서식지: &f" + (biomes.isEmpty() ? "어디서나" : String.join(", ", biomes)));
                     lines.add("    &7조건: &f" + String.join(" · ", cond) + " &7· 희귀도 " + h.get("rarity"));
                 } else if (base.startsWith("ChAcademiaWild")) {
-                    lines.add("    &7서식지: &f바닐라 자연 스폰 (일반 " + first.mobName() + "처럼 나와요)");
+                    lines.add("    &7서식지: &f자연에서 나오는 보통 " + first.mobName() + " &7(직접 잡으면 10%, 스포너·번식 몹 제외)");
                 } else {
                     lines.add(base.startsWith("CA_Wild_") ? "    &7서식지: &f아직 자연에서 나오지 않아요" : "    &7서식지: &f정보 없음");
                 }

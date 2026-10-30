@@ -1,0 +1,114 @@
+# 보통 바닐라 몹 전리품 (자동 생성 2026-10-30, tools/loot-info/Drops.java)
+# 플레이어가 잡은 보통 몹(MythicMobs 몹·스포너 몹 제외)이 종류별 전리품을 하나씩 10% 확률로 떨군다.
+# 확률을 바꾸려면 아래 숫자만 고치고 /sk reload loot-drops
+
+options:
+    chance: 10
+
+import:
+    io.lumine.mythic.bukkit.MythicBukkit
+
+on load:
+    delete {-vloot::*}
+    add "loot_echo_down|1|2" to {-vloot::ALLAY::*}
+    add "loot_rounded_carapace_fragment|1|2" to {-vloot::ARMADILLO::*}
+    add "loot_axolotl_gill_tuft|1|2" to {-vloot::AXOLOTL::*}
+    add "loot_thin_night_wing_membrane|1|2" to {-vloot::BAT::*}
+    add "loot_beeswax_pollen_clump|1|2" to {-vloot::BEE::*}
+    add "loot_spinning_flame_heart|1|2" to {-vloot::BLAZE::*}
+    add "loot_swamp_moss_bone_fragment|1|2" to {-vloot::BOGGED::*}
+    add "loot_whirlwind_feather|1|2" to {-vloot::BREEZE::*}
+    add "loot_desert_back_fur_tuft|1|2" to {-vloot::CAMEL::*}
+    add "loot_cat_whisker_bundle|1|2" to {-vloot::CAT::*}
+    add "loot_cave_venom_silk_skein|1|2" to {-vloot::CAVE_SPIDER::*}
+    add "loot_sunshine_down_feather|1|2" to {-vloot::CHICKEN::*}
+    add "loot_silver_gill_plate|1|2" to {-vloot::COD::*}
+    add "loot_soft_leather_cord|1|2" to {-vloot::COW::*}
+    add "loot_heartwood_resin_fragment|1|2" to {-vloot::CREAKING::*}
+    add "loot_lightning_gunpowder_stone|1|2" to {-vloot::CREEPER::*}
+    add "loot_waterway_pearl|1|2" to {-vloot::DOLPHIN::*}
+    add "loot_sturdy_mane_cord|1|2" to {-vloot::DONKEY::*}
+    add "loot_waterlogged_verdigris_fragment|1|2" to {-vloot::DROWNED::*}
+    add "loot_ancient_ocean_eye|1|2" to {-vloot::ELDER_GUARDIAN::*}
+    add "loot_folded_space_membrane|1|2" to {-vloot::ENDERMAN::*}
+    add "loot_void_mite_shell|1|2" to {-vloot::ENDERMITE::*}
+    add "loot_end_dragonheart_shard|1|2" to {-vloot::ENDER_DRAGON::*}
+    add "loot_summoning_pattern_cloth|1|2" to {-vloot::EVOKER::*}
+    add "loot_fox_tail_down|1|2" to {-vloot::FOX::*}
+    add "loot_ripple_jelly_orb|1|2" to {-vloot::FROG::*}
+    add "loot_sobbing_white_membrane|1|2" to {-vloot::GHAST::*}
+    add "loot_giant_weathered_bone_fragment|1|2" to {-vloot::GIANT::*}
+    add "loot_glowing_ink_sac|1|2" to {-vloot::GLOW_SQUID::*}
+    add "loot_ridge_horn_fragment|1|2" to {-vloot::GOAT::*}
+    add "loot_ocean_spiny_scale|1|2" to {-vloot::GUARDIAN::*}
+    add "loot_coarse_red_mane|1|2" to {-vloot::HOGLIN::*}
+    add "loot_glossy_horse_mane|1|2" to {-vloot::HORSE::*}
+    add "loot_dry_desert_bandage|1|2" to {-vloot::HUSK::*}
+    add "loot_layered_shadow_mirror_shard|1|2" to {-vloot::ILLUSIONER::*}
+    add "loot_guardian_iron_flower|1|2" to {-vloot::IRON_GOLEM::*}
+    add "loot_cozy_llama_fur|1|2" to {-vloot::LLAMA::*}
+    add "loot_molten_gel_fragment|1|2" to {-vloot::MAGMA_CUBE::*}
+    add "loot_mushroom_pattern_mycelium|1|2" to {-vloot::MOOSHROOM::*}
+    add "loot_tough_tail_fur_cord|1|2" to {-vloot::MULE::*}
+    add "loot_spotted_fur_fragment|1|2" to {-vloot::OCELOT::*}
+    add "loot_bamboo_scented_down|1|2" to {-vloot::PANDA::*}
+    add "loot_melodic_tail_feather|1|2" to {-vloot::PARROT::*}
+    add "loot_nightflight_membrane_fragment|1|2" to {-vloot::PHANTOM::*}
+    add "loot_curled_tail_ring|1|2" to {-vloot::PIG::*}
+    add "loot_gold_trade_tag|1|2" to {-vloot::PIGLIN::*}
+    add "loot_black_gold_bracer_fragment|1|2" to {-vloot::PIGLIN_BRUTE::*}
+    add "loot_worn_raid_map_fragment|1|2" to {-vloot::PILLAGER::*}
+    add "loot_chilly_white_pelt|1|2" to {-vloot::POLAR_BEAR::*}
+    add "loot_swelling_venom_spine|1|2" to {-vloot::PUFFERFISH::*}
+    add "loot_rabbit_paw_down|1|2" to {-vloot::RABBIT::*}
+    add "loot_charging_molar|1|2" to {-vloot::RAVAGER::*}
+    add "loot_red_ripple_scale|1|2" to {-vloot::SALMON::*}
+    add "loot_soft_wool_skein|1|2" to {-vloot::SHEEP::*}
+    add "loot_folding_shell_fragment|1|2" to {-vloot::SHULKER::*}
+    add "loot_crevice_silver_armor_fragment|1|2" to {-vloot::SILVERFISH::*}
+    add "loot_hollow_bone_joint|1|2" to {-vloot::SKELETON::*}
+    add "loot_skeletal_horseshoe|1|2" to {-vloot::SKELETON_HORSE::*}
+    add "loot_elastic_slime_clump|1|2" to {-vloot::SLIME::*}
+    add "loot_ancient_seed_pouch|1|2" to {-vloot::SNIFFER::*}
+    add "loot_unmelting_snowflake|1|2" to {-vloot::SNOW_GOLEM::*}
+    add "loot_tough_spider_silk_bundle|1|2" to {-vloot::SPIDER::*}
+    add "loot_dark_ink_sac|1|2" to {-vloot::SQUID::*}
+    add "loot_frost_bone_tip|1|2" to {-vloot::STRAY::*}
+    add "loot_hot_ground_hoof_fragment|1|2" to {-vloot::STRIDER::*}
+    add "loot_ripple_jelly_orb|1|2" to {-vloot::TADPOLE::*}
+    add "loot_long_road_trade_note|1|2" to {-vloot::TRADER_LLAMA::*}
+    add "loot_iridescent_water_scale|1|2" to {-vloot::TROPICAL_FISH::*}
+    add "loot_ripple_back_shell_fragment|1|2" to {-vloot::TURTLE::*}
+    add "loot_small_spectral_wing|1|2" to {-vloot::VEX::*}
+    add "loot_daily_ledger_fragment|1|2" to {-vloot::VILLAGER::*}
+    add "loot_split_axe_wedge|1|2" to {-vloot::VINDICATOR::*}
+    add "loot_long_road_trade_note|1|2" to {-vloot::WANDERING_TRADER::*}
+    add "loot_deep_vibration_core|1|2" to {-vloot::WARDEN::*}
+    add "loot_purple_reagent_residue|1|2" to {-vloot::WITCH::*}
+    add "loot_withering_black_heart|1|2" to {-vloot::WITHER::*}
+    add "loot_scorched_black_bone|1|2" to {-vloot::WITHER_SKELETON::*}
+    add "loot_forest_wolf_fang|1|2" to {-vloot::WOLF::*}
+    add "loot_rotten_red_tusk|1|2" to {-vloot::ZOGLIN::*}
+    add "loot_smudged_name_tag|1|2" to {-vloot::ZOMBIE::*}
+    add "loot_worn_dark_mane|1|2" to {-vloot::ZOMBIE_HORSE::*}
+    add "loot_faded_knotted_cloth|1|2" to {-vloot::ZOMBIE_VILLAGER::*}
+    add "loot_rusted_gilt_fragment|1|2" to {-vloot::ZOMBIFIED_PIGLIN::*}
+
+on death:
+    victim is not a player
+    attacker is a player
+    set {_type} to victim.getType().name()
+    {-vloot::%{_type}%::*} is set
+    # MythicMobs 몹(교화 이로치·커스텀 몹)은 자기 드롭이 따로 있다
+    if MythicBukkit.inst().getAPIHelper().isMythicMob(victim) is true:
+        stop
+    # 스포너·알·번식으로 생긴 몹은 제외 (전리품 농장 막기)
+    set {_why} to victim.getEntitySpawnReason().name()
+    if {_why} is "SPAWNER" or "SPAWNER_EGG" or "BREEDING" or "EGG" or "DISPENSE_EGG" or "TRIAL_SPAWNER":
+        stop
+    set {_l} to location of victim
+    loop {-vloot::%{_type}%::*}:
+        chance of {@chance}%:
+            set {_p::*} to split loop-value at "|"
+            set {_n} to random integer between ({_p::2} parsed as integer) and ({_p::3} parsed as integer)
+            execute console command "iadrop item:%{_p::1}% %x-coordinate of {_l}% %y-coordinate of {_l}% %z-coordinate of {_l}% %world of {_l}% %{_n}%"
