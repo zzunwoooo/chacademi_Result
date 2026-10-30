@@ -9,12 +9,14 @@ on load:
     set {-lootname::loot_doxy_wing} to "독시 날개"
     add "&6── 독시 날개 &7(일반) &6──" to {-lootinfo::loot_doxy_wing::*}
     add "&f· &e독시 &7(이로치 포함) &7· 1~2개" to {-lootinfo::loot_doxy_wing::*}
-    add "    &7서식지: &f아직 자연에서 나오지 않아요" to {-lootinfo::loot_doxy_wing::*}
+    add "    &7서식지: &fterralith:lavender_forest, terralith:orchid_swamp, terralith:blooming_valley, terralith:lush_valley" to {-lootinfo::loot_doxy_wing::*}
+    add "    &7조건: &f언제나 · 지상 &7· 희귀도 2" to {-lootinfo::loot_doxy_wing::*}
     set {-lootkey::loot_goblin_tooth} to "고블린이빨"
     set {-lootname::loot_goblin_tooth} to "고블린 이빨"
     add "&6── 고블린 이빨 &7(일반) &6──" to {-lootinfo::loot_goblin_tooth::*}
     add "&f· &e고블린 &7(이로치 포함) &7· 1~2개" to {-lootinfo::loot_goblin_tooth::*}
-    add "    &7서식지: &f아직 자연에서 나오지 않아요" to {-lootinfo::loot_goblin_tooth::*}
+    add "    &7서식지: &fterralith:cave/deep_caves, terralith:cave/granite_caves, terralith:rocky_mountains, terralith:basalt_cliffs" to {-lootinfo::loot_goblin_tooth::*}
+    add "    &7조건: &f언제나 · 지상 &7· 희귀도 2" to {-lootinfo::loot_goblin_tooth::*}
     set {-lootkey::loot_glossy_acorn} to "윤기도토리"
     set {-lootname::loot_glossy_acorn} to "윤기 도토리"
     add "&6── 윤기 도토리 &7(일반) &6──" to {-lootinfo::loot_glossy_acorn::*}
@@ -1019,7 +1021,8 @@ on load:
     set {-lootname::loot_forest_wolf_fang} to "숲늑대 송곳니"
     add "&6── 숲늑대 송곳니 &7(일반) &6──" to {-lootinfo::loot_forest_wolf_fang::*}
     add "&f· &e새끼 펜리르 &7(이로치 포함) &7· 1~2개" to {-lootinfo::loot_forest_wolf_fang::*}
-    add "    &7서식지: &f아직 자연에서 나오지 않아요" to {-lootinfo::loot_forest_wolf_fang::*}
+    add "    &7서식지: &fterralith:siberian_taiga, terralith:wintry_forest, terralith:snowy_shield" to {-lootinfo::loot_forest_wolf_fang::*}
+    add "    &7조건: &f밤 · 지상 &7· 희귀도 2" to {-lootinfo::loot_forest_wolf_fang::*}
     add "&f· &e회색 늑대 &7· 1~2개" to {-lootinfo::loot_forest_wolf_fang::*}
     add "    &7서식지: &f자연에서 나오는 보통 회색 늑대 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_forest_wolf_fang::*}
     set {-lootkey::loot_rotten_red_tusk} to "부패한붉은엄니"
@@ -1036,7 +1039,8 @@ on load:
     set {-lootname::loot_worn_dark_mane} to "낡은 어둠갈기"
     add "&6── 낡은 어둠갈기 &7(유일) &6──" to {-lootinfo::loot_worn_dark_mane::*}
     add "&f· &e어미 펜리르 &7(이로치 포함) &7· 1~2개" to {-lootinfo::loot_worn_dark_mane::*}
-    add "    &7서식지: &f아직 자연에서 나오지 않아요" to {-lootinfo::loot_worn_dark_mane::*}
+    add "    &7서식지: &fterralith:siberian_taiga, terralith:wintry_forest, terralith:snowy_shield" to {-lootinfo::loot_worn_dark_mane::*}
+    add "    &7조건: &f밤 · 지상 &7· 희귀도 3" to {-lootinfo::loot_worn_dark_mane::*}
     add "&f· &e좀비 말 &7· 1~2개" to {-lootinfo::loot_worn_dark_mane::*}
     add "    &7서식지: &f자연에서 나오는 보통 좀비 말 &7(직접 잡으면 10%%, 스포너·번식 몹 제외)" to {-lootinfo::loot_worn_dark_mane::*}
     set {-lootkey::loot_smudged_name_tag} to "번진이름표"
