@@ -19,7 +19,8 @@ public final class DungeonProtocol {
 
     public static final String S2C = "chacademi:dungeon";
     public static final String C2S = "chacademi:dungeon_act";
-    public static final int VERSION = 1;
+    /** 2 (2026-10-30): 입장창 보상을 묶음(기본·첫 클리어·확률)으로, 체력 자동 회복 없음 표시. 서버·클라 같이 바꿔야 함. */
+    public static final int VERSION = 2;
     public static final int MAX_BYTES = 1 << 20;
     public static final int MAX_ITEMS = 54;
 
@@ -43,9 +44,19 @@ public final class DungeonProtocol {
         public static final Holder NONE = new Holder(-1, "", Title.NONE, Title.NONE);
     }
 
+    /** 보상 묶음 종류. */
+    public static final int R_BASE = 0, R_FIRST = 1, R_RANDOM = 2;
+
+    /**
+     * 입장창 보상 한 묶음. done = 이미 받음(첫 클리어 보상을 받은 뒤). chances = 아이템마다 확률(만분율, 10000 = 100%),
+     * 확률 묶음이 아니면 비어 있음.
+     */
+    public record RewardGroup(int kind, String label, boolean done, List<byte[]> items, List<Integer> chances) {}
+
+    /** ticketFree = 첫 클리어 전이라 이번 입장은 입장권 없이 (ticketNeed 는 평소 필요한 장수). noRegen = 던전 안 체력 자동 회복 없음. */
     public record Entry(int session, String name, String subtitle, boolean cleared, long personalBestMs, Holder best,
-                        int active, int max, int ticketNeed, int ticketHave, String ticketName,
-                        int button, String lockReason, String rewardLabel, List<byte[]> rewards) {}
+                        int active, int max, int ticketNeed, int ticketHave, String ticketName, boolean ticketFree,
+                        int button, String lockReason, boolean noRegen, List<RewardGroup> rewards) {}
 
     public record Queue(int state, String name, int position, int queued, int active, int max, long offerLeftMs, int session) {}
 
@@ -128,8 +139,32 @@ public final class DungeonProtocol {
     private static void writeEntry(DataOutputStream out, Entry e) throws IOException {
         out.writeInt(e.session()); out.writeUTF(e.name()); out.writeUTF(e.subtitle()); out.writeBoolean(e.cleared());
         out.writeLong(e.personalBestMs()); writeHolder(out, e.best()); out.writeInt(e.active()); out.writeInt(e.max());
-        out.writeInt(e.ticketNeed()); out.writeInt(e.ticketHave()); out.writeUTF(e.ticketName()); out.writeByte(e.button());
-        out.writeUTF(e.lockReason()); out.writeUTF(e.rewardLabel()); writeItems(out, e.rewards());
+        out.writeInt(e.ticketNeed()); out.writeInt(e.ticketHave()); out.writeUTF(e.ticketName()); out.writeBoolean(e.ticketFree());
+        out.writeByte(e.button()); out.writeUTF(e.lockReason()); out.writeBoolean(e.noRegen());
+        out.writeByte(Math.min(e.rewards().size(), 8));
+        for (var g : e.rewards().subList(0, Math.min(e.rewards().size(), 8))) {
+            out.writeByte(g.kind()); out.writeUTF(g.label()); out.writeBoolean(g.done()); writeItems(out, g.items());
+            out.writeShort(Math.min(g.chances().size(), MAX_ITEMS));
+            for (int i = 0; i < Math.min(g.chances().size(), MAX_ITEMS); i++) out.writeShort(Math.clamp(g.chances().get(i), 0, 10000));
+        }
+    }
+
+    private static List<RewardGroup> readGroups(DataInputStream in) throws IOException {
+        int n = in.readUnsignedByte();
+        if (n > 8) throw new IOException("too many reward groups");
+        var out = new ArrayList<RewardGroup>(n);
+        for (int i = 0; i < n; i++) {
+            int kind = in.readUnsignedByte();
+            String label = in.readUTF();
+            boolean done = in.readBoolean();
+            var items = readItems(in);
+            int c = in.readUnsignedShort();
+            if (c > MAX_ITEMS) throw new IOException("too many chances");
+            var chances = new ArrayList<Integer>(c);
+            for (int k = 0; k < c; k++) chances.add(in.readUnsignedShort());
+            out.add(new RewardGroup(kind, label, done, items, List.copyOf(chances)));
+        }
+        return List.copyOf(out);
     }
 
     private static void writeHolder(DataOutputStream out, Holder h) throws IOException {
@@ -153,8 +188,8 @@ public final class DungeonProtocol {
         int kind = in.readUnsignedByte();
         ToClient out = switch (kind) {
             case K_ENTRY -> new EntryMsg(new Entry(in.readInt(), in.readUTF(), in.readUTF(), in.readBoolean(), in.readLong(),
-                    readHolder(in), in.readInt(), in.readInt(), in.readInt(), in.readInt(), in.readUTF(), in.readUnsignedByte(),
-                    in.readUTF(), in.readUTF(), readItems(in)));
+                    readHolder(in), in.readInt(), in.readInt(), in.readInt(), in.readInt(), in.readUTF(), in.readBoolean(),
+                    in.readUnsignedByte(), in.readUTF(), in.readBoolean(), readGroups(in)));
             case K_QUEUE -> new QueueMsg(new Queue(in.readUnsignedByte(), in.readUTF(), in.readInt(), in.readInt(), in.readInt(),
                     in.readInt(), in.readLong(), in.readInt()));
             case K_RUN -> new RunMsg(new Run(in.readBoolean(), in.readUTF(), in.readLong(), in.readBoolean(), in.readBoolean(),

@@ -50,7 +50,7 @@ final class AdminCommands {
         }), "기믹 단계용: 가장 가까운 기믹 연결", "기믹 door1");
         ChacaLink.branch(plugin, root, portal(), "입장 포탈 = 지금 자리 (던전 공통)", "포탈 2.5");
         ChacaLink.branch(plugin, root, dungeonHere("출구", (p, d) -> { d.exit = Defs.Loc.of(p.getLocation()); return "나가는 곳 = 지금 자리"; }), "끝나면 돌아갈 곳 (던전 공통)", "출구");
-        ChacaLink.branch(plugin, root, rewards(), "보상: 손에 든 아이템 추가 / 목록 / 비우기", "보상 첫클리어 추가");
+        ChacaLink.branch(plugin, root, rewards(), "보상(기본·첫클리어·확률): 손에 든 아이템 추가 / 목록 / 빼기 / 비우기", "보상 확률 추가 12.5");
         ChacaLink.branch(plugin, root, Commands.literal("설정확인").executes(this::check), "고른 던전의 칸별 빠진 설정", "설정확인");
         ChacaLink.branch(plugin, root, Commands.literal("현황").executes(ctx -> { ChacaLink.lines(ctx.getSource().getSender(), plugin.service().status()); return 1; }), "칸 사용·대기 현황", "현황");
         ChacaLink.branch(plugin, root, forceReset(), "칸 강제 정리 (진행 중이면 실패 처리)", "칸초기화 lich_lab 1");
@@ -235,41 +235,70 @@ final class AdminCommands {
         return Commands.literal("포탈").executes(run).then(Commands.argument("반경", DoubleArgumentType.doubleArg(0.5, 16)).executes(run));
     }
 
+    /** 보상 묶음 이름 → 목록. 반복 = 기본 (예전 이름). */
+    private static List<Defs.Reward> group(Defs.Dungeon d, String kind) {
+        return switch (kind) { case "첫클리어" -> d.firstRewards; case "확률" -> d.randomRewards; default -> d.baseRewards; };
+    }
+
     private LiteralArgumentBuilder<CommandSourceStack> rewards() {
         var node = Commands.literal("보상");
-        for (String kind : List.of("첫클리어", "반복")) {
+        for (String kind : List.of("기본", "반복", "첫클리어", "확률")) {
             var k = Commands.literal(kind);
-            k.then(Commands.literal("추가").executes(ctx -> {
+            com.mojang.brigadier.Command<CommandSourceStack> add = ctx -> {
                 Player p = self(ctx); var d = dungeon(p);
                 ItemStack hand = p.getInventory().getItemInMainHand();
                 if (hand.getType().isAir()) throw ChacaLink.error("넣을 아이템을 손에 들어 주세요");
+                double chance = 0;
+                if (kind.equals("확률")) {
+                    try { chance = ctx.getArgument("확률", Double.class); }
+                    catch (IllegalArgumentException missing) { throw ChacaLink.error("확률(%)을 적어 주세요: /던전관리 보상 확률 추가 12.5"); }
+                }
                 String ia = plugin.service().items.idOf(hand);
                 Defs.Reward r;
-                if (ia != null) r = new Defs.Reward(ia, hand.getAmount(), "");
-                else if (!hand.hasItemMeta() || hand.isSimilar(new ItemStack(hand.getType()))) r = new Defs.Reward(hand.getType().getKey().toString(), hand.getAmount(), "");
-                else { var one = hand.clone(); one.setAmount(1); r = new Defs.Reward("", hand.getAmount(), Base64.getEncoder().encodeToString(one.serializeAsBytes())); }
-                (kind.equals("첫클리어") ? d.firstRewards : d.repeatRewards).add(r);
-                saved(p, kind + " 보상 추가: " + (r.item().isBlank() ? hand.getType().getKey() + " (아이템 그대로)" : r.item()) + " ×" + r.amount());
+                if (ia != null) r = new Defs.Reward(ia, hand.getAmount(), "", chance);
+                else if (!hand.hasItemMeta() || hand.isSimilar(new ItemStack(hand.getType()))) r = new Defs.Reward(hand.getType().getKey().toString(), hand.getAmount(), "", chance);
+                else { var one = hand.clone(); one.setAmount(1); r = new Defs.Reward("", hand.getAmount(), Base64.getEncoder().encodeToString(one.serializeAsBytes()), chance); }
+                group(d, kind).add(r);
+                saved(p, label(kind) + " 추가: " + (r.item().isBlank() ? hand.getType().getKey() + " (아이템 그대로)" : r.item()) + " ×" + r.amount()
+                        + (kind.equals("확률") ? " · " + chance + "%" : ""));
                 return 1;
-            }));
+            };
+            if (kind.equals("확률")) k.then(Commands.literal("추가").executes(add).then(Commands.argument("확률", DoubleArgumentType.doubleArg(0.01, 100)).executes(add)));
+            else k.then(Commands.literal("추가").executes(add));
             k.then(Commands.literal("목록").executes(ctx -> {
                 var p = self(ctx); var d = dungeon(p);
-                var list = kind.equals("첫클리어") ? d.firstRewards : d.repeatRewards;
+                var list = group(d, kind);
                 var out = new ArrayList<String>();
-                out.add("── " + d.name + " " + kind + " 보상 " + list.size() + "줄 ──");
-                for (var r : list) out.add(" " + (r.item().isBlank() ? "(손에 들었던 아이템)" : r.item()) + " ×" + r.amount());
+                out.add("── " + d.name + " " + label(kind) + " " + list.size() + "줄 ──");
+                for (int i = 0; i < list.size(); i++) {
+                    var r = list.get(i);
+                    out.add(" " + (i + 1) + ". " + (r.item().isBlank() ? "(손에 들었던 아이템)" : r.item()) + " ×" + r.amount() + (r.chance() > 0 ? " · " + r.chance() + "%" : ""));
+                }
                 ChacaLink.lines(p, out);
                 return 1;
             }));
+            k.then(Commands.literal("빼기").then(Commands.argument("번호", IntegerArgumentType.integer(1, 99)).executes(ctx -> {
+                var p = self(ctx); var d = dungeon(p);
+                var list = group(d, kind);
+                int i = ctx.getArgument("번호", Integer.class);
+                if (i > list.size()) throw ChacaLink.error(label(kind) + "은 " + list.size() + "줄이에요");
+                var r = list.remove(i - 1);
+                saved(p, label(kind) + " " + i + "번 뺌: " + (r.item().isBlank() ? "(손에 들었던 아이템)" : r.item()));
+                return 1;
+            })));
             k.then(Commands.literal("비우기").executes(ctx -> {
                 var p = self(ctx); var d = dungeon(p);
-                (kind.equals("첫클리어") ? d.firstRewards : d.repeatRewards).clear();
-                saved(p, kind + " 보상을 비웠어요");
+                group(d, kind).clear();
+                saved(p, label(kind) + "을 비웠어요");
                 return 1;
             }));
             node.then(k);
         }
         return node;
+    }
+
+    private static String label(String kind) {
+        return switch (kind) { case "첫클리어" -> "첫 클리어 보상"; case "확률" -> "확률 보상"; default -> "기본 보상"; };
     }
 
     private int check(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
@@ -279,7 +308,7 @@ final class AdminCommands {
         out.add("── " + d.name + " 설정 확인 ──");
         out.add(" 포탈 " + (d.portal == null ? "✘ 없음" : d.portal.shortText() + " 반경 " + d.portalRadius) + " · 나가는 곳 " + (d.exit == null ? "포탈" : d.exit.shortText()));
         out.add(" 입장권 " + (d.ticketItem.isBlank() ? "없음" : d.ticketItem + " ×" + d.ticketAmount + (d.freeUntilFirstClear ? " (첫 클리어 전 무료)" : "")) + " · 권한 " + (d.permission.isBlank() ? "누구나" : d.permission));
-        out.add(" 단계 " + d.stages.size() + "개 · 보상 첫 " + d.firstRewards.size() + "줄 / 반복 " + d.repeatRewards.size() + "줄");
+        out.add(" 단계 " + d.stages.size() + "개 · 보상 기본 " + d.baseRewards.size() + "줄 / 첫 클리어 " + d.firstRewards.size() + "줄 / 확률 " + d.randomRewards.size() + "줄 · 체력 자동 회복 " + (d.naturalRegen ? "있음" : "없음"));
         for (int no = 1; no <= d.instances; no++) {
             var s = d.slots.get(no);
             var miss = new ArrayList<String>();

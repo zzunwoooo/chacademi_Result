@@ -86,12 +86,16 @@ class InstancesTest {
 
     @Test void protocolRoundTrip() throws Exception {
         var holder = new DungeonProtocol.Holder(123456, "별빛", new DungeonProtocol.Title("손발맞는", 0x96E4EC), new DungeonProtocol.Title("용사", 0xDEC58E));
+        var groups = List.of(new DungeonProtocol.RewardGroup(DungeonProtocol.R_BASE, "기본 보상", false, List.of(new byte[]{1, 2, 3}), List.of()),
+                new DungeonProtocol.RewardGroup(DungeonProtocol.R_RANDOM, "확률 보상", false, List.of(new byte[]{4}, new byte[]{5}), List.of(1250, 10000)));
         var entry = new DungeonProtocol.Entry(7, "리치의 지하 연구실", "부제", true, 99_000, holder, 2, 3, 1, 4, "던전 입장권",
-                DungeonProtocol.BTN_ENTER, "", "반복 클리어 보상", List.of(new byte[]{1, 2, 3}));
+                true, DungeonProtocol.BTN_ENTER, "", true, groups);
         var back = (DungeonProtocol.EntryMsg) DungeonProtocol.decodeToClient(DungeonProtocol.encode(new DungeonProtocol.EntryMsg(entry)));
         assertEquals("별빛", back.entry().best().name());
         assertEquals("용사", back.entry().best().suffix().name());
-        assertEquals(3, back.entry().rewards().get(0).length);
+        assertEquals(3, back.entry().rewards().get(0).items().get(0).length);
+        assertEquals(List.of(1250, 10000), back.entry().rewards().get(1).chances());
+        assertTrue(back.entry().ticketFree() && back.entry().noRegen());
         var run = new DungeonProtocol.Run(true, "던전", 5000, true, false, 2, 3, "단계", "목표", 1, 4, true);
         assertEquals(run, ((DungeonProtocol.RunMsg) DungeonProtocol.decodeToClient(DungeonProtocol.encode(new DungeonProtocol.RunMsg(run)))).run());
         var action = DungeonProtocol.decodeAction(DungeonProtocol.encode(new DungeonProtocol.Action(DungeonProtocol.C_ENTER, 42)));

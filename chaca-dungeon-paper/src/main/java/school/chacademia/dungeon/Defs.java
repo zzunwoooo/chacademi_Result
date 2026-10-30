@@ -98,8 +98,11 @@ final class Defs {
         List<String> startCommands = List.of();
     }
 
-    /** 보상 한 줄: ItemsAdder/바닐라 id + 수량, 또는 손에 든 아이템 그대로(data = Base64 serializeAsBytes). */
-    record Reward(String item, int amount, String data) {}
+    /**
+     * 보상 한 줄: ItemsAdder/바닐라 id + 수량, 또는 손에 든 아이템 그대로(data = Base64 serializeAsBytes).
+     * chance = 확률 보상의 당첨 확률(%), 다른 묶음은 0(항상).
+     */
+    record Reward(String item, int amount, String data, double chance) {}
 
     static final class Dungeon {
         final String id;
@@ -107,10 +110,13 @@ final class Defs {
         String ticketItem = "", portalLabel = "";
         int ticketAmount = 1, instances = 3;
         boolean freeUntilFirstClear = true;
+        /** 던전 안에서 배고픔으로 체력이 저절로 차는지 (마나는 상관없음). 기본 false = 자동 회복 없음 (오너 2026-10-30). */
+        boolean naturalRegen;
         Loc portal, exit;
         double portalRadius = 2.5;
         List<String> clearCommands = new ArrayList<>();
-        final List<Reward> firstRewards = new ArrayList<>(), repeatRewards = new ArrayList<>();
+        /** 기본 = 클리어마다, 첫 클리어 = 처음 한 번 더, 확률 = 클리어마다 줄마다 chance% 로 따로 뽑음. */
+        final List<Reward> baseRewards = new ArrayList<>(), firstRewards = new ArrayList<>(), randomRewards = new ArrayList<>();
         final List<Stage> stages = new ArrayList<>();
         final Map<Integer, Slot> slots = new TreeMap<>();
         Dungeon(String id) { this.id = id; }
@@ -141,7 +147,10 @@ final class Defs {
             d.exit = Loc.parse(s.getString("exit", ""));
             d.clearCommands = new ArrayList<>(s.getStringList("clear-commands"));
             readRewards(s.getMapList("rewards.first"), d.firstRewards);
-            readRewards(s.getMapList("rewards.repeat"), d.repeatRewards);
+            // 기본 보상: 예전 이름 repeat 도 읽는다 (저장하면 base 로 바뀜)
+            readRewards(s.getMapList(s.contains("rewards.base") ? "rewards.base" : "rewards.repeat"), d.baseRewards);
+            readRewards(s.getMapList("rewards.random"), d.randomRewards);
+            d.naturalRegen = s.getBoolean("natural-regen", false);
             for (var m : s.getMapList("stages")) {
                 var st = new Stage();
                 st.name = str(m.get("name"));
@@ -209,7 +218,8 @@ final class Defs {
     private static void readRewards(List<Map<?, ?>> list, List<Reward> out) {
         for (var m : list) {
             int amount = m.get("amount") instanceof Number n ? Math.max(1, n.intValue()) : 1;
-            out.add(new Reward(str(m.get("item")), amount, str(m.get("data"))));
+            double chance = m.get("chance") instanceof Number c ? Math.max(0, Math.min(100, c.doubleValue())) : 0;
+            out.add(new Reward(str(m.get("item")), amount, str(m.get("data")), chance));
         }
     }
 
@@ -234,7 +244,9 @@ final class Defs {
         s.set("exit", d.exit == null ? "" : d.exit.text());
         s.set("clear-commands", d.clearCommands);
         s.set("rewards.first", rewards(d.firstRewards));
-        s.set("rewards.repeat", rewards(d.repeatRewards));
+        s.set("rewards.base", rewards(d.baseRewards));
+        s.set("rewards.random", rewards(d.randomRewards));
+        s.set("natural-regen", d.naturalRegen);
         var stages = new ArrayList<Map<String, Object>>();
         for (var st : d.stages) {
             var m = new LinkedHashMap<String, Object>();
@@ -281,6 +293,7 @@ final class Defs {
             if (!r.item().isBlank()) m.put("item", r.item());
             m.put("amount", r.amount());
             if (!r.data().isBlank()) m.put("data", r.data());
+            if (r.chance() > 0) m.put("chance", r.chance());
             out.add(m);
         }
         return out;

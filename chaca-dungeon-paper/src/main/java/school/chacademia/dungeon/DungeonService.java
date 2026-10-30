@@ -172,13 +172,38 @@ final class DungeonService {
         else if (!instances.hasWaiting(d.id) && instances.firstFree(d.id) != null) button = DungeonProtocol.BTN_ENTER;
         else button = DungeonProtocol.BTN_QUEUE;
         boolean firstPending = mine.clears() == 0;
-        var shown = firstPending ? d.firstRewards : d.repeatRewards;
-        var rewardBytes = new ArrayList<byte[]>();
-        for (ItemStack it : build(shown)) rewardBytes.add(it.serializeAsBytes());
+        // 입장창 보상: 묶음별(기본·첫 클리어·확률), 줄마다 아이템 하나(수량 표시). 빈 묶음은 보내지 않는다.
+        var groups = new ArrayList<DungeonProtocol.RewardGroup>();
+        addGroup(groups, DungeonProtocol.R_BASE, "기본 보상", false, d.baseRewards);
+        addGroup(groups, DungeonProtocol.R_FIRST, "첫 클리어 보상", !firstPending, d.firstRewards);
+        addGroup(groups, DungeonProtocol.R_RANDOM, "확률 보상", false, d.randomRewards);
         String ticketName = d.ticketItem.isBlank() ? "" : itemName(d.ticketItem);
+        int usual = d.ticketItem.isBlank() ? 0 : d.ticketAmount;
         return new DungeonProtocol.Entry(session, d.name, d.subtitle, mine.clears() > 0, mine.bestMs(), top,
-                instances.busy(d.id), instances.capacity(d.id), need, need == 0 ? 0 : countTickets(p, d.ticketItem), ticketName,
-                button, lock, firstPending ? "첫 클리어 보상" : "반복 클리어 보상", rewardBytes);
+                instances.busy(d.id), instances.capacity(d.id), usual, usual == 0 ? 0 : countTickets(p, d.ticketItem), ticketName,
+                usual > 0 && need == 0, button, lock, !d.naturalRegen, groups);
+    }
+
+    private void addGroup(List<DungeonProtocol.RewardGroup> out, int kind, String label, boolean done, List<Defs.Reward> list) {
+        var items = new ArrayList<byte[]>();
+        var chances = new ArrayList<Integer>();
+        for (var r : list) {
+            ItemStack it = preview(r);
+            if (it == null) continue;
+            items.add(it.serializeAsBytes());
+            if (kind == DungeonProtocol.R_RANDOM) chances.add((int) Math.round(r.chance() * 100));
+        }
+        if (!items.isEmpty()) out.add(new DungeonProtocol.RewardGroup(kind, label, done, items, chances));
+    }
+
+    /** 입장창에 보일 아이템 하나 (수량 = 그 줄 전체, 99 까지). */
+    private ItemStack preview(Defs.Reward r) {
+        var stacks = build(List.of(r));
+        if (stacks.isEmpty()) return null;
+        ItemStack one = stacks.get(0).clone();
+        int total = stacks.stream().mapToInt(ItemStack::getAmount).sum();
+        one.setAmount(Math.min(99, Math.max(1, total)));
+        return one;
     }
 
     private String itemName(String id) {
@@ -602,14 +627,24 @@ final class DungeonService {
         bestCache.remove(run.slot.dungeon);
         if (outcome != null) bestCache.put(run.slot.dungeon, outcome.best());
         boolean first = outcome != null && outcome.firstClear();
-        var rewards = d == null ? List.<ItemStack>of() : build(first ? d.firstRewards : d.repeatRewards);
-        String note = rewards.isEmpty() ? "설정된 보상 없음" : switch (hooks.give(run.player, rewards, "dungeon-clear:" + run.id, dungeonName + " 클리어 보상",
+        // 기본(매번) + 첫 클리어(처음 한 번, 기록 DB 를 못 쓰면 모르므로 빼고) + 확률(줄마다 따로 뽑기)
+        var rewards = new ArrayList<ItemStack>();
+        int won = 0;
+        if (d != null) {
+            rewards.addAll(build(d.baseRewards));
+            if (first) rewards.addAll(build(d.firstRewards));
+            var rng = java.util.concurrent.ThreadLocalRandom.current();
+            for (var r : d.randomRewards)
+                if (rng.nextDouble(100) < r.chance()) { var got = build(List.of(r)); if (!got.isEmpty()) { rewards.addAll(got); won++; } }
+        }
+        String note = rewards.isEmpty() ? (d != null && !d.randomRewards.isEmpty() ? "이번에는 확률 보상이 나오지 않았어요" : "설정된 보상 없음") : switch (hooks.give(run.player, rewards, "dungeon-clear:" + run.id, dungeonName + " 클리어 보상",
                 "던전 클리어 보상이에요.")) {
             case "INVENTORY" -> "가방에 넣었어요";
             case "MAIL" -> "가방이 가득 차서 일부를 우편함으로 보냈어요";
             case "DROPPED" -> "가방이 가득 차서 일부를 발밑에 떨어뜨렸어요";
             default -> "지급하지 못했어요 (운영진에게 알려 주세요)";
         };
+        if (won > 0) note = "확률 보상 " + won + "개 당첨 · " + note;
         if (outcome == null) note += " · 기록 저장 실패";
         String account = Bukkit.getOfflinePlayer(run.player).getName();
         if (d != null && account != null)

@@ -52,6 +52,7 @@ final class UiScreens {
             my = (mouseY - oy) / scale;
             hits.clear();
             tooltip = ItemStack.EMPTY;
+            tooltipExtra = List.of();
             var pose = g.pose();
             pose.pushPose();
             pose.translate(ox, oy, 0);
@@ -59,7 +60,14 @@ final class UiScreens {
             paint(g);
             pose.popPose();
             g.flush();
-            if (!tooltip.isEmpty()) g.renderTooltip(font, tooltip, mouseX, mouseY);
+            if (!tooltip.isEmpty()) {
+                if (tooltipExtra.isEmpty()) g.renderTooltip(font, tooltip, mouseX, mouseY);
+                else {
+                    var lines = new ArrayList<Component>(Screen.getTooltipFromItem(Minecraft.getInstance(), tooltip));
+                    lines.addAll(tooltipExtra);
+                    g.renderTooltip(font, lines, tooltip.getTooltipImage(), mouseX, mouseY);
+                }
+            }
         }
 
         boolean over(float x, float y, float w, float h) { return mx >= x && mx <= x + w && my >= y && my <= y + h; }
@@ -111,6 +119,56 @@ final class UiScreens {
             return total;
         }
 
+        /** 툴팁에 덧붙일 줄 (확률 보상의 확률 등). 아이템 툴팁 아래에 붙는다. */
+        protected List<Component> tooltipExtra = List.of();
+
+        /**
+         * 보상 한 줄: 칸 cols 개, offset 번째 아이템부터. chances(만분율)가 있으면 칸 오른쪽 아래에 확률, dim 이면 칸을 어둡게(이미 받음).
+         */
+        void rowSlots(GuiGraphics g, List<ItemStack> items, float x, float y, int cols, int offset, float size, List<Integer> chances, boolean dim) {
+            float gap = 2;
+            for (int c = 0; c < cols; c++) Art.ui(g, "panels/reward-slot", x + c * (size + gap), y, size, size, dim ? 0x99FFFFFF : 0xFFFFFFFF);
+            g.flush();
+            var pose = g.pose();
+            for (int c = 0; c < cols; c++) {
+                int i = offset + c;
+                if (i >= items.size()) continue;
+                float sx = x + c * (size + gap);
+                pose.pushPose();
+                float k = (size - 4) / 16f;
+                pose.translate(sx + 2, y + 2, 0);
+                pose.scale(k, k, 1);
+                g.renderItem(items.get(i), 0, 0);
+                g.renderItemDecorations(font, items.get(i), 0, 0);
+                pose.popPose();
+                if (over(sx, y, size, size)) {
+                    tooltip = items.get(i);
+                    tooltipExtra = i < chances.size() ? List.of(Component.literal("확률 " + percent(chances.get(i))).withColor(GOLD & 0xFFFFFF))
+                            : dim ? List.of(Component.literal("이미 받은 보상").withColor(MUTED & 0xFFFFFF)) : List.of();
+                }
+            }
+            g.flush();
+            // 아이템 위에 그리는 표시 (확률·받음): 아이템보다 앞으로
+            pose.pushPose();
+            pose.translate(0, 0, 300);
+            for (int c = 0; c < cols; c++) {
+                int i = offset + c;
+                if (i >= items.size()) continue;
+                float sx = x + c * (size + gap);
+                if (dim) Art.ui(g, "panels/panel-fill", sx + 1, y + 1, size - 2, size - 2, 0xAA000000 | 0xFFFFFF);
+                if (i < chances.size()) {
+                    String t = percent(chances.get(i));
+                    Art.textRight(g, t, sx + size - 1.2f, y + size - 3.6f, 5.4f, GOLD);
+                }
+            }
+            pose.popPose();
+        }
+
+        static String percent(int basis) {
+            if (basis % 100 == 0) return basis / 100 + "%";
+            return String.format(java.util.Locale.ROOT, basis % 10 == 0 ? "%.1f%%" : "%.2f%%", basis / 100.0);
+        }
+
         void titleLine(GuiGraphics g, DungeonProtocol.Holder h, float x, float cy, float size) {
             float at = x;
             if (!h.prefix().name().isBlank()) at += Art.text(g, h.prefix().name(), at, cy, size, 0xFF000000 | h.prefix().color()) + size * 0.4f;
@@ -144,76 +202,122 @@ final class UiScreens {
     // ------------------------------------------------------------ 입장창
 
     static final class EntryScreen extends Base {
+        private static final int TITLE = 0xFFEFA9FF, TITLE_GLOW = 0x669B3BFF, WARN = 0xFFF2A7A7, LABEL = 0xFF9AA6B8;
         private final int session;
-        private int scroll;
-        private List<ItemStack> rewards = List.of();
-        private List<byte[]> rewardSource;
+        private List<DungeonProtocol.RewardGroup> source;
+        private final List<List<ItemStack>> rewardItems = new ArrayList<>();
+        private int[] offsets = new int[0];
+        private static final float RX = 270, RW = 196, ROW_Y = 141, ROW_H = 22, SLOT = 18;
+        private static final int COLS = 7;
 
         EntryScreen(int session) { super("던전 입장"); this.session = session; }
         int session() { return session; }
         @Override float designW() { return 480; }
         @Override float designH() { return 270; }
 
-        private DungeonProtocol.Entry e() {
-            var e = DungeonClient.entry;
-            return e;
-        }
+        private DungeonProtocol.Entry e() { return DungeonClient.entry; }
 
         @Override void paint(GuiGraphics g) {
             var e = e();
             if (e == null) return;
-            if (rewardSource != e.rewards()) { rewardSource = e.rewards(); rewards = Net.items(e.rewards()); }
+            if (source != e.rewards()) {
+                source = e.rewards();
+                rewardItems.clear();
+                for (var group : source) rewardItems.add(Net.items(group.items()));
+                offsets = new int[source.size()];
+            }
+            // 바탕 · 일러스트(왼쪽, 오른쪽 끝을 바탕색으로 흐리게) · 금테
             Art.ui(g, "panels/panel-fill", 0, 0, 480, 270, 0xFFFFFFFF);
-            Art.cover(g, "illustration/lich-laboratory", 6, 6, 250, 258, 0xFFFFFFFF);
+            Art.cover(g, "illustration/lich-laboratory", 6, 6, 252, 258, 0xFFFFFFFF);
+            Art.ui(g, "panels/panel-fill", 226, 6, 32, 258, 0x99FFFFFF);
             Art.nine(g, "panels/entry-frame", 0, 0, 480, 270, 28, 10, 0xFFFFFFFF);
             close(g, 456, 10, 14);
-            float x = 268, w = 200;
-            Art.text(g, Art.fit(g, e.name(), 15, w - 20), x, 26, 15, WHITE);
-            Art.text(g, Art.fit(g, e.subtitle(), 7.5f, w), x, 42, 7.5f, MUTED);
-            Art.ui(g, "icons/solo-person", x, 50, 10, 10, 0xFFFFFFFF);
-            Art.text(g, "1인 전용 · 혼자서만 입장할 수 있어요", x + 13, 55.5f, 7.5f, SILVER);
-            divider(g, x, 66, w);
-            // 기록
-            Art.text(g, "클리어", x, 78, 7, MUTED);
-            if (e.cleared()) { Art.ui(g, "icons/check", x + 70, 73, 10, 10, 0xFFFFFFFF); Art.text(g, "클리어함", x + 83, 78, 8, GOLD); }
-            else Art.text(g, "아직 클리어하지 않았어요", x + 70, 78, 8, WHITE);
-            Art.text(g, "내 최고 기록", x, 93, 7, MUTED);
-            Art.nine(g, "panels/record-badge", x + 68, 86, 70, 14, 20, 5, 0xFFFFFFFF);
-            Art.textCenter(g, e.personalBestMs() < 0 ? "기록 없음" : Net.time(e.personalBestMs()), x + 103, 93.5f, 8, e.personalBestMs() < 0 ? MUTED : WHITE);
-            Art.ui(g, "icons/trophy", x, 104, 11, 11, 0xFFFFFFFF);
-            Art.text(g, "서버 최고 기록", x + 14, 110, 7, MUTED);
+            float x = RX, w = RW;
+
+            // 제목: 크게, 보랏빛 + 은은한 번짐 / 부제는 작게 바로 아래
+            String title = Art.fit(g, e.name(), 17, w - 20);
+            for (float[] o : new float[][]{{-.8f, 0}, {.8f, 0}, {0, -.8f}, {0, .8f}}) Art.text(g, title, x + o[0], 27 + o[1], 17, TITLE_GLOW);
+            Art.text(g, title, x, 27, 17, TITLE);
+            Art.text(g, Art.fit(g, e.subtitle(), 6.6f, w), x + .5f, 40, 6.6f, LABEL);
+
+            // 규칙 칩: 1인 전용 · 체력 자동 회복 없음
+            float cx = chip(g, x, 47, "icons/solo-person", "1인 전용", SILVER);
+            if (e.noRegen()) chip(g, cx + 4, 47, "icons/hourglass", "체력 자동 회복 없음", WARN);
+            divider(g, x, 65, w);
+
+            // 내 기록: 클리어 여부와 최고 기록을 한 줄로
+            Art.text(g, "내 기록", x, 76, 6.8f, LABEL);
+            float vx = x + 56;
+            if (e.cleared()) {
+                Art.ui(g, "icons/check", vx, 71, 10, 10, 0xFFFFFFFF);
+                float at = vx + 12 + Art.text(g, "클리어", vx + 12, 76, 8, GOLD);
+                Art.text(g, " ·  " + Net.time(e.personalBestMs()), at, 76, 8, WHITE);
+            } else Art.text(g, "미클리어  ·  기록 없음", vx, 76, 8, MUTED);
+
+            // 서버 최고 기록: 이름 자리에 이름(없으면 "기록 없음" 같은 크기·자리), 칭호는 있을 때만
             var best = e.best();
-            Art.text(g, best.ms() < 0 ? "기록 없음" : Net.time(best.ms()), x + 82, 110, 9, best.ms() < 0 ? MUTED : GOLD);
-            Art.text(g, best.ms() < 0 || best.name().isBlank() ? "—" : Art.fit(g, best.name(), 9, w - 14), x + 14, 123, 9, WHITE);
-            titleLine(g, best, x + 14, 134, 7);
-            divider(g, x, 144, w);
-            // 보상 (많으면 칸 안에서 휠로 넘김)
-            Art.text(g, e.rewardLabel(), x, 153, 7.5f, SILVER);
-            if (rewards.isEmpty()) Art.text(g, "설정된 보상이 없어요", x, 172, 7.5f, MUTED);
-            int rows = slots(g, rewards, x, 160, 8, 2, scroll, 22.5f);
-            if (rows > 2) Art.textRight(g, (scroll + 1) + "-" + Math.min(rows, scroll + 2) + " / " + rows + "줄", x + w, 153, 6.5f, MUTED);
-            // 인스턴스·입장권
-            Art.ui(g, "icons/circle-node", x, 212, 10, 10, 0xFFFFFFFF);
-            Art.text(g, "진행 중 " + e.active() + " / " + e.max(), x + 13, 217, 8, e.active() >= e.max() ? GOLD : WHITE);
-            Art.ui(g, "icons/ticket", x + 92, 211, 12, 12, 0xFFFFFFFF);
-            String ticket = e.ticketNeed() == 0 ? "입장권 없이 입장 (첫 클리어 전)" : Art.fit(g, e.ticketName(), 7.5f, 60) + " " + e.ticketNeed() + "장 (보유 " + e.ticketHave() + ")";
-            Art.text(g, Art.fit(g, ticket, 7.5f, w - 106), x + 106, 217, 7.5f, e.ticketNeed() > e.ticketHave() ? 0xFFF0A8A8 : WHITE);
-            // 버튼
-            var q = DungeonClient.queue;
-            switch (e.button()) {
-                case DungeonProtocol.BTN_ENTER -> {
-                    if (e.ticketNeed() > e.ticketHave()) button(g, "none", "disabled", x, 232, w, 22, "입장권이 부족해요");
-                    else button(g, "enter", "primary", x, 232, w, 22, "입장하기");
-                }
-                case DungeonProtocol.BTN_QUEUE -> {
-                    if (e.ticketNeed() > e.ticketHave()) button(g, "none", "disabled", x, 232, w, 22, "입장권이 부족해요");
-                    else button(g, "queue", "primary", x, 232, w, 22, "대기열 등록");
-                }
-                case DungeonProtocol.BTN_QUEUED -> button(g, "open-queue", "secondary", x, 232, w, 22, "대기 중" + (q.position() > 0 ? " · " + q.position() + "번째" : "") + " — 대기 창 보기");
-                case DungeonProtocol.BTN_READY -> button(g, "enter", "primary", x, 232, w, 22, "입장하기 (입장 준비 완료)");
-                case DungeonProtocol.BTN_IN_RUN -> button(g, "none", "disabled", x, 232, w, 22, "도전 중이에요");
-                default -> button(g, "none", "disabled", x, 232, w, 22, e.lockReason().isBlank() ? "입장할 수 없어요" : e.lockReason());
+            Art.ui(g, "icons/trophy", x - 1, 84, 10, 10, 0xFFFFFFFF);
+            Art.text(g, "서버 최고 기록", x + 12, 89.5f, 6.8f, LABEL);
+            if (best.ms() >= 0) Art.textRight(g, Net.time(best.ms()), x + w, 89.5f, 8.5f, GOLD);
+            boolean hasRecord = best.ms() >= 0 && !best.name().isBlank();
+            Art.text(g, hasRecord ? Art.fit(g, best.name(), 9.5f, w - 14) : "기록 없음", x + 12, 103, 9.5f, hasRecord ? WHITE : MUTED);
+            if (hasRecord && (!best.prefix().name().isBlank() || !best.suffix().name().isBlank())) titleLine(g, best, x + 12, 115, 6.8f);
+            divider(g, x, 125, w);
+
+            // 보상: 기본 / 첫 클리어 / 확률 — 줄마다 칸 7개, 더 있으면 그 줄에서 휠
+            Art.text(g, "보상", x, 134, 7.5f, SILVER);
+            if (source.isEmpty()) Art.text(g, "설정된 보상이 없어요", x, 152, 7.5f, MUTED);
+            for (int i = 0; i < Math.min(3, source.size()); i++) {
+                var group = source.get(i);
+                float y = ROW_Y + i * ROW_H;
+                int color = group.kind() == DungeonProtocol.R_RANDOM ? GOLD : group.kind() == DungeonProtocol.R_FIRST ? 0xFFF4C7FF : SILVER;
+                Art.text(g, shortLabel(group.kind()), x, y + SLOT / 2f - (group.done() ? 3.2f : 0), 7, group.done() ? MUTED : color);
+                if (group.done()) Art.text(g, "받음", x, y + SLOT / 2f + 4.2f, 5.6f, MUTED);
+                var items = rewardItems.get(i);
+                rowSlots(g, items, x + 46, y, COLS, offsets[i], SLOT, group.chances(), group.done());
+                if (items.size() > COLS) Art.textRight(g, (offsets[i] + 1) + "-" + Math.min(items.size(), offsets[i] + COLS) + "/" + items.size(), x + w, y - 2.5f, 5.2f, MUTED);
             }
+
+            // 진행 중 칸 · 입장권
+            float fy = 216;
+            Art.ui(g, "icons/circle-node", x, fy - 5, 10, 10, 0xFFFFFFFF);
+            Art.text(g, "진행 중 " + e.active() + " / " + e.max(), x + 13, fy, 7.5f, e.active() >= e.max() ? GOLD : WHITE);
+            String ticket;
+            int ticketColor = WHITE;
+            if (e.ticketNeed() == 0) ticket = "입장권 필요 없음";
+            else if (e.ticketFree()) { ticket = "첫 입장 무료 · 이후 " + e.ticketNeed() + "장"; ticketColor = GOLD; }
+            else {
+                ticket = e.ticketName() + " " + e.ticketNeed() + "장 필요 · 보유 " + e.ticketHave();
+                if (e.ticketHave() < e.ticketNeed()) ticketColor = WARN;
+            }
+            float tw = Art.width(g, ticket, 7.2f);
+            Art.ui(g, "icons/ticket", x + w - tw - 14, fy - 6, 12, 12, 0xFFFFFFFF);
+            Art.textRight(g, ticket, x + w, fy, 7.2f, ticketColor);
+
+            boolean shortTicket = e.ticketNeed() > 0 && !e.ticketFree() && e.ticketHave() < e.ticketNeed();
+            var q = DungeonClient.queue;
+            float by = 229, bh = 25;
+            switch (e.button()) {
+                case DungeonProtocol.BTN_ENTER -> button(g, shortTicket ? "none" : "enter", shortTicket ? "disabled" : "primary", x, by, w, bh, shortTicket ? "입장권이 부족해요" : "입장하기");
+                case DungeonProtocol.BTN_QUEUE -> button(g, shortTicket ? "none" : "queue", shortTicket ? "disabled" : "primary", x, by, w, bh, shortTicket ? "입장권이 부족해요" : "대기열 등록");
+                case DungeonProtocol.BTN_QUEUED -> button(g, "open-queue", "secondary", x, by, w, bh, "대기 중" + (q.position() > 0 ? " · " + q.position() + "번째" : "") + " — 대기 창 보기");
+                case DungeonProtocol.BTN_READY -> button(g, "enter", "primary", x, by, w, bh, "입장하기 (입장 준비 완료)");
+                case DungeonProtocol.BTN_IN_RUN -> button(g, "none", "disabled", x, by, w, bh, "도전 중이에요");
+                default -> button(g, "none", "disabled", x, by, w, bh, e.lockReason().isBlank() ? "입장할 수 없어요" : e.lockReason());
+            }
+        }
+
+        private static String shortLabel(int kind) {
+            return kind == DungeonProtocol.R_RANDOM ? "확률" : kind == DungeonProtocol.R_FIRST ? "첫 클리어" : "기본";
+        }
+
+        /** 작은 칩 (record-badge 9-slice + 아이콘 + 글자). 돌려준 값 = 칩 오른쪽 끝 x. */
+        private float chip(GuiGraphics g, float x, float y, String icon, String text, int color) {
+            float tw = Art.width(g, text, 6.6f), w = tw + 21, h = 13;
+            Art.nine(g, "panels/record-badge", x, y, w, h, 20, 4.5f, 0xE6FFFFFF);
+            Art.ui(g, icon, x + 5, y + 2.5f, 8, 8, 0xFFFFFFFF);
+            Art.text(g, text, x + 15, y + h / 2 + .4f, 6.6f, color);
+            return x + w;
         }
 
         @Override void clicked(String id) {
@@ -228,8 +332,11 @@ final class UiScreens {
         }
 
         @Override public boolean mouseScrolled(double x, double y, double sx, double sy) {
-            int rows = (rewards.size() + 7) / 8;
-            if (rows > 2) scroll = Math.max(0, Math.min(rows - 2, scroll - (int) Math.signum(sy)));
+            float ly = (float) ((y - oy) / scale);
+            int row = (int) Math.floor((ly - ROW_Y) / ROW_H);
+            if (row < 0 || row >= Math.min(3, rewardItems.size())) return true;
+            int n = rewardItems.get(row).size();
+            if (n > COLS) offsets[row] = Math.max(0, Math.min(n - COLS, offsets[row] - (int) Math.signum(sy)));
             return true;
         }
     }

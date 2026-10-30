@@ -29,9 +29,14 @@ dungeons:
     # 클리어 때 콘솔 명령 ({player} = 계정 이름). 2장 스토리 신호.
     clear-commands:
     - 유저관리 {player} 스토리신호 던전클리어
+    # 던전 안 체력 자동 회복(배고픔) — false = 없음 (마나·물약·회복 마법은 그대로)
+    natural-regen: false
+    # 보상: base = 클리어마다, first = 첫 클리어 때 한 번 더, random = 클리어마다 줄마다 chance% 로 따로 뽑기
+    #   /던전관리 보상 기본|첫클리어 추가 · /던전관리 보상 확률 추가 12.5 (손에 든 아이템)
     rewards:
+      base: []
       first: []
-      repeat: []
+      random: []
     stages:
     # ↓ 배치 확인용 예시 단계 (확정 기획 아님 — 오너가 정해서 바꾼다)
     - name: 연구실 입구

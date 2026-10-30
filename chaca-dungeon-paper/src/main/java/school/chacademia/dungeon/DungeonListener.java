@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerBucketFillEvent;
@@ -86,6 +87,16 @@ final class DungeonListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     void teleport(PlayerTeleportEvent e) {
         if (service.teleport(e.getPlayer(), e.getTo())) e.setCancelled(true);
+    }
+
+    /** 던전 안에서는 배고픔으로 차는 체력 자동 회복을 막는다 (물약·마법 회복은 그대로, 마나와 무관). 던전마다 natural-regen. */
+    @EventHandler(ignoreCancelled = true)
+    void regen(EntityRegainHealthEvent e) {
+        if (!(e.getEntity() instanceof Player p)) return;
+        var reason = e.getRegainReason();
+        if (reason != EntityRegainHealthEvent.RegainReason.SATIATED && reason != EntityRegainHealthEvent.RegainReason.REGEN) return;
+        var d = service.dungeonOfWorld(p.getWorld());
+        if (d != null && !d.naturalRegen) e.setCancelled(true);
     }
 
     /** 가장 먼저 (MythicMobs 가 몹 정보를 지우기 전에) 이름을 읽는다. */
