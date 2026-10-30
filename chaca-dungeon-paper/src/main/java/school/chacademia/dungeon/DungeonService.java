@@ -910,6 +910,14 @@ final class DungeonService {
         p.sendPluginMessage(plugin, DungeonProtocol.S2C, DungeonProtocol.encode(m));
     }
 
+    /** 클라 모드가 던전 채널을 등록함 (접속 직후): 포탈 홀로그램·진행 중인 판·대기 상태를 다시 보낸다. */
+    void clientJoined(Player p) {
+        sendPortals(p);
+        Run run = runs.get(p.getUniqueId());
+        if (run != null && run.arrived) { syncRun(run, p); sendDoors(run, p); }
+        if (instances.queuedDungeon(p.getUniqueId()) != null) sendQueue(p);
+    }
+
     void sendPortals(Player p) {
         var list = new ArrayList<DungeonProtocol.Portal>();
         for (var d : dungeons.values()) {

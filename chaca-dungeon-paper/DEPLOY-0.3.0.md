@@ -120,3 +120,10 @@ jar uf chaca-gimmick-…-hitcontract.1.jar -C out school/chacademia/gimmick/Gimm
 - 학교 `plugins/ModelEngine/blueprints/gm_*.bbmodel` 37개: 애니 이름 `animation.<모델>.` 앞꼬리 제거 (기믹 애니가 하나도 안 나오던 원인). 백업 `plugins/ChacaGimmick/backup-blueprints-animname-20261030/`.
 - 같은 파일 34개 activate/deactivate 에 소리 = timeline 스크립트 `mm:CHA_GMS_*` (ModelEngine 4.0.8 은 Blockbench 소리 표시를 무시하고 스크립트만 실행). 소리 스킬 = `plugins/MythicMobs/skills/chacademi_gimmick_sounds.yml` (24개). 백업 `plugins/ChacaGimmick/backup-blueprints-sound-20261030/`.
 - 오너가 `/mm reload` · `/meg reload` · `/서버관리 새로고침 던전` 직접 실행. 다른 서버로 기믹 모델을 옮길 때는 이 파일들을 기준으로.
+
+## 추가: 0.3.3 (2026-10-30) — 접속 직후 포탈 홀로그램이 안 보이던 것 (0.3.2 대신 이것, 0.3.1·0.3.2 수정 포함)
+
+- 원인: 접속(PlayerJoinEvent) 때 포탈 목록을 보냈는데, 그때는 클라 모드가 던전 채널을 아직 등록하기 전이라 버려짐.
+- 수정: 클라가 채널을 등록하는 순간(PlayerRegisterChannelEvent) 포탈·진행 중인 판·대기 상태를 다시 보냄.
+- 임시 해결 (재시작 전): `/서버관리 새로고침 던전입장` → 접속 중인 모두에게 포탈을 다시 보냄. 새로 접속한 사람은 다시 안 보이므로 반복 필요.
+- 반영: 서버 jar 하나 `chaca-dungeon-0.3.3-portalfix-20261030.jar` (901548 바이트, md5 4fabab3ab2df93e22d30da419003ecf2). 옛 chaca-dungeon jar 지우기. 클라·기믹 jar 그대로. 재시작 필요.

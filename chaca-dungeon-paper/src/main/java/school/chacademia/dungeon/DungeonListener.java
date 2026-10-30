@@ -72,6 +72,16 @@ final class DungeonListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     void world(PlayerChangedWorldEvent e) { service.sendPortals(e.getPlayer()); }
 
+    /**
+     * 클라 모드가 던전 채널을 등록한 순간 (접속 직후, PlayerJoinEvent 보다 늦게 온다): 포탈·판 상태를 다시 보낸다.
+     * 접속 때 보낸 것은 채널 등록 전이라 버려진다 (그래서 접속 직후 포탈 홀로그램이 안 보였음).
+     */
+    @EventHandler(priority = EventPriority.MONITOR)
+    void channel(org.bukkit.event.player.PlayerRegisterChannelEvent e) {
+        if (!e.getChannel().equals(school.chacademia.dungeon.protocol.DungeonProtocol.S2C)) return;
+        service.clientJoined(e.getPlayer());
+    }
+
     /** 봉인된 방에서 걸어서 나가기 막기. */
     @EventHandler(ignoreCancelled = true)
     void move(PlayerMoveEvent e) {
