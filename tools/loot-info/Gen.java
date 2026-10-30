@@ -135,6 +135,17 @@ public class Gen {
                             stop
                         loop {-lootinfo::%{_id}%::*}:
                             send loop-value
+
+                # 탭 자동완성 (SkBee): 붙여 쓴 이름으로 (띄어쓰기가 있으면 자동완성이 끊김). 친 글자가 들어간 것만.
+                on tab complete of "/전리품":
+                    set {_t} to tab arg-1
+                    if {_t} is not set:
+                        set {_t} to ""
+                    replace all " " with "" in {_t}
+                    loop {-lootkey::*}:
+                        if loop-value contains {_t}:
+                            add loop-value to {_out::*}
+                    set tab completions for position 1 to {_out::*}
                 """);
         Files.writeString(Path.of(a[1]), out.toString());
         System.out.println("전리품 " + lootName.size() + "개, 몬스터 드롭 있는 것 " + withDrop + "개");
