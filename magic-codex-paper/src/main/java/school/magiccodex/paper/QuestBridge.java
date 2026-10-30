@@ -182,6 +182,9 @@ final class QuestBridge implements Listener,PluginMessageListener,AutoCloseable 
         UUID uid=p.getUniqueId();long now=System.currentTimeMillis();if(!p.hasPermission("magiccodex.quests")||now<limits.getOrDefault(uid,0L)||busy.contains(uid))return;
         limits.put(uid,now+250);pages.put(uid,page);viewers.put(uid,now+15000);
         if(action==0){load(p,open,"");return;}if(p.isDead()||p.getGameMode()==GameMode.SPECTATOR||!plugin.playerStateReady(p)){reply(p,false,"지금은 사용할 수 없습니다. 잠시 후 다시 시도해 주세요.");return;}
+        // [기능:affinity-quests 시작] 호감도 퀘스트는 게시판에서 받지 못한다 (NPC 가 상한에서 줄 때만, acceptFromDialogue)
+        if(action==1&&gateHidden(id)){reply(p,false,"이 의뢰는 NPC 에게서만 받을 수 있습니다.");return;}
+        // [기능:affinity-quests 끝]
         if(action==1){var q=catalog.get(id);if(q==null||!q.available(now)||(!q.permission().isEmpty()&&!p.hasPermission(q.permission()))){reply(p,false,"수락 조건을 충족하지 않습니다.");return;}busy.add(uid);flush(uid,true);work(uid,()->store.accept(uid,q,now),ok->{busy.remove(uid);if(ok){JournalBridge.notify(plugin,p,q.title(),q.description());AuditLog.log(uid,AuditLog.퀘스트,"의뢰 수락 · "+q.title(),"의뢰",q.id(),"제목",q.title(),"경로","게시판");}load(p,false,ok?"의뢰를 수락했습니다.":"수락 한도 또는 클리어 가능 횟수를 확인해 주세요.");},m->{busy.remove(uid);reply(p,false,m);});}
         if(action==3){busy.add(uid);flush(uid,true);work(uid,()->store.abandon(uid,id,now),ok->{busy.remove(uid);load(p,false,ok?"의뢰를 포기했습니다.":"포기할 수 없는 의뢰입니다.");},m->{busy.remove(uid);reply(p,false,m);});}
         if(action==2)claim(p,id);
@@ -278,13 +281,30 @@ final class QuestBridge implements Listener,PluginMessageListener,AutoCloseable 
     private record Journal(List<QuestStore.Entry> entries,Set<String> completed){}
     private void load(Player p,boolean open,String message){UUID id=p.getUniqueId();flush(id,true);work(()->new Journal(store.entries(id),store.completed(id)),v->{if(current(p)){var later=deltas.get(id);if(later!=null)for(var e:later.counts.entrySet())apply(v.entries(),e.getKey().type(),e.getKey().target(),e.getKey().world(),e.getValue(),System.currentTimeMillis());cache.put(id,v.entries());completed.put(id,v.completed());if(open)viewers.put(id,System.currentTimeMillis()+15000);reply(p,open,message);}},m->{if(current(p))CodexCommands.warn(p,"quest",m);});}
     private void reply(Player p,boolean open,String message){if(!current(p))return;if(!p.getListeningPluginChannels().contains(QuestProtocol.RESPONSE)){if(open)CodexCommands.warn(p,"quest","의뢰 게시판을 열려면 최신 MagicCodex 모드가 필요해요");else if(!message.isEmpty())CodexCommands.notify(p,"system","quest",message,1500);return;}
-        long now=System.currentTimeMillis();var all=new TreeMap<String,QuestDefinition>();catalog.values().stream().filter(q->q.available(now)&&QuestStore.unlocked(q,completed.getOrDefault(p.getUniqueId(),Set.of()))&&(q.permission().isEmpty()||p.hasPermission(q.permission()))).forEach(q->all.put(q.id(),q));var states=new HashMap<String,QuestStore.Entry>();
-        for(var e:cache.getOrDefault(p.getUniqueId(),List.of()))if((e.current(now)&&(e.status().equals("active")||all.containsKey(e.quest().id())))||e.status().equals("paying")){states.put(e.quest().id(),e);if(e.status().equals("active")||e.status().equals("paying"))all.put(e.quest().id(),e.quest());}
+        // [기능:affinity-quests 시작] 아래 두 줄: 받을 수 있음 목록에서 호감도 퀘스트를 빼고(&&!gateHidden), 받은·깬 호감도 퀘스트는 진행 중·완료 탭에 보이게(||gateHidden)
+        long now=System.currentTimeMillis();var all=new TreeMap<String,QuestDefinition>();catalog.values().stream().filter(q->q.available(now)&&!gateHidden(q.id())&&QuestStore.unlocked(q,completed.getOrDefault(p.getUniqueId(),Set.of()))&&(q.permission().isEmpty()||p.hasPermission(q.permission()))).forEach(q->all.put(q.id(),q));var states=new HashMap<String,QuestStore.Entry>();
+        for(var e:cache.getOrDefault(p.getUniqueId(),List.of()))if((e.current(now)&&(e.status().equals("active")||all.containsKey(e.quest().id())||gateHidden(e.quest().id())))||e.status().equals("paying")){
+        // [기능:affinity-quests 끝]
+            if(gateHidden(e.quest().id())&&!all.containsKey(e.quest().id()))all.put(e.quest().id(),e.quest()); /* [기능:affinity-quests] 깬 호감도 퀘스트도 완료 탭에 */
+            states.put(e.quest().id(),e);if(e.status().equals("active")||e.status().equals("paying"))all.put(e.quest().id(),e.quest());}
         int tab=tabs.getOrDefault(p.getUniqueId(),0);
         var list=all.values().stream().filter(q->tab==tabFor(displayState(q,states.get(q.id())))).sorted(Comparator.comparing(QuestDefinition::main).reversed().thenComparing(QuestDefinition::id)).toList();int page=Math.clamp(pages.getOrDefault(p.getUniqueId(),0),0,Math.max(0,(list.size()-1)/6));pages.put(p.getUniqueId(),page);var cards=new ArrayList<QuestProtocol.Card>();
         for(var q:list.subList(Math.min(page*6,list.size()),Math.min(page*6+6,list.size()))){var e=states.get(q.id());String state=displayState(q,e);var goals=new ArrayList<QuestProtocol.Goal>();for(int i=0;i<q.objectives().size();i++){var g=q.objectives().get(i);int count=e==null||!state.equals("active")?0:e.progress()[i];if(g.type()==Type.SUBMIT){count=0;var required=submissionItem(g.target());for(var item:p.getInventory().getStorageContents())if(item!=null&&plugin.coreSimilar(item,required))count+=item.getAmount();}if(state.equals("claimed"))count=g.amount();goals.add(new QuestProtocol.Goal(g.label(),Math.min(g.amount(),count),g.amount()));}cards.add(new QuestProtocol.Card(q.id(),q.title(),q.description(),rewardText(q),state,goals,q.rank(),e==null?0:e.completions(),q.completionLimit(),q.main()));}
         try{p.sendPluginMessage(plugin,QuestProtocol.RESPONSE,QuestProtocol.encode(new QuestProtocol.Response(open,page,Math.min(list.size(),QuestProtocol.MAX_TOTAL),message,cards,Math.max(0,3-QuestStore.activeSubquests(cache.getOrDefault(p.getUniqueId(),List.of()),now)))));}catch(IllegalArgumentException ex){CodexCommands.warn(p,"quest","의뢰 게시판을 열지 못했어요. 관리자에게 알려 주세요");plugin.getLogger().warning("Quest board encode: "+ex.getMessage());}
     }
+
+    // [기능:affinity-quests 시작] 호감도 퀘스트 ID = affinity.yml gate-quests 의 값 (NpcSocialService 와 같은 파일). 파일이 바뀌면 10초 안에 다시 읽는다.
+    private Set<String> gateIds=Set.of();private long gateFileStamp=-1,gateCheckedAt;
+    private boolean gateHidden(String id){
+        long now=System.currentTimeMillis();
+        if(now-gateCheckedAt>10_000){gateCheckedAt=now;var f=new java.io.File(plugin.getDataFolder(),"affinity.yml");long stamp=f.isFile()?f.lastModified():0;
+            if(stamp!=gateFileStamp){gateFileStamp=stamp;var ids=new HashSet<String>();
+                if(stamp!=0){var root=org.bukkit.configuration.file.YamlConfiguration.loadConfiguration(f).getConfigurationSection("gate-quests");
+                    if(root!=null)for(String npc:root.getKeys(false)){var s=root.getConfigurationSection(npc);if(s!=null)for(String k:s.getKeys(false)){String q=s.getString(k,"").trim();if(!q.isEmpty())ids.add(q);}}}
+                gateIds=Set.copyOf(ids);}}
+        return id!=null&&gateIds.contains(id);
+    }
+    // [기능:affinity-quests 끝]
 
     static long parseTime(String value){if(value.isBlank()||value.equals("0"))return 0;return java.time.LocalDateTime.parse(value.trim().replace(' ','T')).atZone(java.time.ZoneId.of("Asia/Seoul")).toInstant().toEpochMilli();}
     static String timeText(long value){return value==0?"":java.time.Instant.ofEpochMilli(value).atZone(java.time.ZoneId.of("Asia/Seoul")).toLocalDateTime().withNano(0).toString().replace('T',' ');}

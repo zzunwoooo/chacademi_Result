@@ -1,0 +1,48 @@
+# affinity.yml 의 gate-quests: {} 를 아래로 바꾼다 (2026-10-30). 키 = ChacaNPC 캐릭터 ID, 30 = 그 상한의 퀘스트.
+gate-quests:
+  teacher_ellna:
+    30: aff30_teacher_ellna
+  teacher_harva:
+    30: aff30_teacher_harva
+  tc_berna:
+    30: aff30_tc_berna
+  tc_cedric:
+    30: aff30_tc_cedric
+  vice_gregor:
+    30: aff30_vice_gregor
+  librarian_isolde:
+    30: aff30_librarian_isolde
+  dorm_lowell:
+    30: aff30_dorm_lowell
+  captain_bram:
+    30: aff30_captain_bram
+  pipi:
+    30: aff30_pipi
+  vl_ole:
+    30: aff30_vl_ole
+  vl_selma:
+    30: aff30_vl_selma
+  vl_felix:
+    30: aff30_vl_felix
+  vl_gustav:
+    30: aff30_vl_gustav
+  vl_clara:
+    30: aff30_vl_clara
+  vl_ben:
+    30: aff30_vl_ben
+  sf_bruno:
+    30: aff30_sf_bruno
+  sf_hilde:
+    30: aff30_sf_hilde
+  st_ian:
+    30: aff30_st_ian
+  st_lia:
+    30: aff30_st_lia
+  st_kai:
+    30: aff30_st_kai
+  st_jun:
+    30: aff30_st_jun
+  st_bomi:
+    30: aff30_st_bomi
+  luka:
+    30: aff30_luka
