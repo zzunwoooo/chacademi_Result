@@ -1,7 +1,7 @@
 diff -ruN -x '*.png' -x '*.mcmeta' cu0/shaders/lib/atmospherics/chacaHalloween.glsl cuh2/shaders/lib/atmospherics/chacaHalloween.glsl
 --- cu0/shaders/lib/atmospherics/chacaHalloween.glsl	1970-01-01 09:00:00.000000000 +0900
-+++ cuh2/shaders/lib/atmospherics/chacaHalloween.glsl	2026-10-31 12:20:14.192153100 +0900
-@@ -0,0 +1,116 @@
++++ cuh2/shaders/lib/atmospherics/chacaHalloween.glsl	2026-10-31 12:36:55.280229300 +0900
+@@ -0,0 +1,157 @@
 +// [기능:halloween-sky-20261031 시작]
 +// 차카데미 할로윈 하늘. 차카데미 할로윈 하늘 모드가 Iris 유니폼 두 개를 넣어 준다.
 +//   chacaHalloween : 전체 정도 0~1 (조명·안개 색 바꾸는 양)
@@ -11,7 +11,7 @@ diff -ruN -x '*.png' -x '*.mcmeta' cu0/shaders/lib/atmospherics/chacaHalloween.g
 +    #define INCLUDE_CHACA_HALLOWEEN
 +
 +    const vec3 chacaMoonDir = vec3(0.79612, 0.47767, 0.37152); // normalize(0.75, 0.45, 0.35), 월드 방향
-+    const float chacaMoonRadius = 0.07;
++    const float chacaMoonRadius = 0.075;
 +    const float chacaEdgeWidth = 0.06;
 +
 +    float ChacaSweepT(vec3 wDir) {
@@ -31,35 +31,76 @@ diff -ruN -x '*.png' -x '*.mcmeta' cu0/shaders/lib/atmospherics/chacaHalloween.g
 +        return exp(-x * x) * moving;
 +    }
 +
-+    // 실제 시간 밝기를 따라간다: chacaDay 1 = 낮(밝은 라벤더·분홍·주황), 0 = 밤(남보라·자주·주황 노을)
++    // 오너 참고 그림 느낌: 위 짙은 남색 → 파랑·보라 → 지평선 자홍, 청록·분홍 성운 구름, 호박달 쪽만 주황빛.
++    // 실제 시간 밝기를 따라간다 (chacaDay 1 = 낮이면 같은 색을 밝게).
++    float ChacaHash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
++    float ChacaNoise(vec2 p) {
++        vec2 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f);
++        return mix(mix(ChacaHash(i), ChacaHash(i + vec2(1.0, 0.0)), f.x), mix(ChacaHash(i + vec2(0.0, 1.0)), ChacaHash(i + vec2(1.0, 1.0)), f.x), f.y);
++    }
++    float ChacaFbm(vec2 p) {
++        float s = 0.0, a = 0.5;
++        for (int i = 0; i < 5; i++) { s += a * ChacaNoise(p); p = p * 2.03 + vec2(1.7, 9.2); a *= 0.5; }
++        return s;
++    }
++
 +    vec3 ChacaHalloweenSkyColor(vec3 wDir) {
-+        float up = max(wDir.y, 0.0);
-+        float day = clamp(chacaDay, 0.0, 1.0);
-+        vec3 zenith  = mix(vec3(0.025, 0.012, 0.075), vec3(0.38, 0.30, 0.62), day);
-+        vec3 middle  = mix(vec3(0.20, 0.05, 0.22),    vec3(0.85, 0.50, 0.60), day);
-+        vec3 horizon = mix(vec3(1.10, 0.30, 0.06),    vec3(1.60, 0.78, 0.32), day);
-+        vec3 col = mix(zenith, middle, pow(1.0 - up, 2.0));
-+        col = mix(col, horizon, pow(1.0 - up, 7.0));
-+
-+        // 호박달 쪽 하늘이 주황빛으로 번진다
++        float up = max(wDir.y, 0.0), down = 1.0 - up;
++        float dim = mix(1.0, 1.9, clamp(chacaDay, 0.0, 1.0));
++        vec3 col = mix(vec3(0.020, 0.012, 0.070), vec3(0.05, 0.05, 0.50), smoothstep(0.0, 0.7, down));
++        col = mix(col, vec3(0.20, 0.07, 0.72), pow(down, 4.0));
++        col = mix(col, vec3(0.72, 0.16, 0.82), pow(down, 12.0));
 +        float md = max(dot(wDir, chacaMoonDir), 0.0);
-+        col += vec3(0.9, 0.38, 0.10) * (pow(md, 6.0) * 0.10 + pow(md, 40.0) * 0.35);
++        col += vec3(1.0, 0.40, 0.09) * (pow(md, 5.0) * 0.20 + pow(md, 40.0) * 0.45 + pow(down, 14.0) * pow(md, 1.5) * 0.6);
++        col *= dim;
 +
-+        // 지평선 아래는 어두운 땅빛
-+        col = mix(col, vec3(0.06, 0.025, 0.04), smoothstep(0.0, 0.25, -wDir.y));
++        // 성운 같은 마법 구름 (청록·분홍·파랑), 천천히 흐름
++        if (wDir.y > -0.04) {
++            vec2 uv = wDir.xz / max(wDir.y + 0.25, 0.2) * 1.3;
++            vec2 flow = vec2(frameTimeCounter * 0.012, -frameTimeCounter * 0.006);
++            vec2 warp = vec2(ChacaFbm(uv * 0.8 + flow), ChacaFbm(uv * 0.8 - flow + 5.2));
++            float n1 = ChacaFbm(uv + warp * 1.6 + flow);
++            float n2 = ChacaFbm(uv * 1.7 - warp * 1.2 + 11.0);
++            float band = (smoothstep(0.0, 0.18, wDir.y) * (1.0 - smoothstep(0.5, 0.9, wDir.y)) * 0.85 + 0.15) * smoothstep(-0.04, 0.02, wDir.y);
++            float cyan = smoothstep(0.58, 0.85, n1) * band;
++            float pink = smoothstep(0.56, 0.86, n2) * band;
++            float blue = smoothstep(0.40, 0.75, (n1 + n2) * 0.5) * band;
++            col += (vec3(0.10, 0.18, 1.00) * blue * 0.30 + vec3(0.02, 0.70, 1.00) * cyan * 0.42 + vec3(1.00, 0.12, 0.72) * pink * 0.48) * dim;
++            col += vec3(1.0, 0.50, 0.15) * pink * pow(md, 6.0) * 0.5;
++            float dust = ChacaFbm(uv * 9.0 + flow * 6.0);
++            col += vec3(0.6, 0.7, 1.0) * smoothstep(0.78, 0.95, dust) * (cyan + pink) * 0.6;
++        }
++
++        // 화면용 색 → 셰이더 안쪽 밝기 단위 (Complementary 는 선형 색으로 계산 후 톤맵)
++        col = pow(col, vec3(2.2)) * 1.5;
++
++        // 지평선 아래는 어두운 보랏빛 땅
++        col = mix(col, vec3(0.004, 0.002, 0.012), smoothstep(0.0, 0.25, -wDir.y));
 +        return col;
 +    }
 +
-+    float ChacaStars(vec3 wDir) {
-+        if (wDir.y < 0.0) return 0.0;
-+        vec2 p = wDir.xz / (wDir.y + 1.0) * 220.0;
-+        vec2 cell = floor(p);
-+        float h = fract(sin(dot(cell, vec2(12.9898, 78.233))) * 43758.5453);
-+        if (h < 0.985) return 0.0;
-+        vec2 c = fract(sin(vec2(dot(cell, vec2(39.3468, 11.135)), dot(cell, vec2(73.156, 52.235)))) * 43758.5453);
-+        float d = length(fract(p) - c);
-+        float twinkle = 0.6 + 0.4 * sin(frameTimeCounter * (2.0 + 3.0 * h) + h * 100.0);
-+        return smoothstep(0.15, 0.0, d) * twinkle * smoothstep(0.0, 0.35, wDir.y);
++    // 잔별 + 십자로 반짝이는 큰 별 (분홍·하양). 낮엔 희미하게
++    vec3 ChacaStars(vec3 wDir) {
++        if (wDir.y < 0.0) return vec3(0.0);
++        float vis = mix(1.0, 0.35, clamp(chacaDay, 0.0, 1.0)) * smoothstep(0.0, 0.25, wDir.y);
++        vec2 sp0 = wDir.xz / (wDir.y + 1.0);
++        vec3 col = vec3(0.0);
++        for (int k = 0; k < 3; k++) {
++            float sc = k == 0 ? 60.0 : (k == 1 ? 220.0 : 520.0);
++            vec2 sp = sp0 * sc;
++            vec2 cell = floor(sp);
++            float h = ChacaHash(cell + float(k) * 17.0);
++            if (h > (k == 1 ? 0.93 : 0.90)) {
++                vec2 o = fract(sp) - (0.2 + 0.6 * vec2(ChacaHash(cell + 3.1), ChacaHash(cell + 7.7)));
++                float tw = 0.55 + 0.45 * sin(frameTimeCounter * (1.2 + 3.0 * h) + h * 90.0);
++                vec3 sc2 = mix(vec3(1.0, 0.75, 0.95), vec3(0.85, 0.90, 1.0), ChacaHash(cell + 1.3));
++                float core = exp(-dot(o, o) * (k == 0 ? 900.0 : 2500.0));
++                float spike = k == 0 ? (exp(-abs(o.x) * 180.0) * exp(-abs(o.y) * 7.0) + exp(-abs(o.y) * 180.0) * exp(-abs(o.x) * 7.0)) * 0.9 : 0.0;
++                col += sc2 * (core * 1.6 + spike) * tw;
++                if (k == 0) col += vec3(1.0, 0.45, 0.85) * exp(-dot(o, o) * 60.0) * 0.18 * tw;
++            }
++        }
++        return col * vis * 1.5;
 +    }
 +
 +    // 호박달 그림 (shaders.properties customTexture.chacaPumpkin). rgb 는 블룸이 걸리도록 밝게, a = 그림 투명도
@@ -81,7 +122,7 @@ diff -ruN -x '*.png' -x '*.mcmeta' cu0/shaders/lib/atmospherics/chacaHalloween.g
 +        float mask = ChacaMask(wDir);
 +        vec3 hs = ChacaHalloweenSkyColor(wDir);
 +        if (doMoon) {
-+            hs += vec3(1.0, 0.82, 0.65) * 1.5 * ChacaStars(wDir) * (1.0 - clamp(chacaDay, 0.0, 1.0));
++            hs += ChacaStars(wDir);
 +            float ang = sqrt(max(2.0 * (1.0 - dot(wDir, chacaMoonDir)), 0.0));
 +            hs += vec3(1.0, 0.42, 0.10) * (0.9 * exp(-pow2(ang / (chacaMoonRadius * 1.4))) + 0.12 * exp(-ang / (chacaMoonRadius * 5.0)));
 +            vec4 moon = ChacaPumpkinMoon(wDir);
