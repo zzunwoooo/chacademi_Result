@@ -43,6 +43,7 @@ final class AlchemyBridge implements PluginMessageListener, Listener {
     private Set<String> categories = Set.of("재료"), materialItems = Set.of();
     private int slots = 6;
     private boolean nearHint = true;
+    private String mailTitle = "연금술 결과물", mailBody = "인벤토리가 가득 차서 연금술 결과물을 우편으로 보내 드립니다.";
     private final Map<String, String> messages = new HashMap<>();
     /** key -> serialized icon (canonical item from ItemsAdder / vanilla, else the first stack seen). Cleared on reload. */
     private final Map<String, byte[]> previews = new HashMap<>();
@@ -53,10 +54,16 @@ final class AlchemyBridge implements PluginMessageListener, Listener {
     private final Map<UUID, Long> limits = new HashMap<>();
     private AlchemyEditor editor;
     private AlchemySharedConfig shared;
+    // [기능:alchemy-overhaul 시작] 연금 쪽지·수첩·최초 발견 칭호·한 번만 만드는 레시피·장비 결과물 (AlchemyPlus)
+    private final AlchemyPlus plus;
+    // [기능:alchemy-overhaul 끝]
 
     AlchemyBridge(MagicCodexBridge plugin) throws Exception {
         this.plugin = plugin;
         itemsAdder = new ItemsAdderItems(plugin.getLogger());
+        // [기능:alchemy-overhaul 시작]
+        plus = new AlchemyPlus(plugin, this);
+        // [기능:alchemy-overhaul 끝]
         if (!new File(plugin.getDataFolder(), "alchemy.yml").exists()) plugin.saveResource("alchemy.yml", false);
         reload();
         editor = new AlchemyEditor(plugin, this);
@@ -90,7 +97,7 @@ final class AlchemyBridge implements PluginMessageListener, Listener {
         for (String k : yaml.getStringList("settings.material-items")) items.add(key(k, "settings.material-items"));
         var msg = new HashMap<String, String>();
         var ms = yaml.getConfigurationSection("messages");
-        for (String k : List.of("near", "near-amount", "nothing", "crafted", "discovered", "no-room", "no-exp", "no-exp-locked", "missing", "empty"))
+        for (String k : List.of("near", "near-amount", "nothing", "crafted", "discovered", "mailed", "no-exp", "no-exp-locked", "missing", "empty"))
             msg.put(k, ms == null ? "" : ms.getString(k, ""));
         var list = new ArrayList<Recipe>();
         var seen = new HashMap<Map<String, Integer>, String>();
@@ -123,9 +130,13 @@ final class AlchemyBridge implements PluginMessageListener, Listener {
         }
         if (list.size() > AlchemyProtocol.MAX_RECIPES) throw new IllegalArgumentException("레시피는 최대 " + AlchemyProtocol.MAX_RECIPES + "개");
         list.sort(Comparator.comparingInt(Recipe::order).thenComparing(Recipe::id));
+        // [기능:alchemy-overhaul 시작] first-title·once·note·hint·result-item·문구 (틀리면 이 reload 전체 거절)
+        plus.load(yaml);
+        // [기능:alchemy-overhaul 끝]
         // commit only after everything parsed
         recipes = List.copyOf(list); slots = count; categories = Set.copyOf(cats); materialItems = Set.copyOf(items);
         nearHint = yaml.getBoolean("settings.near-hint", true);
+        mailTitle = yaml.getString("settings.mail-title", mailTitle); mailBody = yaml.getString("settings.mail-body", mailBody);
         messages.clear(); messages.putAll(msg);
         previews.clear();
     }
@@ -334,9 +345,16 @@ final class AlchemyBridge implements PluginMessageListener, Listener {
         if (match == null) {
             int hint = nearHint ? AlchemyRules.hint(recipes.stream().map(Recipe::ingredients).toList(), want) : AlchemyProtocol.NOTHING;
             String key = hint == AlchemyProtocol.NEAR_AMOUNT ? "near-amount" : hint == AlchemyProtocol.NEAR ? "near" : "nothing";
+            // [기능:alchemy-overhaul 시작] 근접 힌트가 없을 때: 아직 모르는 레시피와 재료가 몇 종류 겹치는지 문구
+            if (hint == AlchemyProtocol.NOTHING) { String partial = plus.matchMessage(p, want); if (partial != null) { result(p, seq, AlchemyProtocol.NEAR, null, 0, false, partial); return; } }
+            // [기능:alchemy-overhaul 끝]
             result(p, seq, hint, null, 0, false, message(key, null, 0, "")); return;
         }
         boolean isNew = !discovered(p, match.id());
+        // [기능:alchemy-overhaul 시작] 한 번만 만드는 레시피 (이미 발견 = 이미 한 번 만듦)
+        String onceRefusal = plus.onceRefusal(match.id(), isNew);
+        if (onceRefusal != null) { result(p, seq, AlchemyProtocol.REFUSED, null, 0, false, onceRefusal); return; }
+        // [기능:alchemy-overhaul 끝]
         long total = AlchemyRules.total(p.getLevel(), p.getExp());
         // 374 연금로 예열 (LifeSpells): the next craft within 10 minutes costs 30% less experience (used only by a successful craft).
         boolean preheat = match.exp() > 0 && LifeSpells.active(p.getUniqueId(), "alchemy_preheat");
@@ -351,7 +369,10 @@ final class AlchemyBridge implements PluginMessageListener, Listener {
         // results first: an unknown result item must not eat the ingredients
         var outputs = new ArrayList<ItemStack>();
         for (int left = match.amount(); left > 0; ) {
-            ItemStack stack = create(match.result(), left);
+            // [기능:alchemy-overhaul 시작] 편집기가 저장한 장비 아이템(등록 정보 포함)이 있으면 그것을 복사
+            ItemStack stack = plus.resultItem(match.id(), left);
+            if (stack == null) stack = create(match.result(), left);
+            // [기능:alchemy-overhaul 끝]
             if (stack == null) { plugin.getLogger().warning("ALCHEMY RESULT MISSING recipe=" + match.id() + " result=" + match.result()); result(p, seq, AlchemyProtocol.REFUSED, null, 0, false, "결과 아이템을 만들 수 없습니다. 관리자에게 문의해 주세요."); return; }
             outputs.add(stack); left -= stack.getAmount();
         }
@@ -395,6 +416,9 @@ final class AlchemyBridge implements PluginMessageListener, Listener {
             CmdKit.notify(p, "system", "life-alchemy_preheat", "연금로 예열 효과", "경험치를 " + match.exp() + " 대신 " + cost + "만 썼어요", 0);
         String notice = message(isNew ? "discovered" : "crafted", match, match.amount(), "");
         if (isNew) discover(p, match);
+        // [기능:alchemy-overhaul 시작] 서버 전체 최초 발견이면 칭호 + 공지
+        if (isNew) plus.discovered(p, match.id(), match.name());
+        // [기능:alchemy-overhaul 끝]
         result(p, seq, isNew ? AlchemyProtocol.DISCOVERED : AlchemyProtocol.CRAFTED, match, match.amount(), false, notice);
         send(p, AlchemyProtocol.KIND_STATE, "");
         // 스토리 "연금술성공": 재료·경험치를 걷고 결과물을 지급(인벤토리/우편)한 뒤에만. 경험치 부족·틀린 조합·결과 아이템 오류는 위에서 끝난다.
@@ -442,6 +466,28 @@ final class AlchemyBridge implements PluginMessageListener, Listener {
         return false;
     }
 
+    /** Results that did not fit: mailbox (9 attachments per mail). Without a mailbox they drop at the player's feet. */
+    private void mail(Player p, List<ItemStack> items, String craftId, Recipe r) {
+        var service = Bukkit.getServicesManager().load(MailService.class);
+        if (service == null) { drop(p, items, "우편 기능 없음", craftId); return; }
+        for (int part = 0; part * 9 < items.size(); part++) {
+            var chunk = List.copyOf(items.subList(part * 9, Math.min(items.size(), part * 9 + 9)));
+            String body = mailBody + " (" + r.name() + ")";
+            try {
+                service.sendSystem("alchemy:" + craftId + ":" + part, p.getUniqueId(), mailTitle, body, chunk).whenComplete((id, error) -> {
+                    if (error != null) Bukkit.getScheduler().runTask(plugin, () -> drop(p, chunk, "우편 저장 실패 " + error.getClass().getSimpleName(), craftId));
+                });
+            } catch (RuntimeException e) { drop(p, chunk, "우편 거절 " + e.getMessage(), craftId); }
+        }
+    }
+
+    private void drop(Player p, List<ItemStack> items, String why, String craftId) {
+        plugin.getLogger().warning("ALCHEMY MAIL FAILED (" + why + ") player=" + p.getUniqueId() + " craft=" + craftId + " items=" + items);
+        if (!p.isOnline()) return;
+        for (ItemStack item : items) p.getWorld().dropItemNaturally(p.getLocation(), item);
+        CmdKit.notify(p, "warning", "alchemy-drop", "연금술 결과물을 발밑에 떨어뜨렸어요", "우편으로 보내지 못했어요", 0);
+    }
+
     @EventHandler public void quit(PlayerQuitEvent e) {
         UUID id = e.getPlayer().getUniqueId();
         viewers.remove(id); limits.remove(id); pendingGrants.remove(id);
@@ -450,6 +496,11 @@ final class AlchemyBridge implements PluginMessageListener, Listener {
     // ------------------------------------------------------------------ commands
 
     int slots() { return slots; }
+    // [기능:alchemy-overhaul 시작] AlchemyPlus 가 읽는 것 (Recipe 는 private 이라 값만 넘긴다)
+    Map<String, Map<String, Integer>> recipeIngredients() { var out = new LinkedHashMap<String, Map<String, Integer>>(); for (Recipe r : recipes) out.put(r.id(), r.ingredients()); return out; }
+    Map<String, String> recipeNameMap() { return recipeNames(); }
+    boolean known(Player p, String id) { return discovered(p, id); }
+    // [기능:alchemy-overhaul 끝]
     AlchemySharedConfig shared() { return shared; }
 
     /** This server's alchemy.yml text ("" when unreadable). */
@@ -470,7 +521,12 @@ final class AlchemyBridge implements PluginMessageListener, Listener {
         return error;
     }
 
-    void close() { if (shared != null) shared.close(); }
+    void close() {
+        if (shared != null) shared.close();
+        // [기능:alchemy-overhaul 시작]
+        plus.close();
+        // [기능:alchemy-overhaul 끝]
+    }
     File file() { return new File(plugin.getDataFolder(), "alchemy.yml"); }
 
     /** Reload alchemy.yml and refresh every open alchemy window; the error text, or null on success. */

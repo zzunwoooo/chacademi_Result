@@ -64,6 +64,9 @@ public final class AlchemyClient {
             context.client().execute(() -> accept(frame));
         });
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> reset());
+        // [기능:alchemy-overhaul 시작] 연금 수첩 통신 (MagicCodexClient 를 안 바꾸려고 여기서 등록)
+        AlchemyNoteClient.initialize();
+        // [기능:alchemy-overhaul 끝]
     }
 
     private static void accept(Frame frame) {

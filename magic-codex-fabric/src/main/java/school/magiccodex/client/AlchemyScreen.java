@@ -204,7 +204,18 @@ final class AlchemyScreen extends Screen {
         var x = AlchemyLayout.CLOSE;
         // the X is part of the panel art: only a soft highlight on hover
         if (x.contains(mx, my)) HudMesh.disk(c, x.cx(), x.cy(), 22, 0x30FFE3A8);
+        // [기능:alchemy-overhaul 시작] 연금 수첩 버튼 (왼쪽 틀 왼쪽 위, 마법진과 겹치지 않는 자리)
+        boolean hover = picker < 0 && BOOK.contains(mx, my);
+        AlchemyNoteScreen.draw(c, hover ? BOOK_HOVER_ART : BOOK_ART, BOOK, 0xFFFFFFFF);
+        if (hover) text(c, "연금 수첩", BOOK.cx(), BOOK.bottom() + 6, 18, GOLD, LABEL, true);
+        // [기능:alchemy-overhaul 끝]
     }
+
+    // [기능:alchemy-overhaul 시작]
+    static final Box BOOK = Box.centered(214, 168, 76, 76);
+    static final AlchemyNoteScreen.Art BOOK_ART = new AlchemyNoteScreen.Art("book_button", 1254, 1254, 185, 201, 884, 852),
+            BOOK_HOVER_ART = new AlchemyNoteScreen.Art("book_button_hover", 1254, 1254, 182, 198, 890, 858);
+    // [기능:alchemy-overhaul 끝]
 
     // ---- circle, slots, result ring
 
@@ -533,6 +544,12 @@ final class AlchemyScreen extends Screen {
         double mx = l.localX(x), my = l.localY(y);
         if (picker >= 0) { pickerClick(mx, my, button); return true; }
         if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT && AlchemyLayout.CLOSE.contains(mx, my)) { click(); close(); return true; }
+        // [기능:alchemy-overhaul 시작] 연금 수첩 열기 (서버가 내용을 보내면 열린다)
+        if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT && BOOK.contains(mx, my)) {
+            if (AlchemyNoteClient.open(this)) sound(SoundEvents.ITEM_BOOK_PAGE_TURN, 1f, .6f); else say("서버에 연결되어 있지 않습니다.", WARN);
+            return true;
+        }
+        // [기능:alchemy-overhaul 끝]
         boolean wasFocused = searchFocused;
         searchFocused = button == GLFW.GLFW_MOUSE_BUTTON_LEFT && AlchemyLayout.SEARCH_BOX.contains(mx, my);
         if (search != null) search.setFocused(searchFocused);

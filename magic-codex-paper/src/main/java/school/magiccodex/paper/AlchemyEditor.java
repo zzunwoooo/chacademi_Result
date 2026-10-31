@@ -179,9 +179,18 @@ final class AlchemyEditor implements PluginMessageListener, Listener {
             order = existing.stream().mapToInt(Row::order).max().orElse(0) + 1;
         }
         String path = "recipes." + id;
+        // [기능:alchemy-overhaul 시작] 편집기에 없는 칸(first-title·once·note·hint)은 다시 저장해도 지우지 않는다
+        var kept = new LinkedHashMap<String, Object>();
+        for (String k : List.of("first-title", "once", "note", "hint")) if (yaml.contains(path + "." + k)) kept.put(k, yaml.get(path + "." + k));
+        // [기능:alchemy-overhaul 끝]
         yaml.set(path, null);
         yaml.set(path + ".name", name);
         yaml.set(path + ".result", d.result());
+        // [기능:alchemy-overhaul 시작] 장비로 등록한 아이템을 결과로 넣으면 등록 정보까지 그대로 저장 (없으면 아이템 종류만)
+        kept.forEach((k, v) -> yaml.set(path + "." + k, v));
+        String template = AlchemyPlus.templateOf(p, d.result(), bridge);
+        if (template != null) yaml.set(path + ".result-item", template);
+        // [기능:alchemy-overhaul 끝]
         yaml.set(path + ".amount", d.amount());
         yaml.set(path + ".exp", d.exp());
         yaml.set(path + ".order", order);
