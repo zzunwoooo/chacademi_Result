@@ -45,6 +45,24 @@ final class Potions implements Listener {
         double v = section(kind).getDouble("restore", kind == PotionCooldowns.Kind.HEALTH ? 5 : 100);
         return Double.isFinite(v) ? Math.clamp(v, 0, 10000) : 0;
     }
+    // [기능:alchemy-overhaul 시작] 상급 포션 (2026-10-31, 연금술 개편): 같은 쿨을 쓰고 회복량만 big-restore
+    private static final String BIG_HEALTH = "item:health_potion_big", BIG_MANA = "item:mana_potion_big";
+    private static String bigId(PotionCooldowns.Kind kind) {
+        var p = instance;
+        boolean health = kind == PotionCooldowns.Kind.HEALTH;
+        String def = health ? BIG_HEALTH : BIG_MANA;
+        String id = p == null ? null : p.plugin.getConfig().getString((health ? "health-potion" : "mana-potion") + ".big-item", def);
+        return id == null || id.isBlank() ? def : id.strip();
+    }
+    private static boolean isBig(ItemStack it, PotionCooldowns.Kind kind) {
+        return it != null && !it.getType().isAir() && bigId(kind).equals(Links.customId(it));
+    }
+    private double restore(PotionCooldowns.Kind kind, ItemStack item) {
+        if (!isBig(item, kind)) return restore(kind);
+        double v = section(kind).getDouble("big-restore", kind == PotionCooldowns.Kind.HEALTH ? 12 : 250);
+        return Double.isFinite(v) ? Math.clamp(v, 0, 10000) : 0;
+    }
+    // [기능:alchemy-overhaul 끝]
     private long cooldownMillis(PotionCooldowns.Kind kind) {
         double v = section(kind).getDouble("cooldown-seconds", kind == PotionCooldowns.Kind.HEALTH ? 10 : 15);
         return Double.isFinite(v) ? Math.round(Math.clamp(v, 0, 3600) * 1000) : 0;
@@ -60,12 +78,14 @@ final class Potions implements Listener {
 
     static boolean isHealthPotion(ItemStack it) {
         if (it == null || it.getType().isAir()) return false;
-        return healthId().equals(Links.customId(it));
+        return healthId().equals(Links.customId(it))
+                || isBig(it, PotionCooldowns.Kind.HEALTH);   // [기능:alchemy-overhaul] 상급 체력 포션
     }
 
     /** 체력 / 마나 / null(포션 아님). */
     static PotionCooldowns.Kind kind(ItemStack it) {
         if (UtilMech.isManaPotion(it)) return PotionCooldowns.Kind.MANA;
+        if (isBig(it, PotionCooldowns.Kind.MANA)) return PotionCooldowns.Kind.MANA;   // [기능:alchemy-overhaul] 상급 마나 포션
         if (isHealthPotion(it)) return PotionCooldowns.Kind.HEALTH;
         return null;
     }
@@ -86,7 +106,8 @@ final class Potions implements Listener {
 
     /** 회복 + 쿨 시작. 회복이 안 됐으면 false (쿨도 시작 안 함). */
     private boolean apply(Player p, PotionCooldowns.Kind kind, ItemStack item) {
-        boolean ok = kind == PotionCooldowns.Kind.HEALTH ? Targets.heal(p, restore(kind)) > 0 : Links.add(p, restore(kind));
+        double amount = restore(kind, item);   // [기능:alchemy-overhaul] 상급 포션이면 big-restore
+        boolean ok = kind == PotionCooldowns.Kind.HEALTH ? Targets.heal(p, amount) > 0 : Links.add(p, amount);
         if (!ok) return false;
         long now = System.currentTimeMillis(), millis = cooldownMillis(kind);
         cooldowns.start(p.getUniqueId(), kind, now, millis);

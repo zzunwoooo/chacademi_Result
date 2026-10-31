@@ -54,8 +54,17 @@ alchemy.yml 은 학교·야생이 공유 DB 로 같이 쓴다 → 한쪽에서 �
   - 미감정 마력코어 8개(recipe_3·4·5·7·14·15·24·31): 그대로, 아이디도 그대로 (발견 기록 유지).
   - 새 레시피 74개 (아이디 `alch_*`): 쉬움 24 · 보통 28 · 어려움 14 · 최상 8. 전리품 151종 전부 사용. 사람이 읽는 표 = `RECIPES.md`.
   - 빠진 보상(오너): 아티팩트 조각, 유일·전설 장신구, 아티팩트 유일·전설 확정권, 가방 확장권. 유료일 수 있는 것(행운상자 등)도 넣지 않음.
-  - 상급 포션 2종·연금술사 장신구 3종(한 번만)은 오너가 아이템을 만드는 중 → 파일 맨 아래 주석. 아이템 아이디 받으면 켠다.
-- **재시작 없이 반영 가능**: 5대에 복사 → 한 서버에서 `/연금술관리 새로고침` (다른 서버도 각각). 예전 레시피 발견 기록(LuckPerms 권한)은 남아도 해가 없음.
+  - 상급 포션 2종·연금술사 장신구 3종(한 번만) 레시피도 켜짐 → 새 레시피 79개.
+
+## 새 아이템 5종 (오너 그림, 2026-10-31)
+- ItemsAdder: `all-servers/plugins/ItemsAdder/contents/item/configs/chacademi_alchemy_items.yml` + 그림 `resourcepack/assets/item/textures/chacademi/items/{health,mana}_potion_big.png`, `…/chacademi/accessories/alch_{ring,earring,necklace}.png` → 5대 복사 → `/iazip`.
+- **상급 포션 효과 = 코드** (ChAcademiaMagicMythic `Potions`): 상급 체력 포션 체력 12 회복(일반 5), 상급 마나 포션 마나 250(일반 100). 쿨은 일반 포션과 같이 씀. 바꾸려면 config.yml `health-potion.big-restore` / `mana-potion.big-restore` (안 적으면 위 기본값).
+  - `mythic-jar-add/` 의 `Potions.class` 를 5대 `chacademia-magic-mythic-final-20261024-*.jar` 에 넣는다 (`jar uf <jar> -C mythic-jar-add .`). 배포 jar 셋(학교·야생·아레나)의 Potions 가 서로 같고 소스 컴파일과 javap 완전 동일 확인 → 통째로 교체. 세 jar 기준 컴파일 결과 바이트 동일. **재시작 필요.**
+- **연금술사 장신구 3종: 게임 안에서 오너(또는 규칙 세션)가 한 번 해야 함**
+  1. 아이템을 손에 들고 장신구 등록 명령(반지·귀걸이·목걸이, 능력치는 오너가 정함 — 유일 등급 기본값 쓰려면 등급등록).
+  2. 등록된 그 아이템을 인벤토리에 두고 연금술 편집기에서 해당 레시피(alch_alch_ring·earring·necklace)를 한 번 다시 저장 → `result-item` 에 등록 정보째 저장됨. 안 하면 등록 안 된 맨 아이템이 나온다.
+- `once: true`(한 번만)는 이 브랜치의 새 AlchemyBridge 가 있어야 동작 → **레시피 파일은 서버 jar 교체(재시작)와 같이 반영**. 먼저 넣으면 장신구를 여러 번 만들 수 있게 된다.
+- 반영: 5대에 복사 → 한 서버에서 `/연금술관리 새로고침` (다른 서버도 각각). 예전 레시피 발견 기록(LuckPerms 권한)은 남아도 해가 없음.
 - 주의: 반영 전에 서버의 연금술 편집기로 레시피를 고친 게 있으면 덮어써진다 (지금 5대 같은 파일 확인함).
 
 ## 오너가 정할 것 / 남은 것

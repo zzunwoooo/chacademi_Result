@@ -842,13 +842,35 @@ recipes:
     ingredients:
       item:loot_melodic_tail_feather: 1
       item:loot_sunshine_down_feather: 2
+  alch_health_big:
+    name: 상급 체력 포션
+    result: item:health_potion_big
+    amount: 1
+    exp: 250
+    order: 152
+    enabled: true
+    ingredients:
+      item:loot_conifer_wolf_fang: 1
+      item:loot_leaf_vein: 1
+      item:health_potion: 2
+  alch_mana_big:
+    name: 상급 마나 포션
+    result: item:mana_potion_big
+    amount: 1
+    exp: 250
+    order: 153
+    enabled: true
+    ingredients:
+      item:loot_sobbing_white_membrane: 1
+      item:loot_void_mite_shell: 1
+      item:mana_potion: 2
   # ── 어려움 ──
   alch_artifact_common:
     name: 아티팩트 일반 확정 뽑기권
     result: item:artifact_ticket_common
     amount: 1
     exp: 500
-    order: 152
+    order: 154
     enabled: true
     ingredients:
       item:loot_sealing_stone: 1
@@ -859,7 +881,7 @@ recipes:
     result: item:artifact_ticket_rare
     amount: 1
     exp: 500
-    order: 153
+    order: 155
     enabled: true
     ingredients:
       item:loot_ancient_rune_heart: 1
@@ -871,7 +893,7 @@ recipes:
     result: item:core_scroll_red
     amount: 1
     exp: 500
-    order: 154
+    order: 156
     enabled: true
     ingredients:
       item:loot_black_gold_bracer_fragment: 1
@@ -882,7 +904,7 @@ recipes:
     result: item:core_scroll_blue
     amount: 1
     exp: 500
-    order: 155
+    order: 157
     enabled: true
     ingredients:
       item:loot_guardian_root: 1
@@ -893,7 +915,7 @@ recipes:
     result: item:core_scroll_purple
     amount: 1
     exp: 500
-    order: 156
+    order: 158
     enabled: true
     ingredients:
       item:loot_layered_shadow_mirror_shard: 1
@@ -904,7 +926,7 @@ recipes:
     result: item:shiny_change
     amount: 1
     exp: 500
-    order: 157
+    order: 159
     enabled: true
     ingredients:
       item:loot_foxfire_tail_fur: 1
@@ -915,7 +937,7 @@ recipes:
     result: item:bait_6
     amount: 3
     exp: 500
-    order: 158
+    order: 160
     enabled: true
     ingredients:
       item:loot_spirit_deer_crystal_antler: 1
@@ -925,7 +947,7 @@ recipes:
     result: item:bait_7
     amount: 3
     exp: 500
-    order: 159
+    order: 161
     enabled: true
     ingredients:
       item:loot_folding_shell_fragment: 1
@@ -936,7 +958,7 @@ recipes:
     result: item:lure_5
     amount: 1
     exp: 500
-    order: 160
+    order: 162
     enabled: true
     ingredients:
       item:loot_gazing_eye_crystal: 1
@@ -946,7 +968,7 @@ recipes:
     result: item:lure_6
     amount: 1
     exp: 500
-    order: 161
+    order: 163
     enabled: true
     ingredients:
       item:loot_giant_weathered_bone_fragment: 1
@@ -956,7 +978,7 @@ recipes:
     result: item:fishing_line_3
     amount: 1
     exp: 500
-    order: 162
+    order: 164
     enabled: true
     ingredients:
       item:loot_frost_chain: 1
@@ -966,7 +988,7 @@ recipes:
     result: item:fishing_rod_5
     amount: 1
     exp: 500
-    order: 163
+    order: 165
     enabled: true
     ingredients:
       item:loot_spectral_wing_membrane: 1
@@ -977,7 +999,7 @@ recipes:
     result: item:fishing_rod_6
     amount: 1
     exp: 500
-    order: 164
+    order: 166
     enabled: true
     ingredients:
       item:loot_wyvern_wing_claw: 1
@@ -988,19 +1010,55 @@ recipes:
     result: item:spell_hint
     amount: 1
     exp: 500
-    order: 165
+    order: 167
     enabled: true
     ingredients:
       item:loot_manticore_tail_stinger: 1
       item:loot_hippogriff_claw: 1
       item:loot_small_spectral_wing: 2
+  alch_alch_ring:
+    name: 연금술사의 반지
+    result: item:alch_ring
+    amount: 1
+    exp: 500
+    order: 168
+    enabled: true
+    once: true
+    ingredients:
+      item:loot_broken_ice_sword: 1
+      item:loot_ancient_seed_pouch: 1
+      item:loot_flower_seed: 2
+  alch_alch_earring:
+    name: 연금술사의 귀걸이
+    result: item:alch_earring
+    amount: 1
+    exp: 500
+    order: 169
+    enabled: true
+    once: true
+    ingredients:
+      item:loot_wolfhawk_mane_feather: 1
+      item:loot_charging_molar: 1
+      item:loot_whirlwind_feather: 2
+  alch_alch_necklace:
+    name: 연금술사의 목걸이
+    result: item:alch_necklace
+    amount: 1
+    exp: 500
+    order: 170
+    enabled: true
+    once: true
+    ingredients:
+      item:loot_worn_dark_mane: 1
+      item:loot_sealing_stone: 1
+      item:loot_moon_ripple: 2
   # ── 최상 ──
   alch_random_artifact_1:
     name: 아티팩트 열쇠
     result: item:random_artifact
     amount: 1
     exp: 1000
-    order: 166
+    order: 171
     enabled: true
     ingredients:
       item:loot_withering_black_heart: 1
@@ -1011,7 +1069,7 @@ recipes:
     result: item:random_artifact
     amount: 1
     exp: 1000
-    order: 167
+    order: 172
     enabled: true
     ingredients:
       item:loot_end_dragonheart_shard: 1
@@ -1022,7 +1080,7 @@ recipes:
     result: item:artifact_ticket_rare
     amount: 2
     exp: 1000
-    order: 168
+    order: 173
     enabled: true
     ingredients:
       item:loot_ice_core: 1
@@ -1033,7 +1091,7 @@ recipes:
     result: item:fishing_rod_7
     amount: 1
     exp: 1000
-    order: 169
+    order: 174
     enabled: true
     ingredients:
       item:loot_cloud_dragon_orb: 1
@@ -1044,7 +1102,7 @@ recipes:
     result: item:lure_7
     amount: 1
     exp: 1000
-    order: 170
+    order: 175
     enabled: true
     ingredients:
       item:loot_deep_vibration_core: 1
@@ -1055,7 +1113,7 @@ recipes:
     result: item:lure_8
     amount: 1
     exp: 1000
-    order: 171
+    order: 176
     enabled: true
     ingredients:
       item:loot_phoenix_feather: 1
@@ -1066,7 +1124,7 @@ recipes:
     result: item:bait_8
     amount: 2
     exp: 1000
-    order: 172
+    order: 177
     enabled: true
     ingredients:
       item:loot_dragonheart_crystal: 1
@@ -1077,15 +1135,9 @@ recipes:
     result: item:fishing_line_4
     amount: 1
     exp: 1000
-    order: 173
+    order: 178
     enabled: true
     ingredients:
       item:loot_ancient_ocean_eye: 1
       item:loot_wyvern_wing_claw: 1
       item:loot_waterway_pearl: 2
-  # ── 새 아이템이 들어오면 켤 레시피 (아이템 파일 받은 뒤 아이디 맞춰서 # 지움) ──
-  # alch_health_big: 상급 체력 포션 → item:health_potion_big ×1, 경험치 250, 재료 conifer_wolf_fang=1,leaf_vein=1,item:health_potion=2
-  # alch_mana_big: 상급 마나 포션 → item:mana_potion_big ×1, 경험치 250, 재료 sobbing_white_membrane=1,void_mite_shell=1,item:mana_potion=2
-  # alch_alch_ring: 연금술사의 반지 → item:alch_ring ×1, 경험치 500, 한 번만, 재료 broken_ice_sword=1,ancient_seed_pouch=1,flower_seed=2
-  # alch_alch_earring: 연금술사의 귀걸이 → item:alch_earring ×1, 경험치 500, 한 번만, 재료 wolfhawk_mane_feather=1,charging_molar=1,whirlwind_feather=2
-  # alch_alch_necklace: 연금술사의 목걸이 → item:alch_necklace ×1, 경험치 500, 한 번만, 재료 worn_dark_mane=1,sealing_stone=1,moon_ripple=2

@@ -1,0 +1,59 @@
+# 연금술 개편 보상 아이템 (2026-10-31). 연금술로만 만든다.
+# 상급 포션: 효과는 ChAcademiaMagicMythic config.yml health-potion / mana-potion 의 big-restore (일반 포션과 쿨 공유).
+# 연금술사 장신구: 장비 칸에 끼우려면 서버에서 장신구로 등록해야 한다 (NOTE.md 참고). 연금술 레시피는 한 사람당 한 번만.
+info:
+  namespace: item
+items:
+  health_potion_big:
+    name: "&f상급 체력 포션"
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+      - chacademi/items/health_potion_big.png
+    lore:
+    - "&7소모품"
+    - "&f진하게 달인 붉은 물약. 깊은 상처까지 단숨에 아문다."
+  mana_potion_big:
+    name: "&f상급 마나 포션"
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+      - chacademi/items/mana_potion_big.png
+    lore:
+    - "&7소모품"
+    - "&f짙푸른 물약이 바닥난 마력을 한 번에 끌어올린다."
+  alch_ring:
+    name: "&f연금술사의 반지"
+    resource:
+      material: "PAPER"
+      generate: true
+      textures:
+        - "chacademi/accessories/alch_ring.png"
+    lore:
+      - "&7반지"
+      - "유일"
+      - "&f처음으로 조합식을 완성한 연금술사에게만 허락된 반지."
+  alch_earring:
+    name: "&f연금술사의 귀걸이"
+    resource:
+      material: "PAPER"
+      generate: true
+      textures:
+        - "chacademi/accessories/alch_earring.png"
+    lore:
+      - "&7귀걸이"
+      - "유일"
+      - "&f흔들릴 때마다 시약 향이 은은하게 번지는 귀걸이."
+  alch_necklace:
+    name: "&f연금술사의 목걸이"
+    resource:
+      material: "PAPER"
+      generate: true
+      textures:
+        - "chacademi/accessories/alch_necklace.png"
+    lore:
+      - "&7목걸이"
+      - "유일"
+      - "&f작은 연금 플라스크를 매단 목걸이. 안에서 빛이 천천히 돈다."
