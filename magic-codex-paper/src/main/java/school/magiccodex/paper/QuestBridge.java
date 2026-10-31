@@ -31,6 +31,11 @@ final class QuestBridge implements Listener,PluginMessageListener,AutoCloseable 
     private final MagicCodexBridge plugin;private final File file;private final QuestStore store;
     private final ExecutorService io=Executors.newSingleThreadExecutor(r->{var t=new Thread(r,"MagicCodex-quest-io");t.setDaemon(true);return t;});
     private Map<String,QuestDefinition> catalog=Map.of();private final Map<UUID,List<QuestStore.Entry>> cache=new HashMap<>();
+    // [기능:subquest-hud-20261031 시작]
+    private QuestHudPush hudPush;
+    /** 화면 HUD 용: 그 유저의 의뢰 캐시 (아직 못 읽었으면 null). 서버 스레드에서만. */
+    List<QuestStore.Entry> hudEntries(UUID id){return cache.get(id);}
+    // [기능:subquest-hud-20261031 끝]
     private final Map<UUID,Set<String>> completed=new HashMap<>();
     private final Set<UUID> busy=new HashSet<>();private final Map<UUID,Long> limits=new HashMap<>(),viewers=new HashMap<>();
     private final Map<UUID,Integer> tabs=new HashMap<>();private final Map<UUID,Integer> pages=new HashMap<>();private String server;private int pending;private volatile boolean closing;private boolean refreshing;
@@ -48,6 +53,9 @@ final class QuestBridge implements Listener,PluginMessageListener,AutoCloseable 
         Bukkit.getPluginManager().registerEvents(this,plugin);Bukkit.getMessenger().registerIncomingPluginChannel(plugin,QuestProtocol.REQUEST,this);Bukkit.getMessenger().registerOutgoingPluginChannel(plugin,QuestProtocol.RESPONSE);
         Bukkit.getMessenger().registerIncomingPluginChannel(plugin,QuestAdminProtocol.REQUEST,this);Bukkit.getMessenger().registerOutgoingPluginChannel(plugin,QuestAdminProtocol.RESPONSE);
         registerCommands();
+        // [기능:subquest-hud-20261031 시작]
+        hudPush=new QuestHudPush(plugin,this);
+        // [기능:subquest-hud-20261031 끝]
         hook("Citizens","net.citizensnpcs.api.event.NPCRightClickEvent",event->{Player p=(Player)invoke(event,"getClicker");Object npc=invoke(event,"getNPC");Entity e=(Entity)invoke(npc,"getEntity");if(e!=null&&e.getWorld().equals(p.getWorld())&&e.getLocation().distanceSquared(p.getLocation())<=36)event(p,Type.NPC,String.valueOf(invoke(npc,"getId")),1);});
         hook("MythicMobs","io.lumine.mythic.bukkit.events.MythicMobDeathEvent",event->{Object killer=invoke(event,"getKiller");if(killer instanceof Player p&&invoke(event,"getEntity") instanceof Entity e&&!e.getScoreboardTags().contains("chacademia_pet"))event(p,Type.MYTHIC_KILL,(String)invoke(invoke(event,"getMobType"),"getInternalName"),1);});
         Bukkit.getScheduler().runTaskTimer(plugin,()->{if(!refreshing&&!closing){refreshing=true;long known=catalogRevision;work(()->{long revision=store.catalogRevision();return revision==known?null:new Published(revision,store.catalog());},v->{refreshing=false;if(v!=null){catalog=v.catalog();catalogRevision=v.revision();}},m->refreshing=false);}for(Player p:Bukkit.getOnlinePlayers())if(viewers.getOrDefault(p.getUniqueId(),0L)>System.currentTimeMillis())load(p,false,"");},100,100);
@@ -138,7 +146,7 @@ final class QuestBridge implements Listener,PluginMessageListener,AutoCloseable 
         server=sid;draftIds=Set.copyOf(result.keySet());return Map.copyOf(result);
     }
     @EventHandler public void join(PlayerJoinEvent e){load(e.getPlayer(),false,"");}
-    @EventHandler public void quit(PlayerQuitEvent e){UUID id=e.getPlayer().getUniqueId();flush(id,true);notices.remove(id);cache.remove(id);completed.remove(id);busy.remove(id);limits.remove(id);viewers.remove(id);pages.remove(id);tabs.remove(id);adminLimits.remove(id);adminBusy.remove(id);}
+    @EventHandler public void quit(PlayerQuitEvent e){UUID id=e.getPlayer().getUniqueId();/* [기능:subquest-hud-20261031] */if(hudPush!=null)hudPush.forget(id);flush(id,true);notices.remove(id);cache.remove(id);completed.remove(id);busy.remove(id);limits.remove(id);viewers.remove(id);pages.remove(id);tabs.remove(id);adminLimits.remove(id);adminBusy.remove(id);}
     @EventHandler(priority=EventPriority.MONITOR) public void death(EntityDeathEvent e){Player p=e.getEntity().getKiller();if(p!=null&&!(e.getEntity() instanceof Player)&&!e.getEntity().hasMetadata("NPC")&&!e.getEntity().getScoreboardTags().contains("chacademia_pet"))event(p,Type.KILL,e.getEntityType().name(),1);}
     /** Called only by trusted server integrations (never client progress packets). */
     void event(Player p,Type type,String target,int amount){
@@ -534,6 +542,9 @@ final class QuestBridge implements Listener,PluginMessageListener,AutoCloseable 
         },m->{busy.remove(id);ChacaApi.fail(s,m,null);});
     }
     @Override public void close(){
+        // [기능:subquest-hud-20261031 시작]
+        if(hudPush!=null)hudPush.close();
+        // [기능:subquest-hud-20261031 끝]
         // 모아 둔 진행도를 마지막으로 기록한다. (closing 을 올리기 전에 IO 대기열에 넣고, 아래에서 끝날 때까지 기다린다.)
         for(var entry:deltas.entrySet()){
             UUID id=entry.getKey();String sid=server;long since=entry.getValue().since;

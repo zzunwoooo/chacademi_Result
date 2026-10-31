@@ -91,6 +91,9 @@ public final class QuestClient {
             vanishing = null; guideSession = 0; guideAt = guideEndAt = 0; follow = null; QuestWorld.reset();
         }));
         HudRenderCallback.EVENT.register(QuestHud::render);
+        // [기능:subquest-hud-20261031 시작] 진행 중 의뢰 HUD (퀘스트창 아래)
+        SubquestHud.init();
+        // [기능:subquest-hud-20261031 끝]
         // 물·유리·반투명 블록을 다 그린 뒤에 그린다 (AFTER_ENTITIES 면 뒤의 물·유리가 글자·포탈 위에 덮여 흐려 보였음)
         WorldRenderEvents.AFTER_TRANSLUCENT.register(QuestWorld::render);
         ClientTickEvents.END_CLIENT_TICK.register(QuestWorld::tick);
