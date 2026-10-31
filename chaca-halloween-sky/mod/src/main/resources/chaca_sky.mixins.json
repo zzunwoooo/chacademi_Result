@@ -1,0 +1,18 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "kr.chacademy.halloweensky.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "ClientLevelMixin",
+    "FogRendererMixin",
+    "IrisShaderPropertiesMixin",
+    "IrisShaderSourceMixin",
+    "IrisUniformsMixin",
+    "LevelRendererSkyMixin",
+    "SoundPacketMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

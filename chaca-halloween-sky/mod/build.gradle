@@ -1,0 +1,51 @@
+plugins {
+    id 'fabric-loom' version "${loom_version}"
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name
+}
+
+repositories {
+    mavenCentral()
+}
+
+// Iris 는 jar 로 받지 않고, 쓰는 인터페이스 3개만 흉내(stubs)로 컴파일한다. stubs 는 jar 에 넣지 않는다.
+sourceSets {
+    stubs
+    main {
+        compileClasspath += sourceSets.stubs.output
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+}
+
+processResources {
+    inputs.property 'version', project.version
+    filesMatching('fabric.mod.json') {
+        expand 'version': project.version
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 21
+    it.options.encoding = 'UTF-8'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+// 셰이더 변경분(diff)과 호박달 그림은 위 폴더 것을 그대로 jar 에 넣는다 (한 곳만 고치면 되게)
+processResources {
+    from('../shader/halloween.diff') { into 'chaca_sky_shader' }
+}

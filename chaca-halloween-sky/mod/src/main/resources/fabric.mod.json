@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "chaca_sky",
+  "version": "${version}",
+  "name": "Chacademy Halloween Sky",
+  "description": "서버 신호(소리 chaca_sky:halloween_on/off/now)를 받으면 하늘이 서쪽 끝부터 할로윈 하늘로 쓸려 바뀌고 호박달이 뜹니다. 셰이더(Iris)를 켜면 셰이더 쪽에 chacaHalloween·chacaSweep 값을 넘깁니다.",
+  "authors": ["Chacademy"],
+  "license": "All-Rights-Reserved",
+  "environment": "client",
+  "entrypoints": {
+    "client": ["kr.chacademy.halloweensky.HalloweenSkyClient"]
+  },
+  "mixins": ["chaca_sky.mixins.json"],
+  "depends": {
+    "fabricloader": ">=0.16.10",
+    "minecraft": "~1.21.4",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}

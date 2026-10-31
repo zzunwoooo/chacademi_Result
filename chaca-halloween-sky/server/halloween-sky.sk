@@ -1,0 +1,27 @@
+# [기능:halloween-sky-20261031 시작]
+# 할로윈 하늘 켜기/끄기 (학교 서버 전용). 플러그인·재시작 없이 소리 신호로 클라 모드(chaca_sky)에 알린다.
+# 모드가 없는 사람은 아무 일도 없다 (모르는 소리라 재생되지 않음).
+
+command /할로윈하늘 [<text>]:
+    permission: chacademi.halloweensky
+    permission message: &c권한이 없습니다.
+    usage: /할로윈하늘 켜기 또는 끄기
+    trigger:
+        if arg-1 is "켜기":
+            set {halloweensky} to true
+            execute console command "execute as @a at @s run playsound chaca_sky:halloween_on master @s ~ ~ ~ 1 1"
+            send "&6할로윈 하늘을 켰습니다." to sender
+        else if arg-1 is "끄기":
+            delete {halloweensky}
+            execute console command "execute as @a at @s run playsound chaca_sky:halloween_off master @s ~ ~ ~ 1 1"
+            send "&7할로윈 하늘을 껐습니다." to sender
+        else:
+            send "&e사용법: /할로윈하늘 켜기 또는 끄기" to sender
+
+# 켜져 있는 동안 들어온 사람(다른 서버에서 넘어온 사람 포함)도 쓸리는 연출부터 본다 (오너 요청)
+on join:
+    if {halloweensky} is set:
+        wait 3 seconds
+        if player is online:
+            execute console command "execute as %player% at @s run playsound chaca_sky:halloween_on master @s ~ ~ ~ 1 1"
+# [기능:halloween-sky-20261031 끝]
