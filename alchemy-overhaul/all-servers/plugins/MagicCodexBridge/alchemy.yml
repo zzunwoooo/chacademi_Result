@@ -1,0 +1,1091 @@
+# 연금술 (경험치로 제작하는 숨겨진 레시피)
+# 고친 뒤 /연금술관리 새로고침 으로 다시 불러옵니다. 서버를 다시 켤 필요는 없습니다.
+#
+# 재료 넣는 순서는 상관없고, "어떤 재료가 총 몇 개"인지만 봅니다. 같은 재료를 두 칸에 나눠 넣어도 합쳐서 셉니다.
+# 아이템 표기: 아이템애더 아이템은 "네임스페이스:아이디"(예: item:lily), 바닐라 아이템은 "minecraft:아이디"(예: minecraft:sugar).
+# 레시피 발견은 LuckPerms 권한 magiccodex.alchemy.recipe.<레시피아이디> 로 저장됩니다(스쿨·야생 공유는 LuckPerms 공유를 따름).
+
+settings:
+  # 마법진 둘레 재료 칸 수 (1~8). UI 그림은 6칸 기준입니다.
+  slots: 6
+  # 재료 칸을 눌렀을 때 고를 수 있는 아이템: 아이템 설명(lore) 첫 줄이 아래 카테고리 중 하나인 아이템.
+  # 첫 줄의 [ ] ( ) 「 」 같은 괄호와 앞뒤 공백은 무시합니다. 예: "재료", "[재료]" 모두 "재료"로 봅니다.
+  material-categories:
+  - 재료
+  # 설명 첫 줄과 상관없이 재료로 취급할 아이템 (바닐라 아이템 등)
+  material-items:
+  - minecraft:gold_block
+  - minecraft:bamboo
+  - minecraft:carved_pumpkin
+  - minecraft:copper_block
+  - minecraft:blaze_powder
+  - minecraft:amethyst_shard
+  - minecraft:echo_shard
+  - minecraft:ghast_tear
+  - minecraft:glowstone_dust
+  - minecraft:redstone
+  - minecraft:sugar
+  - minecraft:potato
+  - minecraft:carrot
+  - minecraft:wheat
+  - item:core_broken
+  - minecraft:emerald
+  - minecraft:glistering_melon_slice
+  - minecraft:beetroot
+  - minecraft:golden_carrot
+  - minecraft:magma_cream
+  - minecraft:ender_pearl
+  - minecraft:lapis_lazuli
+  - minecraft:pink_petals
+  - minecraft:diamond_block
+  - minecraft:gold_ingot
+  - minecraft:iron_ingot
+  - minecraft:nether_brick
+  - minecraft:heart_of_the_sea
+  - minecraft:phantom_membrane
+  - minecraft:prismarine_crystals
+  - minecraft:ancient_debris
+  - minecraft:bone
+  - minecraft:apple
+  - minecraft:golden_apple
+  - minecraft:glow_berries
+  - minecraft:pale_oak_wood
+  - minecraft:acacia_wood
+  - minecraft:slime_ball
+  - minecraft:blaze_rod
+  - minecraft:sweet_berries
+  - minecraft:ice
+  - minecraft:packed_ice
+  - minecraft:crying_obsidian
+  - minecraft:fermented_spider_eye
+  - minecraft:gunpowder
+  - minecraft:diamond
+  - minecraft:obsidian
+  - minecraft:book
+  - minecraft:trial_key
+  - minecraft:sugar_cane
+  - minecraft:glowstone
+  - minecraft:iron_block
+  - minecraft:rabbit_foot
+  - minecraft:disc_fragment_5
+  - item:mana_potion
+  - minecraft:resin_clump
+  - minecraft:netherite_ingot
+  - minecraft:amethyst_cluster
+  - minecraft:water_bucket
+  - minecraft:dried_kelp
+  - minecraft:magma_block
+  - minecraft:string
+  - minecraft:ender_eye
+  - minecraft:campfire
+  - minecraft:lantern
+  - minecraft:flint_and_steel
+  - minecraft:oak_log
+  - minecraft:emerald_block
+  - minecraft:lapis_block
+  - minecraft:netherite_block
+  - minecraft:nether_star
+  - minecraft:bone_meal
+  - minecraft:dirt
+  - minecraft:brown_mushroom
+  - minecraft:red_mushroom
+  - minecraft:crimson_fungus
+  - minecraft:warped_fungus
+  - minecraft:pink_tulip
+  - minecraft:orange_tulip
+  - minecraft:white_tulip
+  - minecraft:red_tulip
+  - minecraft:moss_block
+  - minecraft:end_stone
+  - minecraft:cobbled_deepslate
+  - minecraft:blue_ice
+  - item:health_potion
+  - minecraft:leather
+  - minecraft:coal
+  - minecraft:dragon_breath
+  - minecraft:beetroot_seeds
+  - minecraft:melon_seeds
+  - minecraft:pumpkin_seeds
+  - minecraft:wheat_seeds
+  - minecraft:pale_moss_carpet
+  - minecraft:pale_hanging_moss
+  - minecraft:pale_oak_sapling
+  - item:inventory_save
+  - item:death_return
+  - item:friend_teleport
+  - item:home_ticket
+  - item:fishing_ticket
+  - minecraft:bucket
+  - minecraft:lava_bucket
+  - minecraft:white_dye
+  - minecraft:red_dye
+  - minecraft:green_dye
+  - minecraft:item_frame
+  - minecraft:glow_ink_sac
+  - minecraft:sea_lantern
+  - minecraft:cookie
+  - minecraft:purple_dye
+  - minecraft:gold_nugget
+  - minecraft:breeze_rod
+  - minecraft:feather
+  - minecraft:glass
+  - minecraft:rabbit_hide
+  - minecraft:charcoal
+  - minecraft:chorus_fruit
+  - minecraft:chest
+  - minecraft:dragon_head
+  - minecraft:end_rod
+  - minecraft:shroomlight
+  - minecraft:bamboo_block
+  - minecraft:raw_gold
+  - minecraft:dandelion
+  - minecraft:pufferfish
+  - minecraft:copper_ingot
+  - minecraft:kelp
+  - minecraft:turtle_scute
+  - minecraft:blackstone
+  - minecraft:egg
+  - minecraft:prismarine
+  - minecraft:iron_nugget
+  - minecraft:slime_block
+  - minecraft:lightning_rod
+  - minecraft:snowball
+  - minecraft:popped_chorus_fruit
+  - minecraft:redstone_torch
+  # 레시피와 거의 맞을 때 힌트를 줄지 (재료 하나만 다르거나, 재료는 맞고 양만 다를 때)
+  near-hint: true
+  # 인벤토리가 가득 찼을 때 결과물을 보내는 우편
+  mail-title: 연금술 결과물
+  mail-body: 인벤토리가 가득 차서 연금술 결과물을 우편으로 보내 드립니다.
+
+# 화면에 나오는 문구. {name} 레시피 이름, {amount} 개수, {exp} 경험치, {item} 아이템 이름
+messages:
+  near: 무언가 반응할 것 같다…
+  near-amount: 재료는 맞는 것 같은데, 양이 조금 다른 것 같다…
+  nothing: 아무 반응이 없다.
+  crafted: '{name} ×{amount} 제작 완료'
+  discovered: 새로운 레시피 발견! · {name}
+  mailed: 인벤토리가 가득 차 우편함으로 보냈습니다.
+  no-exp: 경험치가 부족합니다. (필요 {exp})
+  # 아직 발견하지 않은 레시피인데 경험치가 부족할 때 (필요 경험치는 알려 주지 않음)
+  no-exp-locked: 경험치가 부족해 마법진이 반응하지 않는다.
+  missing: '재료가 부족합니다: {item}'
+  empty: 재료를 넣어 주세요.
+
+# 레시피 목록
+#   name        목록에 보일 이름 (최대 40자)
+#   result      결과 아이템, amount 결과 개수 (기본 1)
+#   exp         소모 경험치 (바닐라 경험치 포인트, 레벨이 아님)
+#   ingredients 재료와 개수. 서로 다른 재료 종류는 slots 개수 이하
+#   order       목록 순서 (작을수록 위, 기본 0)
+#   enabled     false 면 꺼짐 (발견·제작 불가, 목록에서도 빠짐)
+#   once        true 면 한 사람당 한 번만 만들 수 있음
+#
+# 2026-10-31 연금술 개편: 미감정 마력코어 8개만 예전 그대로 두고 나머지는 전부 새로 짰습니다.
+# 난이도: 쉬움(일반 전리품, 경험치 100) · 보통(고급, 250) · 어려움(유일, 500) · 최상(전설, 1000)
+# 전리품 151종이 전부 어딘가의 재료로 쓰입니다.
+recipes:
+  # ── 미감정 마력코어 (예전 그대로, 아이디도 그대로) ──
+  recipe_7:
+    name: 미감정 마력코어
+    result: item:core_unidentified
+    amount: 1
+    exp: 500
+    order: 7
+    enabled: true
+    ingredients:
+      item:core_broken: 1
+      minecraft:emerald: 1
+      minecraft:glistering_melon_slice: 1
+  recipe_3:
+    name: 미감정 마력코어
+    result: item:core_unidentified
+    amount: 1
+    exp: 777
+    order: 3
+    enabled: true
+    ingredients:
+      item:loot_yeti_white_fur: 1
+      minecraft:blaze_powder: 1
+      minecraft:amethyst_shard: 1
+      minecraft:sea_lantern: 1
+  recipe_4:
+    name: 미감정 마력코어
+    result: item:core_unidentified
+    amount: 1
+    exp: 777
+    order: 4
+    enabled: true
+    ingredients:
+      item:loot_grumpy_carrot: 1
+      minecraft:echo_shard: 1
+      minecraft:ghast_tear: 1
+      minecraft:cookie: 1
+  recipe_5:
+    name: 미감정 마력코어
+    result: item:core_unidentified
+    amount: 1
+    exp: 777
+    order: 5
+    enabled: true
+    ingredients:
+      item:loot_ruin_soul_flame: 1
+      minecraft:glowstone_dust: 1
+      minecraft:redstone: 1
+      minecraft:sugar: 1
+      minecraft:purple_dye: 1
+  recipe_14:
+    name: 미감정 마력코어
+    result: item:core_unidentified
+    amount: 1
+    exp: 777
+    order: 14
+    enabled: true
+    ingredients:
+      minecraft:heart_of_the_sea: 1
+      minecraft:phantom_membrane: 1
+      minecraft:prismarine_crystals: 1
+      minecraft:redstone: 1
+      item:loot_frog_crown: 1
+  recipe_15:
+    name: 미감정 마력코어
+    result: item:core_unidentified
+    amount: 1
+    exp: 777
+    order: 15
+    enabled: true
+    ingredients:
+      minecraft:ancient_debris: 1
+      minecraft:bone: 1
+      item:loot_sturdy_bamboo_joint: 1
+  recipe_24:
+    name: 미감정 마력코어
+    result: item:core_unidentified
+    amount: 1
+    exp: 777
+    order: 24
+    enabled: true
+    ingredients:
+      minecraft:rabbit_foot: 1
+      minecraft:disc_fragment_5: 1
+      minecraft:diamond: 1
+      minecraft:crying_obsidian: 1
+      minecraft:glow_berries: 1
+      item:mana_potion: 1
+  recipe_31:
+    name: 미감정 마력코어
+    result: item:core_unidentified
+    amount: 1
+    exp: 777
+    order: 31
+    enabled: true
+    ingredients:
+      item:loot_axolotl_gill_tuft: 1
+      minecraft:nether_star: 1
+      minecraft:ender_eye: 1
+  # ── 쉬움 ──
+  alch_food:
+    name: 차큐빵
+    result: item:food
+    amount: 2
+    exp: 100
+    order: 100
+    enabled: true
+    ingredients:
+      item:loot_glossy_acorn: 2
+      item:loot_beeswax_pollen_clump: 2
+      item:loot_riverside_citron: 1
+  alch_health_1:
+    name: 체력 포션
+    result: item:health_potion
+    amount: 1
+    exp: 100
+    order: 101
+    enabled: true
+    ingredients:
+      item:loot_stolen_herb_bundle: 2
+      item:loot_water_leaf: 2
+      item:loot_jellyfish_gel: 1
+  alch_health_2:
+    name: 체력 포션
+    result: item:health_potion
+    amount: 1
+    exp: 100
+    order: 102
+    enabled: true
+    ingredients:
+      item:loot_orchid_calyx: 2
+      item:loot_water_lily_leaf: 2
+      item:loot_elastic_slime_clump: 1
+  alch_mana_1:
+    name: 마나 포션
+    result: item:mana_potion
+    amount: 1
+    exp: 100
+    order: 103
+    enabled: true
+    ingredients:
+      item:loot_lavender_wing: 2
+      item:loot_seahorse_tail_crystal: 1
+      item:loot_iridescent_water_scale: 2
+  alch_mana_2:
+    name: 마나 포션
+    result: item:mana_potion
+    amount: 1
+    exp: 100
+    order: 104
+    enabled: true
+    ingredients:
+      item:loot_doxy_wing: 2
+      item:loot_ripple_jelly_orb: 2
+      item:loot_dark_ink_sac: 1
+  alch_home_ticket:
+    name: 귀환권
+    result: item:home_ticket
+    amount: 1
+    exp: 100
+    order: 105
+    enabled: true
+    ingredients:
+      item:loot_pug_name_tag: 1
+      item:loot_cat_bell: 1
+      item:loot_daily_ledger_fragment: 2
+  alch_bait_1:
+    name: 지렁이
+    result: item:bait_1
+    amount: 4
+    exp: 100
+    order: 106
+    enabled: true
+    ingredients:
+      item:loot_tortoise_shell_fragment: 1
+      item:loot_gravel_crab_shell: 2
+  alch_bait_2:
+    name: 빵 반죽
+    result: item:bait_2
+    amount: 4
+    exp: 100
+    order: 107
+    enabled: true
+    ingredients:
+      item:loot_red_ripple_scale: 2
+      item:loot_catfish_whisker: 1
+  alch_bait_3:
+    name: 새우살
+    result: item:bait_3
+    amount: 4
+    exp: 100
+    order: 108
+    enabled: true
+    ingredients:
+      item:loot_silver_gill_plate: 2
+      item:loot_rounded_carapace_fragment: 1
+  alch_lure_1:
+    name: 코르크 찌
+    result: item:lure_1
+    amount: 1
+    exp: 100
+    order: 109
+    enabled: true
+    ingredients:
+      item:loot_cloud_wool: 2
+      item:loot_hollow_bone_joint: 1
+  alch_lure_2:
+    name: 깃털 찌
+    result: item:lure_2
+    amount: 1
+    exp: 100
+    order: 110
+    enabled: true
+    ingredients:
+      item:loot_blossom_tail_feather: 2
+      item:loot_morning_sun_tail_feather: 1
+  alch_line_1:
+    name: 무명실 낚싯줄
+    result: item:fishing_line_1
+    amount: 1
+    exp: 100
+    order: 111
+    enabled: true
+    ingredients:
+      item:loot_tough_spider_silk_bundle: 2
+      item:loot_soft_wool_skein: 1
+  alch_earring_1_1:
+    name: 나무구슬귀걸이
+    result: item:earring_1_1
+    amount: 1
+    exp: 100
+    order: 112
+    enabled: true
+    ingredients:
+      item:loot_goblin_tooth: 2
+      item:loot_boar_fang: 1
+      item:loot_striped_fur_tuft: 1
+  alch_earring_1_2:
+    name: 밤깃귀걸이
+    result: item:earring_1_2
+    amount: 1
+    exp: 100
+    order: 113
+    enabled: true
+    ingredients:
+      item:loot_thin_night_wing_membrane: 2
+      item:loot_black_white_tail_fur: 1
+  alch_ring_1_1:
+    name: 나이테 반지
+    result: item:ring_1_1
+    amount: 1
+    exp: 100
+    order: 114
+    enabled: true
+    ingredients:
+      item:loot_ridge_horn_fragment: 1
+      item:loot_desert_back_fur_tuft: 2
+  alch_ring_1_2:
+    name: 깃매듭 반지
+    result: item:ring_1_2
+    amount: 1
+    exp: 100
+    order: 115
+    enabled: true
+    ingredients:
+      item:loot_sunshine_down_feather: 2
+      item:loot_tough_tail_fur_cord: 1
+  alch_necklace_1_1:
+    name: 장작심 목걸이
+    result: item:necklace_1_1
+    amount: 1
+    exp: 100
+    order: 116
+    enabled: true
+    ingredients:
+      item:loot_firewood_heart: 2
+      item:loot_sturdy_mane_cord: 1
+      item:loot_bear_claw: 1
+  alch_necklace_1_2:
+    name: 밤눈깃 목걸이
+    result: item:necklace_1_2
+    amount: 1
+    exp: 100
+    order: 117
+    enabled: true
+    ingredients:
+      item:loot_nighteye_feather: 2
+      item:loot_glossy_horse_mane: 1
+  alch_gift_cat_toy:
+    name: 고양이 깃털 장난감
+    result: item:gift_cat_toy
+    amount: 1
+    exp: 100
+    order: 118
+    enabled: true
+    ingredients:
+      item:loot_cat_whisker_bundle: 2
+      item:loot_fox_tail_down: 1
+  alch_gift_wool_scarf:
+    name: 손뜨개 목도리
+    result: item:gift_wool_scarf
+    amount: 1
+    exp: 100
+    order: 119
+    enabled: true
+    ingredients:
+      item:loot_cozy_llama_fur: 2
+      item:loot_floral_rabbit_down: 1
+  alch_gift_pillow:
+    name: 폭신한 베개
+    result: item:gift_pillow
+    amount: 1
+    exp: 100
+    order: 120
+    enabled: true
+    ingredients:
+      item:loot_rabbit_paw_down: 2
+      item:loot_soft_leather_cord: 1
+  alch_gift_shiny_button:
+    name: 반짝이는 단추
+    result: item:gift_shiny_button
+    amount: 1
+    exp: 100
+    order: 121
+    enabled: true
+    ingredients:
+      item:loot_crevice_silver_armor_fragment: 2
+      item:loot_curled_tail_ring: 1
+  alch_gift_bandage:
+    name: 깨끗한 붕대
+    result: item:gift_bandage
+    amount: 1
+    exp: 100
+    order: 122
+    enabled: true
+    ingredients:
+      item:loot_faded_knotted_cloth: 2
+      item:loot_fallen_leaf_spine: 1
+  alch_gift_toy_sword:
+    name: 나무 칼
+    result: item:gift_toy_sword
+    amount: 1
+    exp: 100
+    order: 123
+    enabled: true
+    ingredients:
+      item:loot_forest_wolf_fang: 1
+      item:loot_firewood_heart: 1
+      item:loot_goblin_tooth: 1
+  # ── 보통 ──
+  alch_friend_teleport:
+    name: 텔포권
+    result: item:friend_teleport
+    amount: 1
+    exp: 250
+    order: 124
+    enabled: true
+    ingredients:
+      item:loot_folded_space_membrane: 1
+      item:loot_echo_down: 1
+      item:loot_cat_bell: 2
+  alch_death_return:
+    name: 리턴권
+    result: item:death_return
+    amount: 1
+    exp: 250
+    order: 125
+    enabled: true
+    ingredients:
+      item:loot_smudged_name_tag: 1
+      item:loot_scorched_black_bone: 1
+      item:loot_hollow_bone_joint: 2
+  alch_inventory_save:
+    name: 인벤세이브
+    result: item:inventory_save
+    amount: 1
+    exp: 250
+    order: 126
+    enabled: true
+    ingredients:
+      item:loot_guardian_iron_flower: 1
+      item:loot_ripple_back_shell_fragment: 1
+      item:loot_crevice_silver_armor_fragment: 2
+  alch_monster_loot_ticket:
+    name: 몬스터 전리품 뽑기권
+    result: item:monster_loot_ticket
+    amount: 1
+    exp: 250
+    order: 127
+    enabled: true
+    ingredients:
+      item:loot_worn_raid_map_fragment: 1
+      item:loot_split_axe_wedge: 1
+      item:loot_goblin_tooth: 3
+  alch_gift_ticket:
+    name: 호감도 선물 뽑기권
+    result: item:gift_ticket
+    amount: 1
+    exp: 250
+    order: 128
+    enabled: true
+    ingredients:
+      item:loot_long_road_trade_note: 1
+      item:loot_gold_trade_tag: 1
+      item:loot_daily_ledger_fragment: 2
+  alch_furniture_ticket:
+    name: 가구 뽑기권
+    result: item:furniture_ticket
+    amount: 1
+    exp: 250
+    order: 129
+    enabled: true
+    ingredients:
+      item:loot_ogre_iron_stud: 1
+      item:loot_bamboo_scented_down: 1
+      item:loot_sturdy_bamboo_joint: 2
+  alch_fishing_ticket:
+    name: 낚시도구 뽑기권
+    result: item:fishing_ticket
+    amount: 1
+    exp: 250
+    order: 130
+    enabled: true
+    ingredients:
+      item:loot_red_fin: 1
+      item:loot_waterway_pearl: 1
+      item:loot_silver_gill_plate: 2
+  alch_bait_4:
+    name: 반딧불 미끼
+    result: item:bait_4
+    amount: 3
+    exp: 250
+    order: 131
+    enabled: true
+    ingredients:
+      item:loot_glowing_ink_sac: 1
+      item:loot_moon_ripple: 1
+      item:loot_lavender_wing: 2
+  alch_bait_5:
+    name: 마나 경단
+    result: item:bait_5
+    amount: 3
+    exp: 250
+    order: 132
+    enabled: true
+    ingredients:
+      item:loot_molten_gel_fragment: 1
+      item:loot_spore_heart: 1
+      item:loot_elastic_slime_clump: 2
+  alch_lure_3:
+    name: 유리구슬 찌
+    result: item:lure_3
+    amount: 1
+    exp: 250
+    order: 133
+    enabled: true
+    ingredients:
+      item:loot_unmelting_snowflake: 1
+      item:loot_swelling_venom_spine: 1
+      item:loot_jellyfish_gel: 2
+  alch_lure_4:
+    name: 조개껍데기 찌
+    result: item:lure_4
+    amount: 1
+    exp: 250
+    order: 134
+    enabled: true
+    ingredients:
+      item:loot_ocean_spiny_scale: 1
+      item:loot_waterlogged_verdigris_fragment: 1
+      item:loot_gravel_crab_shell: 2
+  alch_line_2:
+    name: 강철선 낚싯줄
+    result: item:fishing_line_2
+    amount: 1
+    exp: 250
+    order: 135
+    enabled: true
+    ingredients:
+      item:loot_cave_venom_silk_skein: 1
+      item:loot_monitor_lizard_frill: 1
+      item:loot_tough_spider_silk_bundle: 2
+  alch_rod_3:
+    name: 참나무 릴 낚싯대
+    result: item:fishing_rod_3
+    amount: 1
+    exp: 250
+    order: 136
+    enabled: true
+    ingredients:
+      item:loot_leaf_vein: 1
+      item:loot_tusker_tusk: 1
+      item:loot_firewood_heart: 2
+  alch_rod_4:
+    name: 은테 낚싯대
+    result: item:fishing_rod_4
+    amount: 1
+    exp: 250
+    order: 137
+    enabled: true
+    ingredients:
+      item:loot_crocodile_scale_plate: 1
+      item:loot_frost_bone_tip: 1
+      item:loot_catfish_whisker: 2
+  alch_earring_2_1:
+    name: 꽃망울귀걸이
+    result: item:earring_2_1
+    amount: 1
+    exp: 250
+    order: 138
+    enabled: true
+    ingredients:
+      item:loot_flower_seed: 1
+      item:loot_blossom_tail_feather: 2
+  alch_earring_2_2:
+    name: 붉은집게귀걸이
+    result: item:earring_2_2
+    amount: 1
+    exp: 250
+    order: 139
+    enabled: true
+    ingredients:
+      item:loot_coarse_red_mane: 1
+      item:loot_rotten_red_tusk: 1
+      item:loot_red_ripple_scale: 2
+  alch_ring_2_1:
+    name: 꽃받침 반지
+    result: item:ring_2_1
+    amount: 1
+    exp: 250
+    order: 140
+    enabled: true
+    ingredients:
+      item:loot_crimson_spore: 1
+      item:loot_twisted_mushroom_cap: 1
+      item:loot_orchid_calyx: 2
+  alch_ring_2_2:
+    name: 붉은 갑각 반지
+    result: item:ring_2_2
+    amount: 1
+    exp: 250
+    order: 141
+    enabled: true
+    ingredients:
+      item:loot_hot_ground_hoof_fragment: 1
+      item:loot_spinning_flame_heart: 1
+      item:loot_rounded_carapace_fragment: 2
+  alch_necklace_2_1:
+    name: 꽃씨 목걸이
+    result: item:necklace_2_1
+    amount: 1
+    exp: 250
+    order: 142
+    enabled: true
+    ingredients:
+      item:loot_amethyst_sprout_crystal: 1
+      item:loot_mushroom_pattern_mycelium: 1
+      item:loot_beeswax_pollen_clump: 2
+  alch_necklace_2_2:
+    name: 집게발 목걸이
+    result: item:necklace_2_2
+    amount: 1
+    exp: 250
+    order: 143
+    enabled: true
+    ingredients:
+      item:loot_raptor_scythe_claw: 1
+      item:loot_saber_fang: 1
+      item:loot_bear_claw: 2
+  alch_dungeon_ticket:
+    name: 던전 입장권
+    result: item:dungeon_ticket
+    amount: 1
+    exp: 250
+    order: 144
+    enabled: true
+    ingredients:
+      item:loot_rusted_gilt_fragment: 1
+      item:loot_dry_desert_bandage: 1
+      item:loot_purple_reagent_residue: 1
+      item:loot_faded_knotted_cloth: 2
+  alch_chunk_deed:
+    name: 청크 소유권
+    result: item:chunk_deed
+    amount: 1
+    exp: 250
+    order: 145
+    enabled: true
+    ingredients:
+      item:loot_elk_antler: 1
+      item:loot_buffalo_horn: 1
+      item:loot_shepherd_hook_fragment: 1
+      item:loot_ridge_horn_fragment: 2
+  alch_gift_golden_herb:
+    name: 황금 만드라고라
+    result: item:gift_golden_herb
+    amount: 1
+    exp: 250
+    order: 146
+    enabled: true
+    ingredients:
+      item:loot_star_mane: 1
+      item:loot_swamp_moss_bone_fragment: 1
+      item:loot_stolen_herb_bundle: 3
+  alch_gift_lucky_coin:
+    name: 행운의 동전
+    result: item:gift_lucky_coin
+    amount: 1
+    exp: 250
+    order: 147
+    enabled: true
+    ingredients:
+      item:loot_blue_spear: 1
+      item:loot_lightning_gunpowder_stone: 1
+      item:loot_curled_tail_ring: 2
+  alch_gift_crystal_globe:
+    name: 눈 내리는 수정구
+    result: item:gift_crystal_globe
+    amount: 1
+    exp: 250
+    order: 148
+    enabled: true
+    ingredients:
+      item:loot_chilly_white_pelt: 1
+      item:loot_frost_tail_fur: 1
+      item:loot_seahorse_tail_crystal: 2
+  alch_gift_star_chart:
+    name: 별자리 지도
+    result: item:gift_star_chart
+    amount: 1
+    exp: 250
+    order: 149
+    enabled: true
+    ingredients:
+      item:loot_nightflight_membrane_fragment: 1
+      item:loot_small_spectral_wing: 1
+      item:loot_nighteye_feather: 2
+  alch_gift_rare_feather:
+    name: 무지갯빛 깃털
+    result: item:gift_rare_feather
+    amount: 1
+    exp: 250
+    order: 150
+    enabled: true
+    ingredients:
+      item:loot_whirlwind_feather: 1
+      item:loot_spotted_fur_fragment: 1
+      item:loot_morning_sun_tail_feather: 2
+  alch_gift_bird_whistle:
+    name: 새 부르는 피리
+    result: item:gift_bird_whistle
+    amount: 1
+    exp: 250
+    order: 151
+    enabled: true
+    ingredients:
+      item:loot_melodic_tail_feather: 1
+      item:loot_sunshine_down_feather: 2
+  # ── 어려움 ──
+  alch_artifact_common:
+    name: 아티팩트 일반 확정 뽑기권
+    result: item:artifact_ticket_common
+    amount: 1
+    exp: 500
+    order: 152
+    enabled: true
+    ingredients:
+      item:loot_sealing_stone: 1
+      item:loot_guardian_iron_flower: 2
+      item:loot_rusted_gilt_fragment: 2
+  alch_artifact_rare_1:
+    name: 아티팩트 고급 확정 뽑기권
+    result: item:artifact_ticket_rare
+    amount: 1
+    exp: 500
+    order: 153
+    enabled: true
+    ingredients:
+      item:loot_ancient_rune_heart: 1
+      item:loot_summoning_pattern_cloth: 1
+      item:loot_gold_trade_tag: 2
+      item:loot_ruin_soul_flame: 2
+  alch_scroll_red:
+    name: 강화 초기화 주문서
+    result: item:core_scroll_red
+    amount: 1
+    exp: 500
+    order: 154
+    enabled: true
+    ingredients:
+      item:loot_black_gold_bracer_fragment: 1
+      item:loot_spinning_flame_heart: 2
+      item:loot_coarse_red_mane: 2
+  alch_scroll_blue:
+    name: 복구의 주문서
+    result: item:core_scroll_blue
+    amount: 1
+    exp: 500
+    order: 155
+    enabled: true
+    ingredients:
+      item:loot_guardian_root: 1
+      item:loot_heartwood_resin_fragment: 1
+      item:loot_moon_ripple: 2
+  alch_scroll_purple:
+    name: 성향 변환 주문서
+    result: item:core_scroll_purple
+    amount: 1
+    exp: 500
+    order: 156
+    enabled: true
+    ingredients:
+      item:loot_layered_shadow_mirror_shard: 1
+      item:loot_purple_reagent_residue: 2
+      item:loot_folded_space_membrane: 2
+  alch_shiny_change:
+    name: 변색종 염색 티켓
+    result: item:shiny_change
+    amount: 1
+    exp: 500
+    order: 157
+    enabled: true
+    ingredients:
+      item:loot_foxfire_tail_fur: 1
+      item:loot_glowing_ink_sac: 2
+      item:loot_iridescent_water_scale: 3
+  alch_bait_6:
+    name: 별가루 미끼
+    result: item:bait_6
+    amount: 3
+    exp: 500
+    order: 158
+    enabled: true
+    ingredients:
+      item:loot_spirit_deer_crystal_antler: 1
+      item:loot_amethyst_sprout_crystal: 2
+  alch_bait_7:
+    name: 크라켄 먹물 미끼
+    result: item:bait_7
+    amount: 3
+    exp: 500
+    order: 159
+    enabled: true
+    ingredients:
+      item:loot_folding_shell_fragment: 1
+      item:loot_dark_ink_sac: 3
+      item:loot_red_fin: 1
+  alch_lure_5:
+    name: 마나수정 찌
+    result: item:lure_5
+    amount: 1
+    exp: 500
+    order: 160
+    enabled: true
+    ingredients:
+      item:loot_gazing_eye_crystal: 1
+      item:loot_unmelting_snowflake: 2
+  alch_lure_6:
+    name: 룬석 찌
+    result: item:lure_6
+    amount: 1
+    exp: 500
+    order: 161
+    enabled: true
+    ingredients:
+      item:loot_giant_weathered_bone_fragment: 1
+      item:loot_waterlogged_verdigris_fragment: 2
+  alch_line_3:
+    name: 은사 낚싯줄
+    result: item:fishing_line_3
+    amount: 1
+    exp: 500
+    order: 162
+    enabled: true
+    ingredients:
+      item:loot_frost_chain: 1
+      item:loot_cave_venom_silk_skein: 2
+  alch_rod_5:
+    name: 마력증폭 낚싯대
+    result: item:fishing_rod_5
+    amount: 1
+    exp: 500
+    order: 163
+    enabled: true
+    ingredients:
+      item:loot_spectral_wing_membrane: 1
+      item:loot_echo_down: 2
+      item:loot_molten_gel_fragment: 1
+  alch_rod_6:
+    name: 해룡뼈 낚싯대
+    result: item:fishing_rod_6
+    amount: 1
+    exp: 500
+    order: 164
+    enabled: true
+    ingredients:
+      item:loot_wyvern_wing_claw: 1
+      item:loot_skeletal_horseshoe: 1
+      item:loot_ocean_spiny_scale: 2
+  alch_spell_hint:
+    name: 마법의 타로카드
+    result: item:spell_hint
+    amount: 1
+    exp: 500
+    order: 165
+    enabled: true
+    ingredients:
+      item:loot_manticore_tail_stinger: 1
+      item:loot_hippogriff_claw: 1
+      item:loot_small_spectral_wing: 2
+  # ── 최상 ──
+  alch_random_artifact_1:
+    name: 아티팩트 열쇠
+    result: item:random_artifact
+    amount: 1
+    exp: 1000
+    order: 166
+    enabled: true
+    ingredients:
+      item:loot_withering_black_heart: 1
+      item:loot_summoning_pattern_cloth: 1
+      item:loot_scorched_black_bone: 3
+  alch_random_artifact_2:
+    name: 아티팩트 열쇠
+    result: item:random_artifact
+    amount: 1
+    exp: 1000
+    order: 167
+    enabled: true
+    ingredients:
+      item:loot_end_dragonheart_shard: 1
+      item:loot_layered_shadow_mirror_shard: 1
+      item:loot_folded_space_membrane: 3
+  alch_artifact_rare_2:
+    name: 아티팩트 고급 확정 뽑기권
+    result: item:artifact_ticket_rare
+    amount: 2
+    exp: 1000
+    order: 168
+    enabled: true
+    ingredients:
+      item:loot_ice_core: 1
+      item:loot_frost_chain: 1
+      item:loot_unmelting_snowflake: 2
+  alch_rod_7:
+    name: 별을 낚는 지팡이
+    result: item:fishing_rod_7
+    amount: 1
+    exp: 1000
+    order: 169
+    enabled: true
+    ingredients:
+      item:loot_cloud_dragon_orb: 1
+      item:loot_spirit_deer_crystal_antler: 1
+      item:loot_star_mane: 2
+  alch_lure_7:
+    name: 심연의 등불 찌
+    result: item:lure_7
+    amount: 1
+    exp: 1000
+    order: 170
+    enabled: true
+    ingredients:
+      item:loot_deep_vibration_core: 1
+      item:loot_gazing_eye_crystal: 1
+      item:loot_glowing_ink_sac: 2
+  alch_lure_8:
+    name: 별빛 찌
+    result: item:lure_8
+    amount: 1
+    exp: 1000
+    order: 171
+    enabled: true
+    ingredients:
+      item:loot_phoenix_feather: 1
+      item:loot_foxfire_tail_fur: 1
+      item:loot_spinning_flame_heart: 2
+  alch_bait_8:
+    name: 세계수 열매
+    result: item:bait_8
+    amount: 2
+    exp: 1000
+    order: 172
+    enabled: true
+    ingredients:
+      item:loot_dragonheart_crystal: 1
+      item:loot_guardian_root: 1
+      item:loot_heartwood_resin_fragment: 1
+  alch_line_4:
+    name: 용수염 낚싯줄
+    result: item:fishing_line_4
+    amount: 1
+    exp: 1000
+    order: 173
+    enabled: true
+    ingredients:
+      item:loot_ancient_ocean_eye: 1
+      item:loot_wyvern_wing_claw: 1
+      item:loot_waterway_pearl: 2
+  # ── 새 아이템이 들어오면 켤 레시피 (아이템 파일 받은 뒤 아이디 맞춰서 # 지움) ──
+  # alch_health_big: 상급 체력 포션 → item:health_potion_big ×1, 경험치 250, 재료 conifer_wolf_fang=1,leaf_vein=1,item:health_potion=2
+  # alch_mana_big: 상급 마나 포션 → item:mana_potion_big ×1, 경험치 250, 재료 sobbing_white_membrane=1,void_mite_shell=1,item:mana_potion=2
+  # alch_alch_ring: 연금술사의 반지 → item:alch_ring ×1, 경험치 500, 한 번만, 재료 broken_ice_sword=1,ancient_seed_pouch=1,flower_seed=2
+  # alch_alch_earring: 연금술사의 귀걸이 → item:alch_earring ×1, 경험치 500, 한 번만, 재료 wolfhawk_mane_feather=1,charging_molar=1,whirlwind_feather=2
+  # alch_alch_necklace: 연금술사의 목걸이 → item:alch_necklace ×1, 경험치 500, 한 번만, 재료 worn_dark_mane=1,sealing_stone=1,moon_ripple=2
