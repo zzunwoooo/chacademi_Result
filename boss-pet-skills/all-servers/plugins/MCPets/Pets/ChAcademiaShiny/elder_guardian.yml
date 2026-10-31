@@ -1,0 +1,17 @@
+Id: chacademia_elder_guardian_shiny
+MythicMob: ChAcademiaPetElderGuardianShiny
+Permission: chacademia.pet.elder_guardian.shiny
+Distance: 8
+SpawnRange: 2
+ComingBackRange: 3
+Mountable: false
+AutoRide: false
+Icon:
+  Name: 이로치 · 엘더 가디언
+  Material: ELDER_GUARDIAN_SPAWN_EGG
+  Description:
+  - 희귀한 색을 가진 동료
+  - 이로치 외형은 전용 클라이언트 모드에서 표시됩니다.
+  - '전투 중 40초마다 스킬: 레이저 빔 (둔화)'
+CheckPermission: true
+FollowOwner: true

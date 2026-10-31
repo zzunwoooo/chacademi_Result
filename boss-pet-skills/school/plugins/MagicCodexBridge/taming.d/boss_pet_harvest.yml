@@ -1,0 +1,11 @@
+# [기능:boss-pet-skills] 하베스트 교화 (2026-10-31). 모르바스(claude_creatures.yml ca_archlich)와 같은 보스 교화 설정.
+targets:
+  ca_pumpkin_reaper:
+    mythic-id: CA_Boss_pumpkin_reaper
+    pet-id: ca_pumpkin_reaper
+    name: 하베스트
+    boss: true
+    chance: 0.01
+    low-health-bonus: 0
+    model-scale: 0.6
+    roll-shiny: false

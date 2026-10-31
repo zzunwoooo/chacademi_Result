@@ -1,0 +1,45 @@
+# [기능:boss-pet-skills] pet-companions.yml 에 넣을 것 (5대 전부, 2026-10-31). 학교·야생·아레나 파일에 아래 1~3을 반영한 뒤 /펫 새로고침.
+
+# 1) 맨 위(pets: 위)에 새 칸: MCPets 보스펫(바닐라 4종 + 이로치) → 스킬. 이 펫을 꺼낸 사람은 전투 중 40초마다 스킬을 쓴다.
+mcpets-skills:
+  chacademia_elder_guardian: [CHA_PET_boss_elder_guardian]
+  chacademia_elder_guardian_shiny: [CHA_PET_boss_elder_guardian]
+  chacademia_ender_dragon: [CHA_PET_boss_ender_dragon]
+  chacademia_ender_dragon_shiny: [CHA_PET_boss_ender_dragon]
+  chacademia_wither: [CHA_PET_boss_wither]
+  chacademia_wither_shiny: [CHA_PET_boss_wither]
+  chacademia_warden: [CHA_PET_boss_warden]
+  chacademia_warden_shiny: [CHA_PET_boss_warden]
+
+# 2) pets.ca_archlich 와 pets.ca_archlich_shiny 에 skills 줄 추가 + info 교체 (special 은 그대로 둔다 → 가호·영혼탄·병사 소환 중 하나)
+#    skills:
+#    - CHA_PET_boss_archlich_bolt
+#    - summon:CA_Pet_ArchlichThrall:2
+#    info: |-
+#      3성 · 교화하면 도감 체력 점수 +6
+#      전투 중 40초마다 셋 중 하나: 대현자의 가호(흡수 하트 8칸 + 10초간 저항 I) · 영혼탄(마나 연소) · 망자 병사 소환(최대 2마리, 학교)
+
+# 3) pets: 아래에 새 펫 (모르바스 바로 아래)
+pets:
+  # [기능:boss-pet-skills 시작] 하베스트 동행 펫
+  ca_pumpkin_reaper:
+    name: 하베스트
+    stars: 3
+    motion: ground
+    size: 0.9
+    permission: chacademia.pet.ca_pumpkin_reaper
+    mythic: CA_Pet_pumpkin_reaper
+    icon:
+      material: JACK_O_LANTERN
+      name: §6하베스트
+      lore:
+      - 할로윈 밤에 나타난 호박 수확자.
+      - '서식지: 할로윈 보스'
+      - 3성
+    skills:
+    - CHA_PET_boss_reaper_slash
+    - CHA_PET_boss_reaper_bomb
+    info: |-
+      3성 · 교화하면 도감 체력 점수 +6
+      전투 중 40초마다 스킬: 수확 베기 · 호박 폭탄
+  # [기능:boss-pet-skills 끝]

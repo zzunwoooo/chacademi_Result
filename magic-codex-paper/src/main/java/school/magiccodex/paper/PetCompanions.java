@@ -72,11 +72,13 @@ final class PetCompanions implements Listener, AutoCloseable {
     private final BukkitTask task;
     private Map<String, Def> defs = Map.of();
     private Settings settings;
+    private final BossPetSkills boss;   // [기능:boss-pet-skills] MCPets 보스펫 스킬 · 소환 하수인
 
     PetCompanions(MagicCodexBridge plugin, PetBridge bridge, ManaService mana) throws Exception {
         this.plugin = plugin; this.bridge = bridge; this.mana = mana;
         healthKey = key("pet_health"); speedKey = key("pet_speed"); knockKey = key("pet_knockback"); fallKey = key("pet_fall");
         combatSpeedKey = key("pet_combat_speed"); combatKnockKey = key("pet_combat_knockback"); absorbKey = key("pet_absorb");
+        boss = new BossPetSkills(plugin, this);   // [기능:boss-pet-skills] reload 보다 먼저
         reload();
         plugin.getServer().getMessenger().registerOutgoingPluginChannel(plugin, PetCompanionProtocol.CHANNEL);
         Bukkit.getPluginManager().registerEvents(this, plugin);
@@ -135,6 +137,7 @@ final class PetCompanions implements Listener, AutoCloseable {
                     icon(s.getConfigurationSection("icon"), name)));
         }
         settings = next; defs = Collections.unmodifiableMap(out);
+        boss.load(y);   // [기능:boss-pet-skills] mcpets-skills
         for (UUID id : List.copyOf(owners.keySet())) {
             var p = Bukkit.getPlayer(id);
             if (p == null) continue;
@@ -184,6 +187,7 @@ final class PetCompanions implements Listener, AutoCloseable {
         var old = owners.get(uid);
         if (old != null && old.pet.equals(id)) return "이미 꺼낸 펫이에요.";
         if (old != null) clearTimed(p, old);
+        boss.forget(uid);   // [기능:boss-pet-skills] 펫을 바꾸면 하수인은 사라짐
         var o = new Owner(id);
         // 꺼낸 직후엔 쿨이 찬 상태 (바로 발동 가능). 단, 넣었다 다시 꺼내 쿨을 건너뛰지는 못한다.
         Long last = lastFire.get(uid);
@@ -199,6 +203,7 @@ final class PetCompanions implements Listener, AutoCloseable {
     /** 넣기. notice 가 있으면 알림 카드로 알린다. 꺼낸 펫이 없었으면 false. */
     boolean unequip(Player p, String notice) {
         var o = owners.remove(p.getUniqueId());
+        boss.forget(p.getUniqueId());   // [기능:boss-pet-skills]
         if (o == null) return false;
         clearTimed(p, o);
         apply(p);
@@ -340,16 +345,26 @@ final class PetCompanions implements Listener, AutoCloseable {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void hit(EntityDamageByEntityEvent e) {
-        if (owners.isEmpty()) return;
         Entity from = ArtifactEffects.source(e.getDamager()), to = e.getEntity();
+        // [기능:boss-pet-skills 시작] MCPets 보스펫 주인도 전투 판정 (동행 펫을 꺼내지 않은 사람)
+        if (to instanceof Player victim && from instanceof LivingEntity f && !f.equals(victim) && !owners.containsKey(victim.getUniqueId())) boss.mark(victim, f);
+        if (from instanceof Player attacker && to instanceof LivingEntity t && !t.equals(attacker) && !owners.containsKey(attacker.getUniqueId())) boss.mark(attacker, t);
+        // [기능:boss-pet-skills 끝]
+        if (owners.isEmpty()) return;
         if (to instanceof Player victim && from instanceof LivingEntity f && !f.equals(victim)) mark(victim, f);
         if (from instanceof Player attacker && to instanceof LivingEntity t && !t.equals(attacker)) mark(attacker, t);
     }
     private void mark(Player p, LivingEntity other) {
         var o = owners.get(p.getUniqueId());
-        if (o == null || other instanceof ArmorStand) return;
+        if (o == null || other instanceof ArmorStand || boss.isMinion(other)) return;   // [기능:boss-pet-skills] 내 하수인은 상대가 아님
         o.combatAt = now(); o.opponent = other;
     }
+    // [기능:boss-pet-skills 시작] 소환 하수인 ↔ 주인은 서로 때리지 않는다
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void minionFriendly(EntityDamageByEntityEvent e) {
+        if (boss.friendly(ArtifactEffects.source(e.getDamager()), e.getEntity())) e.setCancelled(true);
+    }
+    // [기능:boss-pet-skills 끝]
     private boolean target(Player p, LivingEntity t) {
         if (t == null || !t.isValid() || t.isDead() || t.getWorld() != p.getWorld()) return false;
         if (t instanceof Player q && (!q.isOnline() || q.getGameMode() == GameMode.SPECTATOR)) return false;
@@ -359,6 +374,7 @@ final class PetCompanions implements Listener, AutoCloseable {
 
     /** 1초마다: 펫을 꺼낸 사람만. 경기 확인 · 시간 지난 버프 정리 · 포션 유지(우유 등) · 자동 발동. */
     private void second() {
+        boss.second(now());   // [기능:boss-pet-skills] MCPets 보스펫 · 하수인
         if (owners.isEmpty()) return;
         long now = now();
         for (UUID id : List.copyOf(owners.keySet())) {
@@ -379,25 +395,51 @@ final class PetCompanions implements Listener, AutoCloseable {
             if (!CompanionMath.ready(o.nextAt, o.combatAt, now, settings.combatMs()) || !target(p, o.opponent)) continue;
             o.nextAt = now + settings.intervalMs(d.stars());
             lastFire.put(id, now);
-            if (!d.skills().isEmpty()) castSkill(p, d.skills().get(ThreadLocalRandom.current().nextInt(d.skills().size())), o.opponent);
+            // [기능:boss-pet-skills 시작] 스킬과 combat 능력이 둘 다 있으면 (모르바스) 그중 하나
+            int pick = d.skills().isEmpty() ? -1 : ThreadLocalRandom.current().nextInt(d.skills().size() + (d.combat() ? 1 : 0));
+            if (pick >= 0 && pick < d.skills().size()) cast(p, d.skills().get(pick), o.opponent, p.getLocation(), d.skills());
             else combat(p, o, d, now);
+            // [기능:boss-pet-skills 끝]
             broadcast(p.getWorld(), null, id);   // 발동 표시 (FLAG_CAST) 한 번
         }
     }
 
-    private void castSkill(Player p, String skill, LivingEntity target) {
+    private void castSkill(Player p, String skill, LivingEntity target) { castSkill(p, skill, target, p.getLocation()); }
+    private void castSkill(Player p, String skill, LivingEntity target, Location origin) {   // [기능:boss-pet-skills] origin (보스펫 몸)
         if (!Bukkit.getPluginManager().isPluginEnabled("MythicMobs")) return;
-        try { if (!Mythic.cast(p, skill, target) && skillFailures.add(skill)) plugin.getLogger().warning("펫 스킬 시전 실패 (MythicMobs Skills/chacademi_pet_skills.yml 배포 확인): " + skill); }
+        try { if (!Mythic.cast(p, skill, target, origin) && skillFailures.add(skill)) plugin.getLogger().warning("펫 스킬 시전 실패 (MythicMobs Skills/chacademi_pet_skills.yml 배포 확인): " + skill); }
         catch (RuntimeException | LinkageError e) { if (skillFailures.add(skill)) plugin.getLogger().warning("펫 스킬 시전 오류: " + skill + " / " + e); }
     }
     /** MythicMobs 는 compileOnly: 이 클래스는 MythicMobs 가 켜져 있을 때만 불린다. */
     private static final class Mythic {
-        static boolean cast(Player p, String skill, LivingEntity target) {
+        static boolean cast(Player p, String skill, LivingEntity target, Location origin) {
             // 피해는 스킬 안 flat 고정값 (지능 무관). 스킬 줄은 @trigger = 이 상대.
-            return io.lumine.mythic.bukkit.MythicBukkit.inst().getAPIHelper().castSkill(p, skill, target, p.getLocation(),
+            return io.lumine.mythic.bukkit.MythicBukkit.inst().getAPIHelper().castSkill(p, skill, target, origin,
                     List.<Entity>of(target), List.of(target.getLocation()), 1f, data -> {});
         }
     }
+
+    // [기능:boss-pet-skills 시작] BossPetSkills 가 쓰는 것
+    /** 스킬 하나 (summon:<몹>:<최대> 이면 하수인 소환, 못 하면 같은 펫의 다른 스킬). */
+    void cast(Player p, String skill, LivingEntity target, Location origin, List<String> all) {
+        if (!skill.startsWith(BossPetSkills.SUMMON)) { castSkill(p, skill, target, origin); return; }
+        if (boss.summon(p, skill, target)) return;
+        for (String other : all) if (!other.startsWith(BossPetSkills.SUMMON)) { castSkill(p, other, target, origin); return; }
+    }
+    long intervalMs(int stars) { return settings.intervalMs(stars); }
+    long combatMs() { return settings.combatMs(); }
+    boolean inRange(Player p, LivingEntity t) { return target(p, t); }
+    int matchState(Player p) { return match(p); }
+    long lastFire(UUID id) { Long t = lastFire.get(id); return t == null ? Long.MIN_VALUE / 2 : t; }
+    void fired(UUID id, long now) { lastFire.put(id, now); }
+    LivingEntity opponent(Player p) { var o = owners.get(p.getUniqueId()); return o == null ? null : o.opponent; }
+    boolean inCombatNow(Player p, long now) { var o = owners.get(p.getUniqueId()); return o != null && !o.suppressed && CompanionMath.inCombat(o.combatAt, now, settings.combatMs()); }
+    boolean hasSummon(Player p) {
+        var o = owners.get(p.getUniqueId()); var d = o == null ? null : defs.get(o.pet);
+        if (d != null) for (String s : d.skills()) if (s.startsWith(BossPetSkills.SUMMON)) return true;
+        return false;
+    }
+    // [기능:boss-pet-skills 끝]
 
     /** special.kind=combat: effects 를 seconds 동안 (seconds 가 없으면 즉시형). */
     private void combat(Player p, Owner o, Def d, long now) {
@@ -524,12 +566,14 @@ final class PetCompanions implements Listener, AutoCloseable {
         var p = e.getPlayer(); UUID id = p.getUniqueId();
         boolean had = owners.remove(id) != null;
         applied.remove(id); lastFire.remove(id);
+        boss.forget(id);   // [기능:boss-pet-skills]
         if (had) broadcast(p.getWorld(), p, null);
     }
 
     @Override public void close() {
         task.cancel();
         HandlerList.unregisterAll(this);
+        boss.close();   // [기능:boss-pet-skills] 하수인 정리
         for (UUID id : List.copyOf(owners.keySet())) {
             var p = Bukkit.getPlayer(id); var o = owners.remove(id);
             if (p != null && o != null) { clearTimed(p, o); apply(p); }

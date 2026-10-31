@@ -1,0 +1,64 @@
+# [기능:boss-pet-skills] 보스펫용 몹 (2026-10-31). 학교 전용 — 모델(ca_archlich_thrall · pumpkin_reaper)이 학교 ModelEngine 에만 있다.
+# 야생·아레나에 이 몹이 없으면 모르바스 펫은 병사 대신 영혼탄을 쓴다 (서버 코드가 몹이 있는지 먼저 확인).
+
+# 모르바스 펫의 망자 병사: 보스의 CA_Mob_ArchlichThrall 과 같은 모델·동작, 주인 편.
+# 대상은 서버 코드(MagicCodexBridge BossPetSkills)가 주인이 싸우는 상대로 정한다. 한 사람당 최대 2마리, 30초 또는 전투가 끝나면 사라짐.
+CA_Pet_ArchlichThrall:
+  Type: ZOMBIE
+  Display: '&7망자 병사'
+  Health: 40
+  Damage: 5
+  Armor: 4
+  Options:
+    MovementSpeed: 0.32
+    FollowRange: 24
+    PreventOtherDrops: true
+    PreventItemPickup: true
+    PreventSunburn: true
+    PreventRandomEquipment: true
+    PreventTransformation: true
+    PreventRenaming: true
+    Silent: true
+    Despawn: true
+  AIGoalSelectors:
+  - clear
+  - float
+  - meleeattack
+  AITargetSelectors:
+  - clear
+  Skills:
+  - model{mid=ca_archlich_thrall;hb=true;n=false} @self ~onSpawn
+  - state{s=spawn;li=0;lo=3} @self ~onSpawn
+  - addtag{t=chacademia_pet} @self ~onSpawn
+  - state{s=attack;li=0;lo=2} @self ~onAttack
+  - state{s=death;li=0;lo=0} @self ~onDeath
+  Drops: []
+
+# 하베스트 펫 (동행 펫 ca_pumpkin_reaper 의 변신 가면용 몹, 모르바스 CA_Pet_archlich 와 같은 모양)
+CA_Pet_pumpkin_reaper:
+  Type: PIG
+  Display: §6하베스트
+  Health: 20
+  Damage: 0
+  Options:
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    PreventSunburn: true
+    PreventTransformation: true
+    PreventItemPickup: true
+    PreventRenaming: true
+    Silent: true
+    FollowRange: 20
+    MovementSpeed: 0.24
+    AlwaysShowName: false
+    Despawn: false
+    Invincible: true
+    Collidable: false
+  AITargetSelectors:
+  - clear
+  Skills:
+  - skill{s=CA_Claude_Setup_pumpkin_reaper} @self ~onSpawn
+  - addtag{t=chacademia_pet} @self ~onSpawn
+  AIGoalSelectors:
+  - clear
+  - lookatplayers

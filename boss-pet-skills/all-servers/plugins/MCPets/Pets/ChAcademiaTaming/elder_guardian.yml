@@ -1,0 +1,16 @@
+Id: chacademia_elder_guardian
+MythicMob: ChAcademiaPetElderGuardian
+Permission: chacademia.pet.elder_guardian
+Distance: 8
+SpawnRange: 2
+ComingBackRange: 3
+Mountable: false
+AutoRide: false
+Icon:
+  Name: 엘더 가디언
+  Material: ELDER_GUARDIAN_SPAWN_EGG
+  Description:
+  - 교화로 함께하게 된 동료
+  - '전투 중 40초마다 스킬: 레이저 빔 (둔화)'
+CheckPermission: true
+FollowOwner: true

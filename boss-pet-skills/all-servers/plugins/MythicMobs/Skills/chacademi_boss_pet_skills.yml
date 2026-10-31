@@ -1,0 +1,89 @@
+# [기능:boss-pet-skills] 보스펫 스킬 (2026-10-31 오너: 보스가 살아 있을 때 쓰던 스킬만)
+# MagicCodexBridge 가 전투 중 주인(플레이어)을 시전자로, 싸우는 상대를 @trigger 로 시전한다 (3성: 40초마다).
+# 피해는 다른 펫 스킬처럼 고정값(flat), 적에게만(hits=enemies), 빨간 예고 없음(warn=false).
+# MCPets 보스펫(바닐라 4종)은 @origin = 펫 몸 → 빔·투사체·소닉 붐이 보스 펫에게서 나간다.
+# 연출은 마인크래프트 원래 것 (가디언 빔 · 위더 해골 · 드래곤 숨결 · 소닉 붐 파티클과 소리).
+
+# ---------------- 엘더 가디언: 레이저 빔 + 채굴 피로 (→ 둔화)
+CHA_PET_boss_elder_guardian:
+  Cooldown: 0
+  Skills:
+  - effect:guardianbeam{d=30;fo=true;syo=0.4;tyo=1} @trigger
+  - effect:sound{s=entity.guardian.attack;v=0.8;p=0.8} @origin
+  - delay 30
+  - effect:sound{s=entity.elder_guardian.curse;v=0.6;p=1} @trigger
+  - chatelegraph{shape=circle;at=target;r=1.5;ticks=1;flat=4;element=water;status=slow:60;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# ---------------- 엔더 드래곤: 드래곤 화염구 → 숨결 웅덩이 (지속 피해)
+CHA_PET_boss_ender_dragon:
+  Cooldown: 0
+  Skills:
+  - effect:sound{s=entity.ender_dragon.shoot;v=0.8;p=1} @origin
+  - projectile{onTick=CHA_PET_boss_ender_dragon_tick;onHit=CHA_PET_boss_ender_dragon_hit;v=14;i=1;hR=0.9;vR=0.9;md=28;fo=true;syo=0.5;hitTargetOnly=true;g=0} @trigger
+CHA_PET_boss_ender_dragon_tick:
+  Skills:
+  - effect:particles{p=dragon_breath;a=6;hs=0.15;vs=0.15;s=0.01} @origin
+CHA_PET_boss_ender_dragon_hit:
+  Skills:
+  - effect:sound{s=entity.dragon_fireball.explode;v=0.8;p=1} @origin
+  - effect:particles{p=dragon_breath;a=120;hs=2.5;vs=0.3;s=0.02;repeat=5;repeatInterval=10} @origin
+  - chatelegraph{shape=circle;at=target;r=3;ticks=4;pulses=5;period=10;flat=2;element=dark;mult=0;hits=enemies;warn=false;spell=pet_skill} @target
+
+# ---------------- 위더: 위더 해골 + 시듦 (→ 회복봉인)
+CHA_PET_boss_wither:
+  Cooldown: 0
+  Skills:
+  - effect:sound{s=entity.wither.shoot;v=0.8;p=1} @origin
+  - projectile{bulletType=DISPLAY;material=WITHER_SKELETON_SKULL;onTick=CHA_PET_boss_wither_tick;onHit=CHA_PET_boss_wither_hit;v=16;i=1;hR=0.8;vR=0.8;md=28;fo=true;syo=0.8;hitTargetOnly=true;g=0} @trigger
+CHA_PET_boss_wither_tick:
+  Skills:
+  - effect:particles{p=smoke;a=3;hs=0.1;vs=0.1;s=0.01} @origin
+CHA_PET_boss_wither_hit:
+  Skills:
+  - effect:sound{s=entity.generic.explode;v=0.5;p=1.3} @origin
+  - effect:particles{p=explosion;a=1} @origin
+  - chatelegraph{shape=circle;at=target;r=1.8;ticks=1;flat=4;element=dark;status=recovery_seal:60;mult=0;hits=enemies;warn=false;spell=pet_skill} @target
+
+# ---------------- 워든: 소닉 붐 (모으기 1초) + 어둠 (→ 실명)
+CHA_PET_boss_warden:
+  Cooldown: 0
+  Skills:
+  - effect:sound{s=entity.warden.sonic_charge;v=0.8;p=1} @origin
+  - delay 20
+  - effect:particleline{p=sonic_boom;db=1.2;fo=true;syo=1;tyo=1} @trigger
+  - effect:sound{s=entity.warden.sonic_boom;v=1;p=1} @trigger
+  - chatelegraph{shape=circle;at=target;r=1.5;ticks=1;flat=4;element=dark;status=blindness:40;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# ---------------- 무덤의 대현자 모르바스: 영혼탄 (+마나 연소). 망자 소환은 summon:CA_Pet_ArchlichThrall:2 (서버 코드)
+CHA_PET_boss_archlich_bolt:
+  Cooldown: 0
+  Skills:
+  - projectile{onTick=CHA_PET_boss_archlich_bolt_tick;onHit=CHA_PET_boss_archlich_bolt_hit;v=18;i=1;hR=0.8;vR=0.8;md=30;syo=1.6;hitTargetOnly=true;g=0} @trigger
+CHA_PET_boss_archlich_bolt_tick:
+  Skills:
+  - effect:particles{p=soul_fire_flame;a=6;hs=0.15;vs=0.15;s=0.01} @origin
+  - effect:particles{p=dust;color=#78FFAA;size=1.2;a=4;hs=0.25;vs=0.25} @origin
+CHA_PET_boss_archlich_bolt_hit:
+  Skills:
+  - chatelegraph{shape=circle;at=target;r=1.2;ticks=1;flat=4;element=dark;status=mana_burn:40;mult=0;hits=enemies;warn=false;spell=pet_skill} @target
+
+# ---------------- 하베스트: 수확 베기 · 호박 폭탄 (보스와 같은 VFX)
+CHA_PET_boss_reaper_slash:
+  Cooldown: 0
+  Skills:
+  - chatelegraph{shape=cone;at=caster;r=5;angle=240;ticks=6;flat=4;element=dark;vfx=pr_harvestslash/slash;vfxref=7;vfxlead=0;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+CHA_PET_boss_reaper_bomb:
+  Cooldown: 0
+  Skills:
+  - chamobshot{flat=0;radius=0.2;speed=0.55;rise=0.5;range=26;fromy=2.4;vfx=pr_pumpkinbomb/bomb;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+  - chatelegraph{shape=circle;at=target;r=2.2;ticks=24;flat=4;element=fire;vfx=pr_pumpkinbomb/boom;vfxref=2.2;vfxlead=0;mult=0;hits=enemies;warn=false;spell=pet_skill} @trigger
+
+# ---------------- 하베스트 펫 몹 모델 (변신 가면용 CA_Pet_pumpkin_reaper, 모르바스 CA_Claude_Setup_archlich 와 같은 모양)
+CA_Claude_Setup_pumpkin_reaper:
+  Skills:
+  - model{mid=pumpkin_reaper;n=false;drive=true} @self
+  - defaultstate{mid=pumpkin_reaper;t=idle;s=idle} @self
+  - defaultstate{mid=pumpkin_reaper;t=walk;s=walk} @self
+  - defaultstate{mid=pumpkin_reaper;t=death;s=death} @self
+  - addtag{t=chacademia_custom} @self
+  - state{mid=pumpkin_reaper;s=spawn} @self
