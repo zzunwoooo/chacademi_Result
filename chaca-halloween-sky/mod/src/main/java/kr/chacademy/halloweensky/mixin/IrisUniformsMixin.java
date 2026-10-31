@@ -20,5 +20,6 @@ abstract class IrisUniformsMixin {
     private static void chacaSky$uniforms(UniformHolder uniforms, CallbackInfo ci) {
         uniforms.uniform1f(UniformUpdateFrequency.PER_FRAME, "chacaHalloween", SkyState::amount);
         uniforms.uniform1f(UniformUpdateFrequency.PER_FRAME, "chacaSweep", SkyState::sweep);
+        uniforms.uniform1f(UniformUpdateFrequency.PER_FRAME, "chacaDay", SkyState::day);
     }
 }

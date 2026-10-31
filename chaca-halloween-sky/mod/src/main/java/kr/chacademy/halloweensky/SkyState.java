@@ -73,6 +73,13 @@ public final class SkyState {
         return k * k * (3f - 2f * k);
     }
 
+    /** 실제 시간 밝기 0(밤)~1(낮). 바닐라 하늘 밝기(0.2~1)를 그대로 따른다. 셰이더 chacaDay 도 이 값. */
+    public static float day() {
+        ClientLevel level = Minecraft.getInstance().level;
+        if (level == null) return 1f;
+        return Math.max(0f, Math.min(1f, (level.getSkyDarken(1f) - 0.2f) / 0.8f));
+    }
+
     /** 보통 하늘(오버월드형)인 세계에서만. */
     private static boolean skyAllowed() {
         ClientLevel level = Minecraft.getInstance().level;

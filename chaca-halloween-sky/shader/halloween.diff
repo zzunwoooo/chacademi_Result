@@ -1,7 +1,7 @@
 diff -ruN -x '*.png' -x '*.mcmeta' cu0/shaders/lib/atmospherics/chacaHalloween.glsl cuh2/shaders/lib/atmospherics/chacaHalloween.glsl
 --- cu0/shaders/lib/atmospherics/chacaHalloween.glsl	1970-01-01 09:00:00.000000000 +0900
-+++ cuh2/shaders/lib/atmospherics/chacaHalloween.glsl	2026-10-31 12:15:59.595183400 +0900
-@@ -0,0 +1,112 @@
++++ cuh2/shaders/lib/atmospherics/chacaHalloween.glsl	2026-10-31 12:20:14.192153100 +0900
+@@ -0,0 +1,116 @@
 +// [기능:halloween-sky-20261031 시작]
 +// 차카데미 할로윈 하늘. 차카데미 할로윈 하늘 모드가 Iris 유니폼 두 개를 넣어 준다.
 +//   chacaHalloween : 전체 정도 0~1 (조명·안개 색 바꾸는 양)
@@ -31,11 +31,13 @@ diff -ruN -x '*.png' -x '*.mcmeta' cu0/shaders/lib/atmospherics/chacaHalloween.g
 +        return exp(-x * x) * moving;
 +    }
 +
++    // 실제 시간 밝기를 따라간다: chacaDay 1 = 낮(밝은 라벤더·분홍·주황), 0 = 밤(남보라·자주·주황 노을)
 +    vec3 ChacaHalloweenSkyColor(vec3 wDir) {
 +        float up = max(wDir.y, 0.0);
-+        vec3 zenith  = vec3(0.025, 0.012, 0.075); // 짙은 남보라
-+        vec3 middle  = vec3(0.20, 0.05, 0.22);    // 자주·보라
-+        vec3 horizon = vec3(1.10, 0.30, 0.06);    // 타는 듯한 주황 노을
++        float day = clamp(chacaDay, 0.0, 1.0);
++        vec3 zenith  = mix(vec3(0.025, 0.012, 0.075), vec3(0.38, 0.30, 0.62), day);
++        vec3 middle  = mix(vec3(0.20, 0.05, 0.22),    vec3(0.85, 0.50, 0.60), day);
++        vec3 horizon = mix(vec3(1.10, 0.30, 0.06),    vec3(1.60, 0.78, 0.32), day);
 +        vec3 col = mix(zenith, middle, pow(1.0 - up, 2.0));
 +        col = mix(col, horizon, pow(1.0 - up, 7.0));
 +
@@ -79,7 +81,7 @@ diff -ruN -x '*.png' -x '*.mcmeta' cu0/shaders/lib/atmospherics/chacaHalloween.g
 +        float mask = ChacaMask(wDir);
 +        vec3 hs = ChacaHalloweenSkyColor(wDir);
 +        if (doMoon) {
-+            hs += vec3(1.0, 0.82, 0.65) * 1.5 * ChacaStars(wDir);
++            hs += vec3(1.0, 0.82, 0.65) * 1.5 * ChacaStars(wDir) * (1.0 - clamp(chacaDay, 0.0, 1.0));
 +            float ang = sqrt(max(2.0 * (1.0 - dot(wDir, chacaMoonDir)), 0.0));
 +            hs += vec3(1.0, 0.42, 0.10) * (0.9 * exp(-pow2(ang / (chacaMoonRadius * 1.4))) + 0.12 * exp(-ang / (chacaMoonRadius * 5.0)));
 +            vec4 moon = ChacaPumpkinMoon(wDir);
@@ -100,16 +102,18 @@ diff -ruN -x '*.png' -x '*.mcmeta' cu0/shaders/lib/atmospherics/chacaHalloween.g
 +    vec3 ChacaCloudColor(vec3 lit, vec3 wDir, float shading) {
 +        if (chacaHalloween <= 0.001) return lit;
 +        float s = clamp(shading, 0.0, 1.0);
-+        vec3 hc = vec3(0.10, 0.05, 0.16) * (0.6 + 0.4 * s) + vec3(1.0, 0.40, 0.10) * 0.45 * pow2(1.0 - s);
-+        return mix(lit, hc, ChacaMask(wDir));
++        // 원래 구름 밝기(시간 따라감)는 두고 색만 보라·주황으로
++        vec3 tint = vec3(0.95, 0.80, 0.92) * (0.6 + 0.4 * s) + vec3(1.0, 0.55, 0.25) * 0.6 * pow2(1.0 - s);
++        return mix(lit, lit * tint * 1.1, ChacaMask(wDir));
 +    }
 +
 +    // 지형에 끼는 대기 안개: 보라빛, 낮게 깔린 쪽은 주황빛
 +    vec3 ChacaFogColor(vec3 fogCol, vec3 playerPos) {
 +        if (chacaHalloween <= 0.001) return fogCol;
 +        vec3 wDir = normalize(playerPos);
-+        vec3 hf = mix(vec3(0.14, 0.05, 0.12), vec3(0.45, 0.14, 0.05), 1.0 - abs(wDir.y));
-+        return mix(fogCol, hf, ChacaMask(wDir));
++        // 안개 밝기는 원래대로(시간 따라감), 색만 주황·자주 쪽으로
++        vec3 tint = mix(vec3(1.0, 0.82, 0.95), vec3(1.20, 0.80, 0.55), 1.0 - abs(wDir.y));
++        return mix(fogCol, fogCol * tint, ChacaMask(wDir));
 +    }
 +
 +#endif //INCLUDE_CHACA_HALLOWEEN
@@ -183,20 +187,20 @@ diff -ruN -x '*.png' -x '*.mcmeta' cu0/shaders/lib/atmospherics/sky.glsl cuh2/sh
          float nightFactorSqrt2 = sqrt2(nightFactor);
 diff -ruN -x '*.png' -x '*.mcmeta' cu0/shaders/lib/colors/lightAndAmbientColors.glsl cuh2/shaders/lib/colors/lightAndAmbientColors.glsl
 --- cu0/shaders/lib/colors/lightAndAmbientColors.glsl	2026-10-31 12:15:59.866881300 +0900
-+++ cuh2/shaders/lib/colors/lightAndAmbientColors.glsl	2026-10-31 12:15:59.675132500 +0900
++++ cuh2/shaders/lib/colors/lightAndAmbientColors.glsl	2026-10-31 12:20:01.499308600 +0900
 @@ -62,8 +62,14 @@
          vec3 rainLightColor   = mix(nightRainLightColor, dayRainLightColor, sunVisibility2) * 2.5;
          vec3 rainAmbientColor = mix(nightRainAmbientColor, dayRainAmbientColor, sunVisibility2);
  
 -        vec3 lightColor   = mix(clearLightColor, rainLightColor, rainFactor);
 -        vec3 ambientColor = mix(clearAmbientColor, rainAmbientColor, rainFactor);
-+        // [기능:halloween-sky-20261031 시작] 할로윈 하늘일 때 어스름한 보라·주황 조명 (원래 두 줄은 chacaBase… 로 이름만 바꿈)
++        // [기능:halloween-sky-20261031 시작] 할로윈 하늘일 때 밝기는 그대로(시간 따라감), 빛에 주황빛만 살짝 (원래 두 줄은 chacaBase… 로 이름만 바꿈)
 +        // 원래: vec3 lightColor   = mix(clearLightColor, rainLightColor, rainFactor);
 +        // 원래: vec3 ambientColor = mix(clearAmbientColor, rainAmbientColor, rainFactor);
 +        vec3 chacaBaseLightColor   = mix(clearLightColor, rainLightColor, rainFactor);
 +        vec3 chacaBaseAmbientColor = mix(clearAmbientColor, rainAmbientColor, rainFactor);
-+        vec3 lightColor   = chacaHalloween > 0.001 ? mix(chacaBaseLightColor, vec3(0.50, 0.26, 0.30), 0.85 * chacaHalloween) : chacaBaseLightColor;
-+        vec3 ambientColor = chacaHalloween > 0.001 ? mix(chacaBaseAmbientColor, vec3(0.16, 0.10, 0.21) * (1.5 + 0.7 * vsBrightness), 0.85 * chacaHalloween) : chacaBaseAmbientColor;
++        vec3 lightColor   = chacaHalloween > 0.001 ? chacaBaseLightColor   * mix(vec3(1.0), vec3(1.10, 0.92, 0.78), chacaHalloween) : chacaBaseLightColor;
++        vec3 ambientColor = chacaHalloween > 0.001 ? chacaBaseAmbientColor * mix(vec3(1.0), vec3(1.06, 0.95, 0.88), chacaHalloween) : chacaBaseAmbientColor;
 +        // [기능:halloween-sky-20261031 끝]
      #elif defined NETHER
          vec3 lightColor   = vec3(0.0);
@@ -216,8 +220,8 @@ diff -ruN -x '*.png' -x '*.mcmeta' cu0/shaders/lib/materials/materialMethods/ref
                  skyReflection *= atmColorMult;
 diff -ruN -x '*.png' -x '*.mcmeta' cu0/shaders/lib/uniforms.glsl cuh2/shaders/lib/uniforms.glsl
 --- cu0/shaders/lib/uniforms.glsl	2026-10-31 12:15:59.994433600 +0900
-+++ cuh2/shaders/lib/uniforms.glsl	2026-10-31 12:15:59.709132600 +0900
-@@ -158,4 +158,10 @@
++++ cuh2/shaders/lib/uniforms.glsl	2026-10-31 12:19:55.042078800 +0900
+@@ -158,4 +158,11 @@
  uniform float inNetherWastes;
  uniform float inSoulValley;
  uniform float inWarpedForest;
@@ -228,6 +232,7 @@ diff -ruN -x '*.png' -x '*.mcmeta' cu0/shaders/lib/uniforms.glsl cuh2/shaders/li
 +// [기능:halloween-sky-20261031 시작] 차카데미 할로윈 하늘 모드가 넣어 주는 값 (모드 없으면 0)
 +uniform float chacaHalloween;
 +uniform float chacaSweep;
++uniform float chacaDay; // 실제 시간 밝기 0(밤)~1(낮)
 +uniform sampler2D chacaPumpkin;
 +// [기능:halloween-sky-20261031 끝]
 diff -ruN -x '*.png' -x '*.mcmeta' cu0/shaders/program/gbuffers_skybasic.glsl cuh2/shaders/program/gbuffers_skybasic.glsl

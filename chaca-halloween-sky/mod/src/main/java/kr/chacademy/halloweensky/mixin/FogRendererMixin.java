@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-/** 먼 지형이 녹아드는 안개 색을 할로윈 지평선(어두운 자주·주황)으로. */
+/** 안개 밝기는 그대로(시간 따라감), 색만 주황빛으로 살짝. */
 @Mixin(FogRenderer.class)
 abstract class FogRendererMixin {
     @Inject(method = "computeFogColor", at = @At("RETURN"))
@@ -19,8 +19,8 @@ abstract class FogRendererMixin {
         float k = SkyState.amount();
         if (k <= 0f) return;
         Vector4f c = cir.getReturnValue();
-        c.x += (0.42f - c.x) * k;
-        c.y += (0.14f - c.y) * k;
-        c.z += (0.24f - c.z) * k;
+        c.x = Math.min(1f, c.x * (1f + 0.12f * k));
+        c.y *= 1f - 0.10f * k;
+        c.z *= 1f - 0.22f * k;
     }
 }

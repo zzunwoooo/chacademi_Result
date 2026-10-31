@@ -10,6 +10,7 @@
     "IrisShaderSourceMixin",
     "IrisUniformsMixin",
     "LevelRendererSkyMixin",
+    "LightTextureMixin",
     "SoundPacketMixin"
   ],
   "injectors": {

@@ -25,6 +25,8 @@ public final class SkyPainter {
     static final float MOON_RADIUS = 0.07f, R = 100f;
     static final int SEG = 72, RINGS = 28, STARS = 900;
     private static final float[][] STAR_DIRS = new float[STARS][4];
+    /** 이번 프레임 실제 시간 밝기 (0 밤 ~ 1 낮). */
+    private static float day;
 
     static {
         RandomSource random = RandomSource.create(20261031L);
@@ -41,8 +43,25 @@ public final class SkyPainter {
 
     private SkyPainter() {}
 
-    /** 위 각도 y(-1..1)의 할로윈 하늘 색. 지평선 주황 → 자홍 → 보라 → 남색. */
-    static float[] skyColor(float x, float y, float z) {
+    /** 할로윈 하늘 색. 실제 시간 밝기를 따라 밤 색과 낮 색을 섞는다. */
+    static float[] skyColor(float x, float y, float z, float day) {
+        float[] n = nightColor(x, y, z), d = dayColor(y);
+        return new float[]{lerp(n[0], d[0], day), lerp(n[1], d[1], day), lerp(n[2], d[2], day)};
+    }
+
+    /** 낮: 지평선 밝은 주황 → 분홍 → 라벤더 (밤이 되지 않게 밝게). */
+    static float[] dayColor(float y) {
+        if (y < 0f) return new float[]{0.80f, 0.55f, 0.45f};
+        if (y < 0.15f) {
+            float k = y / 0.15f;
+            return new float[]{lerp(1.0f, 0.95f, k), lerp(0.70f, 0.62f, k), lerp(0.42f, 0.66f, k)};
+        }
+        float k = Math.min(1f, (y - 0.15f) / 0.85f);
+        return new float[]{lerp(0.95f, 0.62f, k), lerp(0.62f, 0.52f, k), lerp(0.66f, 0.85f, k)};
+    }
+
+    /** 밤: 지평선 주황 → 자홍 → 보라 → 남색. */
+    static float[] nightColor(float x, float y, float z) {
         float r, g, b;
         if (y < 0f) {
             float k = Math.min(1f, -y * 4f);
@@ -68,6 +87,7 @@ public final class SkyPainter {
         if (f <= -SkyState.EDGE) return;
         if (IrisCheck.shadersOn()) return; // 셰이더가 하늘을 직접 그린다
         float time = (Util.getMillis() % 100000L) / 1000f;
+        day = SkyState.day();
 
         RenderSystem.enableBlend();
         RenderSystem.disableCull();
@@ -150,7 +170,7 @@ public final class SkyPainter {
                     c = new float[]{1.0f, 0.55f, 0.16f};
                     alpha = 0.85f * g * lift;
                 } else {
-                    c = skyColor(x, y, z);
+                    c = skyColor(x, y, z, day);
                     alpha = SkyState.mask(t, f);
                 }
                 ring[i] = new float[]{x * R, y * R, z * R, c[0], c[1], c[2], alpha};
@@ -181,7 +201,7 @@ public final class SkyPainter {
             float m = SkyState.mask((s[0] + 1f) / 2f, f);
             if (m <= 0.01f) continue;
             float twinkle = 0.55f + 0.45f * (float) Math.sin(time * (1.5f + s[3] * 3f) + s[3] * 40f);
-            float bright = m * twinkle * Math.min(1f, s[1] * 3f) * (0.4f + 0.6f * s[3]);
+            float bright = m * twinkle * (1f - day) * Math.min(1f, s[1] * 3f) * (0.4f + 0.6f * s[3]);
             float size = 0.0025f + 0.004f * s[3];
             Vector3f dir = new Vector3f(s[0], s[1], s[2]);
             Vector3f[] basis = basis(dir);
