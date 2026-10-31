@@ -110,6 +110,9 @@ final class AlchemyBridge implements PluginMessageListener, Listener {
             String name = s.getString("name", "").strip();
             if (name.isEmpty() || name.length() > AlchemyProtocol.MAX_NAME) throw new IllegalArgumentException(id + ".name 은 1~" + AlchemyProtocol.MAX_NAME + "자");
             String result = key(s.getString("result", ""), id + ".result");
+            // [기능:alchemy-overhaul 시작] 편집기가 영어로 채운 이름("blue ice")은 한국어로 보여 준다 (파일은 그대로)
+            name = KoNames.recipeName(name, result);
+            // [기능:alchemy-overhaul 끝]
             int amount = s.getInt("amount", 1);
             if (amount < 1 || amount > 576) throw new IllegalArgumentException(id + ".amount 는 1~576");
             int exp = s.getInt("exp", 0);
@@ -227,7 +230,9 @@ final class AlchemyBridge implements PluginMessageListener, Listener {
         var meta = item.getItemMeta();
         String n = meta != null && meta.hasDisplayName() ? PlainTextComponentSerializer.plainText().serialize(meta.displayName())
                 : meta != null && meta.hasItemName() ? PlainTextComponentSerializer.plainText().serialize(meta.itemName())
-                : item.getType().getKey().getKey().replace('_', ' ');
+                // [기능:alchemy-overhaul 시작] 이름 없는 바닐라 아이템은 한국어 이름 (예전: 영어 id)
+                : KoNames.of(item.getType());
+                // [기능:alchemy-overhaul 끝]
         return n.length() > 40 ? n.substring(0, 40) : n;
     }
 

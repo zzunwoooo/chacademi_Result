@@ -41,7 +41,7 @@ final class AlchemyPlus implements Listener, PluginMessageListener, AutoCloseabl
     private final MagicCodexBridge plugin;
     private final AlchemyBridge bridge;
     private final DatabaseSettings settings;
-    private final ExecutorService io = Executors.newSingleThreadExecutor(r -> { var t = new Thread(r, "MagicCodex-alchemy-plus"); t.setDaemon(true); return t; });
+    private final ExecutorService worker = Executors.newSingleThreadExecutor(r -> { var t = new Thread(r, "MagicCodex-alchemy-plus"); t.setDaemon(true); return t; });
     private Connection connection;
     private volatile boolean closed;
 
@@ -50,6 +50,8 @@ final class AlchemyPlus implements Listener, PluginMessageListener, AutoCloseabl
     private volatile Set<String> once = Set.of(), noNote = Set.of();
     private volatile Map<String, byte[]> resultItems = Map.of();
     private volatile Map<String, String> texts = Map.of();
+    private static final double[] DEFAULT_DROP = {0.02, 0.01, 0.005, 0.001};
+    private volatile double[] noteDrop = DEFAULT_DROP.clone();
     private final Set<String> pendingFirst = ConcurrentHashMap.newKeySet();
     private final Map<UUID, Long> noteLimits = new HashMap<>();
 
@@ -102,10 +104,42 @@ final class AlchemyPlus implements Listener, PluginMessageListener, AutoCloseabl
                 catch (RuntimeException e) { throw new IllegalArgumentException(id + ".result-item 을 읽지 못함 (연금술 편집기로 다시 저장해 주세요)"); }
             }
         }
+        var rates = yaml.getDoubleList("settings.note-drop");
+        double[] drop = rates.size() == 4 ? new double[]{rates.get(0), rates.get(1), rates.get(2), rates.get(3)} : DEFAULT_DROP.clone();
+        double sum = 0; for (double r : drop) { if (r < 0 || r > 1) throw new IllegalArgumentException("settings.note-drop 은 0~1 네 개 (일반·고급·유일·전설)"); sum += r; }
+        if (sum > 1) throw new IllegalArgumentException("settings.note-drop 합이 1(100%)을 넘음");
         var ms = yaml.getConfigurationSection("messages"); var m = new HashMap<String, String>();
         for (String k : List.of("match-1", "match-2", "match-3", "once")) m.put(k, ms == null ? "" : ms.getString(k, ""));
         firstTitles = Map.copyOf(titles); hints = Map.copyOf(hintMap); once = Set.copyOf(onceSet); noNote = Set.copyOf(hidden);
-        resultItems = Map.copyOf(items); texts = Map.copyOf(m);
+        resultItems = Map.copyOf(items); texts = Map.copyOf(m); noteDrop = drop;
+    }
+
+    // ------------------------------------------------------------------ note drops
+
+    /** 모든 몬스터(적대 몹 + MythicMobs 몹)를 플레이어가 잡으면 한 번 굴려 등급 하나 (오너 2026-10-31: 2% · 1% · 0.5% · 0.1%). */
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void death(org.bukkit.event.entity.EntityDeathEvent e) {
+        var mob = e.getEntity();
+        if (mob instanceof Player || mob.getKiller() == null) return;
+        if (!(mob instanceof org.bukkit.entity.Enemy) && !mythic(mob)) return;
+        double roll = ThreadLocalRandom.current().nextDouble(), edge = 0;
+        double[] rates = noteDrop;
+        // 높은 등급부터: 전설 0.1% → 유일 0.5% → 고급 1% → 일반 2% (서로 겹치지 않음)
+        for (int grade = 4; grade >= 1; grade--) {
+            edge += rates[grade - 1];
+            if (roll >= edge) continue;
+            ItemStack note = bridge.create(NOTE_PREFIX + grade, 1);
+            if (note == null) { plugin.getLogger().warning("연금 쪽지 아이템이 없음: " + NOTE_PREFIX + grade + " (ItemsAdder 설정 확인)"); return; }
+            e.getDrops().add(note);
+            plugin.getLogger().info("ALCHEMY NOTE DROP player=" + mob.getKiller().getName() + " grade=" + grade + " mob=" + mob.getType());
+            return;
+        }
+    }
+
+    private static boolean mythic(org.bukkit.entity.Entity entity) {
+        if (!Bukkit.getPluginManager().isPluginEnabled("MythicMobs")) return false;
+        try { return io.lumine.mythic.bukkit.MythicBukkit.inst().getMobManager().isMythicMob(entity); }
+        catch (RuntimeException | LinkageError e) { return false; }
     }
 
     private String text(String key, String fallback) { String v = texts.getOrDefault(key, ""); return v.isBlank() ? fallback : v; }
@@ -364,13 +398,13 @@ final class AlchemyPlus implements Listener, PluginMessageListener, AutoCloseabl
         return connection;
     }
 
-    private void submit(Runnable r) { if (!closed) try { io.execute(r); } catch (RejectedExecutionException ignored) { } }
+    private void submit(Runnable r) { if (!closed) try { worker.execute(r); } catch (RejectedExecutionException ignored) { } }
 
     @EventHandler public void quit(PlayerQuitEvent e) { noteLimits.remove(e.getPlayer().getUniqueId()); }
 
     @Override public void close() {
-        closed = true; io.shutdown();
-        try { io.awaitTermination(3, TimeUnit.SECONDS); } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
+        closed = true; worker.shutdown();
+        try { worker.awaitTermination(3, TimeUnit.SECONDS); } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
         try { if (connection != null) connection.close(); } catch (Exception ignored) {}
     }
 }
