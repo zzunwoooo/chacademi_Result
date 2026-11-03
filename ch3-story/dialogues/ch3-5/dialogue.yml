@@ -1,0 +1,22 @@
+# 차카데미 대화 — Claude 작성 2026-11-03 (오너 3장 기획)
+format: 1
+id: "ch3-5"
+title: "3-5. 던전 입구"
+description: "지하 던전 입구에 왔어요."
+chapter: "3장 · 지워진 이름"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+scenes:
+  a:
+    name: "던전 입구"
+    lines:
+      - {who: me, face: "", text: "(대체 무슨 일이지… 여기서 흘러나오는 기운을 마주하면…)"}
+      - {who: me, face: "", text: "(…엄청난 복수심이 들끓어.)"}
+      - {who: me, face: "", text: "(…밖이 소란스럽다. 학생들이 웅성거리는 소리.)"}
+      - {who: me, face: "", text: "(무슨 소리지? 나가 보자.)"}

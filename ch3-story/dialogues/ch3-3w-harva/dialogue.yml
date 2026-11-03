@@ -1,0 +1,24 @@
+# 차카데미 대화 — Claude 작성 2026-11-03 (오너 3장 기획)
+format: 1
+id: "ch3-3w-harva"
+title: "3-3. 아직이다"
+description: "포악해진 야생 몬스터를 처치하고 와요."
+chapter: "3장 · 지워진 이름"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  harva:
+    name: "하르바 교수"
+    npc: "teacher_harva"
+    portraits:
+      "기본": "teacher_harva-neutral.png"
+scenes:
+  a:
+    name: "하르바"
+    lines:
+      - {who: harva, face: "기본", text: "아직이다. 야생에서 포악해진 녀석들을 더 만나 보고 와라."}

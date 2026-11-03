@@ -1,0 +1,41 @@
+# 차카데미 대화 — Claude 작성 2026-11-03 (오너 3장 기획)
+format: 1
+id: "ch3-10"
+title: "3-10. 옛 기록"
+description: "이솔데에게 옛 기록에 대해 들어요."
+chapter: "3장 · 지워진 이름"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  isolde:
+    name: "이솔데"
+    npc: "librarian_isolde"
+    portraits:
+      "기본": "librarian_isolde-neutral.png"
+  luka:
+    name: "루카"
+    npc: "luka"
+    portraits:
+      "기본": "luka-neutral.png"
+scenes:
+  a:
+    name: "이솔데"
+    lines:
+      - {who: isolde, face: "기본", text: "…어서 오세요. 학교 분위기가 뒤숭숭하네요."}
+      - {who: isolde, face: "기본", text: "찾은 기록은 이거예요. 예전에도 이런 일이 있었대요."}
+      - {who: isolde, face: "기본", text: "그때 사라진 사람은 학교 시계탑 관리인, 호로겐. 시계탑은 그날 밤 무너져서 지금은 터도 없어요."}
+      - {who: isolde, face: "기본", text: "당시 학생이던 모르디안의 악마 소환에… 제물로 쓰인 민간인이에요."}
+      - {who: isolde, face: "기본", text: "…이번 일은 같은 일이 아니었으면 좋겠네요."}
+      - {who: me, face: "", text: "(호로겐…? 설마 이번에도 제물인가.)"}
+      - {who: me, face: "", text: "(하지만 그때는 악마 소환의 제물이었다고 했어. 이번엔 딱히 그런 기미는 없는데.)"}
+    next: b
+  b:
+    name: "루카"
+    lines:
+      - {who: luka, face: "기본", text: "{player}!! 빨리 와 봐!! 노엘이 돌아왔어!!!"}
+      - {who: isolde, face: "기본", text: "…다행이네요. 가 보죠."}

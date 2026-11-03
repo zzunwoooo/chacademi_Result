@@ -1,0 +1,19 @@
+# 차카데미 대화 — Claude 작성 2026-11-03 (오너 3장 기획)
+format: 1
+id: "ch3-14"
+title: "3-14. 이 기억은"
+description: "「모르디안의 원념」을 클리어했어요."
+chapter: "3장 · 지워진 이름"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+scenes:
+  a:
+    name: "기억"
+    lines:
+      - {who: me, face: "", text: "(이 기억은…)"}

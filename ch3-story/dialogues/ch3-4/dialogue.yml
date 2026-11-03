@@ -1,0 +1,27 @@
+# 차카데미 대화 — Claude 작성 2026-11-03 (오너 3장 기획)
+format: 1
+id: "ch3-4"
+title: "3-4. 어엿한 마법사"
+description: "4클래스로 승급했어요."
+chapter: "3장 · 지워진 이름"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  harva:
+    name: "하르바 교수"
+    npc: "teacher_harva"
+    portraits:
+      "기본": "teacher_harva-neutral.png"
+scenes:
+  a:
+    name: "어엿한 마법사"
+    lines:
+      - {who: harva, face: "기본", text: "이제 어엿한 마법사다. 교수들이랑 비슷한 마나가 느껴진다."}
+      - {who: harva, face: "기본", text: "…어쩌면 옛날 대마법사보다 더 클지도 모르겠군."}
+      - {who: me, face: "", text: "감사합니다."}
+      - {who: harva, face: "기본", text: "다시 던전에 가 봐라. 교감은 내가 설득하지."}

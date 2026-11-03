@@ -1,0 +1,31 @@
+# 차카데미 대화 — Claude 작성 2026-11-03 (오너 3장 기획)
+format: 1
+id: "ch3-1"
+title: "3-1. 그레고르의 호출"
+description: "그레고르 교감이 봉인에 대해 알려 줘요."
+chapter: "3장 · 지워진 이름"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  gregor:
+    name: "그레고르 교감"
+    npc: "vice_gregor"
+    portraits:
+      "기본": "vice_gregor-neutral.png"
+scenes:
+  a:
+    name: "그레고르의 호출"
+    lines:
+      - {who: gregor, face: "기본", text: "왔나. 저번에 자네가 다녀온 던전 말일세. 정체를 알아냈네."}
+      - {who: gregor, face: "기본", text: "100년 전 일은 기억하고 있겠지?"}
+      - {who: me, face: "", text: "잿빛 밤 말씀이시죠. 모르디안이 악마를 불러냈고, 대마법사가 봉인했다고 들었어요."}
+      - {who: gregor, face: "기본", text: "잘 알고 있군. …그 봉인 말이네. 아무래도 100년의 유효기간이 있었던 것 같네."}
+      - {who: gregor, face: "기본", text: "지금 지하에서 잿빛이 흘러나오고 있어."}
+      - {who: me, face: "", text: "그럼… 어떻게 해야 하죠?"}
+      - {who: gregor, face: "기본", text: "일단 교수들과 대응할 방법을 찾아보겠네."}
+      - {who: gregor, face: "기본", text: "자네는… 던전은 위험하니, 우선 포악해진 야생 동물들부터 살펴보도록 하게. 하르바 교수에게 자문을 구하고."}

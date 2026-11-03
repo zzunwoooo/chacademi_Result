@@ -1,0 +1,44 @@
+# 차카데미 대화 — Claude 작성 2026-11-03 (오너 3장 기획)
+format: 1
+id: "ch3-11"
+title: "3-11. 돌아온 노엘"
+description: "돌아온 노엘에게 말을 걸어요."
+chapter: "3장 · 지워진 이름"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  noel:
+    name: "노엘"
+    npc: "noel"
+    portraits:
+      "기본": "noel-neutral.png"
+  gregor:
+    name: "그레고르 교감"
+    npc: "vice_gregor"
+    portraits:
+      "기본": "vice_gregor-neutral.png"
+scenes:
+  a:
+    name: "노엘"
+    lines:
+      - {who: noel, face: "기본", text: "…"}
+      - {who: me, face: "", text: "노엘? 괜찮아?"}
+      - {who: noel, face: "기본", text: "(나를 빤히 쳐다본다) …드디어 찾았다."}
+      - {who: me, face: "", text: "(노엘이 웃는다. 평소엔 눈도 못 마주치던 아이가.)"}
+      - {who: gregor, face: "기본", text: "무슨 일이 있었던 건가? 괜찮나?"}
+      - {who: noel, face: "기본", text: "네. 괜찮습니다. 아무 일도 없었어요."}
+      - {who: me, face: "", text: "(…노엘이 저렇게 또박또박 말한 적이 있었나. 뭔가 수상해.)"}
+      - {who: noel, face: "기본", text: "(나만 들리게) 호로겐… 모르디안… 천사… 악마… 대마법사… 저주…"}
+    next: b
+  b:
+    name: "그레고르"
+    lines:
+      - {who: gregor, face: "기본", text: "…일단 돌아왔으니 다행이네. 노엘은 의무실에서 쉬도록 하게."}
+      - {who: gregor, face: "기본", text: "{player}. 같은 일이 또 생기지 않도록, 다른 던전도 더 살펴봐야겠네."}
+      - {who: gregor, face: "기본", text: "지하에 아직 조사하지 않은 곳이 남아 있어. 다녀와 주겠나?"}
+      - {who: me, face: "", text: "네, 다녀올게요."}

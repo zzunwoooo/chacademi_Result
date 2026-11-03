@@ -1,0 +1,27 @@
+# 차카데미 대화 — Claude 작성 2026-11-03 (오너 3장 기획)
+format: 1
+id: "ch3-2"
+title: "3-2. 포악해진 동물들"
+description: "하르바 교수에게 자문을 구해요."
+chapter: "3장 · 지워진 이름"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  harva:
+    name: "하르바 교수"
+    npc: "teacher_harva"
+    portraits:
+      "기본": "teacher_harva-neutral.png"
+scenes:
+  a:
+    name: "하르바"
+    lines:
+      - {who: harva, face: "기본", text: "왔냐. 교감한테 들었다."}
+      - {who: harva, face: "기본", text: "야생 동물들이 잿빛에 노출됐다. 그래서 포악해졌지."}
+      - {who: harva, face: "기본", text: "오늘부터는 다르다. 더 강하고, 더 사납다. 예전 그 녀석들이라고 생각하지 마라."}
+      - {who: harva, face: "기본", text: "직접 부딪혀 보고 와라."}

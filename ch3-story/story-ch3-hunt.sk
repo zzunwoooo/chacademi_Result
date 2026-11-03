@@ -1,0 +1,13 @@
+# [기능:3장 스토리 시작] 3-3 "포악해진 동물 15마리" — 야생1·야생2 plugins/Skript/scripts/ 에 넣고 /sk reload story-ch3-hunt
+# 3-3 단계에 있는 사람(학교 스토리가 chacademi.story.ch3hunt 권한을 줌)이 MythicMobs 몹(커스텀 몬스터)을 잡으면
+# 학교 스토리로 신호 '포악한몬스터처치' 를 보낸다 (/유저관리 스토리신호 는 학교가 아닌 서버면 학교로 전달).
+import:
+    io.lumine.mythic.bukkit.MythicBukkit
+
+on death:
+    victim is not a player
+    attacker is a player
+    attacker has permission "chacademi.story.ch3hunt"
+    MythicBukkit.inst().getAPIHelper().isMythicMob(victim) is true
+    execute console command "유저관리 %attacker% 스토리신호 포악한몬스터처치"
+# [기능:3장 스토리 끝]

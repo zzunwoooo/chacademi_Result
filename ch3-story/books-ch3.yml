@@ -1,0 +1,19 @@
+# 학교 plugins/MagicCodexBridge/books.yml 의 books: 아래에 붙인다. 고친 뒤 /서버관리 새로고침 책
+# 책장 연결: 지하 던전 입구(로비 왼쪽 아래) 근처 블록을 바라보고 /컨텐츠관리 책 연결 noel_memo
+  # [기능:3장 스토리 시작] 3-7 노엘이 남긴 메모 (지하 던전 입구)
+  noel_memo:
+    title: "구겨진 메모"
+    required-intelligence: 0
+    pages:
+      - left: |
+          (급하게 휘갈긴 글씨다.
+          잉크가 번져 있다.)
+
+
+          모르디안은 돌아올 것이다.
+        right: |
+          (그 아래로 같은 문장이
+          몇 번이고 겹쳐 쓰여 있다.)
+    commands:
+      - "유저관리 {player} 스토리신호 노엘메모"
+  # [기능:3장 스토리 끝]

@@ -1,0 +1,24 @@
+# 차카데미 대화 — Claude 작성 2026-11-03 (오너 3장 기획)
+format: 1
+id: "ch3-9w-gregor"
+title: "3-9. 재의 그림자"
+description: "던전 「재의 그림자」를 클리어해요."
+chapter: "3장 · 지워진 이름"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  gregor:
+    name: "그레고르 교감"
+    npc: "vice_gregor"
+    portraits:
+      "기본": "vice_gregor-neutral.png"
+scenes:
+  a:
+    name: "그레고르"
+    lines:
+      - {who: gregor, face: "기본", text: "저주는 풀어 두었네. 「재의 그림자」로 다녀오게."}

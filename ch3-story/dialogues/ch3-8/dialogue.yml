@@ -1,0 +1,25 @@
+# 차카데미 대화 — Claude 작성 2026-11-03 (오너 3장 기획)
+format: 1
+id: "ch3-8"
+title: "3-8. 저주를 풀다"
+description: "그레고르 교감이 저주를 풀어 줘요."
+chapter: "3장 · 지워진 이름"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  gregor:
+    name: "그레고르 교감"
+    npc: "vice_gregor"
+    portraits:
+      "기본": "vice_gregor-neutral.png"
+scenes:
+  a:
+    name: "그레고르"
+    lines:
+      - {who: gregor, face: "기본", text: "…하나같이 강력한 마법이군. 이 정도면 믿을 만하네."}
+      - {who: gregor, face: "기본", text: "저주는 풀어 두었네. 다녀오게."}

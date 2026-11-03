@@ -1,0 +1,33 @@
+# 차카데미 대화 — Claude 작성 2026-11-03 (오너 3장 기획)
+format: 1
+id: "ch3-7"
+title: "3-7. 남겨진 메모"
+description: "노엘이 남긴 메모를 읽었어요."
+chapter: "3장 · 지워진 이름"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  gregor:
+    name: "그레고르 교감"
+    npc: "vice_gregor"
+    portraits:
+      "기본": "vice_gregor-neutral.png"
+scenes:
+  a:
+    name: "메모"
+    lines:
+      - {who: me, face: "", text: "(모르디안…? 큭, 머리가…)"}
+      - {who: me, face: "", text: "(책에서 본 그 배신자잖아… 100년 전 사람이 돌아온다는 게 말이 돼?)"}
+    next: b
+  b:
+    name: "그레고르"
+    lines:
+      - {who: gregor, face: "기본", text: "…이 메모. 필체 확인 마법으로 보니 그 학생 것이군."}
+      - {who: gregor, face: "기본", text: "이 던전에 끌려온 건가. 다만 저주의 마나가 너무 짙어서 더는 다가갈 수가 없네."}
+      - {who: gregor, face: "기본", text: "저주를 풀 재료가 필요하겠군. 재료는 내가 구하겠네."}
+      - {who: gregor, face: "기본", text: "자네는 실전에 대비할 마법을 더 익혀 오도록 하게."}

@@ -1,0 +1,28 @@
+# 차카데미 대화 — Claude 작성 2026-11-03 (오너 3장 기획)
+format: 1
+id: "ch3-9"
+title: "3-9. 돌아오지 않은 학생"
+description: "그레고르 교감에게 보고해요."
+chapter: "3장 · 지워진 이름"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  gregor:
+    name: "그레고르 교감"
+    npc: "vice_gregor"
+    portraits:
+      "기본": "vice_gregor-neutral.png"
+scenes:
+  a:
+    name: "보고"
+    lines:
+      - {who: gregor, face: "기본", text: "학생은 찾았나?"}
+      - {who: me, face: "", text: "…못 찾았습니다."}
+      - {who: gregor, face: "기본", text: "그런가. 그래도 무사히 돌아와서 다행이네."}
+      - {who: gregor, face: "기본", text: "교수들도 손 놓고 있던 건 아니네. 옛 기록에서 이상한 걸 찾았어."}
+      - {who: gregor, face: "기본", text: "이솔데 사서에게 가서 설명을 듣도록 하게."}

@@ -1,0 +1,254 @@
+# 3장 「지워진 이름」 단계 — Claude 2026-11-03 (오너 확정 대본: 3장_스토리_설계.md)
+# 학교 plugins/ChacademyStory/steps.yml 의 "단계:" 아래, ch2_5-end 다음에 그대로 붙인다.
+# 신호: 포악한몬스터처치(야생 스크립트 story-ch3-hunt.sk) · 노엘메모(책 noel_memo) · 승급성공(기존)
+#       재의그림자클리어 · 호로겐클리어 · 원념클리어 (각 던전 clear-commands 에 넣을 것, DEPLOY.md 참고)
+# 값: %chacastory_newspells% (새로 나온 마법 중 배운 수, bridge-patch 참고)
+  # [기능:3장 스토리 시작]
+  ch3-1:
+    장: 3장 · 지워진 이름
+    설명: 그레고르 교감이 찾는다. 교감에게 가 보자.
+    서버: school
+    조건: []
+    호출:
+      종류: NPC클릭
+      서버: school
+      NPC: 15
+    대화: ch3-1
+    컷신: ''
+    다음: ch3-2
+  ch3-2:
+    장: 3장 · 지워진 이름
+    설명: 하르바 교수님께 자문을 구하자.
+    서버: school
+    조건: []
+    호출:
+      종류: NPC클릭
+      서버: school
+      NPC: 25
+    대화: ch3-2
+    컷신: ''
+    다음: ch3-3
+  ch3-3:
+    장: 3장 · 지워진 이름
+    설명: 야생에서 포악해진 커스텀 몬스터를 15마리 처치하고 하르바 교수님께 돌아가자.
+    서버: school
+    조건:
+    - 종류: 신호
+      대상: 포악한몬스터처치
+      개수: 15
+      표시: 야생 커스텀 몬스터 처치하기
+    호출:
+      종류: NPC클릭
+      서버: school
+      NPC: 25
+    대화: ch3-3
+    컷신: ''
+    다음: ch3-4
+    # 야생 스크립트가 이 권한이 있는 사람의 처치만 학교로 보낸다 (권한은 LuckPerms 공유)
+    시작명령:
+    - lp user {player} permission set chacademi.story.ch3hunt true
+    시작명령-한번: false
+    대기대화:
+    - NPC: 25
+      대화: ch3-3w-harva
+  ch3-4:
+    장: 3장 · 지워진 이름
+    설명: 마나를 심장에 모아 4클래스로 승급하고 하르바 교수님께 알리자. (창을 닫았다면 /클래스승급)
+    서버: school
+    조건:
+    - 종류: 신호
+      대상: 승급성공
+      개수: 1
+      표시: 클래스 승급하기
+    호출:
+      종류: NPC클릭
+      서버: school
+      NPC: 25
+    대화: ch3-4
+    컷신: ''
+    다음: ch3-5
+    시작명령:
+    - lp user {player} permission unset chacademi.story.ch3hunt
+    - 유저관리 {player} 서클 승급창
+    시작명령-한번: false
+    대기대화:
+    - NPC: 25
+      대화: ch3-4w-harva
+  ch3-5:
+    장: 3장 · 지워진 이름
+    설명: 1층 로비 왼쪽, 지하 던전 입구로 다시 가 보자.
+    서버: school
+    조건: []
+    호출:
+      종류: 위치
+      월드: world
+      x: 347.95
+      y: 119.0
+      z: -30.61
+      반경: 3.0
+    대화: ch3-5
+    컷신: ''
+    다음: ch3-6
+  ch3-6:
+    장: 3장 · 지워진 이름
+    설명: 밖이 소란스럽다. 보미에게 무슨 일인지 물어보자.
+    서버: school
+    조건: []
+    호출:
+      종류: NPC클릭
+      서버: school
+      NPC: 35
+    대화: ch3-6
+    컷신: ''
+    다음: ch3-7
+  ch3-7:
+    장: 3장 · 지워진 이름
+    설명: 지하 던전 입구에서 노엘이 남긴 메모를 찾아 읽자.
+    서버: school
+    조건:
+    - 종류: 신호
+      대상: 노엘메모
+      개수: 1
+      표시: 노엘의 메모 읽기
+    호출:
+      종류: 자동
+      지연: 0
+    대화: ch3-7
+    시작명령:
+    - 유저관리 {player} 책기록 초기화 noel_memo 확인
+    컷신: ''
+    다음: ch3-8
+  ch3-8:
+    장: 3장 · 지워진 이름
+    설명: 새로 나온 마법을 10종 이상 발견하고 그레고르 교감께 가자.
+    서버: school
+    조건:
+    - 종류: 값
+      대상: '%chacastory_newspells%'
+      개수: 10
+      표시: 새로 나온 마법 발견하기
+    호출:
+      종류: NPC클릭
+      서버: school
+      NPC: 15
+    대화: ch3-8
+    컷신: ''
+    다음: ch3-9
+    대기대화:
+    - NPC: 15
+      대화: ch3-8w-gregor
+  ch3-9:
+    장: 3장 · 지워진 이름
+    설명: 던전 「재의 그림자」를 클리어하고 그레고르 교감께 보고하자.
+    서버: school
+    조건:
+    - 종류: 신호
+      대상: 재의그림자클리어
+      개수: 1
+      표시: 「재의 그림자」 클리어하기
+    호출:
+      종류: NPC클릭
+      서버: school
+      NPC: 15
+    대화: ch3-9
+    컷신: ''
+    다음: ch3-10
+    시작명령:
+    - lp user {player} permission set chacademi.dungeon.enter.ash_shadow true
+    시작명령-한번: false
+    대기대화:
+    - NPC: 15
+      대화: ch3-9w-gregor
+  ch3-10:
+    장: 3장 · 지워진 이름
+    설명: 대도서관의 이솔데 사서님께 옛 기록에 대해 듣자.
+    서버: school
+    조건: []
+    호출:
+      종류: NPC클릭
+      서버: school
+      NPC: 21
+    대화: ch3-10
+    컷신: ''
+    다음: ch3-11
+  ch3-11:
+    장: 3장 · 지워진 이름
+    설명: 노엘이 돌아왔다! 노엘에게 가 보자.
+    서버: school
+    조건: []
+    호출:
+      종류: NPC클릭
+      서버: school
+      NPC: 42
+    대화: ch3-11
+    컷신: ''
+    다음: ch3-12
+  ch3-12:
+    장: 3장 · 지워진 이름
+    설명: 지하에 남은 다른 던전 「시계탑지기 호로겐」을 조사하자. (3인 던전)
+    서버: school
+    조건:
+    - 종류: 신호
+      대상: 호로겐클리어
+      개수: 1
+      표시: 「시계탑지기 호로겐」 클리어하기
+    호출:
+      종류: 자동
+      지연: 0
+    대화: ch3-12
+    시작명령:
+    - lp user {player} permission set chacademi.dungeon.enter.ash_shadow true
+    - lp user {player} permission set chacademi.dungeon.enter.horologe true
+    시작명령-한번: false
+    컷신: ''
+    다음: ch3-13
+  ch3-13:
+    장: 3장 · 지워진 이름
+    설명: 노엘이 정신을 차렸다고 한다. 노엘에게 가 보자.
+    서버: school
+    조건: []
+    호출:
+      종류: NPC클릭
+      서버: school
+      NPC: 42
+    대화: ch3-13
+    컷신: ''
+    다음: ch3-14
+  ch3-14:
+    장: 3장 · 지워진 이름
+    설명: 지하 가장 깊은 곳, 「모르디안의 원념」을 클리어하자. (3인 던전)
+    서버: school
+    조건:
+    - 종류: 신호
+      대상: 원념클리어
+      개수: 1
+      표시: 「모르디안의 원념」 클리어하기
+    호출:
+      종류: 자동
+      지연: 0
+    대화: ch3-14
+    시작명령:
+    - lp user {player} permission set chacademi.dungeon.enter.ash_shadow true
+    - lp user {player} permission set chacademi.dungeon.enter.horologe true
+    - lp user {player} permission set chacademi.dungeon.enter.mordian true
+    시작명령-한번: false
+    컷신: ''
+    다음: ch3-end
+  # 3장 끝 대기 (2장 ch2-22 와 같은 방식). 4장을 열 때 호출을 자동, 다음을 4장 첫 단계로.
+  ch3-end:
+    장: 4장 · 준비 중
+    설명: 4장을 기다려 주세요.
+    조건: []
+    호출:
+      종류: 없음
+    대화: ''
+    컷신: ''
+    다음: ''
+    시작명령:
+    - lp user {player} permission set chacademi.dungeon.enter.lich_lab true
+    - lp user {player} permission set chacademi.dungeon.enter.sweet_nightmare true
+    - lp user {player} permission set chacademi.dungeon.enter.ash_shadow true
+    - lp user {player} permission set chacademi.dungeon.enter.horologe true
+    - lp user {player} permission set chacademi.dungeon.enter.mordian true
+    시작명령-한번: false
+  # [기능:3장 스토리 끝]

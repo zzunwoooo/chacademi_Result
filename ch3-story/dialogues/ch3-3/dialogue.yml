@@ -1,0 +1,26 @@
+# 차카데미 대화 — Claude 작성 2026-11-03 (오너 3장 기획)
+format: 1
+id: "ch3-3"
+title: "3-3. 실전"
+description: "하르바 교수에게 돌아가요."
+chapter: "3장 · 지워진 이름"
+start: a
+dim: 0.35
+type_speed: 0.03
+type_sound: default
+type_sound_volume: 0.5
+speakers:
+  me:
+    name: "{player}"
+  harva:
+    name: "하르바 교수"
+    npc: "teacher_harva"
+    portraits:
+      "기본": "teacher_harva-neutral.png"
+scenes:
+  a:
+    name: "실전"
+    lines:
+      - {who: harva, face: "기본", text: "…왔군. 생각보다 고됐나 보지."}
+      - {who: harva, face: "기본", text: "실전을 겪고 또 한 걸음 컸다. 마나가 달라졌어."}
+      - {who: harva, face: "기본", text: "심장 쪽에 마나를 모아 봐라. 지금이면 된다."}
