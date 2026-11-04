@@ -68,6 +68,11 @@ final class UiScreens {
             pose.popPose();
             g.flush();
             if (!tooltip.isEmpty()) {
+                // [기능:보상수량 시작] 마법도감과 같은 아이템 설명창 (없으면 기본 툴팁)
+                var codexLines = new ArrayList<Component>(Screen.getTooltipFromItem(Minecraft.getInstance(), tooltip));
+                codexLines.addAll(tooltipExtra);
+                if (codexTooltip(g, tooltip, mouseX, mouseY, codexLines)) return;
+                // [기능:보상수량 끝]
                 if (tooltipExtra.isEmpty()) g.renderTooltip(font, tooltip, mouseX, mouseY);
                 else {
                     var lines = new ArrayList<Component>(Screen.getTooltipFromItem(Minecraft.getInstance(), tooltip));
@@ -76,6 +81,24 @@ final class UiScreens {
                 }
             }
         }
+
+        // [기능:보상수량 시작]
+        private static java.lang.reflect.Method codexTip;
+        private static boolean codexTipLooked;
+
+        /** 마법도감(MagicCodex) ItemTooltipRenderer.render 로 그리기. 그렸으면 true. */
+        private boolean codexTooltip(GuiGraphics g, ItemStack stack, int x, int y, List<Component> lines) {
+            if (!codexTipLooked) {
+                codexTipLooked = true;
+                try {
+                    codexTip = Class.forName("school.magiccodex.client.ItemTooltipRenderer")
+                            .getMethod("render", GuiGraphics.class, net.minecraft.client.gui.Font.class, ItemStack.class, int.class, int.class, List.class);
+                } catch (Throwable ignored) { codexTip = null; }
+            }
+            if (codexTip == null) return false;
+            try { return (Boolean) codexTip.invoke(null, g, font, stack, x, y, lines); } catch (Throwable ignored) { return false; }
+        }
+        // [기능:보상수량 끝]
 
         boolean over(float x, float y, float w, float h) { return mx >= x && mx <= x + w && my >= y && my <= y + h; }
 
@@ -337,6 +360,13 @@ final class UiScreens {
             g.flush();
             pose.pushPose();
             pose.translate(0, 0, 300);
+            // [기능:보상수량 시작] 큰 보상 칸에 첫 아이템 수량 (2개 이상일 때)
+            for (int i = 0; i < 3; i++) {
+                if (rewards.get(i).isEmpty()) continue;
+                int amount = rewards.get(i).get(0).stack().getCount();
+                if (amount > 1) Art.textRight(g, "×" + amount, SLOT_X[i] + SLOT_W - 12, SLOT_Y + SLOT_H - 18, 24, WHITE);
+            }
+            // [기능:보상수량 끝]
             for (int i = 0; i < 3; i++) {
                 if (groups[i] == null || !groups[i].done()) continue;
                 Art.rect(g, SLOT_X[i] + 6, SLOT_Y + 6, SLOT_W - 12, SLOT_H - 12, 0xA60A0E16);
