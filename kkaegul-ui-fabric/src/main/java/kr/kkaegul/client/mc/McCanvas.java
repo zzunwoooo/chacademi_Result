@@ -128,6 +128,22 @@ public final class McCanvas implements Canvas {
         return round;
     }
 
+    @Override public boolean face(String account, float x, float y, float size) {
+        var nh = client.getNetworkHandler();
+        if (nh == null) return false;
+        String name = account == null || account.isEmpty() ? (client.player == null ? "" : client.player.getGameProfile().getName()) : account;
+        var entry = nh.getPlayerListEntry(name);
+        if (entry == null) return false;
+        var skin = entry.getSkinTextures().texture();
+        m().push();
+        m().translate(x, y, 0);
+        m().scale(size / 64f, size / 64f, 1);
+        ctx.drawTexture(net.minecraft.client.render.RenderLayer::getGuiTextured, skin, 0, 0, 8, 8, 64, 64, 8, 8, 64, 64);
+        ctx.drawTexture(net.minecraft.client.render.RenderLayer::getGuiTextured, skin, 0, 0, 40, 8, 64, 64, 8, 8, 64, 64);
+        m().pop();
+        return true;
+    }
+
     @Override public void push() { m().push(); }
     @Override public void pop() { m().pop(); }
     @Override public void translate(float x, float y) { m().translate(x, y, 0); }

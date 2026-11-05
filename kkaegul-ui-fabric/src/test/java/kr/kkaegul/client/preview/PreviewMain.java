@@ -71,7 +71,7 @@ public final class PreviewMain {
         // 4. 메뉴
         JsonObject md = J.parse("""
           {"tab":"me","me":{"name":"깨굴러버","account":"Frog_123","title":"&6[운빨왕]","debt":1234,"held":56,"coins":17,"gauge":{"value":62,"max":100},
-             "totalIncreased":5120,"totalSubmitted":3000,"totalDonated":150,"jailCount":4,"pickaxeBreaks":7,"instantDeaths":2,"bestPickaxe":9,"day":3},
+             "totalIncreased":5120,"totalSubmitted":3000,"totalDonated":150,"jailCount":4,"pickaxeBreaks":7,"instantDeaths":2,"bestPickaxe":9,"day":3,"pickaxe":{"fortune":7,"efficiency":9,"unbreaking":4}},
            "playtime":{"todaySeconds":4200,"failPapers":6,"exchangeNeed":5,"milestones":[
              {"id":"m30","label":"깨굴코인 3개","needSeconds":1800,"claimed":true,"ready":false},
              {"id":"m60","label":"일반상자","needSeconds":3600,"claimed":false,"ready":true},

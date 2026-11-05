@@ -37,6 +37,9 @@ public interface Canvas {
     /** 도 단위, 현재 원점 기준 */
     void rotate(float degrees);
 
+    /** 접속자 얼굴(스킨 머리). 그렸으면 true. account 가 빈 문자열이면 나 */
+    default boolean face(String account, float x, float y, float size) { return false; }
+
     // ───────── 편의 ─────────
 
     /** 이미지를 가로 w 에 맞추고 비율 유지. 그린 높이를 돌려줌 */
