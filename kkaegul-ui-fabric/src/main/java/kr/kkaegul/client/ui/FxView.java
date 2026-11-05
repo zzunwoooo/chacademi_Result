@@ -66,13 +66,14 @@ public final class FxView {
         }
     }
 
-    // ───────── 상자 오픈 ─────────
+    // ───────── 상자 오픈 (레퍼런스: 열린 상자 위로 빛 → 보상 카드) ─────────
     private void box(Canvas c, long e, float a, Host host) {
         JsonObject d = cur.d();
         float W = c.width(), H = c.height();
-        String kind = switch (J.str(d, "box")) { case "premium" -> "advanced"; case "lucky" -> "lucky"; default -> "normal"; };
-        c.fill(0, 0, W, H, 0, Anim.alpha(0x88000000, a));
-        float cx = W / 2, cy = H * .64f, ch = 240;
+        String box = J.str(d, "box");
+        String kind = switch (box) { case "premium" -> "advanced"; case "lucky" -> "lucky"; default -> "normal"; };
+        c.fill(0, 0, W, H, 0, Anim.alpha(0x66000000, a));
+        float cx = W / 2, cy = H * .72f, ch = 290;
         int tint = Anim.white(a);
         String state;
         float shake = 0, sc = 1;
@@ -81,50 +82,70 @@ public final class FxView {
         else { state = "open"; sc = 1 + .08f * (1 - Anim.outCubic((e - 1150) / 300f)); }
         if (e >= 800) sound(host, 1, "minecraft:block.chest.open", .9f);
         if (e >= 1150) sound(host, 2, "minecraft:entity.player.levelup", 1.4f);
+        List<JsonObject> rewards = J.objs(d, "rewards");
+        int n = Math.min(8, rewards.size());
+        // 빛줄기: 상자 → 카드
         if (state.equals("open")) {
             float bt = Anim.outCubic((e - 1150) / 400f);
-            float pulse = .75f + .25f * (float) Math.sin(e / 180.0);
-            c.imageAt("chest/" + kind + "_beam", cx, cy - ch * .75f, ch * 1.5f * bt, 1, 0, Anim.white(a * pulse * .9f));
+            float pulse = .7f + .3f * (float) Math.sin(e / 180.0);
+            c.push();
+            c.translate(cx, cy - ch * .25f);
+            c.scale(1, -1);
+            c.imageAt("chest/" + kind + "_beam", 0, ch * .55f * bt, ch * 1.2f * bt, 1, 0, Anim.white(a * pulse * .85f));
+            c.pop();
         }
         c.imageAt("chest/" + kind + "_" + state, cx + shake, cy, ch, sc, shake * .4f, tint);
         if (J.bool(d, "fever")) {
-            c.imageAt("reward/chest_fever_badge", cx + ch * .62f, cy - ch * .45f, 92, 1, 0, tint);
-            c.text("1+1", cx + ch * .62f, cy - ch * .45f, 30, Anim.alpha(0xFFE0564C, a), Canvas.CENTER, Canvas.BOLD);
+            c.imageAt("reward/chest_fever_badge", cx + ch * .62f, cy - ch * .4f, 84, 1, 0, tint);
+            c.text("1+1", cx + ch * .62f, cy - ch * .4f, 28, Anim.alpha(0xFFE0564C, a), Canvas.CENTER, Canvas.BOLD);
         }
-        c.textFit(J.str(d, "label", "상자"), cx, cy + ch * .62f, 30, 600, Anim.alpha(Theme.WHITE, a), Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
+        c.textFit(J.str(d, "label", "상자"), cx, cy + ch * .6f, 30, 600, Anim.alpha(Theme.WHITE, a), Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
+        if (n == 0 && e > 1300) c.text("꽝!", cx, H * .34f, 60, Anim.alpha(0xFFFFFFFF, a), Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
 
-        // 보상 카드: 상자에서 튀어나와 위쪽에 늘어선다
-        List<JsonObject> rewards = J.objs(d, "rewards");
-        int n = Math.min(8, rewards.size());
-        if (n == 0 && e > 1300) c.text("꽝!", cx, H * .3f, 54, Anim.alpha(0xFFFFFFFF, a), Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
-        int perRow = n <= 4 ? n : (n + 1) / 2;
-        float cardH = n <= 4 ? 210 : 170, cardW = cardH * 454 / 512f, gap = 22;
+        // 보상 카드: 1장이면 크게, 여러 장이면 줄지어
+        float size = n <= 1 ? 280 : n <= 3 ? 240 : n <= 5 ? 200 : 160, gap = 26;
+        int perRow = n <= 5 ? n : (n + 1) / 2;
         for (int i = 0; i < n; i++) {
             long st = 1250 + i * 230L;
             if (e < st) continue;
-            float t = Anim.outBack(Anim.t(cur.start() + e, cur.start() + st, 420));
+            float t = Anim.outBack(Anim.t(e, st, 420));
             int row = i / Math.max(1, perRow), col = i % Math.max(1, perRow);
             int inRow = Math.min(perRow, n - row * perRow);
-            float tx = cx + (col - (inRow - 1) / 2f) * (cardW + gap);
-            float ty = (n <= 4 ? H * .3f : H * .2f + row * (cardH + 18));
-            float x = Anim.lerp(cx, tx, t), y = Anim.lerp(cy - 40, ty, t);
+            float tx = cx + (col - (inRow - 1) / 2f) * (size + gap);
+            float ty = n <= 5 ? H * .3f : H * .18f + row * (size * .86f + 20);
+            float x = Anim.lerp(cx, tx, t), y = Anim.lerp(cy - 60, ty, t);
             JsonObject r = rewards.get(i);
             boolean rare = J.bool(r, "rare");
             if (rare) sound(host, 4 << i, "minecraft:entity.experience_orb.pickup", 1.6f);
-            float s = .4f + .6f * t;
             c.push();
             c.translate(x, y);
-            c.scale(s, s);
-            String card = rare ? "reward/reward_card_rare" : "reward/reward_card_normal";
-            float w = rare ? cardH * 512 / 466f : cardW;
-            c.image(card, -w / 2, -cardH / 2, w, cardH, tint);
-            c.imageFit(icon(J.str(r, "id"), J.str(r, "label")), 0, -cardH * .08f, cardH * .38f, tint);
-            c.textFit(J.str(r, "label"), 0, cardH * (rare ? .29f : .3f), 19, cardW * .72f, Anim.alpha(Theme.INK, a), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+            c.scale(.4f + .6f * t, .4f + .6f * t);
+            rewardCard(c, kind, rare, J.str(r, "id"), J.str(r, "label"), size, a, e);
             c.pop();
         }
-        if (e > 1250 + n * 230L + 300) {
-            float ft = Anim.outBack(Anim.t(e, 1250 + n * 230L + 300, 400));
-            c.imageFit("reward/frog_waving", cx - ch * 1.05f, cy + 10 + (1 - ft) * 80, 190, Anim.white(a * ft));
+    }
+
+    /** 보상 카드 (일반=크림, 고급=보라+별 3개, 행운=금테+메달, 희귀=메달) */
+    private static void rewardCard(Canvas c, String kind, boolean rare, String id, String label, float s, float a, long e) {
+        int border, fill;
+        switch (kind) {
+            case "advanced" -> { border = 0xFFC9B2E6; fill = 0xFFF1E9FA; }
+            case "lucky" -> { border = 0xFFE8C255; fill = 0xFFFDF6E3; }
+            default -> { border = 0xFFE6D6B6; fill = 0xFFFBF5E8; }
+        }
+        float h = s * .86f;
+        HudView.leaf(c, -s * .36f, -h / 2 + 4, s * .07f, true);
+        HudView.leaf(c, s * .36f, -h / 2 + 4, s * .07f, false);
+        if (kind.equals("advanced"))
+            for (int k = -1; k <= 1; k++) c.imageAt("gacha/confetti_star", k * s * .14f, -h / 2 - s * (k == 0 ? .1f : .06f), s * (k == 0 ? .14f : .1f), 1, 0, Anim.white(a));
+        MenuPanel.box(c, -s / 2, -h / 2, s, h, s * .16f, Anim.alpha(border, a), Anim.alpha(fill, a), s * .025f);
+        MenuPanel.box(c, -s * .22f, -h / 2 + s * .1f, s * .44f, s * .4f, s * .08f, Anim.alpha(0xFFE6D9C2, a), Anim.alpha(0xFFFFFBF2, a), s * .012f);
+        c.imageFit(icon(id, label), 0, -h / 2 + s * .3f, s * .3f, Anim.white(a));
+        MenuPanel.box(c, -s * .36f, h / 2 - s * .26f, s * .72f, s * .15f, s * .075f, Anim.alpha(0xFFE6D9C2, a), Anim.alpha(0xFFFFFBF2, a), s * .01f);
+        c.textFit(label, 0, h / 2 - s * .185f, s * .075f, s * .66f, Anim.alpha(Theme.INK, a), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        if (rare || kind.equals("lucky")) {
+            float mx = s * .42f, my = -h / 2 + s * .06f;
+            c.imageAt("menu/medal_gold", mx, my + s * .06f, s * .28f, 1, 8, Anim.white(a));
         }
     }
 
@@ -144,122 +165,130 @@ public final class FxView {
         return "reward/event_diamond";
     }
 
-    // ───────── 피버 시작 ─────────
+    // ───────── 피버 시작 (레퍼런스: 테두리 카드 · 왼쪽 깨굴이 · 가로지르는 리본 · 위 아이콘 3개 · 오른쪽 메달) ─────────
     private void fever(Canvas c, long e, float a, Host host) {
         String id = cur.id();
         String k = id.equals("fever_triple") ? "triple" : id.equals("fever_box") ? "chest" : "diamond";
         String title = switch (k) { case "triple" -> "3배 피버 터짐!!"; case "chest" -> "상자 피버!"; default -> "다이아 증감 피버!"; };
-        String sub = switch (k) {
-            case "triple" -> "룰렛 결과 1+2";
-            case "chest" -> "상자 내용물 1+1";
-            default -> "룰렛이 빨라지고 1+1";
-        };
+        String sub = switch (k) { case "triple" -> "룰렛 결과 1+2"; case "chest" -> "상자 내용물 1+1"; default -> "룰렛이 빨라지고 1+1"; };
         long sec = J.num(cur.d(), "seconds");
         if (sec > 0) sub = Fmt.time(sec) + " 동안 " + sub;
-        int accent = switch (k) { case "triple" -> 0xFFB04FD0; case "chest" -> 0xFFD9951A; default -> 0xFFE0564C; };
+        int accent = switch (k) { case "triple" -> 0xFF9B4FCF; case "chest" -> 0xFF3C8FD6; default -> 0xFFE0564C; };
         sound(host, 1, "minecraft:entity.firework_rocket.blast", 1f);
         if (e > 300) sound(host, 2, "minecraft:entity.player.levelup", 1.2f);
         float W = c.width(), H = c.height();
-        float slide = (1 - Anim.outBack(Anim.t(e, 0, 450))) * -W * .6f;
-        float w = Math.min(680, W - 120);
+        float w = Math.min(860, W - 160);
         int[] fs = c.size("fever/frame_" + k);
-        float h = fs == null ? w * .52f : w * fs[1] / fs[0];
-        float x = (W - w) / 2 + slide, y = H * .4f - h / 2;
+        float h = fs == null ? w * .5f : w * fs[1] / fs[0];
+        float pop = .8f + .2f * Anim.outBack(Anim.t(e, 0, 380));
+        float x = -w / 2, y = -h / 2;
         int tint = Anim.white(a);
-        c.fill(x + w * .02f, y + h * .03f, w * .96f, h * .94f, 26, Anim.alpha(0xE6FFF6E6, a));
-        // 속도선이 흘러간다
-        for (int i = 0; i < 3; i++) {
-            float p = ((e / 600f) + i / 3f) % 1f;
-            float lx = x + w * (1.1f - p * 1.4f);
-            c.imageW("fever/speed_lines", lx - w * .35f, y + h * (.18f + i * .22f), w * .5f, Anim.white(a * .35f * (float) Math.sin(p * Math.PI)));
-        }
+        c.push();
+        c.translate(W / 2, H * .42f);
+        c.scale(pop, pop);
+        c.fill(x + w * .015f, y + h * .03f, w * .97f, h * .94f, 26, Anim.alpha(0x40FFF3E0, a));
         c.image("fever/frame_" + k, x, y, w, h, tint);
-        String frog = switch (k) { case "triple" -> "fever/frog_megaphones"; case "chest" -> "fever/frog_boxes"; default -> "fever/frog_drummer"; };
-        float bounce = Math.abs((float) Math.sin(e / 130.0)) * 10;
-        c.imageFit(frog, x + w * .5f, y + h * .58f - bounce, h * .62f, tint);
+        // 모서리 반짝 선
+        float[][] cs = {{x + 40, y + 40, 225}, {x + w - 40, y + 40, 315}, {x + 40, y + h - 40, 135}, {x + w - 40, y + h - 40, 45}};
+        for (float[] q : cs) {
+            c.push(); c.translate(q[0], q[1]); c.rotate(q[2]);
+            for (int i = -1; i <= 1; i++) { c.push(); c.rotate(i * 28); c.fill(-2.5f, -26, 5, 12, 2.5f, Anim.alpha(0xFFFFFFFF, a * .9f)); c.pop(); }
+            c.pop();
+        }
+        // 위 아이콘 3개 (가운데 크게)
         String deco = switch (k) { case "triple" -> "fever/lightning"; case "chest" -> "fever/gift"; default -> "fever/flame"; };
-        c.imageAt(deco, x + w * .14f, y + h * .6f, h * .38f, 1, Anim.shake(e, 8, 3), tint);
-        c.imageAt(deco, x + w * .86f, y + h * .6f, h * .38f, 1, -Anim.shake(e, 8, 3), tint);
-        float bw = w * 1.08f;
+        for (int i = -1; i <= 1; i++) {
+            float bt = Anim.outBack(Anim.t(e, 200 + (i + 1) * 90L, 350));
+            float s = (i == 0 ? h * .3f : h * .2f) * bt;
+            c.imageAt(deco, i * w * .13f + w * .04f, y + h * (i == 0 ? .2f : .26f) + Anim.shake(e, 2, 3 + i), s, 1, i * 10, tint);
+        }
+        // 리본 (살짝 기울게)
+        float bw = w * .78f;
         int[] bs = c.size("fever/banner_" + k);
         float bh = bs == null ? bw * .18f : bw * bs[1] / bs[0];
-        float bsScale = .6f + .4f * Anim.outBack(Anim.t(e, 150, 400));
+        float slide = (1 - Anim.outCubic(Anim.t(e, 100, 400))) * w * .3f;
         c.push();
-        c.translate(x + w / 2, y + 4);
-        c.scale(bsScale, bsScale);
+        c.translate(w * .07f + slide, h * .05f);
+        c.rotate(-5);
         c.image("fever/banner_" + k, -bw / 2, -bh / 2, bw, bh, tint);
-        c.textFit(title, 0, -bh * .02f, 38, bw * .66f, Anim.alpha(accent, a), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        c.textFit(title, -bw * .02f, -bh * .04f, h * .1f, bw * .6f, Anim.alpha(accent, a), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
         c.pop();
-        c.textFit(sub, x + w / 2, y + h * .92f, 26, w * .9f, Anim.alpha(Theme.INK, a), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        // 오른쪽 메달 (3배 / 상자)
+        if (!k.equals("diamond")) {
+            float mt = Anim.outBack(Anim.t(e, 500, 400));
+            c.imageAt("reward/chest_fever_badge", x + w * .86f, h * .02f, h * .3f * mt, 1, 0, tint);
+            c.text(k.equals("triple") ? "x3" : "1+1", x + w * .86f, h * .02f, h * .1f * mt, Anim.alpha(accent, a), Canvas.CENTER, Canvas.BOLD);
+        }
+        // 왼쪽 깨굴이
+        String frog = switch (k) { case "triple" -> "fever/frog_megaphones"; case "chest" -> "fever/frog_boxes"; default -> "fever/frog_drummer"; };
+        float bounce = Math.abs((float) Math.sin(e / 130.0)) * 10;
+        c.imageAt(frog, x + w * .17f, y + h * .64f - bounce, h * .56f, 1, 0, tint);
+        c.textFit(sub, w * .1f, y + h * .86f, h * .065f, w * .6f, Anim.alpha(Theme.WHITE, a), Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
+        c.pop();
     }
 
-    // ───────── 초대장 ─────────
+    // ───────── 초대장 (레퍼런스: 봉인된 봉투 → 봉인 깨짐 → 봉투에서 카드가 올라옴 · 오른쪽 집사 깨굴이) ─────────
     private void invite(Canvas c, long e, float a, Host host) {
         JsonObject d = cur.d();
         float W = c.width(), H = c.height();
         int tint = Anim.white(a);
-        c.fill(0, 0, W, H, 0, Anim.alpha(0x99000000, a));
-        float cx = W / 2, cy = H * .52f;
-        float ew = Math.min(620, W - 200);
+        c.fill(0, 0, W, H, 0, Anim.alpha(0x88000000, a));
+        float ew = Math.min(560, W * .35f);
+        float cx = W / 2 - ew * .12f, bottom = H * .9f;
         if (e < 1150) {
-            // 봉투가 떨어지고 봉인이 흔들린다
             float drop = Anim.outBounce(Anim.t(e, 0, 650));
-            float y = Anim.lerp(-H * .4f, cy, drop);
             float eh = ew * 545 / 1024f;
+            float y = Anim.lerp(-eh, bottom - eh, drop);
             if (e > 300) sound(host, 1, "minecraft:item.book.page_turn", .8f);
-            c.image("invite/envelope_closed", cx - ew / 2, y - eh / 2, ew, eh, tint);
-            float sh = e > 650 ? Anim.shake(e, 6, 12) : 0;
-            c.imageAt("invite/wax_seal", cx + sh, y + eh * .05f, eh * .42f, 1, sh * 2, tint);
+            c.image("invite/envelope_closed", cx - ew / 2, y, ew, eh, tint);
+            float sh = e > 650 ? Anim.shake(e, 5, 12) : 0;
+            c.imageAt("invite/wax_seal", cx + sh, y + eh * .52f, eh * .4f, 1, sh * 2, tint);
             return;
         }
-        // 봉인이 깨져 날아간다
-        if (e < 1700) {
-            float t = Anim.t(e, 1150, 550);
-            sound(host, 2, "minecraft:block.glass.break", 1.4f);
-            float eh = ew * 545 / 1024f;
-            c.imageAt("invite/seal_fragment_a", cx - 60 * t * 3, cy - 20 + 200 * t * t, eh * .42f, 1, -60 * t, Anim.white(a * (1 - t)));
-            c.imageAt("invite/seal_fragment_b", cx + 60 * t * 3, cy - 10 + 220 * t * t, eh * .42f, 1, 70 * t, Anim.white(a * (1 - t)));
-        }
-        // 열린 봉투에서 초대장이 올라온다
-        float cardH = Math.min(620, H * .66f), cardW = cardH * 707 / 1024f;
-        float rise = Anim.outCubic(Anim.t(e, 1250, 800));
-        float toCenter = Anim.inOut(Anim.t(e, 2150, 550));
-        float envA = 1 - toCenter;
         float bh = ew * 797 / 1024f, fh = ew * 514 / 1024f;
-        float envTop = cy - bh * .2f;
-        if (envA > 0) c.image("invite/envelope_back", cx - ew / 2, envTop, ew, bh, Anim.white(a * envA));
-        float s0 = .55f;
-        float cardCy = Anim.lerp(envTop + bh * .55f - rise * cardH * .48f, H * .5f, toCenter);
-        float cs = Anim.lerp(s0, 1, toCenter);
+        float envTop = bottom - bh;
+        c.image("invite/envelope_back", cx - ew / 2, envTop, ew, bh, tint);
+        // 카드가 올라온다
+        float cardW = ew * .78f, cardH = cardW * 1024 / 707f;
+        float rise = Anim.outCubic(Anim.t(e, 1300, 900));
+        float cardBottom = Anim.lerp(bottom - 30, bottom - fh * .42f, rise);
+        float cy = cardBottom - cardH / 2;
         c.push();
-        c.translate(cx - (e > 2700 ? 120 : 120 * toCenter), cardCy);
-        c.scale(cs, cs);
+        c.translate(cx, cy);
+        if (rise > .98f) {
+            // 올라온 뒤 위쪽 봉인이 반짝
+            float glow = .5f + .5f * (float) Math.sin(e / 200.0);
+            c.fill(-cardW * .1f, -cardH / 2 - cardW * .02f, cardW * .2f, cardW * .2f, cardW * .1f, Anim.alpha(0x66B6F07A, a * glow));
+        }
         c.image("invite/invitation_card", -cardW / 2, -cardH / 2, cardW, cardH, tint);
-        float ta = a * Anim.t(e, 2400, 300);
-        c.textFit(J.str(d, "title", "깨굴이의 위험한 초대"), 0, -cardH / 2 + cardH * .125f, 24, cardW * .6f, Anim.alpha(0xFF6B4A9C, ta), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
-        c.textFit("To. " + J.str(d, "to"), 0, -cardH / 2 + cardH * .38f, 32, cardW * .78f, Anim.alpha(Theme.INK, ta), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        float ta = a * Anim.t(e, 2100, 300);
+        c.textFit(J.str(d, "title", "깨굴이의 위험한 초대"), 0, -cardH / 2 + cardH * .125f, cardW * .055f, cardW * .6f, Anim.alpha(0xFF6B4A9C, ta), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        c.textFit("To. " + J.str(d, "to"), 0, -cardH / 2 + cardH * .38f, cardW * .075f, cardW * .78f, Anim.alpha(Theme.INK, ta), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
         String line2 = d.has("from") ? "From. " + J.str(d, "from") : "장소 : " + J.str(d, "place", "비밀");
-        c.textFit(line2, 0, -cardH / 2 + cardH * .655f, 28, cardW * .78f, Anim.alpha(Theme.INK, ta), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
-        // 거부 불가 도장 쾅
-        if (e > 3000) {
-            float st = Anim.t(e, 3000, 260);
+        c.textFit(line2, 0, -cardH / 2 + cardH * .655f, cardW * .065f, cardW * .78f, Anim.alpha(Theme.INK, ta), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        if (e > 2900) {
+            float st = Anim.t(e, 2900, 260);
             sound(host, 4, "minecraft:entity.iron_golem.attack", .7f);
             float ss = 2.2f - 1.2f * Anim.outCubic(st);
-            float sy = -cardH / 2 + cardH * .89f, sz = cardW * .42f;
+            float sy = -cardH / 2 + cardH * .89f, sz = cardW * .4f;
             c.imageAt("invite/stamp_red", 0, sy, sz, ss, -12, Anim.white(a * st));
-            c.push();
-            c.translate(0, sy);
-            c.rotate(-12);
-            c.scale(ss, ss);
+            c.push(); c.translate(0, sy); c.rotate(-12); c.scale(ss, ss);
             c.text("거부", 0, -sz * .14f, sz * .22f, Anim.alpha(0xFFD8423B, a * st), Canvas.CENTER, Canvas.BOLD);
             c.text("불가", 0, sz * .14f, sz * .22f, Anim.alpha(0xFFD8423B, a * st), Canvas.CENTER, Canvas.BOLD);
             c.pop();
         }
         c.pop();
-        if (envA > 0) c.image("invite/envelope_front_overlay", cx - ew / 2, envTop + bh - fh, ew, fh, Anim.white(a * envA));
-        if (e > 2500) {
-            float bt = Anim.outBack(Anim.t(e, 2500, 450));
-            c.imageFit("invite/frog_butler", cx + cardW * .5f + 60, H * .58f + (1 - bt) * 60, 330, Anim.white(a * Anim.clamp(bt)));
+        c.image("invite/envelope_front_overlay", cx - ew / 2, bottom - fh, ew, fh, tint);
+        // 봉인 조각이 떨어진다
+        if (e < 1900) {
+            float t = Anim.t(e, 1150, 750);
+            sound(host, 2, "minecraft:block.glass.break", 1.4f);
+            c.imageAt("invite/seal_fragment_a", cx - 40 - 30 * t, bottom - fh * .3f + 160 * t * t, ew * .09f, 1, -50 * t, Anim.white(a * (1 - t)));
+            c.imageAt("invite/seal_fragment_b", cx + 30 + 30 * t, bottom - fh * .25f + 180 * t * t, ew * .09f, 1, 60 * t, Anim.white(a * (1 - t)));
+        }
+        if (e > 2300) {
+            float bt = Anim.outBack(Anim.t(e, 2300, 450));
+            c.imageAt("invite/frog_butler", cx + ew * .5f + ew * .32f, bottom - ew * .3f + (1 - bt) * 60, ew * .6f, 1, 0, Anim.white(a * Anim.clamp(bt)));
         }
     }
 

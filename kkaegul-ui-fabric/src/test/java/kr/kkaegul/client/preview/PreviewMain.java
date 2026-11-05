@@ -118,6 +118,11 @@ public final class PreviewMain {
         fx(out, tex, "20_invite_card.png", "invite_letter", "{\"title\":\"깨굴이의 위험한 초대\",\"to\":\"깨굴러버\",\"place\":\"위험한 의자\"}", 3600);
         fx(out, tex, "21_invite_rise.png", "invite_letter", "{\"title\":\"깨굴이의 위험한 초대\",\"to\":\"깨굴러버\",\"from\":\"초록개구리\"}", 1900);
         fx(out, tex, "22_graduate.png", "graduate", "{\"name\":\"깨굴러버\"}", 1500);
+        shot(out, "23_gauge_tiers.png", tex, c -> {
+            String[] t = {"low", "mid", "high", "jackpot"};
+            float[] rr = {.25f, .45f, .75f, 1f};
+            for (int i = 0; i < 4; i++) HudView.gaugeBar(c, 560, 200 + i * 170, 700, 46, rr[i], t[i], T);
+        });
         System.out.println("done");
     }
 

@@ -64,7 +64,8 @@ public final class HudView {
         if (pops.size() > 6) pops.remove(0);
     }
 
-    private static String frog(String tier) {
+    /** 게이지 단계별 깨굴이 (연잎 위에 앉은 전신) */
+    static String frog(String tier) {
         return switch (tier) {
             case "low" -> "hud/frog_sad";
             case "high" -> "hud/frog_smile";
@@ -73,70 +74,108 @@ public final class HudView {
         };
     }
 
+    /** 단계별 채움 색 (레퍼런스: 낮음 회녹 / 보통 연두 / 높음 노랑 / 잭팟 무지개) */
+    static int fillColor(String tier) {
+        return switch (tier) {
+            case "low" -> 0xFF7F9683;
+            case "high" -> 0xFFFFCF3A;
+            default -> 0xFF9ED04A;
+        };
+    }
+
+    /** 잎사귀 두 장 (줄기 끝 장식) */
+    /**
+     * 잎 두 장 (hud/leaf.png: 줄기 끝이 오른쪽 아래, 잎은 왼쪽 위).
+     * (x,y) = 줄기 끝. flip=true 면 그대로(잎이 왼쪽), false 면 좌우 반전(잎이 오른쪽).
+     */
+    static void leaf(Canvas c, float x, float y, float size, boolean flip) {
+        float h = size * 1.6f, w = h * 160 / 120f;
+        c.push();
+        c.translate(x, y);
+        if (!flip) c.scale(-1, 1);
+        c.image("hud/leaf", -w * 150 / 160f, -h * 104 / 120f, w, h, 0xFFFFFFFF);
+        c.pop();
+    }
+
+    /**
+     * 운빨 게이지 막대 (게이지 상세 레퍼런스): 왼쪽 잎 · 금테 막대 · 오른쪽 잎 · 연잎 위 깨굴이.
+     * x,y = 막대 왼쪽 위, w,h = 막대 크기. 오른쪽에 깨굴이 자리(h*3)만큼 더 쓴다.
+     */
+    public static void gaugeBar(Canvas c, float x, float y, float w, float h, float ratio, String tier, long now) {
+        leaf(c, x + h * .2f, y + h * .55f, h * 1.3f, true);
+        MenuPanel.box(c, x, y, w, h, h / 2, 0xFF9C6B22, 0xFFE9B54C, Math.max(1.5f, h * .06f));
+        MenuPanel.box(c, x + h * .14f, y + h * .14f, w - h * .28f, h - h * .28f, (h - h * .28f) / 2, 0xFFD9A441, 0xFFFDF4E2, 1);
+        float pad = h * .22f;
+        float iw = (w - pad * 2) * Math.max(0, Math.min(1, ratio)), ih = h - pad * 2;
+        if (iw > 1) {
+            if ("jackpot".equals(tier)) {
+                c.imagePart("hud/gauge_fill_jackpot", x + pad, y + pad, iw, ih, 0.02f, .1f, .02f + .96f * Math.max(.05f, ratio), .9f, 0xFFFFFFFF);
+                c.fill(x + pad, y + pad, iw, ih * .45f, ih * .22f, Anim.alpha(0x66FFFFFF, .5f + .5f * (float) Math.sin(now / 160.0)));
+            } else {
+                c.fill(x + pad, y + pad, Math.max(ih, iw), ih, ih / 2, fillColor(tier));
+                c.fill(x + pad + ih * .3f, y + pad + ih * .12f, Math.max(ih, iw) - ih * .6f, ih * .3f, ih * .15f, 0x40FFFFFF);
+            }
+        }
+        leaf(c, x + w - h * .2f, y + h * .55f, h * 1.3f, false);
+        // 연잎 + 깨굴이
+        float px = x + w + h * 2.1f, py = y + h * 1.35f;
+        c.image("hud/lily_pad", px - h * 1.6f, py - h * .56f, h * 3.2f, h * 1.12f, 0xFFFFFFFF);
+        float bob = "jackpot".equals(tier) ? Math.abs((float) Math.sin(now / 180.0)) * h * .25f : (float) Math.sin(now / 600.0) * 1.5f;
+        c.imageAt(frog(tier), px, py - h * 1.2f - bob, h * 2.6f, 1, 0, 0xFFFFFFFF);
+    }
+
     public void render(Canvas c, long now) {
         hits.clear();
         if (!has || !visible) return;
         c.push();
         c.scale(scale, scale);
-        float x0 = 26, y0 = 22;
+        float W = c.width() / scale;
 
-        JsonObject g = J.objOrEmpty(data, "gauge");
-        long value = J.num(g, "value"), max = Math.max(1, J.num(g, "max", 100));
-        String tier = J.str(g, "tier", "mid");
-        // 게이지 숫자는 부드럽게 따라간다
-        if (shownGauge < 0) shownGauge = value;
-        shownGauge += (value - shownGauge) * 0.15f;
-        if (Math.abs(value - shownGauge) < 0.05f) shownGauge = value;
-
-        // 깨굴이 (값이 바뀌면 살짝 통통)
-        float bob = (float) Math.sin(now / 520.0) * 2.5f;
-        c.imageH(frog(tier), x0, y0 + bob, 118, 0xFFFFFFFF);
-        hits.add(new Hit("gauge", x0, y0, 104, 118));
-
-        // 운빨 게이지
-        float gx = x0 + 114, gy = y0 + 6, gw = 430, gh = gw * 177 / 1024f;
-        float ratio = Math.max(0, Math.min(1, shownGauge / max));
-        float fx = gx + gw * .028f, fy = gy + gh * .30f, fw = gw * .944f, fh = gh * .58f;
-        c.fill(fx, fy, fw, fh, fh / 2, 0xB0FFF6E4);
-        if (ratio > 0) c.imagePart("hud/gauge_fill_jackpot", fx, fy, fw * ratio, fh, 0, 0, ratio, 1, 0xFFFFFFFF);
-        if ("jackpot".equals(tier)) c.fill(fx, fy, fw * ratio, fh, fh / 2, Anim.alpha(0x55FFFFFF, .5f + .5f * (float) Math.sin(now / 160.0)));
-        c.image("hud/gauge_frame", gx, gy, gw, gh, 0xFFFFFFFF);
-        c.text("운빨 " + Math.round(shownGauge) + "§7 / " + max, gx + gw / 2, fy + fh / 2 + 1, 23, Theme.WHITE, Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
-        hits.add(new Hit("gauge", gx, gy, gw, gh));
-
-        // 남은 다이아 / 보유 다이아 / 코인
-        float cx = gx, cy = gy + gh - 4, cw = gw, ch = cw * 120 / 1024f;
+        // ── 왼쪽 위: 남은 다이아 | 보유 다이아 | 코인 | ▼
+        float cx = 24, cy = 14, cw = 520, ch = cw * 120 / 1024f;
         c.image("hud/currency_frame", cx, cy, cw, ch, 0xFFFFFFFF);
         float bodyY = cy + ch * .25f, bodyH = ch * .72f, mid = bodyY + bodyH / 2;
-        float[][] seg = {{.015f, .30f}, {.30f, .60f}, {.60f, .985f}};
-        String[] icons = {"hud/target_reticle", "hud/diamond", "hud/frog_coin"};
+        float[][] seg = {{.015f, .30f}, {.30f, .60f}, {.60f, .90f}};
         String[] keys = {"target", "held", "coin"};
         long[] vals = {J.num(data, "debt"), J.num(data, "held"), J.num(data, "coins")};
         for (int i = 0; i < 3; i++) {
             float sx = cx + cw * seg[i][0], sw = cw * (seg[i][1] - seg[i][0]);
+            float ix = sx + 26;
             if (i == 0) {
-                c.imageFit("hud/diamond", sx + 20, mid, 19, 0xFFFFFFFF);
-                c.imageFit("hud/target_reticle", sx + 20, mid, 30, 0xFFFFFFFF);
-            } else c.imageFit(icons[i], sx + 20, mid, 28, 0xFFFFFFFF);
-            c.textFit(Fmt.num(vals[i]), sx + 38, mid, 20, sw - 44, Theme.INK, Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
+                c.imageFit("hud/diamond", ix, mid, 22, 0xFFFFFFFF);
+                c.imageFit("hud/target_reticle", ix, mid, 36, 0xFFFFFFFF);
+            } else if (i == 1) c.imageFit("hud/diamond", ix, mid, 28, 0xFFFFFFFF);
+            else c.imageFit("hud/frog_coin", ix, mid, 30, 0xFFFFFFFF);
+            c.textFit(Fmt.num(vals[i]), ix + 22, mid + 1, 22, sw - 54, Theme.INK, Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
             hits.add(new Hit(keys[i], sx, bodyY, sw, bodyH));
         }
-        c.imageFit("hud/expand_arrow", cx + cw * .935f, mid + 1, 16, 0xC0FFFFFF);
-        lastSegX = cx + cw + 56;
+        c.imageFit("hud/expand_arrow", cx + cw * .945f, mid + 1, 18, 0xFFFFFFFF);
+        lastSegX = cx + cw + 46;
         lastSegY = mid;
 
-        // 상태 뱃지
-        float bx = cx, by = cy + ch + 8;
-        if (J.bool(data, "protected")) bx = badge(c, "hud/protection_shield", "보호 중", 0xFF5BA346, bx, by, "protection");
+        // ── 그 아래: 상태 아이콘 + 남은 시간
+        float bx = cx + 6, by = cy + ch + 8;
+        if (J.bool(data, "protected")) bx = status(c, "hud/protection_shield", null, "보호", bx, by, "protection");
         JsonObject fev = J.objOrEmpty(data, "fever");
         long fd = J.num(fev, "diamond"), ft = J.num(fev, "triple"), fb = J.num(fev, "box");
-        if (ft > 0) bx = badge(c, "fever/badge_triple|fever/lightning", "3배 " + Fmt.clock(ft), 0xFFB04FD0, bx, by, "fever");
-        else if (fd > 0) bx = badge(c, "hud/fever", "피버 " + Fmt.clock(fd), 0xFFE0564C, bx, by, "fever");
-        if (fb > 0) bx = badge(c, "fever/badge_chest|fever/gift", "상자 " + Fmt.clock(fb), 0xFFD9951A, bx, by, "fever");
+        if (ft > 0) bx = status(c, "fever/badge_triple", "fever/lightning", Fmt.clock(ft), bx, by, "fever");
+        else if (fd > 0) bx = status(c, "hud/fever", null, Fmt.clock(fd), bx, by, "fever");
+        if (fb > 0) bx = status(c, "fever/badge_chest", "fever/gift", Fmt.clock(fb), bx, by, "fever");
         JsonObject jail = J.obj(data, "jail");
-        if (jail != null) bx = badge(c, "hud/prison_bars", "운동 " + J.num(jail, "done") + "/" + J.num(jail, "required"), 0xFF6F6F78, bx, by, "jail");
+        if (jail != null) bx = status(c, "hud/prison_bars", null, J.num(jail, "done") + "/" + J.num(jail, "required"), bx, by, "jail");
         long mail = J.num(data, "mail");
-        if (mail > 0) badge(c, "invite/envelope_closed", "우편 " + mail, 0xFF3C8FD6, bx, by, "mail");
+        if (mail > 0) status(c, "invite/envelope_closed", null, "우편 " + mail, bx, by, "mail");
+
+        // ── 위 가운데: 운빨 게이지
+        JsonObject g = J.objOrEmpty(data, "gauge");
+        long value = J.num(g, "value"), max = Math.max(1, J.num(g, "max", 100));
+        String tier = J.str(g, "tier", "mid");
+        if (shownGauge < 0) shownGauge = value;
+        shownGauge += (value - shownGauge) * 0.15f;
+        if (Math.abs(value - shownGauge) < 0.05f) shownGauge = value;
+        float gw = 330, gh = 24, gx = W / 2 - gw / 2 - 30, gy = 28;
+        gaugeBar(c, gx, gy, gw, gh, shownGauge / max, tier, now);
+        hits.add(new Hit("gauge", gx - 20, gy - 20, gw + gh * 4 + 20, gh + 40));
 
         // 남은 다이아 변화 팝업
         pops.removeIf(p -> now - p.start() > 1600);
@@ -148,16 +187,16 @@ public final class HudView {
         c.pop();
     }
 
-    private float badge(Canvas c, String icon, String text, int accent, float x, float y, String key) {
-        float h = 36, tw = c.textWidth(text, 18, Canvas.BOLD), w = 48 + tw + 14;
-        c.fill(x, y, w, h, h / 2, accent);
-        c.fill(x + 2, y + 2, w - 4, h - 4, h / 2 - 2, 0xF2FFF8EA);
-        String[] ic = icon.split("\\|");
-        c.imageFit(ic[0], x + 22, y + h / 2, 28, 0xFFFFFFFF);
-        if (ic.length > 1) c.imageFit(ic[1], x + 22, y + h / 2, 16, 0xFFFFFFFF);
-        c.text(text, x + 40, y + h / 2, 18, accent, Canvas.LEFT, Canvas.BOLD);
-        hits.add(new Hit(key, x, y, w, h));
-        return x + w + 8;
+    /** 아이콘 + 그 아래 시간 글자 (배경 없음) */
+    private float status(Canvas c, String icon, String inner, String text, float x, float y, String key) {
+        float s = 40;
+        float w = Math.max(s, c.textWidth(text, 16, Canvas.BOLD | Canvas.OUTLINE)) + 10;
+        float cx = x + w / 2;
+        c.imageFit(icon, cx, y + s / 2, s, 0xFFFFFFFF);
+        if (inner != null) c.imageFit(inner, cx, y + s / 2, s * .55f, 0xFFFFFFFF);
+        c.text(text, cx, y + s + 10, 16, Theme.WHITE, Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
+        hits.add(new Hit(key, x, y, w, s + 20));
+        return x + w + 6;
     }
 
     /** 커서가 보일 때 툴팁 (가상 좌표) */
