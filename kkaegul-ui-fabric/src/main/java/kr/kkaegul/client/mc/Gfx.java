@@ -96,9 +96,10 @@ public final class Gfx {
 
     public static void loadFonts(ResourceManager rm) {
         if (TextRaster.ready()) return;
-        try (var a = rm.getResourceOrThrow(Identifier.of("kkaegul", "font/pretendard_semibold.ttf")).getInputStream();
+        try (var c = rm.getResourceOrThrow(Identifier.of("kkaegul", "font/jua.ttf")).getInputStream();
+             var a = rm.getResourceOrThrow(Identifier.of("kkaegul", "font/pretendard_semibold.ttf")).getInputStream();
              var b = rm.getResourceOrThrow(Identifier.of("kkaegul", "font/pretendard_extrabold.ttf")).getInputStream()) {
-            TextRaster.load(a, b);
+            TextRaster.load(c, a, b);
         } catch (Exception e) {
             LOG.warn("UI 글꼴을 못 읽었어요", e);
         }

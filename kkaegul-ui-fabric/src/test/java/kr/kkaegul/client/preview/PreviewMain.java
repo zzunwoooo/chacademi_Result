@@ -25,7 +25,7 @@ public final class PreviewMain {
     public static void main(String[] args) throws Exception {
         File assets = new File(args[0]), out = new File(args[1]);
         out.mkdirs();
-        TextRaster.load(new FileInputStream(new File(assets, "font/pretendard_semibold.ttf")), new FileInputStream(new File(assets, "font/pretendard_extrabold.ttf")));
+        TextRaster.load(new FileInputStream(new File(assets, "font/jua.ttf")), new FileInputStream(new File(assets, "font/pretendard_semibold.ttf")), new FileInputStream(new File(assets, "font/pretendard_extrabold.ttf")));
         File tex = new File(assets, "textures/ui");
         long T = 1_000_000;
 

@@ -42,7 +42,7 @@ cd kkaegul-ui-fabric
 
 ## 글꼴
 
-Pretendard (SIL OFL 1.1) — `assets/kkaegul/font/PRETENDARD_LICENSE.txt`.
+주 글꼴: 배민 주아 Jua (SIL OFL 1.1, `font/JUA_LICENSE.txt`). 주아에 없는 기호(·, → 등)만 Pretendard (SIL OFL 1.1, `font/PRETENDARD_LICENSE.txt`).
 
 ## 확인 상태
 

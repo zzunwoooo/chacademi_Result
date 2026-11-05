@@ -27,9 +27,11 @@ public final class TextRaster {
     public static final float CENTER_TO_BASELINE = 0.36f;
     public static final int OUTLINE_RGB = 0x4A3426;
 
-    private static volatile Font regular, bold;
+    /** cute: 주 글꼴(배민 주아, OFL) / regular·bold: 주아에 없는 글자(·, → 등)를 채우는 Pretendard */
+    private static volatile Font cute, regular, bold;
 
-    public static void load(InputStream semibold, InputStream extrabold) throws Exception {
+    public static void load(InputStream cuteFont, InputStream semibold, InputStream extrabold) throws Exception {
+        if (cuteFont != null) cute = Font.createFont(Font.TRUETYPE_FONT, cuteFont);
         regular = Font.createFont(Font.TRUETYPE_FONT, semibold);
         bold = Font.createFont(Font.TRUETYPE_FONT, extrabold);
         raster("깨굴 운빨 0123456789", 20, 0xFFFFFF, 0); // 한글 글리프 준비
@@ -48,7 +50,23 @@ public final class TextRaster {
         int at = 0;
         for (Fmt.Run r : runs) {
             int end = at + r.text().length();
-            a.addAttribute(TextAttribute.FONT, face(allBold || r.bold()).deriveFont(px), at, end);
+            Font fb = face(allBold || r.bold()).deriveFont(px);
+            Font main = cute == null ? fb : cute.deriveFont(px);
+            // 주아에 없는 글자만 Pretendard 로
+            int i = 0;
+            String t = r.text();
+            while (i < t.length()) {
+                int cp = t.codePointAt(i), n = Character.charCount(cp);
+                boolean ok = main.canDisplay(cp);
+                int j = i + n;
+                while (j < t.length()) {
+                    int c2 = t.codePointAt(j);
+                    if (main.canDisplay(c2) != ok) break;
+                    j += Character.charCount(c2);
+                }
+                a.addAttribute(TextAttribute.FONT, ok ? main : fb, at + i, at + j);
+                i = j;
+            }
             a.addAttribute(TextAttribute.FOREGROUND, new Color(r.rgb()), at, end);
             at = end;
         }
