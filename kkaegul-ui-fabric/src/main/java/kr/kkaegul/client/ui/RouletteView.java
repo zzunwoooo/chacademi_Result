@@ -13,6 +13,7 @@ public final class RouletteView {
     private record Spin(JsonObject d, long start, long spinMs) {}
     private final Deque<Spin> queue = new ArrayDeque<>();
     private Spin cur;
+    private int stopMask;
     private static final long HOLD = 2300;
 
     /** 본체별 안쪽 칸 위치 (그림 비율 0~100). {윗판 x0,y0,x1,y1}, 릴 y0,y1, 릴 4개 x 구간, {아랫판 x0,y0,x1,y1} */
@@ -36,6 +37,7 @@ public final class RouletteView {
         Spin s = queue.pollFirst();
         // 밀리면 빨리 돌린다
         cur = s == null ? null : new Spin(s.d(), now, queue.size() >= 2 ? Math.min(s.spinMs(), 1200) : s.spinMs());
+        stopMask = 0;
     }
 
     public boolean active() { return cur != null; }
@@ -104,7 +106,7 @@ public final class RouletteView {
             } else {
                 float st = Anim.t(now, cur.start() + stopAt, 260);
                 float oy = (1 - Anim.outBack(st)) * -rh * .25f;
-                if (st < 1 && e - stopAt < 30) host.sound("minecraft:block.note_block.hat", 1.2f + i * .1f, .5f);
+                if ((stopMask & (1 << i)) == 0) { stopMask |= 1 << i; host.sound("minecraft:block.note_block.hat", 1.2f + i * .1f, .5f); }
                 c.text(String.valueOf(target), cxr, cyr + oy, size, Anim.alpha(dim ? 0x26000000 | (ink & 0xFFFFFF) : ink, a), Canvas.CENTER, Canvas.BOLD);
             }
         }

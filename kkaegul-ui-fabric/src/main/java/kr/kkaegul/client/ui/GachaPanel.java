@@ -15,6 +15,7 @@ public final class GachaPanel implements Panel {
     private JsonObject fx;
     private long fxStart;
     private boolean pressed;
+    private int stopMask;
     private long pressedAt;
     private static final long REEL_MS = 1700, RESULT_MS = 2600;
 
@@ -48,6 +49,7 @@ public final class GachaPanel implements Panel {
         fxId = id;
         fx = d;
         fxStart = now;
+        stopMask = 0;
         waitingSince = 0;
         if (id.equals("gacha_destroy")) host.sound("minecraft:entity.item.break", .8f, 1);
         else if (id.equals("gacha_protect")) host.sound("minecraft:item.shield.block", 1.1f, 1);
@@ -152,7 +154,7 @@ public final class GachaPanel implements Panel {
                 }
                 v = after[i];
                 float t = Anim.t(now, fxStart + stop, 260);
-                if (t < 1 && now - (fxStart + stop) < 20) host.sound("minecraft:block.note_block.hat", 1 + i * .15f, .6f);
+                if ((stopMask & (1 << i)) == 0) { stopMask |= 1 << i; host.sound("minecraft:block.note_block.hat", 1 + i * .15f, .6f); }
                 float s = 1 + .35f * (1 - Anim.outBack(t));
                 boolean up = before != null && before.length == 3 && after[i] > before[i];
                 c.push();

@@ -3,6 +3,8 @@ on:
   push:
     paths: ['kkaegul-ui-fabric/**', '.github/workflows/kkaegul-ui.yml']
   workflow_dispatch:
+permissions:
+  contents: write
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -20,3 +22,12 @@ jobs:
           path: |
             kkaegul-ui-fabric/build/libs/*.jar
             kkaegul-ui-fabric/build/preview/*.png
+      # 빌드 결과를 claude/kkaegul-ui-build 브랜치에도 올린다 (아티팩트 대신 git 으로 받을 수 있게)
+      - name: publish build branch
+        working-directory: .
+        run: |
+          mkdir -p /tmp/out && cp kkaegul-ui-fabric/build/libs/*.jar /tmp/out/ && cp -r kkaegul-ui-fabric/build/preview /tmp/out/preview
+          cd /tmp/out && git init -q && git checkout -q -b claude/kkaegul-ui-build
+          git config user.name "kkaegul-ci" && git config user.email "ci@users.noreply.github.com"
+          git add -A && git commit -qm "build ${GITHUB_SHA}"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" claude/kkaegul-ui-build
