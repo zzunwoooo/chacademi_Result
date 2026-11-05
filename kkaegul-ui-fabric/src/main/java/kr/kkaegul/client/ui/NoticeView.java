@@ -63,7 +63,7 @@ public final class NoticeView {
                 boolean sub = !cur.sub().isBlank();
                 float ty = body + bodyH / 2 - (sub ? 15 : 0);
                 c.textFit(cur.text(), 0, ty, 38, w * .84f, Anim.alpha(Theme.INK, a), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
-                if (sub) c.textFit(cur.sub(), 0, ty + 38, 23, w * .84f, Anim.alpha(Theme.MUTED, a), Canvas.CENTER, Canvas.LIGHT);
+                if (sub) c.textFit(cur.sub(), 0, ty + 38, 25, w * .84f, Anim.alpha(Theme.MUTED, a), Canvas.CENTER, Canvas.LIGHT);
                 c.pop();
             }
         }
@@ -79,7 +79,7 @@ public final class NoticeView {
             float x = (W - w) / 2, ty = y + rise;
             c.image("notice/toast_cream", x, ty - h / 2, w, h, Anim.white(a));
             c.imageFit("notice/face_neutral", x + w * .12f, ty, h * .52f, Anim.white(a));
-            c.textFit(t.text(), x + w * .2f, ty + 1, 22, w * .7f, Anim.alpha(Theme.INK, a), Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
+            c.textFit(t.text(), x + w * .2f, ty + 1, 25, w * .7f, Anim.alpha(Theme.INK, a), Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
             y -= h * .78f;
         }
     }

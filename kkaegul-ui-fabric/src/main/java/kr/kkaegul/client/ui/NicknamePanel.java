@@ -88,12 +88,15 @@ public final class NicknamePanel implements Panel {
         boolean art = has(c, "nickname/nickname_panel");
         if (art) c.image("nickname/nickname_panel", px, py, pw, ph, 0xFFFFFFFF);
         else {
-            c.image("menu/menu_frame", px, py, pw, ph, 0xFFFFFFFF);
-            c.fill(px + pw * .04f, py + ph * .06f, pw * .92f, ph * .88f, 30, 0xFFFFF8EA);
-            c.imageFit("menu/frog_hanging", px + pw / 2, py - 40 + (float) Math.sin(now / 700.0) * 4, 160, 0xFFFFFFFF);
+            // 메뉴와 같은 틀: 크림 바탕 + 연두 테 + 깨굴이 간판
+            MenuPanel.box(c, px, py, pw, ph, 34, 0xFFCFE6A8, 0xFFFDF8EC, 6);
+            HudView.leaf(c, px + 40, py + ph - 14, 22, true);
+            HudView.leaf(c, px + pw - 40, py + ph - 14, 22, false);
+            float sw = 380, sh = sw * 312 / 512f, bob = (float) Math.sin(now / 700.0) * 2;
+            c.image("gacha_machine/frog_sign_gentle", px + pw / 2 - sw / 2, py + 38 - sh * .79f + bob, sw, sh, 0xFFFFFFFF);
+            c.textFit(first() ? "이름을 정해 주세요!" : "닉네임 바꾸기", px + pw / 2, py + 38 + bob, 30, 200, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
         }
-        c.text(first() ? "이름을 정해 주세요!" : "닉네임 바꾸기", px + pw / 2, py + ph * .14f, 38, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
-        c.text(first() ? "운빨깨굴랜드에서 불릴 이름이에요" : "계정 " + J.str(data, "account"), px + pw / 2, py + ph * .22f, 20, Theme.MUTED, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        c.text(first() ? "운빨깨굴랜드에서 불릴 이름이에요" : "계정 " + J.str(data, "account"), px + pw / 2, py + ph * .225f, 24, Theme.MUTED, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
 
         // 이름표 미리보기
         String title = J.str(data, "title");
@@ -101,7 +104,7 @@ public final class NicknamePanel implements Panel {
         float nw = Math.max(260, c.textWidth(preview, 28, Canvas.BOLD) + 60), nh = 52, ny = py + ph * .36f;
         c.fill(px + pw / 2 - nw / 2, ny - nh / 2, nw, nh, 12, 0x88000000);
         c.text(preview, px + pw / 2, ny, 28, text.isEmpty() ? 0x88FFFFFF : Theme.WHITE, Canvas.CENTER, Canvas.BOLD);
-        c.text("머리 위에 이렇게 보여요", px + pw / 2, ny + 42, 16, Theme.MUTED, Canvas.CENTER, Canvas.LIGHT);
+        c.text("머리 위에 이렇게 보여요", px + pw / 2, ny + 44, 19, Theme.MUTED, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
 
         // 입력칸
         float iw = pw * .7f, ih = 78, ix = px + (pw - iw) / 2, iy = py + ph * .53f;
@@ -119,7 +122,7 @@ public final class NicknamePanel implements Panel {
             c.fill(cxp, iy + ih * .24f, 3, ih * .52f, 1, 0xFF5BA346);
         }
         int len = text.codePointCount(0, text.length());
-        c.text(len + "/" + max(), ix + iw - 28, iy + ih / 2, 18, len > max() ? Theme.RED : Theme.MUTED, Canvas.RIGHT, Canvas.BOLD | Canvas.LIGHT);
+        c.text(len + "/" + max(), ix + iw - 30, iy + ih / 2, 21, len > max() ? Theme.RED : Theme.MUTED, Canvas.RIGHT, Canvas.BOLD | Canvas.LIGHT);
         hits.add(new R("input", ix, iy, iw, ih));
 
         // 안내 / 오류
@@ -129,8 +132,8 @@ public final class NicknamePanel implements Panel {
         else if (!error.isEmpty()) { msg = error; col = Theme.RED; }
         else if (!okMsg.isEmpty() && text.equals(checked)) { msg = okMsg; col = Theme.GREEN_DARK; }
         else { msg = J.str(data, "rule", "한글·영문·숫자 " + min() + "~" + max() + "글자"); col = Theme.MUTED; }
-        if (col == Theme.RED) c.imageFit(has(c, "nickname/warn") ? "nickname/warn" : "notice/face_failure", px + pw / 2 - c.textWidth(msg, 20, Canvas.BOLD) / 2 - 22, iy + ih + 32, 30, 0xFFFFFFFF);
-        c.text(msg, px + pw / 2, iy + ih + 32, 20, col, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        if (col == Theme.RED) c.imageFit(has(c, "nickname/warn") ? "nickname/warn" : "notice/face_failure", px + pw / 2 - c.textWidth(msg, 23, Canvas.BOLD) / 2 - 26, iy + ih + 34, 34, 0xFFFFFFFF);
+        c.text(msg, px + pw / 2, iy + ih + 34, 23, col, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
 
         // 버튼
         boolean canSave = local == null && savingSince == 0;
@@ -138,13 +141,13 @@ public final class NicknamePanel implements Panel {
         float okX = first() ? px + pw / 2 - bw / 2 : px + pw / 2 + 16, noX = px + pw / 2 - 16 - bw;
         boolean hOk = canSave && Anim.in(mx, my, okX, by, bw, bh);
         if (has(c, "nickname/btn_ok")) c.image(hOk ? "nickname/btn_ok_hover" : "nickname/btn_ok", okX, by, bw, bh, canSave ? 0xFFFFFFFF : 0x90FFFFFF);
-        else c.image(canSave ? (hOk ? "user_select/move_pressed" : "user_select/move_normal") : "user_select/move_disabled", okX, by, bw, bh, 0xFFFFFFFF);
+        else MenuPanel.box(c, okX, by, bw, bh, bh / 2, canSave ? 0xFF6FB3E3 : 0xFFC9D6DE, canSave ? (hOk ? 0xFF8FCBF2 : 0xFFA5D8F7) : 0xFFDDE6EC, 4);
         c.text(savingSince > 0 ? "확인 중..." : "정했어요!", okX + bw / 2, by + bh / 2, 26, canSave ? Theme.WHITE : 0xFFB8C4CC, Canvas.CENTER, Canvas.BOLD | (canSave ? Canvas.OUTLINE : 0));
         hits.add(new R("ok", okX, by, bw, bh));
         if (!first()) {
             boolean hNo = Anim.in(mx, my, noX, by, bw, bh);
             if (has(c, "nickname/btn_cancel")) c.image(hNo ? "nickname/btn_cancel_hover" : "nickname/btn_cancel", noX, by, bw, bh, 0xFFFFFFFF);
-            else c.image(hNo ? "user_select/cancel_pressed" : "user_select/cancel_normal", noX, by, bw, bh, 0xFFFFFFFF);
+            else MenuPanel.box(c, noX, by, bw, bh, bh / 2, hNo ? 0xFFC9B999 : 0xFFE3D3B6, 0xFFFBF1DD, 4);
             c.text("취소", noX + bw / 2, by + bh / 2, 26, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
             hits.add(new R("cancel", noX, by, bw, bh));
         }

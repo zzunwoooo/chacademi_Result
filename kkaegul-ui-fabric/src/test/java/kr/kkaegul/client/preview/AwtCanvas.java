@@ -26,6 +26,15 @@ public final class AwtCanvas implements Canvas {
     private final Map<String, BufferedImage> cache = new HashMap<>();
     private final Deque<AffineTransform> stack = new ArrayDeque<>();
 
+    // ───── 점검(audit): 그린 상자와 글자 영역을 기록 (기기 픽셀 좌표) ─────
+    public record Box(java.awt.geom.Rectangle2D r, String what) {}
+    public final java.util.List<Box> boxes = new java.util.ArrayList<>();
+    public record TextBox(java.awt.geom.Rectangle2D r, String text, float px) {}
+    public final java.util.List<TextBox> texts = new java.util.ArrayList<>();
+    private java.awt.geom.Rectangle2D dev(float x, float y, float w, float h) {
+        return g.getTransform().createTransformedShape(new java.awt.geom.Rectangle2D.Float(x, y, w, h)).getBounds2D();
+    }
+
     /** pxW x pxH 이미지에 가상 1080 기준으로 */
     public AwtCanvas(BufferedImage out, File texRoot) {
         this.g = out.createGraphics();
@@ -60,6 +69,7 @@ public final class AwtCanvas implements Canvas {
     @Override public void imagePart(String id, float x, float y, float ww, float hh, float u0, float v0, float u1, float v1, int argb) {
         BufferedImage im = img(id);
         if (im == null || ww <= 0 || hh <= 0) return;
+        if ((argb >>> 24) > 40) boxes.add(new Box(dev(x, y, ww, hh), "img:" + id));
         int sx0 = Math.round(u0 * im.getWidth()), sy0 = Math.round(v0 * im.getHeight()), sx1 = Math.round(u1 * im.getWidth()), sy1 = Math.round(v1 * im.getHeight());
         if (sx1 <= sx0 || sy1 <= sy0) return;
         BufferedImage src = im.getSubimage(sx0, sy0, sx1 - sx0, sy1 - sy0);
@@ -93,6 +103,7 @@ public final class AwtCanvas implements Canvas {
         float inv = size / px;
         float left = align == CENTER ? x - r.advance() * inv / 2 : align == RIGHT ? x - r.advance() * inv : x;
         float base = y + size * TextRaster.CENTER_TO_BASELINE;
+        if ((argb >>> 24) > 60) texts.add(new TextBox(dev(left, y - size * .5f, r.advance() * inv, size), s, px / k));
         var old = g.getComposite();
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (argb >>> 24) / 255f));
         AffineTransform t = g.getTransform();
@@ -111,6 +122,7 @@ public final class AwtCanvas implements Canvas {
     @Override public float textWidth(String s, float size, int style) { return TextRaster.width(s, size, style); }
 
     @Override public void fill(float x, float y, float ww, float hh, float radius, int argb) {
+        if ((argb >>> 24) > 200 && ww * hh > 0) boxes.add(new Box(dev(x, y, ww, hh), String.format("fill:%08X", argb)));
         g.setColor(new Color(argb, true));
         if (radius <= 0) g.fill(new java.awt.geom.Rectangle2D.Float(x, y, ww, hh));
         else g.fill(new RoundRectangle2D.Float(x, y, ww, hh, radius * 2, radius * 2));

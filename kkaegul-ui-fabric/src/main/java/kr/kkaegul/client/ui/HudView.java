@@ -189,12 +189,12 @@ public final class HudView {
 
     /** 아이콘 + 그 아래 시간 글자 (배경 없음) */
     private float status(Canvas c, String icon, String inner, String text, float x, float y, String key) {
-        float s = 40;
-        float w = Math.max(s, c.textWidth(text, 16, Canvas.BOLD | Canvas.OUTLINE)) + 10;
+        float s = 44;
+        float w = Math.max(s, c.textWidth(text, 19, Canvas.BOLD | Canvas.OUTLINE)) + 10;
         float cx = x + w / 2;
         c.imageFit(icon, cx, y + s / 2, s, 0xFFFFFFFF);
         if (inner != null) c.imageFit(inner, cx, y + s / 2, s * .55f, 0xFFFFFFFF);
-        c.text(text, cx, y + s + 10, 16, Theme.WHITE, Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
+        c.text(text, cx, y + s + 11, 19, Theme.WHITE, Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
         hits.add(new Hit(key, x, y, w, s + 20));
         return x + w + 6;
     }

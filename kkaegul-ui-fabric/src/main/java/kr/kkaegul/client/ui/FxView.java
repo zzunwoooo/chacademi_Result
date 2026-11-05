@@ -103,7 +103,7 @@ public final class FxView {
         if (n == 0 && e > 1300) c.text("꽝!", cx, H * .34f, 60, Anim.alpha(0xFFFFFFFF, a), Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
 
         // 보상 카드: 1장이면 크게, 여러 장이면 줄지어
-        float size = n <= 1 ? 280 : n <= 3 ? 240 : n <= 5 ? 200 : 160, gap = 26;
+        float size = n <= 1 ? 290 : n <= 3 ? 250 : n <= 5 ? 220 : 180, gap = 26;
         int perRow = n <= 5 ? n : (n + 1) / 2;
         for (int i = 0; i < n; i++) {
             long st = 1250 + i * 230L;
@@ -141,8 +141,8 @@ public final class FxView {
         MenuPanel.box(c, -s / 2, -h / 2, s, h, s * .16f, Anim.alpha(border, a), Anim.alpha(fill, a), s * .025f);
         MenuPanel.box(c, -s * .22f, -h / 2 + s * .1f, s * .44f, s * .4f, s * .08f, Anim.alpha(0xFFE6D9C2, a), Anim.alpha(0xFFFFFBF2, a), s * .012f);
         c.imageFit(icon(id, label), 0, -h / 2 + s * .3f, s * .3f, Anim.white(a));
-        MenuPanel.box(c, -s * .36f, h / 2 - s * .26f, s * .72f, s * .15f, s * .075f, Anim.alpha(0xFFE6D9C2, a), Anim.alpha(0xFFFFFBF2, a), s * .01f);
-        c.textFit(label, 0, h / 2 - s * .185f, s * .075f, s * .66f, Anim.alpha(Theme.INK, a), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        MenuPanel.box(c, -s * .4f, h / 2 - s * .27f, s * .8f, s * .17f, s * .085f, Anim.alpha(0xFFE6D9C2, a), Anim.alpha(0xFFFFFBF2, a), s * .01f);
+        c.textFit(label, 0, h / 2 - s * .185f, Math.max(19, s * .085f), s * .68f, Anim.alpha(Theme.INK, a), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
         if (rare || kind.equals("lucky")) {
             float mx = s * .42f, my = -h / 2 + s * .06f;
             c.imageAt("menu/medal_gold", mx, my + s * .06f, s * .28f, 1, 8, Anim.white(a));
@@ -186,15 +186,7 @@ public final class FxView {
         c.push();
         c.translate(W / 2, H * .42f);
         c.scale(pop, pop);
-        c.fill(x + w * .015f, y + h * .03f, w * .97f, h * .94f, 26, Anim.alpha(0x40FFF3E0, a));
-        c.image("fever/frame_" + k, x, y, w, h, tint);
-        // 모서리 반짝 선
-        float[][] cs = {{x + 40, y + 40, 225}, {x + w - 40, y + 40, 315}, {x + 40, y + h - 40, 135}, {x + w - 40, y + h - 40, 45}};
-        for (float[] q : cs) {
-            c.push(); c.translate(q[0], q[1]); c.rotate(q[2]);
-            for (int i = -1; i <= 1; i++) { c.push(); c.rotate(i * 28); c.fill(-2.5f, -26, 5, 12, 2.5f, Anim.alpha(0xFFFFFFFF, a * .9f)); c.pop(); }
-            c.pop();
-        }
+        // 테두리 없이 안쪽 구성만 (깨굴이 · 리본 · 아이콘 · 메달)
         // 위 아이콘 3개 (가운데 크게)
         String deco = switch (k) { case "triple" -> "fever/lightning"; case "chest" -> "fever/gift"; default -> "fever/flame"; };
         for (int i = -1; i <= 1; i++) {

@@ -20,7 +20,7 @@ public final class GachaPanel implements Panel {
     private static final long REEL_MS = 1700, RESULT_MS = 2600;
 
     private float k = 1, cw0, ch0;   // 배율, 화면 위 원점
-    private static final float DW = 820, DH = 470;
+    private static final float DW = 820, DH = 540, TOP = 70; // TOP: 위로 튀어나오는 깨굴이 자리
     private record R(String key, float x, float y, float w, float h) {}
     private final java.util.List<R> hits = new java.util.ArrayList<>();
 
@@ -95,10 +95,11 @@ public final class GachaPanel implements Panel {
         c.push();
         c.translate(ox0, oy0);
         c.scale(k, k);
+        c.translate(0, TOP);
         cw0 = ox0;
-        ch0 = oy0;
-        mx = (mx - ox0) / k;
-        my = (my - oy0) / k;
+        ch0 = oy0 + TOP * k;
+        mx = (mx - cw0) / k;
+        my = (my - ch0) / k;
         int[] th = theme();
         boolean dark = machine().equals("3");
         int ink = Theme.INK;
@@ -134,12 +135,12 @@ public final class GachaPanel implements Panel {
                 dc <= 0 ? "없음" : (dc == Math.floor(dc) ? String.valueOf((long) dc) : String.format("%.1f", dc)) + "%", J.num(data, "protectTickets") + "장"};
         int[] qc = {ink, J.num(data, "coins") < J.num(data, "cost") ? Theme.RED : ink, dc > 0 ? Theme.RED : Theme.GREEN_DARK, 0xFF8E5BD0};
         for (int i = 0; i < 4; i++) {
-            float y = 103 + i * 51;
-            c.imageFit(qi[i], 668, y + 17, 34, 0xFFFFFFFF);
-            MenuPanel.box(c, 700, y, 104, 34, 17, dark ? 0xFFC9A04A : 0xFFE6D9C0, 0xFFFBF5E8, 1.5f);
-            c.text(qn[i], 752, y + 10, 9, Theme.MUTED, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
-            c.textFit(qv[i], 752, y + 23, 15, 90, qc[i], Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
-            hits.add(new R(qk[i], 650, y, 160, 34));
+            float y = 96 + i * 54;
+            c.imageFit(qi[i], 664, y + 22, 34, 0xFFFFFFFF);
+            MenuPanel.box(c, 694, y, 112, 44, 16, dark ? 0xFFC9A04A : 0xFFE6D9C0, 0xFFFBF5E8, 1.5f);
+            c.textFit(qn[i], 750, y + 13, 11, 96, Theme.MUTED, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+            c.textFit(qv[i], 750, y + 30, 16, 96, qc[i], Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+            hits.add(new R(qk[i], 650, y, 160, 44));
         }
 
         // ── 가운데 기계: 깨굴이(뒤) → 몸통 → 이름판 → 아이콘 → 릴 3칸 → 슬롯 → 돌리기
@@ -166,8 +167,8 @@ public final class GachaPanel implements Panel {
         long[] before = rolling ? J.longs(fx, "before") : null, after = rolling ? J.longs(fx, "after") : null;
         float[] rx = {255, 362, 469};
         for (int i = 0; i < 3; i++) {
-            float x = rx[i], y = 145, w = 86, h = 110, cx = x + w / 2;
-            c.imageFit(SMALL_ICON[i], cx, 124, 30, 0xFFFFFFFF);
+            float x = rx[i], y = 135, w = 86, h = 106, cx = x + w / 2;
+            c.imageFit(SMALL_ICON[i], cx, 116, 28, 0xFFFFFFFF);
             boolean maxed;
             MenuPanel.box(c, x, y, w, h, 14, dark ? 0xFFC99A3E : 0xFFE6D9C0, 0xFFFDF8EE, 2);
             long v = J.num(st, STAT[i]);
@@ -196,17 +197,17 @@ public final class GachaPanel implements Panel {
             hits.add(new R(STAT[i], x, y, w, h));
         }
         // 동전 넣는 곳
-        c.fill(362, 264, 86, 10, 5, dark ? 0xFF2C2C30 : 0xFF6E5A47);
-        c.fill(364, 265, 82, 4, 2, 0x30FFFFFF);
+        c.fill(362, 249, 86, 9, 4.5f, dark ? 0xFF2C2C30 : 0xFF6E5A47);
+        c.fill(364, 250, 82, 3.5f, 1.75f, 0x30FFFFFF);
         // 돌리기
         boolean can = canSpin(now);
-        boolean hov = can && Anim.in(mx, my, 305, 284, 200, 38);
+        boolean hov = can && Anim.in(mx, my, 305, 268, 200, 38);
         boolean down = pressed && now - pressedAt < 160;
         int red = !can ? 0xFFC9B9B4 : down ? 0xFFD9524A : hov ? 0xFFF4766C : 0xFFEE6A60;
-        MenuPanel.box(c, 305, 284 + (down ? 2 : 0), 200, 38, 19, 0xFFF6E7CC, red, 3);
-        c.fill(318, 289 + (down ? 2 : 0), 174, 9, 4.5f, 0x30FFFFFF);
-        c.text(waitingSince > 0 ? "..." : "돌리기", 405, 303 + (down ? 2 : 0), 20, Theme.WHITE, Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
-        hits.add(new R("spin", 305, 284, 200, 38));
+        MenuPanel.box(c, 305, 268 + (down ? 2 : 0), 200, 38, 19, 0xFFF6E7CC, red, 3);
+        c.fill(318, 273 + (down ? 2 : 0), 174, 9, 4.5f, 0x30FFFFFF);
+        c.text(waitingSince > 0 ? "..." : "돌리기", 405, 287 + (down ? 2 : 0), 20, Theme.WHITE, Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
+        hits.add(new R("spin", 305, 268, 200, 38));
 
         if (live) drawFx(c, now, e, mx, my);
         c.pop();
@@ -262,7 +263,7 @@ public final class GachaPanel implements Panel {
                 c.imageAt("gacha_fx/crack_overlay", 330, 370, 40, 1, 0, Anim.white(a * (1 - t * .5f)));
                 float ft = Anim.outBack(Anim.t(e, 300, 400));
                 c.imageAt("gacha_fx/frog_stifled_laugh", 505, 380, 110 * ft, 1, Anim.shake(now, 3, 6), Anim.white(a));
-                rays(c, 505, 330, 40, a, now);
+                rays(c, 505, 352, 28, a, now);
                 plate(c, 405, 440, "곡괭이가 부서졌어요...", Theme.RED, a);
             }
             case "gacha_protect" -> {
@@ -270,7 +271,7 @@ public final class GachaPanel implements Panel {
                 float t = Anim.outBack(Anim.t(e, 0, 400));
                 c.imageAt("gacha_fx/purple_protection_shield", 320, 375, 100 * t, 1, 0, Anim.white(a));
                 c.imageAt("gacha_machine/pickaxe", 320, 372, 50 * t, 1, 0, Anim.white(a));
-                rays(c, 320, 330, 46, a, now);
+                rays(c, 320, 345, 30, a, now);
                 float ft = Anim.outBack(Anim.t(e, 250, 400));
                 c.imageAt("gacha_fx/frog_relief", 500, 378, 105 * ft, 1, 0, Anim.white(a));
                 plate(c, 320, 445, "방지권 사용!", 0xFF8E5BD0, a);

@@ -75,8 +75,8 @@ public final class MenuPanel implements Panel {
         // 프레임
         box(c, 0, 0, 680, 407, 26, FRAME_BORDER, FRAME_FILL, 4);
         c.fill(4, 4, 672, 399, 22, 0x10FFFFFF);
-        leaves(c, 14, 392, false);
-        leaves(c, 666, 392, true);
+        HudView.leaf(c, 30, 398, 16, true);
+        HudView.leaf(c, 650, 398, 16, false);
 
         // 깨굴이 간판 + 제목
         float sw = 250, sh = sw * 312 / 512f, sy = 26 - sh * .79f;
@@ -131,7 +131,7 @@ public final class MenuPanel implements Panel {
         box(c, 137, 88, 160, 162, 18, 0xFFC9DDB0, 0xFFFBF7EC, 3);
         if (!c.face(J.str(m, "account"), 167, 119, 100)) c.imageFit("hud/frog_smile", 217, 169, 120, 0xFFFFFFFF);
         String title = J.str(m, "title");
-        if (!title.isEmpty()) c.textFit(title, 217, 258, 13, 170, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        if (!title.isEmpty()) c.textFit(title, 217, 256, 13, 170, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
         c.image("gacha/jackpot_ribbon", 132, 262, 170, 170 * 247 / 1024f, 0xFFFFFFFF);
         c.textFit(J.str(m, "name", J.str(m, "account")), 217, 282, 17, 110, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
         JsonObject pk = J.objOrEmpty(m, "pickaxe");
@@ -213,8 +213,8 @@ public final class MenuPanel implements Panel {
             c.textFit(J.str(m, "label"), x + cw / 2, cy - lift + 96, 15, cw - 30, claimed ? Theme.MUTED : Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
             c.text(claimed ? "받음" : ready ? "받을 수 있어요!" : Fmt.time(J.num(m, "needSeconds")).trim() + " 접속", x + cw / 2, cy - lift + 122, 12,
                     claimed ? Theme.MUTED : ready ? Theme.GREEN_DARK : Theme.MUTED, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
-            if (claimed) c.imagePart("menu/title_row_selected", x + cw - 34, cy - lift + 6, 28, 28, .86f, .14f, .98f, .86f, 0xFFFFFFFF);
-            else if (!ready) c.imagePart("menu/title_row_locked", x + cw - 32, cy - lift + 6, 24, 28, .875f, .1f, .965f, .9f, 0xFFFFFFFF);
+            if (claimed) c.image("menu/check_badge", x + cw - 36, cy - lift + 6, 30, 30, 0xFFFFFFFF);
+            else if (!ready) c.image("menu/lock", x + cw - 34, cy - lift + 6, 26, 26, 0xFFFFFFFF);
             if (ready) hits.add(new Hit("claim", "", x, cy, cw, ch));
         }
 
@@ -227,7 +227,7 @@ public final class MenuPanel implements Panel {
         boolean ex = papers >= need;
         boolean h2 = ex && Anim.in(mx, my, 404, 335, 210, 38);
         c.image(ex ? (h2 ? "menu/button_exchange_pressed" : "menu/button_exchange_normal") : "menu/button_exchange_disabled", 404, 335, 210, 38, 0xFFFFFFFF);
-        c.imageFit("menu/icon_losing_paper", 426, 354, 26, 0xFFFFFFFF);
+        c.imageFit("menu/icon_losing_paper", 428, 354, 32, 0xFFFFFFFF);
         c.text("꽝 종이 " + papers + "/" + need + " → 고급상자", 519, 354, 14, ex ? Theme.INK : Theme.MUTED, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
         if (ex) hits.add(new Hit("exchange", "", 404, 335, 210, 38));
     }
@@ -251,10 +251,10 @@ public final class MenuPanel implements Panel {
             box(c, 134, y, 510, rh, 14, hov ? 0xFF9FCB72 : border, fill, 2);
             c.image("gacha/jackpot_ribbon", 150, y + rh / 2 - 24, 160, 160 * 247 / 1024f, own ? 0xFFFFFFFF : 0xCCFFFFFF);
             String name = J.str(r, "name");
-            c.textFit(own ? name : "§7" + Fmt.strip(name), 230, y + rh / 2 - 6, 17, 105, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+            c.textFit(own ? name : "§7" + Fmt.strip(name), 230, y + rh / 2 + 1, 17, 100, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
             c.textFit(J.str(r, "condition"), 330, y + rh / 2, 15, 230, own ? Theme.INK : Theme.MUTED, Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
-            if (sel) c.imagePart("menu/title_row_selected", 600, y + rh / 2 - 18, 36, 36, .86f, .14f, .98f, .86f, 0xFFFFFFFF);
-            else if (!own) c.imagePart("menu/title_row_locked", 602, y + rh / 2 - 18, 32, 36, .875f, .1f, .965f, .9f, 0xFFFFFFFF);
+            if (sel) c.image("menu/check_badge", 598, y + rh / 2 - 19, 38, 38, 0xFFFFFFFF);
+            else if (!own) c.image("menu/lock", 600, y + rh / 2 - 17, 34, 34, 0xFFFFFFFF);
             if (own) hits.add(new Hit("title", sel ? "none" : J.str(r, "id"), 134, y, 510, rh));
             if (Anim.in(mx, my, 134, y, 510, rh))
                 hoverTip = own ? (sel ? "&a장착 중 &7(누르면 해제)" : "&e누르면 장착") : "&7아직 없는 칭호";

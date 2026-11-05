@@ -65,10 +65,13 @@ public final class RouletteView {
         c.push();
         c.translate(0, drop);
         if (J.bool(d, "fever")) {
-            float fw = w * 1.04f, fh = fw * 200 / 1024f;
-            float fa = .75f + .25f * (float) Math.sin(now / 90.0);
-            c.image("roulette/fever_frame", x - (fw - w) / 2, y - fh * .72f, fw, fh, Anim.white(a * fa));
-            c.text(J.num(d, "extra") >= 2 ? "3배 피버! 1+2" : "다이아 피버! 1+1", x + w / 2, y - fh * .72f + fh * .42f, 30, Anim.alpha(0xFFE0564C, a), Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
+            // 피버 중: 위에 빨간 알약 표시만 (테두리 없음)
+            String ft = J.num(d, "extra") >= 2 ? "3배 피버! 1+2" : "다이아 피버! 1+1";
+            float tw = c.textWidth(ft, 26, Canvas.BOLD) + 50, pulse = 1 + .04f * (float) Math.sin(now / 90.0);
+            c.push(); c.translate(x + w / 2, y - 34); c.scale(pulse, pulse);
+            MenuPanel.box(c, -tw / 2, -22, tw, 44, 22, Anim.alpha(0xFFFFF4E6, a), Anim.alpha(0xFFE95A50, a), 3);
+            c.text(ft, 0, 0, 26, Anim.alpha(Theme.WHITE, a), Canvas.CENTER, Canvas.BOLD);
+            c.pop();
         }
         c.image("roulette/" + body, x, y, w, h, tint);
 
@@ -98,7 +101,8 @@ public final class RouletteView {
                 int dgt = (int) Math.floor(pos) % 10;
                 float frac = pos - (float) Math.floor(pos);
                 for (int k = -1; k <= 1; k++) {
-                    float oy = (k + frac - .5f) * rh * .5f;
+                    float oy = (k + frac - .5f) * rh * .45f;
+                    if (Math.abs(oy) > rh * .27f) continue;
                     float vis = 1 - Math.min(1, Math.abs(oy) / (rh * .3f));
                     if (vis <= 0) continue;
                     c.text(String.valueOf(((dgt - k) % 10 + 10) % 10), cxr, cyr + oy, size, Anim.alpha(0xFF6B5A4C, a * vis * .9f), Canvas.CENTER, Canvas.BOLD);
@@ -117,12 +121,13 @@ public final class RouletteView {
             float bx = x + w * f.bottom()[0] / 100, byy = y + h * f.bottom()[1] / 100, bw = w * (f.bottom()[2] - f.bottom()[0]) / 100, bh = h * (f.bottom()[3] - f.bottom()[1]) / 100;
             long[] rolls = J.longs(d, "rolls");
             String res = (inc ? "+" : "-") + Fmt.num(Math.abs(J.num(d, "total")));
+            c.textFit(res, bx + bw / 2, byy + bh / 2 + 1, 26 * (.8f + .2f * Anim.outBack(rt)), bw * .86f, Anim.alpha(inc ? 0xFFD9493F : 0xFF3F8F32, a), Canvas.CENTER, Canvas.BOLD);
             if (rolls.length > 1) {
+                // 1+1 / 1+2 계산식은 본체 아래에
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < rolls.length; i++) sb.append(i == 0 ? "" : " + ").append(Fmt.num(rolls[i]));
-                res = sb + " = " + res;
+                c.text(sb + " = " + res, x + w / 2, y + h + 30, 26, Anim.alpha(Theme.WHITE, a), Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
             }
-            c.textFit(res, bx + bw / 2, byy + bh / 2 + 1, 24 * (.8f + .2f * Anim.outBack(rt)), bw * 1.25f, Anim.alpha(inc ? 0xFFD9493F : 0xFF3F8F32, a), Canvas.CENTER, Canvas.BOLD);
             long extra = J.num(d, "extra");
             if (extra > 0) {
                 String b = extra >= 2 ? "roulette/badge_fancy" : "roulette/badge_basic";

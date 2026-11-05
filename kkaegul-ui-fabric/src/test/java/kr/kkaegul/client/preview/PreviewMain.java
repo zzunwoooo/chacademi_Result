@@ -68,6 +68,9 @@ public final class PreviewMain {
         gp3.fx("gacha_result", J.parse("{\"machine\":\"1\",\"max\":5,\"before\":[1,2,3],\"after\":[5,2,4]}"), T);
         shot(out, "09_gacha_result.png", tex, c -> gp3.render(c, T + 1300, 0, 0));
 
+        GachaPanel gp4 = new GachaPanel(HOST, gd);
+        gp4.fx("gacha_protect", new JsonObject(), T);
+        shot(out, "09b_gacha_protect.png", tex, c -> gp4.render(c, T + 1200, 0, 0));
         // 4. 메뉴
         JsonObject md = J.parse("""
           {"tab":"me","me":{"name":"깨굴러버","account":"Frog_123","title":"&6[운빨왕]","debt":1234,"held":56,"coins":17,"gauge":{"value":62,"max":100},
@@ -123,7 +126,9 @@ public final class PreviewMain {
             float[] rr = {.25f, .45f, .75f, 1f};
             for (int i = 0; i < 4; i++) HudView.gaugeBar(c, 560, 200 + i * 170, 700, 46, rr[i], t[i], T);
         });
-        System.out.println("done");
+        java.nio.file.Files.writeString(new File(out, "AUDIT.txt").toPath(), REPORT.toString());
+        System.out.println("문제 " + problems + "건");
+        System.out.print(REPORT);
     }
 
     interface Draw { void draw(Canvas c); }
@@ -135,14 +140,57 @@ public final class PreviewMain {
         shot(out, name, tex, c -> h.renderOverlay(c, T + at, false, 0, 0, true));
     }
 
+    static final StringBuilder REPORT = new StringBuilder();
+    static int problems;
+
     static void shot(File out, String name, File tex, Draw d) throws Exception {
-        BufferedImage img = new BufferedImage(1600, 900, BufferedImage.TYPE_INT_ARGB);
+        int PW = 1920, PH = 1080;
+        BufferedImage img = new BufferedImage(PW, PH, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = img.createGraphics();
-        g.setPaint(new GradientPaint(0, 0, new Color(0x87B8E8), 0, 900, new Color(0x5E8C3A)));
-        g.fillRect(0, 0, 1600, 900);
+        g.setPaint(new GradientPaint(0, 0, new Color(0x87B8E8), 0, PH, new Color(0x5E8C3A)));
+        g.fillRect(0, 0, PW, PH);
         g.setColor(new Color(0x6B4F2E));
-        g.fillRect(0, 700, 1600, 200);
-        d.draw(new AwtCanvas(img, tex));
+        g.fillRect(0, PH * 7 / 9, PW, PH * 2 / 9);
+        AwtCanvas c = new AwtCanvas(img, tex);
+        d.draw(c);
         ImageIO.write(img, "png", new File(out, name));
+        audit(out, name, img, c);
     }
+
+    /** 글자 점검: 너무 작음(1080p 기준 15px 미만) / 담고 있는 칸을 넘어감 */
+    static void audit(File out, String name, BufferedImage img, AwtCanvas c) throws Exception {
+        java.util.List<String> issues = new java.util.ArrayList<>();
+        Graphics2D g = img.createGraphics();
+        g.setStroke(new java.awt.BasicStroke(3));
+        double screen = img.getWidth() * (double) img.getHeight();
+        for (AwtCanvas.TextBox t : c.texts) {
+            String txt = kr.kkaegul.client.ui.Fmt.strip(t.text());
+            if (txt.isEmpty()) continue;
+            boolean bad = false;
+            if (t.px() < 15) { issues.add(String.format("작음 %.0fpx  \"%s\"", t.px(), txt)); bad = true; }
+            double cx = t.r().getCenterX(), cy = t.r().getCenterY();
+            AwtCanvas.Box best = null;
+            for (AwtCanvas.Box b : c.boxes) {
+                var r = b.r();
+                double area = r.getWidth() * r.getHeight();
+                if (area > screen * .5 || !r.contains(cx, cy) || r.getHeight() < t.r().getHeight() * .9) continue;
+                if (best == null || area < best.r().getWidth() * best.r().getHeight()) best = b;
+            }
+            if (best != null) {
+                var r = best.r();
+                double tol = 2;
+                double ox = Math.max(r.getMinX() - t.r().getMinX(), t.r().getMaxX() - r.getMaxX());
+                double oy = Math.max(r.getMinY() - t.r().getMinY(), t.r().getMaxY() - r.getMaxY());
+                if (ox > tol || oy > tol) { issues.add(String.format("넘침 x%.0f y%.0f  \"%s\" in %s", Math.max(0, ox), Math.max(0, oy), txt, best.what())); bad = true; }
+            }
+            if (bad) { g.setColor(Color.RED); g.draw(t.r()); }
+        }
+        if (!issues.isEmpty()) {
+            ImageIO.write(img, "png", new File(out, "AUDIT_" + name));
+            REPORT.append("== ").append(name).append('\n');
+            for (String i : issues) REPORT.append("  ").append(i).append('\n');
+            problems += issues.size();
+        }
+    }
+
 }
