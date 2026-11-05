@@ -66,93 +66,82 @@ public final class NicknamePanel implements Panel {
 
     private static boolean has(Canvas c, String id) { return c.size(id) != null; }
 
+    private float k = 1, ox, oy;
+
+    /** 전용 그림(nickname/*) 배치 = GPT 시안 layout.json (패널 900x560 좌표) */
     @Override public void render(Canvas c, long now, float mx, float my) {
         hits.clear();
         float W = c.width(), H = c.height();
         c.fill(0, 0, W, H, 0, first() ? 0xB0000000 : 0x88000000);
-        // 잠깐 멈추면 서버에 중복 확인
         String local = localCheck();
         if (local == null && lastEdit > 0 && now - lastEdit > 450 && !text.equals(checked)) {
             checked = text;
             lastCheckSent = now;
             host.send("nickname.check", "name", text);
         }
-
-        float pw = Math.min(900, W - 120), ph = pw * 560 / 900f;
-        float px = (W - pw) / 2, py = (H - ph) / 2 + 30;
-        float s = .92f + .08f * Anim.outBack(Anim.t(now, opened, 280));
+        float pop = .92f + .08f * Anim.outBack(Anim.t(now, opened, 280));
+        k = Math.min(W * .7f / 900f, H * .78f / 560f) * pop;
+        ox = W / 2 - 450 * k;
+        oy = H / 2 - 280 * k;
         c.push();
-        c.translate(W / 2, py + ph / 2);
-        c.scale(s, s);
-        c.translate(-W / 2, -(py + ph / 2));
-        boolean art = has(c, "nickname/nickname_panel");
-        if (art) c.image("nickname/nickname_panel", px, py, pw, ph, 0xFFFFFFFF);
-        else {
-            // 메뉴와 같은 틀: 크림 바탕 + 연두 테 + 깨굴이 간판
-            MenuPanel.box(c, px, py, pw, ph, 34, 0xFFCFE6A8, 0xFFFDF8EC, 6);
-            HudView.leaf(c, px + 40, py + ph - 14, 22, true);
-            HudView.leaf(c, px + pw - 40, py + ph - 14, 22, false);
-            float sw = 380, sh = sw * 312 / 512f, bob = (float) Math.sin(now / 700.0) * 2;
-            c.image("gacha_machine/frog_sign_gentle", px + pw / 2 - sw / 2, py + 38 - sh * .79f + bob, sw, sh, 0xFFFFFFFF);
-            c.textFit(first() ? "이름을 정해 주세요!" : "닉네임 바꾸기", px + pw / 2, py + 38 + bob, 30, 200, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
-        }
-        c.text(first() ? "운빨깨굴랜드에서 불릴 이름이에요" : "계정 " + J.str(data, "account"), px + pw / 2, py + ph * .225f, 24, Theme.MUTED, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        c.translate(ox, oy);
+        c.scale(k, k);
+        mx = (mx - ox) / k;
+        my = (my - oy) / k;
 
-        // 이름표 미리보기
+        c.image("nickname/nickname_panel", 0, 0, 900, 560, 0xFFFFFFFF);
+        // 리본: 제목
+        c.textFit(first() ? "이름을 정해 주세요!" : "닉네임 바꾸기", 450, 146, 30, 420, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        // 말풍선: 머리 위 이름표 미리보기 (칭호 + 닉네임)
         String title = J.str(data, "title");
-        String preview = (title.isEmpty() ? "" : title + " ") + "§f" + (text.isEmpty() ? "닉네임" : text);
-        float nw = Math.max(260, c.textWidth(preview, 28, Canvas.BOLD) + 60), nh = 52, ny = py + ph * .36f;
-        c.fill(px + pw / 2 - nw / 2, ny - nh / 2, nw, nh, 12, 0x88000000);
-        c.text(preview, px + pw / 2, ny, 28, text.isEmpty() ? 0x88FFFFFF : Theme.WHITE, Canvas.CENTER, Canvas.BOLD);
-        c.text("머리 위에 이렇게 보여요", px + pw / 2, ny + 44, 19, Theme.MUTED, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        String preview = (title.isEmpty() ? "" : title + " ") + "§r" + (text.isEmpty() ? "§7닉네임" : text);
+        c.textFit(preview, 450, 234, 28, 300, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        c.text(first() ? "머리 위에 이렇게 보여요 · 운빨깨굴랜드에서 불릴 이름" : "머리 위에 이렇게 보여요 · 계정 " + J.str(data, "account"), 450, 300, 17, Theme.MUTED, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
 
         // 입력칸
-        float iw = pw * .7f, ih = 78, ix = px + (pw - iw) / 2, iy = py + ph * .53f;
-        if (has(c, "nickname/input")) c.image("nickname/input_focus", ix, iy, iw, ih, 0xFFFFFFFF);
-        else {
-            c.fill(ix, iy, iw, ih, ih / 2, 0xFF8DBF63);
-            c.fill(ix + 4, iy + 4, iw - 8, ih - 8, ih / 2 - 4, 0xFFFFFFFF);
-        }
-        String shown = text.isEmpty() ? "§7" + min() + "~" + max() + "글자" : text;
-        c.text(shown, ix + iw / 2, iy + ih / 2, 34, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        c.image(focusArt ? "nickname/input_focus" : "nickname/input", 95, 315, 640, 90, 0xFFFFFFFF);
+        String shown = text.isEmpty() ? "§7" + min() + "~" + max() + "글자로 입력" : text;
+        c.textFit(shown, 415, 360, 34, 520, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
         if ((now - caretBlink) / 530 % 2 == 0) {
             float tw = text.isEmpty() ? 0 : c.textWidth(text, 34, Canvas.BOLD);
             float before = c.textWidth(text.substring(0, Math.min(caret, text.length())), 34, Canvas.BOLD);
-            float cxp = ix + iw / 2 - tw / 2 + before + 2;
-            c.fill(cxp, iy + ih * .24f, 3, ih * .52f, 1, 0xFF5BA346);
+            c.fill(415 - tw / 2 + before + 2, 340, 3, 40, 1.5f, 0xFF7CB342);
         }
         int len = text.codePointCount(0, text.length());
-        c.text(len + "/" + max(), ix + iw - 30, iy + ih / 2, 21, len > max() ? Theme.RED : Theme.MUTED, Canvas.RIGHT, Canvas.BOLD | Canvas.LIGHT);
-        hits.add(new R("input", ix, iy, iw, ih));
+        c.text(len + "/" + max(), 712, 360, 18, len > max() ? Theme.RED : Theme.MUTED, Canvas.RIGHT, Canvas.BOLD | Canvas.LIGHT);
+        hits.add(new R("input", 95, 315, 640, 90));
 
-        // 안내 / 오류
+        // 안내 / 오류 (입력칸과 버튼 사이)
         String msg;
         int col;
-        if (local != null && !local.isEmpty()) { msg = local; col = Theme.RED; }
-        else if (!error.isEmpty()) { msg = error; col = Theme.RED; }
+        boolean warn = false;
+        if (local != null && !local.isEmpty()) { msg = local; col = Theme.RED; warn = true; }
+        else if (!error.isEmpty()) { msg = error; col = Theme.RED; warn = true; }
         else if (!okMsg.isEmpty() && text.equals(checked)) { msg = okMsg; col = Theme.GREEN_DARK; }
         else { msg = J.str(data, "rule", "한글·영문·숫자 " + min() + "~" + max() + "글자"); col = Theme.MUTED; }
-        if (col == Theme.RED) c.imageFit(has(c, "nickname/warn") ? "nickname/warn" : "notice/face_failure", px + pw / 2 - c.textWidth(msg, 23, Canvas.BOLD) / 2 - 26, iy + ih + 34, 34, 0xFFFFFFFF);
-        c.text(msg, px + pw / 2, iy + ih + 34, 23, col, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        if (warn) {
+            float sh = Anim.shake(now - lastEdit, 2, 10) * Math.max(0, 1 - (now - lastEdit) / 400f);
+            c.image("nickname/warn", 748 + sh, 328, 64, 64, 0xFFFFFFFF);
+        }
+        c.textFit(msg, 450, 424, 19, 640, col, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
 
-        // 버튼
+        // 버튼 (첫 설정이면 확인만 가운데)
         boolean canSave = local == null && savingSince == 0;
-        float bw = 240, bh = 72, by = py + ph * .8f;
-        float okX = first() ? px + pw / 2 - bw / 2 : px + pw / 2 + 16, noX = px + pw / 2 - 16 - bw;
-        boolean hOk = canSave && Anim.in(mx, my, okX, by, bw, bh);
-        if (has(c, "nickname/btn_ok")) c.image(hOk ? "nickname/btn_ok_hover" : "nickname/btn_ok", okX, by, bw, bh, canSave ? 0xFFFFFFFF : 0x90FFFFFF);
-        else MenuPanel.box(c, okX, by, bw, bh, bh / 2, canSave ? 0xFF6FB3E3 : 0xFFC9D6DE, canSave ? (hOk ? 0xFF8FCBF2 : 0xFFA5D8F7) : 0xFFDDE6EC, 4);
-        c.text(savingSince > 0 ? "확인 중..." : "정했어요!", okX + bw / 2, by + bh / 2, 26, canSave ? Theme.WHITE : 0xFFB8C4CC, Canvas.CENTER, Canvas.BOLD | (canSave ? Canvas.OUTLINE : 0));
-        hits.add(new R("ok", okX, by, bw, bh));
+        float okX = first() ? 320 : 150;
+        boolean hOk = canSave && Anim.in(mx, my, okX, 445, 260, 80);
+        c.image(hOk ? "nickname/btn_ok_hover" : "nickname/btn_ok", okX, 445, 260, 80, canSave ? 0xFFFFFFFF : 0x99FFFFFF);
+        c.text(savingSince > 0 ? "확인 중..." : "정했어요!", okX + 130, 485, 26, canSave ? 0xFF3F7F31 : 0xFF9AAA90, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        hits.add(new R("ok", okX, 445, 260, 80));
         if (!first()) {
-            boolean hNo = Anim.in(mx, my, noX, by, bw, bh);
-            if (has(c, "nickname/btn_cancel")) c.image(hNo ? "nickname/btn_cancel_hover" : "nickname/btn_cancel", noX, by, bw, bh, 0xFFFFFFFF);
-            else MenuPanel.box(c, noX, by, bw, bh, bh / 2, hNo ? 0xFFC9B999 : 0xFFE3D3B6, 0xFFFBF1DD, 4);
-            c.text("취소", noX + bw / 2, by + bh / 2, 26, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
-            hits.add(new R("cancel", noX, by, bw, bh));
+            boolean hNo = Anim.in(mx, my, 490, 445, 260, 80);
+            c.image(hNo ? "nickname/btn_cancel_hover" : "nickname/btn_cancel", 490, 445, 260, 80, 0xFFFFFFFF);
+            c.text("취소", 620, 485, 26, 0xFF6B6B6B, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+            hits.add(new R("cancel", 490, 445, 260, 80));
         }
         c.pop();
     }
+
+    private final boolean focusArt = true; // 입력칸은 항상 포커스
 
     private void save(long now) {
         if (localCheck() != null || savingSince > 0) {
@@ -167,6 +156,8 @@ public final class NicknamePanel implements Panel {
 
     @Override public boolean click(float mx, float my, long now) {
         if (savingSince > 0 && now - savingSince > 5000) savingSince = 0;
+        mx = (mx - ox) / k;
+        my = (my - oy) / k;
         for (R r : hits) {
             if (!Anim.in(mx, my, r.x(), r.y(), r.w(), r.h())) continue;
             switch (r.key()) {
