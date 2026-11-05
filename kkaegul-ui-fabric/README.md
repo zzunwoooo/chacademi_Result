@@ -38,7 +38,7 @@ cd kkaegul-ui-fabric
 ## 그림 교체
 
 `src/main/resources/assets/kkaegul/textures/ui/<그룹>/<이름>.png` 를 같은 이름으로 바꾸면 끝. 비율이 달라지면 위치 비율(코드의 % 표)만 조정.
-닉네임 전용 그림은 `textures/ui/nickname/` 에 `nickname_panel, input, input_focus, btn_ok, btn_ok_hover, btn_cancel, btn_cancel_hover, warn` 로 넣으면 자동으로 그걸 쓴다 (없으면 기존 메뉴 그림으로 대체).
+닉네임 전용 그림: `textures/ui/nickname/` (GPT 시안 layout.json 배치 그대로 적용됨).
 
 ## 글꼴
 
