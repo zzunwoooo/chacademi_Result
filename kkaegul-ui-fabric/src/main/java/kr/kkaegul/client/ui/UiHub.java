@@ -59,6 +59,7 @@ public final class UiHub {
             case "player_select" -> new PlayerSelectPanel(host, data, now);
             case "nickname" -> new NicknamePanel(host, data, now);
             case "submit" -> new SubmitPanel(host, data, now);
+            case "shop" -> new ShopPanel(host, data, now);
             case "hud" -> { hud.set(data, now); yield null; }
             default -> null;
         };

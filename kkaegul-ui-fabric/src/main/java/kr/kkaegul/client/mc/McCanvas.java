@@ -144,6 +144,25 @@ public final class McCanvas implements Canvas {
         return true;
     }
 
+    private final java.util.Map<String, net.minecraft.item.ItemStack> stacks = new java.util.HashMap<>();
+
+    @Override public boolean item(String id, float x, float y, float size) {
+        if (id == null || id.isEmpty()) return false;
+        net.minecraft.item.ItemStack st = stacks.computeIfAbsent(id, i -> {
+            net.minecraft.util.Identifier key = net.minecraft.util.Identifier.tryParse(i.toLowerCase(java.util.Locale.ROOT));
+            if (key == null) return net.minecraft.item.ItemStack.EMPTY;
+            net.minecraft.item.Item it = net.minecraft.registry.Registries.ITEM.get(key);
+            return it == net.minecraft.item.Items.AIR ? net.minecraft.item.ItemStack.EMPTY : new net.minecraft.item.ItemStack(it);
+        });
+        if (st.isEmpty()) return false;
+        m().push();
+        m().translate(x, y, 0);
+        m().scale(size / 16f, size / 16f, 1);
+        ctx.drawItem(st, 0, 0);
+        m().pop();
+        return true;
+    }
+
     @Override public void push() { m().push(); }
     @Override public void pop() { m().pop(); }
     @Override public void translate(float x, float y) { m().translate(x, y, 0); }

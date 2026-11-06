@@ -17,5 +17,7 @@ public interface Panel {
     default boolean fx(String id, JsonObject data, long now) { return false; }
     /** ESC 로 닫을 수 있는지 */
     default boolean closable() { return true; }
+    /** 클릭 직전 보조키 (1 = Shift, 2 = Ctrl) */
+    default void modifiers(int mods) {}
     default void closed() {}
 }

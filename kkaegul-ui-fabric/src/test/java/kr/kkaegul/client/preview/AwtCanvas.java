@@ -57,6 +57,24 @@ public final class AwtCanvas implements Canvas {
         });
     }
 
+    /** 미리보기용 아이템 그림: -Dkkaegul.items=폴더 (마인크래프트 textures/item). 없으면 회색 칸 */
+    @Override public boolean item(String id, float x, float y, float size) {
+        String n = id.toLowerCase().replace("minecraft:", "");
+        String dir = System.getProperty("kkaegul.items", "");
+        BufferedImage im = cache.computeIfAbsent("§item:" + n, i -> {
+            try {
+                File f = new File(dir, n + ".png");
+                return dir.isEmpty() || !f.exists() ? null : ImageIO.read(f);
+            } catch (Exception e) { return null; }
+        });
+        if (im == null) { fill(x + size * .15f, y + size * .15f, size * .7f, size * .7f, size * .12f, 0x55807060); return false; }
+        Object old = g.getRenderingHint(RenderingHints.KEY_INTERPOLATION);
+        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+        g.drawImage(im, Math.round(x), Math.round(y), Math.round(size), Math.round(size), null);
+        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, old);
+        return true;
+    }
+
     @Override public float width() { return w; }
     @Override public float height() { return h; }
 

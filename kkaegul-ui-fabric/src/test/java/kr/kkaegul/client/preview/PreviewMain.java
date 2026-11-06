@@ -121,6 +121,29 @@ public final class PreviewMain {
         SubmitPanel sp3 = new SubmitPanel(HOST, sd, T);
         sp3.fx("random_submit", J.parse("{\"outcome\":\"double\",\"factor\":2,\"used\":100,\"credited\":200,\"donated\":0,\"debt\":1034}"), T);
         shot(out, "27_submit_double.png", tex, c -> sp3.render(c, T + 1700, 0, 0));
+        // 상점
+        JsonObject shd = J.parse("""
+          {"tab":"sell","held":128,"available":128,"coins":24,"dust":0.04,"coinPrice":10,"coinMax":100,"farmNextMs":1392000,
+           "outcomes":[{"id":"fail","chance":10,"multiplier":0},{"id":"normal","chance":79,"multiplier":1},{"id":"double","chance":10,"multiplier":2},{"id":"triple","chance":1,"multiplier":3}],
+           "sell":[{"id":"WHEAT","name":"밀","price":0.024,"have":64,"farm":true,"trend":1},{"id":"CARROT","name":"당근","price":0.012,"have":32,"farm":true,"trend":-1},
+                   {"id":"POTATO","name":"감자","price":0.018,"have":48,"farm":true,"trend":1},{"id":"IRON_INGOT","name":"철 주괴","price":0.05,"have":16,"farm":false},
+                   {"id":"GOLD_INGOT","name":"금 주괴","price":0.1,"have":8,"farm":false},{"id":"LAPIS_LAZULI","name":"청금석","price":0.015,"have":24,"farm":false},
+                   {"id":"EMERALD","name":"에메랄드","price":0.5,"have":0,"farm":false}]}""");
+        ShopPanel shs = new ShopPanel(HOST, shd, T);
+        shot(out, "28_shop_sell.png", tex, c -> shs.render(c, T + 1000, 700, 700));
+        JsonObject shc = J.merge(shd, J.parse("{\"tab\":\"coin\"}"));
+        ShopPanel shc1 = new ShopPanel(HOST, shc, T);
+        shot(out, "29_shop_coin.png", tex, c -> shc1.render(c, T + 1000, 1300, 600));
+        shot(out, "30_shop_odds.png", tex, c -> shc1.render(c, T + 1000, 1100, 275));
+        ShopPanel shc2 = new ShopPanel(HOST, shc, T);
+        shc2.fx("coin_buy", J.parse("{\"outcome\":\"double\",\"multiplier\":2,\"amount\":3,\"got\":6,\"message\":\"&e2배 구매! 깨굴코인 6개\"}"), T);
+        shot(out, "31_shop_double.png", tex, c -> shc2.render(c, T + 1400, 0, 0));
+        ShopPanel shc3 = new ShopPanel(HOST, shc, T);
+        shc3.fx("coin_buy", J.parse("{\"outcome\":\"fail\",\"multiplier\":0,\"amount\":3,\"got\":0,\"message\":\"&c구매 실패...\"}"), T);
+        shot(out, "32_shop_fail.png", tex, c -> shc3.render(c, T + 1400, 0, 0));
+        ShopPanel shs2 = new ShopPanel(HOST, shd, T);
+        shs2.fx("shop_sold", J.parse("{\"value\":1.536,\"got\":1,\"dust\":0.576}"), T);
+        shot(out, "33_shop_sold.png", tex, c -> shs2.render(c, T + 500, 0, 0));
         // 7. 상자 / 피버 / 초대장 / 졸업
         fx(out, tex, "14_box_open.png", "box_open", """
           {"box":"premium","label":"고급상자","fever":true,"rewards":[{"id":"diamond","label":"다이아 감소 룰렛","rare":false},{"id":"coin","label":"깨굴코인 5개","rare":false},{"id":"protect","label":"파괴 방지권","rare":true},{"id":"cola","label":"깨굴 콜라","rare":false}]}""", 3800);
