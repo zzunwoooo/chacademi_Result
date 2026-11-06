@@ -41,7 +41,7 @@ public final class UiHub {
                 if (p != null && (s.isEmpty() || p.screen().equals(s))) host.closePanel(p);
             }
             case "center" -> notice.center(J.str(m, "text"), J.str(m, "sub"), J.num(m, "ms", 2500), now);
-            case "toast" -> notice.toast(J.str(m, "text"), now);
+            case "toast" -> notice.toast(J.str(m, "text"), J.str(m, "kind"), now);
             case "roulette" -> roulette.add(m, now);
             case "fx" -> fx(J.str(m, "id"), J.objOrEmpty(m, "data"), now);
             case "names" -> {

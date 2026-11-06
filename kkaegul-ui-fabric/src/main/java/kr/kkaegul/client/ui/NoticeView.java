@@ -30,7 +30,15 @@ public final class NoticeView {
         add(text, "", 2800, now);
     }
 
-    private void add(String text, String sub, long life, long now) {
+    /** kind 가 정해져 온 알림 (error = 빨간 느낌표) */
+    public void toast(String text, String kind, long now) {
+        if (kind == null || kind.isEmpty()) { toast(text, now); return; }
+        add(text, "", 2800, now, kind);
+    }
+
+    private void add(String text, String sub, long life, long now) { add(text, sub, life, now, null); }
+
+    private void add(String text, String sub, long life, long now, String forced) {
         for (Card c : cards) {
             if (c.text.equals(text) && c.sub.equals(sub) && now - c.start < c.life) {
                 c.count++;
@@ -38,7 +46,7 @@ public final class NoticeView {
                 return;
             }
         }
-        cards.add(new Card(text, sub, kind(text + " " + sub), now, life));
+        cards.add(new Card(text, sub, forced != null ? forced : kind(text + " " + sub), now, life));
         while (cards.size() > MAX) cards.remove(0);
     }
 
@@ -61,7 +69,7 @@ public final class NoticeView {
 
     private static int accent(String kind) {
         return switch (kind) {
-            case "failure" -> 0xFFE9584F;
+            case "failure", "error" -> 0xFFE9584F;
             case "success" -> 0xFF7CC24A;
             case "jackpot" -> 0xFFF2C230;
             default -> 0xFFC9A77A;
@@ -96,7 +104,13 @@ public final class NoticeView {
         MenuPanel.box(c, x, y, W, h, 14, Anim.alpha(0xFF8A6A48, a), Anim.alpha(0xF2FFF7EA, a), 2);
         c.fill(x + 6, y + 8, 5, h - 16, 2.5f, Anim.alpha(acc, a));                  // 왼쪽 색 띠
         float face = h - 18;
-        c.imageFit("notice/face_" + k.kind, x + 18 + face / 2, y + h / 2, face, Anim.white(a));
+        if (k.kind.equals("error")) {
+            // 빨간 원 + 흰 느낌표
+            float r = face * .78f, cx0 = x + 18 + face / 2, cy0 = y + h / 2;
+            c.fill(cx0 - r / 2, cy0 - r / 2 + 2, r, r, r / 2, Anim.alpha(0x40000000, a));
+            c.fill(cx0 - r / 2, cy0 - r / 2, r, r, r / 2, Anim.alpha(0xFFE9584F, a));
+            c.text("!", cx0, cy0, r * .72f, Anim.alpha(Theme.WHITE, a), Canvas.CENTER, Canvas.BOLD);
+        } else c.imageFit("notice/face_" + k.kind, x + 18 + face / 2, y + h / 2, face, Anim.white(a));
         float tx = x + 26 + face, tw = W - (tx - x) - (k.count > 1 ? 50 : 14);
         if (k.sub.isBlank()) {
             c.textFit(k.text, tx, y + h / 2, 21, tw, Anim.alpha(Theme.INK, a), Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);

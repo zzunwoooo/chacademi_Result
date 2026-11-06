@@ -37,6 +37,7 @@ public final class PreviewMain {
            "tips":{"target":"&b목표 다이아\\n&f제출까지 남은 다이아 1,234개\\n&7증가 룰렛이면 늘고, 감소·제출하면 줄어요. 0이 되면 졸업!"}}}"""), T);
         hub.handle(J.parse("{\"type\":\"center\",\"text\":\"&a{e:system} 다이아 50개 제출 완료!\",\"sub\":\"&7남은 다이아 1,234개\",\"ms\":2500}".replace("{e:system}", "⨏")), T);
         hub.handle(J.parse("{\"type\":\"toast\",\"text\":\"&a깨굴코인 +5\"}"), T);
+        hub.handle(J.parse("{\"type\":\"toast\",\"text\":\"&c이미 받았어요.\",\"kind\":\"error\"}"), T);
         shot(out, "01_hud.png", tex, c -> hub.renderOverlay(c, T + 800, true, 230, 158, false));
         hub.handle(J.parse("{\"type\":\"update\",\"screen\":\"diamond\",\"data\":{\"debt\":1200,\"delta\":-34}}"), T + 900);
         shot(out, "02_hud_pop.png", tex, c -> hub.renderOverlay(c, T + 1300, false, 0, 0, false));
