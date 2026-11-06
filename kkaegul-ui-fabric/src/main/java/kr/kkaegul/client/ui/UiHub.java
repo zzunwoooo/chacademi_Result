@@ -14,6 +14,7 @@ public final class UiHub {
     public final NoticeView notice = new NoticeView();
     public final RouletteView roulette = new RouletteView();
     public final FxView fx = new FxView();
+    public final RaceView race = new RaceView();
     private final Host host;
     /** UUID → {name, title} 머리 위 이름표 */
     private volatile Map<String, String[]> names = Map.of();
@@ -60,6 +61,7 @@ public final class UiHub {
             case "nickname" -> new NicknamePanel(host, data, now);
             case "submit" -> new SubmitPanel(host, data, now);
             case "shop" -> new ShopPanel(host, data, now);
+            case "race" -> new RacePanel(host, data, now);
             case "hud" -> { hud.set(data, now); yield null; }
             default -> null;
         };
@@ -72,6 +74,11 @@ public final class UiHub {
             case "gauge" -> hud.gauge(data, now);
             case "diamond" -> hud.diamond(data, now);
             case "fever" -> hud.fever(data, now);
+            case "race_hud" -> {
+                race.hud(data, now);
+                Panel p = host.openPanel();
+                if (p instanceof RacePanel rp) rp.update(data, now);
+            }
             default -> {
                 Panel p = host.openPanel();
                 if (p != null && p.screen().equals(screen)) p.update(data, now);
@@ -82,6 +89,8 @@ public final class UiHub {
     private void fx(String id, JsonObject data, long now) {
         Panel p = host.openPanel();
         if (p != null && p.fx(id, data, now)) return;
+        if (id.equals("race_result")) { race.result(data, now); return; }
+        if (id.equals("race_bet")) return;
         if (this.fx.handles(id)) { this.fx.add(id, data, now); return; }
         switch (id) {
             case "gacha_jackpot" -> {
@@ -105,6 +114,7 @@ public final class UiHub {
     public void renderOverlay(Canvas c, long now, boolean cursor, float mx, float my, boolean panelOpen) {
         if (!panelOpen) hud.render(c, now);
         roulette.render(c, now, host);
+        race.render(c, now, panelOpen);
         fx.render(c, now, host);
         notice.render(c, now);
         if (cursor && !panelOpen) hud.tooltip(c, mx, my);

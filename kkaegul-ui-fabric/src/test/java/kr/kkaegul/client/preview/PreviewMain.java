@@ -144,6 +144,25 @@ public final class PreviewMain {
         ShopPanel shs2 = new ShopPanel(HOST, shd, T);
         shs2.fx("shop_sold", J.parse("{\"value\":1.536,\"got\":1,\"dust\":0.576}"), T);
         shot(out, "33_shop_sold.png", tex, c -> shs2.render(c, T + 500, 0, 0));
+        // 개구리 경주
+        JsonObject rd = J.parse("""
+          {"state":"betting","endsInMs":42000,"round":3,"available":128,"minBet":1,"maxBet":300,"myTotal":20,"winner":-1,
+           "frogs":[{"no":1,"name":"깨굴","colorId":0,"form":3,"odds":2.1,"myBet":0,"progress":0.52},
+                    {"no":2,"name":"개굴","colorId":1,"form":1,"odds":6.3,"myBet":0,"progress":0.33},
+                    {"no":3,"name":"뚱굴","colorId":2,"form":2,"odds":3.4,"myBet":0,"progress":0.78},
+                    {"no":4,"name":"초록이","colorId":3,"form":2,"odds":3.4,"myBet":20,"progress":0.9},
+                    {"no":5,"name":"폴짝","colorId":4,"form":1,"odds":6.3,"myBet":0,"progress":0.66},
+                    {"no":6,"name":"왕눈이","colorId":5,"form":3,"odds":2.1,"myBet":0,"progress":0.24}]}""");
+        RacePanel rp1 = new RacePanel(HOST, rd, T);
+        shot(out, "34_race_bet.png", tex, c -> rp1.render(c, T + 1000, 700, 560));
+        RacePanel rp2 = new RacePanel(HOST, J.merge(rd, J.parse("{\"state\":\"racing\"}")), T);
+        shot(out, "35_race_run.png", tex, c -> rp2.render(c, T + 1000, 0, 0));
+        RacePanel rp3 = new RacePanel(HOST, J.merge(rd, J.parse("{\"state\":\"result\",\"winner\":4}")), T);
+        rp3.fx("race_result", J.parse("{\"winner\":4,\"colorId\":3,\"name\":\"초록이\",\"odds\":3.4,\"bet\":20,\"spent\":20,\"got\":68}"), T);
+        shot(out, "36_race_result.png", tex, c -> rp3.render(c, T + 1200, 0, 0));
+        UiHub rh = new UiHub(HOST);
+        rh.handle(J.parse("{\"type\":\"update\",\"screen\":\"race_hud\",\"data\":" + J.merge(rd, J.parse("{\"state\":\"racing\"}")) + "}"), T);
+        shot(out, "37_race_overlay.png", tex, c -> rh.renderOverlay(c, T + 500, false, 0, 0, false));
         // 7. 상자 / 피버 / 초대장 / 졸업
         fx(out, tex, "14_box_open.png", "box_open", """
           {"box":"premium","label":"고급상자","fever":true,"rewards":[{"id":"diamond","label":"다이아 감소 룰렛","rare":false},{"id":"coin","label":"깨굴코인 5개","rare":false},{"id":"protect","label":"파괴 방지권","rare":true},{"id":"cola","label":"깨굴 콜라","rare":false}]}""", 3800);
