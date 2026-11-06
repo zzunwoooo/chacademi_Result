@@ -246,7 +246,9 @@ public final class GachaPanel implements Panel {
                 c.image("gacha/jackpot_ribbon", 405 - rw / 2, 330, rw, rh, Anim.white(a));
                 long[] af = J.longs(fx, "after");
                 String s = jp ? "잭팟!!! " : "";
-                if (af.length == 3) s += "행운 " + af[0] + " · 효율 " + af[1] + " · 내구 " + af[2];
+                long[] dl = J.longs(fx, "delta");
+                if (af.length == 3 && dl.length == 3) s += "행운 " + af[0] + d(dl[0]) + " · 효율 " + af[1] + d(dl[1]) + " · 내구 " + af[2] + d(dl[2]);
+                else if (af.length == 3) s += "행운 " + af[0] + " · 효율 " + af[1] + " · 내구 " + af[2];
                 c.textArc(s, 405, 330 + rh * Theme.RIBBON_CY, 16, Theme.ribbonR(rw), 240, Anim.alpha(jp ? 0xFFE0564C : Theme.INK, a), Canvas.BOLD | Canvas.LIGHT);
                 if (jp) {
                     if (j < 40) host.sound("minecraft:ui.toast.challenge_complete", 1, 1);
@@ -320,4 +322,6 @@ public final class GachaPanel implements Panel {
         }
         return false;
     }
+    /** 이번에 오르내린 값 "(+3)" / "(-2)" */
+    private static String d(long v) { return v > 0 ? "(+" + v + ")" : "(" + v + ")"; }
 }

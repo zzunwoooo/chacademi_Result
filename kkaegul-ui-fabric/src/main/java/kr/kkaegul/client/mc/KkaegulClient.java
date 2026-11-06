@@ -40,7 +40,10 @@ public final class KkaegulClient implements ClientModInitializer, Host {
     private McCanvas canvas;
     private UiHub hub;
     private KeyBinding menuKey;
-    private boolean altCursor;
+    private boolean altCursor, mouseWasDown;
+    private float lastMx, lastMy;
+    /** HUD 를 그릴 때의 배율 (클릭 좌표 계산용) */
+    private volatile float hudScale = 1;
 
     public static KkaegulClient get() { return instance; }
 
@@ -85,6 +88,7 @@ public final class KkaegulClient implements ClientModInitializer, Host {
             McCanvas c = canvas();
             gfx.beginFrame();
             float s = c.begin(ctx);
+            hudScale = s;
             try {
                 boolean cursor = mc.currentScreen instanceof ChatScreen || altCursor;
                 float mx = 0, my = 0;
@@ -107,6 +111,17 @@ public final class KkaegulClient implements ClientModInitializer, Host {
                     && net.minecraft.client.util.InputUtil.isKeyPressed(client.getWindow().getHandle(), GLFW.GLFW_KEY_LEFT_ALT);
             if (alt && !altCursor) { altCursor = true; client.mouse.unlockCursor(); }
             else if (!alt && altCursor) { altCursor = false; if (client.currentScreen == null) client.mouse.lockCursor(); }
+            // Alt 커서로 HUD 누르기 (▼ → 메뉴 등)
+            boolean down = altCursor && GLFW.glfwGetMouseButton(client.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS;
+            if (altCursor && !down) {   // 누르는 순간 게임이 커서를 가운데로 잠그므로 직전 위치를 기억
+                lastMx = (float) (client.mouse.getX() * client.getWindow().getScaledWidth() / client.getWindow().getWidth()) / hudScale;
+                lastMy = (float) (client.mouse.getY() * client.getWindow().getScaledHeight() / client.getWindow().getHeight()) / hudScale;
+            }
+            if (down && !mouseWasDown && canSend()) {
+                hub.clickOverlay(lastMx, lastMy);
+                altCursor = false;      // 다음 틱에 Alt 가 아직 눌려 있으면 커서를 다시 꺼냄
+            }
+            mouseWasDown = down;
             while (menuKey.wasPressed()) {
                 if (client.player != null && canSend()) send("menu.open", "tab", "me");
             }

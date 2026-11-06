@@ -149,6 +149,7 @@ public final class HudView {
             hits.add(new Hit(keys[i], sx, bodyY, sw, bodyH));
         }
         c.imageFit("hud/expand_arrow", cx + cw * .945f, mid, 18, 0xFFFFFFFF);
+        hits.add(new Hit("menu", cx + cw * .90f, bodyY, cw * .10f, bodyH));
 
         // ── 그 아래: 상태 아이콘 + 남은 시간
         float bx = cx + 6, by = cy + ch + 8;
@@ -204,6 +205,17 @@ public final class HudView {
         c.text(text, cx, y + s + 11, 19, Theme.WHITE, Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
         hits.add(new Hit(key, x, y, w, s + 20));
         return x + w + 6;
+    }
+
+    /** 커서로 누른 HUD 요소 (가상 좌표), 없으면 null */
+    public String hitKey(float mx, float my) {
+        if (!has || !visible) return null;
+        float lx = mx / scale, ly = my / scale;
+        for (int i = hits.size() - 1; i >= 0; i--) {
+            Hit h = hits.get(i);
+            if (Anim.in(lx, ly, h.x(), h.y(), h.w(), h.h())) return h.key();
+        }
+        return null;
     }
 
     /** 커서가 보일 때 툴팁 (가상 좌표) */

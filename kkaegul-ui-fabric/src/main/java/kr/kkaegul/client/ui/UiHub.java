@@ -116,6 +116,19 @@ public final class UiHub {
     }
 
     /** 상시 레이어 그리기 (HUD 단계에서 매 프레임) */
+    /** HUD 클릭 (Alt 커서 / 채팅창): ▼ = 메뉴, 우편 = 우편함, 나머지 = 내 정보 */
+    public boolean clickOverlay(float mx, float my) {
+        String k = hud.hitKey(mx, my);
+        if (k == null) return false;
+        switch (k) {
+            case "menu", "target", "held", "coin" -> host.send("menu.open", "tab", "me");
+            case "mail" -> host.send("mail.claim");   // 우편 받기
+            default -> { return false; }
+        }
+        host.sound("minecraft:ui.button.click", 1.2f, .4f);
+        return true;
+    }
+
     public void renderOverlay(Canvas c, long now, boolean cursor, float mx, float my, boolean panelOpen) {
         if (!panelOpen) hud.render(c, now);
         roulette.render(c, now, host);
