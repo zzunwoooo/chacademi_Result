@@ -100,7 +100,10 @@ public final class HarassView {
             c.textFit(name(ids[i]), 55, 117, 15, 98, Anim.alpha(INK, a * dim), Canvas.CENTER, TXT);
             if (on) {
                 float glow = done ? .75f + .25f * (float) Math.sin(e / 120.0) : 1;
-                c.image("harass/b_lit", -2, -2, 114, 144, Anim.alpha(0xFFFFFFFF, a * glow));
+                // 빨간 강조: 옅은 빨간 칠 + 빨갛게 물들인 테두리 두 겹 (초록은 칸 색과 섞여 안 보였음)
+                c.fill(2, 2, 106, 136, 14, Anim.alpha(0x33FF3B30, a * glow));
+                c.image("harass/b_lit", -6, -6, 122, 152, Anim.alpha(0x88FF2A2A, a * glow));
+                c.image("harass/b_lit", -2, -2, 114, 144, Anim.alpha(0xFFFF2A2A, a * glow));
             }
             c.pop();
         }

@@ -220,6 +220,30 @@ public final class RacePanel implements Panel {
     }
 
     /** 경주 화면 (창 안 레인 6줄). overlay=false 면 테두리 없이 레인만 */
+    /** 서버 진행값은 0.2초마다 오므로, 그 사이를 속도로 이어서 부드럽게 (key → {보이는 값, 마지막 목표, 받은 시각, 속도, 마지막 프레임}) */
+    private static final java.util.Map<String, float[]> SMOOTH = new java.util.HashMap<>();
+
+    static float smooth(String key, float target, long now) {
+        float t = (float) (now % 1_000_000L);
+        float[] s = SMOOTH.get(key);
+        if (s == null || target < s[1] - .05f || Math.abs(t - s[4]) > 1500) {      // 새 경주이거나 오래 안 그렸으면 바로 맞춤
+            s = new float[]{target, target, t, 0, t};
+            SMOOTH.put(key, s);
+        }
+        if (target != s[1]) {
+            float dt = Math.max(1, t - s[2]);
+            if (dt < 2000) s[3] = s[3] * .5f + (target - s[1]) / dt * .5f;   // 1ms 당 진행 (조금 평균)
+            s[1] = target;
+            s[2] = t;
+        }
+        float est = target >= 1 ? 1 : Math.min(1, target + s[3] * Math.min(250, Math.max(0, t - s[2])));
+        float frame = Math.max(1, Math.min(100, t - s[4]));
+        s[0] += (est - s[0]) * (1 - (float) Math.exp(-frame / 60f));
+        if (s[0] > est + .02f) s[0] = est;
+        s[4] = t;
+        return Math.max(0, Math.min(1, s[0]));
+    }
+
     static void track(Canvas c, JsonObject d, long now, long round, String status, boolean header) {
         if (header) {
             c.image("race/crossed_flags", 93, 207, 66, 46, 0xFFFFFFFF);
@@ -239,7 +263,7 @@ public final class RacePanel implements Panel {
             c.image("race/badge_" + COL[col], 103, y + 26, 60, 60, 0xFFFFFFFF);
             c.text(String.valueOf(J.num(f, "no")), 133, y + 57, 32, Theme.WHITE, Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
             c.image("race/frog_headband_" + COL[col], 176, y + 16, 84, 70, 0xFFFFFFFF);
-            double p = Math.max(0, Math.min(1, J.dbl(f, "progress", 0)));
+            double p = smooth((header ? "p" : "v") + J.num(f, "no"), (float) Math.max(0, Math.min(1, J.dbl(f, "progress", 0))), now);
             float front = 290 + (float) p * (1430 - 290);
             boolean done = p >= 1;
             String fr = done ? "02" : ((now / 125 + i) % 2 == 0 ? "01" : "02");
