@@ -21,6 +21,10 @@ public final class HudView {
     private long lastDebt = Long.MIN_VALUE;
     /** HUD 크기 배율 (설정) */
     public float scale = 1f;
+    /** 드롭다운: 열림 여부와 ▼ 아래 꼬리 자리 (HUD 좌표) */
+    public boolean menuOpen;
+    public float menuX = 497, menuY = 62;
+    private float arrowTurn;
     /** 미니게임 제목 리본이 위 가운데에 있을 때 게이지 숨김 */
     public boolean hideGauge;
     public boolean visible = true;
@@ -154,7 +158,17 @@ public final class HudView {
             c.textFit(Fmt.num(vals[i]), ix + 24, mid, 22, sw - 56, Theme.INK, Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
             hits.add(new Hit(keys[i], sx, bodyY, sw, bodyH));
         }
-        c.imageFit("hud/expand_arrow", cx + cw * .945f, mid, 18, 0xFFFFFFFF);
+        arrowTurn += ((menuOpen ? 1 : 0) - arrowTurn) * .3f;
+        menuX = cx + cw * .945f;
+        menuY = cy + ch - 1;
+        if (arrowTurn < .01f) c.imageFit("hud/expand_arrow", menuX, mid, 18, 0xFFFFFFFF);
+        else {
+            c.push();
+            c.translate(menuX, mid);
+            c.rotate(180 * Anim.inOut(arrowTurn));
+            c.imageFit("hud/expand_arrow", 0, 0, 18, 0xFFFFFFFF);
+            c.pop();
+        }
         hits.add(new Hit("menu", cx + cw * .90f, bodyY, cw * .10f, bodyH));
 
         // ── 그 아래: 상태 아이콘 + 남은 시간

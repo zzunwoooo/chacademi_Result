@@ -123,7 +123,7 @@ public final class KkaegulClient implements ClientModInitializer, Host {
             }
             mouseWasDown = down;
             while (menuKey.wasPressed()) {
-                if (client.player != null && canSend()) send("menu.open", "tab", "me");
+                if (client.player != null && canSend()) hub.toggleDropdown(System.currentTimeMillis());
             }
             // 연출 중 화면 클릭 대신: 연출이 있으면 사용 키(우클릭)는 그대로 게임에 둔다
         });

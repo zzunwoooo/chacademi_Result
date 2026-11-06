@@ -223,6 +223,21 @@ public final class PreviewMain {
         shot(out, "55_fortune.png", tex, c -> e3.renderOverlay(c, T + 1500, false, 0, 0, false));
         MailPanel mp = new MailPanel(HOST, J.parse("{\"items\":[{\"name\":\"고급상자\",\"amount\":2,\"material\":\"CHEST\"},{\"name\":\"꽝 종이\",\"amount\":3,\"material\":\"PAPER\"},{\"name\":\"수선 책\",\"amount\":1,\"material\":\"ENCHANTED_BOOK\"},{\"name\":\"다이아몬드\",\"amount\":10,\"material\":\"DIAMOND\"},{\"name\":\"철 흉갑\",\"amount\":1,\"material\":\"IRON_CHESTPLATE\"},{\"name\":\"행운상자\",\"amount\":1,\"material\":\"CHEST\"}]}"), T);
         shot(out, "56_mail.png", tex, c -> mp.render(c, T + 1000, 900, 420));
+        // 드롭다운 (펼치는 중 / 다 펼침 + 이동 하위 목록) + 인출
+        UiHub dd = new UiHub(HOST);
+        dd.handle(J.parse("{\"type\":\"update\",\"screen\":\"hud\",\"data\":{\"debt\":1234,\"held\":56,\"coins\":17,\"gauge\":{\"value\":62,\"max\":100}}}"), T);
+        dd.renderOverlay(scratch(tex), T, false, 0, 0, false);
+        dd.toggleDropdown(T);
+        for (long dt : new long[]{70, 140, 230}) {
+            long tt = T + dt;
+            shot(out, "58_dropdown_" + dt + ".png", tex, c -> { dd.renderOverlay(c, tt, false, 0, 0, true); open.render(c, tt, 0, 0); });
+        }
+        for (long f = 300; f < 900; f += 16) { long tt = T + f; dd.renderOverlay(scratch(tex), tt, false, 0, 0, true); open.render(scratch(tex), tt, 404, 288); }
+        shot(out, "59_dropdown_move.png", tex, c -> { dd.renderOverlay(c, T + 900, false, 0, 0, true); open.render(c, T + 900, 404, 288); });
+        open = null;
+        WithdrawPanel wp = new WithdrawPanel(HOST, J.parse("{\"held\":40}"), T);
+        for (long f = 0; f < 600; f += 16) wp.render(scratch(tex), T + f, 900, 610);
+        shot(out, "60_withdraw.png", tex, c -> wp.render(c, T + 600, 900, 610));
         UiHub e4 = new UiHub(HOST);
         e4.handle(J.parse("{\"type\":\"fx\",\"id\":\"armor_roll\",\"data\":{\"tier\":\"iron\",\"name\":\"철 갑옷\",\"prefix\":\"IRON\",\"message\":\"&f그나마 사람이네\"}}"), T);
         shot(out, "57_armor_roll.png", tex, c -> e4.renderOverlay(c, T + 1500, false, 0, 0, false));
@@ -261,6 +276,12 @@ public final class PreviewMain {
 
     static final StringBuilder REPORT = new StringBuilder();
     static int problems;
+
+    static AwtCanvas scratchC;
+    static AwtCanvas scratch(File tex) {
+        if (scratchC == null) scratchC = new AwtCanvas(new BufferedImage(1920, 1080, BufferedImage.TYPE_INT_ARGB), tex);
+        return scratchC;
+    }
 
     static void shot(File out, String name, File tex, Draw d) throws Exception {
         int PW = 1920, PH = 1080;

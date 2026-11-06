@@ -75,6 +75,7 @@ public final class UiHub {
             case "frog_jump" -> new FrogJumpPanel(host, data, now);
             case "jail_exit" -> new JailExitPanel(host, data, now);
             case "mail" -> new MailPanel(host, data, now);
+            case "withdraw" -> new WithdrawPanel(host, data, now);
             case "hud" -> { hud.set(data, now); yield null; }
             default -> null;
         };
@@ -133,7 +134,8 @@ public final class UiHub {
         String k = hud.hitKey(mx, my);
         if (k == null) return false;
         switch (k) {
-            case "menu", "target", "held", "coin" -> host.send("menu.open", "tab", "me");
+            case "menu" -> { toggleDropdown(System.currentTimeMillis()); return true; }
+            case "target", "held", "coin" -> host.send("menu.open", "tab", "me");
             case "mail" -> host.send("mail.open");   // 우편함 창
             default -> { return false; }
         }
@@ -141,9 +143,18 @@ public final class UiHub {
         return true;
     }
 
+    /** HUD ▼ / M 키: 드롭다운 펼치기·접기 */
+    public void toggleDropdown(long now) {
+        Panel cur = host.openPanel();
+        if (cur instanceof DropdownPanel dp) { dp.close(now); return; }
+        if (cur != null) return;
+        host.openPanel(new DropdownPanel(host, hud, now));
+        host.sound("minecraft:ui.button.click", 1.3f, .35f);
+    }
+
     public void renderOverlay(Canvas c, long now, boolean cursor, float mx, float my, boolean panelOpen) {
         hud.hideGauge = mini.active(now);
-        if (!panelOpen) hud.render(c, now);
+        if (!panelOpen || host.openPanel() instanceof DropdownPanel) hud.render(c, now);
         if (!panelOpen) mini.render(c, now);
         if (!panelOpen) extra.render(c, now);
         roulette.render(c, now, host);
