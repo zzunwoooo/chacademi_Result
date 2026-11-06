@@ -82,7 +82,7 @@ public final class MenuPanel implements Panel {
         float sw = 250, sh = sw * 312 / 512f, sy = 26 - sh * .79f;
         float bob = (float) Math.sin(now / 700.0) * 1.5f;
         c.image("gacha_machine/frog_sign_gentle", 340 - sw / 2, sy + bob, sw, sh, 0xFFFFFFFF);
-        c.textFit(TAB_NAME[indexOf(tab)], 340, sy + bob + sh * .79f, 20, 130, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        c.textFit(TAB_NAME[indexOf(tab)], 340, sy + bob + sh * .748f, 30, 180, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
 
         // 닫기
         boolean ch = Anim.in(mxR, myR, 615, 12, 44, 44);
@@ -133,7 +133,7 @@ public final class MenuPanel implements Panel {
         String title = J.str(m, "title");
         if (!title.isEmpty()) c.textFit(title, 217, 256, 13, 170, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
         c.image("gacha/jackpot_ribbon", 132, 262, 170, 170 * 247 / 1024f, 0xFFFFFFFF);
-        c.textFit(J.str(m, "name", J.str(m, "account")), 217, 282, 17, 110, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        c.textFit(J.str(m, "name", J.str(m, "account")), 217, 277, 17, 120, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
         JsonObject pk = J.objOrEmpty(m, "pickaxe");
         String[] ic = {"gacha_machine/luck_clover", "gacha_machine/efficiency_bolt", "gacha_machine/durability_shield"};
         String[] key = {"fortune", "efficiency", "unbreaking"};
@@ -251,7 +251,7 @@ public final class MenuPanel implements Panel {
             box(c, 134, y, 510, rh, 14, hov ? 0xFF9FCB72 : border, fill, 2);
             c.image("gacha/jackpot_ribbon", 150, y + rh / 2 - 24, 160, 160 * 247 / 1024f, own ? 0xFFFFFFFF : 0xCCFFFFFF);
             String name = J.str(r, "name");
-            c.textFit(own ? name : "§7" + Fmt.strip(name), 230, y + rh / 2 + 1, 17, 100, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+            c.textFit(own ? name : "§7" + Fmt.strip(name), 230, y + rh / 2 - 10, 16, 110, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
             c.textFit(J.str(r, "condition"), 330, y + rh / 2, 15, 230, own ? Theme.INK : Theme.MUTED, Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
             if (sel) c.image("menu/check_badge", 598, y + rh / 2 - 19, 38, 38, 0xFFFFFFFF);
             else if (!own) c.image("menu/lock", 600, y + rh / 2 - 17, 34, 34, 0xFFFFFFFF);

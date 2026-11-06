@@ -203,7 +203,9 @@ public final class FxView {
         c.translate(w * .07f + slide, h * .05f);
         c.rotate(-5);
         c.image("fever/banner_" + k, -bw / 2, -bh / 2, bw, bh, tint);
-        c.textFit(title, -bw * .02f, -bh * .04f, h * .1f, bw * .6f, Anim.alpha(accent, a), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        float pc = switch (k) { case "triple" -> .054f; case "chest" -> -.033f; default -> -.043f; };   // 리본 안쪽 판 세로 중심 (그림 측정값)
+        float ph = switch (k) { case "triple" -> .483f; case "chest" -> .574f; default -> .654f; };
+        c.textFit(title, -bw * .02f, bh * pc, bh * ph * .6f, bw * .74f, Anim.alpha(accent, a), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
         c.pop();
         // 오른쪽 메달 (3배 / 상자)
         if (!k.equals("diamond")) {

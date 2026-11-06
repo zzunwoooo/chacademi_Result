@@ -91,11 +91,11 @@ public final class NicknamePanel implements Panel {
 
         c.image("nickname/nickname_panel", 0, 0, 900, 560, 0xFFFFFFFF);
         // 리본: 제목
-        c.textFit(first() ? "이름을 정해 주세요!" : "닉네임 바꾸기", 450, 146, 30, 420, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        c.textFit(first() ? "이름을 정해 주세요!" : "닉네임 바꾸기", 450, 140, 40, 460, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
         // 말풍선: 머리 위 이름표 미리보기 (칭호 + 닉네임)
         String title = J.str(data, "title");
         String preview = (title.isEmpty() ? "" : title + " ") + "§r" + (text.isEmpty() ? "§7닉네임" : text);
-        c.textFit(preview, 450, 234, 28, 300, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        c.textFit(preview, 450, 242, 32, 300, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
         c.text(first() ? "머리 위에 이렇게 보여요 · 운빨깨굴랜드에서 불릴 이름" : "머리 위에 이렇게 보여요 · 계정 " + J.str(data, "account"), 450, 300, 17, Theme.MUTED, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
 
         // 입력칸
@@ -130,12 +130,12 @@ public final class NicknamePanel implements Panel {
         float okX = first() ? 320 : 150;
         boolean hOk = canSave && Anim.in(mx, my, okX, 445, 260, 80);
         c.image(hOk ? "nickname/btn_ok_hover" : "nickname/btn_ok", okX, 445, 260, 80, canSave ? 0xFFFFFFFF : 0x99FFFFFF);
-        c.text(savingSince > 0 ? "확인 중..." : "정했어요!", okX + 130, 485, 26, canSave ? 0xFF3F7F31 : 0xFF9AAA90, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        c.text(savingSince > 0 ? "확인 중..." : "정했어요!", okX + 130, 484, 30, canSave ? 0xFF3F7F31 : 0xFF9AAA90, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
         hits.add(new R("ok", okX, 445, 260, 80));
         if (!first()) {
             boolean hNo = Anim.in(mx, my, 490, 445, 260, 80);
             c.image(hNo ? "nickname/btn_cancel_hover" : "nickname/btn_cancel", 490, 445, 260, 80, 0xFFFFFFFF);
-            c.text("취소", 620, 485, 26, 0xFF6B6B6B, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+            c.text("취소", 620, 484, 30, 0xFF6B6B6B, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
             hits.add(new R("cancel", 490, 445, 260, 80));
         }
         c.pop();

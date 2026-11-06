@@ -149,7 +149,7 @@ public final class ShopPanel implements Panel {
 
         c.image("shop/window_frame", 0, 0, 1600, 1024, 0xFFFFFFFF);
         c.image("shop/header_frog_ribbon", 544, 0, 512, 176, 0xFFFFFFFF);
-        c.textFit("깨굴 상점", 800, 121, 46, 330, Theme.INK, Canvas.CENTER, TXT);
+        c.textFit("깨굴 상점", 800, 119, 46, 360, Theme.INK, Canvas.CENTER, TXT);
         boolean hClose = Anim.in(mx, my, 1493, 110, 60, 60);
         c.image("shop/close", 1503, 120, 40, 40, hClose ? 0xFFFFB9A8 : 0xFFFFFFFF);
         hits.add(new R("close", 1493, 110, 60, 60));
@@ -437,8 +437,8 @@ public final class ShopPanel implements Panel {
         c.scale(.86f * s2, .86f * s2);
         c.image(banner, -350, -80, 700, 160, Anim.white(a));
         int ink = fail ? 0xFF6B6B6B : o.equals("triple") ? 0xFF8A5A00 : o.equals("double") ? 0xFF3F7F31 : Theme.INK;
-        c.textFit(title, 0, -14, 42, 520, Anim.alpha(ink, a), Canvas.CENTER, TXT);
-        c.textFit(fail ? "다이아만 날아갔어요" : "깨굴코인 +" + Fmt.num(got), 0, 30, 28, 520, Anim.alpha(fail ? Theme.MUTED : Theme.INK, a), Canvas.CENTER, TXT);
+        c.textFit(title, 0, -30, 48, 520, Anim.alpha(ink, a), Canvas.CENTER, TXT);
+        c.textFit(fail ? "다이아만 날아갔어요" : "깨굴코인 +" + Fmt.num(got), 0, 22, 32, 520, Anim.alpha(fail ? Theme.MUTED : Theme.INK, a), Canvas.CENTER, TXT);
         c.pop();
         if (o.equals("triple") || o.equals("double")) { // 반짝이 금화
             for (int i = 0; i < 8; i++) {

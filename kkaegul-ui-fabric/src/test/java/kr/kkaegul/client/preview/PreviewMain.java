@@ -210,6 +210,41 @@ public final class PreviewMain {
         audit(out, name, img, c);
     }
 
+    /** 이미지 속 밝은 판 영역(기기 좌표 x0,y0,x1,y1). 글자 중심이 놓인 곳에서 같은 밝은 판을 채워 찾는다 */
+    static double[] plate(AwtCanvas.Box b, double cx, double cy) {
+        BufferedImage im = b.src();
+        var r = b.r();
+        int W = im.getWidth(), H = im.getHeight();
+        int px = (int) ((cx - r.getMinX()) / r.getWidth() * W), py = (int) ((cy - r.getMinY()) / r.getHeight() * H);
+        java.util.function.IntPredicate light = v -> (v >>> 24) > 200 && (((v >> 16) & 255) * 3 + ((v >> 8) & 255) * 6 + (v & 255)) / 10 > 175;
+        int sx = -1, sy = -1;
+        outer:
+        for (int rad = 0; rad < Math.max(W, H) / 4; rad++)
+            for (int dx = -rad; dx <= rad; dx++)
+                for (int dy = -rad; dy <= rad; dy++) {
+                    if (Math.max(Math.abs(dx), Math.abs(dy)) != rad) continue;
+                    int x = px + dx, y = py + dy;
+                    if (x >= 0 && y >= 0 && x < W && y < H && light.test(im.getRGB(x, y))) { sx = x; sy = y; break outer; }
+                }
+        if (sx < 0) return null;
+        boolean[] seen = new boolean[W * H];
+        java.util.ArrayDeque<int[]> q = new java.util.ArrayDeque<>();
+        q.add(new int[]{sx, sy}); seen[sy * W + sx] = true;
+        int x0 = sx, x1 = sx, y0 = sy, y1 = sy, n = 0;
+        while (!q.isEmpty() && n < 4_000_000) {
+            int[] c = q.poll(); n++;
+            x0 = Math.min(x0, c[0]); x1 = Math.max(x1, c[0]); y0 = Math.min(y0, c[1]); y1 = Math.max(y1, c[1]);
+            int[][] nb = {{c[0] + 1, c[1]}, {c[0] - 1, c[1]}, {c[0], c[1] + 1}, {c[0], c[1] - 1}};
+            for (int[] d : nb) {
+                if (d[0] < 0 || d[1] < 0 || d[0] >= W || d[1] >= H || seen[d[1] * W + d[0]]) continue;
+                seen[d[1] * W + d[0]] = true;
+                if (light.test(im.getRGB(d[0], d[1]))) q.add(d);
+            }
+        }
+        double fx = r.getWidth() / W, fy = r.getHeight() / H;
+        return new double[]{r.getMinX() + x0 * fx, r.getMinY() + y0 * fy, r.getMinX() + (x1 + 1) * fx, r.getMinY() + (y1 + 1) * fy};
+    }
+
     /** 글자 점검: 너무 작음(1080p 기준 15px 미만) / 담고 있는 칸을 넘어감 */
     static void audit(File out, String name, BufferedImage img, AwtCanvas c) throws Exception {
         java.util.List<String> issues = new java.util.ArrayList<>();
@@ -235,6 +270,18 @@ public final class PreviewMain {
                 double ox = Math.max(r.getMinX() - t.r().getMinX(), t.r().getMaxX() - r.getMaxX());
                 double oy = Math.max(r.getMinY() - t.r().getMinY(), t.r().getMaxY() - r.getMaxY());
                 if (ox > tol || oy > tol) { issues.add(String.format("넘침 x%.0f y%.0f  \"%s\" in %s", Math.max(0, ox), Math.max(0, oy), txt, best.what())); bad = true; }
+            }
+            // 칸 가운데 맞춤: 글자 중심 아래 밝은 판(칸 안쪽)을 찾아 세로 중심·크기 비교
+            if (best != null && best.src() != null) {
+                double[] pl = plate(best, cx, cy);
+                if (pl != null) {
+                    double ph = pl[3] - pl[1], pcy = (pl[1] + pl[3]) / 2, off = cy - pcy;
+                    double fontPx = t.r().getHeight();
+                    if (ph < fontPx * 3.2 && ph > fontPx * .8) { // 글자 칸으로 볼 만한 판
+                        if (Math.abs(off) > Math.max(3, ph * .08)) { issues.add(String.format("치우침 %+.0fpx(판 높이 %.0f)  \"%s\" in %s", off, ph, txt, best.what())); bad = true; }
+                        if (fontPx / ph < .40) { issues.add(String.format("칸 대비 작음 %.0f%%  \"%s\" in %s", fontPx / ph * 100, txt, best.what())); bad = true; }
+                    }
+                }
             }
             if (bad) { g.setColor(Color.RED); g.draw(t.r()); }
         }

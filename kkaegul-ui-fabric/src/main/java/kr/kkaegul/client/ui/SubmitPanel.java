@@ -85,7 +85,7 @@ public final class SubmitPanel implements Panel {
         my = (my - oy) / k;
 
         c.image("submit/panel_base", 0, 0, 1000, 680, 0xFFFFFFFF);
-        c.textFit("다이아 제출소", 499, 139, 32, 380, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        c.textFit("다이아 제출소", 499, 125, 38, 340, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
         boolean hc = Anim.in(mx, my, 899, 113, 67, 66);
         if (hc) c.fill(899, 113, 67, 66, 18, 0x22FFFFFF);
         hits.add(new R("close", 899, 113, 67, 66));
@@ -182,7 +182,7 @@ public final class SubmitPanel implements Panel {
         c.translate(500, 300);
         c.scale(t, t);
         c.image(banner, -350, -80, 700, 160, Anim.white(a));
-        c.textFit(title, 0, -2, 38, 470, Anim.alpha(color, a), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        c.textFit(title, 0, -4, 44, 480, Anim.alpha(color, a), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
         c.pop();
         String sub = fxId.equals("submit_normal") ? "남은 다이아 " + Fmt.num(J.num(fx, "debt")) + "개"
                 : Fmt.num(used) + "개 냄 → " + Fmt.num(cred) + "개 인정" + (donated > 0 ? " · " + Fmt.num(donated) + "개 기부" : "") + " · 남은 " + Fmt.num(J.num(fx, "debt"));

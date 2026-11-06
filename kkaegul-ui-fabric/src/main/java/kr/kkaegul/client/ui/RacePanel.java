@@ -96,7 +96,7 @@ public final class RacePanel implements Panel {
 
         c.image("race/main_window", 28, 100, 1543, 904, 0xFFFFFFFF);
         c.image("race/frog_header_ribbon", 540, 8, 520, 188, 0xFFFFFFFF);
-        c.textFit("개구리 경주", 800, 157, 40, 330, Theme.INK, Canvas.CENTER, TXT);
+        c.textFit("개구리 경주", 800, 136, 50, 380, Theme.INK, Canvas.CENTER, TXT);
         boolean hc = Anim.in(mx, my, 1485, 129, 52, 52);
         c.image("race/close", 1495, 139, 32, 32, hc ? 0xFFFFB9A8 : 0xFFFFFFFF);
         hits.add(new R("close", 1485, 129, 52, 52));
@@ -261,7 +261,7 @@ public final class RacePanel implements Panel {
         c.translate(cx, 645);
         c.scale(s, s);
         c.image(won || spent == 0 ? "race/ribbon_win_blank" : "race/ribbon_lose_blank", -260, -60, 520, 120, Anim.white(a));
-        c.textFit(J.num(r, "winner") + "번 " + J.str(r, "name") + " 우승!", 0, -8, 36, 420, Anim.alpha(won || spent == 0 ? 0xFF6B4A00 : 0xFF5E5E5E, a), Canvas.CENTER, TXT);
+        c.textFit(J.num(r, "winner") + "번 " + J.str(r, "name") + " 우승!", 0, -4, 32, 390, Anim.alpha(won || spent == 0 ? 0xFF6B4A00 : 0xFF5E5E5E, a), Canvas.CENTER, TXT);
         c.pop();
         String sub = won ? "맞혔어요! 다이아 +" + Fmt.num(got) + " (x" + ShopPanel.dec(J.dbl(r, "odds", 1)) + ")"
                 : spent > 0 ? "아쉬워요... 건 다이아 " + Fmt.num(spent) + "개" : "배당 x" + ShopPanel.dec(J.dbl(r, "odds", 1));
