@@ -62,6 +62,7 @@ public final class UiHub {
             case "submit" -> new SubmitPanel(host, data, now);
             case "shop" -> new ShopPanel(host, data, now);
             case "race" -> new RacePanel(host, data, now);
+            case "frog_jump" -> new FrogJumpPanel(host, data, now);
             case "hud" -> { hud.set(data, now); yield null; }
             default -> null;
         };

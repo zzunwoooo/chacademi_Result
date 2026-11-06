@@ -163,6 +163,25 @@ public final class PreviewMain {
         UiHub rh = new UiHub(HOST);
         rh.handle(J.parse("{\"type\":\"update\",\"screen\":\"race_hud\",\"data\":" + J.merge(rd, J.parse("{\"state\":\"racing\"}")) + "}"), T);
         shot(out, "37_race_overlay.png", tex, c -> rh.renderOverlay(c, T + 500, false, 0, 0, false));
+        // 개구리 점프
+        String steps = "[{\"chance\":90,\"multiplier\":1.1},{\"chance\":85,\"multiplier\":1.25},{\"chance\":80,\"multiplier\":1.5},{\"chance\":75,\"multiplier\":1.9},{\"chance\":70,\"multiplier\":2.5},{\"chance\":65,\"multiplier\":3.4},{\"chance\":60,\"multiplier\":4.8},{\"chance\":55,\"multiplier\":7},{\"chance\":50,\"multiplier\":11},{\"chance\":45,\"multiplier\":18}]";
+        JsonObject jd = J.parse("{\"available\":128,\"minBet\":1,\"maxBet\":500,\"playing\":false,\"steps\":" + steps + "}");
+        FrogJumpPanel j1 = new FrogJumpPanel(HOST, jd, T);
+        shot(out, "38_jump_ready.png", tex, c -> j1.render(c, T + 1000, 1300, 745));
+        JsonObject jp = J.parse("{\"available\":118,\"minBet\":1,\"maxBet\":500,\"playing\":true,\"bet\":10,\"step\":3,\"multiplier\":1.5,\"cashout\":15,\"steps\":" + steps + "}");
+        FrogJumpPanel j2 = new FrogJumpPanel(HOST, jp, T);
+        shot(out, "39_jump_play.png", tex, c -> j2.render(c, T + 1000, 0, 0));
+        FrogJumpPanel j3 = new FrogJumpPanel(HOST, jp, T);
+        j3.fx("jump_ok", J.parse("{\"step\":4}"), T);
+        shot(out, "40_jump_air.png", tex, c -> j3.render(c, T + 230, 0, 0));
+        FrogJumpPanel j4 = new FrogJumpPanel(HOST, jp, T);
+        j4.fx("jump_fail", J.parse("{\"step\":4,\"bet\":10}"), T);
+        j4.update(J.parse("{\"playing\":false}"), T);
+        shot(out, "41_jump_fail.png", tex, c -> j4.render(c, T + 1400, 0, 0));
+        FrogJumpPanel j5 = new FrogJumpPanel(HOST, jp, T);
+        j5.fx("jump_cashout", J.parse("{\"step\":3,\"multiplier\":1.5,\"got\":15,\"bet\":10}"), T);
+        j5.update(J.parse("{\"playing\":false}"), T);
+        shot(out, "42_jump_cash.png", tex, c -> j5.render(c, T + 900, 0, 0));
         // 7. 상자 / 피버 / 초대장 / 졸업
         fx(out, tex, "14_box_open.png", "box_open", """
           {"box":"premium","label":"고급상자","fever":true,"rewards":[{"id":"diamond","label":"다이아 감소 룰렛","rare":false},{"id":"coin","label":"깨굴코인 5개","rare":false},{"id":"protect","label":"파괴 방지권","rare":true},{"id":"cola","label":"깨굴 콜라","rare":false}]}""", 3800);
