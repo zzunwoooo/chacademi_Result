@@ -182,6 +182,28 @@ public final class PreviewMain {
         j5.fx("jump_cashout", J.parse("{\"step\":3,\"multiplier\":1.5,\"got\":15,\"bet\":10}"), T);
         j5.update(J.parse("{\"playing\":false}"), T);
         shot(out, "42_jump_cash.png", tex, c -> j5.render(c, T + 900, 0, 0));
+        // 미니게임 HUD
+        UiHub m1 = new UiHub(HOST);
+        m1.handle(J.parse("""
+          {"type":"open","screen":"minigame","data":{"game":"pepero","title":"빼빼로 게임","seconds":30,"target":60,"progress":36,
+           "partner":{"name":"깨굴이","account":"x"},
+           "participants":[{"name":"깨굴이","state":"success"},{"name":"돌맹이","state":"wait"},{"name":"잔디콩","state":"out"},{"name":"다이아맨","state":"wait"},{"name":"a"},{"name":"b"}]}}"""), T);
+        shot(out, "43_mini_pepero.png", tex, c -> m1.renderOverlay(c, T + 9000, false, 0, 0, false));
+        UiHub m2 = new UiHub(HOST);
+        m2.handle(J.parse("{\"type\":\"open\",\"screen\":\"minigame\",\"data\":{\"game\":\"treasure\",\"title\":\"보물찾기\",\"seconds\":90,\"chests\":12,\"left\":7,\"finder\":\"돌맹이\"}}"), T);
+        m2.handle(J.parse("{\"type\":\"fx\",\"id\":\"treasure_found\",\"data\":{\"label\":\"다이아 ×10\",\"premium\":true}}"), T + 60000);
+        shot(out, "44_mini_treasure.png", tex, c -> m2.renderOverlay(c, T + 61000, false, 0, 0, false));
+        UiHub m3 = new UiHub(HOST);
+        m3.handle(J.parse("{\"type\":\"open\",\"screen\":\"wasd\",\"data\":{\"keys\":\"[W, A, S, D, W, D]\",\"seconds\":7,\"index\":2,\"title\":\"깨굴이의 위험한 초대\"}}"), T);
+        shot(out, "45_mini_keys.png", tex, c -> m3.renderOverlay(c, T + 2000, false, 0, 0, false));
+        m3.handle(J.parse("{\"type\":\"update\",\"screen\":\"wasd\",\"data\":{\"index\":3,\"done\":true,\"success\":false}}"), T + 2500);
+        shot(out, "46_mini_keys_wrong.png", tex, c -> m3.renderOverlay(c, T + 2600, false, 0, 0, false));
+        UiHub m4 = new UiHub(HOST);
+        m4.handle(J.parse("{\"type\":\"fx\",\"id\":\"minigame_result\",\"data\":{\"success\":true,\"sub\":\"짝꿍과 빼빼로 60번 성공!\",\"rewards\":[{\"label\":\"고급상자\",\"premium\":true},{\"label\":\"다이아 ×3\"}]}}"), T);
+        shot(out, "47_mini_success.png", tex, c -> m4.renderOverlay(c, T + 1200, false, 0, 0, false));
+        UiHub m5 = new UiHub(HOST);
+        m5.handle(J.parse("{\"type\":\"fx\",\"id\":\"minigame_result\",\"data\":{\"success\":false,\"sub\":\"빼빼로가 이유 없이 부러졌다!\",\"rewards\":[{\"label\":\"빅증가 룰렛\"}]}}"), T);
+        shot(out, "48_mini_fail.png", tex, c -> m5.renderOverlay(c, T + 1200, false, 0, 0, false));
         // 7. 상자 / 피버 / 초대장 / 졸업
         fx(out, tex, "14_box_open.png", "box_open", """
           {"box":"premium","label":"고급상자","fever":true,"rewards":[{"id":"diamond","label":"다이아 감소 룰렛","rare":false},{"id":"coin","label":"깨굴코인 5개","rare":false},{"id":"protect","label":"파괴 방지권","rare":true},{"id":"cola","label":"깨굴 콜라","rare":false}]}""", 3800);

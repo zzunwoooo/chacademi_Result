@@ -15,6 +15,7 @@ public final class UiHub {
     public final RouletteView roulette = new RouletteView();
     public final FxView fx = new FxView();
     public final RaceView race = new RaceView();
+    public final MinigameView mini = new MinigameView();
     private final Host host;
     /** UUID → {name, title} 머리 위 이름표 */
     private volatile Map<String, String[]> names = Map.of();
@@ -34,6 +35,7 @@ public final class UiHub {
             case "close" -> {
                 Panel p = host.openPanel();
                 String s = J.str(m, "screen");
+                if (s.isEmpty() || mini.handles(s)) mini.close(s, now);
                 if (p != null && (s.isEmpty() || p.screen().equals(s))) host.closePanel(p);
             }
             case "center" -> notice.center(J.str(m, "text"), J.str(m, "sub"), J.num(m, "ms", 2500), now);
@@ -56,6 +58,7 @@ public final class UiHub {
     }
 
     private void open(String screen, JsonObject data, long now) {
+        if (mini.handles(screen)) { mini.open(screen, data, now); return; }
         Panel cur = host.openPanel();
         if (cur != null && cur.screen().equals(screen)) { cur.update(data, now); return; }
         Panel p = switch (screen) {
@@ -74,6 +77,7 @@ public final class UiHub {
     }
 
     private void update(String screen, JsonObject data, long now) {
+        if (mini.handles(screen)) { mini.update(screen, data, now); return; }
         switch (screen) {
             case "hud" -> hud.set(data, now);
             case "gauge" -> hud.gauge(data, now);
@@ -96,6 +100,7 @@ public final class UiHub {
         if (p != null && p.fx(id, data, now)) return;
         if (id.equals("race_result")) { race.result(data, now); return; }
         if (id.equals("race_bet")) return;
+        if (mini.handlesFx(id)) { mini.fx(id, data, now); return; }
         if (this.fx.handles(id)) { this.fx.add(id, data, now); return; }
         switch (id) {
             case "gacha_jackpot" -> {
@@ -130,7 +135,9 @@ public final class UiHub {
     }
 
     public void renderOverlay(Canvas c, long now, boolean cursor, float mx, float my, boolean panelOpen) {
+        hud.hideGauge = mini.active(now);
         if (!panelOpen) hud.render(c, now);
+        if (!panelOpen) mini.render(c, now);
         roulette.render(c, now, host);
         race.render(c, now, panelOpen);
         fx.render(c, now, host);

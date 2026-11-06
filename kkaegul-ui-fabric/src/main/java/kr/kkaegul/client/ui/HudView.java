@@ -21,6 +21,8 @@ public final class HudView {
     private long lastDebt = Long.MIN_VALUE;
     /** HUD 크기 배율 (설정) */
     public float scale = 1f;
+    /** 미니게임 제목 리본이 위 가운데에 있을 때 게이지 숨김 */
+    public boolean hideGauge;
     public boolean visible = true;
 
     public boolean has() { return has; }
@@ -172,10 +174,10 @@ public final class HudView {
         shownGauge += (value - shownGauge) * 0.15f;
         if (Math.abs(value - shownGauge) < 0.05f) shownGauge = value;
         float gw = 420, gh = 32, gx = W / 2 - gw / 2 - 40, gy = 46;
-        gaugeBar(c, gx, gy, gw, gh, shownGauge / max, tier, now);
+        if (!hideGauge) gaugeBar(c, gx, gy, gw, gh, shownGauge / max, tier, now);
         // 가운데 퍼센트
         long pct = Math.round(shownGauge * 100.0 / max);
-        c.text(pct + "%", gx + gw / 2, gy + gh / 2, gh * .62f, Theme.WHITE, Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
+        if (!hideGauge) c.text(pct + "%", gx + gw / 2, gy + gh / 2, gh * .62f, Theme.WHITE, Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
         hits.add(new Hit("gauge", gx - 20, gy - 20, gw + gh * 4 + 20, gh + 40));
 
         // 목표(남은) 다이아 변화 팝업: 화면 가운데 아래 액션바 근처, 다이아 아이콘과 함께
