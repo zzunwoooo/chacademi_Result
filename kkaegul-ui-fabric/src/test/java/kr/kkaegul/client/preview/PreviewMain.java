@@ -238,6 +238,22 @@ public final class PreviewMain {
         WithdrawPanel wp = new WithdrawPanel(HOST, J.parse("{\"held\":40}"), T);
         for (long f = 0; f < 600; f += 16) wp.render(scratch(tex), T + f, 900, 610);
         shot(out, "60_withdraw.png", tex, c -> wp.render(c, T + 600, 900, 610));
+        UiHub hr = new UiHub(HOST);
+        hr.handle(J.parse("{\"type\":\"fx\",\"id\":\"harass_roulette\",\"data\":{\"mode\":\"personal\",\"tiles\":[\"monsters\",\"mining_fatigue\",\"tp_random_user\",\"freeze\",\"delete_slot\"],\"result\":\"monsters\",\"resultText\":\"랜덤 몬스터 3마리 소환\",\"spinMs\":2800}}"), T);
+        shot(out, "61_harass_spin.png", tex, c -> hr.renderOverlay(c, T + 1200, false, 0, 0, false));
+        shot(out, "62_harass_result.png", tex, c -> hr.renderOverlay(c, T + 3700, false, 0, 0, false));
+        UiHub ho = new UiHub(HOST);
+        ho.handle(J.parse("{\"type\":\"fx\",\"id\":\"harass_roulette\",\"data\":{\"mode\":\"owner\",\"tiles\":[\"quiz\",\"wasd\",\"sky\",\"fever\",\"all_jail\",\"lobby_kick\"],\"result\":\"wasd\",\"resultText\":\"WASD 랜덤 입력\",\"spinMs\":2800}}"), T);
+        shot(out, "63_harass_owner.png", tex, c -> ho.renderOverlay(c, T + 3700, false, 0, 0, false));
+        String[][] cards = {{"title_unlock", "{\"name\":\"&6운빨왕\",\"serverFirst\":true}"}, {"submit_normal", "{\"credited\":50,\"debt\":1184}"},
+            {"random_submit", "{\"used\":30,\"credited\":60,\"debt\":1124,\"message\":\"&a대박! x2\"}"}, {"gacha_destroy", "{}"}, {"gacha_protect", "{}"}};
+        for (String[] cd : cards) {
+            UiHub ch = new UiHub(HOST);
+            ch.handle(J.parse("{\"type\":\"fx\",\"id\":\"" + cd[0] + "\",\"data\":" + cd[1] + "}"), T);
+            shot(out, "64_card_" + cd[0] + ".png", tex, c -> ch.renderOverlay(c, T + 1200, false, 0, 0, false));
+        }
+        DonationBoardPanel db = new DonationBoardPanel(HOST, J.parse("{\"total\":12345,\"rows\":[{\"rank\":1,\"name\":\"준우\",\"amount\":3200},{\"rank\":2,\"name\":\"깨굴이팬\",\"amount\":2100},{\"rank\":3,\"name\":\"Steve\",\"amount\":990},{\"rank\":4,\"name\":\"다이아부자\",\"amount\":500},{\"rank\":5,\"name\":\"Alex\",\"amount\":320},{\"rank\":6,\"name\":\"개구리\",\"amount\":100},{\"rank\":7,\"name\":\"뉴비\",\"amount\":12}]}"), T);
+        shot(out, "65_donation_board.png", tex, c -> db.render(c, T + 1000, 0, 0));
         UiHub e4 = new UiHub(HOST);
         e4.handle(J.parse("{\"type\":\"fx\",\"id\":\"armor_roll\",\"data\":{\"tier\":\"iron\",\"name\":\"철 갑옷\",\"prefix\":\"IRON\",\"message\":\"&f그나마 사람이네\"}}"), T);
         shot(out, "57_armor_roll.png", tex, c -> e4.renderOverlay(c, T + 1500, false, 0, 0, false));

@@ -17,6 +17,7 @@ public final class UiHub {
     public final RaceView race = new RaceView();
     public final MinigameView mini = new MinigameView();
     public final ExtraView extra = new ExtraView();
+    private final HarassView harass = new HarassView();
     private final Host host;
     /** UUID → {name, title} 머리 위 이름표 */
     private volatile Map<String, String[]> names = Map.of();
@@ -76,6 +77,7 @@ public final class UiHub {
             case "jail_exit" -> new JailExitPanel(host, data, now);
             case "mail" -> new MailPanel(host, data, now);
             case "withdraw" -> new WithdrawPanel(host, data, now);
+            case "donation_board" -> new DonationBoardPanel(host, data, now);
             case "hud" -> { hud.set(data, now); yield null; }
             default -> null;
         };
@@ -109,6 +111,7 @@ public final class UiHub {
         if (id.equals("race_bet")) return;
         if (mini.handlesFx(id)) { mini.fx(id, data, now); return; }
         if (extra.handlesFx(id)) { extra.fx(id, data, now); return; }
+        if (harass.handlesFx(id)) { harass.fx(id, data, now); return; }
         if (this.fx.handles(id)) { this.fx.add(id, data, now); return; }
         switch (id) {
             case "gacha_jackpot" -> {
@@ -158,6 +161,7 @@ public final class UiHub {
         if (!panelOpen) mini.render(c, now);
         if (!panelOpen) extra.render(c, now);
         roulette.render(c, now, host);
+        harass.render(c, now, host);
         race.render(c, now, panelOpen);
         fx.render(c, now, host);
         notice.render(c, now);

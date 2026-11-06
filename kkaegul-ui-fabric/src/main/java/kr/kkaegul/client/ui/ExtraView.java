@@ -31,7 +31,12 @@ public final class ExtraView {
 
     public boolean handles(String screen) { return screen.equals("jail") || screen.equals("quiz") || screen.equals("fortune"); }
 
-    public boolean handlesFx(String id) { return id.equals("jail_game") || id.equals("armor_roll") || id.equals("mending_draw"); }
+    public boolean handlesFx(String id) {
+        return switch (id) {
+            case "jail_game", "armor_roll", "mending_draw", "title_unlock", "submit_normal", "random_submit", "gacha_destroy", "gacha_protect" -> true;
+            default -> false;
+        };
+    }
 
     public void open(String screen, JsonObject d, long now) {
         switch (screen) {
@@ -272,6 +277,34 @@ public final class ExtraView {
                 Anim.alpha(INK, a), Canvas.CENTER, TXT);
             String msg = Fmt.strip(J.str(card, "message"));
             if (!msg.isEmpty()) c.textFit(msg, 960, y + 560, 26, 700, Anim.alpha(0xFFFFFFFF, a), Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
+        } else if (!cardKind.equals("mending_draw")) {
+            // 묶음 3 카드: 리본 판 / 아래 판 가운데는 그림마다 재서 맞춤
+            String art, title, bottom, sub = "";
+            float ty, by;
+            int bc = INK;
+            switch (cardKind) {
+                case "title_unlock" -> { art = "title_card"; title = "칭호 획득!"; bottom = Fmt.strip(J.str(card, "name")); ty = 106; by = 454.75f; bc = 0xFF7A4FB0; }
+                case "submit_normal" -> { art = "submit_normal"; title = "제출 완료!"; bottom = "다이아 " + Fmt.num(J.num(card, "credited")) + "개 제출";
+                    sub = "남은 다이아 " + Fmt.num(J.num(card, "debt")) + "개"; ty = 106.25f; by = 454.75f; bc = 0xFF2F7FB0; }
+                case "random_submit" -> { art = "submit_random"; title = "랜덤 제출!"; bottom = Fmt.num(J.num(card, "used")) + "개 → " + Fmt.num(J.num(card, "credited")) + "개 인정";
+                    sub = Fmt.strip(J.str(card, "message")) + "  ·  남은 다이아 " + Fmt.num(J.num(card, "debt")) + "개"; ty = 110.75f; by = 455.25f; bc = 0xFF2F7FB0; }
+                case "gacha_destroy" -> { art = "pickaxe_broken"; title = "곡괭이 파괴!"; bottom = "곡괭이가 부서졌어요"; sub = "깨굴이가 웃음을 참고 있어요"; ty = 113.5f; by = 449.25f; bc = 0xFFC0392B; }
+                default -> { art = "pickaxe_protected"; title = "파괴 방지!"; bottom = "파괴 방지권 발동"; sub = "곡괭이를 지켰어요"; ty = 106.5f; by = 448.5f; bc = 0xFF3F7F31; }
+            }
+            c.image("cards/" + art, x, y, 460, 520, Anim.white(a));
+            c.textFit(title, x + 230, y + ty, 30, 250, Anim.alpha(INK, a), Canvas.CENTER, TXT);
+            c.textFit(bottom, x + 230, y + by, 26, 330, Anim.alpha(bc, a), Canvas.CENTER, TXT);
+            if (cardKind.equals("title_unlock") && J.bool(card, "serverFirst")) {
+                float tp = Anim.outBack(Anim.t(now, cardAt + 350, 300));
+                c.push();
+                c.translate(x + 250 + 90, y + 160 + 24);
+                c.scale(tp, tp);
+                c.rotate(8);
+                c.image("cards/first_tag", -90, -24, 180, 48, Anim.white(a));
+                c.textFit("서버 최초", 0, 0, 18, 104, Anim.alpha(0xFF7A4A00, a), Canvas.CENTER, TXT);
+                c.pop();
+            }
+            if (!sub.isEmpty()) c.textFit(sub, 960, y + 560, 24, 700, Anim.alpha(0xFFFFFFFF, a), Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
         } else {
             boolean win = J.bool(card, "win");
             c.image(win ? "cards/mending_win" : "cards/mending_fail", x, y, 460, 520, Anim.white(a));
