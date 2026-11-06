@@ -101,7 +101,10 @@ public final class HudView {
      * 운빨 게이지 막대 (게이지 상세 레퍼런스): 왼쪽 잎 · 금테 막대 · 오른쪽 잎 · 연잎 위 깨굴이.
      * x,y = 막대 왼쪽 위, w,h = 막대 크기. 오른쪽에 깨굴이 자리(h*3)만큼 더 쓴다.
      */
-    public static void gaugeBar(Canvas c, float x, float y, float w, float h, float ratio, String tier, long now) {
+    public static void gaugeBar(Canvas c, float x, float y, float w, float h, float ratio, String tier, long now) { gaugeBar(c, x, y, w, h, ratio, tier, now, 1f); }
+
+    /** fs = 깨굴이(연잎 포함) 크기 배율 */
+    public static void gaugeBar(Canvas c, float x, float y, float w, float h, float ratio, String tier, long now, float fs) {
         leaf(c, x + h * .2f, y + h * .55f, h * 1.3f, true);
         MenuPanel.box(c, x, y, w, h, h / 2, 0xFF9C6B22, 0xFFE9B54C, Math.max(1.5f, h * .06f));
         MenuPanel.box(c, x + h * .14f, y + h * .14f, w - h * .28f, h - h * .28f, (h - h * .28f) / 2, 0xFFD9A441, 0xFFFDF4E2, 1);
@@ -118,10 +121,11 @@ public final class HudView {
         }
         leaf(c, x + w - h * .2f, y + h * .55f, h * 1.3f, false);
         // 연잎 + 깨굴이
-        float px = x + w + h * 2.1f, py = y + h * 1.35f;
-        c.image("hud/lily_pad", px - h * 1.6f, py - h * .56f, h * 3.2f, h * 1.12f, 0xFFFFFFFF);
-        float bob = "jackpot".equals(tier) ? Math.abs((float) Math.sin(now / 180.0)) * h * .25f : (float) Math.sin(now / 600.0) * 1.5f;
-        c.imageAt(frog(tier), px, py - h * 1.2f - bob, h * 2.6f, 1, 0, 0xFFFFFFFF);
+        float fh = h * fs;
+        float px = x + w + fh * 2.1f, py = y + h * .5f + fh * .85f;
+        c.image("hud/lily_pad", px - fh * 1.6f, py - fh * .56f, fh * 3.2f, fh * 1.12f, 0xFFFFFFFF);
+        float bob = "jackpot".equals(tier) ? Math.abs((float) Math.sin(now / 180.0)) * fh * .25f : (float) Math.sin(now / 600.0) * 1.5f;
+        c.imageAt(frog(tier), px, py - fh * 1.2f - bob, fh * 2.6f, 1, 0, 0xFFFFFFFF);
     }
 
     public void render(Canvas c, long now) {
@@ -173,12 +177,12 @@ public final class HudView {
         if (shownGauge < 0) shownGauge = value;
         shownGauge += (value - shownGauge) * 0.15f;
         if (Math.abs(value - shownGauge) < 0.05f) shownGauge = value;
-        float gw = 420, gh = 32, gx = W / 2 - gw / 2 - 40, gy = 46;
-        if (!hideGauge) gaugeBar(c, gx, gy, gw, gh, shownGauge / max, tier, now);
+        float gw = 520, gh = 40, gx = W / 2 - gw / 2 - 30, gy = 44;
+        if (!hideGauge) gaugeBar(c, gx, gy, gw, gh, shownGauge / max, tier, now, .62f);
         // 가운데 퍼센트
         long pct = Math.round(shownGauge * 100.0 / max);
         if (!hideGauge) c.text(pct + "%", gx + gw / 2, gy + gh / 2, gh * .62f, Theme.WHITE, Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
-        hits.add(new Hit("gauge", gx - 20, gy - 20, gw + gh * 4 + 20, gh + 40));
+        hits.add(new Hit("gauge", gx - 20, gy - 20, gw + gh * 3 + 20, gh + 40));
 
         // 목표(남은) 다이아 변화 팝업: 화면 가운데 아래 액션바 근처, 다이아 아이콘과 함께
         float H = c.height() / scale;
