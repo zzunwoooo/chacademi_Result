@@ -16,6 +16,7 @@ public final class UiHub {
     public final FxView fx = new FxView();
     public final RaceView race = new RaceView();
     public final MinigameView mini = new MinigameView();
+    public final ExtraView extra = new ExtraView();
     private final Host host;
     /** UUID → {name, title} 머리 위 이름표 */
     private volatile Map<String, String[]> names = Map.of();
@@ -36,6 +37,7 @@ public final class UiHub {
                 Panel p = host.openPanel();
                 String s = J.str(m, "screen");
                 if (s.isEmpty() || mini.handles(s)) mini.close(s, now);
+                if (extra.handles(s)) extra.close(s, now);
                 if (p != null && (s.isEmpty() || p.screen().equals(s))) host.closePanel(p);
             }
             case "center" -> notice.center(J.str(m, "text"), J.str(m, "sub"), J.num(m, "ms", 2500), now);
@@ -59,6 +61,7 @@ public final class UiHub {
 
     private void open(String screen, JsonObject data, long now) {
         if (mini.handles(screen)) { mini.open(screen, data, now); return; }
+        if (extra.handles(screen)) { extra.open(screen, data, now); return; }
         Panel cur = host.openPanel();
         if (cur != null && cur.screen().equals(screen)) { cur.update(data, now); return; }
         Panel p = switch (screen) {
@@ -70,6 +73,8 @@ public final class UiHub {
             case "shop" -> new ShopPanel(host, data, now);
             case "race" -> new RacePanel(host, data, now);
             case "frog_jump" -> new FrogJumpPanel(host, data, now);
+            case "jail_exit" -> new JailExitPanel(host, data, now);
+            case "mail" -> new MailPanel(host, data, now);
             case "hud" -> { hud.set(data, now); yield null; }
             default -> null;
         };
@@ -78,6 +83,7 @@ public final class UiHub {
 
     private void update(String screen, JsonObject data, long now) {
         if (mini.handles(screen)) { mini.update(screen, data, now); return; }
+        if (extra.handles(screen)) { extra.update(screen, data, now); return; }
         switch (screen) {
             case "hud" -> hud.set(data, now);
             case "gauge" -> hud.gauge(data, now);
@@ -101,6 +107,7 @@ public final class UiHub {
         if (id.equals("race_result")) { race.result(data, now); return; }
         if (id.equals("race_bet")) return;
         if (mini.handlesFx(id)) { mini.fx(id, data, now); return; }
+        if (extra.handlesFx(id)) { extra.fx(id, data, now); return; }
         if (this.fx.handles(id)) { this.fx.add(id, data, now); return; }
         switch (id) {
             case "gacha_jackpot" -> {
@@ -127,7 +134,7 @@ public final class UiHub {
         if (k == null) return false;
         switch (k) {
             case "menu", "target", "held", "coin" -> host.send("menu.open", "tab", "me");
-            case "mail" -> host.send("mail.claim");   // 우편 받기
+            case "mail" -> host.send("mail.open");   // 우편함 창
             default -> { return false; }
         }
         host.sound("minecraft:ui.button.click", 1.2f, .4f);
@@ -138,6 +145,7 @@ public final class UiHub {
         hud.hideGauge = mini.active(now);
         if (!panelOpen) hud.render(c, now);
         if (!panelOpen) mini.render(c, now);
+        if (!panelOpen) extra.render(c, now);
         roulette.render(c, now, host);
         race.render(c, now, panelOpen);
         fx.render(c, now, host);

@@ -204,6 +204,30 @@ public final class PreviewMain {
         UiHub m5 = new UiHub(HOST);
         m5.handle(J.parse("{\"type\":\"fx\",\"id\":\"minigame_result\",\"data\":{\"success\":false,\"sub\":\"빼빼로가 이유 없이 부러졌다!\",\"rewards\":[{\"label\":\"빅증가 룰렛\"}]}}"), T);
         shot(out, "48_mini_fail.png", tex, c -> m5.renderOverlay(c, T + 1200, false, 0, 0, false));
+        // 깜빵 · 퀴즈 · 운세 · 우편함 · 작은 카드
+        UiHub e1 = new UiHub(HOST);
+        e1.handle(J.parse("{\"type\":\"open\",\"screen\":\"jail\",\"data\":{\"inJail\":true,\"done\":24,\"required\":40}}"), T);
+        e1.handle(J.parse("{\"type\":\"fx\",\"id\":\"jail_game\",\"data\":{\"multiplier\":3,\"label\":\"X3\",\"base\":40,\"amount\":120}}"), T);
+        shot(out, "50_jail_slot.png", tex, c -> e1.renderOverlay(c, T + 3500, false, 0, 0, false));
+        shot(out, "51_jail_spin.png", tex, c -> e1.renderOverlay(c, T + 1200, false, 0, 0, false));
+        JailExitPanel jx = new JailExitPanel(HOST, J.parse("{}"), T);
+        shot(out, "52_jail_exit.png", tex, c -> jx.render(c, T + 1000, 1150, 560));
+        UiHub e2 = new UiHub(HOST);
+        e2.handle(J.parse("{\"type\":\"open\",\"screen\":\"quiz\",\"data\":{\"category\":\"맞춤법\",\"question\":\"다음 중 맞는 표현은? 1) 어의없다 2) 어이없다 3) 어히없다\",\"seconds\":20}}"), T);
+        shot(out, "53_quiz.png", tex, c -> e2.renderOverlay(c, T + 6000, false, 0, 0, false));
+        e2.handle(J.parse("{\"type\":\"update\",\"screen\":\"quiz\",\"data\":{\"result\":\"correct\",\"rewardText\":\"소소 감소 룰렛!\"}}"), T + 7000);
+        shot(out, "54_quiz_correct.png", tex, c -> e2.renderOverlay(c, T + 7600, false, 0, 0, false));
+        UiHub e3 = new UiHub(HOST);
+        e3.handle(J.parse("{\"type\":\"open\",\"screen\":\"fortune\",\"data\":{\"good\":true,\"stat\":\"fortune\",\"amount\":3,\"seconds\":600,\"message\":\"오늘은 곡괭이에 깨굴이의 기운이 깃들었어요!\",\"usesLeft\":2,\"gaugeDelta\":2}}"), T);
+        shot(out, "55_fortune.png", tex, c -> e3.renderOverlay(c, T + 1500, false, 0, 0, false));
+        MailPanel mp = new MailPanel(HOST, J.parse("{\"items\":[{\"name\":\"고급상자\",\"amount\":2,\"material\":\"CHEST\"},{\"name\":\"꽝 종이\",\"amount\":3,\"material\":\"PAPER\"},{\"name\":\"수선 책\",\"amount\":1,\"material\":\"ENCHANTED_BOOK\"},{\"name\":\"다이아몬드\",\"amount\":10,\"material\":\"DIAMOND\"},{\"name\":\"철 흉갑\",\"amount\":1,\"material\":\"IRON_CHESTPLATE\"},{\"name\":\"행운상자\",\"amount\":1,\"material\":\"CHEST\"}]}"), T);
+        shot(out, "56_mail.png", tex, c -> mp.render(c, T + 1000, 900, 420));
+        UiHub e4 = new UiHub(HOST);
+        e4.handle(J.parse("{\"type\":\"fx\",\"id\":\"armor_roll\",\"data\":{\"tier\":\"iron\",\"name\":\"철 갑옷\",\"prefix\":\"IRON\",\"message\":\"&f그나마 사람이네\"}}"), T);
+        shot(out, "57_armor_roll.png", tex, c -> e4.renderOverlay(c, T + 1500, false, 0, 0, false));
+        UiHub e5 = new UiHub(HOST);
+        e5.handle(J.parse("{\"type\":\"fx\",\"id\":\"mending_draw\",\"data\":{\"win\":false}}"), T);
+        shot(out, "58_mending.png", tex, c -> e5.renderOverlay(c, T + 1500, false, 0, 0, false));
         // 7. 상자 / 피버 / 초대장 / 졸업
         fx(out, tex, "14_box_open.png", "box_open", """
           {"box":"premium","label":"고급상자","fever":true,"rewards":[{"id":"diamond","label":"다이아 감소 룰렛","rare":false},{"id":"coin","label":"깨굴코인 5개","rare":false},{"id":"protect","label":"파괴 방지권","rare":true},{"id":"cola","label":"깨굴 콜라","rare":false}]}""", 3800);
