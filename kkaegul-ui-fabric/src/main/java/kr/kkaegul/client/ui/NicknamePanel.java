@@ -19,7 +19,7 @@ public final class NicknamePanel implements Panel {
     private String checked;
     /** 게임 안 한글 입력기 (윈도우 입력기는 이 창이 열려 있는 동안 꺼짐). 한/영: 오른쪽 Alt 또는 한/영 키 */
     private final HangulInput ime = new HangulInput();
-    private boolean korean = true;
+    private boolean korean = true, pasting;
     private record R(String key, float x, float y, float w, float h) {}
     private final java.util.List<R> hits = new java.util.ArrayList<>();
 
@@ -211,7 +211,9 @@ public final class NicknamePanel implements Panel {
     @Override public boolean typed(char ch, long now) {
         if (Character.isISOControl(ch) || ch == ' ' || ch == '§' || ch == '&') return true;
         if (full().codePointCount(0, full().length()) >= max() + 2 && ime.empty()) return true;
-        char j = korean ? HangulInput.jamo(ch) : 0;
+        // 윈도우가 한글 모드면 조합 안 된 자모(ㅈ,ㅜ…)가 그대로 들어온다 → 그것도 조합기로
+        boolean rawJamo = !pasting && ch >= 0x3131 && ch <= 0x3163;
+        char j = rawJamo ? ch : korean ? HangulInput.jamo(ch) : 0;
         if (j != 0) {
             String done = ime.feed(j);
             if (!done.isEmpty()) { text = text.substring(0, caret) + done + text.substring(caret); caret += done.length(); }
@@ -246,7 +248,9 @@ public final class NicknamePanel implements Panel {
         commit();
         boolean k = korean;
         korean = false;      // 붙여넣기는 글자 그대로
+        pasting = true;
         for (char ch : s.toCharArray()) typed(ch, now);
+        pasting = false;
         korean = k;
     }
 }
