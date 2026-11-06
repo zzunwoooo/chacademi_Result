@@ -116,7 +116,7 @@ public final class UiHub {
         switch (id) {
             case "gacha_jackpot" -> {
                 long[] a = J.longs(data, "after");
-                notice.center("&6&l잭팟!!!", a.length == 3 ? a[0] + " / " + a[1] + " / " + a[2] : "", 3500, now);
+                notice.center("&6잭팟!!!", a.length == 3 ? a[0] + " / " + a[1] + " / " + a[2] : "", 3500, now);
             }
             case "gacha_result" -> {
                 long[] a = J.longs(data, "after");

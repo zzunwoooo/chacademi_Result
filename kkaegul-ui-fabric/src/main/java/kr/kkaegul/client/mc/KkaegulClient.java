@@ -42,6 +42,8 @@ public final class KkaegulClient implements ClientModInitializer, Host {
     private KeyBinding menuKey;
     private boolean altCursor, mouseWasDown;
     private float lastMx, lastMy;
+    private double rawX, rawY;
+    private long restoreUntil;
     /** HUD 를 그릴 때의 배율 (클릭 좌표 계산용) */
     private volatile float hudScale = 1;
 
@@ -116,8 +118,11 @@ public final class KkaegulClient implements ClientModInitializer, Host {
             if (altCursor && !down) {   // 누르는 순간 게임이 커서를 가운데로 잠그므로 직전 위치를 기억
                 lastMx = (float) (client.mouse.getX() * client.getWindow().getScaledWidth() / client.getWindow().getWidth()) / hudScale;
                 lastMy = (float) (client.mouse.getY() * client.getWindow().getScaledHeight() / client.getWindow().getHeight()) / hudScale;
+                rawX = client.mouse.getX();
+                rawY = client.mouse.getY();
             }
             if (down && !mouseWasDown && canSend()) {
+                restoreUntil = System.currentTimeMillis() + 1500;   // 이 클릭으로 창이 열리면 커서를 이 자리에 둠
                 hub.clickOverlay(lastMx, lastMy);
                 altCursor = false;      // 다음 틱에 Alt 가 아직 눌려 있으면 커서를 다시 꺼냄
             }
@@ -156,7 +161,15 @@ public final class KkaegulClient implements ClientModInitializer, Host {
 
     @Override public void openPanel(Panel panel) {
         if (mc.player == null) return;
+        boolean restore = mc.currentScreen == null && System.currentTimeMillis() < restoreUntil;
         mc.setScreen(new PanelScreen(panel));
+        if (restore) {
+            // 창이 열리면 마인크래프트가 커서를 화면 가운데로 옮김 → Alt 커서로 누른 자리로 되돌림
+            restoreUntil = 0;
+            GLFW.glfwSetCursorPos(mc.getWindow().getHandle(), rawX, rawY);
+            ((kr.kkaegul.client.mixin.MouseAccessor) mc.mouse).kkaegul$setX(rawX);
+            ((kr.kkaegul.client.mixin.MouseAccessor) mc.mouse).kkaegul$setY(rawY);
+        }
     }
 
     @Override public void closePanel(Panel panel) {

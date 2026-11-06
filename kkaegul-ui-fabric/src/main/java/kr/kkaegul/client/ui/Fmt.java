@@ -62,7 +62,7 @@ public final class Fmt {
                     if (cur.length() > 0) { out.add(new Run(cur.toString(), color, bold)); cur.setLength(0); }
                     if (idx >= 0) { color = (onLight ? ON_LIGHT : COLORS)[idx]; bold = false; }
                     else if (k == 'r') { color = defaultRgb; bold = false; }
-                    else bold = true;
+                    // &l(굵게)은 무시: 우리 폰트에선 두 겹으로 보임
                 }
                 continue;
             }

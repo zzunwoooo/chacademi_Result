@@ -13,6 +13,8 @@ import java.util.List;
 public final class DonationBoardPanel implements Panel {
     private static final int TXT = Canvas.BOLD | Canvas.LIGHT;
     private static final int INK = 0xFF4A2D16;
+    private static final float[] MEDAL_AR = {237 / 156f, 226 / 156f, 223 / 156f};
+    private static final int[] DIV = {0xFFBA8336, 0xFF7F6E5F, 0xFFAF815B};
     private final Host host;
     private JsonObject data;
     private final long opened;
@@ -66,7 +68,11 @@ public final class DonationBoardPanel implements Panel {
             float ry = 270 + 100 * i, rt = Anim.outCubic(Anim.t(now, opened + 80 + 50L * i, 240));
             float ra = a * rt, slide = (1 - rt) * 20;
             c.image("board/" + medal[i], 50 + slide, ry, 700, 88, Anim.white(ra));
-            c.text(String.valueOf(i + 1), 50 + 85 + slide, ry + 44, 24, Anim.alpha(0xFFFFFFFF, ra), Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
+            // 메달·구분선은 판에서 떼어내 같은 자리에 맞춰 그림 (원본은 줄마다 위치가 달랐음)
+            float mh = 78, mw = mh * MEDAL_AR[i], mcx = 50 + 95 + slide;
+            c.image("board/medal_" + medal[i], mcx - mw / 2, ry + 5, mw, mh, Anim.white(ra));
+            c.fill(50 + 545 + slide, ry + 20, 2, 48, 1, Anim.alpha(DIV[i], ra));
+            c.text(String.valueOf(i + 1), mcx, ry + 5 + mh * .46f, 24, Anim.alpha(0xFFFFFFFF, ra), Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
             if (i < rows.size()) {
                 JsonObject r = rows.get(i);
                 c.textFit(J.str(r, "name"), 50 + 180 + slide, ry + 44, 26, 320, Anim.alpha(INK, ra), Canvas.LEFT, TXT);
