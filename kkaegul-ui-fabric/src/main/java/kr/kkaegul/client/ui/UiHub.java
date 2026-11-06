@@ -22,7 +22,11 @@ public final class UiHub {
     /** UUID → {name, title} 머리 위 이름표 */
     private volatile Map<String, String[]> names = Map.of();
 
-    public UiHub(Host host) { this.host = host; }
+    public UiHub(Host host) {
+        this.host = host;
+        // 룰렛은 다른 큰 연출이 사라진 뒤에 나오게 (화면 겹침 방지)
+        roulette.blocked = t -> harass.busy() || mini.busy(t) || extra.busy(t) || fx.active();
+    }
 
     public Map<String, String[]> names() { return names; }
     /** 머리 위 이름표를 모드가 바꿀지 (기본 끔 — 서버의 UnlimitedNametags 가 담당) */

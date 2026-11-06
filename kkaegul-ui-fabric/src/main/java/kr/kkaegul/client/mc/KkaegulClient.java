@@ -49,6 +49,12 @@ public final class KkaegulClient implements ClientModInitializer, Host {
 
     public static KkaegulClient get() { return instance; }
 
+    /** 채팅창에서 HUD 클릭 (화면 좌표 → HUD 좌표). 처리했으면 true */
+    public boolean clickHud(double mx, double my) {
+        if (mc.player == null || !canSend()) return false;
+        return hub.clickOverlay((float) mx / hudScale, (float) my / hudScale);
+    }
+
     McCanvas canvas() {
         if (canvas == null) {
             gfx = new Gfx(mc);

@@ -28,9 +28,12 @@ public final class RouletteView {
         };
     }
 
+    /** 다른 큰 연출(퀴즈 카드·결과 개구리·괴롭히기 룰렛 등)이 떠 있으면 true → 끝날 때까지 기다렸다가 돌림 */
+    public java.util.function.LongPredicate blocked = t -> false;
+
     public void add(JsonObject d, long now) {
         queue.addLast(new Spin(d, 0, Math.max(600, J.num(d, "spinMs", 3000))));
-        if (cur == null) next(now);
+        if (cur == null && !blocked.test(now)) next(now);
     }
 
     private void next(long now) {
@@ -43,10 +46,11 @@ public final class RouletteView {
     public boolean active() { return cur != null; }
 
     public void render(Canvas c, long now, Host host) {
+        if (cur == null && !queue.isEmpty() && !blocked.test(now)) next(now);
         if (cur == null) return;
         long e = now - cur.start();
         long life = cur.spinMs() + HOLD;
-        if (e > life) { next(now); if (cur == null) return; e = 0; }
+        if (e > life) { cur = null; if (queue.isEmpty() || blocked.test(now)) return; next(now); e = 0; }
         JsonObject d = cur.d();
         boolean inc = J.bool(d, "increase");
         String kind = J.str(d, "kind");

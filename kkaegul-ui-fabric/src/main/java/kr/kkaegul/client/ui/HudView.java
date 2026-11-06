@@ -38,8 +38,13 @@ public final class HudView {
         if (has && lastDebt != Long.MIN_VALUE && d.has("debt") && debt != lastDebt) popDebt(debt - lastDebt, now);
         lastDebt = debt;
         data = J.merge(data, d);
+        if (d.has("fever")) feverAt = now;
         has = true;
     }
+
+    private long feverAt;
+    /** 서버가 보낸 남은 초에서 받은 뒤 지난 시간을 빼서 1초마다 줄어 보이게 */
+    private long left(long sec, long now) { return sec <= 0 ? 0 : Math.max(0, sec - (now - feverAt) / 1000); }
 
     /** update screen=gauge */
     public void gauge(JsonObject g, long now) {
@@ -176,6 +181,7 @@ public final class HudView {
         if (J.bool(data, "protected")) bx = status(c, "hud/protection_shield", null, "보호", bx, by, "protection");
         JsonObject fev = J.objOrEmpty(data, "fever");
         long fd = J.num(fev, "diamond"), ft = J.num(fev, "triple"), fb = J.num(fev, "box");
+        ft = left(ft, now); fd = left(fd, now); fb = left(fb, now);
         if (ft > 0) bx = status(c, "fever/badge_triple", "fever/lightning", Fmt.clock(ft), bx, by, "fever");
         else if (fd > 0) bx = status(c, "hud/fever", null, Fmt.clock(fd), bx, by, "fever");
         if (fb > 0) bx = status(c, "fever/badge_chest", "fever/gift", Fmt.clock(fb), bx, by, "fever");

@@ -18,6 +18,8 @@ public final class HarassView {
     private int lastStep = -1;
     private boolean stamped;
 
+    public boolean busy() { return data != null; }
+
     public boolean handlesFx(String id) { return id.equals("harass_roulette"); }
 
     public void fx(String id, JsonObject d, long now) { data = d; at = now; lastStep = -1; stamped = false; }

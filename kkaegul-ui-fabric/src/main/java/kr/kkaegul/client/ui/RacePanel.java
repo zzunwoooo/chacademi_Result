@@ -284,7 +284,7 @@ public final class RacePanel implements Panel {
         float a = Math.min(1, e / 200f) * (e > 8000 ? Math.max(0, 1 - (e - 8000) / 1000f) : 1);
         float s = Anim.outBack(Math.min(1, e / 380f));
         int col = (int) Math.floorMod(J.num(r, "colorId", J.num(r, "winner", 1) - 1), 6);
-        c.fill(cx - 740, 190, 1480, 800, 36, Anim.alpha(0x99000000, a));
+        // (검은 반투명 배경 없음 — 요청으로 뺌)
         c.push();
         c.translate(cx, 380);
         c.scale(s, s);

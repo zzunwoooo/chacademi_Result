@@ -38,6 +38,11 @@ public final class MinigameView {
     public boolean handlesFx(String id) { return id.equals("minigame_result") || id.equals("treasure_found"); }
 
     /** 게임 표시 중이면 HUD 위쪽 게이지를 가린다 (제목 리본과 겹침) */
+    /** WASD 판·결과 개구리·보물 발견처럼 화면 가운데 큰 연출 */
+    public boolean busy(long now) {
+        return wasdOn || (wasdEnd > 0 && now - wasdEnd < 1400) || (result != null && now - resultAt < 3800) || (found != null && now - foundAt < 2600);
+    }
+
     public boolean active(long now) { return game != null || wasdOn || (wasdEnd > 0 && now - wasdEnd < 1400); }
 
     public void open(String screen, JsonObject d, long now) {

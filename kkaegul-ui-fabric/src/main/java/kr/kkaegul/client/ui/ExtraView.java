@@ -74,6 +74,12 @@ public final class ExtraView {
         else { card = d; cardKind = id; cardAt = now; }
     }
 
+    /** 화면 가운데 큰 연출이 떠 있는지 (퀴즈·슬롯·작은 카드) */
+    public boolean busy(long now) {
+        return (quiz != null && (quizCloseAt == 0 || now - quizCloseAt <= 1600))
+            || (slot != null && now - slotAt <= SLOT_LIFE) || (card != null && now - cardAt <= CARD_LIFE);
+    }
+
     // ───────── 그리기 ─────────
     public void render(Canvas c, long now) {
         if (quiz != null && quizCloseAt > 0 && now - quizCloseAt > 1600) quiz = null;
