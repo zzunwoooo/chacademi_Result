@@ -58,6 +58,7 @@ public final class UiHub {
             case "menu" -> new MenuPanel(host, data, now);
             case "player_select" -> new PlayerSelectPanel(host, data, now);
             case "nickname" -> new NicknamePanel(host, data, now);
+            case "submit" -> new SubmitPanel(host, data, now);
             case "hud" -> { hud.set(data, now); yield null; }
             default -> null;
         };
@@ -92,6 +93,8 @@ public final class UiHub {
             }
             case "gacha_destroy" -> notice.center("&c곡괭이 파괴!", "&7깨굴이가 웃음을 참고 있어요", 2500, now);
             case "gacha_protect" -> notice.center("&d파괴 방지권 발동!", "&f곡괭이를 지켰어요", 2500, now);
+            case "submit_normal" -> notice.center("&a제출 완료!", "&f" + J.num(data, "credited") + "개 제출 · 남은 다이아 " + J.num(data, "debt"), 2500, now);
+            case "random_submit" -> notice.center(J.str(data, "message", "&a제출 완료!"), "&f" + J.num(data, "used") + "개 → " + J.num(data, "credited") + "개 인정 · 남은 다이아 " + J.num(data, "debt"), 2800, now);
             case "title_unlock" -> notice.center("&d칭호 획득!", J.str(data, "name") + (J.bool(data, "serverFirst") ? " &6(서버 최초!)" : ""), 3000, now);
             default -> { }
         }

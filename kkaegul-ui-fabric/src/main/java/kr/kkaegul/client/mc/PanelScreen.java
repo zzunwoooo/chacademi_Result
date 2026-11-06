@@ -33,6 +33,7 @@ public final class PanelScreen extends Screen {
     }
 
     @Override public boolean mouseClicked(double mx, double my, int button) {
+        if (panel instanceof kr.kkaegul.client.ui.SubmitPanel sp) sp.modifiers((hasShiftDown() ? 1 : 0) | (hasControlDown() ? 2 : 0));
         if (button == 0 && panel.click((float) mx / s, (float) my / s, now())) return true;
         return super.mouseClicked(mx, my, button);
     }

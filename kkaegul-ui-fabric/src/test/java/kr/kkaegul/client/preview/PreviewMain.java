@@ -110,6 +110,17 @@ public final class PreviewMain {
         np2.typed('ㅋ', T);
         shot(out, "13_nickname_change.png", tex, c -> np2.render(c, T + 1000, 0, 0));
 
+        // 제출소
+        JsonObject sd = J.parse("{\"debt\":1234,\"held\":56,\"inventory\":120,\"available\":176,\"max\":176,\"random\":{\"same\":{\"chance\":70,\"factor\":1},\"double\":{\"chance\":10,\"factor\":2},\"minus30\":{\"chance\":10,\"factor\":0.7},\"minus50\":{\"chance\":10,\"factor\":0.5}}}");
+        SubmitPanel sp = new SubmitPanel(HOST, sd, T);
+        shot(out, "24_submit.png", tex, c -> sp.render(c, T + 1000, 1300, 600));
+        SubmitPanel sp2 = new SubmitPanel(HOST, sd, T);
+        sp2.fx("random_submit", J.parse("{\"outcome\":\"minus30\",\"factor\":0.7,\"used\":100,\"credited\":70,\"donated\":30,\"debt\":1164}"), T);
+        shot(out, "25_submit_dice.png", tex, c -> sp2.render(c, T + 500, 0, 0));
+        shot(out, "26_submit_donate.png", tex, c -> sp2.render(c, T + 1900, 0, 0));
+        SubmitPanel sp3 = new SubmitPanel(HOST, sd, T);
+        sp3.fx("random_submit", J.parse("{\"outcome\":\"double\",\"factor\":2,\"used\":100,\"credited\":200,\"donated\":0,\"debt\":1034}"), T);
+        shot(out, "27_submit_double.png", tex, c -> sp3.render(c, T + 1700, 0, 0));
         // 7. 상자 / 피버 / 초대장 / 졸업
         fx(out, tex, "14_box_open.png", "box_open", """
           {"box":"premium","label":"고급상자","fever":true,"rewards":[{"id":"diamond","label":"다이아 감소 룰렛","rare":false},{"id":"coin","label":"깨굴코인 5개","rare":false},{"id":"protect","label":"파괴 방지권","rare":true},{"id":"cola","label":"깨굴 콜라","rare":false}]}""", 3800);
