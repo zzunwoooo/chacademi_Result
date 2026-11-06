@@ -117,9 +117,8 @@ public final class McCanvas implements Canvas {
     private Gfx.Tex corner;
 
     @Override public void clip(float x, float y, float ww, float hh) {
-        var mat = m().peek().getPositionMatrix();
-        org.joml.Vector4f a = mat.transform(new org.joml.Vector4f(x, y, 0, 1)), b = mat.transform(new org.joml.Vector4f(x + ww, y + hh, 0, 1));
-        ctx.enableScissor((int) Math.floor(Math.min(a.x, b.x)), (int) Math.floor(Math.min(a.y, b.y)), (int) Math.ceil(Math.max(a.x, b.x)), (int) Math.ceil(Math.max(a.y, b.y)));
+        // 1.21.4 의 enableScissor 는 현재 행렬을 스스로 적용하므로 가상 좌표를 그대로 넘긴다
+        ctx.enableScissor((int) Math.floor(x), (int) Math.floor(y), (int) Math.ceil(x + ww), (int) Math.ceil(y + hh));
     }
 
     @Override public void unclip() { ctx.disableScissor(); }
