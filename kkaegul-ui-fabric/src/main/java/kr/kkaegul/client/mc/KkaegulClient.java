@@ -40,6 +40,7 @@ public final class KkaegulClient implements ClientModInitializer, Host {
     private McCanvas canvas;
     private UiHub hub;
     private KeyBinding menuKey;
+    private boolean altCursor;
 
     public static KkaegulClient get() { return instance; }
 
@@ -64,7 +65,9 @@ public final class KkaegulClient implements ClientModInitializer, Host {
             String json = payload.json();
             context.client().execute(() -> {
                 try {
-                    hub.handle(J.parse(json), System.currentTimeMillis());
+                    JsonObject m = J.parse(json);
+                    if ("casino".equals(J.str(m, "type"))) { kr.kkaegul.client.casino.CasinoNet.receive(J.str(m, "game"), J.str(m, "state")); return; }
+                    hub.handle(m, System.currentTimeMillis());
                 } catch (RuntimeException e) {
                     LOG.warn("UI 메시지 처리 실패: {}", json, e);
                 }
@@ -83,7 +86,7 @@ public final class KkaegulClient implements ClientModInitializer, Host {
             gfx.beginFrame();
             float s = c.begin(ctx);
             try {
-                boolean cursor = mc.currentScreen instanceof ChatScreen;
+                boolean cursor = mc.currentScreen instanceof ChatScreen || altCursor;
                 float mx = 0, my = 0;
                 if (cursor) {
                     mx = (float) (mc.mouse.getX() * ctx.getScaledWindowWidth() / mc.getWindow().getWidth()) / s;
@@ -99,6 +102,11 @@ public final class KkaegulClient implements ClientModInitializer, Host {
 
         menuKey = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.kkaegul.menu", GLFW.GLFW_KEY_M, "category.kkaegul"));
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            // Alt 를 누르고 있으면 마우스 커서를 꺼내서 HUD 에 올려 볼 수 있게 (떼면 다시 잠금)
+            boolean alt = client.currentScreen == null && client.player != null
+                    && net.minecraft.client.util.InputUtil.isKeyPressed(client.getWindow().getHandle(), GLFW.GLFW_KEY_LEFT_ALT);
+            if (alt && !altCursor) { altCursor = true; client.mouse.unlockCursor(); }
+            else if (!alt && altCursor) { altCursor = false; if (client.currentScreen == null) client.mouse.lockCursor(); }
             while (menuKey.wasPressed()) {
                 if (client.player != null && canSend()) send("menu.open", "tab", "me");
             }
@@ -149,7 +157,7 @@ public final class KkaegulClient implements ClientModInitializer, Host {
     /** 서버가 보낸 닉네임(+칭호)으로 바꾼 이름. 없으면 null */
     public static Text displayName(PlayerEntity p) {
         KkaegulClient k = instance;
-        if (k == null || k.hub == null) return null;
+        if (k == null || k.hub == null || !k.hub.nameplate()) return null;
         Map<String, String[]> names = k.hub.names();
         if (names.isEmpty()) return null;
         String[] v = names.get(p.getUuid().toString().toLowerCase());

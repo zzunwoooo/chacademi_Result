@@ -38,6 +38,8 @@ public final class RacePanel implements Panel {
         for (JsonObject f : J.objs(this.data, "frogs")) if (J.num(f, "myBet") > 0) { selected = (int) J.num(f, "no"); break; }
     }
 
+    @Override public boolean textInput() { return true; }
+
     @Override public String screen() { return "race"; }
 
     @Override public void update(JsonObject d, long now) {
@@ -109,6 +111,9 @@ public final class RacePanel implements Panel {
         c.pop();
     }
 
+    /** 예상 배당: 아무도 안 건 번호는 "-" */
+    static String oddsText(double o) { return o <= 0 ? "-" : "x" + ShopPanel.dec(o); }
+
     /** 3조각으로 늘리는 둥근 칸 (모서리 안 찌그러지게) */
     static void field(Canvas c, float x, float y, float w, float h) {
         float cap = Math.min(w / 2, h * .55f), u = 26f / 280f;
@@ -126,7 +131,7 @@ public final class RacePanel implements Panel {
         c.text("이름", 383, 308, 24, Theme.INK, Canvas.CENTER, TXT);
         c.image("race/star_empty", 525, 292, 32, 32, 0xFFFFFFFF);
         c.text("컨디션", 563, 308, 22, Theme.INK, Canvas.LEFT, TXT);
-        c.text("배당", 705, 308, 24, Theme.INK, Canvas.CENTER, TXT);
+        c.text("예상 배당", 705, 308, 22, Theme.INK, Canvas.CENTER, TXT);
         c.image("race/diamond", 800, 289, 40, 35, 0xFFFFFFFF);
         c.text("내 다이아", 846, 308, 22, Theme.INK, Canvas.LEFT, TXT);
 
@@ -149,7 +154,7 @@ public final class RacePanel implements Panel {
             int form = (int) J.num(f, "form", 1);
             for (int s = 0; s < 3; s++) c.image(s < form ? "race/star_filled" : "race/star_empty", 510 + 39 * s, y + 29, 34, 34, 0xFFFFFFFF);
             field(c, 640, y + 21, 130, 51);
-            c.textFit("x" + ShopPanel.dec(J.dbl(f, "odds", 1)), 705, y + 47, 26, 115, 0xFF3F7F31, Canvas.CENTER, TXT);
+            c.textFit(oddsText(J.dbl(f, "odds", 0)), 705, y + 47, 26, 115, 0xFF3F7F31, Canvas.CENTER, TXT);
             field(c, 790, y + 21, 175, 51);
             c.image("race/diamond", 800, y + 31, 36, 31, 0xFFFFFFFF);
             long mine = J.num(f, "myBet");
@@ -158,11 +163,14 @@ public final class RacePanel implements Panel {
         }
 
         // 오른쪽 배팅 패널
-        c.image("race/clock", 1100, 280, 80, 82, 0xFFFFFFFF);
-        field(c, 1200, 297, 280, 51);
+        c.image("race/clock", 1118, 295, 56, 58, 0xFFFFFFFF);
+        field(c, 1190, 297, 300, 51);
         long l = left(now) / 1000;
-        String t = open ? "마감까지 " + l / 60 + ":" + String.format("%02d", l % 60) : "다음 경주 대기 중";
-        c.textFit(t, 1340, 323, 26, 255, open && l <= 10 ? Theme.RED : Theme.INK, Canvas.CENTER, TXT);
+        long nx = Math.max(0, J.num(data, "nextInMs") - (now - recvAt)) / 1000;
+        String t = open ? "마감까지 " + l / 60 + ":" + String.format("%02d", l % 60) : state().equals("idle") ? "다음 경주까지 " + nx / 60 + ":" + String.format("%02d", nx % 60) : "다음 경주 대기 중";
+        c.textFit(t, 1340, 323, 26, 270, open && l <= 10 ? Theme.RED : Theme.INK, Canvas.CENTER, TXT);
+        long carry = J.num(data, "carry");
+        c.textFit("상금 " + Fmt.num(J.num(data, "pot")) + (carry > 0 ? " · 이월 " + Fmt.num(carry) : "") + " · 수수료 " + J.num(data, "feePercent", 10) + "%", 1304, 366, 20, 400, Theme.MUTED, Canvas.CENTER, TXT);
         JsonObject s = frog(selected);
         if (s == null && !fl.isEmpty()) { s = fl.get(0); selected = (int) J.num(s, "no"); }
         if (s != null) {
@@ -172,14 +180,19 @@ public final class RacePanel implements Panel {
             c.image("race/badge_" + COL[col], 1375, 400, 60, 60, 0xFFFFFFFF);
             c.text(String.valueOf(J.num(s, "no")), 1405, 431, 32, Theme.WHITE, Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
             field(c, 1160, 489, 280, 51);
-            c.textFit(J.str(s, "name") + " · x" + ShopPanel.dec(J.dbl(s, "odds", 1)), 1300, 515, 26, 255, Theme.INK, Canvas.CENTER, TXT);
+            c.textFit(J.str(s, "name") + " · " + oddsText(J.dbl(s, "odds", 0)), 1300, 515, 26, 255, Theme.INK, Canvas.CENTER, TXT);
         }
         c.image("race/diamond", 1110, 568, 60, 52, 0xFFFFFFFF);
         field(c, 1198, 566, 280, 51);
         c.textFit("보유 " + Fmt.num(J.num(data, "available")), 1338, 592, 26, 255, Theme.INK, Canvas.CENTER, TXT);
         long a = amt();
-        long win = s == null ? 0 : (long) Math.floor(a * J.dbl(s, "odds", 1));
-        c.textFit("맞히면 다이아 " + Fmt.num(win) + "개", 1240, 642, 20, 280, Theme.MUTED, Canvas.CENTER, TXT);
+        // 건 사람끼리 나눠 갖기: 내가 더 걸면 그 번호 몫이 커지므로 그것까지 넣어서 예상
+        long win = 0;
+        if (s != null) {
+            double pot = J.num(data, "pot") + a * (1 - J.num(data, "feePercent", 10) / 100.0), on = J.num(s, "pool") + a;
+            win = on > 0 ? (long) Math.floor(pot * a / on) : 0;
+        }
+        c.textFit(s == null ? "" : "지금 걸면 맞혔을 때 약 " + Fmt.num(win) + "개 (마감 때 확정)", 1290, 642, 20, 390, Theme.MUTED, Canvas.CENTER, TXT);
         // 수량
         c.image("race/amount_stepper", 1100, 665, 280, 61, 0xFFFFFFFF);
         c.image("race/minus", 1120, 690, 32, 10, 0xFFFFFFFF);
@@ -190,10 +203,10 @@ public final class RacePanel implements Panel {
         hits.add(new R("minus", 1100, 665, 66, 61));
         hits.add(new R("input", 1166, 665, 148, 61));
         hits.add(new R("plus", 1314, 665, 66, 61));
-        boolean hm = Anim.in(mx, my, 1405, 645, 114, 100);
-        c.image("race/max_icon_button", 1405, 645 + (hm ? -2 : 0), 114, 100, 0xFFFFFFFF);
-        c.text("최대", 1462, 755, 17, Theme.INK, Canvas.CENTER, TXT);
-        hits.add(new R("max", 1405, 645, 114, 100));
+        boolean hm = Anim.in(mx, my, 1404, 660, 80, 70);
+        c.image("race/max_icon_button", 1404, 660 + (hm ? -2 : 0), 80, 70, 0xFFFFFFFF);
+        c.text("최대", 1444, 744, 16, Theme.INK, Canvas.CENTER, TXT);
+        hits.add(new R("max", 1404, 660, 80, 70));
         // 걸기
         if (waitingSince > 0 && now - waitingSince > 5000) waitingSince = 0;
         boolean can = open && s != null && a > 0 && a <= room() && waitingSince == 0;
@@ -203,8 +216,7 @@ public final class RacePanel implements Panel {
         String bl = !open ? "배팅 마감" : room() <= 0 ? (J.num(data, "available") <= 0 ? "다이아가 없어요" : "최대까지 걸었어요") : waitingSince > 0 ? "거는 중..." : "걸기";
         c.textFit(bl, 1340, 816, 32, 240, can ? 0xFF5A3A12 : 0xFF9A8E80, Canvas.CENTER, TXT);
         hits.add(new R("bet", 1099, 775, 410, 82));
-        field(c, 1100, 870, 400, 51);
-        c.textFit("이번 경주에 건 다이아 " + Fmt.num(J.num(data, "myTotal")) + " / " + Fmt.num(J.num(data, "maxBet", 300)), 1300, 896, 21, 370, Theme.INK, Canvas.CENTER, TXT);
+        c.textFit("이번 경주에 건 다이아 " + Fmt.num(J.num(data, "myTotal")) + " / " + Fmt.num(J.num(data, "maxBet", 300)), 1304, 882, 22, 390, Theme.INK, Canvas.CENTER, TXT);
     }
 
     /** 경주 화면 (창 안 레인 6줄). overlay=false 면 테두리 없이 레인만 */
@@ -263,8 +275,10 @@ public final class RacePanel implements Panel {
         c.image(won || spent == 0 ? "race/ribbon_win_blank" : "race/ribbon_lose_blank", -260, -60, 520, 120, Anim.white(a));
         c.textFit(J.num(r, "winner") + "번 " + J.str(r, "name") + " 우승!", 0, -4, 32, 390, Anim.alpha(won || spent == 0 ? 0xFF6B4A00 : 0xFF5E5E5E, a), Canvas.CENTER, TXT);
         c.pop();
-        String sub = won ? "맞혔어요! 다이아 +" + Fmt.num(got) + " (x" + ShopPanel.dec(J.dbl(r, "odds", 1)) + ")"
-                : spent > 0 ? "아쉬워요... 건 다이아 " + Fmt.num(spent) + "개" : "배당 x" + ShopPanel.dec(J.dbl(r, "odds", 1));
+        double od = J.dbl(r, "odds", 0);
+        String sub = won ? "맞혔어요! 다이아 +" + Fmt.num(got) + " (x" + ShopPanel.dec(od) + ")"
+                : od <= 0 ? "맞힌 사람이 없어 상금 " + Fmt.num(J.num(r, "pot")) + "개는 다음 경주로 이월!"
+                : spent > 0 ? "아쉬워요... 건 다이아 " + Fmt.num(spent) + "개" : "배당 x" + ShopPanel.dec(od);
         c.textFit(sub, cx, 740, 32, 760, Anim.alpha(won ? 0xFFFFE27A : Theme.WHITE, a), Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
         if (won) for (int i = 0; i < 10; i++) {
             float t = ((e + i * 170) % 1700) / 1700f;

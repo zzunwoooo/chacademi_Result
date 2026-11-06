@@ -13,7 +13,7 @@ public final class RaceView {
         hud = d;
         hudAt = now;
         String st = J.str(d, "state");
-        if (!st.equals("racing") && !st.equals("result")) hud = null;
+        if (!st.equals("racing")) hud = null;   // 결승선 들어오면 오른쪽 위 레인은 바로 끔
     }
 
     public void result(JsonObject d, long now) { result = d; resultAt = now; }

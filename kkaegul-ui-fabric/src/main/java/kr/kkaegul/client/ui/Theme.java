@@ -2,6 +2,10 @@ package kr.kkaegul.client.ui;
 
 /** 공통 색 / 툴팁 */
 public final class Theme {
+    /** gacha/jackpot_ribbon: 글씨 판 가운데 선 = 높이의 0.344 (x 가운데), 양쪽으로 휘는 반지름 = 그림 너비 1024 당 약 2650 (재서 맞춤) */
+    public static final float RIBBON_CY = .344f;
+    public static float ribbonR(float drawnWidth) { return 2650f * drawnWidth / 1024f; }
+
     private Theme() {}
 
     public static final int INK = 0xFF4A3426;      // 크림 패널 위 기본 글자 (진한 갈색)

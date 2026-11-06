@@ -44,6 +44,8 @@ public final class ShopPanel implements Panel {
         this.recvAt = now;
     }
 
+    @Override public boolean textInput() { return true; }
+
     @Override public String screen() { return "shop"; }
 
     @Override public void update(JsonObject d, long now) {

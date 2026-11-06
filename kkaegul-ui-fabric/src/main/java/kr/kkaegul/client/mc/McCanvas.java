@@ -82,8 +82,10 @@ public final class McCanvas implements Canvas {
         Gfx.Tex t = tt.tex();
         float inv = 1 / ppu;
         float adv = tt.advance() * inv;
-        float left = align == CENTER ? x - adv / 2 : align == RIGHT ? x - adv : x;
-        float baseline = y + size * TextRaster.CENTER_TO_BASELINE;
+        // 잉크(실제 글자 모양) 기준: 가로 가운데 맞춤과 세로 가운데 → 판 가운데에 정확히
+        TextRaster.Ink ink = (style & NOINK) != 0 ? null : TextRaster.ink(s, px, style);
+        float left = align == CENTER ? (ink != null ? x - ink.cx() * inv : x - adv / 2) : align == RIGHT ? x - adv : x;
+        float baseline = ink != null ? y - ink.cy() * inv : y + size * TextRaster.CENTER_TO_BASELINE;
         int tint = (argb & 0xFF000000) | 0xFFFFFF;
         draw(t, left - tt.left() * inv, baseline - tt.baseline() * inv, t.width() * inv, t.height() * inv, 0, 0, t.width(), t.height(), tint);
     }
@@ -110,6 +112,45 @@ public final class McCanvas implements Canvas {
             draw(t, x + ww - r, y + r, r, hh - 2 * r, H, H - 1, H, 2, argb);
         }
         if (ww - 2 * r > 0 && hh - 2 * r > 0) draw(t, x + r, y + r, ww - 2 * r, hh - 2 * r, H - 1, H - 1, 2, 2, argb);
+    }
+
+    private Gfx.Tex corner;
+
+    @Override public void clip(float x, float y, float ww, float hh) {
+        var mat = m().peek().getPositionMatrix();
+        org.joml.Vector4f a = mat.transform(new org.joml.Vector4f(x, y, 0, 1)), b = mat.transform(new org.joml.Vector4f(x + ww, y + hh, 0, 1));
+        ctx.enableScissor((int) Math.floor(Math.min(a.x, b.x)), (int) Math.floor(Math.min(a.y, b.y)), (int) Math.ceil(Math.max(a.x, b.x)), (int) Math.ceil(Math.max(a.y, b.y)));
+    }
+
+    @Override public void unclip() { ctx.disableScissor(); }
+
+    @Override public void cornerMask(float x, float y, float ww, float hh, float r, int argb) {
+        r = Math.max(0, Math.min(r, Math.min(ww, hh) / 2));
+        if (r < .5f || (argb >>> 24) == 0) return;
+        if (corner == null) {
+            // 64x64: 오른쪽 아래 (64,64) 중심 반지름 64 원의 바깥만 불투명 → 왼쪽 위 모서리 가리개
+            int S = 64;
+            NativeImage img = new NativeImage(S, S, false);
+            for (int yy = 0; yy < S; yy++)
+                for (int xx = 0; xx < S; xx++) {
+                    double dx = S - (xx + .5), dy = S - (yy + .5), d = Math.sqrt(dx * dx + dy * dy);
+                    int a = (int) Math.round(255 * Math.max(0, Math.min(1, d - S + .5)));
+                    img.setColorArgb(xx, yy, a << 24 | a << 16 | a << 8 | a);
+                }
+            corner = gfx.uploadRaw(img);
+        }
+        Gfx.Tex t = corner;
+        // 왼쪽 위 / 오른쪽 위 / 왼쪽 아래 / 오른쪽 아래 (뒤집어서)
+        draw(t, x, y, r, r, 0, 0, 64, 64, argb);
+        // 뒤집기(음수 배율) 대신 돌려서 그림 (면 방향 유지)
+        float[][] at = {{x + ww, y, 90}, {x + ww, y + hh, 180}, {x, y + hh, 270}};
+        for (float[] a : at) {
+            m().push();
+            m().translate(a[0], a[1], 0);
+            m().multiply(net.minecraft.util.math.RotationAxis.POSITIVE_Z.rotationDegrees(a[2]));
+            draw(t, 0, 0, r, r, 0, 0, 64, 64, argb);
+            m().pop();
+        }
     }
 
     /** 흰 원(128px, 알파 곱함) — 둥근 사각형 재료 */

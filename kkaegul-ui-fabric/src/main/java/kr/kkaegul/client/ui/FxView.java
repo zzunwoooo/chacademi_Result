@@ -297,7 +297,7 @@ public final class FxView {
         c.imageAt("gacha/frog_jackpot", W / 2, H * .47f, 330 * t, 1, 0, Anim.white(a));
         float rw = 760, rh = rw * 247 / 1024f;
         c.image("gacha/jackpot_ribbon", W / 2 - rw / 2, H * .66f, rw, rh, Anim.white(a));
-        c.text("졸업 축하해요!", W / 2, H * .66f + rh * .42f, 44, Anim.alpha(0xFFE0564C, a), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        c.textArc("졸업 축하해요!", W / 2, H * .66f + rh * Theme.RIBBON_CY, 44, Theme.ribbonR(rw), rw * .6f, Anim.alpha(0xFFE0564C, a), Canvas.BOLD | Canvas.LIGHT);
         String name = J.str(cur.d(), "name");
         if (!name.isEmpty()) c.text(name, W / 2, H * .2f, 40, Anim.alpha(0xFFFFFFFF, a), Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
     }

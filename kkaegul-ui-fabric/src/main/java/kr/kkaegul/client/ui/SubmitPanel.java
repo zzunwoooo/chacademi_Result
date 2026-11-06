@@ -33,6 +33,8 @@ public final class SubmitPanel implements Panel {
         this.opened = now;
     }
 
+    @Override public boolean textInput() { return true; }
+
     @Override public String screen() { return "submit"; }
 
     private long max() { return Math.max(0, J.num(data, "max")); }

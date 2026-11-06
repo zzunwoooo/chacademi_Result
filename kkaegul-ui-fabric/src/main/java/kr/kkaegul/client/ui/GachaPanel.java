@@ -247,7 +247,7 @@ public final class GachaPanel implements Panel {
                 long[] af = J.longs(fx, "after");
                 String s = jp ? "잭팟!!! " : "";
                 if (af.length == 3) s += "행운 " + af[0] + " · 효율 " + af[1] + " · 내구 " + af[2];
-                c.textFit(s, 405, 330 + rh * .44f, 16, 240, Anim.alpha(jp ? 0xFFE0564C : Theme.INK, a), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+                c.textArc(s, 405, 330 + rh * Theme.RIBBON_CY, 16, Theme.ribbonR(rw), 240, Anim.alpha(jp ? 0xFFE0564C : Theme.INK, a), Canvas.BOLD | Canvas.LIGHT);
                 if (jp) {
                     if (j < 40) host.sound("minecraft:ui.toast.challenge_complete", 1, 1);
                     c.push(); c.scale(1 / k, 1 / k); c.translate(-cw0, -ch0);

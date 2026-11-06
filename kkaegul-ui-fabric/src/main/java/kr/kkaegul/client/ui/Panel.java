@@ -20,4 +20,6 @@ public interface Panel {
     /** 클릭 직전 보조키 (1 = Shift, 2 = Ctrl) */
     default void modifiers(int mods) {}
     default void closed() {}
+    /** 글자 입력칸이 있는 창 (열려 있는 동안 윈도우 입력기를 끔) */
+    default boolean textInput() { return false; }
 }

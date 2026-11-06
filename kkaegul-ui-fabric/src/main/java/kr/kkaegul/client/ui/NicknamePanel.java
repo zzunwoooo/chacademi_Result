@@ -17,6 +17,9 @@ public final class NicknamePanel implements Panel {
     private String error = "", okMsg = "";
     private long lastEdit, lastCheckSent, opened, savingSince, caretBlink;
     private String checked;
+    /** 게임 안 한글 입력기 (윈도우 입력기는 이 창이 열려 있는 동안 꺼짐). 한/영: 오른쪽 Alt 또는 한/영 키 */
+    private final HangulInput ime = new HangulInput();
+    private boolean korean = true;
     private record R(String key, float x, float y, float w, float h) {}
     private final java.util.List<R> hits = new java.util.ArrayList<>();
 
@@ -27,6 +30,8 @@ public final class NicknamePanel implements Panel {
         this.caret = text.length();
         this.opened = now;
     }
+
+    @Override public boolean textInput() { return true; }
 
     @Override public String screen() { return "nickname"; }
 
@@ -52,7 +57,19 @@ public final class NicknamePanel implements Panel {
     @Override public boolean closable() { return !first(); }
 
     /** 화면에서 바로 막을 수 있는 규칙 */
+    /** 보이는 글자 = 확정 글자 + 조합 중인 글자 */
+    private String full() { String cm = ime.composing(); return text.substring(0, caret) + cm + text.substring(caret); }
+
+    /** 조합 중인 글자를 확정 */
+    private void commit() {
+        String cm = ime.flush();
+        if (cm.isEmpty()) return;
+        text = text.substring(0, caret) + cm + text.substring(caret);
+        caret += cm.length();
+    }
+
     private String localCheck() {
+        String text = full();
         int len = text.codePointCount(0, text.length());
         if (len == 0) return "";
         if (len < min() || len > max()) return min() + "~" + max() + "글자로 정해 주세요";
@@ -74,6 +91,7 @@ public final class NicknamePanel implements Panel {
         float W = c.width(), H = c.height();
         c.fill(0, 0, W, H, 0, first() ? 0xB0000000 : 0x88000000);
         String local = localCheck();
+        String text = full();
         if (local == null && lastEdit > 0 && now - lastEdit > 450 && !text.equals(checked)) {
             checked = text;
             lastCheckSent = now;
@@ -90,26 +108,37 @@ public final class NicknamePanel implements Panel {
         my = (my - oy) / k;
 
         c.image("nickname/nickname_panel", 0, 0, 900, 560, 0xFFFFFFFF);
-        // 리본: 제목
-        c.textFit(first() ? "이름을 정해 주세요!" : "닉네임 바꾸기", 450, 140, 40, 460, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
-        // 말풍선: 머리 위 이름표 미리보기 (칭호 + 닉네임)
+        // 리본: 제목 (리본 가운데 선을 따라 휘게: 가운데 y133.5, 양끝 x220/680 에서 13 내려감 → 반지름 약 2035)
+        c.textArc(first() ? "이름을 정해 주세요!" : "닉네임 바꾸기", 450, 134, 40, 2035, 440, Theme.INK, Canvas.BOLD | Canvas.LIGHT);
+        // 말풍선: 머리 위 이름표 미리보기 (칭호 + 닉네임). 말풍선 몸통 y200~268 → 가운데 234
         String title = J.str(data, "title");
         String preview = (title.isEmpty() ? "" : title + " ") + "§r" + (text.isEmpty() ? "§7닉네임" : text);
-        c.textFit(preview, 450, 242, 32, 300, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
-        c.text(first() ? "머리 위에 이렇게 보여요 · 운빨깨굴랜드에서 불릴 이름" : "머리 위에 이렇게 보여요 · 계정 " + J.str(data, "account"), 450, 300, 17, Theme.MUTED, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        c.textFit(preview, 450, 234, 32, 300, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        c.text(first() ? "머리 위에 이렇게 보여요" : "머리 위에 이렇게 보여요 · 계정 " + J.str(data, "account"), 450, 298, 15, Theme.MUTED, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
 
-        // 입력칸
-        c.image(focusArt ? "nickname/input_focus" : "nickname/input", 95, 315, 640, 90, 0xFFFFFFFF);
+        // 입력칸 (패널 가운데: x130~770)
+        float ix = 130, iy = 315, icx = 450, icy = 360;
+        c.image(focusArt ? "nickname/input_focus" : "nickname/input", ix, iy, 640, 90, 0xFFFFFFFF);
         String shown = text.isEmpty() ? "§7" + min() + "~" + max() + "글자로 입력" : text;
-        c.textFit(shown, 415, 360, 34, 520, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
-        if ((now - caretBlink) / 530 % 2 == 0) {
-            float tw = text.isEmpty() ? 0 : c.textWidth(text, 34, Canvas.BOLD);
-            float before = c.textWidth(text.substring(0, Math.min(caret, text.length())), 34, Canvas.BOLD);
-            c.fill(415 - tw / 2 + before + 2, 340, 3, 40, 1.5f, 0xFF7CB342);
+        c.textFit(shown, icx, icy, 34, 470, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        // 조합 중인 글자 밑줄
+        String cm = ime.composing();
+        float tw = text.isEmpty() ? 0 : Math.min(470, c.textWidth(text, 34, Canvas.BOLD));
+        float before = text.isEmpty() ? 0 : c.textWidth(text.substring(0, Math.min(caret, text.length())), 34, Canvas.BOLD);
+        float startX = icx - tw / 2;
+        if (!cm.isEmpty()) {
+            float bw = c.textWidth(text.substring(0, caret), 34, Canvas.BOLD), cw = c.textWidth(cm, 34, Canvas.BOLD);
+            c.fill(startX + bw, icy + 20, cw, 3, 1.5f, 0xFF7CB342);
+            before = bw + cw;
         }
+        if ((now - caretBlink) / 530 % 2 == 0) c.fill(startX + before + 2, icy - 20, 3, 40, 1.5f, 0xFF7CB342);
+        // 한/영 표시 (왼쪽 안)
+        c.fill(ix + 26, icy - 16, 38, 32, 10, korean ? 0xFF7CB342 : 0xFFB9AFA0);
+        c.text(korean ? "한" : "A", ix + 45, icy, 19, Theme.WHITE, Canvas.CENTER, Canvas.BOLD);
+        hits.add(new R("lang", ix + 20, icy - 22, 50, 44));
         int len = text.codePointCount(0, text.length());
-        c.text(len + "/" + max(), 712, 360, 18, len > max() ? Theme.RED : Theme.MUTED, Canvas.RIGHT, Canvas.BOLD | Canvas.LIGHT);
-        hits.add(new R("input", 95, 315, 640, 90));
+        c.text(len + "/" + max(), ix + 612, icy, 18, len > max() ? Theme.RED : Theme.MUTED, Canvas.RIGHT, Canvas.BOLD | Canvas.LIGHT);
+        hits.add(new R("input", ix, iy, 640, 90));
 
         // 안내 / 오류 (입력칸과 버튼 사이)
         String msg;
@@ -121,7 +150,7 @@ public final class NicknamePanel implements Panel {
         else { msg = J.str(data, "rule", "한글·영문·숫자 " + min() + "~" + max() + "글자"); col = Theme.MUTED; }
         if (warn) {
             float sh = Anim.shake(now - lastEdit, 2, 10) * Math.max(0, 1 - (now - lastEdit) / 400f);
-            c.image("nickname/warn", 748 + sh, 328, 64, 64, 0xFFFFFFFF);
+            c.image("nickname/warn", 780 + sh, 328, 64, 64, 0xFFFFFFFF);   // 입력칸 오른쪽 바깥
         }
         c.textFit(msg, 450, 424, 19, 640, col, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
 
@@ -144,6 +173,7 @@ public final class NicknamePanel implements Panel {
     private final boolean focusArt = true; // 입력칸은 항상 포커스
 
     private void save(long now) {
+        commit();
         if (localCheck() != null || savingSince > 0) {
             host.sound("minecraft:block.note_block.bass", .7f, .6f);
             return;
@@ -162,6 +192,7 @@ public final class NicknamePanel implements Panel {
             if (!Anim.in(mx, my, r.x(), r.y(), r.w(), r.h())) continue;
             switch (r.key()) {
                 case "ok" -> save(now);
+                case "lang" -> { commit(); korean = !korean; host.sound("minecraft:ui.button.click", 1.4f, .3f); }
                 case "cancel" -> host.closePanel(this);
                 default -> { }
             }
@@ -179,15 +210,25 @@ public final class NicknamePanel implements Panel {
 
     @Override public boolean typed(char ch, long now) {
         if (Character.isISOControl(ch) || ch == ' ' || ch == '§' || ch == '&') return true;
-        if (text.codePointCount(0, text.length()) >= max() + 2) return true;
-        text = text.substring(0, caret) + ch + text.substring(caret);
-        caret++;
+        if (full().codePointCount(0, full().length()) >= max() + 2 && ime.empty()) return true;
+        char j = korean ? HangulInput.jamo(ch) : 0;
+        if (j != 0) {
+            String done = ime.feed(j);
+            if (!done.isEmpty()) { text = text.substring(0, caret) + done + text.substring(caret); caret += done.length(); }
+        } else {
+            commit();
+            text = text.substring(0, caret) + ch + text.substring(caret);
+            caret++;
+        }
         edited(now);
         return true;
     }
 
     @Override public boolean key(int key, int mods, long now) {
         if (savingSince > 0 && now - savingSince > 5000) savingSince = 0;
+        if (key == 346 || key == -1) { commit(); korean = !korean; caretBlink = now; return true; } // 오른쪽 Alt / 한영키
+        if (key == 259 && ime.backspace()) { edited(now); return true; }
+        if (key != 259) commit();
         switch (key) {
             case 259 -> { if (caret > 0) { text = text.substring(0, caret - 1) + text.substring(caret); caret--; edited(now); } return true; } // BACKSPACE
             case 261 -> { if (caret < text.length()) { text = text.substring(0, caret) + text.substring(caret + 1); edited(now); } return true; } // DELETE
@@ -202,6 +243,10 @@ public final class NicknamePanel implements Panel {
 
     /** 붙여넣기 */
     public void paste(String s, long now) {
+        commit();
+        boolean k = korean;
+        korean = false;      // 붙여넣기는 글자 그대로
         for (char ch : s.toCharArray()) typed(ch, now);
+        korean = k;
     }
 }

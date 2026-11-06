@@ -22,6 +22,9 @@ public final class UiHub {
     public UiHub(Host host) { this.host = host; }
 
     public Map<String, String[]> names() { return names; }
+    /** 머리 위 이름표를 모드가 바꿀지 (기본 끔 — 서버의 UnlimitedNametags 가 담당) */
+    private volatile boolean nameplate = false;
+    public boolean nameplate() { return nameplate; }
 
     public void handle(JsonObject m, long now) {
         String type = J.str(m, "type");
@@ -38,6 +41,7 @@ public final class UiHub {
             case "roulette" -> roulette.add(m, now);
             case "fx" -> fx(J.str(m, "id"), J.objOrEmpty(m, "data"), now);
             case "names" -> {
+                nameplate = m.has("nameplate") && m.get("nameplate").getAsBoolean();
                 Map<String, String[]> map = new HashMap<>();
                 JsonObject o = J.objOrEmpty(m, "map");
                 for (var e : o.entrySet()) {

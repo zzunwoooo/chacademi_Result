@@ -119,8 +119,9 @@ public final class AwtCanvas implements Canvas {
         TextRaster.Raster r = TextRaster.raster(s, px, argb & 0xFFFFFF, style);
         if (r == null) return;
         float inv = size / px;
-        float left = align == CENTER ? x - r.advance() * inv / 2 : align == RIGHT ? x - r.advance() * inv : x;
-        float base = y + size * TextRaster.CENTER_TO_BASELINE;
+        TextRaster.Ink ink = (style & NOINK) != 0 ? null : TextRaster.ink(s, px, style);
+        float left = align == CENTER ? (ink != null ? x - ink.cx() * inv : x - r.advance() * inv / 2) : align == RIGHT ? x - r.advance() * inv : x;
+        float base = ink != null ? y - ink.cy() * inv : y + size * TextRaster.CENTER_TO_BASELINE;
         if ((argb >>> 24) > 60) texts.add(new TextBox(dev(left, y - size * .5f, r.advance() * inv, size), s, px / k));
         var old = g.getComposite();
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (argb >>> 24) / 255f));
@@ -144,6 +145,22 @@ public final class AwtCanvas implements Canvas {
         g.setColor(new Color(argb, true));
         if (radius <= 0) g.fill(new java.awt.geom.Rectangle2D.Float(x, y, ww, hh));
         else g.fill(new RoundRectangle2D.Float(x, y, ww, hh, radius * 2, radius * 2));
+    }
+
+    private final java.util.ArrayDeque<java.awt.Shape> clips = new java.util.ArrayDeque<>();
+
+    @Override public void clip(float x, float y, float ww, float hh) {
+        clips.push(g.getClip() == null ? new java.awt.Rectangle(-100000, -100000, 200000, 200000) : g.getClip());
+        g.clip(new java.awt.geom.Rectangle2D.Float(x, y, ww, hh));
+    }
+
+    @Override public void unclip() { if (!clips.isEmpty()) g.setClip(clips.pop()); }
+
+    @Override public void cornerMask(float x, float y, float ww, float hh, float r, int argb) {
+        java.awt.geom.Area a = new java.awt.geom.Area(new java.awt.geom.Rectangle2D.Float(x, y, ww, hh));
+        a.subtract(new java.awt.geom.Area(new RoundRectangle2D.Float(x, y, ww, hh, r * 2, r * 2)));
+        g.setColor(new Color(argb, true));
+        g.fill(a);
     }
 
     @Override public void push() { stack.push(g.getTransform()); }

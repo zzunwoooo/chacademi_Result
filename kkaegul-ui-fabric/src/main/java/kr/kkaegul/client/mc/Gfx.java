@@ -56,7 +56,10 @@ public final class Gfx {
     private long textBytes;
     private int serial;
     private long frame;
-    private boolean fontsTried;
+    private boolean fontsTried, preloaded;
+    /** 미리 읽어두고 내리지 않는 그림 (메뉴·HUD: 처음 열 때 렉 방지) */
+    private final java.util.Set<String> pinned = ConcurrentHashMap.newKeySet();
+    private static final String[] PRELOAD = {"menu/", "hud/", "notice/", "gacha_machine/", "gacha/", "shop/"};
 
     public Gfx(MinecraftClient client) { this.client = client; }
 
@@ -66,9 +69,19 @@ public final class Gfx {
             fontsTried = true;
             loadFonts(client.getResourceManager());
         }
+        if (!preloaded && frame > 40) {
+            preloaded = true;
+            try {
+                var found = client.getResourceManager().findResources("textures/ui", id -> id.getNamespace().equals("kkaegul") && id.getPath().endsWith(".png"));
+                for (Identifier rid : found.keySet()) {
+                    String name = rid.getPath().substring("textures/ui/".length(), rid.getPath().length() - 4);
+                    for (String pre : PRELOAD) if (name.startsWith(pre)) { pinned.add(name); image(name); break; }
+                }
+            } catch (RuntimeException e) { LOG.debug("미리 읽기 실패", e); }
+        }
         // 백그라운드에서 읽어둔 그림을 프레임당 몇 장씩 올린다
         int n = 0;
-        for (Iterator<Map.Entry<String, NativeImage>> it = decoded.entrySet().iterator(); it.hasNext() && n < 4; n++) {
+        for (Iterator<Map.Entry<String, NativeImage>> it = decoded.entrySet().iterator(); it.hasNext() && n < 6; n++) {
             var e = it.next();
             it.remove();
             images.put(e.getKey(), upload(e.getValue(), true, "img"));
@@ -78,7 +91,7 @@ public final class Gfx {
         if (frame % 600 == 0) {
             long now = System.currentTimeMillis();
             used.entrySet().removeIf(e -> {
-                if (now - e.getValue() < 20_000) return false;
+                if (now - e.getValue() < 20_000 || pinned.contains(e.getKey())) return false;
                 Tex t = images.remove(e.getKey());
                 if (t != null) client.getTextureManager().destroyTexture(t.id());
                 return true;

@@ -81,6 +81,31 @@ public final class TextRaster {
         return w;
     }
 
+    /** 실제 글자 모양(잉크)의 가운데: 글자 시작점·베이스라인 기준 (px) */
+    public record Ink(float cx, float cy) {}
+
+    private static final java.util.Map<String, Ink> INK = java.util.Collections.synchronizedMap(new java.util.LinkedHashMap<>(256, .75f, true) {
+        @Override protected boolean removeEldestEntry(java.util.Map.Entry<String, Ink> e) { return size() > 2000; }
+    });
+
+    /**
+     * 가운데 맞춤용 잉크 중심. 글꼴 여백(앞뒤 공백, 숫자/한글 높이 차이) 때문에 advance 가운데와
+     * 눈에 보이는 가운데가 어긋나는 걸 없앤다. 없으면 null (그때는 예전 방식).
+     */
+    public static Ink ink(String s, float px, int style) {
+        if (s == null || s.isBlank() || !ready()) return null;
+        String key = s + '\u0000' + Math.round(px * 4) + '\u0000' + (style & Canvas.BOLD);
+        Ink v = INK.get(key);
+        if (v != null) return v;
+        List<Fmt.Run> runs = Fmt.parse(s, 0xFFFFFF, false);
+        if (runs.isEmpty()) return null;
+        java.awt.geom.Rectangle2D b = layout(runs, px, (style & Canvas.BOLD) != 0).getBounds();
+        if (b.getWidth() <= 0 || b.getHeight() <= 0) return null;
+        v = new Ink((float) b.getCenterX(), (float) b.getCenterY());
+        INK.put(key, v);
+        return v;
+    }
+
     static float outline(float px) { return Math.max(1.2f, px * 0.11f); }
 
     /**

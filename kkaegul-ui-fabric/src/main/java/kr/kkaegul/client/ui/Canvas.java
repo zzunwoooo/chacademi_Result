@@ -8,6 +8,8 @@ public interface Canvas {
     int LEFT = 0, CENTER = 1, RIGHT = 2;
     /** LIGHT: 밝은 패널 위 글자 → 색코드를 진한 색으로 */
     int BOLD = 1, OUTLINE = 2, SHADOW = 4, LIGHT = 8;
+    /** 잉크(실제 글자 모양) 가운데 맞춤을 끄고 예전 베이스라인 방식으로 (글자를 하나씩 그릴 때) */
+    int NOINK = 16;
 
     /** 가상 화면 크기 */
     float width();
@@ -39,6 +41,50 @@ public interface Canvas {
 
     /** 접속자 얼굴(스킨 머리). 그렸으면 true. account 가 빈 문자열이면 나 */
     default boolean face(String account, float x, float y, float size) { return false; }
+
+    /**
+     * 둥근 모서리 가리개: (x,y,w,h) 사각형의 네 모서리에서 반지름 r 바깥쪽을 argb 색으로 덮는다.
+     * 네모난 그림(얼굴 등)을 그린 뒤 이걸 그리면 둥글게 잘린 것처럼 보인다.
+     */
+    default void cornerMask(float x, float y, float w, float h, float r, int argb) {}
+
+    /**
+     * 휘어진 리본 위 글씨: 가운데 (cx,cy)를 지나는 반지름 r 원호(위로 볼록) 위에 한 글자씩 기울여 놓는다.
+     * 리본의 가운데 선과 같은 곡선이면 글씨가 리본을 따라 휜다. maxW 보다 넓으면 줄여서 맞춤.
+     */
+    default void textArc(String s, float cx, float cy, float size, float r, float maxW, int argb, int style) {
+        if (s == null || s.isEmpty()) return;
+        float w = textWidth(s, size, style);
+        if (maxW > 0 && w > maxW) { size *= maxW / w; w = maxW; }
+        if (r <= 0 || r > 100000) { text(s, cx, cy, size, argb, CENTER, style); return; }
+        TextRaster.Ink ink = TextRaster.ink(s, size, style);
+        float baseY = ink != null ? -ink.cy() - size * TextRaster.CENTER_TO_BASELINE : 0;
+        float pos = -w / 2;
+        for (Fmt.Run run : Fmt.parse(s, argb & 0xFFFFFF, (style & LIGHT) != 0)) {
+            String t = run.text();
+            int col = (argb & 0xFF000000) | (run.rgb() & 0xFFFFFF);
+            int i = 0;
+            while (i < t.length()) {
+                int cp = t.codePointAt(i), n = Character.charCount(cp);
+                String ch = t.substring(i, i + n);
+                boolean space = Character.isWhitespace(cp);
+                float cw = space ? textWidth("가 가", size, style) - textWidth("가가", size, style) : textWidth(ch, size, style);
+                if (space) { pos += cw; i += n; continue; }
+                double th = (pos + cw / 2) / r;
+                push();
+                translate(cx + (float) (r * Math.sin(th)), cy + (float) (r * (1 - Math.cos(th))));
+                rotate((float) Math.toDegrees(th));
+                text(ch, -cw / 2, baseY, size, col, LEFT, style | NOINK);
+                pop();
+                pos += cw;
+                i += n;
+            }
+        }
+    }
+
+    /** 이 사각형 밖은 그리지 않기 (스크롤 목록용). 꼭 unclip 으로 짝을 맞춘다 */
+    default void clip(float x, float y, float w, float h) {}
+    default void unclip() {}
 
     /** 마인크래프트 아이템 그림 (id 예: "WHEAT", "minecraft:wheat"). 정사각형 size. 그렸으면 true */
     default boolean item(String id, float x, float y, float size) { return false; }

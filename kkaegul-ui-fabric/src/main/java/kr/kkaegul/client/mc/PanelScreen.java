@@ -19,6 +19,11 @@ public final class PanelScreen extends Screen {
 
     private static long now() { return System.currentTimeMillis(); }
 
+    @Override protected void init() {
+        super.init();
+        if (panel.textInput()) Ime.disable();
+    }
+
     @Override public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) { }
 
     @Override public void render(DrawContext ctx, int mouseX, int mouseY, float delta) {
@@ -69,6 +74,7 @@ public final class PanelScreen extends Screen {
     @Override public boolean shouldPause() { return false; }
 
     @Override public void removed() {
+        if (panel.textInput()) Ime.restore();
         panel.closed();
         super.removed();
     }

@@ -56,12 +56,10 @@ public final class HudView {
         set(d, now);
     }
 
-    private float lastSegX = 160, lastSegY = 120;
-
     private void popDebt(long delta, long now) {
         // 남은 다이아가 늘면(빨강) 나쁜 것, 줄면(초록) 좋은 것
-        pops.add(new Pop((delta > 0 ? "+" : "") + Fmt.num(delta), delta > 0 ? 0xFFFF6B5E : 0xFF7BE07A, now, lastSegX, lastSegY));
-        if (pops.size() > 6) pops.remove(0);
+        pops.add(new Pop((delta > 0 ? "+" : "") + Fmt.num(delta), delta > 0 ? 0xFFFF6B5E : 0xFF7BE07A, now, 0, 0));
+        if (pops.size() > 3) pops.remove(0);
     }
 
     /** 게이지 단계별 깨굴이 (연잎 위에 앉은 전신) */
@@ -132,9 +130,10 @@ public final class HudView {
         float W = c.width() / scale;
 
         // ── 왼쪽 위: 남은 다이아 | 보유 다이아 | 코인 | ▼
-        float cx = 24, cy = 14, cw = 520, ch = cw * 120 / 1024f;
+        float cx = 6, cy = 2, cw = 520, ch = cw * 120 / 1024f;
         c.image("hud/currency_frame", cx, cy, cw, ch, 0xFFFFFFFF);
-        float bodyY = cy + ch * .25f, bodyH = ch * .72f, mid = bodyY + bodyH / 2;
+        // 안쪽 판(크림색)은 그림 세로 38~102px → 가운데 70/120 (재서 맞춤)
+        float bodyY = cy + ch * (38 / 120f), bodyH = ch * (64 / 120f), mid = cy + ch * (70 / 120f);
         float[][] seg = {{.015f, .30f}, {.30f, .60f}, {.60f, .90f}};
         String[] keys = {"target", "held", "coin"};
         long[] vals = {J.num(data, "debt"), J.num(data, "held"), J.num(data, "coins")};
@@ -142,16 +141,14 @@ public final class HudView {
             float sx = cx + cw * seg[i][0], sw = cw * (seg[i][1] - seg[i][0]);
             float ix = sx + 26;
             if (i == 0) {
-                c.imageFit("hud/diamond", ix, mid, 22, 0xFFFFFFFF);
-                c.imageFit("hud/target_reticle", ix, mid, 36, 0xFFFFFFFF);
+                c.imageFit("hud/diamond", ix, mid, 29, 0xFFFFFFFF);
+                c.imageFit("hud/target_reticle", ix, mid, 42, 0xFFFFFFFF);
             } else if (i == 1) c.imageFit("hud/diamond", ix, mid, 28, 0xFFFFFFFF);
             else c.imageFit("hud/frog_coin", ix, mid, 30, 0xFFFFFFFF);
-            c.textFit(Fmt.num(vals[i]), ix + 22, mid + 1, 22, sw - 54, Theme.INK, Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
+            c.textFit(Fmt.num(vals[i]), ix + 24, mid, 22, sw - 56, Theme.INK, Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
             hits.add(new Hit(keys[i], sx, bodyY, sw, bodyH));
         }
-        c.imageFit("hud/expand_arrow", cx + cw * .945f, mid + 1, 18, 0xFFFFFFFF);
-        lastSegX = cx + cw + 46;
-        lastSegY = mid;
+        c.imageFit("hud/expand_arrow", cx + cw * .945f, mid, 18, 0xFFFFFFFF);
 
         // ── 그 아래: 상태 아이콘 + 남은 시간
         float bx = cx + 6, by = cy + ch + 8;
@@ -173,16 +170,26 @@ public final class HudView {
         if (shownGauge < 0) shownGauge = value;
         shownGauge += (value - shownGauge) * 0.15f;
         if (Math.abs(value - shownGauge) < 0.05f) shownGauge = value;
-        float gw = 330, gh = 24, gx = W / 2 - gw / 2 - 30, gy = 28;
+        float gw = 420, gh = 32, gx = W / 2 - gw / 2 - 40, gy = 46;
         gaugeBar(c, gx, gy, gw, gh, shownGauge / max, tier, now);
+        // 가운데 퍼센트
+        long pct = Math.round(shownGauge * 100.0 / max);
+        c.text(pct + "%", gx + gw / 2, gy + gh / 2, gh * .62f, Theme.WHITE, Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
         hits.add(new Hit("gauge", gx - 20, gy - 20, gw + gh * 4 + 20, gh + 40));
 
-        // 남은 다이아 변화 팝업
-        pops.removeIf(p -> now - p.start() > 1600);
+        // 목표(남은) 다이아 변화 팝업: 화면 가운데 아래 액션바 근처, 다이아 아이콘과 함께
+        float H = c.height() / scale;
+        pops.removeIf(p -> now - p.start() > 1800);
+        int n = 0;
         for (Pop p : pops) {
-            float t = (now - p.start()) / 1600f;
-            float a = t < .15f ? t / .15f : 1 - Anim.clamp((t - .6f) / .4f);
-            c.text(p.text(), p.x(), p.y() - 26 * Anim.outCubic(t), 30, Anim.alpha(p.color(), a), Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
+            float t = (now - p.start()) / 1800f;
+            float a = t < .12f ? t / .12f : 1 - Anim.clamp((t - .65f) / .35f);
+            float py = H - 96 - n * 34 - 22 * Anim.outCubic(t);
+            float tw = c.textWidth(p.text(), 30, Canvas.BOLD | Canvas.OUTLINE);
+            float px = W / 2 - (tw + 38) / 2;
+            c.imageFit("hud/diamond", px + 15, py, 30, Anim.white(a));
+            c.text(p.text(), px + 38, py, 30, Anim.alpha(p.color(), a), Canvas.LEFT, Canvas.BOLD | Canvas.OUTLINE);
+            n++;
         }
         c.pop();
     }

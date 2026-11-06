@@ -14,7 +14,7 @@ public final class MenuPanel implements Panel {
     private JsonObject data;
     private String tab;
     private int board;
-    private float scroll, scrollMax;
+    private float scroll, scrollMax, scrollShown;
     private final long opened;
     private record Hit(String key, String arg, float x, float y, float w, float h) {}
     private final List<Hit> hits = new ArrayList<>();
@@ -129,11 +129,13 @@ public final class MenuPanel implements Panel {
         // 왼쪽 카드: 얼굴 · 이름 리본 · 곡괭이 3스탯
         box(c, 117, 70, 195, 306, 16, 0xFFDCEAC8, 0xFFEEF5E2, 2);
         box(c, 137, 88, 160, 162, 18, 0xFFC9DDB0, 0xFFFBF7EC, 3);
-        if (!c.face(J.str(m, "account"), 167, 119, 100)) c.imageFit("hud/frog_smile", 217, 169, 120, 0xFFFFFFFF);
+        // 머리를 안쪽 판에 꽉 차게 그리고 판의 둥근 모서리에 맞춰 잘라냄
+        if (c.face(J.str(m, "account"), 141, 92, 152)) c.cornerMask(141, 92, 152, 152, 15, 0xFFFBF7EC);
+        else c.imageFit("hud/frog_smile", 217, 169, 130, 0xFFFFFFFF);
         String title = J.str(m, "title");
         if (!title.isEmpty()) c.textFit(title, 217, 256, 13, 170, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
         c.image("gacha/jackpot_ribbon", 132, 262, 170, 170 * 247 / 1024f, 0xFFFFFFFF);
-        c.textFit(J.str(m, "name", J.str(m, "account")), 217, 277, 17, 120, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        c.textArc(J.str(m, "name", J.str(m, "account")), 217, 262 + 170 * 247 / 1024f * Theme.RIBBON_CY, 17, Theme.ribbonR(170), 120, Theme.INK, Canvas.BOLD | Canvas.LIGHT);
         JsonObject pk = J.objOrEmpty(m, "pickaxe");
         String[] ic = {"gacha_machine/luck_clover", "gacha_machine/efficiency_bolt", "gacha_machine/durability_shield"};
         String[] key = {"fortune", "efficiency", "unbreaking"};
@@ -167,9 +169,12 @@ public final class MenuPanel implements Panel {
         // 맨 아래: 남은/보유 다이아 · 코인 · 게이지
         JsonObject g = J.objOrEmpty(m, "gauge");
         String line = "§7남은 다이아 §r" + Fmt.num(J.num(m, "debt")) + "   §7보유 §r" + Fmt.num(J.num(m, "held"))
-                + "   §7코인 §r" + Fmt.num(J.num(m, "coins")) + "   §7운빨 §r" + J.num(g, "value") + "   §7" + J.num(m, "day") + "일차";
+                + "   §7코인 §r" + Fmt.num(J.num(m, "coins")) + "   §7운빨 §r" + J.num(g, "value") + "   §7" + dayText(J.num(m, "day"));
         c.textFit(line, 491, 388, 13, 326, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
     }
+
+    /** 서버 일차: 오픈 전(0 이하)이면 "오픈 D-3" */
+    static String dayText(long day) { return day >= 1 ? day + "일차" : "오픈 D-" + (1 - day); }
 
     // ───────── 접속 보상 ─────────
     private void playtime(Canvas c, JsonObject p, float mx, float my, long now) {
@@ -241,24 +246,28 @@ public final class MenuPanel implements Panel {
         float top = 97, viewH = 280, step = 90, rh = 72;
         scrollMax = Math.max(0, rows.size() * step - (viewH + (step - rh)));
         scroll = Math.max(0, Math.min(scroll, scrollMax));
+        scrollShown += (scroll - scrollShown) * .25f;                     // 부드럽게 따라감
+        if (Math.abs(scroll - scrollShown) < .3f) scrollShown = scroll;
+        c.clip(118, 91, 541, 293);                                         // 판 안쪽만 보이게 (잘린 줄도 반만 보임)
         for (int i = 0; i < rows.size(); i++) {
             JsonObject r = rows.get(i);
-            float y = top + i * step - scroll;
-            if (y < 88 || y + rh > 384) continue;
+            float y = top + i * step - scrollShown;
+            if (y + rh < 88 || y > 386) continue;
             boolean own = J.bool(r, "owned"), sel = J.bool(r, "selected");
             int border = sel ? 0xFFC3DCA4 : own ? 0xFFE6D8C0 : 0xFFD8CCEC, fill = sel ? 0xFFE6F1D8 : own ? 0xFFFAF2E4 : 0xFFEEE8F7;
             boolean hov = own && Anim.in(mx, my, 134, y, 510, rh);
             box(c, 134, y, 510, rh, 14, hov ? 0xFF9FCB72 : border, fill, 2);
             c.image("gacha/jackpot_ribbon", 150, y + rh / 2 - 24, 160, 160 * 247 / 1024f, own ? 0xFFFFFFFF : 0xCCFFFFFF);
             String name = J.str(r, "name");
-            c.textFit(own ? name : "§7" + Fmt.strip(name), 230, y + rh / 2 - 10, 16, 110, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+            c.textArc(own ? name : "§7" + Fmt.strip(name), 230, y + rh / 2 - 24 + 160 * 247 / 1024f * Theme.RIBBON_CY, 16, Theme.ribbonR(160), 110, Theme.INK, Canvas.BOLD | Canvas.LIGHT);
             c.textFit(J.str(r, "condition"), 330, y + rh / 2, 15, 230, own ? Theme.INK : Theme.MUTED, Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
             if (sel) c.image("menu/check_badge", 598, y + rh / 2 - 19, 38, 38, 0xFFFFFFFF);
             else if (!own) c.image("menu/lock", 600, y + rh / 2 - 17, 34, 34, 0xFFFFFFFF);
-            if (own) hits.add(new Hit("title", sel ? "none" : J.str(r, "id"), 134, y, 510, rh));
-            if (Anim.in(mx, my, 134, y, 510, rh))
+            if (own) { float hy = Math.max(91, y), hb = Math.min(384, y + rh); if (hb > hy) hits.add(new Hit("title", sel ? "none" : J.str(r, "id"), 134, hy, 510, hb - hy)); }
+            if (Anim.in(mx, my, 134, y, 510, rh) && my > 91 && my < 384)
                 hoverTip = own ? (sel ? "&a장착 중 &7(누르면 해제)" : "&e누르면 장착") : "&7아직 없는 칭호";
         }
+        c.unclip();
         scrollbar(c, 650, 92, 284);
     }
 
@@ -288,14 +297,17 @@ public final class MenuPanel implements Panel {
         for (int i = 0; i < rows.size(); i++) total += (i < 3 ? 58 : 38) + 10;
         scrollMax = Math.max(0, total - (viewBottom - top));
         scroll = Math.max(0, Math.min(scroll, scrollMax));
+        scrollShown += (scroll - scrollShown) * .25f;
+        if (Math.abs(scroll - scrollShown) < .3f) scrollShown = scroll;
+        c.clip(118, top - 2, 541, viewBottom - top + 4);
         int[][] medal = {{0xFFEBD48C, 0xFFFDF5DA}, {0xFFC7CCE0, 0xFFEDEFF6}, {0xFFE6C3A2, 0xFFFAEBDD}};
         String[] art = {"menu/medal_gold", "menu/medal_silver", "menu/medal_bronze"};
-        float y = top - scroll;
+        float y = top - scrollShown;
         for (int i = 0; i < rows.size(); i++) {
             JsonObject r = rows.get(i);
             boolean big = i < 3;
             float h = big ? 58 : 38;
-            if (y >= top - 2 && y + h <= viewBottom + 2) {
+            if (y + h >= top - 2 && y <= viewBottom + 2) {
                 long rank = J.num(r, "rank", i + 1);
                 int[] cc = rank <= 3 ? medal[(int) rank - 1] : new int[]{0xFFE6DCC8, 0xFFFBF6EC};
                 box(c, 135, y, 513, h, 12, cc[0], cc[1], 2);
@@ -307,6 +319,7 @@ public final class MenuPanel implements Panel {
             }
             y += h + 10;
         }
+        c.unclip();
         scrollbar(c, 652, top, viewBottom - top);
     }
 
@@ -314,7 +327,7 @@ public final class MenuPanel implements Panel {
         if (scrollMax <= 0) return;
         float th = h * h / (h + scrollMax);
         c.fill(x, y, 5, h, 2.5f, 0x22000000);
-        c.fill(x, y + (h - th) * scroll / scrollMax, 5, th, 2.5f, 0xFF9FCB72);
+        c.fill(x, y + (h - th) * Math.max(0, Math.min(1, scrollShown / scrollMax)), 5, th, 2.5f, 0xFF9FCB72);
     }
 
     @Override public boolean scroll(float mx, float my, double amount) {
@@ -329,11 +342,11 @@ public final class MenuPanel implements Panel {
             if (!Anim.in(x, y, r.x(), r.y(), r.w(), r.h())) continue;
             switch (r.key()) {
                 case "close" -> host.closePanel(this);
-                case "tab" -> { if (!r.arg().equals(tab)) { tab = r.arg(); scroll = 0; host.sound("minecraft:item.book.page_turn", 1.2f, .8f); } }
+                case "tab" -> { if (!r.arg().equals(tab)) { tab = r.arg(); scroll = 0; scrollShown = 0; host.sound("minecraft:item.book.page_turn", 1.2f, .8f); } }
                 case "claim" -> { host.send("playtime.claim"); host.send("menu.open", "tab", "playtime"); host.sound("minecraft:entity.experience_orb.pickup", 1.2f, .7f); }
                 case "exchange" -> { host.send("playtime.exchange"); host.send("menu.open", "tab", "playtime"); host.sound("minecraft:block.note_block.pling", 1.2f, .7f); }
                 case "title" -> { host.send("title.select", "id", r.arg()); host.send("menu.open", "tab", "titles"); host.sound("minecraft:block.note_block.bell", 1.4f, .6f); }
-                case "board" -> { board = Integer.parseInt(r.arg()); scroll = 0; host.sound("minecraft:ui.button.click", 1.2f, .4f); }
+                case "board" -> { board = Integer.parseInt(r.arg()); scroll = 0; scrollShown = 0; host.sound("minecraft:ui.button.click", 1.2f, .4f); }
                 default -> { }
             }
             return true;
