@@ -552,6 +552,9 @@ public final class ShopPanel implements Panel {
         if (ch >= '0' && ch <= '9') {
             if (typed == null) typed = "";
             if (typed.length() < 6) typed = (typed.equals("0") ? "" : typed) + ch;
+            // 코인 구매칸은 한 번에 살 수 있는 최대(coinMax)를 넘겨 칠 수 없음 → 넘기면 최대로 바뀌어 보임
+            long lim = Math.max(1, J.num(data, "coinMax", 100));
+            if (!tab.equals("sell") && Long.parseLong(typed) > lim) typed = String.valueOf(lim);
             return true;
         }
         return false;

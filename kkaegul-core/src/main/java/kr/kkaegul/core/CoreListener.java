@@ -42,6 +42,15 @@ public final class CoreListener implements Listener {
     public CoreListener(KkaegulCore plugin) { this.plugin = plugin; }
 
     // ───────── 접속 ─────────
+    /** 바닐라 귓속말 명령(/msg /tell /w …)은 자동완성에 영어 계정 이름이 떠서 명령 목록에서 숨김 (치면 아래에서 /귓 으로 처리) */
+    @EventHandler
+    public void onCommandList(org.bukkit.event.player.PlayerCommandSendEvent e) {
+        e.getCommands().removeIf(c -> {
+            String l = c.substring(c.indexOf(':') + 1).toLowerCase(java.util.Locale.ROOT);
+            return java.util.Set.of("msg", "tell", "w", "m", "t", "whisper", "pm", "emsg", "etell", "ewhisper", "dm", "r", "reply", "er", "ereply", "teammsg", "tm").contains(l);
+        });
+    }
+
     /** 바닐라·에센셜 귓속말(/msg /tell /w /r …)도 우리 귓속말로: 한글 닉만 보이게 */
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onWhisperCommand(org.bukkit.event.player.PlayerCommandPreprocessEvent e) {

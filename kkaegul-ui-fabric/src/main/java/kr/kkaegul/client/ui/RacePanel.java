@@ -216,7 +216,8 @@ public final class RacePanel implements Panel {
         String bl = !open ? "배팅 마감" : room() <= 0 ? (J.num(data, "available") <= 0 ? "다이아가 없어요" : "최대까지 걸었어요") : waitingSince > 0 ? "거는 중..." : "걸기";
         c.textFit(bl, 1340, 816, 32, 240, can ? 0xFF5A3A12 : 0xFF9A8E80, Canvas.CENTER, TXT);
         hits.add(new R("bet", 1099, 775, 410, 82));
-        c.textFit("이번 경주에 건 다이아 " + Fmt.num(J.num(data, "myTotal")) + " / " + Fmt.num(J.num(data, "maxBet", 300)), 1304, 882, 22, 390, Theme.INK, Canvas.CENTER, TXT);
+        long mb = J.num(data, "maxBet", 300);   // 999999 이상 = 제한 없음 → 최대는 안 보여줌
+        c.textFit("이번 경주에 건 다이아 " + Fmt.num(J.num(data, "myTotal")) + (mb >= 999_999 ? "" : " / " + Fmt.num(mb)), 1304, 882, 22, 390, Theme.INK, Canvas.CENTER, TXT);
     }
 
     /** 경주 화면 (창 안 레인 6줄). overlay=false 면 테두리 없이 레인만 */

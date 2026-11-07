@@ -74,7 +74,7 @@ graduation:
 roulette-defaults:
   spin-ms: 3000                 # 연출 시간 (피버 중엔 줄어듦)
   gap-ticks: 10                 # 같은 사람 룰렛 사이 간격
-  stack-extras: false           # 게이지 1+1 과 피버 1+1 을 합칠지(false면 큰 쪽만)
+  stack-extras: false           # (안 씀) 피버는 이제 추가 회전 대신 범위 배수
 
 roulette:
   increase:       { type: increase, min: 10,  max: 189,  label: "증가 룰렛" }
@@ -215,6 +215,9 @@ boxes:
       freeze:    { weight: 5,  label: "3초 자리 고정", effect: freeze, seconds: 3 }
 
 items:
+  food-restore:                 # ★ 콜라·깨깨로 1개 먹을 때 (스테이크와 같음)
+    hunger: 8
+    saturation: 12.8
   use-itemsadder: true          # ItemsAdder 가 있으면 item:<id> 아이템을 지급/인식 (없으면 아래 바닐라 방식)
   itemsadder-namespace: "item"
   use-item-model: false         # 리소스팩에 kkaegul:<id> 모델을 넣은 뒤 true (없을 때 켜면 보라/검정 텍스처로 보임)
@@ -241,12 +244,10 @@ items:
 fever:
   diamond:
     seconds: 90                # ★
-    extra: 1                    # 1+1
+    multiplier: 2               # ★ 피버: 룰렛 한 칸 범위 ×2 (10~189 → 20~378). 1+1·1+2 는 운빨 게이지가 정함
     spin-factor: 0.5            # 룰렛 연출 시간 ×0.5 (빨라짐)
-    triple-check-seconds: 30    # 피버 중 30초마다
-    triple-chance: 15           # ★ 15% 확률로 3배 피버 발생
-    triple-seconds: 30
-    triple-extra: 2             # 1+2
+    triple-chance: 15           # ★ 피버가 터질 때 이 확률(%)로 3배 피버 (그 피버 끝까지 유지)
+    triple-multiplier: 3        # 3배 피버: 범위 ×3 (10~189 → 30~567, 빅 200~2000 → 600~6000)
     triple-spin-factor: 0.35
   box:
     seconds: 90                # ★
@@ -351,11 +352,12 @@ casino:
     enabled: true
     frogs: 6
     cycle-minutes: 10            # ★ 몇 분마다 한 회차 (배팅 → 경주 → 결과). 아무도 안 걸어도 진행
-    bet-seconds: 120            # 배팅 시간 (cycle 안에서)
+    bet-seconds: 120            # 첫 회차 배팅 시간 (그 뒤로는 bet-until-next)
+    bet-until-next: true        # ★ 결과가 끝나면 바로 다음 회차 배팅을 열고, 다음 출발까지 계속 걸 수 있음
     race-seconds: 18            # 우승 개구리 기준 대략 시간
     result-seconds: 10
     min-bet: 1
-    max-bet: 100                # 한 사람이 한 경기에 걸 수 있는 최대 (여러 번호 합)
+    max-bet: 999999             # ★ 한 경기 최대 (999999 = 사실상 제한 없음)
     fee-percent: 10             # ★ 배팅 합계에서 떼는 수수료(%) — 이게 다이아가 무한으로 늘지 않게 함
     seed: 0                     # 매 회차 서버가 상금에 보태는 다이아 (0 = 안 보탬)
     lane-spacing: 2.0           # 레인 사이 간격 (race-start 기준 옆으로)
@@ -369,7 +371,7 @@ casino:
   frog-jump:                    # 혼자 하는 버티기: 누를 때마다 한 칸, 멀리 갈수록 배수↑ 확률↓
     enabled: true
     min-bet: 1
-    max-bet: 100
+    max-bet: 999999             # ★ 최대 (999999 = 사실상 제한 없음)
     announce-step: 7            # 이 칸 이상 가면 전체 알림
     machine-radius: 2.0         # frog-jump-machine.N 위치에서 이 거리 안의 블록을 우클릭하면 열림
     machine-block: ""           # 특정 블록만 (예: LODESTONE). 비우면 아무 블록
@@ -433,7 +435,7 @@ harass:
     wasd:       { weight: 35, label: "WASD 랜덤 입력", length: 6, seconds: 6, fail-roulette: small_increase, success-roulette: small_decrease }
     sky:        { weight: 20, label: "모두 하늘로 50칸", height: 50 }
     fever:      { weight: 3,   label: "피버!" }
-    all_jail:   { weight: 1,   label: "전원 감옥행" }
+    all_jail:   { weight: 3,   label: "전원 감옥행" }
     lobby_kick: { weight: 6,     label: "누군가 로비로 초대" }
 
 quiz:
@@ -553,7 +555,7 @@ titles:
 
 ranking:
   size: 10
-  remaining-ascending: true     # 남은 다이아 랭킹: 적은 순
+  remaining-ascending: false    # ★ 남은 다이아 랭킹: false = 많은 순 (탭 목록과 같게)
   show-graduated: false
 
 # ── 보물광산 ─────────────────────────────────────────────────
@@ -562,7 +564,7 @@ mine:
   trigger-blocks: [DIAMOND_ORE, DEEPSLATE_DIAMOND_ORE, IRON_ORE, DEEPSLATE_IRON_ORE, GOLD_ORE, DEEPSLATE_GOLD_ORE, COAL_ORE, DEEPSLATE_COAL_ORE, REDSTONE_ORE, DEEPSLATE_REDSTONE_ORE, LAPIS_ORE, DEEPSLATE_LAPIS_ORE, EMERALD_ORE, DEEPSLATE_EMERALD_ORE, COPPER_ORE, DEEPSLATE_COPPER_ORE]
   daily-moves: 3
   treasure-chance: 10           # 나머지 90% 는 제한맵
-  stay-seconds: 300             # ★ 머무는 시간 (0 = 자동 복귀 없음)
+  stay-seconds: 60              # ★ 머무는 시간 (0 = 자동 복귀 없음)
   regen-blocks-per-tick: 4000
   auto-setup: true              # ★ 아래 구역의 월드(빈 월드)·바닥·벽·스폰을 처음 켤 때 자동으로 만듦
   generator: VoidGen
@@ -633,8 +635,8 @@ minigame:
       invite-max: 4
       wait-seconds: 20              # ★ 의자에 앉은 뒤 정신 차리는 시간
       length: 7
-      seconds: 7
-      per-key-seconds: 3            # ★ 키 하나마다 제한시간(초)
+      seconds: 5                    # ★ 키 전체 입력 제한시간(초) (per-key-seconds 가 0 일 때)
+      per-key-seconds: 0            # ★ 키 하나마다 제한시간(초). 0 = 위 seconds 가 전체 시간
       naked: true                   # ★ 맨몸으로 초대 (아이템은 맡겼다가 끝나면 돌려줌)
       kill-after-ticks: 40          # ★ 실패하면 날아간 뒤 이 틱 후 사망 (아이템 유지, 0 = 안 죽임)
       countdown-ticks: 60

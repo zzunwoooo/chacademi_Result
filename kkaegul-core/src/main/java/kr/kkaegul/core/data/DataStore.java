@@ -90,14 +90,13 @@ public final class DataStore {
         return d == null ? null : Bukkit.getPlayer(d.uuid);
     }
 
-    /** 자동완성용: 접속자 이름 + 한글 닉네임 */
+    /** 자동완성용: 접속자 한글 닉네임 (영어 계정 이름은 닉네임이 아직 없을 때만) */
     public java.util.List<String> onlineNames() {
         java.util.List<String> out = new java.util.ArrayList<>();
         for (Player p : Bukkit.getOnlinePlayers()) {
             PlayerData d = all.get(p.getUniqueId());
             String nick = d == null || d.nickname == null ? "" : kr.kkaegul.core.util.Txt.strip(kr.kkaegul.core.util.Txt.color(d.nickname));
-            if (!nick.isEmpty() && !nick.equalsIgnoreCase(p.getName())) out.add(nick);
-            out.add(p.getName());
+            out.add(nick.isEmpty() ? p.getName() : nick);
         }
         return out;
     }

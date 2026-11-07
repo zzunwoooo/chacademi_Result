@@ -206,7 +206,8 @@ public final class DangerousInviteGame extends Minigame {
                 f.setPitch(0);
                 back = f.getDirection().multiply(-1).normalize().multiply(cfgDouble("launch-back", 1.4)).setY(cfgDouble("launch-up", 0.7));
             } else back = new Vector(Rng.r().nextDouble() * 2 - 1, cfgDouble("launch-power", 2.2), Rng.r().nextDouble() * 2 - 1);
-            p.setVelocity(back);
+            // 내리는 틱에 서버가 위치를 다시 잡으면서 속도가 지워짐 → 내린 다음 틱부터 몇 번 다시 밀어 줌
+            for (int t = 1; t <= 3; t++) later(t, () -> { if (p.isOnline() && !p.isDead() && p.getVehicle() == null) p.setVelocity(back); });
         });
         if (idx != null) later(30, () -> tilt(idx, false, 6));
         // 멀리 날아간 뒤 사망 (아이템 유지)

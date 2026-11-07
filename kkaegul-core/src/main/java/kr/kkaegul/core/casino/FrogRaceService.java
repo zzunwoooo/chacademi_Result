@@ -59,6 +59,7 @@ public final class FrogRaceService {
     private long nextOpenAt;
     private long lastPot;     // 이번 판 상금 (결과 표시용)
     private boolean warned30;
+    private long nextRaceAt;  // 다음 경주 출발 시각 (출발 기준 cycle 마다)
 
     public FrogRaceService(KkaegulCore plugin) {
         this.plugin = plugin;
@@ -179,7 +180,8 @@ public final class FrogRaceService {
         warned30 = false;
         int sec = plugin.getConfig().getInt(cfg("bet-seconds"), 120);
         long now = System.currentTimeMillis();
-        stateEndsAt = now + sec * 1000L;
+        // bet-until-next: 결과가 끝나면 바로 다음 회차 배팅을 열고, 다음 출발(지난 출발 + cycle)까지 계속 걸 수 있음
+        stateEndsAt = betUntilNext() && nextRaceAt > now + 30_000L ? nextRaceAt : now + sec * 1000L;
         nextOpenAt = now + cycleMs();
         tick = 0;
         startTask();
@@ -210,6 +212,7 @@ public final class FrogRaceService {
         state = State.RACING;
         tick = 0;
         round++;
+        nextRaceAt = System.currentTimeMillis() + cycleMs();
         // 우승 개구리 뽑기 → 나머지 순위도 확률대로
         List<Frog> left = new ArrayList<>(frogs), order = new ArrayList<>();
         while (!left.isEmpty()) {
@@ -304,8 +307,11 @@ public final class FrogRaceService {
         bets.clear();
         winner = -1;
         if (task != null) { task.cancel(); task = null; }
+        if (betUntilNext() && enabled() && !Bukkit.getOnlinePlayers().isEmpty()) { openBetting(null); return; }
         for (Player p : Bukkit.getOnlinePlayers()) if (plugin.ui().hasRenderer(p)) plugin.ui().update(p, "race", info(p));
     }
+
+    private boolean betUntilNext() { return plugin.getConfig().getBoolean(cfg("bet-until-next"), true); }
 
     private void startTask() {
         if (task != null) task.cancel();

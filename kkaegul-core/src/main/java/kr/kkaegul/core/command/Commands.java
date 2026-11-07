@@ -30,7 +30,7 @@ public final class Commands implements CommandExecutor, TabCompleter {
         this.plugin = plugin;
         this.actions = actions;
         for (String c : List.of("kg", "kapi", "ksapi", "mailbox", "submit", "randomsubmit", "sell", "buycoin", "farmprice",
-                "gacha", "fortune", "wild", "jailexit", "title", "hall", "playtime", "trash", "me", "usertp", "gauge", "profile", "withdraw", "deposit", "nickname", "frogjump", "frograce", "poker", "seotda", "discordlink", "kgnotice", "kgwhisper", "kgreply", "kghelp", "kgaccept")) {
+                "gacha", "fortune", "wild", "jailexit", "title", "hall", "playtime", "trash", "me", "usertp", "gauge", "profile", "withdraw", "deposit", "nickname", "frogjump", "frograce", "poker", "seotda", "discordlink", "kgnotice", "kgwhisper", "kgreply", "kghelp", "kgaccept", "kgtp", "kgsummon")) {
             PluginCommand pc = plugin.getCommand(c);
             if (pc == null) { plugin.getLogger().warning("plugin.yml 에 명령어 없음: " + c); continue; }
             pc.setExecutor(this);
@@ -74,6 +74,21 @@ public final class Commands implements CommandExecutor, TabCompleter {
     // ───────── 플레이어 명령 ─────────
     private void player(Player p, String name, String[] a) {
         switch (name) {
+            case "kgtp", "kgsummon" -> {
+                boolean summon = name.equals("kgsummon");
+                if (a.length < 1) { plugin.ui().error(p, summon ? "&c/소환 <닉네임>" : "&c/텔포 <닉네임>"); return; }
+                Player t = plugin.data().online(a[0]);
+                if (t == null || t.equals(p)) { plugin.ui().error(p, "&c접속 중인 다른 유저 닉네임을 입력하세요."); return; }
+                if (summon) {
+                    plugin.harass().saveBack(t);
+                    t.teleport(p.getLocation());
+                    say(p, Txt.notice("&f" + plugin.displayName(t) + "님을 내 위치로 소환했어요."));
+                } else {
+                    plugin.harass().saveBack(p);
+                    p.teleport(t.getLocation());
+                    say(p, Txt.notice("&f" + plugin.displayName(t) + "님에게 이동했어요."));
+                }
+            }
             case "mailbox" -> {
                 // 창이 있으면 우편함 창, 없으면 바로 받기
                 boolean list = a.length > 0 && (a[0].equals("목록") || a[0].equalsIgnoreCase("list"));
@@ -624,7 +639,7 @@ public final class Commands implements CommandExecutor, TabCompleter {
             case "kg" -> { if (s.hasPermission("kkaegul.admin")) out.addAll(adminTab(a)); }
             case "kapi" -> { if (i == 1) out.addAll(players()); }
             case "kgwhisper" -> { if (i == 1) out.addAll(players()); }
-            case "usertp" -> { if (i == 1) out.addAll(players()); }
+            case "usertp", "kgtp", "kgsummon" -> { if (i == 1) out.addAll(players()); }
             case "gacha" -> { if (i == 1) out.addAll(List.of("1", "2", "3")); else if (i == 2) out.add("돌리기"); }
             case "mailbox" -> { if (i == 1) out.add("목록"); }
             case "submit" -> { if (i == 1) out.addAll(List.of("10", "64", "전부", "랭킹")); }

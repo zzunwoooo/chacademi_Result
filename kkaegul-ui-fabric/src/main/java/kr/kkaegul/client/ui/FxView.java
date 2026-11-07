@@ -169,8 +169,8 @@ public final class FxView {
     private void fever(Canvas c, long e, float a, Host host) {
         String id = cur.id();
         String k = id.equals("fever_triple") ? "triple" : id.equals("fever_box") ? "chest" : "diamond";
-        String title = switch (k) { case "triple" -> "3배 피버 터짐!!"; case "chest" -> "상자 피버!"; default -> "다이아 증감 피버!"; };
-        String sub = switch (k) { case "triple" -> "룰렛 결과 1+2"; case "chest" -> "상자 내용물 1+1"; default -> "룰렛이 빨라지고 1+1"; };
+        String title = switch (k) { case "triple" -> "3배 피버 터짐!!"; case "chest" -> "상자 피버!"; default -> "2배 피버!"; };
+        String sub = switch (k) { case "triple" -> "룰렛 범위 3배"; case "chest" -> "상자 내용물 1+1"; default -> "룰렛이 빨라지고 범위 2배"; };
         long sec = J.num(cur.d(), "seconds");
         if (sec > 0) sub = Fmt.time(sec) + " 동안 " + sub;
         int accent = switch (k) { case "triple" -> 0xFF9B4FCF; case "chest" -> 0xFF3C8FD6; default -> 0xFFE0564C; };

@@ -39,6 +39,8 @@ import java.util.UUID;
  */
 public final class ActionRunner {
     private final KkaegulCore plugin;
+    /** all / random-player 로 들어온 액션 = 섭주(전체) 쪽. 0 이면 개인 API */
+    private int serverScope;
 
     public ActionRunner(KkaegulCore plugin) { this.plugin = plugin; }
 
@@ -55,11 +57,15 @@ public final class ActionRunner {
         try {
             switch (op) {
                 // ── 전체/무대상 ──
-                case "all" -> { for (Player p : List.copyOf(Bukkit.getOnlinePlayers())) run(p.getUniqueId(), rest, reason); }
+                case "all" -> {
+                    serverScope++;
+                    try { for (Player p : List.copyOf(Bukkit.getOnlinePlayers())) run(p.getUniqueId(), rest, reason); } finally { serverScope--; }
+                }
                 case "random-player" -> {
                     List<Player> list = new ArrayList<>(Bukkit.getOnlinePlayers());
                     Player p = Rng.pick(list);
-                    if (p != null) run(p.getUniqueId(), rest, reason);
+                    serverScope++;
+                    try { if (p != null) run(p.getUniqueId(), rest, reason); } finally { serverScope--; }
                 }
                 case "harass-all" -> plugin.harass().serverHarass();
                 case "fever" -> {
@@ -121,9 +127,10 @@ public final class ActionRunner {
                 giveSplit(target, plugin.items().create(type, 1), n);
                 if (p != null) plugin.ui().center(p, (type == CustomItem.COLA ? "&c콜라 " : "&6깨깨로 ") + n + "개", "");
             }
-            case "jail" -> { if (p != null) plugin.jail().send(p, reason); else queue(d, "jail"); }
+            // 보물광산 안: 개인 API 감옥·투어(이동)는 안 먹힘 (섭주 쪽은 그대로)
+            case "jail" -> { if (p != null && minedOut(p, "감옥")) return; if (p != null) plugin.jail().send(p, reason); else queue(d, "jail"); }
             case "harass" -> { if (p != null) plugin.harass().personal(p); else queue(d, "harass"); }
-            case "tour" -> { if (p != null) plugin.harass().tour(p); }
+            case "tour" -> { if (p != null && !minedOut(p, "투어")) plugin.harass().tour(p); }
             case "death" -> { if (p != null) plugin.harass().instantDeath(p); else queue(d, "death"); }
             case "invite" -> { } // 초대권 기능 제거 (아이템·보상은 유지)
             case "mine" -> { if (p != null) plugin.mine().sendTreasure(p, true); }
@@ -158,6 +165,13 @@ public final class ActionRunner {
             case "sound" -> { if (p != null) p.playSound(p.getLocation(), rest, 1f, 1f); }
             default -> plugin.getLogger().warning("알 수 없는 액션: " + op);
         }
+    }
+
+    private boolean minedOut(Player p, String what) {
+        if (serverScope > 0 || !plugin.mine().isInMine(p)) return false;
+        plugin.ui().actionbar(p, "&7광산 안이라 " + what + "은(는) 적용되지 않았어요");
+        plugin.getLogger().info("[광산] " + plugin.displayName(p) + " 개인 " + what + " 막음 (광산 안)");
+        return true;
     }
 
     private void queue(PlayerData d, String action) {

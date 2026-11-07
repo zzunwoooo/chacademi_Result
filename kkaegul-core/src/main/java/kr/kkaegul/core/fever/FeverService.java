@@ -10,7 +10,8 @@ import org.bukkit.scheduler.BukkitTask;
 
 /**
  * 피버 2종.
- *  - 다이아 증감 피버(섭주 1000): 룰렛이 빨라지고 1+1. 피버 중 일정 주기로 확률 체크해 3배 피버(1+2) 구간이 터진다.
+ *  - 다이아 증감 피버(섭주 1000): 터질 때 2배 또는 3배(triple-chance %)로 정해져 피버 내내 유지.
+ *    룰렛 한 칸의 범위에 배수를 곱한다 (10~189 → 2배 20~378 / 3배 30~567). 1+1·1+2 는 운빨 게이지가 정함.
  *  - 상자 피버(섭주 1289): 상자 오픈 시 내용물 1+1.
  */
 public final class FeverService {
@@ -27,11 +28,11 @@ public final class FeverService {
     public boolean tripleActive() { return diamondFeverActive() && System.currentTimeMillis() < tripleUntil; }
     public boolean boxFeverActive() { return System.currentTimeMillis() < boxUntil; }
 
-    /** 룰렛 추가 회전 수: 피버 1, 3배 피버 2 */
-    public int diamondExtra() {
-        if (tripleActive()) return plugin.getConfig().getInt("fever.diamond.triple-extra", 2);
-        if (diamondFeverActive()) return plugin.getConfig().getInt("fever.diamond.extra", 1);
-        return 0;
+    /** 룰렛 범위 배수: 피버 2, 3배 피버 3, 평소 1 */
+    public int diamondMultiplier() {
+        if (tripleActive()) return plugin.getConfig().getInt("fever.diamond.triple-multiplier", 3);
+        if (diamondFeverActive()) return plugin.getConfig().getInt("fever.diamond.multiplier", 2);
+        return 1;
     }
 
     /** 룰렛 연출 시간 배율 (피버 중 빨라짐) */
@@ -48,7 +49,13 @@ public final class FeverService {
         if (seconds <= 0) seconds = plugin.getConfig().getInt("fever.diamond.seconds", 300);
         long now = System.currentTimeMillis();
         diamondUntil = Math.max(diamondUntil, now) + seconds * 1000L;
-        announce("&c다이아 증감 피버!", "&f" + Txt.duration(seconds) + " 동안 룰렛이 빨라지고 1+1", "fever_diamond", seconds);
+        int left = (int) ((diamondUntil - now) / 1000);
+        if (Rng.chance(plugin.getConfig().getDouble("fever.diamond.triple-chance", 15))) {
+            tripleUntil = diamondUntil;   // 3배는 이번 피버 끝까지
+            announce("&d3배 피버 터짐!!", "&f" + Txt.duration(left) + " 동안 룰렛 범위 3배", "fever_triple", left);
+        } else {
+            announce("&c2배 피버!", "&f" + Txt.duration(left) + " 동안 룰렛 범위 2배", "fever_diamond", left);
+        }
     }
 
     public void startBox(int seconds) {
@@ -64,14 +71,6 @@ public final class FeverService {
 
     private void tick() {
         tickCount++;
-        if (diamondFeverActive() && !tripleActive()) {
-            int every = Math.max(1, plugin.getConfig().getInt("fever.diamond.triple-check-seconds", 30));
-            if (tickCount % every == 0 && Rng.chance(plugin.getConfig().getDouble("fever.diamond.triple-chance", 15))) {
-                int sec = plugin.getConfig().getInt("fever.diamond.triple-seconds", 30);
-                tripleUntil = Math.min(diamondUntil, System.currentTimeMillis() + sec * 1000L);
-                announce("&d3배 피버 터짐!!", "&f" + sec + "초 동안 룰렛 1+2", "fever_triple", sec);
-            }
-        }
         if (tickCount % 5 == 0) pushAll();
     }
 

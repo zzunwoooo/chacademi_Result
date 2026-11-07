@@ -4,7 +4,7 @@ items:
   cola:
     display_name: '&f⨄ 깨굴 콜라'
     resource:
-      material: HONEY_BOTTLE
+      material: APPLE
       generate: true
       textures:
       - kkaegul/cola.png

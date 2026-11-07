@@ -106,12 +106,26 @@ public final class ItemUseListener implements Listener {
         }
     }
 
-    /** 콜라를 마시면 빈 병 대신 아무것도 안 남게 */
+    /** 콜라를 마시면 빈 병 대신 아무것도 안 남게 + 콜라·깨깨로는 스테이크만큼 배고픔을 채움 */
     @EventHandler
     public void onConsume(PlayerItemConsumeEvent e) {
         CustomItem t = plugin.items().type(e.getItem());
         if (t == CustomItem.COLA && e.getItem().getType() == Material.HONEY_BOTTLE) {   // 예전(꿀병) 콜라만
             plugin.getServer().getScheduler().runTask(plugin, () -> e.getPlayer().getInventory().removeItem(new ItemStack(Material.GLASS_BOTTLE, 1)));
+        }
+        if (t == CustomItem.COLA || t == CustomItem.KKAEKKAERO) {
+            Player p = e.getPlayer();
+            int food = p.getFoodLevel();
+            float sat = p.getSaturation();
+            int hunger = plugin.getConfig().getInt("items.food-restore.hunger", 8);          // 스테이크: 8 (하트 4칸)
+            float s = (float) plugin.getConfig().getDouble("items.food-restore.saturation", 12.8);
+            // 바닐라(사과) 값이 들어간 다음 틱에 덮어씀
+            plugin.getServer().getScheduler().runTask(plugin, () -> {
+                if (!p.isOnline()) return;
+                int nf = Math.min(20, food + hunger);
+                p.setFoodLevel(nf);
+                p.setSaturation(Math.min(nf, sat + s));
+            });
         }
     }
 

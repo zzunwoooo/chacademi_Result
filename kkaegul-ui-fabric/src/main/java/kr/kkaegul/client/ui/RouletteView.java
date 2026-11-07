@@ -70,7 +70,8 @@ public final class RouletteView {
         c.translate(0, drop);
         if (J.bool(d, "fever")) {
             // 피버 중: 위에 빨간 알약 표시만 (테두리 없음)
-            String ft = J.num(d, "extra") >= 2 ? "3배 피버! 1+2" : "다이아 피버! 1+1";
+            // 피버 = 범위 배수(2배/3배), 1+1·1+2 는 운빨 게이지 (오른쪽 위 뱃지)
+            String ft = J.num(d, "mult", 2) >= 3 ? "3배 피버! 범위 x3" : "2배 피버! 범위 x2";
             float tw = c.textWidth(ft, 26, Canvas.BOLD) + 50, pulse = 1 + .04f * (float) Math.sin(now / 90.0);
             c.push(); c.translate(x + w / 2, y - 34); c.scale(pulse, pulse);
             MenuPanel.box(c, -tw / 2, -22, tw, 44, 22, Anim.alpha(0xFFFFF4E6, a), Anim.alpha(0xFFE95A50, a), 3);
@@ -84,7 +85,9 @@ public final class RouletteView {
         c.textFit(J.str(d, "label", inc ? "증가 룰렛" : "감소 룰렛"), px + pw / 2, py + ph / 2 + 1, 26, pw * .9f, Anim.alpha(Theme.INK, a), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
 
         // 릴 4칸
-        long total = Math.min(9999, Math.abs(J.num(d, "total")));
+        // 4칸을 넘는 합계(피버 1+2 등)는 릴에 첫 칸 값을 보여 주고, 합계는 아래 결과판·계산식에 그대로
+        long total = Math.abs(J.num(d, "total"));
+        if (total > 9999) { long[] rs = J.longs(d, "rolls"); total = Math.min(9999, rs.length > 0 ? Math.abs(rs[0]) : 9999); }
         String digits = String.format("%4d", total);
         int firstDigit = 4 - String.valueOf(total).length();
         boolean allStopped = true;

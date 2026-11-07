@@ -50,6 +50,14 @@ commands:
     description: 전체 공지 (/공지 <할 말>)
     permission: kkaegul.admin
     aliases: [공지]
+  kgtp:
+    description: 운영자 - 그 유저에게 이동 (/텔포 <한글닉>)
+    permission: kkaegul.admin
+    aliases: [텔포]
+  kgsummon:
+    description: 운영자 - 그 유저를 내 위치로 소환 (/소환 <한글닉>)
+    permission: kkaegul.admin
+    aliases: [소환]
   kgwhisper:
     description: 귓속말 (/귓 <닉네임> <할 말>)
     aliases: [귓, 귓속말]

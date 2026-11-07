@@ -178,6 +178,7 @@ public final class EconomyService {
     // ───────── 코인 구매 ─────────
     public void buyCoins(Player p, int amount) {
         if (amount <= 0) return;
+        amount = Math.min(amount, Math.max(1, plugin.getConfig().getInt("economy.coin.max-per-buy", 100)));   // 한 번에 최대 (모든 경로 공통)
         PlayerData d = plugin.data().get(p);
         if (plugin.getConfig().getString("economy.coin.currency", "diamond").equalsIgnoreCase("diamond")) {
             // 다이아(보유 → 인벤토리 순)로 결제

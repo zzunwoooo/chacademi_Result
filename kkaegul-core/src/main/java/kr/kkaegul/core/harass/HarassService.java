@@ -80,6 +80,11 @@ public final class HarassService {
 
     private void personalEffect(Player p, String id, String label) {
         ConfigurationSection c = plugin.getConfig().getConfigurationSection("harass.personal." + id);
+        // 보물광산 안에서는 개인 괴롭히기 중 이동(끌려가기·날리기)은 안 먹힘 (섭주 괴롭히기는 그대로)
+        if (plugin.mine().isInMine(p) && (id.equals("tp_random_user") || id.equals("launch"))) {
+            plugin.ui().actionbar(p, "&7광산 안이라 " + Txt.strip(Txt.color(label)) + "은(는) 적용되지 않았어요");
+            return;
+        }
         switch (id) {
             case "monsters" -> spawnMonsters(p, c == null ? 3 : c.getInt("count", 3));
             case "mining_fatigue" -> p.addPotionEffect(new PotionEffect(PotionEffectType.MINING_FATIGUE,

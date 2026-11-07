@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * 다이아 증감 룰렛.
  * config roulette.<kind>: { type: increase|decrease, min, max, spin-ms, label, allow-extra }
- * 추가 회전(1+1, 1+2): 운빨 게이지(증가 룰렛만) / 다이아 피버 / 3배 피버.
+ * 추가 회전(1+1, 1+2): 운빨 게이지(증가 룰렛만). 다이아 피버는 한 칸 범위에 2배/3배를 곱함 (allow-extra: false 인 룰렛은 둘 다 없음).
  * 같은 플레이어의 룰렛은 순서대로(큐) 돌아가고, 연출 시간이 끝난 뒤 장부에 반영된다.
  * 서버 종료 시 대기 중·연출 중인 룰렛은 연출 없이 전부 반영한다 (후원 손실 방지).
  */
@@ -33,7 +33,7 @@ public final class RouletteService {
 
     public RouletteService(KkaegulCore plugin) { this.plugin = plugin; }
 
-    public record Result(String kind, boolean increase, List<Long> rolls, long total, int extra, long spinMs) {}
+    public record Result(String kind, boolean increase, List<Long> rolls, long total, int extra, int mult, long spinMs) {}
 
     private record Job(String kind, String reason) {}
 
@@ -67,28 +67,26 @@ public final class RouletteService {
 
     private Result roll(PlayerData d, String kind) {
         ConfigurationSection c = cfg(kind);
-        if (c == null) return new Result(kind, true, List.of(0L), 0, 0, 0);
+        if (c == null) return new Result(kind, true, List.of(0L), 0, 0, 1, 0);
         boolean inc = "increase".equalsIgnoreCase(c.getString("type", "increase"));
         long min = c.getLong("min", 1), max = c.getLong("max", 10);
         int extra = extraSpins(d, inc, c);
+        int mult = c.getBoolean("allow-extra", true) ? plugin.fever().diamondMultiplier() : 1;
         List<Long> rolls = new ArrayList<>();
         long total = 0;
         for (int i = 0; i <= extra; i++) {
-            long v = Rng.range(min, max);
+            long v = Rng.range(min * mult, max * mult);
             rolls.add(v);
             total += v;
         }
         long spin = c.getLong("spin-ms", plugin.getConfig().getLong("roulette-defaults.spin-ms", 3000));
         spin = (long) (spin * plugin.fever().spinSpeedFactor());
-        return new Result(kind, inc, rolls, total, extra, spin);
+        return new Result(kind, inc, rolls, total, extra, mult, spin);
     }
 
     private int extraSpins(PlayerData d, boolean increase, ConfigurationSection c) {
         if (!c.getBoolean("allow-extra", true)) return 0;
-        int gaugeExtra = increase ? plugin.gauge().rouletteExtra(d) : 0;
-        int feverExtra = plugin.fever().diamondExtra();
-        boolean stack = plugin.getConfig().getBoolean("roulette-defaults.stack-extras", false);
-        return stack ? gaugeExtra + feverExtra : Math.max(gaugeExtra, feverExtra);
+        return increase ? plugin.gauge().rouletteExtra(d) : 0;
     }
 
     private void applySilently(UUID id, Job job) {
@@ -127,10 +125,10 @@ public final class RouletteService {
         Json payload = Json.obj().put("type", "roulette").put("kind", job.kind()).put("label", label)
                 .put("increase", r.increase()).put("min", c == null ? 0 : c.getLong("min", 1)).put("max", c == null ? 0 : c.getLong("max", 10))
                 .put("rolls", r.rolls()).put("total", r.total()).put("extra", r.extra())
-                .put("spinMs", r.spinMs()).put("fever", plugin.fever().diamondFeverActive());
+                .put("spinMs", r.spinMs()).put("fever", r.mult() > 1).put("mult", r.mult());
         boolean rendered = plugin.ui().send(p, payload);
         if (!rendered) {
-            String extraTxt = r.extra() > 0 ? " &d(1+" + r.extra() + ")" : "";
+            String extraTxt = (r.mult() > 1 ? " &c(피버 x" + r.mult() + ")" : "") + (r.extra() > 0 ? " &d(1+" + r.extra() + ")" : "");
             p.sendMessage(Txt.color(Txt.notice("&e[룰렛] &f" + label + extraTxt + " &7돌아가는 중...")));
         }
         Inflight inf = new Inflight(r, job.reason());

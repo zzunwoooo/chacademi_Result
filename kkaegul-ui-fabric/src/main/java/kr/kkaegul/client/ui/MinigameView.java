@@ -96,8 +96,9 @@ public final class MinigameView {
         long left = -1, total = 1;
         if (wasdShow && !wasdDone) { total = wasdSec * 1000; left = Math.max(0, total - (now - wasdAt)); }
         else if (game != null && J.num(game, "seconds") > 0) { total = J.num(game, "seconds") * 1000; left = Math.max(0, total - (now - gameAt)); }
-        // 타이머: 오른쪽 위는 미니맵과 겹쳐서 화면 아래 가운데로 (WASD 판이 있으면 판 바로 아래)
-        if (left >= 0 && !res) timer(c, left, total, 890, wasdShow ? 630 : H / k - 330);
+        // 타이머: 오른쪽 위는 미니맵과 겹쳐서 화면 아래 가운데로. WASD 판이 있으면 판 위쪽(제목 리본과 화살표 사이)에 판보다 나중에 그림
+        boolean showTimer = left >= 0 && !res;
+        if (showTimer && !wasdShow) timer(c, left, total, 890.5f, H / k - 330);
 
         if (game != null && !res) {
             JsonObject partner = J.objOrEmpty(game, "partner");
@@ -108,6 +109,7 @@ public final class MinigameView {
             if (game.has("chests")) chests(c, game);
         }
         if (wasdShow && !res) keyPanel(c, now);
+        if (showTimer && wasdShow) timer(c, left, total, 890.5f, 236);   // 236~396: 리본(~220)과 화살표(416~) 사이
         if (fnd && !res) foundCard(c, now);
         if (res) resultView(c, now);
         c.pop();
@@ -128,6 +130,8 @@ public final class MinigameView {
         c.image(P + "b_timer_empty", x, y, 140, 160, 0xFFFFFFFF);
         float f = (float) left / Math.max(1, total);
         float cx = x + 69.5f, cy = y + 94, r = 63.5f;
+        // 링 안쪽을 채워서 뒤 배경(맵)이 비치지 않게 → 숫자가 잘 보임
+        c.fill(cx - r + 4, cy - r + 4, (r - 4) * 2, (r - 4) * 2, r - 4, 0xF2FFF8EE);
         // 색 링: 그림마다 링 크기가 달라서 바깥 반지름이 같아지게 맞춤 (px: 초록 r116 중심(140,159) / 주황·빨강 r135 중심(140,140), 280px 그림)
         String ring; float rr, ox, oy;
         if (f > .5f) { ring = "b_timer_green"; rr = 116; ox = 140; oy = 159; }

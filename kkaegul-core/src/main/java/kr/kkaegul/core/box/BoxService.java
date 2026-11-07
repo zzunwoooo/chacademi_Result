@@ -114,28 +114,31 @@ public final class BoxService {
         for (String k : ev.getKeys(false)) w.put(k, ev.getInt(k + ".weight", 1));
         String pick = Rng.weighted(w);
         if (pick == null) return;
-        String label = ev.getString(pick + ".label", pick);
         List<String> actions = ev.getStringList(pick + ".actions");
         String effect = ev.getString(pick + ".effect", "");
         int seconds = ev.getInt(pick + ".seconds", 60);
+        // 버프/디버프는 행운·효율 중 하나를 정해 모두에게 같은 걸 줌 → 공지에 무엇인지 적을 수 있게
+        String stat = Rng.chance(50) ? "fortune" : "efficiency";
+        String label = ev.getString(pick + ".label", pick);
+        if (effect.equals("buff") || effect.equals("debuff"))
+            label = (seconds % 60 == 0 ? seconds / 60 + "분" : Txt.duration(seconds)) + "간 " + (stat.equals("fortune") ? "행운" : "효율") + (effect.equals("buff") ? " +1" : " -1");
+        // 채팅: "ㅇㅇ님이 행운상자를 오픈!" 바로 밑에 효과
+        Bukkit.broadcastMessage(Txt.color("&f{e:system} &f└ 효과: &e" + label + " &7(모두에게 적용)"));
+        String shown = label;
+        Bukkit.getScheduler().runTaskLater(plugin, () -> {   // 상자 여는 연출이 끝난 뒤 가운데에 크게
+            for (Player p : Bukkit.getOnlinePlayers()) plugin.ui().taunt(p, "&6행운상자: &f" + shown, "&7모두에게 적용");
+        }, plugin.getConfig().getLong("boxes.lucky.notice-delay-ticks", 50));
         for (Player p : Bukkit.getOnlinePlayers()) {
-            plugin.ui().center(p, "&6행운상자 이벤트 &7(모두에게 적용)", "&f" + label);
             plugin.actions().runAll(p.getUniqueId(), actions, "행운상자 이벤트");
-            applyEffect(p, effect, seconds);
+            applyEffect(p, effect, stat, seconds);
         }
     }
 
     /** buff / debuff / fatigue / freeze */
-    private void applyEffect(Player p, String effect, int seconds) {
+    private void applyEffect(Player p, String effect, String stat, int seconds) {
         switch (effect) {
-            case "buff" -> {
-                String[] stats = {"fortune", "efficiency"};
-                plugin.npcs().fortune().addTempBonus(p, stats[Rng.range(0, 1)], +1, seconds);
-            }
-            case "debuff" -> {
-                String[] stats = {"fortune", "efficiency"};
-                plugin.npcs().fortune().addTempBonus(p, stats[Rng.range(0, 1)], -1, seconds);
-            }
+            case "buff" -> plugin.npcs().fortune().addTempBonus(p, stat, +1, seconds);
+            case "debuff" -> plugin.npcs().fortune().addTempBonus(p, stat, -1, seconds);
             case "fatigue" -> p.addPotionEffect(new PotionEffect(PotionEffectType.MINING_FATIGUE, seconds * 20, 1));
             case "freeze" -> plugin.harass().freeze(p, seconds);
             default -> { }
