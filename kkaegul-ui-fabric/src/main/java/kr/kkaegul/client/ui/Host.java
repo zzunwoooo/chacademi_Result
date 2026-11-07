@@ -10,4 +10,6 @@ public interface Host {
     void closePanel(Panel panel);
     /** 지금 열려 있는 창 (없으면 null) */
     Panel openPanel();
+    /** 클립보드에 복사 */
+    default void copy(String text) {}
 }

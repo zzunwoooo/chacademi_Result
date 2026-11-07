@@ -159,6 +159,8 @@ public final class KkaegulClient implements ClientModInitializer, Host {
         ClientPlayNetworking.send(Payloads.Action.of(o.toString()));
     }
 
+    @Override public void copy(String text) { mc.keyboard.setClipboard(text); }
+
     @Override public void sound(String id, float pitch, float volume) {
         try {
             mc.getSoundManager().play(PositionedSoundInstance.master(SoundEvent.of(Identifier.of(id)), pitch, volume));

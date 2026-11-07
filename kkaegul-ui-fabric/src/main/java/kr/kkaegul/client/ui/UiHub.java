@@ -18,6 +18,7 @@ public final class UiHub {
     public final MinigameView mini = new MinigameView();
     public final ExtraView extra = new ExtraView();
     private final HarassView harass = new HarassView();
+    private final BannerView banner = new BannerView();
     private final Host host;
     /** UUID → {name, title} 머리 위 이름표 */
     private volatile Map<String, String[]> names = Map.of();
@@ -48,6 +49,7 @@ public final class UiHub {
             case "center" -> notice.center(J.str(m, "text"), J.str(m, "sub"), J.num(m, "ms", 2500), now);
             case "toast" -> notice.toast(J.str(m, "text"), J.str(m, "kind"), now);
             case "roulette" -> roulette.add(m, now);
+            case "banner" -> banner.add(m, now);
             case "fx" -> fx(J.str(m, "id"), J.objOrEmpty(m, "data"), now);
             case "names" -> {
                 nameplate = m.has("nameplate") && m.get("nameplate").getAsBoolean();
@@ -82,6 +84,7 @@ public final class UiHub {
             case "mail" -> new MailPanel(host, data, now);
             case "withdraw" -> new WithdrawPanel(host, data, now);
             case "donation_board" -> new DonationBoardPanel(host, data, now);
+            case "discord_link" -> new DiscordLinkPanel(host, data, now);
             case "hud" -> { hud.set(data, now); yield null; }
             default -> null;
         };
@@ -168,6 +171,7 @@ public final class UiHub {
         harass.render(c, now, host);
         race.render(c, now, panelOpen);
         fx.render(c, now, host);
+        banner.render(c, now);
         notice.render(c, now);
         if (cursor && !panelOpen) hud.tooltip(c, mx, my);
     }

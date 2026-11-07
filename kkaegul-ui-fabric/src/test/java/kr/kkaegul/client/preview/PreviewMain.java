@@ -254,6 +254,12 @@ public final class PreviewMain {
         }
         DonationBoardPanel db = new DonationBoardPanel(HOST, J.parse("{\"total\":12345,\"rows\":[{\"rank\":1,\"name\":\"준우\",\"amount\":3200},{\"rank\":2,\"name\":\"깨굴이팬\",\"amount\":2100},{\"rank\":3,\"name\":\"Steve\",\"amount\":990},{\"rank\":4,\"name\":\"다이아부자\",\"amount\":500},{\"rank\":5,\"name\":\"Alex\",\"amount\":320},{\"rank\":6,\"name\":\"개구리\",\"amount\":100},{\"rank\":7,\"name\":\"뉴비\",\"amount\":12}]}"), T);
         shot(out, "65_donation_board.png", tex, c -> db.render(c, T + 1000, 0, 0));
+        UiHub bn = new UiHub(HOST);
+        bn.handle(J.parse("{\"type\":\"banner\",\"text\":\"준우님이 행운상자를 오픈!\",\"color\":\"gold\"}"), T);
+        bn.handle(J.parse("{\"type\":\"toast\",\"text\":\"&c이미 받았어요.\",\"kind\":\"error\"}"), T);
+        shot(out, "66_banner.png", tex, c -> bn.renderOverlay(c, T + 1500, false, 0, 0, false));
+        DiscordLinkPanel dl = new DiscordLinkPanel(HOST, J.parse("{\"code\":\"482915\",\"minutes\":10}"), T);
+        shot(out, "67_discord.png", tex, c -> dl.render(c, T + 1200, 960, 640));
         UiHub e4 = new UiHub(HOST);
         e4.handle(J.parse("{\"type\":\"fx\",\"id\":\"armor_roll\",\"data\":{\"tier\":\"iron\",\"name\":\"철 갑옷\",\"prefix\":\"IRON\",\"message\":\"&f그나마 사람이네\"}}"), T);
         shot(out, "57_armor_roll.png", tex, c -> e4.renderOverlay(c, T + 1500, false, 0, 0, false));

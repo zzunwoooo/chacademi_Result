@@ -104,13 +104,7 @@ public final class NoticeView {
         MenuPanel.box(c, x, y, W, h, 14, Anim.alpha(0xFF8A6A48, a), Anim.alpha(0xF2FFF7EA, a), 2);
         c.fill(x + 6, y + 8, 5, h - 16, 2.5f, Anim.alpha(acc, a));                  // 왼쪽 색 띠
         float face = h - 18;
-        if (k.kind.equals("error")) {
-            // 빨간 원 + 흰 느낌표
-            float r = face * .78f, cx0 = x + 18 + face / 2, cy0 = y + h / 2;
-            c.fill(cx0 - r / 2, cy0 - r / 2 + 2, r, r, r / 2, Anim.alpha(0x40000000, a));
-            c.fill(cx0 - r / 2, cy0 - r / 2, r, r, r / 2, Anim.alpha(0xFFE9584F, a));
-            c.text("!", cx0, cy0, r * .72f, Anim.alpha(Theme.WHITE, a), Canvas.CENTER, Canvas.BOLD);
-        } else c.imageFit("notice/face_" + k.kind, x + 18 + face / 2, y + h / 2, face, Anim.white(a));
+        c.imageFit("notice/face_" + k.kind, x + 18 + face / 2, y + h / 2, face, Anim.white(a));   // error = 땀 흘리는 깨굴이 (묶음 5)
         float tx = x + 26 + face, tw = W - (tx - x) - (k.count > 1 ? 50 : 14);
         if (k.sub.isBlank()) {
             c.textFit(k.text, tx, y + h / 2, 21, tw, Anim.alpha(Theme.INK, a), Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
