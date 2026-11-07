@@ -54,8 +54,8 @@ s['autoconnect'] = True
 
 mods = []
 for m in s['modules']:
-    if m['type'] == 'File' and m['id'] in ('options.txt', 'servers.dat'):
-        continue
+    if m['type'] == 'File' and m['id'] in ('options.txt', 'servers.dat', 'iris.properties', 'ComplementaryUnbound_r5.5.1.zip.txt'):
+        continue   # 우리 것으로 교체 (.zzunwoo 에서 쓰던 쉐이더 설정 그대로)
     mods.append(m)
 # 깨굴 UI 모드
 for fn in sorted(os.listdir(os.path.join(ROOT, 'mods'))):
@@ -64,9 +64,11 @@ for fn in sorted(os.listdir(os.path.join(ROOT, 'mods'))):
     mods.append({'id': f'kr.kkaegul:kkaegul-ui:{ver}@jar', 'name': '운빨깨굴랜드 UI', 'type': 'FabricMod',
                  'required': {'value': True}, 'artifact': artifact('mods/' + fn)})
 # 설정 파일: MD5 없음 = 없을 때만 깔고, 이미 있으면 유저 설정 유지
-for rel, path in (('files/options.txt', 'options.txt'), ('files/servers.dat', 'servers.dat')):
+for rel, path in (('files/options.txt', 'options.txt'), ('files/servers.dat', 'servers.dat'),
+                  ('files/config/iris.properties', 'config/iris.properties'),
+                  ('files/shaderpacks/ComplementaryUnbound_r5.5.1.zip.txt', 'shaderpacks/ComplementaryUnbound_r5.5.1.zip.txt')):
     a = artifact(rel, with_md5=False); a['path'] = path
-    mods.append({'id': path, 'name': path, 'type': 'File', 'artifact': a})
+    mods.append({'id': os.path.basename(path), 'name': os.path.basename(path), 'type': 'File', 'artifact': a})
 s['modules'] = mods
 json.dump(d, open(os.path.join(ROOT, 'distribution.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
 print('ok', s['address'], len(mods), 'modules')

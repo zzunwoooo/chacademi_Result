@@ -240,16 +240,6 @@
           }
         },
         {
-          "id": "iris.properties",
-          "name": "iris.properties",
-          "type": "File",
-          "artifact": {
-            "size": 312,
-            "url": "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/files/config/iris.properties",
-            "path": "config/iris.properties"
-          }
-        },
-        {
           "id": "ComplementaryUnbound_r5.5.1.zip",
           "name": "ComplementaryUnbound_r5.5.1.zip",
           "type": "File",
@@ -258,16 +248,6 @@
             "url": "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/files/shaderpacks/ComplementaryUnbound_r5.5.1.zip",
             "MD5": "576ef06da170458879f3a03e685d487a",
             "path": "shaderpacks/ComplementaryUnbound_r5.5.1.zip"
-          }
-        },
-        {
-          "id": "ComplementaryUnbound_r5.5.1.zip.txt",
-          "name": "ComplementaryUnbound_r5.5.1.zip.txt",
-          "type": "File",
-          "artifact": {
-            "size": 262,
-            "url": "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/files/shaderpacks/ComplementaryUnbound_r5.5.1.zip.txt",
-            "path": "shaderpacks/ComplementaryUnbound_r5.5.1.zip.txt"
           }
         },
         {
@@ -288,7 +268,7 @@
           "name": "options.txt",
           "type": "File",
           "artifact": {
-            "size": 5164,
+            "size": 5174,
             "url": "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/kkaegul-launcher-distro/files/options.txt",
             "path": "options.txt"
           }
@@ -301,6 +281,26 @@
             "size": 91,
             "url": "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/kkaegul-launcher-distro/files/servers.dat",
             "path": "servers.dat"
+          }
+        },
+        {
+          "id": "iris.properties",
+          "name": "iris.properties",
+          "type": "File",
+          "artifact": {
+            "size": 313,
+            "url": "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/kkaegul-launcher-distro/files/config/iris.properties",
+            "path": "config/iris.properties"
+          }
+        },
+        {
+          "id": "ComplementaryUnbound_r5.5.1.zip.txt",
+          "name": "ComplementaryUnbound_r5.5.1.zip.txt",
+          "type": "File",
+          "artifact": {
+            "size": 278,
+            "url": "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/kkaegul-launcher-distro/files/shaderpacks/ComplementaryUnbound_r5.5.1.zip.txt",
+            "path": "shaderpacks/ComplementaryUnbound_r5.5.1.zip.txt"
           }
         }
       ]
