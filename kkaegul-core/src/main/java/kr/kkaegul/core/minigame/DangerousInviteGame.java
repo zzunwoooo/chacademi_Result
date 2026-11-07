@@ -170,7 +170,7 @@ public final class DangerousInviteGame extends Minigame {
             seat.addPassenger(p);
             seats.add(seat);
             seated.add(p.getUniqueId());
-            plugin.ui().fx(p, "invite_letter", Json.obj().put("title", "깨굴이의 위험한 초대").put("to", plugin.displayName(p)).put("place", "위험한 의자"));
+            // 초대장은 MinigameManager 가 초대할 때 이미 보냄 (여기서 또 보내면 2번 뜸)
         }
         int len = cfgInt("length", 7), sec = cfgInt("seconds", 7);
         waitPhase(cfgInt("wait-seconds", 30), "위험한 초대 시작", () -> {

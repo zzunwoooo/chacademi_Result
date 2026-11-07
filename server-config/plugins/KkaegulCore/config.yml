@@ -187,9 +187,9 @@ boxes:
       pouch:     { weight: 15, label: "깨굴코인 주머니 5개", action: "item coin_pouch 5" }
       user_tp:   { weight: 12, label: "텔레포트권 4~8개", action: "item teleport_ticket 4-8" }
       return:    { weight: 12, label: "귀환권 4~8개", action: "item return_ticket 4-8" }
-      protect:   { weight: 10, label: "가챠 파괴 방지권", action: "item gacha_protect 1" }
-      gauge:     { weight: 10, label: "게이지 변동권", action: "item gauge_ticket 1" }
-      farm:      { weight: 8,  label: "농사 금액 변동권", action: "item farm_ticket 1" }
+      protect:   { weight: 10, label: "가챠 파괴 방지권 3개", action: "item gacha_protect 3" }   # ★ 한 번에 3개 (11/08 의뢰인)
+      gauge:     { weight: 10, label: "게이지 변동권 3개", action: "item gauge_ticket 3" }
+      farm:      { weight: 8,  label: "농사 금액 변동권 3개", action: "item farm_ticket 3" }
       mine:      { weight: 8,  label: "보물광산 이동권", action: "item treasure_ticket 1" }
       lucky:     { weight: 5,  label: "행운상자", action: "box lucky 1", rare: true }
       shulker:   { weight: 2,  label: "셜커상자", action: "item SHULKER_BOX 1", rare: true }

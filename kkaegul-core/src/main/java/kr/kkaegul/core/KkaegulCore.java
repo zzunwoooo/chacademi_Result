@@ -79,6 +79,7 @@ public final class KkaegulCore extends JavaPlugin {
     private GachaService gacha;
     private NpcService npcs;
     private PlaytimeService rewards;
+    private kr.kkaegul.core.reward.CouponService coupons;
     private TitleService titles;
     private RankingService ranking;
     private MineService mine;
@@ -123,6 +124,7 @@ public final class KkaegulCore extends JavaPlugin {
         gacha = new GachaService(this);
         npcs = new NpcService(this);
         rewards = new PlaytimeService(this);
+        coupons = new kr.kkaegul.core.reward.CouponService(this);
         ranking = new RankingService(this);
         mine = new MineService(this);
         // 미니게임 월드 불러오기 (서버 폴더에 넣어둔 월드 폴더 이름)
@@ -273,6 +275,7 @@ public final class KkaegulCore extends JavaPlugin {
     public GachaService gacha() { return gacha; }
     public NpcService npcs() { return npcs; }
     public PlaytimeService rewards() { return rewards; }
+    public kr.kkaegul.core.reward.CouponService coupons() { return coupons; }
     public TitleService titles() { return titles; }
     public RankingService ranking() { return ranking; }
     public MineService mine() { return mine; }

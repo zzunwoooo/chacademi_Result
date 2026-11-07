@@ -30,7 +30,7 @@ public final class Commands implements CommandExecutor, TabCompleter {
         this.plugin = plugin;
         this.actions = actions;
         for (String c : List.of("kg", "kapi", "ksapi", "mailbox", "submit", "randomsubmit", "sell", "buycoin", "farmprice",
-                "gacha", "fortune", "wild", "jailexit", "title", "hall", "playtime", "trash", "me", "usertp", "gauge", "profile", "withdraw", "deposit", "nickname", "frogjump", "frograce", "poker", "seotda", "discordlink", "kgnotice", "kgwhisper", "kgreply", "kghelp", "kgaccept", "kgtp", "kgsummon")) {
+                "gacha", "fortune", "wild", "jailexit", "title", "hall", "playtime", "trash", "me", "usertp", "gauge", "profile", "withdraw", "deposit", "nickname", "frogjump", "frograce", "poker", "seotda", "discordlink", "kgnotice", "kgwhisper", "kgreply", "kghelp", "kgaccept", "kgtp", "kgsummon", "coupon", "couponadmin")) {
             PluginCommand pc = plugin.getCommand(c);
             if (pc == null) { plugin.getLogger().warning("plugin.yml 에 명령어 없음: " + c); continue; }
             pc.setExecutor(this);
@@ -74,6 +74,8 @@ public final class Commands implements CommandExecutor, TabCompleter {
     // ───────── 플레이어 명령 ─────────
     private void player(Player p, String name, String[] a) {
         switch (name) {
+            case "coupon" -> plugin.coupons().use(p, a.length > 0 ? a[0] : "");
+            case "couponadmin" -> plugin.coupons().admin(p, a);
             case "kgtp", "kgsummon" -> {
                 boolean summon = name.equals("kgsummon");
                 if (a.length < 1) { plugin.ui().error(p, summon ? "&c/소환 <닉네임>" : "&c/텔포 <닉네임>"); return; }
@@ -640,6 +642,7 @@ public final class Commands implements CommandExecutor, TabCompleter {
             case "kapi" -> { if (i == 1) out.addAll(players()); }
             case "kgwhisper" -> { if (i == 1) out.addAll(players()); }
             case "usertp", "kgtp", "kgsummon" -> { if (i == 1) out.addAll(players()); }
+            case "couponadmin" -> { if (i == 1) out.addAll(List.of("만들기", "편집", "목록", "삭제")); else if (i == 2 && !a[0].equals("만들기")) out.addAll(plugin.coupons().names()); }
             case "gacha" -> { if (i == 1) out.addAll(List.of("1", "2", "3")); else if (i == 2) out.add("돌리기"); }
             case "mailbox" -> { if (i == 1) out.add("목록"); }
             case "submit" -> { if (i == 1) out.addAll(List.of("10", "64", "전부", "랭킹")); }
