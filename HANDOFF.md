@@ -69,6 +69,15 @@
 
 ## 2. 빌드 · 배포
 
+### 2-0. CI (이 브랜치)
+- `claude/kkaegul-land`에 푸시하면 `.github/workflows/kkaegul-land.yml`이 **플러그인과 모드를 둘 다 빌드**해요.
+- 결과물 `KkaegulCore-0.1.0.jar`와 `kkaegul-ui-0.1.0+mc1.21.4.jar`는 **`claude/kkaegul-land-build`** 브랜치에 올라가요. 11/08 00:04에 빌드가 성공하는 것까지 확인했어요.
+- 앞으로는 **이 브랜치 하나에서 작업하는 걸 권장해요.** 예전 모드 브랜치 `claude/kkaegul-ui-20261105`는 지금 내용이 이 브랜치와 같아요(630cda8 기준). 둘 중 한쪽만 고치면 서로 달라지니 주의해요.
+- 빌드 확인:
+  ```
+  gh api "repos/zzunwoooo/chacademi_Result/actions/runs?branch=claude/kkaegul-land&per_page=1"
+  ```
+
 ### 2-1. 서버 플러그인 (KkaegulCore)
 - **인터넷이 될 때:** `cd kkaegul-core && gradle build`. 결과는 `build/libs/KkaegulCore-0.1.0.jar`예요.
 - **오프라인/샌드박스:** `./build-offline.sh`. `stubs/src`의 손으로 쓴 Paper API 스텁으로 컴파일해요.
@@ -80,7 +89,7 @@
   - 설정만 바뀐 경우: `/깨굴 리로드`. jar가 바뀐 경우: 서버 재시작.
 
 ### 2-2. 클라이언트 UI 모드 (kkaegul-ui)
-1. `claude/kkaegul-ui-20261105` 브랜치의 `kkaegul-ui-fabric/` 폴더를 고쳐서 푸시해요. CI(`.github/workflows/kkaegul-ui.yml`)가 빌드해서 `claude/kkaegul-ui-build`에 jar를 올려요.
+1. 이 브랜치의 `kkaegul-ui-fabric/` 폴더를 고쳐서 푸시하면, jar가 `claude/kkaegul-land-build`에 올라가요. 예전 방식은 `claude/kkaegul-ui-20261105` 브랜치에 푸시하는 것이었고, 그때는 jar가 `claude/kkaegul-ui-build`에 올라갔어요.
 2. 빌드 확인:
    ```
    gh api "repos/zzunwoooo/chacademi_Result/actions/runs?branch=claude/kkaegul-ui-20261105&per_page=1"
