@@ -1,0 +1,2 @@
+package org.bukkit.entity;
+public interface Display extends Entity { void setBillboard(Billboard b); enum Billboard { FIXED, VERTICAL, HORIZONTAL, CENTER } void setTransformation(org.bukkit.util.Transformation t); org.bukkit.util.Transformation getTransformation(); void setInterpolationDuration(int t); void setInterpolationDelay(int t); void setTeleportDuration(int t); void setViewRange(float r); void setShadowRadius(float r); }

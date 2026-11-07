@@ -1,0 +1,128 @@
+name: KkaegulCore
+version: 0.1.0
+main: kr.kkaegul.core.KkaegulCore
+api-version: "1.21"
+description: 깨굴이의 위험한 초대 - 운빨깨굴랜드 코어
+authors: [junwoo]
+softdepend: [donation, PlaceholderAPI, ModelEngine, Multiverse-Core]
+
+commands:
+  kg:
+    description: 운빨깨굴랜드 관리자 명령
+    permission: kkaegul.admin
+    aliases: [깨굴]
+  kapi:
+    description: 개인 API 실행 (/kapi <플레이어> <번호>)
+    permission: kkaegul.admin
+    aliases: [개인api]
+  ksapi:
+    description: 섭주 API 실행 (/ksapi <번호>)
+    permission: kkaegul.admin
+    aliases: [섭주api]
+  mailbox:
+    description: 우편함 받기
+    aliases: [우편함]
+  submit:
+    description: 다이아 일반 제출
+    aliases: [제출]
+  randomsubmit:
+    description: 다이아 랜덤 제출
+    aliases: [랜덤제출]
+  sell:
+    description: 광물/작물 판매 (/판매 [손])
+    aliases: [판매]
+  buycoin:
+    description: 깨굴코인 구매 (/코인구매 <개수>)
+    aliases: [코인구매]
+  frogjump:
+    description: 개구리 점프 (시작 <다이아> / 점프 / 그만)
+    aliases: [점프, 개구리점프]
+  frograce:
+    description: 개구리 경주 (걸기 <번호> <다이아>)
+    aliases: [경주, 개구리경주]
+  poker:
+    description: 참가 중인 포커 테이블 창 다시 열기
+    aliases: [포커, 홀덤]
+  seotda:
+    description: 참가 중인 섯다 테이블 창 다시 열기
+    aliases: [섯다]
+  kgnotice:
+    description: 전체 공지 (/공지 <할 말>)
+    permission: kkaegul.admin
+    aliases: [공지]
+  kgwhisper:
+    description: 귓속말 (/귓 <닉네임> <할 말>)
+    aliases: [귓, 귓속말]
+  kgreply:
+    description: 마지막 귓속말 상대에게 답장 (/답 <할 말>)
+    aliases: [답]
+  kghelp:
+    description: 운영자에게 도움 요청 (/도움 <할 말>)
+    aliases: [도움]
+  kgaccept:
+    description: 받은 미니게임 초대장 수락
+    aliases: [수락]
+  discordlink:
+    description: 디스코드 계정 연동 코드 받기 (미니게임 음성 채널 자동 이동)
+    aliases: [디코연동, 디스코드연동]
+  farmprice:
+    description: 작물 시세 보기
+    aliases: [시세]
+  gacha:
+    description: 곡괭이 가챠 (/가챠 <1|2|3>)
+    aliases: [가챠]
+  fortune:
+    description: 오늘의 운세
+    aliases: [운세]
+  wild:
+    description: 야생 입장 (/야생 [랜덤])
+    aliases: [야생]
+  jailexit:
+    description: 깜빵 출구 (/깜빵 <로비|복귀|게임>)
+    aliases: [깜빵]
+  title:
+    description: 칭호 보기/선택
+    aliases: [칭호]
+  hall:
+    description: 명예의 전당
+    aliases: [명예의전당, 랭킹]
+  playtime:
+    description: 접속 보상 (/접속보상 [받기|교환])
+    aliases: [접속보상]
+  trash:
+    description: 쓰레기통
+    aliases: [쓰레기통]
+  me:
+    description: 내 정보
+    aliases: [내정보]
+  usertp:
+    description: 유저 텔포권 사용
+    aliases: [유저텔포]
+  gauge:
+    description: 게이지 변동권 사용 (/게이지 <위|아래>)
+    aliases: [게이지]
+  nickname:
+    description: 닉네임 설정창 열기
+    aliases: [닉네임, 닉변]
+  profile:
+    description: 프로필 설정
+    aliases: [프로필]
+  withdraw:
+    description: 보유 다이아 인출 (/인출 [개수])
+    aliases: [인출]
+  deposit:
+    description: 인벤토리 다이아를 보유 다이아로 입금
+    aliases: [입금]
+
+permissions:
+  kkaegul.admin:
+    default: op
+  kkaegul.admin.bypass:
+    description: 스타트 NPC 1회 제한 무시 (테스트용)
+    default: false
+  kkaegul.minigame.exempt:
+    description: 미니게임 강제 초대에서 제외 (운영진용)
+    default: false
+  kkaegul.land.bypass:
+    description: 남의 땅에서도 블록을 만질 수 있음
+    default: op

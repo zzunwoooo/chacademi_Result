@@ -1,0 +1,10 @@
+{
+  "token": "디스코드-개발자-포털에서-받은-봇-토큰",
+  "guildId": "디스코드 서버 ID",
+  "categoryId": "테이블 음성 채널을 만들 카테고리 ID (비우면 카테고리 없이)",
+  "port": 8787,
+  "secret": "KkaegulCore config.yml 의 discord.secret 과 같은 값",
+  "channelPrefix": "🐸",
+  "returnToOrigin": true,
+  "botName": "운빨깨굴랜드"
+}

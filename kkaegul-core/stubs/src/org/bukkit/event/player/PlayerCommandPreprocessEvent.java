@@ -1,0 +1,2 @@
+package org.bukkit.event.player;
+public class PlayerCommandPreprocessEvent extends PlayerEvent implements org.bukkit.event.Cancellable { public String getMessage(){return null;} public void setMessage(String m){} public boolean isCancelled(){return false;} public void setCancelled(boolean c){} }

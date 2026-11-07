@@ -1,0 +1,2885 @@
+{
+ "ui": {
+  "hud/currency_frame": {
+   "path": "kkaegul:textures/ui/hud/currency_frame.png",
+   "size": [
+    1024,
+    120
+   ],
+   "source": "assets2/z3/hud/assets/currency_frame.png",
+   "crop": [
+    75,
+    224,
+    2100,
+    461
+   ],
+   "scale": 0.50568
+  },
+  "hud/diamond": {
+   "path": "kkaegul:textures/ui/hud/diamond.png",
+   "size": [
+    512,
+    425
+   ],
+   "source": "assets2/z3/hud/assets/diamond.png",
+   "crop": [
+    418,
+    244,
+    1116,
+    824
+   ],
+   "scale": 0.73352
+  },
+  "hud/expand_arrow": {
+   "path": "kkaegul:textures/ui/hud/expand_arrow.png",
+   "size": [
+    335,
+    192
+   ],
+   "source": "assets2/z3/hud/assets/expand_arrow.png",
+   "crop": [
+    600,
+    439,
+    935,
+    631
+   ],
+   "scale": 1.0
+  },
+  "hud/fever": {
+   "path": "kkaegul:textures/ui/hud/fever.png",
+   "size": [
+    455,
+    512
+   ],
+   "source": "assets2/z3/hud/assets/fever.png",
+   "crop": [
+    508,
+    236,
+    1020,
+    812
+   ],
+   "scale": 0.88889
+  },
+  "hud/frog_coin": {
+   "path": "kkaegul:textures/ui/hud/frog_coin.png",
+   "size": [
+    498,
+    512
+   ],
+   "source": "assets2/z3/hud/assets/frog_coin.png",
+   "crop": [
+    401,
+    132,
+    1119,
+    870
+   ],
+   "scale": 0.69377
+  },
+  "hud/frog_neutral": {
+   "path": "kkaegul:textures/ui/hud/frog_neutral.png",
+   "size": [
+    450,
+    512
+   ],
+   "source": "assets2/z3/hud/assets/frog_neutral.png",
+   "crop": [
+    255,
+    237,
+    993,
+    1076
+   ],
+   "scale": 0.61025
+  },
+  "hud/frog_sad": {
+   "path": "kkaegul:textures/ui/hud/frog_sad.png",
+   "size": [
+    450,
+    512
+   ],
+   "source": "assets2/z3/hud/assets/frog_sad.png",
+   "crop": [
+    254,
+    236,
+    993,
+    1077
+   ],
+   "scale": 0.6088
+  },
+  "hud/frog_smile": {
+   "path": "kkaegul:textures/ui/hud/frog_smile.png",
+   "size": [
+    450,
+    512
+   ],
+   "source": "assets2/z3/hud/assets/frog_smile.png",
+   "crop": [
+    253,
+    236,
+    993,
+    1078
+   ],
+   "scale": 0.60808
+  },
+  "hud/frog_yay": {
+   "path": "kkaegul:textures/ui/hud/frog_yay.png",
+   "size": [
+    457,
+    512
+   ],
+   "source": "assets2/z3/hud/assets/frog_yay.png",
+   "crop": [
+    251,
+    236,
+    1001,
+    1077
+   ],
+   "scale": 0.6088
+  },
+  "hud/gauge_fill_jackpot": {
+   "path": "kkaegul:textures/ui/hud/gauge_fill_jackpot.png",
+   "size": [
+    1024,
+    92
+   ],
+   "source": "assets2/z3/hud/assets/gauge_fill_jackpot.png",
+   "crop": [
+    104,
+    278,
+    2068,
+    454
+   ],
+   "scale": 0.52138
+  },
+  "hud/gauge_frame": {
+   "path": "kkaegul:textures/ui/hud/gauge_frame.png",
+   "size": [
+    1024,
+    177
+   ],
+   "source": "assets2/z3/hud/assets/gauge_frame.png",
+   "crop": [
+    118,
+    162,
+    2053,
+    496
+   ],
+   "scale": 0.5292
+  },
+  "hud/prison_bars": {
+   "path": "kkaegul:textures/ui/hud/prison_bars.png",
+   "size": [
+    723,
+    632
+   ],
+   "source": "assets2/z3/hud/assets/prison_bars.png",
+   "crop": [
+    407,
+    199,
+    1130,
+    831
+   ],
+   "scale": 1.0
+  },
+  "hud/protection_shield": {
+   "path": "kkaegul:textures/ui/hud/protection_shield.png",
+   "size": [
+    452,
+    512
+   ],
+   "source": "assets2/z3/hud/assets/protection_shield.png",
+   "crop": [
+    458,
+    160,
+    1076,
+    860
+   ],
+   "scale": 0.73143
+  },
+  "hud/target_reticle": {
+   "path": "kkaegul:textures/ui/hud/target_reticle.png",
+   "size": [
+    512,
+    489
+   ],
+   "source": "assets2/z3/hud/assets/target_reticle.png",
+   "crop": [
+    395,
+    157,
+    1140,
+    869
+   ],
+   "scale": 0.68725
+  },
+  "notice/banner_failure": {
+   "path": "kkaegul:textures/ui/notice/banner_failure.png",
+   "size": [
+    1024,
+    236
+   ],
+   "source": "assets/kkaegulland_soft_ui_1_notices/kkaegulland_soft_ui/notices/banner_failure.png",
+   "crop": [
+    90,
+    107,
+    2083,
+    566
+   ],
+   "scale": 0.5138
+  },
+  "notice/banner_jackpot": {
+   "path": "kkaegul:textures/ui/notice/banner_jackpot.png",
+   "size": [
+    1024,
+    234
+   ],
+   "source": "assets/kkaegulland_soft_ui_1_notices/kkaegulland_soft_ui/notices/banner_jackpot.png",
+   "crop": [
+    91,
+    107,
+    2091,
+    565
+   ],
+   "scale": 0.512
+  },
+  "notice/banner_neutral": {
+   "path": "kkaegul:textures/ui/notice/banner_neutral.png",
+   "size": [
+    1024,
+    233
+   ],
+   "source": "assets/kkaegulland_soft_ui_1_notices/kkaegulland_soft_ui/notices/banner_neutral.png",
+   "crop": [
+    91,
+    111,
+    2109,
+    571
+   ],
+   "scale": 0.50743
+  },
+  "notice/banner_success": {
+   "path": "kkaegul:textures/ui/notice/banner_success.png",
+   "size": [
+    1024,
+    242
+   ],
+   "source": "assets/kkaegulland_soft_ui_1_notices/kkaegulland_soft_ui/notices/banner_success.png",
+   "crop": [
+    87,
+    108,
+    2083,
+    579
+   ],
+   "scale": 0.51303
+  },
+  "notice/face_failure": {
+   "path": "kkaegul:textures/ui/notice/face_failure.png",
+   "size": [
+    512,
+    396
+   ],
+   "source": "assets/kkaegulland_soft_ui_1_notices/kkaegulland_soft_ui/notices/face_failure.png",
+   "crop": [
+    349,
+    214,
+    1176,
+    854
+   ],
+   "scale": 0.61911
+  },
+  "notice/face_jackpot": {
+   "path": "kkaegul:textures/ui/notice/face_jackpot.png",
+   "size": [
+    512,
+    423
+   ],
+   "source": "assets/kkaegulland_soft_ui_1_notices/kkaegulland_soft_ui/notices/face_jackpot.png",
+   "crop": [
+    414,
+    233,
+    1112,
+    810
+   ],
+   "scale": 0.73352
+  },
+  "notice/face_neutral": {
+   "path": "kkaegul:textures/ui/notice/face_neutral.png",
+   "size": [
+    512,
+    419
+   ],
+   "source": "assets/kkaegulland_soft_ui_1_notices/kkaegulland_soft_ui/notices/face_neutral.png",
+   "crop": [
+    65,
+    60,
+    1331,
+    1096
+   ],
+   "scale": 0.40442
+  },
+  "notice/face_success": {
+   "path": "kkaegul:textures/ui/notice/face_success.png",
+   "size": [
+    512,
+    383
+   ],
+   "source": "assets/kkaegulland_soft_ui_1_notices/kkaegulland_soft_ui/notices/face_success.png",
+   "crop": [
+    357,
+    234,
+    1177,
+    848
+   ],
+   "scale": 0.62439
+  },
+  "notice/toast_cream": {
+   "path": "kkaegul:textures/ui/notice/toast_cream.png",
+   "size": [
+    1024,
+    160
+   ],
+   "source": "assets/kkaegulland_soft_ui_1_notices/kkaegulland_soft_ui/notices/toast_cream.png",
+   "crop": [
+    97,
+    209,
+    2075,
+    518
+   ],
+   "scale": 0.51769
+  },
+  "roulette/badge_basic": {
+   "path": "kkaegul:textures/ui/roulette/badge_basic.png",
+   "size": [
+    508,
+    512
+   ],
+   "source": "assets/kkaegulland_soft_ui_2_roulette/kkaegulland_soft_ui/roulette/badge_basic.png",
+   "crop": [
+    169,
+    175,
+    1078,
+    1091
+   ],
+   "scale": 0.55895
+  },
+  "roulette/badge_fancy": {
+   "path": "kkaegul:textures/ui/roulette/badge_fancy.png",
+   "size": [
+    510,
+    512
+   ],
+   "source": "assets/kkaegulland_soft_ui_2_roulette/kkaegulland_soft_ui/roulette/badge_fancy.png",
+   "crop": [
+    67,
+    53,
+    1173,
+    1163
+   ],
+   "scale": 0.46126
+  },
+  "roulette/body_big_decrease": {
+   "path": "kkaegul:textures/ui/roulette/body_big_decrease.png",
+   "size": [
+    1024,
+    541
+   ],
+   "source": "assets/kkaegulland_soft_ui_2_roulette/kkaegulland_soft_ui/roulette/body_big_decrease.png",
+   "crop": [
+    198,
+    74,
+    1576,
+    802
+   ],
+   "scale": 0.74311
+  },
+  "roulette/body_big_increase": {
+   "path": "kkaegul:textures/ui/roulette/body_big_increase.png",
+   "size": [
+    1024,
+    545
+   ],
+   "source": "assets/kkaegulland_soft_ui_2_roulette/kkaegulland_soft_ui/roulette/body_big_increase.png",
+   "crop": [
+    220,
+    93,
+    1532,
+    791
+   ],
+   "scale": 0.78049
+  },
+  "roulette/body_decrease": {
+   "path": "kkaegul:textures/ui/roulette/body_decrease.png",
+   "size": [
+    1024,
+    615
+   ],
+   "source": "assets/kkaegulland_soft_ui_2_roulette/kkaegulland_soft_ui/roulette/body_decrease.png",
+   "crop": [
+    284,
+    71,
+    1490,
+    795
+   ],
+   "scale": 0.84909
+  },
+  "roulette/body_increase": {
+   "path": "kkaegul:textures/ui/roulette/body_increase.png",
+   "size": [
+    1024,
+    537
+   ],
+   "source": "assets/kkaegulland_soft_ui_2_roulette/kkaegulland_soft_ui/roulette/body_increase.png",
+   "crop": [
+    249,
+    99,
+    1525,
+    768
+   ],
+   "scale": 0.80251
+  },
+  "roulette/fever_frame": {
+   "path": "kkaegul:textures/ui/roulette/fever_frame.png",
+   "size": [
+    1024,
+    200
+   ],
+   "source": "assets/kkaegulland_soft_ui_2_roulette/kkaegulland_soft_ui/roulette/fever_frame.png",
+   "crop": [
+    135,
+    176,
+    2036,
+    547
+   ],
+   "scale": 0.53866
+  },
+  "roulette/frog_big_decrease": {
+   "path": "kkaegul:textures/ui/roulette/frog_big_decrease.png",
+   "size": [
+    512,
+    371
+   ],
+   "source": "assets/kkaegulland_soft_ui_2_roulette/kkaegulland_soft_ui/roulette/frog_big_decrease.png",
+   "crop": [
+    248,
+    144,
+    1287,
+    897
+   ],
+   "scale": 0.49278
+  },
+  "roulette/frog_big_increase": {
+   "path": "kkaegul:textures/ui/roulette/frog_big_increase.png",
+   "size": [
+    494,
+    512
+   ],
+   "source": "assets/kkaegulland_soft_ui_2_roulette/kkaegulland_soft_ui/roulette/frog_big_increase.png",
+   "crop": [
+    249,
+    185,
+    1045,
+    1010
+   ],
+   "scale": 0.62061
+  },
+  "roulette/frog_decrease": {
+   "path": "kkaegul:textures/ui/roulette/frog_decrease.png",
+   "size": [
+    473,
+    512
+   ],
+   "source": "assets/kkaegulland_soft_ui_2_roulette/kkaegulland_soft_ui/roulette/frog_decrease.png",
+   "crop": [
+    246,
+    164,
+    1060,
+    1045
+   ],
+   "scale": 0.58116
+  },
+  "roulette/frog_increase": {
+   "path": "kkaegul:textures/ui/roulette/frog_increase.png",
+   "size": [
+    512,
+    465
+   ],
+   "source": "assets/kkaegulland_soft_ui_2_roulette/kkaegulland_soft_ui/roulette/frog_increase.png",
+   "crop": [
+    359,
+    158,
+    1173,
+    897
+   ],
+   "scale": 0.62899
+  },
+  "roulette/lever": {
+   "path": "kkaegul:textures/ui/roulette/lever.png",
+   "size": [
+    219,
+    512
+   ],
+   "source": "assets/kkaegulland_soft_ui_2_roulette/kkaegulland_soft_ui/roulette/lever.png",
+   "crop": [
+    300,
+    288,
+    715,
+    1260
+   ],
+   "scale": 0.52675
+  },
+  "roulette/reel_background": {
+   "path": "kkaegul:textures/ui/roulette/reel_background.png",
+   "size": [
+    239,
+    512
+   ],
+   "source": "assets/kkaegulland_soft_ui_2_roulette/kkaegulland_soft_ui/roulette/reel_background.png",
+   "crop": [
+    221,
+    150,
+    803,
+    1395
+   ],
+   "scale": 0.41124
+  },
+  "roulette/result_highlight": {
+   "path": "kkaegul:textures/ui/roulette/result_highlight.png",
+   "size": [
+    1024,
+    87
+   ],
+   "source": "assets/kkaegulland_soft_ui_2_roulette/kkaegulland_soft_ui/roulette/result_highlight.png",
+   "crop": [
+    76,
+    277,
+    2096,
+    448
+   ],
+   "scale": 0.50693
+  },
+  "gacha/body_charcoal_gold": {
+   "path": "kkaegul:textures/ui/gacha/body_charcoal_gold.png",
+   "size": [
+    1024,
+    860
+   ],
+   "source": "assets/kkaegulland_soft_ui_3_gacha/kkaegulland_soft_ui/gacha/body_charcoal_gold.png",
+   "crop": [
+    248,
+    70,
+    1287,
+    928
+   ],
+   "scale": 0.98556,
+   "edited": "여기서 보정함 (원본 geometry 좌표 그대로 쓰지 말 것)"
+  },
+  "gacha/body_green": {
+   "path": "kkaegul:textures/ui/gacha/body_green.png",
+   "size": [
+    1024,
+    860
+   ],
+   "source": "assets/kkaegulland_soft_ui_3_gacha/kkaegulland_soft_ui/gacha/body_green.png",
+   "crop": [
+    105,
+    48,
+    1294,
+    1046
+   ],
+   "scale": 0.86123,
+   "edited": "여기서 보정함 (원본 geometry 좌표 그대로 쓰지 말 것)"
+  },
+  "gacha/body_purple": {
+   "path": "kkaegul:textures/ui/gacha/body_purple.png",
+   "size": [
+    1024,
+    860
+   ],
+   "source": "assets/kkaegulland_soft_ui_3_gacha/kkaegulland_soft_ui/gacha/body_purple.png",
+   "crop": [
+    243,
+    70,
+    1291,
+    933
+   ],
+   "scale": 0.9771,
+   "edited": "여기서 보정함 (원본 geometry 좌표 그대로 쓰지 말 것)"
+  },
+  "gacha/confetti_blue": {
+   "path": "kkaegul:textures/ui/gacha/confetti_blue.png",
+   "size": [
+    358,
+    358
+   ],
+   "source": "assets/kkaegulland_soft_ui_3_gacha/kkaegulland_soft_ui/gacha/confetti_blue.png",
+   "crop": [
+    590,
+    336,
+    948,
+    694
+   ],
+   "scale": 1.0
+  },
+  "gacha/confetti_diamond": {
+   "path": "kkaegul:textures/ui/gacha/confetti_diamond.png",
+   "size": [
+    394,
+    398
+   ],
+   "source": "assets/kkaegulland_soft_ui_3_gacha/kkaegulland_soft_ui/gacha/confetti_diamond.png",
+   "crop": [
+    571,
+    312,
+    965,
+    710
+   ],
+   "scale": 1.0
+  },
+  "gacha/confetti_green": {
+   "path": "kkaegul:textures/ui/gacha/confetti_green.png",
+   "size": [
+    418,
+    327
+   ],
+   "source": "assets/kkaegulland_soft_ui_3_gacha/kkaegulland_soft_ui/gacha/confetti_green.png",
+   "crop": [
+    559,
+    346,
+    977,
+    673
+   ],
+   "scale": 1.0
+  },
+  "gacha/confetti_purple": {
+   "path": "kkaegul:textures/ui/gacha/confetti_purple.png",
+   "size": [
+    387,
+    294
+   ],
+   "source": "assets/kkaegulland_soft_ui_3_gacha/kkaegulland_soft_ui/gacha/confetti_purple.png",
+   "crop": [
+    568,
+    365,
+    955,
+    659
+   ],
+   "scale": 1.0
+  },
+  "gacha/confetti_red": {
+   "path": "kkaegul:textures/ui/gacha/confetti_red.png",
+   "size": [
+    447,
+    341
+   ],
+   "source": "assets/kkaegulland_soft_ui_3_gacha/kkaegulland_soft_ui/gacha/confetti_red.png",
+   "crop": [
+    539,
+    340,
+    986,
+    681
+   ],
+   "scale": 1.0
+  },
+  "gacha/confetti_star": {
+   "path": "kkaegul:textures/ui/gacha/confetti_star.png",
+   "size": [
+    412,
+    380
+   ],
+   "source": "assets/kkaegulland_soft_ui_3_gacha/kkaegulland_soft_ui/gacha/confetti_star.png",
+   "crop": [
+    562,
+    315,
+    974,
+    695
+   ],
+   "scale": 1.0
+  },
+  "gacha/frog_jackpot": {
+   "path": "kkaegul:textures/ui/gacha/frog_jackpot.png",
+   "size": [
+    512,
+    445
+   ],
+   "source": "assets/kkaegulland_soft_ui_3_gacha/kkaegulland_soft_ui/gacha/frog_jackpot.png",
+   "crop": [
+    162,
+    180,
+    1145,
+    1034
+   ],
+   "scale": 0.52085
+  },
+  "gacha/jackpot_ribbon": {
+   "path": "kkaegul:textures/ui/gacha/jackpot_ribbon.png",
+   "size": [
+    1024,
+    247
+   ],
+   "source": "assets/kkaegulland_soft_ui_3_gacha/kkaegulland_soft_ui/gacha/jackpot_ribbon.png",
+   "crop": [
+    94,
+    118,
+    2078,
+    597
+   ],
+   "scale": 0.51613
+  },
+  "gacha/jackpot_sunburst": {
+   "path": "kkaegul:textures/ui/gacha/jackpot_sunburst.png",
+   "size": [
+    512,
+    496
+   ],
+   "source": "assets/kkaegulland_soft_ui_3_gacha/kkaegulland_soft_ui/gacha/jackpot_sunburst.png",
+   "crop": [
+    53,
+    52,
+    1208,
+    1170
+   ],
+   "scale": 0.44329
+  },
+  "gacha/reel_background": {
+   "path": "kkaegul:textures/ui/gacha/reel_background.png",
+   "size": [
+    251,
+    512
+   ],
+   "source": "assets/kkaegulland_soft_ui_3_gacha/kkaegulland_soft_ui/gacha/reel_background.png",
+   "crop": [
+    207,
+    153,
+    813,
+    1391
+   ],
+   "scale": 0.41357
+  },
+  "gacha/reel_max_outline": {
+   "path": "kkaegul:textures/ui/gacha/reel_max_outline.png",
+   "size": [
+    382,
+    1024
+   ],
+   "source": "assets/kkaegulland_soft_ui_3_gacha/kkaegulland_soft_ui/gacha/reel_max_outline.png",
+   "crop": [
+    171,
+    172,
+    712,
+    1622
+   ],
+   "scale": 0.70621
+  },
+  "gacha/stat_durability": {
+   "path": "kkaegul:textures/ui/gacha/stat_durability.png",
+   "size": [
+    495,
+    512
+   ],
+   "source": "assets/kkaegulland_soft_ui_3_gacha/kkaegulland_soft_ui/gacha/stat_durability.png",
+   "crop": [
+    256,
+    178,
+    1051,
+    1001
+   ],
+   "scale": 0.62211
+  },
+  "gacha/stat_efficiency": {
+   "path": "kkaegul:textures/ui/gacha/stat_efficiency.png",
+   "size": [
+    388,
+    512
+   ],
+   "source": "assets/kkaegulland_soft_ui_3_gacha/kkaegulland_soft_ui/gacha/stat_efficiency.png",
+   "crop": [
+    525,
+    199,
+    1002,
+    829
+   ],
+   "scale": 0.8127
+  },
+  "gacha/stat_luck": {
+   "path": "kkaegul:textures/ui/gacha/stat_luck.png",
+   "size": [
+    512,
+    496
+   ],
+   "source": "assets/kkaegulland_soft_ui_3_gacha/kkaegulland_soft_ui/gacha/stat_luck.png",
+   "crop": [
+    425,
+    185,
+    1106,
+    845
+   ],
+   "scale": 0.75184
+  },
+  "gacha/triple_seven_outline": {
+   "path": "kkaegul:textures/ui/gacha/triple_seven_outline.png",
+   "size": [
+    1024,
+    190
+   ],
+   "source": "assets/kkaegulland_soft_ui_3_gacha/kkaegulland_soft_ui/gacha/triple_seven_outline.png",
+   "crop": [
+    80,
+    176,
+    2091,
+    549
+   ],
+   "scale": 0.5092
+  },
+  "gacha_fx/broken_pickaxe_handle": {
+   "path": "kkaegul:textures/ui/gacha_fx/broken_pickaxe_handle.png",
+   "size": [
+    477,
+    512
+   ],
+   "source": "assets/kkaegulland_soft_ui_4_protection/kkaegulland_soft_ui/protection/broken_pickaxe_handle.png",
+   "crop": [
+    458,
+    183,
+    1078,
+    849
+   ],
+   "scale": 0.76877
+  },
+  "gacha_fx/broken_pickaxe_head": {
+   "path": "kkaegul:textures/ui/gacha_fx/broken_pickaxe_head.png",
+   "size": [
+    512,
+    261
+   ],
+   "source": "assets/kkaegulland_soft_ui_4_protection/kkaegulland_soft_ui/protection/broken_pickaxe_head.png",
+   "crop": [
+    461,
+    227,
+    1314,
+    662
+   ],
+   "scale": 0.60023
+  },
+  "gacha_fx/crack_overlay": {
+   "path": "kkaegul:textures/ui/gacha_fx/crack_overlay.png",
+   "size": [
+    512,
+    481
+   ],
+   "source": "assets/kkaegulland_soft_ui_4_protection/kkaegulland_soft_ui/protection/crack_overlay.png",
+   "crop": [
+    303,
+    86,
+    1226,
+    954
+   ],
+   "scale": 0.55471,
+   "edited": "여기서 보정함 (원본 geometry 좌표 그대로 쓰지 말 것)"
+  },
+  "gacha_fx/frog_relief": {
+   "path": "kkaegul:textures/ui/gacha_fx/frog_relief.png",
+   "size": [
+    426,
+    512
+   ],
+   "source": "assets/kkaegulland_soft_ui_4_protection/kkaegulland_soft_ui/protection/frog_relief.png",
+   "crop": [
+    323,
+    229,
+    954,
+    988
+   ],
+   "scale": 0.67457
+  },
+  "gacha_fx/frog_stifled_laugh": {
+   "path": "kkaegul:textures/ui/gacha_fx/frog_stifled_laugh.png",
+   "size": [
+    375,
+    512
+   ],
+   "source": "assets/kkaegulland_soft_ui_4_protection/kkaegulland_soft_ui/protection/frog_stifled_laugh.png",
+   "crop": [
+    259,
+    223,
+    922,
+    1129
+   ],
+   "scale": 0.56512
+  },
+  "gacha_fx/purple_protection_shield": {
+   "path": "kkaegul:textures/ui/gacha_fx/purple_protection_shield.png",
+   "size": [
+    460,
+    512
+   ],
+   "source": "assets/kkaegulland_soft_ui_4_protection/kkaegulland_soft_ui/protection/purple_protection_shield.png",
+   "crop": [
+    143,
+    78,
+    1117,
+    1163
+   ],
+   "scale": 0.47189,
+   "edited": "여기서 보정함 (원본 geometry 좌표 그대로 쓰지 말 것)"
+  },
+  "gacha_fx/torn_ticket_left": {
+   "path": "kkaegul:textures/ui/gacha_fx/torn_ticket_left.png",
+   "size": [
+    288,
+    308
+   ],
+   "source": "generated from gacha_machine/protection_ticket",
+   "crop": null,
+   "scale": 1
+  },
+  "gacha_fx/torn_ticket_right": {
+   "path": "kkaegul:textures/ui/gacha_fx/torn_ticket_right.png",
+   "size": [
+    286,
+    308
+   ],
+   "source": "generated from gacha_machine/protection_ticket",
+   "crop": null,
+   "scale": 1
+  },
+  "chest/advanced_ajar": {
+   "path": "kkaegul:textures/ui/chest/advanced_ajar.png",
+   "size": [
+    512,
+    391
+   ],
+   "source": "assets/kkaegulland_chests/chests/advanced_ajar.png",
+   "crop": [
+    143,
+    252,
+    1107,
+    989
+   ],
+   "scale": 0.53112
+  },
+  "chest/advanced_beam": {
+   "path": "kkaegul:textures/ui/chest/advanced_beam.png",
+   "size": [
+    512,
+    437
+   ],
+   "source": "assets/kkaegulland_chests/chests/advanced_beam.png",
+   "crop": [
+    288,
+    103,
+    1247,
+    922
+   ],
+   "scale": 0.53389
+  },
+  "chest/advanced_closed": {
+   "path": "kkaegul:textures/ui/chest/advanced_closed.png",
+   "size": [
+    512,
+    385
+   ],
+   "source": "assets/kkaegulland_chests/chests/advanced_closed.png",
+   "crop": [
+    144,
+    264,
+    1106,
+    988
+   ],
+   "scale": 0.53222
+  },
+  "chest/advanced_open": {
+   "path": "kkaegul:textures/ui/chest/advanced_open.png",
+   "size": [
+    470,
+    512
+   ],
+   "source": "assets/kkaegulland_chests/chests/advanced_open.png",
+   "crop": [
+    143,
+    91,
+    1108,
+    1143
+   ],
+   "scale": 0.48669
+  },
+  "chest/lucky_ajar": {
+   "path": "kkaegul:textures/ui/chest/lucky_ajar.png",
+   "size": [
+    512,
+    393
+   ],
+   "source": "assets/kkaegulland_chests/chests/lucky_ajar.png",
+   "crop": [
+    162,
+    260,
+    1088,
+    970
+   ],
+   "scale": 0.55292
+  },
+  "chest/lucky_beam": {
+   "path": "kkaegul:textures/ui/chest/lucky_beam.png",
+   "size": [
+    512,
+    420
+   ],
+   "source": "assets/kkaegulland_chests/chests/lucky_beam.png",
+   "crop": [
+    255,
+    91,
+    1281,
+    933
+   ],
+   "scale": 0.49903
+  },
+  "chest/lucky_closed": {
+   "path": "kkaegul:textures/ui/chest/lucky_closed.png",
+   "size": [
+    512,
+    389
+   ],
+   "source": "assets/kkaegulland_chests/chests/lucky_closed.png",
+   "crop": [
+    163,
+    269,
+    1085,
+    969
+   ],
+   "scale": 0.55531
+  },
+  "chest/lucky_open": {
+   "path": "kkaegul:textures/ui/chest/lucky_open.png",
+   "size": [
+    480,
+    512
+   ],
+   "source": "assets/kkaegulland_chests/chests/lucky_open.png",
+   "crop": [
+    165,
+    125,
+    1086,
+    1108
+   ],
+   "scale": 0.52085
+  },
+  "chest/normal_ajar": {
+   "path": "kkaegul:textures/ui/chest/normal_ajar.png",
+   "size": [
+    512,
+    420
+   ],
+   "source": "assets/kkaegulland_chests/chests/normal_ajar.png",
+   "crop": [
+    185,
+    258,
+    1069,
+    984
+   ],
+   "scale": 0.57919
+  },
+  "chest/normal_beam": {
+   "path": "kkaegul:textures/ui/chest/normal_beam.png",
+   "size": [
+    512,
+    310
+   ],
+   "source": "assets/kkaegulland_chests/chests/normal_beam.png",
+   "crop": [
+    0,
+    0,
+    1536,
+    929
+   ],
+   "scale": 0.33333
+  },
+  "chest/normal_closed": {
+   "path": "kkaegul:textures/ui/chest/normal_closed.png",
+   "size": [
+    512,
+    414
+   ],
+   "source": "assets/kkaegulland_chests/chests/normal_closed.png",
+   "crop": [
+    185,
+    272,
+    1067,
+    985
+   ],
+   "scale": 0.5805
+  },
+  "chest/normal_open": {
+   "path": "kkaegul:textures/ui/chest/normal_open.png",
+   "size": [
+    464,
+    512
+   ],
+   "source": "assets/kkaegulland_chests/chests/normal_open.png",
+   "crop": [
+    193,
+    77,
+    1117,
+    1097
+   ],
+   "scale": 0.50196
+  },
+  "reward/chest_fever_badge": {
+   "path": "kkaegul:textures/ui/reward/chest_fever_badge.png",
+   "size": [
+    502,
+    512
+   ],
+   "source": "assets/kkaegulland_rewards_events/rewards_events/chest_fever_badge.png",
+   "crop": [
+    428,
+    167,
+    1086,
+    838
+   ],
+   "scale": 0.76304
+  },
+  "reward/event_banner": {
+   "path": "kkaegul:textures/ui/reward/event_banner.png",
+   "size": [
+    1024,
+    166
+   ],
+   "source": "assets/kkaegulland_rewards_events/rewards_events/event_banner.png",
+   "crop": [
+    108,
+    202,
+    2065,
+    520
+   ],
+   "scale": 0.52325
+  },
+  "reward/event_buff": {
+   "path": "kkaegul:textures/ui/reward/event_buff.png",
+   "size": [
+    421,
+    512
+   ],
+   "source": "assets/kkaegulland_rewards_events/rewards_events/event_buff.png",
+   "crop": [
+    458,
+    134,
+    1071,
+    879
+   ],
+   "scale": 0.68725
+  },
+  "reward/event_debuff": {
+   "path": "kkaegul:textures/ui/reward/event_debuff.png",
+   "size": [
+    422,
+    512
+   ],
+   "source": "assets/kkaegulland_rewards_events/rewards_events/event_debuff.png",
+   "crop": [
+    457,
+    149,
+    1056,
+    875
+   ],
+   "scale": 0.70523
+  },
+  "reward/event_diamond": {
+   "path": "kkaegul:textures/ui/reward/event_diamond.png",
+   "size": [
+    512,
+    479
+   ],
+   "source": "assets/kkaegulland_rewards_events/rewards_events/event_diamond.png",
+   "crop": [
+    425,
+    213,
+    1111,
+    855
+   ],
+   "scale": 0.74636
+  },
+  "reward/event_freeze": {
+   "path": "kkaegul:textures/ui/reward/event_freeze.png",
+   "size": [
+    490,
+    512
+   ],
+   "source": "assets/kkaegulland_rewards_events/rewards_events/event_freeze.png",
+   "crop": [
+    444,
+    206,
+    1081,
+    871
+   ],
+   "scale": 0.76992
+  },
+  "reward/event_frog_coin": {
+   "path": "kkaegul:textures/ui/reward/event_frog_coin.png",
+   "size": [
+    495,
+    512
+   ],
+   "source": "assets/kkaegulland_rewards_events/rewards_events/event_frog_coin.png",
+   "crop": [
+    465,
+    208,
+    1061,
+    824
+   ],
+   "scale": 0.83117
+  },
+  "reward/event_mining_fatigue": {
+   "path": "kkaegul:textures/ui/reward/event_mining_fatigue.png",
+   "size": [
+    459,
+    512
+   ],
+   "source": "assets/kkaegulland_rewards_events/rewards_events/event_mining_fatigue.png",
+   "crop": [
+    421,
+    131,
+    1126,
+    917
+   ],
+   "scale": 0.6514
+  },
+  "reward/frog_waving": {
+   "path": "kkaegul:textures/ui/reward/frog_waving.png",
+   "size": [
+    416,
+    512
+   ],
+   "source": "assets/kkaegulland_rewards_events/rewards_events/frog_waving.png",
+   "crop": [
+    199,
+    135,
+    1059,
+    1193
+   ],
+   "scale": 0.48393
+  },
+  "reward/reward_card_normal": {
+   "path": "kkaegul:textures/ui/reward/reward_card_normal.png",
+   "size": [
+    454,
+    512
+   ],
+   "source": "assets/kkaegulland_rewards_events/rewards_events/reward_card_normal.png",
+   "crop": [
+    206,
+    122,
+    1046,
+    1069
+   ],
+   "scale": 0.54065
+  },
+  "reward/reward_card_rare": {
+   "path": "kkaegul:textures/ui/reward/reward_card_rare.png",
+   "size": [
+    512,
+    466
+   ],
+   "source": "assets/kkaegulland_rewards_events/rewards_events/reward_card_rare.png",
+   "crop": [
+    296,
+    71,
+    1238,
+    929
+   ],
+   "scale": 0.54352
+  },
+  "fever/banner_chest": {
+   "path": "kkaegul:textures/ui/fever/banner_chest.png",
+   "size": [
+    1024,
+    183
+   ],
+   "source": "assets/kkaegulland_fever_pngs_with_references/kkaegulland_fever/banners/banner_chest.png",
+   "crop": [
+    106,
+    183,
+    2059,
+    532
+   ],
+   "scale": 0.52432
+  },
+  "fever/banner_diamond": {
+   "path": "kkaegul:textures/ui/fever/banner_diamond.png",
+   "size": [
+    1024,
+    185
+   ],
+   "source": "assets/kkaegulland_fever_pngs_with_references/kkaegulland_fever/banners/banner_diamond.png",
+   "crop": [
+    65,
+    179,
+    2097,
+    547
+   ],
+   "scale": 0.50394
+  },
+  "fever/banner_triple": {
+   "path": "kkaegul:textures/ui/fever/banner_triple.png",
+   "size": [
+    1024,
+    205
+   ],
+   "source": "assets/kkaegulland_fever_pngs_with_references/kkaegulland_fever/banners/banner_triple.png",
+   "crop": [
+    78,
+    163,
+    2082,
+    564
+   ],
+   "scale": 0.51098
+  },
+  "fever/frog_boxes": {
+   "path": "kkaegul:textures/ui/fever/frog_boxes.png",
+   "size": [
+    512,
+    501
+   ],
+   "source": "assets/kkaegulland_fever_pngs_with_references/kkaegulland_fever/characters/frog_boxes.png",
+   "crop": [
+    183,
+    193,
+    1066,
+    1057
+   ],
+   "scale": 0.57984
+  },
+  "fever/frog_drummer": {
+   "path": "kkaegul:textures/ui/fever/frog_drummer.png",
+   "size": [
+    512,
+    436
+   ],
+   "source": "assets/kkaegulland_fever_pngs_with_references/kkaegulland_fever/characters/frog_drummer.png",
+   "crop": [
+    122,
+    215,
+    1118,
+    1064
+   ],
+   "scale": 0.51406
+  },
+  "fever/frog_megaphones": {
+   "path": "kkaegul:textures/ui/fever/frog_megaphones.png",
+   "size": [
+    512,
+    299
+   ],
+   "source": "assets/kkaegulland_fever_pngs_with_references/kkaegulland_fever/characters/frog_megaphones.png",
+   "crop": [
+    28,
+    277,
+    1224,
+    975
+   ],
+   "scale": 0.42809
+  },
+  "fever/badge_chest": {
+   "path": "kkaegul:textures/ui/fever/badge_chest.png",
+   "size": [
+    512,
+    512
+   ],
+   "source": "assets/kkaegulland_fever_pngs_with_references/kkaegulland_fever/effects/badge_chest.png",
+   "crop": [
+    103,
+    108,
+    1133,
+    1138
+   ],
+   "scale": 0.49709
+  },
+  "fever/badge_triple": {
+   "path": "kkaegul:textures/ui/fever/badge_triple.png",
+   "size": [
+    507,
+    512
+   ],
+   "source": "assets/kkaegulland_fever_pngs_with_references/kkaegulland_fever/effects/badge_triple.png",
+   "crop": [
+    396,
+    137,
+    1132,
+    880
+   ],
+   "scale": 0.6891
+  },
+  "fever/flame": {
+   "path": "kkaegul:textures/ui/fever/flame.png",
+   "size": [
+    441,
+    512
+   ],
+   "source": "assets/kkaegulland_fever_pngs_with_references/kkaegulland_fever/effects/flame.png",
+   "crop": [
+    332,
+    237,
+    958,
+    963
+   ],
+   "scale": 0.70523
+  },
+  "fever/frame_chest": {
+   "path": "kkaegul:textures/ui/fever/frame_chest.png",
+   "size": [
+    1024,
+    499
+   ],
+   "source": "assets/kkaegulland_fever_pngs_with_references/kkaegulland_fever/effects/frame_chest.png",
+   "crop": [
+    145,
+    134,
+    1525,
+    807
+   ],
+   "scale": 0.74203
+  },
+  "fever/frame_diamond": {
+   "path": "kkaegul:textures/ui/fever/frame_diamond.png",
+   "size": [
+    1024,
+    531
+   ],
+   "source": "assets/kkaegulland_fever_pngs_with_references/kkaegulland_fever/effects/frame_diamond.png",
+   "crop": [
+    100,
+    89,
+    1572,
+    852
+   ],
+   "scale": 0.69565
+  },
+  "fever/frame_triple": {
+   "path": "kkaegul:textures/ui/fever/frame_triple.png",
+   "size": [
+    1024,
+    536
+   ],
+   "source": "assets/kkaegulland_fever_pngs_with_references/kkaegulland_fever/effects/frame_triple.png",
+   "crop": [
+    145,
+    108,
+    1527,
+    831
+   ],
+   "scale": 0.74096
+  },
+  "fever/gift": {
+   "path": "kkaegul:textures/ui/fever/gift.png",
+   "size": [
+    508,
+    512
+   ],
+   "source": "assets/kkaegulland_fever_pngs_with_references/kkaegulland_fever/effects/gift.png",
+   "crop": [
+    510,
+    245,
+    1027,
+    766
+   ],
+   "scale": 0.98273
+  },
+  "fever/lightning": {
+   "path": "kkaegul:textures/ui/fever/lightning.png",
+   "size": [
+    400,
+    512
+   ],
+   "source": "assets/kkaegulland_fever_pngs_with_references/kkaegulland_fever/effects/lightning.png",
+   "crop": [
+    550,
+    245,
+    968,
+    780
+   ],
+   "scale": 0.95701
+  },
+  "fever/speed_lines": {
+   "path": "kkaegul:textures/ui/fever/speed_lines.png",
+   "size": [
+    1024,
+    464
+   ],
+   "source": "assets/kkaegulland_fever_pngs_with_references/kkaegulland_fever/effects/speed_lines.png",
+   "crop": [
+    332,
+    210,
+    1442,
+    713
+   ],
+   "scale": 0.92252
+  },
+  "gacha_machine/close_normal": {
+   "path": "kkaegul:textures/ui/gacha_machine/close_normal.png",
+   "size": [
+    511,
+    512
+   ],
+   "source": "assets2/z1/prompt08_gacha_parts/assets/buttons/close_normal.png",
+   "crop": [
+    212,
+    222,
+    1037,
+    1049
+   ],
+   "scale": 0.61911
+  },
+  "gacha_machine/close_pressed": {
+   "path": "kkaegul:textures/ui/gacha_machine/close_pressed.png",
+   "size": [
+    512,
+    508
+   ],
+   "source": "assets2/z1/prompt08_gacha_parts/assets/buttons/close_pressed.png",
+   "crop": [
+    212,
+    222,
+    1038,
+    1042
+   ],
+   "scale": 0.61985
+  },
+  "gacha_machine/spin_disabled": {
+   "path": "kkaegul:textures/ui/gacha_machine/spin_disabled.png",
+   "size": [
+    504,
+    512
+   ],
+   "source": "assets2/z1/prompt08_gacha_parts/assets/buttons/spin_disabled.png",
+   "crop": [
+    186,
+    194,
+    1052,
+    1073
+   ],
+   "scale": 0.58248
+  },
+  "gacha_machine/spin_normal": {
+   "path": "kkaegul:textures/ui/gacha_machine/spin_normal.png",
+   "size": [
+    503,
+    512
+   ],
+   "source": "assets2/z1/prompt08_gacha_parts/assets/buttons/spin_normal.png",
+   "crop": [
+    188,
+    195,
+    1051,
+    1073
+   ],
+   "scale": 0.58314
+  },
+  "gacha_machine/spin_pressed": {
+   "path": "kkaegul:textures/ui/gacha_machine/spin_pressed.png",
+   "size": [
+    504,
+    512
+   ],
+   "source": "assets2/z1/prompt08_gacha_parts/assets/buttons/spin_pressed.png",
+   "crop": [
+    188,
+    195,
+    1052,
+    1073
+   ],
+   "scale": 0.58314
+  },
+  "gacha_machine/coin_slot": {
+   "path": "kkaegul:textures/ui/gacha_machine/coin_slot.png",
+   "size": [
+    512,
+    96
+   ],
+   "source": "assets2/z1/prompt08_gacha_parts/assets/decorations/coin_slot.png",
+   "crop": [
+    509,
+    255,
+    1663,
+    472
+   ],
+   "scale": 0.44367
+  },
+  "gacha_machine/coin_wallet": {
+   "path": "kkaegul:textures/ui/gacha_machine/coin_wallet.png",
+   "size": [
+    505,
+    512
+   ],
+   "source": "assets2/z1/prompt08_gacha_parts/assets/icons/coin_wallet.png",
+   "crop": [
+    139,
+    149,
+    1112,
+    1135
+   ],
+   "scale": 0.51927
+  },
+  "gacha_machine/durability_shield": {
+   "path": "kkaegul:textures/ui/gacha_machine/durability_shield.png",
+   "size": [
+    489,
+    512
+   ],
+   "source": "assets2/z1/prompt08_gacha_parts/assets/icons/durability_shield.png",
+   "crop": [
+    174,
+    155,
+    1078,
+    1101
+   ],
+   "scale": 0.54123
+  },
+  "gacha_machine/efficiency_bolt": {
+   "path": "kkaegul:textures/ui/gacha_machine/efficiency_bolt.png",
+   "size": [
+    378,
+    512
+   ],
+   "source": "assets2/z1/prompt08_gacha_parts/assets/icons/efficiency_bolt.png",
+   "crop": [
+    285,
+    188,
+    951,
+    1089
+   ],
+   "scale": 0.56826
+  },
+  "gacha_machine/frog_coin": {
+   "path": "kkaegul:textures/ui/gacha_machine/frog_coin.png",
+   "size": [
+    499,
+    512
+   ],
+   "source": "assets2/z1/prompt08_gacha_parts/assets/icons/frog_coin.png",
+   "crop": [
+    179,
+    185,
+    1052,
+    1081
+   ],
+   "scale": 0.57143
+  },
+  "gacha_machine/luck_clover": {
+   "path": "kkaegul:textures/ui/gacha_machine/luck_clover.png",
+   "size": [
+    512,
+    508
+   ],
+   "source": "assets2/z1/prompt08_gacha_parts/assets/icons/luck_clover.png",
+   "crop": [
+    197,
+    222,
+    1054,
+    1073
+   ],
+   "scale": 0.59743
+  },
+  "gacha_machine/pickaxe": {
+   "path": "kkaegul:textures/ui/gacha_machine/pickaxe.png",
+   "size": [
+    492,
+    512
+   ],
+   "source": "assets2/z1/prompt08_gacha_parts/assets/icons/pickaxe.png",
+   "crop": [
+    174,
+    174,
+    1081,
+    1117
+   ],
+   "scale": 0.54295
+  },
+  "gacha_machine/pickaxe_cracked": {
+   "path": "kkaegul:textures/ui/gacha_machine/pickaxe_cracked.png",
+   "size": [
+    439,
+    512
+   ],
+   "source": "assets2/z1/prompt08_gacha_parts/assets/icons/pickaxe_cracked.png",
+   "crop": [
+    216,
+    121,
+    1039,
+    1081
+   ],
+   "scale": 0.53333
+  },
+  "gacha_machine/pickaxe_empty": {
+   "path": "kkaegul:textures/ui/gacha_machine/pickaxe_empty.png",
+   "size": [
+    491,
+    512
+   ],
+   "source": "assets2/z1/prompt08_gacha_parts/assets/icons/pickaxe_empty.png",
+   "crop": [
+    204,
+    219,
+    1049,
+    1101
+   ],
+   "scale": 0.5805
+  },
+  "gacha_machine/protection_ticket": {
+   "path": "kkaegul:textures/ui/gacha_machine/protection_ticket.png",
+   "size": [
+    512,
+    292
+   ],
+   "source": "assets2/z1/prompt08_gacha_parts/assets/icons/protection_ticket.png",
+   "crop": [
+    125,
+    357,
+    1129,
+    930
+   ],
+   "scale": 0.50996
+  },
+  "gacha_machine/panel_cost": {
+   "path": "kkaegul:textures/ui/gacha_machine/panel_cost.png",
+   "size": [
+    691,
+    1024
+   ],
+   "source": "assets2/z1/prompt08_gacha_parts/assets/panels/panel_cost.png",
+   "crop": [
+    166,
+    251,
+    857,
+    1275
+   ],
+   "scale": 1.0
+  },
+  "gacha_machine/panel_info": {
+   "path": "kkaegul:textures/ui/gacha_machine/panel_info.png",
+   "size": [
+    614,
+    1024
+   ],
+   "source": "assets2/z1/prompt08_gacha_parts/assets/panels/panel_info.png",
+   "crop": [
+    153,
+    157,
+    869,
+    1351
+   ],
+   "scale": 0.85762
+  },
+  "gacha_machine/frog_sign_gentle": {
+   "path": "kkaegul:textures/ui/gacha_machine/frog_sign_gentle.png",
+   "size": [
+    512,
+    312
+   ],
+   "source": "assets2/z1/prompt08_gacha_parts/assets/signs/frog_sign_gentle.png",
+   "crop": [
+    116,
+    121,
+    1416,
+    913
+   ],
+   "scale": 0.39385
+  },
+  "gacha_machine/frog_sign_grin": {
+   "path": "kkaegul:textures/ui/gacha_machine/frog_sign_grin.png",
+   "size": [
+    512,
+    315
+   ],
+   "source": "assets2/z1/prompt08_gacha_parts/assets/signs/frog_sign_grin.png",
+   "crop": [
+    161,
+    151,
+    1372,
+    897
+   ],
+   "scale": 0.42279
+  },
+  "gacha_machine/frog_sign_villain": {
+   "path": "kkaegul:textures/ui/gacha_machine/frog_sign_villain.png",
+   "size": [
+    512,
+    323
+   ],
+   "source": "assets2/z1/prompt08_gacha_parts/assets/signs/frog_sign_villain.png",
+   "crop": [
+    198,
+    155,
+    1337,
+    873
+   ],
+   "scale": 0.44952
+  },
+  "user_select/cancel_normal": {
+   "path": "kkaegul:textures/ui/user_select/cancel_normal.png",
+   "size": [
+    512,
+    101
+   ],
+   "source": "assets2/z2/assets/cancel_normal.png",
+   "crop": [
+    288,
+    210,
+    1886,
+    524
+   ],
+   "scale": 0.3204
+  },
+  "user_select/cancel_pressed": {
+   "path": "kkaegul:textures/ui/user_select/cancel_pressed.png",
+   "size": [
+    512,
+    112
+   ],
+   "source": "assets2/z2/assets/cancel_pressed.png",
+   "crop": [
+    343,
+    210,
+    1832,
+    535
+   ],
+   "scale": 0.34385
+  },
+  "user_select/frog_portal": {
+   "path": "kkaegul:textures/ui/user_select/frog_portal.png",
+   "size": [
+    364,
+    512
+   ],
+   "source": "assets2/z2/assets/frog_portal.png",
+   "crop": [
+    288,
+    244,
+    911,
+    1120
+   ],
+   "scale": 0.58447
+  },
+  "user_select/move_disabled": {
+   "path": "kkaegul:textures/ui/user_select/move_disabled.png",
+   "size": [
+    512,
+    111
+   ],
+   "source": "assets2/z2/assets/move_disabled.png",
+   "crop": [
+    367,
+    215,
+    1806,
+    527
+   ],
+   "scale": 0.3558
+  },
+  "user_select/move_normal": {
+   "path": "kkaegul:textures/ui/user_select/move_normal.png",
+   "size": [
+    512,
+    119
+   ],
+   "source": "assets2/z2/assets/move_normal.png",
+   "crop": [
+    202,
+    170,
+    1969,
+    580
+   ],
+   "scale": 0.28976
+  },
+  "user_select/move_pressed": {
+   "path": "kkaegul:textures/ui/user_select/move_pressed.png",
+   "size": [
+    512,
+    123
+   ],
+   "source": "assets2/z2/assets/move_pressed.png",
+   "crop": [
+    379,
+    199,
+    1792,
+    539
+   ],
+   "scale": 0.36235
+  },
+  "user_select/scroll_thumb": {
+   "path": "kkaegul:textures/ui/user_select/scroll_thumb.png",
+   "size": [
+    188,
+    512
+   ],
+   "source": "assets2/z2/assets/scroll_thumb.png",
+   "crop": [
+    435,
+    117,
+    819,
+    1161
+   ],
+   "scale": 0.49042
+  },
+  "user_select/scroll_track": {
+   "path": "kkaegul:textures/ui/user_select/scroll_track.png",
+   "size": [
+    66,
+    1024
+   ],
+   "source": "assets2/z2/assets/scroll_track.png",
+   "crop": [
+    302,
+    186,
+    421,
+    2040
+   ],
+   "scale": 0.55232
+  },
+  "user_select/teleport_ticket": {
+   "path": "kkaegul:textures/ui/user_select/teleport_ticket.png",
+   "size": [
+    512,
+    304
+   ],
+   "source": "assets2/z2/assets/teleport_ticket.png",
+   "crop": [
+    474,
+    343,
+    1061,
+    692
+   ],
+   "scale": 0.87223
+  },
+  "user_select/user_row_hover": {
+   "path": "kkaegul:textures/ui/user_select/user_row_hover.png",
+   "size": [
+    1024,
+    159
+   ],
+   "source": "assets2/z2/assets/user_row_hover.png",
+   "crop": [
+    154,
+    221,
+    2019,
+    511
+   ],
+   "scale": 0.54906
+  },
+  "user_select/user_row_normal": {
+   "path": "kkaegul:textures/ui/user_select/user_row_normal.png",
+   "size": [
+    1024,
+    158
+   ],
+   "source": "assets2/z2/assets/user_row_normal.png",
+   "crop": [
+    142,
+    222,
+    2031,
+    513
+   ],
+   "scale": 0.54209
+  },
+  "user_select/user_row_pressed": {
+   "path": "kkaegul:textures/ui/user_select/user_row_pressed.png",
+   "size": [
+    1024,
+    237
+   ],
+   "source": "assets2/z2/assets/user_row_pressed.png",
+   "crop": [
+    173,
+    131,
+    2000,
+    553
+   ],
+   "scale": 0.56048
+  },
+  "user_select/window_frame": {
+   "path": "kkaegul:textures/ui/user_select/window_frame.png",
+   "size": [
+    676,
+    1024
+   ],
+   "source": "assets2/z2/assets/window_frame.png",
+   "crop": [
+    92,
+    139,
+    932,
+    1411
+   ],
+   "scale": 0.80503
+  },
+  "invite/envelope_back": {
+   "path": "kkaegul:textures/ui/invite/envelope_back.png",
+   "size": [
+    1024,
+    797
+   ],
+   "source": "inv/assets/envelope_back.png",
+   "crop": [
+    219,
+    48,
+    1317,
+    903
+   ],
+   "scale": 0.9326
+  },
+  "invite/envelope_closed": {
+   "path": "kkaegul:textures/ui/invite/envelope_closed.png",
+   "size": [
+    1024,
+    545
+   ],
+   "source": "inv/assets/envelope_closed.png",
+   "crop": [
+    215,
+    218,
+    1319,
+    806
+   ],
+   "scale": 0.92754
+  },
+  "invite/envelope_front_overlay": {
+   "path": "kkaegul:textures/ui/invite/envelope_front_overlay.png",
+   "size": [
+    1024,
+    514
+   ],
+   "source": "inv/assets/envelope_front_overlay.png",
+   "crop": [
+    218,
+    424,
+    1317,
+    976
+   ],
+   "scale": 0.93176
+  },
+  "invite/envelope_open": {
+   "path": "kkaegul:textures/ui/invite/envelope_open.png",
+   "size": [
+    1024,
+    892
+   ],
+   "source": "inv/assets/envelope_open.png",
+   "crop": [
+    208,
+    20,
+    1324,
+    992
+   ],
+   "scale": 0.91756
+  },
+  "invite/frog_butler": {
+   "path": "kkaegul:textures/ui/invite/frog_butler.png",
+   "size": [
+    405,
+    512
+   ],
+   "source": "inv/assets/frog_butler.png",
+   "crop": [
+    315,
+    115,
+    1098,
+    1105
+   ],
+   "scale": 0.51717
+  },
+  "invite/invitation_card": {
+   "path": "kkaegul:textures/ui/invite/invitation_card.png",
+   "size": [
+    707,
+    1024
+   ],
+   "source": "inv/assets/invitation_card.png",
+   "crop": [
+    49,
+    99,
+    976,
+    1442
+   ],
+   "scale": 0.76247
+  },
+  "invite/seal_fragment_a": {
+   "path": "kkaegul:textures/ui/invite/seal_fragment_a.png",
+   "size": [
+    298,
+    512
+   ],
+   "source": "inv/assets/seal_fragment_a.png",
+   "crop": [
+    485,
+    94,
+    960,
+    910
+   ],
+   "scale": 0.62745
+  },
+  "invite/seal_fragment_b": {
+   "path": "kkaegul:textures/ui/invite/seal_fragment_b.png",
+   "size": [
+    315,
+    512
+   ],
+   "source": "inv/assets/seal_fragment_b.png",
+   "crop": [
+    513,
+    77,
+    1047,
+    945
+   ],
+   "scale": 0.58986
+  },
+  "invite/stamp_red": {
+   "path": "kkaegul:textures/ui/invite/stamp_red.png",
+   "size": [
+    506,
+    512
+   ],
+   "source": "inv/assets/stamp_red.png",
+   "crop": [
+    321,
+    64,
+    1208,
+    962
+   ],
+   "scale": 0.57016
+  },
+  "invite/wax_seal": {
+   "path": "kkaegul:textures/ui/invite/wax_seal.png",
+   "size": [
+    508,
+    512
+   ],
+   "source": "inv/assets/wax_seal.png",
+   "crop": [
+    354,
+    95,
+    1178,
+    926
+   ],
+   "scale": 0.61613
+  },
+  "menu/button_claim_disabled": {
+   "path": "kkaegul:textures/ui/menu/button_claim_disabled.png",
+   "size": [
+    1024,
+    131
+   ],
+   "source": "frog_menu/button_claim_disabled.png",
+   "crop": [
+    108,
+    236,
+    2064,
+    487
+   ],
+   "scale": 0.523517382413088
+  },
+  "menu/button_claim_normal": {
+   "path": "kkaegul:textures/ui/menu/button_claim_normal.png",
+   "size": [
+    1024,
+    141
+   ],
+   "source": "frog_menu/button_claim_normal.png",
+   "crop": [
+    141,
+    232,
+    2031,
+    492
+   ],
+   "scale": 0.5417989417989418
+  },
+  "menu/button_claim_pressed": {
+   "path": "kkaegul:textures/ui/menu/button_claim_pressed.png",
+   "size": [
+    1024,
+    153
+   ],
+   "source": "frog_menu/button_claim_pressed.png",
+   "crop": [
+    50,
+    207,
+    2122,
+    517
+   ],
+   "scale": 0.4942084942084942
+  },
+  "menu/button_exchange_disabled": {
+   "path": "kkaegul:textures/ui/menu/button_exchange_disabled.png",
+   "size": [
+    1024,
+    171
+   ],
+   "source": "frog_menu/button_exchange_disabled.png",
+   "crop": [
+    42,
+    188,
+    2127,
+    537
+   ],
+   "scale": 0.49112709832134294
+  },
+  "menu/button_exchange_normal": {
+   "path": "kkaegul:textures/ui/menu/button_exchange_normal.png",
+   "size": [
+    1024,
+    163
+   ],
+   "source": "frog_menu/button_exchange_normal.png",
+   "crop": [
+    99,
+    205,
+    2073,
+    519
+   ],
+   "scale": 0.5187436676798379
+  },
+  "menu/button_exchange_pressed": {
+   "path": "kkaegul:textures/ui/menu/button_exchange_pressed.png",
+   "size": [
+    1024,
+    164
+   ],
+   "source": "frog_menu/button_exchange_pressed.png",
+   "crop": [
+    70,
+    200,
+    2101,
+    525
+   ],
+   "scale": 0.5041851304775973
+  },
+  "menu/close_normal": {
+   "path": "kkaegul:textures/ui/menu/close_normal.png",
+   "size": [
+    512,
+    508
+   ],
+   "source": "frog_menu/close_normal.png",
+   "crop": [
+    268,
+    280,
+    992,
+    998
+   ],
+   "scale": 0.7071823204419889
+  },
+  "menu/close_pressed": {
+   "path": "kkaegul:textures/ui/menu/close_pressed.png",
+   "size": [
+    512,
+    501
+   ],
+   "source": "frog_menu/close_pressed.png",
+   "crop": [
+    336,
+    349,
+    921,
+    922
+   ],
+   "scale": 0.8752136752136752
+  },
+  "menu/frog_hanging": {
+   "path": "kkaegul:textures/ui/menu/frog_hanging.png",
+   "size": [
+    421,
+    512
+   ],
+   "source": "frog_menu/frog_hanging.png",
+   "crop": [
+    331,
+    205,
+    983,
+    997
+   ],
+   "scale": 0.6464646464646465
+  },
+  "menu/icon_broken_pickaxe": {
+   "path": "kkaegul:textures/ui/menu/icon_broken_pickaxe.png",
+   "size": [
+    461,
+    512
+   ],
+   "source": "frog_menu/icon_broken_pickaxe.png",
+   "crop": [
+    409,
+    104,
+    1129,
+    904
+   ],
+   "scale": 0.64
+  },
+  "menu/icon_death": {
+   "path": "kkaegul:textures/ui/menu/icon_death.png",
+   "size": [
+    512,
+    485
+   ],
+   "source": "frog_menu/icon_death.png",
+   "crop": [
+    369,
+    138,
+    1153,
+    881
+   ],
+   "scale": 0.6530612244897959
+  },
+  "menu/icon_diamond": {
+   "path": "kkaegul:textures/ui/menu/icon_diamond.png",
+   "size": [
+    512,
+    403
+   ],
+   "source": "frog_menu/icon_diamond.png",
+   "crop": [
+    756,
+    111,
+    1409,
+    625
+   ],
+   "scale": 0.7840735068912711
+  },
+  "menu/icon_donation": {
+   "path": "kkaegul:textures/ui/menu/icon_donation.png",
+   "size": [
+    512,
+    428
+   ],
+   "source": "frog_menu/icon_donation.png",
+   "crop": [
+    378,
+    205,
+    1149,
+    850
+   ],
+   "scale": 0.6640726329442282
+  },
+  "menu/icon_jail": {
+   "path": "kkaegul:textures/ui/menu/icon_jail.png",
+   "size": [
+    512,
+    505
+   ],
+   "source": "frog_menu/icon_jail.png",
+   "crop": [
+    355,
+    108,
+    1179,
+    921
+   ],
+   "scale": 0.6213592233009708
+  },
+  "menu/icon_losing_paper": {
+   "path": "kkaegul:textures/ui/menu/icon_losing_paper.png",
+   "size": [
+    512,
+    483
+   ],
+   "source": "frog_menu/icon_losing_paper.png",
+   "crop": [
+    291,
+    75,
+    1205,
+    938
+   ],
+   "scale": 0.5601750547045952
+  },
+  "menu/icon_mending_book": {
+   "path": "kkaegul:textures/ui/menu/icon_mending_book.png",
+   "size": [
+    484,
+    512
+   ],
+   "source": "frog_menu/icon_mending_book.png",
+   "crop": [
+    162,
+    93,
+    1117,
+    1104
+   ],
+   "scale": 0.506429277942631
+  },
+  "menu/icon_submit": {
+   "path": "kkaegul:textures/ui/menu/icon_submit.png",
+   "size": [
+    386,
+    512
+   ],
+   "source": "frog_menu/icon_submit.png",
+   "crop": [
+    484,
+    147,
+    1052,
+    900
+   ],
+   "scale": 0.6799468791500664
+  },
+  "menu/medal_bronze": {
+   "path": "kkaegul:textures/ui/menu/medal_bronze.png",
+   "size": [
+    401,
+    512
+   ],
+   "source": "frog_menu/medal_bronze.png",
+   "crop": [
+    272,
+    131,
+    1026,
+    1094
+   ],
+   "scale": 0.5316718587746625
+  },
+  "menu/medal_gold": {
+   "path": "kkaegul:textures/ui/menu/medal_gold.png",
+   "size": [
+    381,
+    512
+   ],
+   "source": "frog_menu/medal_gold.png",
+   "crop": [
+    211,
+    0,
+    1079,
+    1166
+   ],
+   "scale": 0.4391080617495712
+  },
+  "menu/medal_silver": {
+   "path": "kkaegul:textures/ui/menu/medal_silver.png",
+   "size": [
+    412,
+    512
+   ],
+   "source": "frog_menu/medal_silver.png",
+   "crop": [
+    246,
+    106,
+    1048,
+    1102
+   ],
+   "scale": 0.5140562248995983
+  },
+  "menu/menu_frame": {
+   "path": "kkaegul:textures/ui/menu/menu_frame.png",
+   "size": [
+    1024,
+    643
+   ],
+   "source": "frog_menu/menu_frame.png",
+   "crop": [
+    13,
+    38,
+    1523,
+    986
+   ],
+   "scale": 0.6781456953642384
+  },
+  "menu/progress_fill": {
+   "path": "kkaegul:textures/ui/menu/progress_fill.png",
+   "size": [
+    1024,
+    101
+   ],
+   "source": "frog_menu/progress_fill.png",
+   "crop": [
+    40,
+    259,
+    2130,
+    465
+   ],
+   "scale": 0.48995215311004786
+  },
+  "menu/progress_marker_long": {
+   "path": "kkaegul:textures/ui/menu/progress_marker_long.png",
+   "size": [
+    468,
+    512
+   ],
+   "source": "frog_menu/progress_marker_long.png",
+   "crop": [
+    473,
+    208,
+    1063,
+    854
+   ],
+   "scale": 0.7925696594427245
+  },
+  "menu/progress_marker_medium": {
+   "path": "kkaegul:textures/ui/menu/progress_marker_medium.png",
+   "size": [
+    512,
+    510
+   ],
+   "source": "frog_menu/progress_marker_medium.png",
+   "crop": [
+    442,
+    190,
+    1089,
+    835
+   ],
+   "scale": 0.7913446676970634
+  },
+  "menu/progress_marker_short": {
+   "path": "kkaegul:textures/ui/menu/progress_marker_short.png",
+   "size": [
+    455,
+    512
+   ],
+   "source": "frog_menu/progress_marker_short.png",
+   "crop": [
+    465,
+    180,
+    1061,
+    850
+   ],
+   "scale": 0.764179104477612
+  },
+  "menu/progress_track": {
+   "path": "kkaegul:textures/ui/menu/progress_track.png",
+   "size": [
+    1024,
+    71
+   ],
+   "source": "frog_menu/progress_track.png",
+   "crop": [
+    51,
+    290,
+    2122,
+    434
+   ],
+   "scale": 0.4944471269917914
+  },
+  "menu/ranking_row": {
+   "path": "kkaegul:textures/ui/menu/ranking_row.png",
+   "size": [
+    1024,
+    112
+   ],
+   "source": "frog_menu/ranking_row.png",
+   "crop": [
+    38,
+    247,
+    2134,
+    476
+   ],
+   "scale": 0.48854961832061067
+  },
+  "menu/ranking_subtab_normal": {
+   "path": "kkaegul:textures/ui/menu/ranking_subtab_normal.png",
+   "size": [
+    818,
+    140
+   ],
+   "source": "frog_menu/ranking_subtab_normal.png",
+   "crop": [
+    677,
+    292,
+    1495,
+    432
+   ],
+   "scale": 1
+  },
+  "menu/ranking_subtab_selected": {
+   "path": "kkaegul:textures/ui/menu/ranking_subtab_selected.png",
+   "size": [
+    1024,
+    196
+   ],
+   "source": "frog_menu/ranking_subtab_selected.png",
+   "crop": [
+    89,
+    173,
+    2082,
+    554
+   ],
+   "scale": 0.5137982940291018
+  },
+  "menu/reward_card_claimed": {
+   "path": "kkaegul:textures/ui/menu/reward_card_claimed.png",
+   "size": [
+    499,
+    512
+   ],
+   "source": "frog_menu/reward_card_claimed.png",
+   "crop": [
+    126,
+    136,
+    1122,
+    1158
+   ],
+   "scale": 0.5009784735812133
+  },
+  "menu/reward_card_locked": {
+   "path": "kkaegul:textures/ui/menu/reward_card_locked.png",
+   "size": [
+    508,
+    512
+   ],
+   "source": "frog_menu/reward_card_locked.png",
+   "crop": [
+    145,
+    151,
+    1108,
+    1122
+   ],
+   "scale": 0.5272914521112255
+  },
+  "menu/reward_card_ready": {
+   "path": "kkaegul:textures/ui/menu/reward_card_ready.png",
+   "size": [
+    499,
+    512
+   ],
+   "source": "frog_menu/reward_card_ready.png",
+   "crop": null,
+   "scale": 1,
+   "edited": "받음 카드에서 체크 지우고 초록 테두리로 생성"
+  },
+  "menu/stat_row": {
+   "path": "kkaegul:textures/ui/menu/stat_row.png",
+   "size": [
+    1024,
+    168
+   ],
+   "source": "frog_menu/stat_row.png",
+   "crop": [
+    31,
+    189,
+    2141,
+    535
+   ],
+   "scale": 0.48530805687203793
+  },
+  "menu/tab_attendance_normal": {
+   "path": "kkaegul:textures/ui/menu/tab_attendance_normal.png",
+   "size": [
+    256,
+    256
+   ],
+   "source": "frog_menu/tab_attendance_normal.png",
+   "crop": [
+    523,
+    267,
+    1014,
+    767
+   ],
+   "scale": 0.48,
+   "note": "보통/선택 같은 256x256 캔버스"
+  },
+  "menu/tab_attendance_selected": {
+   "path": "kkaegul:textures/ui/menu/tab_attendance_selected.png",
+   "size": [
+    256,
+    256
+   ],
+   "source": "frog_menu/tab_attendance_selected.png",
+   "crop": [
+    331,
+    341,
+    923,
+    939
+   ],
+   "scale": 0.40134,
+   "note": "보통/선택 같은 256x256 캔버스"
+  },
+  "menu/tab_profile_normal": {
+   "path": "kkaegul:textures/ui/menu/tab_profile_normal.png",
+   "size": [
+    256,
+    256
+   ],
+   "source": "frog_menu/tab_profile_normal.png",
+   "crop": [
+    504,
+    261,
+    1030,
+    790
+   ],
+   "scale": 0.45369,
+   "note": "보통/선택 같은 256x256 캔버스"
+  },
+  "menu/tab_profile_selected": {
+   "path": "kkaegul:textures/ui/menu/tab_profile_selected.png",
+   "size": [
+    256,
+    256
+   ],
+   "source": "frog_menu/tab_profile_selected.png",
+   "crop": [
+    310,
+    313,
+    945,
+    939
+   ],
+   "scale": 0.37795,
+   "note": "보통/선택 같은 256x256 캔버스"
+  },
+  "menu/tab_ranking_normal": {
+   "path": "kkaegul:textures/ui/menu/tab_ranking_normal.png",
+   "size": [
+    256,
+    256
+   ],
+   "source": "frog_menu/tab_ranking_normal.png",
+   "crop": [
+    529,
+    293,
+    1000,
+    771
+   ],
+   "scale": 0.50209,
+   "note": "보통/선택 같은 256x256 캔버스"
+  },
+  "menu/tab_ranking_selected": {
+   "path": "kkaegul:textures/ui/menu/tab_ranking_selected.png",
+   "size": [
+    256,
+    256
+   ],
+   "source": "frog_menu/tab_ranking_selected.png",
+   "crop": [
+    475,
+    233,
+    1060,
+    813
+   ],
+   "scale": 0.41026,
+   "note": "보통/선택 같은 256x256 캔버스"
+  },
+  "menu/tab_titles_normal": {
+   "path": "kkaegul:textures/ui/menu/tab_titles_normal.png",
+   "size": [
+    256,
+    256
+   ],
+   "source": "frog_menu/tab_titles_normal.png",
+   "crop": [
+    276,
+    223,
+    1027,
+    979
+   ],
+   "scale": 0.31746,
+   "note": "보통/선택 같은 256x256 캔버스"
+  },
+  "menu/tab_titles_selected": {
+   "path": "kkaegul:textures/ui/menu/tab_titles_selected.png",
+   "size": [
+    256,
+    256
+   ],
+   "source": "frog_menu/tab_titles_selected.png",
+   "crop": [
+    316,
+    325,
+    940,
+    946
+   ],
+   "scale": 0.38462,
+   "note": "보통/선택 같은 256x256 캔버스"
+  },
+  "menu/title_row_locked": {
+   "path": "kkaegul:textures/ui/menu/title_row_locked.png",
+   "size": [
+    1024,
+    140
+   ],
+   "source": "frog_menu/title_row_locked.png",
+   "crop": [
+    6,
+    212,
+    2166,
+    508
+   ],
+   "scale": 0.4740740740740741
+  },
+  "menu/title_row_owned": {
+   "path": "kkaegul:textures/ui/menu/title_row_owned.png",
+   "size": [
+    1024,
+    111
+   ],
+   "source": "frog_menu/title_row_owned.png",
+   "crop": [
+    17,
+    247,
+    2155,
+    479
+   ],
+   "scale": 0.47895229186155286
+  },
+  "menu/title_row_selected": {
+   "path": "kkaegul:textures/ui/menu/title_row_selected.png",
+   "size": [
+    1024,
+    131
+   ],
+   "source": "frog_menu/title_row_selected.png",
+   "crop": [
+    67,
+    232,
+    2105,
+    492
+   ],
+   "scale": 0.5024533856722276
+  }
+ },
+ "items": {
+  "coin_pouch": {
+   "item_model": "kkaegul:coin_pouch",
+   "texture": "kkaegul:textures/item/coin_pouch.png"
+  },
+  "fail_paper": {
+   "item_model": "kkaegul:fail_paper",
+   "texture": "kkaegul:textures/item/fail_paper.png"
+  },
+  "farm_ticket": {
+   "item_model": "kkaegul:farm_ticket",
+   "texture": "kkaegul:textures/item/farm_ticket.png"
+  },
+  "gacha_protect": {
+   "item_model": "kkaegul:gacha_protect",
+   "texture": "kkaegul:textures/item/gacha_protect.png"
+  },
+  "gauge_random": {
+   "item_model": "kkaegul:gauge_random",
+   "texture": "kkaegul:textures/item/gauge_random.png"
+  },
+  "gauge_ticket": {
+   "item_model": "kkaegul:gauge_ticket",
+   "texture": "kkaegul:textures/item/gauge_ticket.png"
+  },
+  "incen_ticket": {
+   "item_model": "kkaegul:incen_ticket",
+   "texture": "kkaegul:textures/item/incen_ticket.png"
+  },
+  "invite_ticket": {
+   "item_model": "kkaegul:invite_ticket",
+   "texture": "kkaegul:textures/item/invite_ticket.png"
+  },
+  "land_ticket": {
+   "item_model": "kkaegul:land_ticket",
+   "texture": "kkaegul:textures/item/land_ticket.png"
+  },
+  "lucky_box": {
+   "item_model": "kkaegul:lucky_box",
+   "texture": "kkaegul:textures/item/lucky_box.png"
+  },
+  "normal_box": {
+   "item_model": "kkaegul:normal_box",
+   "texture": "kkaegul:textures/item/normal_box.png"
+  },
+  "premium_box": {
+   "item_model": "kkaegul:premium_box",
+   "texture": "kkaegul:textures/item/premium_box.png"
+  },
+  "return_ticket": {
+   "item_model": "kkaegul:return_ticket",
+   "texture": "kkaegul:textures/item/return_ticket.png"
+  },
+  "treasure_ticket": {
+   "item_model": "kkaegul:treasure_ticket",
+   "texture": "kkaegul:textures/item/treasure_ticket.png"
+  },
+  "user_tp_ticket": {
+   "item_model": "kkaegul:user_tp_ticket",
+   "texture": "kkaegul:textures/item/user_tp_ticket.png"
+  }
+ }
+}

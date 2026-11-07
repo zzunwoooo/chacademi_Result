@@ -1,0 +1,10 @@
+# lobby 월드: OP 가 아니면 블록 부수기·설치 금지
+on break:
+    name of world of player is "lobby"
+    player is not op
+    cancel event
+
+on place:
+    name of world of player is "lobby"
+    player is not op
+    cancel event

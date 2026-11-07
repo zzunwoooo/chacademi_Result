@@ -1,0 +1,7 @@
+{
+  "required": true,
+  "package": "kr.kkaegul.client.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": ["PlayerNameMixin", "MouseAccessor", "ChatClickMixin", "TextFieldJamoMixin"],
+  "injectors": { "defaultRequire": 0 }
+}

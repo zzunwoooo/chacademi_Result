@@ -1,0 +1,4 @@
+build/
+.gradle/
+node_modules/
+kkaegul-discord-bot/config.json

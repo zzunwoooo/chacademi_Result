@@ -1,0 +1,14 @@
+# lobby 월드의 interaction 엔티티 우클릭 → 제출 창
+import:
+    org.bukkit.entity.Interaction
+
+on right click on entity:
+    event-entity is instance of Interaction
+    name of world of player is "lobby"
+    cancel event
+    if metadata value "kgSubmitCd" of player is set:
+        stop
+    set metadata value "kgSubmitCd" of player to true
+    make player execute command "/제출"
+    wait 10 ticks
+    delete metadata value "kgSubmitCd" of player

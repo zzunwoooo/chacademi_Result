@@ -1,0 +1,39 @@
+# 깨굴랜드 장식 기계 (ModelEngine 모델). /mm m spawn <이름> 으로 세우고, 바라보고 /깨굴 npc 연결 <동작>
+GashaponStation:
+  Type: ZOMBIE
+  Display: ''
+  Health: 2048
+  Options:
+    AlwaysShowName: false
+    Silent: true
+    NoAI: true
+    Invincible: true
+    Despawn: false
+    PreventOtherDrops: true
+    PreventItemPickup: true
+    PreventSunburn: true
+    Collidable: false
+    KnockbackResistance: 1
+    MovementSpeed: 0
+  Skills:
+  - model{mid=gashapon_station} @self ~onSpawn
+  - model{mid=gashapon_station} @self ~onLoad
+ArcadeStation:
+  Type: ZOMBIE
+  Display: ''
+  Health: 2048
+  Options:
+    AlwaysShowName: false
+    Silent: true
+    NoAI: true
+    Invincible: true
+    Despawn: false
+    PreventOtherDrops: true
+    PreventItemPickup: true
+    PreventSunburn: true
+    Collidable: false
+    KnockbackResistance: 1
+    MovementSpeed: 0
+  Skills:
+  - model{mid=arcade_station} @self ~onSpawn
+  - model{mid=arcade_station} @self ~onLoad

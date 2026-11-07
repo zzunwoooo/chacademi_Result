@@ -1,0 +1,39 @@
+info:
+  namespace: item
+
+categories:
+  kkaegul_food:
+    enabled: true
+    icon: item:cola
+    name: "&c음식"
+    permission: ia.menu.seecategory.kkaegul_food
+    items:
+      - item:cola
+      - item:kkaekkaero
+  kkaegul_tickets:
+    enabled: true
+    icon: item:teleport_ticket
+    name: "&b티켓"
+    permission: ia.menu.seecategory.kkaegul_tickets
+    items:
+      - item:inven_save_ticket
+      - item:teleport_ticket
+      - item:return_ticket
+      - item:gacha_protect
+      - item:farm_ticket
+      - item:treasure_ticket
+      - item:gauge_ticket
+      - item:gauge_random
+      - item:invite_ticket
+      - item:land_ticket
+  kkaegul_boxes:
+    enabled: true
+    icon: item:lucky_box
+    name: "&6상자 · 재화"
+    permission: ia.menu.seecategory.kkaegul_boxes
+    items:
+      - item:normal_box
+      - item:premium_box
+      - item:lucky_box
+      - item:coin_pouch
+      - item:fail_paper

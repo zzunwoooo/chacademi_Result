@@ -1,0 +1,216 @@
+info:
+  namespace: item
+items:
+  cola:
+    display_name: '&f⨄ 깨굴 콜라'
+    resource:
+      material: HONEY_BOTTLE
+      generate: true
+      textures:
+      - kkaegul/cola.png
+    lore:
+      - ''
+      - '&7| 타입 : &f소비 아이템'
+      - ''
+      - '&7| 시원하게 마시는 깨굴이표 콜라'
+  kkaekkaero:
+    display_name: '&f⨄ 깨깨로'
+    resource:
+      material: COOKIE
+      generate: true
+      textures:
+      - kkaegul/kkaekkaero.png
+    lore:
+      - ''
+      - '&7| 타입 : &f소비 아이템'
+      - ''
+      - '&7| 11월 11일에만 나오는 한정 과자'
+  inven_save_ticket:
+    display_name: '&f⨇ 인벤세이브권'
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+      - kkaegul/inven_save_ticket.png
+    lore:
+      - ''
+      - '&7| 타입 : &f소비 아이템'
+      - ''
+      - '&7| 보유 중 사망 시 아이템을 소비하여'
+      - '   &7보유중인 아이템을 &f손실로부터 보호&7한다.'
+  teleport_ticket:
+    display_name: '&f⨇ 텔레포트권'
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+      - kkaegul/teleport_ticket.png
+    lore:
+      - ''
+      - '&7| 타입 : &f소비 아이템'
+      - ''
+      - '&7| &f⨃ &7: 원하는 접속중인 유저의 위치로 선택하여 이동합니다.'
+      - '   &8(감옥에서는 사용할 수 없습니다.)'
+  return_ticket:
+    display_name: '&f⨇ 귀환권'
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+      - kkaegul/return_ticket.png
+    lore:
+      - ''
+      - '&7| 타입 : &f소비 아이템'
+      - ''
+      - '&7| &f⨃ &7: 끌려가기 전 위치로 돌아갑니다.'
+      - '   &8(감옥에서는 사용할 수 없습니다.)'
+  gacha_protect:
+    display_name: '&f⨇ 가챠 파괴 방지권'
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+      - kkaegul/gacha_protect.png
+    lore:
+      - ''
+      - '&7| 타입 : &f소비 아이템'
+      - ''
+      - '&7| 보유 중 곡괭이가 파괴될 때 아이템을 소비하여'
+      - '   &7곡괭이를 &f파괴로부터 보호&7한다.'
+  farm_ticket:
+    display_name: '&f⨇ 농사 금액 변동권'
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+      - kkaegul/farm_ticket.png
+    lore:
+      - ''
+      - '&7| 타입 : &f소비 아이템'
+      - ''
+      - '&7| &f⨃ &7: 작물 판매 시세를 즉시 다시 정한다.'
+  treasure_ticket:
+    display_name: '&f⨊ 보물광산 이동권'
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+      - kkaegul/treasure_ticket.png
+    lore:
+      - ''
+      - '&7| 타입 : &f소비 아이템'
+      - ''
+      - '&7| &f⨃ &7: 보물광산으로 즉시 이동한다.'
+      - '   &8(하루 이동 횟수와 별개로 사용됩니다.)'
+  gauge_ticket:
+    display_name: '&f⨇ 게이지 변동권'
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+      - kkaegul/gauge_ticket.png
+    lore:
+      - ''
+      - '&7| 타입 : &f소비 아이템'
+      - ''
+      - '&7| &f⨃ &7: 운빨 게이지를 &a10 &7올린다.'
+      - '&7| &f⨉+⨃ &7: 운빨 게이지를 &c10 &7내린다.'
+  gauge_random:
+    display_name: '&f⨄ 랜덤 게이지 변동권'
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+      - kkaegul/gauge_random.png
+    lore:
+      - ''
+      - '&7| 타입 : &f소비 아이템'
+      - ''
+      - '&7| &f⨃ &7: 운빨 게이지가 &f-10 ~ +10 &7사이로 변한다.'
+  invite_ticket:
+    display_name: '&f⨊ 초대권'
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+      - kkaegul/invite_ticket.png
+    lore:
+      - ''
+      - '&7| 타입 : &f소비 아이템'
+      - ''
+      - '&7| &f⨃ &7: 랜덤 유저 한 명을 내 옆으로 &f초대&7한다.'
+      - '   &8(초대받은 유저는 거부할 수 없습니다.)'
+  land_ticket:
+    display_name: '&f⨇ 땅 구매권'
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+      - kkaegul/land_ticket.png
+    lore:
+      - ''
+      - '&7| 타입 : &f소비 아이템'
+      - ''
+      - '&7| &f⨃ &7: 비어있는 땅을 구매하여 소유한다.'
+  coin_pouch:
+    display_name: '&f⨄ 깨굴코인 주머니'
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+      - kkaegul/coin_pouch.png
+    lore:
+      - ''
+      - '&7| 타입 : &f소비 아이템'
+      - ''
+      - '&7| &f⨃ &7: 깨굴코인을 &f3 ~ 8&7개 획득한다.'
+  normal_box:
+    display_name: '&f⨄ 일반 상자'
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+      - kkaegul/normal_box.png
+    lore:
+      - ''
+      - '&7| 타입 : &f소비 아이템'
+      - ''
+      - '&7| &f⨃ &7: 랜덤으로 아이템을 획득한다.'
+  premium_box:
+    display_name: '&f⨇ 고급 상자'
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+      - kkaegul/premium_box.png
+    lore:
+      - ''
+      - '&7| 타입 : &f소비 아이템'
+      - ''
+      - '&7| &f⨃ &7: 랜덤으로 좋은 아이템을 획득한다.'
+  lucky_box:
+    display_name: '&f⨊ 행운 상자'
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+      - kkaegul/lucky_box.png
+    lore:
+      - ''
+      - '&7| 타입 : &f소비 아이템'
+      - ''
+      - '&7| &f⨃ &7: 대박 아이템을 획득한다.'
+      - '   &7열면 &f서버 전체&7에 이벤트가 발생한다.'
+  fail_paper:
+    display_name: '&f⨄ 꽝 종이'
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+      - kkaegul/fail_paper.png
+    lore:
+      - ''
+      - '&7| 타입 : &f재료 아이템'
+      - ''
+      - '&7| &f5&7장을 모으면 &f고급 상자&7로 교환할 수 있다.'
+      - '   &8(/접속보상 교환)'

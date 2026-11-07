@@ -1,0 +1,7 @@
+# 탭 이름 = KkaegulCore 칭호 + 한글닉 (%kkaegul_display%)
+_DEFAULT_:
+  tabprefix: ""
+  customtabname: "%kkaegul_display%"
+  tabsuffix: ""
+  tagprefix: ""
+  tagsuffix: ""

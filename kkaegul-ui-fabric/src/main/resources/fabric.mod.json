@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "kkaegul_ui",
+  "version": "${version}",
+  "name": "운빨깨굴랜드 UI",
+  "description": "깨굴이의 위험한 초대 : 운빨깨굴랜드 전용 고화질 UI (HUD, 룰렛, 가챠, 메뉴, 닉네임)",
+  "environment": "client",
+  "mixins": ["kkaegul.mixins.json"],
+  "entrypoints": { "client": ["kr.kkaegul.client.mc.KkaegulClient"] },
+  "depends": {
+    "fabricloader": ">=0.16.14",
+    "minecraft": "1.21.4",
+    "java": ">=21",
+    "fabric-api": ">=0.119.4+1.21.4"
+  }
+}

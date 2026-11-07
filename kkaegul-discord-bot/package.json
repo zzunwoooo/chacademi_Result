@@ -1,0 +1,10 @@
+{
+  "name": "kkaegul-discord-bot",
+  "version": "0.1.0",
+  "description": "운빨깨굴랜드 미니게임(포커·섯다) 테이블별 디스코드 음성 채널 자동 이동 봇",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": { "start": "node index.js" },
+  "engines": { "node": ">=18" },
+  "dependencies": { "discord.js": "^14.16.3" }
+}

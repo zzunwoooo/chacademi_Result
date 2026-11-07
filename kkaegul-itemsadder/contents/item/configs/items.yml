@@ -1,0 +1,175 @@
+# 깨굴이의 위험한 초대 : 운빨깨굴랜드 — 커스텀 아이템 (ItemsAdder)
+# 아이템 id = item:<이름>. 기능은 KkaegulCore 플러그인이 이 id 로 인식해서 처리한다.
+# 그림 17종 모두 확정 (교체 시 textures/item/<이름>.png 바꾸고 /iazip)
+info:
+  namespace: item
+
+items:
+  # ── 음식 ─────────────────────────────
+  cola:
+    display_name: "&c깨굴 콜라"
+    lore:
+      - "&7시원한 콜라 한 캔"
+      - "&8먹으면 배고픔이 차요"
+    resource:
+      material: HONEY_BOTTLE
+      generate: true
+      textures:
+        - item/cola.png
+  kkaekkaero:
+    display_name: "&6깨깨로"
+    lore:
+      - "&711월 11일 한정 과자"
+      - "&8먹으면 배고픔이 차요"
+    resource:
+      material: COOKIE
+      generate: true
+      textures:
+        - item/kkaekkaero.png
+
+  # ── 티켓 ─────────────────────────────
+  inven_save_ticket:
+    display_name: "&e인벤세이브권"
+    lore:
+      - "&7죽을 때 1장 자동 사용"
+      - "&7→ 아이템과 레벨을 지켜줘요"
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+        - item/inven_save_ticket.png
+  teleport_ticket:
+    display_name: "&b텔레포트권"
+    lore:
+      - "&7우클릭 → 접속 중인 유저에게 순간이동"
+      - "&8(/유저텔포 <이름>)"
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+        - item/teleport_ticket.png
+  return_ticket:
+    display_name: "&f귀환권"
+    lore:
+      - "&7우클릭 → 끌려가기 전 자리로 돌아가요"
+      - "&8감옥에서는 사용 불가"
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+        - item/return_ticket.png
+  gacha_protect:
+    display_name: "&d가챠 파괴 방지권"
+    lore:
+      - "&7곡괭이가 부서지는 순간"
+      - "&71장 자동 사용 → 곡괭이를 지켜줘요"
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+        - item/gacha_protect.png
+  farm_ticket:
+    display_name: "&2농사 금액 변동권"
+    lore:
+      - "&7우클릭 → 작물 시세를 즉시 다시 정해요"
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+        - item/farm_ticket.png
+  treasure_ticket:
+    display_name: "&e보물광산 이동권"
+    lore:
+      - "&7우클릭 → 보물광산으로 바로 이동"
+      - "&8하루 이동 횟수와 별개"
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+        - item/treasure_ticket.png
+  gauge_ticket:
+    display_name: "&6게이지 변동권"
+    lore:
+      - "&7우클릭 → 운빨 게이지 +10"
+      - "&7웅크리고 우클릭 → 운빨 게이지 -10"
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+        - item/gauge_ticket.png
+  gauge_random:
+    display_name: "&6랜덤 게이지 변동권"
+    lore:
+      - "&7우클릭 → 운빨 게이지 -10 ~ +10 랜덤"
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+        - item/gauge_random.png
+  invite_ticket:
+    display_name: "&5초대권"
+    lore:
+      - "&7우클릭 → 랜덤 유저 1명을 내 옆으로 강제 초대"
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+        - item/invite_ticket.png
+  land_ticket:
+    display_name: "&a땅 구매권"
+    lore:
+      - "&7부동산업자에게 받은 첫 땅 구매권"
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+        - item/land_ticket.png
+
+  # ── 상자 · 재화 ──────────────────────
+  coin_pouch:
+    display_name: "&a깨굴코인 주머니"
+    lore:
+      - "&7우클릭 → 깨굴코인 3~8개"
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+        - item/coin_pouch.png
+  normal_box:
+    display_name: "&f일반상자"
+    lore:
+      - "&7우클릭해서 열기"
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+        - item/normal_box.png
+  premium_box:
+    display_name: "&b고급상자"
+    lore:
+      - "&7우클릭해서 열기"
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+        - item/premium_box.png
+  lucky_box:
+    display_name: "&6&l행운상자"
+    lore:
+      - "&7우클릭해서 열기"
+      - "&e열면 서버 전체 이벤트 발생!"
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+        - item/lucky_box.png
+  fail_paper:
+    display_name: "&8꽝 종이"
+    lore:
+      - "&75장 모으면 고급상자로 교환"
+      - "&8(/접속보상 교환)"
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+        - item/fail_paper.png

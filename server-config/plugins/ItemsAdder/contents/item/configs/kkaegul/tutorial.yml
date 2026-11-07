@@ -1,0 +1,66 @@
+info:
+  namespace: item
+items:
+  tutorial_1:
+    display_name: '&f튜토리얼 1 · 마이크 설정'
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+      - kkaegul/tutorial_1.png
+  tutorial_2:
+    display_name: '&f튜토리얼 2 · 후원 연동'
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+      - kkaegul/tutorial_2.png
+  tutorial_3:
+    display_name: '&f튜토리얼 3 · 최초 장비'
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+      - kkaegul/tutorial_3.png
+  tutorial_4:
+    display_name: '&f튜토리얼 4 · 화폐 안내'
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+      - kkaegul/tutorial_4.png
+  tutorial_5:
+    display_name: '&f튜토리얼 5 · 메뉴 이용'
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+      - kkaegul/tutorial_5.png
+  tutorial_6:
+    display_name: '&f튜토리얼 6 · 오늘의 운세'
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+      - kkaegul/tutorial_6.png
+  tutorial_7:
+    display_name: '&f튜토리얼 7 · 땅 구매권'
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+      - kkaegul/tutorial_7.png
+  tutorial_8:
+    display_name: '&f튜토리얼 8 · 곡괭이 가챠'
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+      - kkaegul/tutorial_8.png
+  tutorial_9:
+    display_name: '&f튜토리얼 9 · 운빨 게이지'
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+      - kkaegul/tutorial_9.png

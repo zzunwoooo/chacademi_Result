@@ -1,0 +1,52 @@
+prefix: "&f{e:system} "
+
+diamond:
+  protected: "&a초반 보호 중이라 감소가 적용되지 않았어요. &7(남은 다이아 {threshold}개 미만)"
+
+mail:
+  arrived: "&e우편함에 선물이 도착했어요! &7{reason} &f(/우편함)"
+  claimed: "&a우편함에서 {count}개를 받았어요."
+  empty: "&7우편함이 비어 있어요."
+
+box:
+  got: "&f{box} &e{amount}개&f를 받았어요. {e:right} 우클릭해서 열어보세요."
+
+coin:
+  got: "&a깨굴코인 +{amount}"
+money:
+  got: "&a돈 +{amount}"
+gauge:
+  changed: "&6운빨 게이지 {delta} &7→ {value}"
+
+api:
+  pending: "&e접속 전에 들어온 API {count}건을 실행합니다."
+
+shop:
+  cannot-sell: "&f{e:error} &c이 아이템은 팔 수 없어요."
+  nothing: "&7팔 수 있는 아이템이 없어요."
+  sold: "&a{what} &f→ &b다이아 {amount}개어치 &7(+{got}개 지급 · 보유 {held} · 모아둔 소수점 {dust})"
+  no-diamond: "&f{e:error} &c다이아가 부족해요. 필요 {need}개 / 가진 다이아 {have}개"
+  no-money: "&f{e:error} &c돈이 부족해요. 필요 {need}원 / 보유 {money}원"
+  disabled: "&7지금은 사용할 수 없는 기능이에요."
+
+submit:
+  none: "&f{e:error} &c제출할 다이아가 없어요."
+  no-debt: "&a이미 남은 다이아가 없어요!"
+
+gacha:
+  need-pickaxe: "&f{e:error} &c곡괭이를 손에 들고 돌려주세요."
+  no-coins: "&f{e:error} &c깨굴코인이 부족해요. 필요 {cost}개 / 보유 {coins}개"
+  maxed: "&e이 기계에서는 더 올릴 수 없어요 (최대 {max}). 다음 기계로!"
+
+fortune:
+  no-more: "&7오늘의 운세는 하루 {max}번까지예요. 내일 다시 오세요!"
+
+starter:
+  welcome: "&e어서오세요! &f{e:npc} &e프로필 NPC에서 이름과 보이스를 설정하고 스타트팩을 받아가세요."
+  profile-first: "&c먼저 프로필 NPC에서 이름/보이스 설정을 끝내주세요."
+  already: "&7이미 받았어요."
+
+playtime:
+  ready: "&e받을 수 있는 접속 보상이 {count}개 있어요! &f/접속보상"
+  nothing: "&7지금 받을 수 있는 접속 보상이 없어요."
+  not-enough: "&c꽝 종이가 {need}장 필요해요."

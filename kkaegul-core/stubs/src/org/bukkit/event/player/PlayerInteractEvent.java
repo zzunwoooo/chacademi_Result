@@ -1,0 +1,2 @@
+package org.bukkit.event.player;
+public class PlayerInteractEvent extends PlayerEvent implements org.bukkit.event.Cancellable { public org.bukkit.event.block.Action getAction(){return null;} public org.bukkit.inventory.ItemStack getItem(){return null;} public org.bukkit.inventory.EquipmentSlot getHand(){return null;} public org.bukkit.block.Block getClickedBlock(){return null;} public boolean isCancelled(){return false;} public void setCancelled(boolean c){} }
