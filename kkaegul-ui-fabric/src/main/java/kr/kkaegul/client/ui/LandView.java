@@ -9,7 +9,7 @@ import com.google.gson.JsonObject;
  *   <li>땅문서를 든 동안: 화면 위 가운데(게이지 바로 아래) 작은 상태 이름표 — 소유 가능(연두) / 주인(하늘) / 제한(빨강) / 내 땅(노랑).</li>
  *   <li>내 땅 안: 오른쪽 위 작은 땅 카드. 누르면 관리 창 (land.open).</li>
  * </ul>
- * 이름표·카드 그림은 묶음 6(land_ui) 이 오면 바꿔 끼울 자리 — 지금은 코드로 그린 임시 판.
+ * 그림은 기존 알림 카드(notice/toast_cream)와 드롭다운 아이콘(깨굴이 집)을 재활용.
  */
 public final class LandView {
     public volatile boolean holding;
@@ -66,28 +66,27 @@ public final class LandView {
         c.scale(scale, scale);
         float W = c.width() / scale;
         if (holding && !label.isEmpty()) {
+            // 상태 이름표: 알림 카드(toast_cream) 재활용 + 상태 색 점
             float t = Anim.outCubic(Anim.t(now, changedAt, 180));
-            int col = rgb(status);
-            float tw = c.textWidth(label, 21, Canvas.BOLD);
-            float w = Math.max(200, tw + 70), h = 40, x = W / 2 - 30 - w / 2, y = 98 - (1 - t) * 6;
-            c.fill(x, y, w, h, h / 2, Anim.alpha(0xE6FFF8EC, t));
-            c.fill(x + 2, y + 2, w - 4, h - 4, h / 2 - 2, Anim.alpha(0xFF000000 | col, t * .28f));
-            c.fill(x + 12, y + h / 2 - 8, 16, 16, 8, Anim.alpha(0xFF000000 | col, t));
-            c.textFit(label, x + 38, y + h / 2, 21, w - 50, Anim.alpha(0xFF4A2D16, t), Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
+            float tw = c.textWidth(label, 20, Canvas.BOLD);
+            float w = Math.max(240, tw + 84), h = 44, x = W / 2 - 30 - w / 2, y = 96 - (1 - t) * 6;
+            c.image("notice/toast_cream", x, y, w, h, Anim.white(t));
+            c.fill(x + 26, y + h / 2 - 7, 14, 14, 7, Anim.alpha(0xFF000000 | rgb(status), t));
+            c.textFit(label, x + 50, y + h / 2, 20, w - 70, Anim.alpha(0xFF4A2D16, t), Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
         }
         JsonObject mi = mine;
         cardW = 0;
         if (mi != null) {
+            // 내 땅 카드: 알림 카드 + 깨굴이 집 아이콘 재활용
             float t = Anim.outBack(Anim.t(now, mineAt, 260));
-            float w = 300, h = 96, x = W - w - 16 + (1 - t) * 40, y = 16;
+            float w = 340, h = 64, x = W - w - 14 + (1 - t) * 40, y = 14;
             boolean over = cursor && Anim.in(mx / scale, my / scale, x, y, w, h);
             hover += ((over ? 1 : 0) - hover) * .3f;
             float a = Anim.clamp(t);
-            c.fill(x, y, w, h, 22, Anim.alpha(0xFF6B4A2B, a));
-            c.fill(x + 3, y + 3, w - 6, h - 6, 19, Anim.alpha(hover > .5f ? 0xFFFFF4DE : 0xFFFBEBD0, a));
-            c.imageFit("dropdown/icon_lobby", x + 50, y + h / 2 - 2 * hover, 64 + 4 * hover, Anim.white(a));
-            c.textFit("내 땅", x + 92, y + 34, 26, w - 104, Anim.alpha(0xFF4A2D16, a), Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
-            c.textFit("눌러서 관리 · " + J.num(mi, "count") + "칸", x + 92, y + 66, 18, w - 104, Anim.alpha(0xFF8A6A4A, a), Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
+            c.image("notice/toast_cream", x, y + (over ? -2 : 0), w, h, Anim.white(a));
+            c.imageFit("dropdown/icon_lobby", x + 44, y + h / 2 - 2 * hover, 46 + 4 * hover, Anim.white(a));
+            c.textFit("내 땅", x + 78, y + h / 2, 23, 80, Anim.alpha(0xFF4A2D16, a), Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
+            c.textFit(J.num(mi, "count") + "칸 · 눌러서 관리", x + 150, y + h / 2, 17, w - 175, Anim.alpha(0xFF8A6A4A, a), Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
             cardX = x; cardY = y; cardW = w; cardH = h;
         }
         c.pop();
