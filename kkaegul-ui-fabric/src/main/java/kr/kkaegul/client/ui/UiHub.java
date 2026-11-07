@@ -19,6 +19,7 @@ public final class UiHub {
     public final ExtraView extra = new ExtraView();
     private final HarassView harass = new HarassView();
     private final BannerView banner = new BannerView();
+    public final LandView land = new LandView();
     private final Host host;
     /** UUID → {name, title} 머리 위 이름표 */
     private volatile Map<String, String[]> names = Map.of();
@@ -50,6 +51,7 @@ public final class UiHub {
             case "toast" -> notice.toast(J.str(m, "text"), J.str(m, "kind"), now);
             case "roulette" -> roulette.add(m, now);
             case "banner" -> banner.add(m, now);
+            case "land" -> land.set(m, now);
             case "fx" -> fx(J.str(m, "id"), J.objOrEmpty(m, "data"), now);
             case "names" -> {
                 nameplate = m.has("nameplate") && m.get("nameplate").getAsBoolean();
@@ -85,6 +87,7 @@ public final class UiHub {
             case "withdraw" -> new WithdrawPanel(host, data, now);
             case "donation_board" -> new DonationBoardPanel(host, data, now);
             case "discord_link" -> new DiscordLinkPanel(host, data, now);
+            case "land" -> new LandPanel(host, data, now);
             case "hud" -> { hud.set(data, now); yield null; }
             default -> null;
         };
@@ -141,6 +144,7 @@ public final class UiHub {
     /** 상시 레이어 그리기 (HUD 단계에서 매 프레임) */
     /** HUD 클릭 (Alt 커서 / 채팅창): ▼ = 메뉴, 우편 = 우편함, 나머지 = 내 정보 */
     public boolean clickOverlay(float mx, float my) {
+        if (land.hit(mx, my, hud.scale)) { host.send("land.open"); host.sound("minecraft:ui.button.click", 1.2f, .4f); return true; }
         String k = hud.hitKey(mx, my);
         if (k == null) return false;
         switch (k) {
@@ -167,6 +171,7 @@ public final class UiHub {
         if (!panelOpen || host.openPanel() instanceof DropdownPanel) hud.render(c, now);
         if (!panelOpen) mini.render(c, now);
         if (!panelOpen) extra.render(c, now);
+        if (!panelOpen) land.render(c, now, hud.scale, cursor, mx, my);
         roulette.render(c, now, host);
         harass.render(c, now, host);
         race.render(c, now, panelOpen);

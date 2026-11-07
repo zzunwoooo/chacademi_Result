@@ -18,8 +18,22 @@ public final class Fmt {
             0x2B2118, 0x2B4C9C, 0x3E8E2F, 0x2A8C8C, 0xB8322B, 0x9A3FB0, 0xD27A12, 0x8A8178,
             0x6B6158, 0x4D6FD8, 0x4FA63A, 0x2E9DB0, 0xE0504A, 0xC255C9, 0xC99A10, 0x5A4636};
 
+    /** 번역 키 → 게임 언어 이름 (모드에서 I18n 으로 바꿔 끼움). 서버 글의 {tr:item.minecraft.diamond} 를 바꾼다 */
+    public static java.util.function.UnaryOperator<String> translator = k -> k;
+    private static final java.util.regex.Pattern TR = java.util.regex.Pattern.compile("\\{tr:([A-Za-z0-9_.\\-]+)}");
+
+    public static String tr(String s) {
+        if (s == null || !s.contains("{tr:")) return s;
+        var m = TR.matcher(s);
+        StringBuilder b = new StringBuilder();
+        while (m.find()) m.appendReplacement(b, java.util.regex.Matcher.quoteReplacement(translator.apply(m.group(1))));
+        m.appendTail(b);
+        return b.toString();
+    }
+
     public static String amp(String s) {
         if (s == null) return "";
+        s = tr(s);
         StringBuilder b = new StringBuilder(s.length());
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);

@@ -69,6 +69,10 @@ public final class KkaegulClient implements ClientModInitializer, Host {
         instance = this;
         mc = MinecraftClient.getInstance();
         hub = new UiHub(this);
+        Fmt.translator = k -> net.minecraft.client.resource.language.I18n.translate(k);
+        net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents.AFTER_ENTITIES.register(ctx -> {
+            try { LandWorld.render(ctx, hub.land); } catch (RuntimeException e) { LOG.warn("땅 경계 그리기 실패", e); }
+        });
 
         PayloadTypeRegistry.playS2C().register(Payloads.Ui.ID, Payloads.Ui.CODEC);
         PayloadTypeRegistry.playC2S().register(Payloads.Action.ID, Payloads.Action.CODEC);
