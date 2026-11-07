@@ -4,6 +4,9 @@ on:
   push:
     branches: [ 'claude/kkaegul-launcher' ]
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: windows-latest
@@ -35,3 +38,17 @@ jobs:
           name: kkaegul-launcher-setup
           path: dist/*.exe
           retention-days: 30
+
+      # 100MB 넘는 파일은 git 에 못 올려서 90MB 조각으로 나눠 build 브랜치에 올림 (받는 쪽에서 이어 붙임)
+      - name: Push to build branch
+        shell: bash
+        run: |
+          mkdir out && cd out
+          exe=$(ls ../dist/*.exe | head -1)
+          split -b 90m -d "$exe" "$(basename "$exe").part"
+          sha256sum "$exe" | awk '{print $1}' > SHA256.txt
+          ls -la
+          git init -q && git checkout -q -b claude/kkaegul-launcher-build
+          git config user.name "github-actions" && git config user.email "actions@github.com"
+          git add -A && git commit -qm "build ${GITHUB_SHA}"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" claude/kkaegul-launcher-build
