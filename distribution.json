@@ -7,7 +7,7 @@
       "description": "깨굴이의 위험한 초대 : 운빨깨굴랜드 (Minecraft 1.21.4 Fabric)",
       "icon": "https://github.com/mchdistro/zzunwoo/raw/main/server-icon.png",
       "version": "1.0.0",
-      "address": "122.38.40.140:25565",
+      "address": "211.53.196.231:31898",
       "minecraftVersion": "1.21.4",
       "mainServer": true,
       "autoconnect": true,
@@ -278,7 +278,7 @@
           "name": "servers.dat",
           "type": "File",
           "artifact": {
-            "size": 91,
+            "size": 92,
             "url": "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/kkaegul-launcher-distro/files/servers.dat",
             "path": "servers.dat"
           }
