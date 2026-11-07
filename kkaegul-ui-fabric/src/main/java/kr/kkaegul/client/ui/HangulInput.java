@@ -103,6 +103,19 @@ public final class HangulInput {
         return out;
     }
 
+    /** 따로 들어온 자모(ㅈㅜㄴㅇㅜ)를 합친 글 (준우). 자모가 아닌 글자는 그대로 */
+    public static String compose(String s) {
+        if (s == null || s.isEmpty()) return s == null ? "" : s;
+        StringBuilder out = new StringBuilder();
+        HangulInput h = new HangulInput();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c >= 0x3131 && c <= 0x3163) out.append(h.feed(c));
+            else { out.append(h.flush()).append(c); }
+        }
+        return out.append(h.flush()).toString();
+    }
+
     /** 지우기: 조합 중이면 마지막 자모만 지우고 true, 아니면 false (앞 글자를 지우게) */
     public boolean backspace() {
         if (empty()) return false;

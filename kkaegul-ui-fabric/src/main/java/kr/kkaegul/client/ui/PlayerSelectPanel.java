@@ -37,7 +37,8 @@ public final class PlayerSelectPanel implements Panel {
         List<Integer> out = new ArrayList<>();
         List<String> n = names();
         for (int i = 0; i < n.size(); i++) {
-            if (search.isEmpty() || label(i).toLowerCase().contains(search.toLowerCase()) || n.get(i).toLowerCase().contains(search.toLowerCase())) out.add(i);
+            String q = HangulInput.compose(search).toLowerCase();
+            if (q.isEmpty() || label(i).toLowerCase().contains(q) || n.get(i).toLowerCase().contains(q)) out.add(i);
         }
         return out;
     }
@@ -71,7 +72,7 @@ public final class PlayerSelectPanel implements Panel {
         c.text("유저 텔레포트", 478, 237, 44, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
         // 티켓 + 안내
         c.imageAt("user_select/teleport_ticket", 232, 345, 58, 1, -14, 0xFFFFFFFF);
-        c.text(search.isEmpty() ? "누구에게 갈까요?" : "검색: " + search, 300, 347, 30, Theme.MUTED, Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
+        c.text(search.isEmpty() ? "누구에게 갈까요?" : "검색: " + HangulInput.compose(search), 300, 347, 30, Theme.MUTED, Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
         c.fill(157, 400, 633, 3, 1.5f, 0xFFE3D6BF);
 
         // 목록
@@ -154,7 +155,7 @@ public final class PlayerSelectPanel implements Panel {
 
     @Override public boolean typed(char ch, long now) {
         if (Character.isISOControl(ch)) return false;
-        if (search.length() < 16) search += ch;
+        if (search.length() < 32) search += ch;   // 자모가 따로 와도 보여줄 때·찾을 때 합침
         selected = -1;
         return true;
     }

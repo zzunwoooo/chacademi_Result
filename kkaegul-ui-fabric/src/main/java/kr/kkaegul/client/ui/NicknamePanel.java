@@ -230,15 +230,16 @@ public final class NicknamePanel implements Panel {
         if (savingSince > 0 && now - savingSince > 5000) savingSince = 0;
         if (key == 346 || key == -1) { commit(); korean = !korean; caretBlink = now; return true; } // 오른쪽 Alt / 한영키
         if (key == 259 && ime.backspace()) { edited(now); return true; }
-        if (key != 259) commit();
+        // 글자 키(Q,W…)는 여기서 조합을 끝내면 안 된다: 키 눌림이 글자 입력보다 먼저 와서
+        // 예전엔 자모마다 확정돼 "ㅈㅜㄴㅇㅜ" 처럼 쪼개졌다. 커서 이동·지우기·엔터 때만 확정.
         switch (key) {
-            case 259 -> { if (caret > 0) { text = text.substring(0, caret - 1) + text.substring(caret); caret--; edited(now); } return true; } // BACKSPACE
-            case 261 -> { if (caret < text.length()) { text = text.substring(0, caret) + text.substring(caret + 1); edited(now); } return true; } // DELETE
-            case 263 -> { caret = Math.max(0, caret - 1); caretBlink = now; return true; } // LEFT
-            case 262 -> { caret = Math.min(text.length(), caret + 1); caretBlink = now; return true; } // RIGHT
-            case 268 -> { caret = 0; return true; } // HOME
-            case 269 -> { caret = text.length(); return true; } // END
-            case 257, 335 -> { save(now); return true; } // ENTER
+            case 259 -> { commit(); if (caret > 0) { text = text.substring(0, caret - 1) + text.substring(caret); caret--; edited(now); } return true; } // BACKSPACE
+            case 261 -> { commit(); if (caret < text.length()) { text = text.substring(0, caret) + text.substring(caret + 1); edited(now); } return true; } // DELETE
+            case 263 -> { commit(); caret = Math.max(0, caret - 1); caretBlink = now; return true; } // LEFT
+            case 262 -> { commit(); caret = Math.min(text.length(), caret + 1); caretBlink = now; return true; } // RIGHT
+            case 268 -> { commit(); caret = 0; return true; } // HOME
+            case 269 -> { commit(); caret = text.length(); return true; } // END
+            case 257, 335 -> { commit(); save(now); return true; } // ENTER
             default -> { return false; }
         }
     }
