@@ -311,3 +311,14 @@
 - **배포된 모드 확인:** `distribution.json`의 kkaegul-ui MD5와 `.kkaegulland\common\mods\fabric\kr\kkaegul\kkaegul-ui\...jar`의 md5를 비교해요.
 - **YAML 확인:** `python3 -c "import yaml;yaml.safe_load(open('config.yml',encoding='utf8'))"`
 - **config 수정:** 서버 파일을 받아서 바로 바꾸지 말고, 백업(`config.yml.bak-날짜`)을 만든 뒤 python으로 정확한 줄만 바꿔요.
+
+---
+
+## 8. 11/08 패치 (오너 요청 14개 + /텔포 /소환)
+
+- 코드: 9fed2e8, ae9d725 (콜라). 모드는 런처 distro 89a6dcb 에 올림.
+- **서버 위치가 바뀌었어요:** 호스팅(SSH `chacademi-host`) `C:\Users\Administrator\Downloads\이깨굴` (포트 31898). chacademi-codex 에 폴더 권한 받음 (11/08).
+- 서버 반영 방식: `plugins/KkaegulCore/config.yml` 바로 교체(백업 `config.yml.bak-20261108`), jar 는 서버가 켜져 있어 `plugins/update/` 에 넣어 둠 → **다음 재시작 때 교체됨**. 옛 jar 백업은 서버 폴더 `KkaegulCore-0.1.0.jar.bak-20261108`.
+- 바뀐 것: 피버 2배/3배(범위 배수, 15%로 3배, 피버 끝까지), 남은 다이아 랭킹 많은 순, 광산 60초, 광산 안 개인 감옥·투어·끌려가기·날리기 막음, 위험한 초대 전체 5초·날아가기 고침, 전체감옥 3, 행운상자 효과 공지, 코인 구매 한 번 100, 경주·점프 상한 해제, 경주 결과 뒤 바로 배팅, 콜라·깨깨로 스테이크만큼 회복, 예전 꿀병 콜라 접속 시 교체, 귓속말 자동완성 한글닉만, 운영자 `/텔포` `/소환`, WASD 타이머 키판 위로.
+- 신규 시작 다이아: 실서버 jar·config 모두 500~1500 랜덤 맞음 (300 은 그 전에 만든 계정).
+- 게임 안 확인 안 함.
