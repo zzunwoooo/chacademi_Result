@@ -30,6 +30,8 @@ public final class GachaPanel implements Panel {
 
     @Override public void update(JsonObject d, long now) {
         if (d == null) return;
+        // 돌리기를 눌렀는데 연출(fx) 없이 갱신만 왔다 = 서버가 거절함 (코인 부족 등) → 바로 다시 누를 수 있게
+        if (waitingSince > 0 && fx == null) waitingSince = 0;
         if (busy(now)) pending = J.merge(pending == null ? data : pending, d);
         else data = J.merge(data, d);
     }
@@ -73,15 +75,31 @@ public final class GachaPanel implements Panel {
     private static final String[] STAT_ICON = {"gacha/stat_luck", "gacha/stat_efficiency", "gacha/stat_durability"};
     private static final String[] SMALL_ICON = {"gacha_machine/luck_clover", "gacha_machine/efficiency_bolt", "gacha_machine/durability_shield"};
 
-    private boolean canSpin(long now) {
-        if (busy(now)) return false;
-        if (!J.bool(data, "holdingPickaxe")) return false;
-        if (J.num(data, "coins") < J.num(data, "cost")) return false;
+    private boolean canSpin(long now) { return !busy(now) && blockReason().isEmpty(); }
+
+    /** 못 돌리는 이유 (없으면 ""). 예전엔 세 칸이 모두 기계 max "이상"이면 막아서, 9/15/9 처럼 max 를 넘는 곡괭이는 영영 못 돌렸다. */
+    private String blockReason() {
+        if (!J.bool(data, "holdingPickaxe")) return "곡괭이를 손에 들어 주세요";
+        if (J.num(data, "coins") < J.num(data, "cost")) return "깨굴코인이 부족해요";
+        if (allExactMax()) return "이미 이 기계 최대예요 · 다른 기계를 써 주세요";
+        return "";
+    }
+
+    private boolean allExactMax() {
         JsonObject st = J.objOrEmpty(data, "stats");
         long max = J.num(data, "max");
-        boolean allMax = max > 0;
-        for (String s : STAT) if (J.num(st, s) < max) allMax = false;
-        return !allMax;
+        if (max <= 0) return false;
+        for (String s : STAT) if (J.num(st, s) != max) return false;
+        return true;
+    }
+
+    /** 이 기계 max 보다 높은 칸이 있으면 돌렸을 때 내려갈 수 있다 */
+    private boolean overMax() {
+        JsonObject st = J.objOrEmpty(data, "stats");
+        long max = J.num(data, "max");
+        if (max <= 0) return false;
+        for (String s : STAT) if (J.num(st, s) > max) return true;
+        return false;
     }
 
     @Override public void render(Canvas c, long now, float mx, float my) {
@@ -208,6 +226,11 @@ public final class GachaPanel implements Panel {
         c.fill(318, 273 + (down ? 2 : 0), 174, 9, 4.5f, 0x30FFFFFF);
         c.text(waitingSince > 0 ? "..." : "돌리기", 405, 287 + (down ? 2 : 0), 20, Theme.WHITE, Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
         hits.add(new R("spin", 305, 268, 200, 38));
+        if (!live && waitingSince == 0) {
+            String why = blockReason();
+            if (!why.isEmpty()) c.textFit(why, 405, 314, 11, 300, dark ? 0xFFFF8A80 : Theme.RED, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+            else if (overMax()) c.textFit("이 기계는 최대 " + max + " · 지금보다 낮아질 수 있어요", 405, 314, 11, 300, dark ? 0xFFFFC266 : 0xFFB86A1E, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        }
 
         if (live) drawFx(c, now, e, mx, my);
         c.pop();

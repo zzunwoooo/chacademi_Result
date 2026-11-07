@@ -51,6 +51,7 @@ public final class SubmitPanel implements Panel {
         if (d == null) return;
         data = J.merge(data, d);
         if (amount > max()) amount = max();
+        waitingSince = 0;   // 갱신이 오면 대기 끝 (성공은 fx 가 먼저 옴, 거절돼도 바로 풀리게)
     }
 
     @Override public boolean fx(String id, JsonObject d, long now) {
