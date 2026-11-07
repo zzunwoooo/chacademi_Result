@@ -76,6 +76,21 @@ public final class Items {
 
     public boolean is(ItemStack it, CustomItem type) { return type(it) == type; }
 
+    /** 예전(꿀병 재질) 콜라는 리소스팩에 그림이 없어 유리병으로 보임 → 지금 콜라(사과 재질)로 바꿈. 바꾼 개수 */
+    public int upgradeOldCola(org.bukkit.entity.Player p) {
+        int n = 0;
+        ItemStack[] c = p.getInventory().getContents();
+        for (int i = 0; i < c.length; i++) {
+            ItemStack it = c[i];
+            if (it == null || it.getType() != Material.HONEY_BOTTLE || type(it) != CustomItem.COLA) continue;
+            ItemStack fresh = create(CustomItem.COLA, it.getAmount());
+            if (fresh.getType() == Material.HONEY_BOTTLE) return n;   // 설정이 아직 꿀병이면 그대로 둠
+            p.getInventory().setItem(i, fresh);
+            n += it.getAmount();
+        }
+        return n;
+    }
+
     public ItemStack mendingBook() {
         ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
         ItemMeta meta = book.getItemMeta();

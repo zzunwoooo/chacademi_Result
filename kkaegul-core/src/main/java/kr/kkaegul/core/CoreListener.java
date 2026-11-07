@@ -108,6 +108,7 @@ public final class CoreListener implements Listener {
         boolean first = !d.profileDone && !p.hasPlayedBefore();
         if (d.nickname != null && !d.nickname.equals(Txt.jamo(d.nickname))) { d.nickname = Txt.jamo(d.nickname); d.markDirty(); }   // 예전에 자모로 저장된 닉네임 고치기
         plugin.titles().applyName(p);
+        plugin.getServer().getScheduler().runTaskLater(plugin, () -> { if (p.isOnline()) plugin.items().upgradeOldCola(p); }, 40L);   // 예전 꿀병 콜라 → 새 콜라
         if (!d.stash.isEmpty()) {   // 위험한 초대 도중 나갔거나 서버가 꺼졌으면: 원래 자리 + 맡긴 아이템
             Location back = kr.kkaegul.core.util.Locs.fromStr(d.stashBack);
             plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
