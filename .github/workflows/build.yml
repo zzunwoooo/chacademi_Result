@@ -33,6 +33,16 @@ jobs:
         run: ls -la dist
         shell: bash
 
+      - name: Verify packaged app
+        shell: bash
+        run: |
+          npx --yes @electron/asar extract dist/win-unpacked/resources/app.asar /tmp/app
+          grep -n "REMOTE_DISTRO_URL =" /tmp/app/app/assets/js/distromanager.js
+          grep -n "kkaegulland" /tmp/app/app/assets/js/configmanager.js
+          grep -n "title =" /tmp/app/app/assets/lang/_custom.toml
+          grep -n "update-not-available" /tmp/app/index.js | head -3
+          ls dist/win-unpacked/resources
+
       - uses: actions/upload-artifact@v4
         with:
           name: kkaegul-launcher-setup
