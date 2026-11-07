@@ -63,6 +63,7 @@ public final class MinigameView {
     public void update(String screen, JsonObject d, long now) {
         if (screen.equals("wasd")) {
             keyIndex = (int) J.num(d, "index", keyIndex);
+            if (d.has("seconds") && !J.bool(d, "done")) { wasdSec = Math.max(1, J.num(d, "seconds", wasdSec)); wasdAt = now; }   // 키마다 제한시간 다시
             if (J.bool(d, "done")) { wasdDone = true; wasdOk = J.bool(d, "success"); wasdEnd = now; }
         } else if (game != null) game = J.merge(game, d);
     }
@@ -95,7 +96,8 @@ public final class MinigameView {
         long left = -1, total = 1;
         if (wasdShow && !wasdDone) { total = wasdSec * 1000; left = Math.max(0, total - (now - wasdAt)); }
         else if (game != null && J.num(game, "seconds") > 0) { total = J.num(game, "seconds") * 1000; left = Math.max(0, total - (now - gameAt)); }
-        if (left >= 0 && !res) timer(c, left, total);
+        // 타이머: 오른쪽 위는 미니맵과 겹쳐서 화면 아래 가운데로 (WASD 판이 있으면 판 바로 아래)
+        if (left >= 0 && !res) timer(c, left, total, 890, wasdShow ? 630 : H / k - 330);
 
         if (game != null && !res) {
             JsonObject partner = J.objOrEmpty(game, "partner");
@@ -122,8 +124,7 @@ public final class MinigameView {
     }
 
     /** B 타이머 (1710,45) 140×160. 링 가운데 (69.5, 94) 반지름 63.5 (재서 맞춤), 남은 비율로 초록→주황→빨강 */
-    private void timer(Canvas c, long left, long total) {
-        float x = 1710, y = 45;
+    private void timer(Canvas c, long left, long total, float x, float y) {
         c.image(P + "b_timer_empty", x, y, 140, 160, 0xFFFFFFFF);
         float f = (float) left / Math.max(1, total);
         float cx = x + 69.5f, cy = y + 94, r = 63.5f;

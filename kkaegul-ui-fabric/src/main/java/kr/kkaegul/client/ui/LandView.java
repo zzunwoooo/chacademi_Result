@@ -24,7 +24,7 @@ public final class LandView {
     public void set(JsonObject m, long now) {
         boolean h = J.bool(m, "holding");
         String st = J.str(m, "status");
-        if (h != holding || !st.equals(status)) changedAt = now;
+        if (h != holding || !st.equals(status) || !J.str(m, "label").equals(label)) changedAt = now;
         holding = h;
         status = st;
         label = J.str(m, "label");
@@ -65,7 +65,7 @@ public final class LandView {
         c.push();
         c.scale(scale, scale);
         float W = c.width() / scale;
-        if (holding && !label.isEmpty()) {
+        if (!label.isEmpty()) {   // 들고 있을 때 + 남의 땅에 들어왔을 때
             // 상태 이름표: 알림 카드(toast_cream) 재활용 + 상태 색 점
             float t = Anim.outCubic(Anim.t(now, changedAt, 180));
             float tw = c.textWidth(label, 20, Canvas.BOLD);

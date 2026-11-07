@@ -20,6 +20,7 @@ public final class UiHub {
     private final HarassView harass = new HarassView();
     private final BannerView banner = new BannerView();
     public final LandView land = new LandView();
+    private final TauntView taunt = new TauntView();
     private final Host host;
     /** UUID → {name, title} 머리 위 이름표 */
     private volatile Map<String, String[]> names = Map.of();
@@ -52,6 +53,7 @@ public final class UiHub {
             case "roulette" -> roulette.add(m, now);
             case "banner" -> banner.add(m, now);
             case "land" -> land.set(m, now);
+            case "taunt" -> taunt.show(m, now);
             case "fx" -> fx(J.str(m, "id"), J.objOrEmpty(m, "data"), now);
             case "names" -> {
                 nameplate = m.has("nameplate") && m.get("nameplate").getAsBoolean();
@@ -178,6 +180,7 @@ public final class UiHub {
         fx.render(c, now, host);
         banner.render(c, now);
         notice.render(c, now);
+        taunt.render(c, now);
         if (cursor && !panelOpen) hud.tooltip(c, mx, my);
     }
 }

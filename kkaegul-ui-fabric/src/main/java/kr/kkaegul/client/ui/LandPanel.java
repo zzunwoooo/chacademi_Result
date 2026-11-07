@@ -99,10 +99,8 @@ public final class LandPanel implements Panel {
             float th = Math.max(40, 480 * 484f / (rows.size() * 100));
             c.image("mail/mail_scroll_thumb", 1320, 290 + (480 - th) * shown / maxScroll(rows.size()), 16, th, Anim.white(a));
         }
-        boolean hr = live && Anim.in(lx, ly, 760, 800, 400, 70);
-        boolean pressed = now - pressedAt < 160;
-        c.image("mail/" + (pressed ? "mail_button_pressed" : hr ? "mail_button_hover" : "mail_button_normal"), 760, 800, 400, 70, Anim.white(a));
-        c.textFit("이 땅 회수" + (J.str(data, "here").isEmpty() ? "" : " (" + J.str(data, "here") + ")"), 960, 835 + (pressed ? 2 : 0), 28, 350, Anim.alpha(INK, a), Canvas.CENTER, TXT);
+        String here = J.str(data, "here");
+        c.textFit("내 땅에 들어온 사람을 허용하면 같이 쓸 수 있어요" + (here.isEmpty() ? "" : "  ·  지금 청크 " + here), 960, 835, 20, 700, Anim.alpha(MUTED, a), Canvas.CENTER, TXT);
         c.pop();
 
         if (confirm) renderConfirm(c, now, mx, my);
@@ -145,7 +143,6 @@ public final class LandPanel implements Panel {
         }
         float lx = (mx - ox) / k, ly = (my - oy) / k;
         if (Anim.in(lx, ly, 1290, 170, 60, 60) || !Anim.in(lx, ly, 560, 160, 800, 740)) { close(now); return true; }
-        if (Anim.in(lx, ly, 760, 800, 400, 70)) { pressedAt = now; confirm = true; confirmAt = now; host.sound("minecraft:ui.button.click", 1.1f, .4f); return true; }
         if (ly > 284 && ly < 780) {
             List<Row> rows = rows();
             for (int i = 0; i < rows.size(); i++) {
