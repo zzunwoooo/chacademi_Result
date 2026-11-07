@@ -1,0 +1,181 @@
+== 03_roulette_spin.png
+  치우침 -41px(판 높이 236)  "4" in img:roulette/body_big_increase
+== 05_roulette_dec.png
+  칸 대비 작음 34%  "3" in img:roulette/body_decrease
+  칸 대비 작음 34%  "7" in img:roulette/body_decrease
+== 10_menu_me.png
+  치우침 -11px(판 높이 75)  "깨" in img:gacha/jackpot_ribbon
+  치우침 -12px(판 높이 75)  "굴" in img:gacha/jackpot_ribbon
+  치우침 -12px(판 높이 75)  "러" in img:gacha/jackpot_ribbon
+  치우침 -11px(판 높이 75)  "버" in img:gacha/jackpot_ribbon
+== 10_menu_playtime.png
+  칸 대비 작음 39%  "꽝 종이 6/5 → 고급상자" in img:menu/button_exchange_normal
+== 10_menu_titles.png
+  치우침 -10px(판 높이 70)  "[" in img:gacha/jackpot_ribbon
+  치우침 -11px(판 높이 70)  "운" in img:gacha/jackpot_ribbon
+  치우침 -11px(판 높이 70)  "빨" in img:gacha/jackpot_ribbon
+  치우침 -11px(판 높이 70)  "왕" in img:gacha/jackpot_ribbon
+  치우침 -10px(판 높이 70)  "]" in img:gacha/jackpot_ribbon
+  치우침 -10px(판 높이 70)  "[" in img:gacha/jackpot_ribbon
+  치우침 -11px(판 높이 70)  "파" in img:gacha/jackpot_ribbon
+  치우침 -11px(판 높이 70)  "괴" in img:gacha/jackpot_ribbon
+  치우침 -11px(판 높이 70)  "왕" in img:gacha/jackpot_ribbon
+  치우침 -10px(판 높이 70)  "]" in img:gacha/jackpot_ribbon
+  치우침 -8px(판 높이 70)  "[" in img:gacha/jackpot_ribbon
+  치우침 -10px(판 높이 70)  "다" in img:gacha/jackpot_ribbon
+  치우침 -11px(판 높이 70)  "이" in img:gacha/jackpot_ribbon
+  치우침 -12px(판 높이 70)  "아" in img:gacha/jackpot_ribbon
+  치우침 -11px(판 높이 70)  "부" in img:gacha/jackpot_ribbon
+  치우침 -10px(판 높이 70)  "자" in img:gacha/jackpot_ribbon
+  치우침 -8px(판 높이 70)  "]" in img:gacha/jackpot_ribbon
+  치우침 -9px(판 높이 70)  "[" in img:gacha/jackpot_ribbon
+  치우침 -10px(판 높이 70)  "깜" in img:gacha/jackpot_ribbon
+  치우침 -11px(판 높이 70)  "빵" in img:gacha/jackpot_ribbon
+  치우침 -11px(판 높이 70)  "단" in img:gacha/jackpot_ribbon
+  치우침 -10px(판 높이 70)  "골" in img:gacha/jackpot_ribbon
+  치우침 -9px(판 높이 70)  "]" in img:gacha/jackpot_ribbon
+== 24_submit.png
+  치우침 +25px(판 높이 127)  "1,234개" in img:submit/info_remaining
+  칸 대비 작음 38%  "1,234개" in img:submit/info_remaining
+  치우침 +25px(판 높이 125)  "176개" in img:submit/info_owned
+  칸 대비 작음 39%  "176개" in img:submit/info_owned
+  치우침 -20px(판 높이 121)  "일반 제출" in img:submit/submit_normal_default
+  칸 대비 작음 34%  "일반 제출" in img:submit/submit_normal_default
+  치우침 -19px(판 높이 117)  "랜덤 제출" in img:submit/submit_random_default
+  칸 대비 작음 35%  "랜덤 제출" in img:submit/submit_random_default
+== 25_submit_dice.png
+  치우침 +25px(판 높이 127)  "1,234개" in img:submit/info_remaining
+  칸 대비 작음 38%  "1,234개" in img:submit/info_remaining
+  치우침 +25px(판 높이 125)  "176개" in img:submit/info_owned
+  칸 대비 작음 39%  "176개" in img:submit/info_owned
+  넘침 x32 y0  "최대 176" in img:submit/die_03
+  치우침 -18px(판 높이 123)  "일반 제출" in img:submit/submit_normal_disabled
+  칸 대비 작음 33%  "일반 제출" in img:submit/submit_normal_disabled
+  치우침 -20px(판 높이 119)  "랜덤 제출" in img:submit/submit_random_disabled
+  칸 대비 작음 34%  "랜덤 제출" in img:submit/submit_random_disabled
+== 26_submit_donate.png
+  치우침 +25px(판 높이 127)  "1,234개" in img:submit/info_remaining
+  칸 대비 작음 38%  "1,234개" in img:submit/info_remaining
+  치우침 +25px(판 높이 125)  "176개" in img:submit/info_owned
+  칸 대비 작음 39%  "176개" in img:submit/info_owned
+  치우침 -18px(판 높이 123)  "일반 제출" in img:submit/submit_normal_disabled
+  칸 대비 작음 33%  "일반 제출" in img:submit/submit_normal_disabled
+  치우침 -20px(판 높이 119)  "랜덤 제출" in img:submit/submit_random_disabled
+  칸 대비 작음 34%  "랜덤 제출" in img:submit/submit_random_disabled
+  넘침 x245 y0  "100개 냄 → 70개 인정 · 30개 기부 · 남은 1,164" in img:submit/quantity_input
+  치우침 -19px(판 높이 104)  "100개 냄 → 70개 인정 · 30개 기부 · 남은 1,164" in img:submit/quantity_input
+  칸 대비 작음 32%  "100개 냄 → 70개 인정 · 30개 기부 · 남은 1,164" in img:submit/quantity_input
+== 27_submit_double.png
+  치우침 +25px(판 높이 127)  "1,234개" in img:submit/info_remaining
+  칸 대비 작음 38%  "1,234개" in img:submit/info_remaining
+  치우침 +25px(판 높이 125)  "176개" in img:submit/info_owned
+  칸 대비 작음 39%  "176개" in img:submit/info_owned
+  치우침 -18px(판 높이 123)  "일반 제출" in img:submit/submit_normal_disabled
+  칸 대비 작음 33%  "일반 제출" in img:submit/submit_normal_disabled
+  치우침 -20px(판 높이 119)  "랜덤 제출" in img:submit/submit_random_disabled
+  칸 대비 작음 34%  "랜덤 제출" in img:submit/submit_random_disabled
+  넘침 x178 y0  "100개 냄 → 200개 인정 · 남은 1,034" in img:submit/quantity_input
+  치우침 -19px(판 높이 104)  "100개 냄 → 200개 인정 · 남은 1,034" in img:submit/quantity_input
+  칸 대비 작음 32%  "100개 냄 → 200개 인정 · 남은 1,034" in img:submit/quantity_input
+== 31_shop_double.png
+  치우침 -20px(판 높이 105)  "2배 구매!" in img:shop/banner_double
+== 32_shop_fail.png
+  치우침 -20px(판 높이 106)  "구매 실패..." in img:shop/banner_fail
+  칸 대비 작음 40%  "구매 실패..." in img:shop/banner_fail
+== 34_race_bet.png
+  치우침 +9px(판 높이 33)  "4" in img:race/badge_leaf_green
+== 35_race_run.png
+  치우침 +9px(판 높이 33)  "4" in img:race/badge_leaf_green
+== 36_race_result.png
+  치우침 +9px(판 높이 33)  "4" in img:race/badge_leaf_green
+  넘침 x0 y9  "맞혔어요! 다이아 +68 (x3.4)" in img:race/lane_blue
+  치우침 -49px(판 높이 94)  "맞혔어요! 다이아 +68 (x3.4)" in img:race/lane_blue
+  칸 대비 작음 34%  "맞혔어요! 다이아 +68 (x3.4)" in img:race/lane_blue
+== 37_race_overlay.png
+  치우침 +4px(판 높이 16)  "4" in img:race/badge_leaf_green
+== 38_jump_ready.png
+  치우침 -49px(판 높이 27)  "9" in img:jump/pond_empty
+== 39_jump_play.png
+  치우침 -49px(판 높이 27)  "9" in img:jump/pond_empty
+== 40_jump_air.png
+  치우침 -49px(판 높이 27)  "9" in img:jump/pond_empty
+== 41_jump_fail.png
+  치우침 -49px(판 높이 27)  "9" in img:jump/pond_empty
+  치우침 -18px(판 높이 113)  "풍덩!" in img:jump/result_ribbon_gray
+== 42_jump_cash.png
+  치우침 -49px(판 높이 27)  "9" in img:jump/pond_empty
+  치우침 -19px(판 높이 113)  "3칸에서 멈춤!" in img:jump/result_ribbon_gold
+== 43_mini_pepero.png
+  칸 대비 작음 31%  "21" in img:minigame/b_timer_empty
+== 45_mini_keys.png
+  칸 대비 작음 31%  "5" in img:minigame/b_timer_empty
+== 48_mini_fail.png
+  치우침 +11px(판 높이 128)  "실패…" in img:minigame/result_ribbon_failure
+== 50_jail_slot.png
+  치우침 +13px(판 높이 104)  "24 / 40" in img:jail/exercise_counter
+  칸 대비 작음 38%  "24 / 40" in img:jail/exercise_counter
+  치우침 +9px(판 높이 59)  "다이아 증가 게임" in img:jail/slot_machine_base
+  칸 대비 작음 39%  "목표 다이아 +120" in img:jail/slot_machine_base
+== 51_jail_spin.png
+  치우침 +13px(판 높이 104)  "24 / 40" in img:jail/exercise_counter
+  칸 대비 작음 38%  "24 / 40" in img:jail/exercise_counter
+  치우침 +9px(판 높이 59)  "다이아 증가 게임" in img:jail/slot_machine_base
+== 53_quiz.png
+  칸 대비 작음 31%  "14" in img:minigame/b_timer_empty
+== 54_quiz_correct.png
+  칸 대비 작음 36%  "정답!" in img:quiz/quiz_correct
+== 56_mail.png
+  칸 대비 작음 33%  "고급상자" in img:mail/mail_row_normal
+  칸 대비 작음 33%  "×2" in img:mail/mail_row_normal
+  칸 대비 작음 33%  "꽝 종이" in img:mail/mail_row_selected
+  칸 대비 작음 33%  "×3" in img:mail/mail_row_selected
+  칸 대비 작음 33%  "수선 책" in img:mail/mail_row_normal
+  칸 대비 작음 33%  "×1" in img:mail/mail_row_normal
+  칸 대비 작음 33%  "다이아몬드" in img:mail/mail_row_normal
+  칸 대비 작음 33%  "×10" in img:mail/mail_row_normal
+  칸 대비 작음 33%  "철 흉갑" in img:mail/mail_row_normal
+  칸 대비 작음 33%  "×1" in img:mail/mail_row_normal
+  넘침 x38 y0  "행운상자" in img:mail/mail_button_normal
+  칸 대비 작음 33%  "×1" in img:mail/mail_row_normal
+== 62_harass_result.png
+  칸 대비 작음 39%  "랜덤 몬스터 3마리 소환!" in img:harass/a_panel
+  칸 대비 작음 34%  "개인 벌칙" in img:harass/d_personal
+== 63_harass_owner.png
+  작음 13px  "W"
+  작음 13px  "A"
+  치우침 -7px(판 높이 30)  "A" in img:harass/b_keyboard
+  작음 13px  "S"
+  치우침 -7px(판 높이 29)  "S" in img:harass/b_keyboard
+  작음 13px  "D"
+  치우침 -7px(판 높이 30)  "D" in img:harass/b_keyboard
+  칸 대비 작음 39%  "WASD 랜덤 입력!" in img:harass/a_panel
+== 64_card_title_unlock.png
+  칸 대비 작음 36%  "운빨왕" in img:cards/title_card
+== 64_card_submit_normal.png
+  칸 대비 작음 35%  "다이아 50개 제출" in img:cards/submit_normal
+== 64_card_random_submit.png
+  칸 대비 작음 33%  "30개 → 60개 인정" in img:cards/submit_random
+== 64_card_gacha_destroy.png
+  칸 대비 작음 33%  "곡괭이가 부서졌어요" in img:cards/pickaxe_broken
+== 64_card_gacha_protect.png
+  칸 대비 작음 33%  "파괴 방지권 발동" in img:cards/pickaxe_protected
+== 65_donation_board.png
+  칸 대비 작음 33%  "서버 총 기부" in img:board/total_strip
+  칸 대비 작음 38%  "12,345개" in img:board/total_strip
+  치우침 -6px(판 높이 50)  "1" in img:board/medal_gold
+  칸 대비 작음 32%  "준우" in img:board/gold
+  칸 대비 작음 32%  "3,200개" in img:board/gold
+  치우침 -5px(판 높이 50)  "2" in img:board/medal_silver
+  칸 대비 작음 32%  "깨굴이팬" in img:board/silver
+  칸 대비 작음 32%  "2,100개" in img:board/silver
+  치우침 -5px(판 높이 39)  "3" in img:board/medal_bronze
+  칸 대비 작음 32%  "Steve" in img:board/bronze
+  칸 대비 작음 32%  "990개" in img:board/bronze
+== 67_discord.png
+  작음 13px  "디스코드 서버에서 /연동 뒤에 이 숫자를 입력하세요 (10분 안에)"
+== 14_box_open.png
+  칸 대비 작음 34%  "1+1" in img:reward/chest_fever_badge
+== 17_fever_triple.png
+  칸 대비 작음 34%  "x3" in img:reward/chest_fever_badge
+== 18_fever_box.png
+  칸 대비 작음 34%  "1+1" in img:reward/chest_fever_badge
