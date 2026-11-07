@@ -61,9 +61,6 @@ ipcMain.on('autoUpdateAction', (event, arg, data) => {
         case 'checkForUpdate':
             // 운빨깨굴랜드 런처: 자동 업데이트 없음
             event.sender.send('autoUpdateNotification', 'update-not-available')
-                .catch(err => {
-                    event.sender.send('autoUpdateNotification', 'realerror', err)
-                })
             break
         case 'allowPrereleaseChange':
             if(!data){
