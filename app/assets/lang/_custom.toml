@@ -1,0 +1,23 @@
+# Custom Language File for Launcher Customizer
+
+[ejs.app]
+title = "운빨깨굴랜드"
+
+[ejs.landing]
+mediaGitHubURL = "#"
+mediaXURL = "#"
+mediaInstagramURL = "#"
+mediaYouTubeURL = "#"
+mediaDiscordURL = ""
+mediaSoopURL = "#"
+mediaChzzkURL = "#"
+screenshotsTooltip = "스크린샷"
+
+[ejs.settings]
+sourceGithubLink = "#"
+supportLink = "#"
+
+[ejs.welcome]
+welcomeHeader = "운빨깨굴랜드"
+welcomeDescription = ""
+welcomeDescCTA = "[계속] 버튼을 눌러 계속 진행하여 주세요."
