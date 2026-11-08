@@ -25,8 +25,11 @@ public final class ExtraView {
     private String cardKind = "";
     private long cardAt;
 
-    private static final String[] TILES = {"slot_tile_lose", "slot_tile_x1", "slot_tile_x2", "slot_tile_x3", "slot_tile_x5"};
-    private static final int[] MULTS = {0, 1, 2, 3, 5};
+    // 감옥 돌림판 8칸 (×0 / 0.2 / 0.5 / 1 / 2 / 3 / 5 / 10). 칸 그림은 5종을 나눠 씀
+    private static final String[] TILES = {"slot_tile_lose", "slot_tile_x1", "slot_tile_x1", "slot_tile_x1", "slot_tile_x2", "slot_tile_x3", "slot_tile_x5", "slot_tile_x5"};
+    private static final double[] MULTS = {0, 0.2, 0.5, 1, 2, 3, 5, 10};
+
+    private static String multText(double m) { return m == 0 ? "꽝" : "X" + (m == Math.floor(m) ? String.valueOf((long) m) : String.valueOf(m)); }
     private static final long SPIN = 2800, SLOT_LIFE = 6000, FORTUNE_LIFE = 7000, CARD_LIFE = 4200;
 
     public boolean handles(String screen) { return screen.equals("jail") || screen.equals("quiz") || screen.equals("fortune"); }
@@ -118,9 +121,9 @@ public final class ExtraView {
      */
     private void slotMachine(Canvas c, long now) {
         long e = now - slotAt;
-        int mult = (int) J.num(slot, "multiplier");
+        double mult = J.dbl(slot, "multiplier", 0);
         int target = 0;
-        for (int i = 0; i < MULTS.length; i++) if (MULTS[i] == mult) target = i;
+        for (int i = 0; i < MULTS.length; i++) if (Math.abs(MULTS[i] - mult) < 1e-6) target = i;
         float a = e < 200 ? e / 200f : e > SLOT_LIFE - 500 ? (SLOT_LIFE - e) / 500f : 1;
         c.image("jail/slot_machine_base", 660, 300, 600, 400, Anim.white(a));
         c.textFit("다이아 증가 게임", 660 + 175 + 127.5f, 300 + 77.5f + 18.75f, 32, 255, Anim.alpha(INK, a), Canvas.CENTER, TXT);
@@ -132,14 +135,16 @@ public final class ExtraView {
             int steps = 18 + target;                          // 마지막에 target 에 닿게
             lit = (int) Math.floor(steps * (1 - (1 - t) * (1 - t))) % TILES.length;
         } else lit = target;
+        // 8칸: 칸 66×81, 70 간격 (680~1240, 판 660~1260 안)
+        float tw = 66, th = 81, step = 70, x0 = 960 - (step * (TILES.length - 1) + tw) / 2;
         for (int i = 0; i < TILES.length; i++) {
-            float x = 710 + 100 * i, y = 450;
+            float x = x0 + step * i, y = 462;
             boolean on = i == lit;
             float lift = on ? (spinning ? 4 : 8) : 0;
-            c.image("jail/" + TILES[i], x, y - lift, 90, 110, on ? Anim.white(a) : Anim.white(a * .55f));
-            if (i > 0) c.imageFit("hud/diamond", x + 45, y - lift + 37.5f, 40, on ? Anim.white(a) : Anim.white(a * .55f));
-            else c.imageFit("hud/diamond", x + 45, y - lift + 37.5f, 40, Anim.white((on ? a : a * .55f) * .25f));   // 꽝: 흐린 다이아
-            c.textFit(MULTS[i] == 0 ? "꽝" : "X" + MULTS[i], x + 45, y - lift + 85, 22, 70, Anim.alpha(INK, on ? a : a * .6f), Canvas.CENTER, TXT);
+            c.image("jail/" + TILES[i], x, y - lift, tw, th, on ? Anim.white(a) : Anim.white(a * .55f));
+            if (i > 0) c.imageFit("hud/diamond", x + tw / 2, y - lift + th * .34f, 30, on ? Anim.white(a) : Anim.white(a * .55f));
+            else c.imageFit("hud/diamond", x + tw / 2, y - lift + th * .34f, 30, Anim.white((on ? a : a * .55f) * .25f));   // 꽝: 흐린 다이아
+            c.textFit(multText(MULTS[i]), x + tw / 2, y - lift + th * .77f, 18, tw - 8, Anim.alpha(INK, on ? a : a * .6f), Canvas.CENTER, TXT);
         }
         if (!spinning) {
             long amount = J.num(slot, "amount");
@@ -154,7 +159,7 @@ public final class ExtraView {
                 c.textFit("꽝", 860 + 35 + 65, 720 + 22.5f + 15, 30, 130, Anim.alpha(0xFF6B6B6B, a), Canvas.CENTER, TXT);
             } else {
                 c.image("jail/stamp_win", 860, 720, 200, 80, Anim.white(a));
-                c.textFit("X" + mult + " 당첨", 860 + 47.5f + 52.5f, 720 + 20 + 15, 28, 105, Anim.alpha(0xFF8A5A00, a), Canvas.CENTER, TXT);
+                c.textFit(multText(mult) + " 당첨", 860 + 47.5f + 52.5f, 720 + 20 + 15, 28, 105, Anim.alpha(0xFF8A5A00, a), Canvas.CENTER, TXT);
             }
             c.pop();
         }

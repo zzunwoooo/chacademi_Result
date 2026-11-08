@@ -179,7 +179,7 @@ public final class Commands implements CommandExecutor, TabCompleter {
             }
             case "fortune" -> plugin.npcs().fortune().use(p);
             case "wild" -> {
-                if (a.length > 0 && (a[0].equals("랜덤") || a[0].equalsIgnoreCase("random"))) plugin.npcs().wild().randomTp(p);
+                if (a.length > 0 && (a[0].equals("랜덤") || a[0].equalsIgnoreCase("random"))) plugin.npcs().wild().paidRandomTp(p);
                 else plugin.npcs().wild().enter(p);
             }
             case "jailexit" -> {
@@ -271,6 +271,13 @@ public final class Commands implements CommandExecutor, TabCompleter {
                 if (self == null) { say(s, "&c게임 안에서 손에 아이템을 들고 쓰세요."); return; }
                 int n = a.length > 1 ? Actions.parse(a[1], 0) : 0;
                 say(s, plugin.chat().giveAll(self, n));
+            }
+            case "title" -> {
+                if (a.length < 4) { say(s, "&e/깨굴 칭호 <플레이어> <주기|빼기> <칭호id>  &7있는 칭호: " + String.join(", ", plugin.titles().ids())); return; }
+                PlayerData d = target(s, a[1]);
+                if (d == null) return;
+                boolean take = a[2].equals("빼기") || a[2].equalsIgnoreCase("take");
+                say(s, take ? plugin.titles().adminTake(d, a[3]) : plugin.titles().adminGive(d, a[3]));
             }
             case "reset" -> {
                 if (a.length < 3) { say(s, "&e/깨굴 초기화 <플레이어> <장비|부동산|운세|닉네임|전부>  &7(전부 = 장비·부동산·운세)"); return; }
@@ -512,7 +519,7 @@ public final class Commands implements CommandExecutor, TabCompleter {
                 {"api", "api"}, {"서버api", "sapi"}, {"실행", "run"}, {"다이아", "diamond"}, {"코인", "coins"}, {"돈", "money"},
                 {"게이지", "gauge"}, {"지급", "give"}, {"상자", "box"}, {"피버", "fever"}, {"감옥", "jail"}, {"석방", "unjail"},
                 {"괴롭히기", "harass"}, {"퀴즈", "quiz"}, {"wasd", "wasd"}, {"게임", "game"}, {"광산", "mine"}, {"시세변경", "farm"},
-                {"경주", "race"}, {"초기화", "reset"}, {"전체지급", "giveall"}, {"일차", "day"}, {"보호", "protection"}, {"정보", "info"}, {"ui", "ui"}};
+                {"경주", "race"}, {"초기화", "reset"}, {"칭호", "title"}, {"전체지급", "giveall"}, {"일차", "day"}, {"보호", "protection"}, {"정보", "info"}, {"ui", "ui"}};
         for (String[] x : subs) SUB.put(x[0], x[1]);
         String[][] words = {
                 {"설정", "set"}, {"추가", "add"}, {"감소", "sub"}, {"강제감소", "force-sub"},
@@ -579,6 +586,7 @@ public final class Commands implements CommandExecutor, TabCompleter {
         say(s, "&e위치 &f<저장|삭제|목록|이동> [이름]  &eNPC &f<연결|해제|실행> [동작]  &e실행 &f<플레이어|*> <액션...>");
         say(s, "&e전체지급 &f[개수] &7(손에 든 아이템을 접속자 모두에게)  &e게임 &f<시작|중지|확인|시간|일정> ...  &e경주 &f<열기|출발|취소|이월>  &e감옥/석방 &f<플레이어>");
         say(s, "&e괴롭히기 &f<플레이어|전체>  &e퀴즈 &f[유형]  &eWASD &f[플레이어]  &e광산 &f<재생성|보내기>  &e시세변경");
+        say(s, "&e칭호 &f<플레이어> <주기|빼기> <칭호id>  &7(새 칭호는 config titles.list 에 추가 후 리로드)");
         say(s, "&eAPI &f<플레이어> <번호>  &e서버API &f<번호>  &e정보 &f[플레이어]  &e일차  &e보호 &f[자동|켜기|끄기]  &e리로드  &e저장");
     }
 
@@ -609,6 +617,7 @@ public final class Commands implements CommandExecutor, TabCompleter {
             case "fever" -> { if (i == 2) out.addAll(List.of("다이아", "상자", "중지")); else if (i == 3) out.addAll(List.of("60", "300", "600")); }
             case "jail", "unjail", "wasd", "info" -> { if (i == 2) out.addAll(players()); }
             case "giveall" -> { if (i == 2) out.addAll(List.of("1", "10", "64")); }
+            case "title" -> { if (i == 2) out.addAll(players()); else if (i == 3) out.addAll(List.of("주기", "빼기")); else if (i == 4) out.addAll(plugin.titles().ids()); }
             case "reset" -> { if (i == 2) out.addAll(players()); else if (i == 3) out.addAll(List.of("장비", "부동산", "운세", "닉네임", "전부")); }
             case "harass" -> { if (i == 2) { out.add("전체"); out.add("확률"); out.addAll(players()); } }
             case "api" -> { if (i == 2) out.addAll(players()); }

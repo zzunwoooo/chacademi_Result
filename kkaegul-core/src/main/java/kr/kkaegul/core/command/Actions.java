@@ -81,7 +81,7 @@ public final class Actions {
         ui.onAction("ticket.gauge", (p, a) -> gaugeTicket(p, a.getOrDefault("dir", "up")));
         ui.onAction("fortune.use", (p, a) -> plugin.npcs().fortune().use(p));
         ui.onAction("wild.enter", (p, a) -> plugin.npcs().wild().enter(p));
-        ui.onAction("wild.random", (p, a) -> plugin.npcs().wild().randomTp(p));
+        ui.onAction("wild.random", (p, a) -> plugin.npcs().wild().paidRandomTp(p));
         ui.onAction("card.pick", (p, a) -> plugin.minigames().cards().pick(p, parse(a.get("index"), 0)));
         ui.onAction("me", (p, a) -> plugin.menu().open(p, "me"));
         // ── HUD 드롭다운 ──
@@ -152,6 +152,11 @@ public final class Actions {
         if (dest.equals("lobby") && !nearHomeOrWild(p)) {   // 로비 이동은 내 집·야생 스폰 30칸 안에서만
             int r = plugin.getConfig().getInt("menu.lobby-move-radius", 30);
             plugin.ui().error(p, "&c로비 이동은 내 집이나 야생 스폰 " + r + "칸 안에서만 할 수 있어요. (귀환권으로 언제든 로비로)");
+            return;
+        }
+        if (dest.equals("wild") && plugin.npcs().wild().inWild(p)) {   // 야생에서 누르면 '야생' = 랜덤 장거리 이동 (다이아 50)
+            moveCool.put(p.getUniqueId(), now);
+            plugin.npcs().wild().paidRandomTp(p);
             return;
         }
         String npc = switch (dest) { case "lobby" -> "lobby"; case "gacha_shop" -> "gacha-shop"; case "wild" -> "wild"; default -> null; };

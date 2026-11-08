@@ -65,7 +65,8 @@ graduation:
   enabled: true
   revoke-on-increase: false     # 졸업 후 증가가 들어오면 졸업 취소할지
   ignore-increase: true         # ★ 졸업한 사람에게는 증가(룰렛·API)가 붙지 않음
-  kick-after-seconds: 30        # ★ 졸업하면 N초 뒤 퇴장 (0 = 끔)
+  grace-seconds: 60             # ★ 다이아 0 이 되면 이 시간 동안 졸업 대기. 그 안에 증가가 오면 졸업 취소 (0 = 바로 졸업)
+  kick-after-seconds: 10        # ★ 졸업(유예 끝)하고 N초 뒤 퇴장 (0 = 끔)
   kick-message: "&6졸업을 축하합니다! &f다이아를 모두 제출했어요."
   broadcast: "&6[졸업] &e{name}&f님이 다이아를 모두 제출하고 졸업했습니다!"
   commands: []                  # 예: "lp user {player} parent add graduated"
@@ -415,7 +416,7 @@ jail:
     base-min: 10                # ★ 결과 = 기본값 × 배수
     base-max: 100
     reveal-ticks: 60
-    multipliers: { miss: 30, x1: 30, x2: 20, x3: 15, x5: 5 }   # ★ 가중치
+    multipliers: { miss: 20, x0_2: 20, x0_5: 20, x1: 15, x2: 12, x3: 7, x5: 4, x10: 2 }   # ★ 가중치(%). x0_2 = ×0.2. 감옥 NPC 동작 jail-game 으로 돌림
 
 # ── 괴롭히기 ─────────────────────────────────────────────────
 harass:
@@ -530,6 +531,7 @@ wild:
   min-radius: 1000
   max-radius: 5000
   attempts: 25
+  random-cost: 50               # ★ 랜덤 장거리 이동 비용(다이아). 야생에서 메뉴 이동 > 야생 / /야생 랜덤
 
 # ── 접속 보상 ────────────────────────────────────────────────
 playtime:

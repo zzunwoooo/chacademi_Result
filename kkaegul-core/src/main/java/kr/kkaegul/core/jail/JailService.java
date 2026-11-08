@@ -167,18 +167,19 @@ public final class JailService {
         boolean gui = plugin.ui().hasRenderer(p);
         if (gui) delay = Math.max(delay, 60);   // 화면 슬롯이 멈추는 시간(2.8초)에 맞춤
         plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
-            if (m == 0) { if (!gui) plugin.ui().center(p, "&7꽝", "&f다행이네요"); }
+            if (m == 0 || amount <= 0) { if (!gui) plugin.ui().center(p, "&7꽝", "&f다행이네요"); }
             else {
-                plugin.diamonds().increase(d, amount, "감옥 증가게임 X" + m);
-                if (!gui) plugin.ui().center(p, "&cX" + m + "  +" + Txt.num(amount), "&f다이아 증가 게임");
+                plugin.diamonds().increase(d, amount, "감옥 증가게임 X" + ml);
+                if (!gui) plugin.ui().center(p, "&cX" + ml + "  +" + Txt.num(amount), "&f다이아 증가 게임");
             }
         }, delay);
     }
 
-    private int parseMult(String k) {
-        String s = k.toLowerCase().replace("x", "").trim();
+    /** 배수 키: miss / x1 / x0_2 (= 0.2, 설정 키에 점을 못 써서 _ 로) */
+    private double parseMult(String k) {
+        String s = k.toLowerCase().replace("x", "").replace('_', '.').trim();
         if (s.equals("miss") || s.equals("꽝") || s.isEmpty()) return 0;
-        try { return Integer.parseInt(s); } catch (NumberFormatException e) { return 0; }
+        try { return Double.parseDouble(s); } catch (NumberFormatException e) { return 0; }
     }
 
     public void release(Player p) {

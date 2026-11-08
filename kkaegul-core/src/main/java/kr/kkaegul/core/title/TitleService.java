@@ -82,6 +82,27 @@ public final class TitleService {
         }
     }
 
+    /** 운영자: 칭호 직접 주기 (/깨굴 칭호 <닉> 주기 <칭호id>). @return 안내 문구 */
+    public String adminGive(PlayerData d, String id) {
+        ConfigurationSection defs = defs();
+        if (defs == null || !defs.isConfigurationSection(id)) return "&c없는 칭호예요. 있는 칭호: " + String.join(", ", ids());
+        if (d.titles.contains(id)) return "&7이미 가지고 있는 칭호예요.";
+        grant(d, id);
+        return d.titles.contains(id) ? "&a칭호를 줬어요: " + id : "&c줄 수 없어요 (first-only 칭호는 서버 첫 달성자만)";
+    }
+
+    /** 운영자: 칭호 빼기 (/깨굴 칭호 <닉> 빼기 <칭호id>) */
+    public String adminTake(PlayerData d, String id) {
+        if (!d.titles.remove(id)) return "&7가지고 있지 않은 칭호예요.";
+        if (id.equals(d.selectedTitle)) d.selectedTitle = d.titles.isEmpty() ? "" : d.titles.iterator().next();
+        d.markDirty();
+        Player p = Bukkit.getPlayer(d.uuid);
+        if (p != null) applyName(p);
+        return "&a칭호를 뺐어요: " + id;
+    }
+
+    public java.util.List<String> ids() { ConfigurationSection defs = defs(); return defs == null ? java.util.List.of() : new java.util.ArrayList<>(defs.getKeys(false)); }
+
     private void grant(PlayerData d, String id) {
         ConfigurationSection defs = defs();
         ConfigurationSection t = defs == null ? null : defs.getConfigurationSection(id);

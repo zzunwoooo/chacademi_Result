@@ -30,6 +30,7 @@ public final class DiamondService {
         d.debt += amount;
         d.totalIncreased += amount;
         if (d.graduated && plugin.getConfig().getBoolean("graduation.revoke-on-increase", false)) d.graduated = false;
+        cancelGrace(d, true);   // 졸업 유예 중에 증가가 오면 졸업 취소
         d.markDirty();
         push(d, +amount, reason);
         return amount;
@@ -76,10 +77,47 @@ public final class DiamondService {
         push(d, 0, "관리자 설정");
     }
 
+    /** 졸업 유예 중인 사람 → 유예가 끝나면 졸업하는 예약 */
+    private final java.util.Map<java.util.UUID, org.bukkit.scheduler.BukkitTask> grace = new java.util.concurrent.ConcurrentHashMap<>();
+
+    public boolean inGrace(PlayerData d) { return grace.containsKey(d.uuid); }
+
+    private void cancelGrace(PlayerData d, boolean byIncrease) {
+        org.bukkit.scheduler.BukkitTask t = grace.remove(d.uuid);
+        if (t == null) return;
+        t.cancel();
+        if (!byIncrease) return;
+        plugin.announce("&c[졸업 취소] &f" + plugin.nickname().display(d) + "님, 졸업 직전에 다이아가 늘어났어요!", true);
+        Player p = Bukkit.getPlayer(d.uuid);
+        if (p != null) plugin.ui().taunt(p, "&c졸업 취소!", "&f유예 시간 안에 다이아가 늘어났어요");
+    }
+
+    /**
+     * 남은 다이아 0 → graduation.grace-seconds(기본 60초) 유예. 그 안에 증가가 오면 졸업 취소,
+     * 끝까지 0이면 졸업하고 kick-after-seconds 뒤 퇴장.
+     */
     private void checkGraduate(PlayerData d) {
-        if (d.graduated || d.debt > 0) return;
+        if (d.graduated || d.debt > 0 || inGrace(d)) return;
         if (!plugin.getConfig().getBoolean("graduation.enabled", true)) return;
         if (d.totalIncreased <= 0) return; // 시작부터 0인 사람은 졸업 아님
+        int sec = plugin.getConfig().getInt("graduation.grace-seconds", 60);
+        if (sec <= 0) { graduate(d); return; }
+        java.util.UUID id = d.uuid;
+        plugin.announce("&6[졸업 대기] &e" + plugin.nickname().display(d) + "&f님 다이아 0개! &7" + sec + "초 안에 다이아가 늘어나지 않으면 졸업", true);
+        Player p0 = Bukkit.getPlayer(id);
+        if (p0 != null) plugin.ui().center(p0, "&6졸업 대기 " + sec + "초", "&f이 시간 동안 다이아가 늘어나면 졸업이 취소돼요");
+        int[] left = {sec};
+        grace.put(id, Bukkit.getScheduler().runTaskTimer(plugin, () -> {
+            left[0]--;
+            Player p = Bukkit.getPlayer(id);
+            if (left[0] > 0) { if (p != null) p.sendActionBar(Txt.color("&6졸업까지 &f" + left[0] + "초 &7(다이아가 늘어나면 취소)")); return; }
+            org.bukkit.scheduler.BukkitTask t = grace.remove(id);
+            if (t != null) t.cancel();
+            if (d.debt <= 0 && !d.graduated) graduate(d);
+        }, 20L, 20L));
+    }
+
+    private void graduate(PlayerData d) {
         d.graduated = true;
         d.graduatedAt = System.currentTimeMillis();
         d.markDirty();
@@ -94,7 +132,7 @@ public final class DiamondService {
         for (String c : cmds) Bukkit.dispatchCommand(Bukkit.getConsoleSender(), c.replace("{player}", d.name));
         plugin.titles().check(d);
         // 졸업하면 N초 뒤 퇴장
-        int kick = plugin.getConfig().getInt("graduation.kick-after-seconds", 30);
+        int kick = plugin.getConfig().getInt("graduation.kick-after-seconds", 10);
         if (kick > 0 && p != null) {
             java.util.UUID id = d.uuid;
             p.sendMessage(Txt.color(Txt.notice("&f졸업을 축하해요! " + kick + "초 뒤 서버에서 퇴장합니다.")));

@@ -22,9 +22,24 @@ public final class WildService {
         randomTp(p);
     }
 
-    public void randomTp(Player p) {
+    public boolean inWild(Player p) {
+        return p.getWorld().getName().equals(plugin.getConfig().getString("wild.world", "world"));
+    }
+
+    /** 메뉴·명령의 랜덤 장거리 이동: wild.random-cost 다이아를 내고 이동 (이동에 성공했을 때만 냄) */
+    public void paidRandomTp(Player p) {
+        long cost = plugin.getConfig().getLong("wild.random-cost", 50);
+        long have = plugin.submit().available(p);
+        if (cost > 0 && have < cost) { plugin.msg(p, "shop.no-diamond", "need", Txt.num(cost), "have", Txt.num(have)); return; }
+        if (!randomTp(p) || cost <= 0) return;
+        plugin.submit().takeDiamonds(p, cost);
+        plugin.hud().refresh(p);
+        plugin.ui().actionbar(p, "&7랜덤 이동 &f다이아 " + Txt.num(cost) + "개 &7사용");
+    }
+
+    public boolean randomTp(Player p) {
         World w = Bukkit.getWorld(plugin.getConfig().getString("wild.world", "world"));
-        if (w == null) { plugin.ui().error(p, "&c야생 월드가 없어요 (config wild.world)"); return; }
+        if (w == null) { plugin.ui().error(p, "&c야생 월드가 없어요 (config wild.world)"); return false; }
         int min = plugin.getConfig().getInt("wild.min-radius", 1000), max = plugin.getConfig().getInt("wild.max-radius", 5000);
         int cx = plugin.getConfig().getInt("wild.center-x", 0), cz = plugin.getConfig().getInt("wild.center-z", 0);
         for (int attempt = 0; attempt < plugin.getConfig().getInt("wild.attempts", 25); attempt++) {
@@ -38,8 +53,9 @@ public final class WildService {
             if (y <= w.getMinHeight() + 1) continue;
             p.teleport(new Location(w, x + 0.5, y + 1, z + 0.5, p.getLocation().getYaw(), 0));
             plugin.ui().center(p, "&a야생 랜덤 이동", "&f" + x + ", " + z);
-            return;
+            return true;
         }
         plugin.ui().error(p, "&c안전한 위치를 못 찾았어요. 다시 시도해 주세요.");
+        return false;
     }
 }
