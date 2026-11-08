@@ -158,10 +158,11 @@ public final class JailService {
         Map<String, Integer> w = new LinkedHashMap<>();
         if (mult != null) for (String k : mult.getKeys(false)) w.put(k, mult.getInt(k));
         String pick = Rng.weighted(w);
-        int m = pick == null ? 0 : parseMult(pick);
+        double m = pick == null ? 0 : parseMult(pick);
         long base = Rng.range(plugin.getConfig().getLong("jail.game.base-min", 10), plugin.getConfig().getLong("jail.game.base-max", 100));
-        long amount = base * m;
-        Json fx = Json.obj().put("multiplier", m).put("label", m == 0 ? "꽝" : "X" + m).put("base", base).put("amount", amount);
+        long amount = Math.round(base * m);
+        String ml = m == Math.floor(m) ? String.valueOf((long) m) : String.valueOf(m);
+        Json fx = Json.obj().put("multiplier", m).put("label", m == 0 ? "꽝" : "X" + ml).put("base", base).put("amount", amount);
         plugin.ui().fx(p, "jail_game", fx);
         long delay = plugin.getConfig().getLong("jail.game.reveal-ticks", 60);
         boolean gui = plugin.ui().hasRenderer(p);
