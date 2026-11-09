@@ -35,6 +35,8 @@
 지급 = MagicCodexBridge RewardDelivery (가방, 넘치면 우편). 입장창 보상 칸 3개(도달·수문장·첫 도달)에 그대로 보임.
 
 ## 배포
-`build/libs/chaca-tower-*.jar` → 학교 서버 `plugins/` (재시작 때). 클라 모드 없음 (카드 창 = 상자 창; 디자인 오면 클라 화면으로).
+`build/libs/chaca-tower-*.jar` → 학교 서버 `plugins/` (재시작 때).
+카드 화면 = 클라 모드 chacademi-dungeon 0.6+ (채널 chacademi:tower / chacademi:tower_act, 그림 textures/gui/tower). 모드가 없는 사람은 상자 창.
+입장창 배경 그림 = `art: tower` (dungeons.yml).
 DB 표: `codex_tower_record`, `codex_tower_run` (공용 MariaDB, 처음 켤 때 자동 생성).
 게임 시험 안 함 (2026-11-09).

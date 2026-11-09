@@ -55,6 +55,10 @@ public final class DungeonClient implements ClientModInitializer {
             catch (Exception e) { org.slf4j.LoggerFactory.getLogger("chacademi_dungeon").warn("던전 메시지 무시 (서버 플러그인 버전 확인): {}", e.toString()); return; }
             ctx.client().execute(() -> receive(m));
         });
+        // [기능:탑카드 시작]
+        TowerUi.register();
+        ClientTickEvents.END_CLIENT_TICK.register(TowerUi::tick);
+        // [기능:탑카드 끝]
         ClientPlayConnectionEvents.DISCONNECT.register((h, c) -> c.execute(DungeonClient::clear));
         ClientPlayConnectionEvents.JOIN.register((h, s, c) -> c.execute(DungeonClient::clear));
         HudRenderCallback.EVENT.register(DungeonHud::render);
@@ -92,6 +96,9 @@ public final class DungeonClient implements ClientModInitializer {
         PartyPing.clear();
         // [기능:파티던전 끝]
         EditorState.clear();
+        // [기능:탑카드 시작]
+        TowerUi.clear();
+        // [기능:탑카드 끝]
         Art.reset();
     }
 

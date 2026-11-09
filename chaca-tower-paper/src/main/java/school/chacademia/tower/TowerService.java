@@ -47,6 +47,7 @@ final class TowerService {
     private final ItemsAdderItems items;
     private final NamespacedKey hpKey, speedKey;
     final Rewards rewards;
+    final TowerClient client;
 
     Settings s;
     private Run run;
@@ -63,6 +64,7 @@ final class TowerService {
     TowerService(TowerPlugin plugin, Magic magic, Stash stash, Records records, ItemsAdderItems items) {
         this.plugin = plugin; this.magic = magic; this.stash = stash; this.records = records; this.items = items;
         this.floors = new Floors(plugin);
+        this.client = new TowerClient(plugin);
         this.hpKey = new NamespacedKey(plugin, "tower_hp");
         this.speedKey = new NamespacedKey(plugin, "tower_speed");
         this.rewards = new Rewards(plugin);
@@ -173,19 +175,19 @@ final class TowerService {
         run.phase = Run.Phase.CARD;
         run.phaseEndsAt = System.currentTimeMillis() + s.cardSeconds * 1000L;
         currentMinGrade = minGrade;
-        new CardMenu(s, run).open(p);
+        if (!client.cards(p, s, run)) new CardMenu(s, run).open(p);
         p.playSound(p.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 1, 1.2f);
     }
 
     private int currentMinGrade = -1;
 
     void menuClick(Player p, int choice) {
-        if (!inRun(p) || run.phase != Run.Phase.CARD) { p.closeInventory(); return; }
+        if (!inRun(p) || run.phase != Run.Phase.CARD) { p.closeInventory(); client.close(p); return; }
         if (choice == -2) {
             if (run.rerolls <= 0) return;
             run.rerolls--;
             run.offer = Cards.roll(s, magic, run, run.firstPick, currentMinGrade);
-            new CardMenu(s, run).open(p);
+            if (!client.cards(p, s, run)) new CardMenu(s, run).open(p);
             p.playSound(p.getLocation(), Sound.ENTITY_ENDER_EYE_DEATH, 1, 1.4f);
             return;
         }
@@ -206,6 +208,7 @@ final class TowerService {
         run.offer = List.of();
         run.phase = Run.Phase.COUNTDOWN; // 닫힘 이벤트가 다시 열지 않게
         p.closeInventory();
+        client.close(p);
         try { applyCard(p, c); }
         catch (RuntimeException e) { plugin.getLogger().warning("카드 적용 실패 " + c + ": " + e); }
         run.took(c.type().key());
@@ -669,6 +672,7 @@ final class TowerService {
         r.phase = Run.Phase.ENDED;
         hideGuardian();
         removeMobs(r);
+        client.close(p);
         if (p.getOpenInventory().getTopInventory().getHolder() instanceof CardMenu) p.closeInventory();
         int cleared = reason.equals("clear") ? s.floors : r.floor - 1;
         giveBack(p);
@@ -840,6 +844,7 @@ final class TowerService {
         run.waves.clear();
         run.picks.clear();
         p.closeInventory();
+        client.close(p);
         startCountdown(p);
     }
 

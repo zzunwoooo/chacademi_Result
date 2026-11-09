@@ -16,7 +16,7 @@ import org.bukkit.inventory.ItemStack;
 
 /**
  * 증강 카드 고르기 창 (상자 창). 카드 3장은 11·13·15 칸, 다시 뽑기는 22 칸.
- * 나중에 클라 모드 화면이 생기면 그 화면으로 바꾸고, 모드가 없는 사람은 이 창을 쓴다.
+ * 클라 모드(chacademi-dungeon 0.6+)가 있으면 TowerClient 화면, 없으면 이 창.
  */
 final class CardMenu implements InventoryHolder {
     static final int[] CARD_SLOTS = {11, 13, 15};

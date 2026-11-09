@@ -55,6 +55,7 @@ dungeons:
 #    name: 무한의 탑
 #    subtitle: 마법을 잃고 오르는 50층
 #    external: tower
+#    art: tower
 #    world: dungeon1
 #    ticket: {item: item:dungeon_ticket, amount: 1, free-until-first-clear: false}
 #    instances: 1
