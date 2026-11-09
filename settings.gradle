@@ -19,3 +19,6 @@ include 'ops-dashboard'
 
 // 1인 던전 (2026-10-29): 입장·대기열·인스턴스·기록·보상. 화면은 client-mods/chacademi-dungeon
 include 'chaca-dungeon-paper'
+
+// 로그라이크 탑 (2026-11-09): 1인 50층, 입장 때 마법·지능·소지품을 맡기고 층마다 증강 카드로 성장
+include 'chaca-tower-paper'

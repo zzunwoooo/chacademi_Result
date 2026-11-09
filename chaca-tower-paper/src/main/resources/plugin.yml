@@ -1,0 +1,17 @@
+name: ChacaTower
+version: '${version}'
+main: school.chacademia.tower.TowerPlugin
+api-version: '1.21.4'
+description: 1인 로그라이크 탑 (마법·소지품을 맡기고 층마다 증강 카드)
+softdepend: [MagicCodexBridge, MythicMobs, ItemsAdder, HuskSync, Multiverse-Core]
+commands:
+  탑:
+    description: 무한의 탑 (입장 · 포기 · 대기취소 · 랭킹 · 기록)
+    aliases: [tower]
+  탑관리:
+    description: 탑 설정 (설정도구 · 시작 · 출구 · 입구 · 상태 · 다시불러오기 · 강제종료 · 층)
+    aliases: [toweradmin]
+    permission: chacademi.tower.admin
+permissions:
+  chacademi.tower.admin:
+    default: op

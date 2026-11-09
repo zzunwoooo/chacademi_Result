@@ -1,0 +1,112 @@
+# ChacaTower — 1인 로그라이크 탑 (오너 2026-11-09).
+# 위치·방 구역은 인게임 /탑관리 로 찍는다 (설정도구 · 시작 · 출구 · 입구). 숫자는 여기서 고치고 /탑관리 다시불러오기.
+
+# 탑 이름 (안내 문구에 쓰임)
+name: 무한의 탑
+floors: 50
+
+# 입장권 (ItemsAdder id). amount 0 = 무료
+ticket:
+  item: item:dungeon_ticket
+  amount: 1
+
+# 아래 위치들은 /탑관리 로 채워진다. "월드,x,y,z,yaw,pitch"
+locations:
+  # 방 안에서 층이 시작될 때 서는 자리
+  start: ''
+  # 판이 끝나면 돌아가는 자리 (비우면 입구)
+  exit: ''
+  # 입구 (이 반경 안에 들어오면 입장 안내가 뜸). 비우면 /탑 입장 명령으로만
+  portal: ''
+  portal-radius: 2.0
+# 전투방 구역 두 모서리 "x,y,z" (설정도구 좌클릭/우클릭). 몹은 이 안의 안전한 땅에서 나온다.
+room:
+  corner1: ''
+  corner2: ''
+
+# 층이 시작되기 전 대기 (초) / 층을 깬 뒤 카드가 뜨기까지 (초)
+floor-start-seconds: 3
+card-delay-seconds: 1
+# 카드 고르는 시간 (초). 지나면 첫 번째 카드가 골라진다
+card-seconds: 40
+# 방 구역 밖에 이만큼 (초) 있으면 판이 끝난다
+leave-grace-seconds: 5
+# 대기열: 자리가 났을 때 입장까지 기다리는 시간 (초)
+queue-offer-seconds: 30
+
+# ───── 몹 ─────
+# 몹 목록 (MythicMobs 내부 이름). normal = 일반, elite = 정예. 층이 오르면 정예 비율이 올라간다.
+mobs:
+  normal: [CA_Wild_alpha_boar, CA_Wild_bear, CA_Wild_bear_black, CA_Wild_bear_polar, CA_Wild_baby_yeti, CA_Wild_crocodile,
+    CA_Wild_frog_green, CA_Wild_frog_permafrost, CA_Wild_gangster_snowman, CA_Wild_lizard_aqua, CA_Wild_lizard_lava,
+    CA_Wild_lostasset_mob1_wolf, CA_Wild_lostasset_mob3_mossyboar, CA_Wild_ncr_archer_skeleton, CA_Wild_ncr_spear_skeleton,
+    CA_Wild_ncr_warrior_skeleton, CA_Wild_ogre_axe, CA_Wild_ogre_club, CA_Wild_raptor_red, CA_Wild_sabertooth_arctic,
+    CA_Wild_sabertooth_midnight, CA_Wild_sabertooth_savanna, CA_Wild_timber_wolf, CA_Wild_tusker_dreamlight, CA_Wild_tusker_forest]
+  elite: [CA_Wild_basilisk_obsidian, CA_Wild_basilisk_snowstorm, CA_Wild_basilisk_wild, CA_Wild_frog_royal, CA_Wild_golem_arcane,
+    CA_Wild_golem_corrupted, CA_Wild_golem_magma, CA_Wild_golem_royal, CA_Wild_ice_knight, CA_Wild_kitsune_demonic,
+    CA_Wild_kitsune_inferno, CA_Wild_kitsune_normal, CA_Wild_lostasset_mob3_herbgolem, CA_Wild_manticore_aether,
+    CA_Wild_manticore_dusk, CA_Wild_manticore_soul, CA_Wild_manticore_venom, CA_Wild_mf_warden_archer, CA_Wild_mf_warden_knight,
+    CA_Wild_mf_warden_mage, CA_Wild_mf_warden_tank, CA_Wild_ncr_mage_skeleton, CA_Wild_ogre_hammer, CA_Wild_raptor_nightmare,
+    CA_Wild_raptor_undead, CA_Wild_stag_demonic, CA_Wild_stag_heavenly, CA_Wild_stag_rune, CA_Wild_stag_void, CA_Wild_tusker_demonic]
+# 층마다의 수치. 체력·공격력은 몹 원래 값에 곱한다. (층 1 = 아래 base, 층이 하나 오를 때마다 per-floor 만큼 더함)
+balance:
+  # 일반 몹을 정예 몹과 같은 체력대로 맞추기 위한 기준 체력 (원래 체력 대신 이 값에 배율을 곱함)
+  normal-health: 40
+  normal-damage: 4
+  elite-health: 150
+  elite-damage: 9
+  health-base: 1.0
+  health-per-floor: 0.09
+  damage-base: 1.0
+  damage-per-floor: 0.045
+  # 마릿수 = count-base + 층 × count-per-floor (최대 count-max)
+  count-base: 3
+  count-per-floor: 0.18
+  count-max: 11
+  # 정예 비율: elite-from 층부터 elite-per-floor 씩 올라 최대 elite-max
+  elite-from: 4
+  elite-per-floor: 0.015
+  elite-max: 0.55
+  # 10층마다 수문장(정예 1마리, 체력 × guardian-health, 공격력 × guardian-damage, 보스바)
+  guardian-every: 10
+  guardian-health: 5.0
+  guardian-damage: 1.5
+  # 층이 이만큼 오를 때마다 한 번에 두 무리로 나뉘어 나온다 (앞 무리를 다 잡으면 다음 무리)
+  second-wave-from: 15
+
+# 몹 특성(패턴): from 층부터 chance (+ per-floor × 지난 층) 확률로 붙는다. 한 마리에 최대 max-affixes 개.
+max-affixes: 2
+affixes:
+  swift:   {name: 신속, from: 6,  chance: 0.15, per-floor: 0.006}
+  shield:  {name: 보호막, from: 11, chance: 0.12, per-floor: 0.006}
+  vampire: {name: 흡혈, from: 16, chance: 0.12, per-floor: 0.005}
+  split:   {name: 분열, from: 21, chance: 0.10, per-floor: 0.005}
+  blast:   {name: 폭발, from: 26, chance: 0.10, per-floor: 0.005}
+  frenzy:  {name: 광폭, from: 31, chance: 0.10, per-floor: 0.005}
+  regen:   {name: 재생, from: 36, chance: 0.10, per-floor: 0.005}
+  thorns:  {name: 가시, from: 41, chance: 0.08, per-floor: 0.005}
+
+# ───── 카드 ─────
+# 등급 확률 (%): 층이 오를수록 높은 등급이 잘 나온다. 1층 값 → 50층 값 사이로 선형.
+grades:
+  common:    {name: 일반, color: '#B8B8B8', floor1: 70, floor50: 35}
+  rare:      {name: 희귀, color: '#4FA3FF', floor1: 24, floor50: 37}
+  epic:      {name: 영웅, color: '#B66BFF', floor1: 5,  floor50: 21}
+  legendary: {name: 전설, color: '#FFC23D', floor1: 1,  floor50: 7}
+# 탑 안 지능: 시작 값. 탑 안에서는 원래 지능(마법봉·장신구 포함) 대신 "시작 값 + 지능 카드" 로 친 것처럼 피해를 맞춘다.
+start-intelligence: 20
+# 판마다 다시 뽑기 횟수
+rerolls: 1
+# 첫 카드에서 기본 공격 마법이 아닌 다른 마법이 섞일 확률
+first-card-other-spell-chance: 0.1
+# 기본 공격 마법 (첫 카드 3장 후보). 비우면 마법 목록에서 1서클 공격 마법
+basic-spells: []
+# 탑 마법 카드에서 빼는 마법 id
+excluded-spells: []
+
+# 층수 보상 (판이 끝났을 때 도달 층 기준, 처음 도달한 층 보상 + 매번 보상). 오너가 나중에 채움.
+# 예) '10': {first: ['item:money_pouch 3'], every: ['item:core_unidentified 1']}
+floor-rewards: {}
+
+# 기록 DB: MagicCodexBridge 공용 MariaDB 설정 (없거나 sqlite 면 이 폴더의 records.db)
+database-file: ../MagicCodexBridge/player-state-database.properties
