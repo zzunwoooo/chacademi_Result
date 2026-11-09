@@ -30,4 +30,7 @@ interface Magic {
 
     /** 브리지가 계산한 지금 지능 (탑 안 피해를 탑 지능 기준으로 다시 맞출 때). */
     double realPower(Player p);
+
+    /** 꺼내 놓은 펫(MCPets 바닐라 펫·동행 펫)을 들여보낸다. 탑 안에서는 매 tick 불러 다시 꺼내도 바로 들어간다. */
+    void dismissPets(Player p);
 }

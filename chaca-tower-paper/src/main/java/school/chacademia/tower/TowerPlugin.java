@@ -1,6 +1,7 @@
 package school.chacademia.tower;
 
 import org.bukkit.Bukkit;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -28,6 +29,7 @@ public final class TowerPlugin extends JavaPlugin {
         });
         tool = new SetupTool(this);
         getServer().getPluginManager().registerEvents(new TowerListener(service), this);
+        quitFirst();
         getServer().getPluginManager().registerEvents(tool, this);
         var commands = new Commands(this, records);
         var tower = getCommand("탑");
@@ -36,6 +38,22 @@ public final class TowerPlugin extends JavaPlugin {
         if (admin != null) { admin.setExecutor(commands.admin()); admin.setTabCompleter(commands.admin()); }
         Bukkit.getScheduler().runTaskTimer(this, service::tick, 20L, 10L);
         for (var p : Bukkit.getOnlinePlayers()) service.join(p);
+    }
+
+    /**
+     * 나가기(PlayerQuitEvent) 처리는 HuskSync·MagicCodexBridge 보다 먼저 돌아야 한다: 둘 다 LOWEST 에서 저장하는데 먼저 켜진 플러그인이 먼저 불리므로,
+     * 그대로 두면 탑 소지품(빈 가방)이 공용 DB 에 저장된 뒤에 맡긴 것을 돌려주게 된다. 같은 LOWEST 의 다른 처리기를 뺐다가 다시 넣어 우리 것을 맨 앞에 둔다.
+     */
+    private void quitFirst() {
+        var list = PlayerQuitEvent.getHandlerList();
+        var others = java.util.Arrays.stream(list.getRegisteredListeners())
+                .filter(r -> r.getPlugin() != this && r.getPriority() == org.bukkit.event.EventPriority.LOWEST).toList();
+        for (var r : others) list.unregister(r);
+        for (var r : others) list.register(r);
+        list.bake();
+        var order = new java.util.ArrayList<String>();
+        for (var r : list.getRegisteredListeners()) if (r.getPriority() == org.bukkit.event.EventPriority.LOWEST) order.add(r.getPlugin().getName());
+        getLogger().info("나가기 처리 순서(LOWEST): " + String.join(" → ", order));
     }
 
     @Override public void onDisable() {

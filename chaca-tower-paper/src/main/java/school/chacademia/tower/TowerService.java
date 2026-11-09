@@ -58,8 +58,9 @@ final class TowerService {
     private UUID offered;
     private long offerUntil;
     private final Map<UUID, Long> portalNotice = new HashMap<>();
-    private static final Set<String> BLOCKED = Set.of("spawn", "스폰", "home", "집", "warp", "워프", "tpa", "tpahere", "tpaccept", "back", "rtp",
-            "server", "서버", "이동", "귀환", "마을", "hub", "lobby", "로비", "던전", "큐디치");
+    /** 탑 안에서 써도 되는 명령 (그 밖은 전부 막음: 배낭·우편·상점·귀환 등 소지품이 바뀌거나 자리를 옮기는 것). 프록시 명령(파티·귓속말)은 여기까지 오지 않는다. */
+    private static final Set<String> ALLOWED = Set.of("탑", "tower", "친구", "채팅", "대화기록", "의뢰기록", "화면", "자동시전", "서클", "도움말", "help",
+            "귓속말", "w", "msg", "tell", "r", "reply", "답장", "파티", "p", "전체");
 
     TowerService(TowerPlugin plugin, Magic magic, Stash stash, Records records, ItemsAdderItems items) {
         this.plugin = plugin; this.magic = magic; this.stash = stash; this.records = records; this.items = items;
@@ -74,7 +75,7 @@ final class TowerService {
 
     boolean inRun(Player p) { return run != null && run.phase != Run.Phase.ENDED && run.player.equals(p.getUniqueId()); }
 
-    boolean blockedCommand(String cmd) { return BLOCKED.contains(cmd); }
+    boolean blockedCommand(String cmd) { return !ALLOWED.contains(cmd); }
 
     Run current() { return run; }
 
@@ -104,6 +105,9 @@ final class TowerService {
         p.getInventory().clear();
         for (var e : p.getActivePotionEffects()) p.removePotionEffect(e.getType());
         p.setLevel(0); p.setExp(0);
+        p.setAbsorptionAmount(0); p.setFireTicks(0); p.setFreezeTicks(0); p.setArrowsInBody(0); p.setFallDistance(0);
+        p.setRemainingAir(p.getMaximumAir()); p.setExhaustion(0);
+        magic.dismissPets(p);
         try { magic.enterTower(p); }
         catch (RuntimeException e) {
             plugin.getLogger().severe("탑 마법 초기화 실패 " + p.getName() + ": " + e);
@@ -118,6 +122,7 @@ final class TowerService {
         run.rerolls = s.rerolls;
         var start = s.start.location();
         p.teleport(start);
+        applyAttributes(p);
         fullHeal(p);
         p.setFoodLevel(20); p.setSaturation(10);
         p.getInventory().addItem(new ItemStack(Material.BREAD, 6));
@@ -502,6 +507,8 @@ final class TowerService {
                 guardianBar.progress((float) Math.clamp(le.getHealth() / (max == null ? 1 : max.getValue()), 0, 1));
             } else hideGuardian();
         }
+        applyAttributes(p);
+        magic.dismissPets(p);
         // 방 밖 검사
         var box = s.room();
         if (box != null && !(p.getWorld().getName().equals(s.start.world()) && box.contains(p.getLocation()))) {
@@ -639,18 +646,24 @@ final class TowerService {
 
     private void fullHeal(Player p) { p.setHealth(maxHealth(p)); }
 
+    /** 탑 안 최종 능력치 = 기본값 + 탑 보너스. 다른 플러그인 보정(장신구 PDC·펫 도감 체력·아티팩트)이 붙어 있어도 결과를 이 값으로 맞춘다 (tick 마다 다시). */
     private void applyAttributes(Player p) {
-        var hp = p.getAttribute(Attribute.MAX_HEALTH);
-        if (hp != null) {
-            hp.removeModifier(hpKey);
-            double base = hp.getValue();
-            double bonus = Math.max(run.maxHealthBonus, 2 - base);
-            if (Math.abs(bonus) > 1e-6) hp.addModifier(new AttributeModifier(hpKey, bonus, AttributeModifier.Operation.ADD_NUMBER));
-        }
-        var sp = p.getAttribute(Attribute.MOVEMENT_SPEED);
-        if (sp != null) {
-            sp.removeModifier(speedKey);
-            if (run.speedBonus > 0) sp.addModifier(new AttributeModifier(speedKey, run.speedBonus, AttributeModifier.Operation.ADD_SCALAR));
+        pin(p.getAttribute(Attribute.MAX_HEALTH), hpKey, 20 + run.maxHealthBonus);
+        pin(p.getAttribute(Attribute.MOVEMENT_SPEED), speedKey, 0.1 * (1 + run.speedBonus));
+        if (p.getHealth() > maxHealth(p)) p.setHealth(maxHealth(p));
+    }
+
+    /** 우리 수정자 하나로 최종값을 target 에 맞춘다 (다른 곱셈 보정이 있어도 몇 번 보정해서 수렴). */
+    private static void pin(org.bukkit.attribute.AttributeInstance a, NamespacedKey key, double target) {
+        if (a == null) return;
+        var cur = a.getModifier(key);
+        double ours = cur == null ? 0 : cur.getAmount();
+        if (Math.abs(a.getValue() - target) < 1e-6 && cur != null) return;
+        for (int i = 0; i < 4; i++) {
+            ours += target - a.getValue();
+            a.removeModifier(key);
+            a.addModifier(new AttributeModifier(key, ours, AttributeModifier.Operation.ADD_NUMBER));
+            if (Math.abs(a.getValue() - target) < 1e-6) break;
         }
     }
 
@@ -677,7 +690,8 @@ final class TowerService {
         int cleared = reason.equals("clear") ? s.floors : r.floor - 1;
         giveBack(p);
         var exit = s.exit != null ? s.exit.location() : s.portal != null ? s.portal.location() : null;
-        if (exit != null && !reason.equals("shutdown")) p.teleport(exit);
+        if (exit != null) p.teleport(exit);
+        clearDrops();
         String head = switch (reason) {
             case "clear" -> "탑의 꼭대기에 올랐어요";
             case "death" -> "쓰러졌어요";
@@ -711,6 +725,14 @@ final class TowerService {
         runner = null;
     }
 
+    /** 방 안에 떨어진 아이템(탑에서 받은 빵·방어구 등)은 다음 사람이 줍지 않게 치운다. */
+    private void clearDrops() {
+        var box = s.room();
+        var start = s.start == null ? null : s.start.location();
+        if (box == null || start == null) return;
+        for (var e : start.getWorld().getEntitiesByClass(org.bukkit.entity.Item.class)) if (box.contains(e.getLocation())) e.remove();
+    }
+
     private void removeMobs(Run r) {
         for (var id : r.mobs) { var e = Bukkit.getEntity(id); if (e != null) e.remove(); }
         r.mobs.clear();
@@ -730,7 +752,6 @@ final class TowerService {
         try { magic.restore(p, magicState); }
         catch (RuntimeException e) { plugin.getLogger().severe("마법 되돌리기 실패 " + p.getName() + " (맡긴 파일 확인): " + e); }
         if (!stash.restore(p)) plugin.getLogger().severe("소지품 되돌리기 실패 " + p.getName());
-        fullHeal(p);
     }
 
     /** 지난번에 못 돌려준 것 (서버가 꺼졌거나 접속이 끊김). */
@@ -748,7 +769,7 @@ final class TowerService {
 
     void join(Player p) {
         clearAttributes(p);
-        if (stash.has(p.getUniqueId()) && !inRun(p)) Bukkit.getScheduler().runTaskLater(plugin, () -> { if (p.isOnline()) restoreLeftover(p); }, 40L);
+        if (stash.has(p.getUniqueId()) && !inRun(p)) Bukkit.getScheduler().runTaskLater(plugin, () -> { if (p.isOnline()) restoreLeftover(p); }, 100L);
     }
 
     void changedWorld(Player p) {

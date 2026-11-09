@@ -149,6 +149,38 @@ final class MagicBridge implements Magic {
         p.updateCommands();
     }
 
+    private java.lang.reflect.Field petsField;
+    private java.lang.reflect.Method despawnMcPets, companions, unequip;
+    private boolean petsLooked;
+
+    /** PetBridge.despawnMcPets(Player) + PetCompanions.unequip(Player, String) — 둘 다 브리지 안 비공개라 리플렉션. 없으면 조용히 넘어간다. */
+     public void dismissPets(Player p) {
+        var b = bridge();
+        if (b == null) return;
+        try {
+            if (!petsLooked) {
+                petsLooked = true;
+                petsField = b.getClass().getDeclaredField("pets");
+                petsField.setAccessible(true);
+                var petBridge = petsField.getType();
+                despawnMcPets = petBridge.getDeclaredMethod("despawnMcPets", Player.class);
+                despawnMcPets.setAccessible(true);
+                companions = petBridge.getDeclaredMethod("companions");
+                companions.setAccessible(true);
+                unequip = companions.getReturnType().getDeclaredMethod("unequip", Player.class, String.class);
+                unequip.setAccessible(true);
+            }
+            var pets = petsField == null ? null : petsField.get(b);
+            if (pets == null) return;
+            despawnMcPets.invoke(pets, p);
+            var comp = companions.invoke(pets);
+            if (comp != null) unequip.invoke(comp, p, "탑 안에서는 펫을 꺼낼 수 없어요");
+        } catch (ReflectiveOperationException | RuntimeException e) {
+            if (petsField != null) plugin.getLogger().warning("펫 들여보내기 실패: " + e);
+            petsField = null;
+        }
+    }
+
     /** 브리지가 계산한 지금 지능 (마법봉·장신구·발견 보너스 포함). 없으면 0. */
     @Override public double realPower(Player p) {
         var b = bridge();
