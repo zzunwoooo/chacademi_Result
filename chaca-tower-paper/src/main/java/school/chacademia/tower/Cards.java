@@ -8,7 +8,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import org.bukkit.Material;
 
 /**
- * 증강 카드. 등급(0 일반 · 1 희귀 · 2 영웅 · 3 전설)에 따라 수치가 달라진다.
+ * 증강 카드. 등급(0 일반 · 1 고급 · 2 유일 · 3 전설)에 따라 수치가 달라진다.
  * 카드 하나 = 종류(type) + 등급 + 그 판에서 정해진 값 (마법 카드는 마법 id).
  */
 final class Cards {
@@ -108,7 +108,7 @@ final class Cards {
         };
     }
 
-    static String trialText(int g) { return switch (g) { case 1 -> "영웅 카드 2번"; case 2 -> "전설 카드 1번 + 영웅 카드 1번"; default -> "전설 카드 2번"; }; }
+    static String trialText(int g) { return switch (g) { case 1 -> "유일 카드 2번"; case 2 -> "전설 카드 1번 + 유일 카드 1번"; default -> "전설 카드 2번"; }; }
 
     /** 한 층 카드 3장. 첫 카드(1층 클리어 전 = 시작 카드)는 기본 공격 마법 3장. */
     static List<Card> roll(Settings s, Magic magic, Run run, boolean first, int forcedMinGrade) {
@@ -186,7 +186,7 @@ final class Cards {
         return null;
     }
 
-    /** 등급·층에 맞는 서클 상한: 일반 2 · 희귀 3 · 영웅 4 · 전설 제한 없음, 층이 30 넘으면 +1. */
+    /** 등급·층에 맞는 서클 상한: 일반 2 · 고급 3 · 유일 4 · 전설 제한 없음, 층이 30 넘으면 +1. */
     static int maxCircle(int grade, int floor) { return (grade >= 3 ? 99 : grade + 2) + (floor > 30 ? 1 : 0); }
 
     static int gradeOfCircle(int circle) { return Math.clamp(circle - 1, 0, 3); }

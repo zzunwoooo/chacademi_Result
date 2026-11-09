@@ -172,7 +172,7 @@ final class TowerUi {
             }
 
             long left = Math.max(0, o.leftMs() - (now - o.at()));
-            String hint = sent ? "고르는 중…" : "카드를 눌러 고르세요 (1 · 2 · 3" + (o.rerolls() > 0 ? " · R 다시 뽑기" : "") + ")  ·  " + (left / 1000) + "초 뒤 첫 카드";
+            String hint = sent ? "" : (left / 1000) + "초";
             Art.textCenter(g, hint, W / 2, H - 7, 6.5f, left < 10_000 ? 0xFFF2A7A7 : UiScreens.MUTED);
         }
 
@@ -182,7 +182,7 @@ final class TowerUi {
             int tint = Art.argb(a, 0xFFFFFF);
             int grade = Math.max(0, Math.min(3, c.grade()));
             if (hover > .02f) {
-                float pad = 6 + hover * 3;
+                float pad = 4 + hover * 2;
                 Art.ui(g, "tower/card_hover", x - pad, y - pad * 1.5f, CW + pad * 2, CH + pad * 3, Art.argb(Math.round(a * hover), c.color() & 0xFFFFFF));
             }
             Art.ui(g, FRAMES[grade], x, y, CW, CH, tint);

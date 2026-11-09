@@ -87,12 +87,12 @@ affixes:
   thorns:  {name: 가시, from: 41, chance: 0.08, per-floor: 0.005}
 
 # ───── 카드 ─────
-# 등급 확률 (%): 층이 오를수록 높은 등급이 잘 나온다. 1층 값 → 50층 값 사이로 선형.
+# 등급 (차카데미 아이템 등급과 같은 이름·색: 일반 · 고급 · 유일 · 전설). 확률 (%): 층이 오를수록 높은 등급이 잘 나온다. 1층 값 → 50층 값 사이로 선형.
 grades:
-  common:    {name: 일반, color: '#B8B8B8', floor1: 70, floor50: 35}
-  rare:      {name: 희귀, color: '#4FA3FF', floor1: 24, floor50: 37}
-  epic:      {name: 영웅, color: '#B66BFF', floor1: 5,  floor50: 21}
-  legendary: {name: 전설, color: '#FFC23D', floor1: 1,  floor50: 7}
+  common:    {name: 일반, color: '#DCE3EA', floor1: 70, floor50: 35}
+  rare:      {name: 고급, color: '#71E5F2', floor1: 24, floor50: 37}
+  epic:      {name: 유일, color: '#D2A8FF', floor1: 5,  floor50: 21}
+  legendary: {name: 전설, color: '#FFD582', floor1: 1,  floor50: 7}
 # 탑 안 지능: 시작 값. 탑 안에서는 원래 지능(마법봉·장신구 포함) 대신 "시작 값 + 지능 카드" 로 친 것처럼 피해를 맞춘다.
 start-intelligence: 20
 # 판마다 다시 뽑기 횟수

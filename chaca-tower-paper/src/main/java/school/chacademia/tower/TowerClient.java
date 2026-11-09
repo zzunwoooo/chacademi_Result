@@ -33,10 +33,10 @@ final class TowerClient implements PluginMessageListener {
         var o = new JsonObject();
         o.addProperty("t", "cards");
         o.addProperty("id", shown = ++serial);
-        o.addProperty("title", run.firstPick ? "시작 마법 선택" : (run.floor - 1) + "층 증강 선택");
-        String sub = run.firstPick ? "처음 쓸 마법을 골라요" : "카드 한 장을 골라 힘을 얻어요";
-        if (!run.picks.isEmpty()) sub += " · " + (run.picks.size() + 1) + "번 남음";
-        o.addProperty("sub", sub);
+        String title = run.firstPick ? "시작 마법 선택" : (run.floor - 1) + "층 증강 선택";
+        if (!run.picks.isEmpty()) title += " (" + (run.picks.size() + 1) + "번 남음)";
+        o.addProperty("title", title);
+        o.addProperty("sub", "");
         o.addProperty("left", Math.max(0, run.phaseEndsAt - System.currentTimeMillis()));
         o.addProperty("rerolls", run.rerolls);
         var cards = new JsonArray();
