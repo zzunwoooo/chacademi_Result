@@ -41,7 +41,25 @@ public final class EconomyService {
             Map.entry("GOLD_INGOT", "금 주괴"), Map.entry("REDSTONE", "레드스톤"), Map.entry("LAPIS_LAZULI", "청금석"),
             Map.entry("EMERALD", "에메랄드"), Map.entry("QUARTZ", "석영"), Map.entry("AMETHYST_SHARD", "자수정 조각"),
             Map.entry("WHEAT", "밀"), Map.entry("CARROT", "당근"), Map.entry("POTATO", "감자"), Map.entry("BEETROOT", "비트"),
-            Map.entry("MELON_SLICE", "수박 조각"), Map.entry("PUMPKIN", "호박"), Map.entry("SUGAR_CANE", "사탕수수"));
+            Map.entry("MELON_SLICE", "수박 조각"), Map.entry("PUMPKIN", "호박"), Map.entry("SUGAR_CANE", "사탕수수"),
+            Map.entry("COAL_BLOCK", "석탄 블록"), Map.entry("RAW_IRON_BLOCK", "철 원석 블록"), Map.entry("IRON_BLOCK", "철 블록"),
+            Map.entry("RAW_COPPER_BLOCK", "구리 원석 블록"), Map.entry("COPPER_BLOCK", "구리 블록"), Map.entry("RAW_GOLD_BLOCK", "금 원석 블록"),
+            Map.entry("GOLD_BLOCK", "금 블록"), Map.entry("REDSTONE_BLOCK", "레드스톤 블록"), Map.entry("LAPIS_BLOCK", "청금석 블록"),
+            Map.entry("EMERALD_BLOCK", "에메랄드 블록"), Map.entry("QUARTZ_BLOCK", "석영 블록"), Map.entry("AMETHYST_BLOCK", "자수정 블록"));
+    /** 광물 블록 → (재료, 개수). 블록 가격 = 재료 가격 × 개수 (economy.sell-blocks) */
+    private record Block(String base, int count) {}
+    private static final Map<String, Block> BLOCKS = Map.ofEntries(
+            Map.entry("COAL_BLOCK", new Block("COAL", 9)), Map.entry("RAW_IRON_BLOCK", new Block("RAW_IRON", 9)),
+            Map.entry("IRON_BLOCK", new Block("IRON_INGOT", 9)), Map.entry("RAW_COPPER_BLOCK", new Block("RAW_COPPER", 9)),
+            Map.entry("COPPER_BLOCK", new Block("COPPER_INGOT", 9)), Map.entry("RAW_GOLD_BLOCK", new Block("RAW_GOLD", 9)),
+            Map.entry("GOLD_BLOCK", new Block("GOLD_INGOT", 9)), Map.entry("REDSTONE_BLOCK", new Block("REDSTONE", 9)),
+            Map.entry("LAPIS_BLOCK", new Block("LAPIS_LAZULI", 9)), Map.entry("EMERALD_BLOCK", new Block("EMERALD", 9)),
+            Map.entry("QUARTZ_BLOCK", new Block("QUARTZ", 4)), Map.entry("AMETHYST_BLOCK", new Block("AMETHYST_SHARD", 4)));
+    /** 재료 → 블록 (판매표에서 재료 바로 뒤에 블록을 넣을 때) */
+    private static String blockOf(String base) {
+        for (var e : BLOCKS.entrySet()) if (e.getValue().base().equals(base)) return e.getKey();
+        return null;
+    }
     /** 직전 시세 (상승/하락 표시용) */
     private final Map<String, Double> prevFarm = new LinkedHashMap<>();
 
@@ -77,6 +95,11 @@ public final class EconomyService {
     public double priceOf(Material m) {
         Double farm = plugin.global().farmPrices.get(m.name());
         if (farm != null) return Math.max(0, farm);
+        Block b = BLOCKS.get(m.name());
+        if (b != null && !plugin.getConfig().contains("economy.sell." + m.name())) {
+            if (!plugin.getConfig().getBoolean("economy.sell-blocks", true)) return 0;
+            return Math.max(0, plugin.getConfig().getDouble("economy.sell." + b.base(), 0)) * b.count();
+        }
         return Math.max(0, plugin.getConfig().getDouble("economy.sell." + m.name(), 0));
     }
 
@@ -154,7 +177,11 @@ public final class EconomyService {
         java.util.List<Object> sell = new java.util.ArrayList<>();
         ConfigurationSection s = plugin.getConfig().getConfigurationSection("economy.sell");
         java.util.List<String> keys = new java.util.ArrayList<>();
-        if (s != null) keys.addAll(s.getKeys(false));
+        if (s != null) for (String k : s.getKeys(false)) {
+            keys.add(k);
+            String blk = blockOf(k.toUpperCase());
+            if (blk != null && !s.contains(blk)) keys.add(blk);   // 광물 바로 뒤에 그 블록
+        }
         keys.addAll(plugin.global().farmPrices.keySet());
         for (String k : keys) {
             Material m = Material.matchMaterial(k);
@@ -172,6 +199,7 @@ public final class EconomyService {
         return Json.obj().put("held", d.held).put("dust", d.sellDust).put("available", plugin.submit().available(p)).put("coins", d.coins)
                 .put("coinPrice", plugin.getConfig().getLong("economy.coin.price-diamonds", 1))
                 .put("coinMax", plugin.getConfig().getInt("economy.coin.max-per-buy", 100)).put("outcomes", outcomes())
+                .put("toDiamond", toDiamondRate())
                 .put("sell", sell).put("farmNextMs", Math.max(0, next - System.currentTimeMillis()));
     }
 
@@ -205,6 +233,25 @@ public final class EconomyService {
         plugin.ui().fx(p, "coin_buy", Json.obj().put("outcome", out).put("multiplier", mult).put("amount", amount).put("got", got).put("message", Txt.fmt(msg, "got", Txt.num(got))));
         if (plugin.ui().hasRenderer(p)) plugin.ui().update(p, "shop", shopInfo(p));
         else plugin.ui().center(p, Txt.fmt(msg, "got", Txt.num(got)), "&f보유 코인 " + Txt.num(d.coins));
+        plugin.hud().refresh(p);
+    }
+
+    // ───────── 코인 → 다이아 교환 (제출용) ─────────
+    /** 코인 1개 = 보유 다이아 몇 개 (0 = 교환 꺼짐) */
+    public long toDiamondRate() { return Math.max(0, plugin.getConfig().getLong("economy.coin.to-diamond", 15)); }
+
+    public void coinToDiamond(Player p, long coins) {
+        long rate = toDiamondRate();
+        if (rate <= 0) { plugin.msg(p, "shop.disabled"); return; }
+        if (coins <= 0) return;
+        PlayerData d = plugin.data().get(p);
+        if (d.coins < coins) { plugin.ui().error(p, "&c깨굴코인이 부족합니다. &7(보유 " + Txt.num(d.coins) + "개)"); return; }
+        d.coins -= coins;
+        long got = coins * rate;
+        plugin.wallet().deposit(d, got, p);
+        plugin.ui().fx(p, "coin_exchange", Json.obj().put("coins", coins).put("got", got));
+        if (plugin.ui().hasRenderer(p)) plugin.ui().update(p, "shop", shopInfo(p));
+        else p.sendMessage(Txt.color(Txt.notice("&a깨굴코인 " + Txt.num(coins) + "개를 다이아 " + Txt.num(got) + "개로 바꿨습니다.")));
         plugin.hud().refresh(p);
     }
 

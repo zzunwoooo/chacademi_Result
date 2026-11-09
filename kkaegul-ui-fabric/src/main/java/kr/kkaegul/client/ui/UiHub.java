@@ -168,8 +168,11 @@ public final class UiHub {
         host.sound("minecraft:ui.button.click", 1.3f, .35f);
     }
 
+    /** Tab(접속자 목록)을 누르고 있는 동안: 위 가운데 게이지가 목록을 가리지 않게 숨김 */
+    public boolean tabList;
+
     public void renderOverlay(Canvas c, long now, boolean cursor, float mx, float my, boolean panelOpen) {
-        hud.hideGauge = mini.active(now);
+        hud.hideGauge = mini.active(now) || tabList;
         if (!panelOpen || host.openPanel() instanceof DropdownPanel) hud.render(c, now);
         if (!panelOpen) mini.render(c, now);
         if (!panelOpen) extra.render(c, now);

@@ -63,27 +63,42 @@ public final class BoxService {
     }
 
     /** 상자 아이템 사용 */
-    public void open(Player p, String kind) {
+    public void open(Player p, String kind) { open(p, kind, 1); }
+
+    /** count 개를 한 번에 연다 (웅크리고 우클릭 = 최대 10개). 보상은 같은 것끼리 묶어 연출 한 번 */
+    public void open(Player p, String kind, int count) {
         PlayerData d = plugin.data().get(p);
         ConfigurationSection c = plugin.getConfig().getConfigurationSection("boxes." + kind);
         if (c == null) { plugin.ui().error(p, "&c상자 설정이 없어요: " + kind); return; }
+        count = Math.max(1, count);
         int rolls = c.getInt("rolls", 1) * plugin.fever().boxMultiplier();
         Map<String, Integer> pool = readPool(c.getConfigurationSection("pool"));
+        Map<String, Json> byId = new LinkedHashMap<>();
+        Map<String, Integer> counts = new LinkedHashMap<>();
+        for (int b = 0; b < count; b++)
+            for (int i = 0; i < rolls; i++) {
+                String entry = Rng.weighted(pool);
+                if (entry == null) continue;
+                String action = c.getString("pool." + entry + ".action", "");
+                String label = c.getString("pool." + entry + ".label", entry);
+                boolean rare = c.getBoolean("pool." + entry + ".rare", false);
+                byId.putIfAbsent(entry, Json.obj().put("id", entry).put("label", label).put("rare", rare));
+                counts.merge(entry, 1, Integer::sum);
+                plugin.actions().run(p.getUniqueId(), action, kind + " 상자");
+                if (rare) plugin.announce(Txt.fmt(plugin.getConfig().getString("boxes.rare-broadcast",
+                        "&d[대박] &f{name}님이 {box}에서 &e{item}&f 획득!"), "name", plugin.displayName(p), "box", c.getString("label", kind), "item", label), true);
+            }
         List<Object> got = new ArrayList<>();
-        for (int i = 0; i < rolls; i++) {
-            String entry = Rng.weighted(pool);
-            if (entry == null) continue;
-            String action = c.getString("pool." + entry + ".action", "");
-            String label = c.getString("pool." + entry + ".label", entry);
-            boolean rare = c.getBoolean("pool." + entry + ".rare", false);
-            got.add(Json.obj().put("id", entry).put("label", label).put("rare", rare));
-            plugin.actions().run(p.getUniqueId(), action, kind + " 상자");
-            if (rare) plugin.announce(Txt.fmt(plugin.getConfig().getString("boxes.rare-broadcast",
-                    "&d[대박] &f{name}님이 {box}에서 &e{item}&f 획득!"), "name", plugin.displayName(p), "box", c.getString("label", kind), "item", label), true);
+        for (var e : byId.entrySet()) {
+            int n = counts.get(e.getKey());
+            Json r = e.getValue();
+            if (n > 1) r.put("label", r.map().get("label") + " ×" + n).put("count", n);
+            got.add(r);
         }
-        d.boxesOpened++;
+        d.boxesOpened += count;
         d.markDirty();
-        Json payload = Json.obj().put("box", kind).put("label", c.getString("label", kind)).put("rewards", got)
+        String title = c.getString("label", kind) + (count > 1 ? " " + count + "개" : "");
+        Json payload = Json.obj().put("box", kind).put("label", title).put("rewards", got).put("count", count)
                 .put("fever", plugin.fever().boxFeverActive());
         if (!plugin.ui().send(p, Json.obj().put("type", "fx").put("id", "box_open").put("data", payload))) {
             StringBuilder sb = new StringBuilder();
@@ -93,7 +108,7 @@ public final class BoxService {
         p.playSound(p.getLocation(), "minecraft:block.chest.open", 1f, 1f);
         if (kind.equals("lucky")) {
             // 상자 연출(보상 공개)이 끝난 뒤에 "모두에게 적용되는 이벤트"를 따로 띄운다 — 보상과 헷갈리지 않게
-            long ms = plugin.ui().hasRenderer(p) ? 4600 + Math.min(8, got.size()) * 230L + 400 : 1000;
+            long ms = plugin.ui().hasRenderer(p) ? (4600 + Math.min(8, got.size()) * 230L) * 10 / 16 + 400 : 1000;   // 모드 연출 1.6배속
             Bukkit.getScheduler().runTaskLater(plugin, () -> luckyEvent(p), Math.max(1, ms / 50));
         }
     }

@@ -39,6 +39,15 @@ public final class FxView {
         Fx f = queue.pollFirst();
         cur = f == null ? null : new Fx(f.id(), f.d(), now, f.life());
         soundMask = 0;
+        played = 0;
+    }
+
+    /** 상자 연출은 빨리 감기: 기본 1.6배, 뒤에 상자가 더 밀려 있으면 3배 (연출 안의 진행 시간을 따로 셈) */
+    private double played;
+    private long lastFrame;
+    private double boxSpeed() {
+        for (Fx f : queue) if (f.id().equals("box_open")) return 3.0;
+        return 1.6;
     }
 
     public boolean active() { return cur != null; }
@@ -53,10 +62,14 @@ public final class FxView {
     }
 
     public void render(Canvas c, long now, Host host) {
+        long dt = lastFrame == 0 ? 0 : Math.min(200, now - lastFrame);
+        lastFrame = now;
         if (cur == null) return;
-        long e = now - cur.start();
+        long e;
+        if (cur.id().equals("box_open")) { played += dt * boxSpeed(); e = (long) played; }
+        else e = now - cur.start();
         if (e > cur.life()) { next(now); if (cur == null) return; e = 0; }
-        float a = Anim.fade(now, cur.start(), cur.life(), 150, 450);
+        float a = Anim.fade(cur.start() + e, cur.start(), cur.life(), 150, 450);
         switch (cur.id()) {
             case "box_open" -> box(c, e, a, host);
             case "fever_diamond", "fever_triple", "fever_box" -> fever(c, e, a, host);

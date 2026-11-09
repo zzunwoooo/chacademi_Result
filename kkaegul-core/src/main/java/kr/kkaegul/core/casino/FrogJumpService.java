@@ -18,8 +18,8 @@ import java.util.UUID;
 
 /**
  * 개구리 점프 (혼자 하는 버티기 게임).
- * 다이아를 걸고 시작 → "점프"를 누를 때마다 다음 연잎으로. 성공하면 배수가 오르고, 실패하면 물에 빠져 건 다이아를 잃는다.
- * 언제든 "그만"을 누르면 (건 다이아 x 지금 배수) 를 받는다. 멀리 갈수록 성공 확률은 내려가고 배수는 크게 오른다.
+ * 깨굴코인을 걸고 시작 → "점프"를 누를 때마다 다음 연잎으로. 성공하면 배수가 오르고, 실패하면 물에 빠져 건 코인을 잃는다.
+ * 언제든 "그만"을 누르면 (건 코인 x 지금 배수) 를 받는다. 멀리 갈수록 성공 확률은 내려가고 배수는 크게 오른다.
  *
  * 한 사람당 한 판씩 따로 돌아가므로, 기계(frog-jump-machine.N 블록)나 NPC(frog-jump) 여러 개를 두면 여러 명이 동시에 한다.
  * 결과는 서버가 정한다 (클라이언트는 그림만).
@@ -59,7 +59,7 @@ public final class FrogJumpService {
         List<Step> st = steps();
         List<Object> table = new ArrayList<>();
         for (Step s : st) table.add(Json.obj().put("chance", s.chance()).put("multiplier", s.multiplier()));
-        Json j = Json.obj().put("available", plugin.submit().available(p)).put("minBet", minBet()).put("maxBet", maxBet())
+        Json j = Json.obj().put("available", plugin.data().get(p).coins).put("currency", "coin").put("minBet", minBet()).put("maxBet", maxBet())
                 .put("steps", table).put("playing", g != null);
         if (g != null) {
             double mult = g.step == 0 ? 1 : st.get(g.step - 1).multiplier();
@@ -76,7 +76,7 @@ public final class FrogJumpService {
         if (!enabled()) { plugin.msg(p, "shop.disabled"); return; }
         if (plugin.ui().hasRenderer(p)) { plugin.ui().open(p, "frog_jump", info(p)); return; }
         Game g = games.get(p.getUniqueId());
-        if (g == null) p.sendMessage(Txt.color(Txt.notice("&a[개구리 점프] &f/점프 시작 <다이아> &7로 시작, &f/점프 &7로 한 칸, &f/점프 그만 &7으로 받기")));
+        if (g == null) p.sendMessage(Txt.color(Txt.notice("&a[개구리 점프] &f/점프 시작 <코인> &7로 시작, &f/점프 &7로 한 칸, &f/점프 그만 &7으로 받기")));
         else status(p, g);
     }
 
@@ -95,10 +95,11 @@ public final class FrogJumpService {
     public void start(Player p, long bet) {
         if (!enabled()) return;
         if (games.containsKey(p.getUniqueId())) { open(p); return; }
-        if (bet < minBet() || bet > maxBet()) { plugin.ui().error(p, "&c걸 수 있는 다이아는 " + minBet() + "~" + maxBet() + "개예요."); sync(p); return; }
-        long have = plugin.submit().available(p);
-        if (have < bet) { plugin.msg(p, "shop.no-diamond", "need", Txt.num(bet), "have", Txt.num(have)); sync(p); return; }
-        plugin.submit().takeDiamonds(p, bet);
+        if (bet < minBet() || bet > maxBet()) { plugin.ui().error(p, "&c걸 수 있는 깨굴코인은 " + minBet() + "~" + maxBet() + "개예요."); sync(p); return; }
+        PlayerData d = plugin.data().get(p);
+        if (d.coins < bet) { plugin.ui().error(p, "&c깨굴코인이 부족합니다. &7(필요 " + Txt.num(bet) + "개, 보유 " + Txt.num(d.coins) + "개)"); sync(p); return; }
+        d.coins -= bet;
+        d.markDirty();
         Game g = new Game();
         g.bet = bet;
         g.startedAt = System.currentTimeMillis();
@@ -125,7 +126,7 @@ public final class FrogJumpService {
             games.remove(p.getUniqueId());
             plugin.ui().fx(p, "jump_fail", Json.obj().put("step", g.step + 1).put("bet", g.bet));
             p.playSound(p.getLocation(), "minecraft:entity.player.splash", 1f, 1f);
-            if (!plugin.ui().hasRenderer(p)) plugin.ui().error(p, "&c[개구리 점프] 풍덩! " + (g.step + 1) + "번째 칸에서 빠졌어요. 다이아 " + Txt.num(g.bet) + "개를 잃었어요.");
+            if (!plugin.ui().hasRenderer(p)) plugin.ui().error(p, "&c[개구리 점프] 풍덩! " + (g.step + 1) + "번째 칸에서 빠졌어요. 깨굴코인 " + Txt.num(g.bet) + "개를 잃었어요.");
             broadcastBig(p, g.step, 0);
         }
         sync(p);
@@ -138,10 +139,10 @@ public final class FrogJumpService {
         double mult = g.step == 0 ? 1 : st.get(g.step - 1).multiplier();
         long got = payout(g.bet, mult);
         PlayerData d = plugin.data().get(p);
-        plugin.wallet().deposit(d, got, p);
+        if (got > 0) { d.coins += got; d.markDirty(); plugin.hud().refresh(p); }
         plugin.ui().fx(p, "jump_cashout", Json.obj().put("step", g.step).put("multiplier", mult).put("got", got).put("bet", g.bet));
         p.playSound(p.getLocation(), "minecraft:entity.player.levelup", 1f, 1.2f);
-        if (!plugin.ui().hasRenderer(p)) p.sendMessage(Txt.color(Txt.notice("&a[개구리 점프] " + g.step + "칸에서 멈춤! &bx" + fmt(mult) + " → 다이아 " + Txt.num(got) + "개")));
+        if (!plugin.ui().hasRenderer(p)) p.sendMessage(Txt.color(Txt.notice("&a[개구리 점프] " + g.step + "칸에서 멈춤! &bx" + fmt(mult) + " → 깨굴코인 " + Txt.num(got) + "개")));
         broadcastBig(p, g.step, got);
         sync(p);
     }
@@ -150,7 +151,7 @@ public final class FrogJumpService {
     private void broadcastBig(Player p, int step, long got) {
         int at = plugin.getConfig().getInt(cfg("announce-step"), 7);
         if (at <= 0 || step < at) return;
-        String msg = got > 0 ? "&a[개구리 점프] &f" + plugin.displayName(p) + "&f님이 &e" + step + "칸&f까지 뛰고 다이아 &b" + Txt.num(got) + "개&f를 챙겼어요!"
+        String msg = got > 0 ? "&a[개구리 점프] &f" + plugin.displayName(p) + "&f님이 &e" + step + "칸&f까지 뛰고 깨굴코인 &e" + Txt.num(got) + "개&f를 챙겼어요!"
                 : "&c[개구리 점프] &f" + plugin.displayName(p) + "&f님이 &e" + step + "칸&f까지 갔다가 풍덩!";
         plugin.announce(msg, true);
     }

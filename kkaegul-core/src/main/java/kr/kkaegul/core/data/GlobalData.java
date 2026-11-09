@@ -26,7 +26,7 @@ public final class GlobalData {
     public long lastMinigameAt = 0;
     /** 서버 공용 운빨 게이지 (-1 = 아직 없음 → config gauge.start) */
     public int gauge = -1;
-    /** 개구리 경주 이월 상금 */
+    /** 개구리 경주 이월 상금 (깨굴코인. 다이아로 걸던 때의 race.carry 는 버림) */
     public long raceCarry = 0;
     /** 미니게임 일정: invite / treasure / casino → 다음 시각(ms) */
     public final Map<String, Long> sched = new LinkedHashMap<>();
@@ -54,7 +54,7 @@ public final class GlobalData {
         totalDonatedAll = y.getLong("submit.donated", 0);
         lastMinigameAt = y.getLong("minigame.last", 0);
         gauge = y.getInt("gauge", -1);
-        raceCarry = y.getLong("race.carry", 0);
+        raceCarry = y.getLong("race.carry-coin", 0);
         ConfigurationSection sc = y.getConfigurationSection("minigame.sched");
         if (sc != null) for (String k : sc.getKeys(false)) sched.put(k, sc.getLong(k));
         casinoTurn = y.getInt("minigame.casino-turn", 0);
@@ -73,7 +73,7 @@ public final class GlobalData {
         y.set("submit.donated", totalDonatedAll);
         y.set("minigame.last", lastMinigameAt);
         y.set("gauge", gauge);
-        y.set("race.carry", raceCarry);
+        y.set("race.carry-coin", raceCarry);
         for (Map.Entry<String, Long> e : sched.entrySet()) y.set("minigame.sched." + e.getKey(), e.getValue());
         y.set("minigame.casino-turn", casinoTurn);
         y.set("race.paused", racePaused);

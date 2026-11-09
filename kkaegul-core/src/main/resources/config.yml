@@ -143,6 +143,7 @@ food:
 # ── 상자 ─────────────────────────────────────────────────────
 boxes:
   rare-broadcast: "&d[대박] &f{name}님이 {box}에서 &e{item}&f 획득!"
+  sneak-open: 10                # ★ 웅크리고 우클릭하면 일반·고급상자를 한 번에 최대 몇 개 (행운상자는 1개씩)
   normal:
     label: "일반상자"
     rolls: 1                    # 한 번 열 때 뽑는 횟수 (상자 피버 중 ×2)
@@ -323,6 +324,7 @@ economy:
     EMERALD: 0.5
     QUARTZ: 0.02
     AMETHYST_SHARD: 0.03
+  sell-blocks: true             # ★ 광물 블록도 판매 (블록 가격 = 재료 가격 x9, 석영·자수정 x4)
   farm-reroll-minutes: 60
   farm:                         # ★ 작물 시세 = 1개당 다이아 범위, 1시간마다 랜덤
     WHEAT: { min: 0.008, max: 0.03 }
@@ -339,6 +341,7 @@ economy:
     click-amount: 1             # 코인 상점 NPC 클릭
     sneak-amount: 10            # 웅크리고 클릭
     max-per-buy: 100
+    to-diamond: 15              # ★ 코인 1개 → 보유 다이아 몇 개 (제출용 교환, 0 = 끔). 상점 "코인 교환" 탭 / /코인구매 교환 <코인>
     outcomes:
       fail:   { chance: 10, multiplier: 0, message: "&c구매 실패..." }
       normal: { chance: 79, multiplier: 1, message: "&a깨굴코인 {got}개 구매" }
@@ -348,9 +351,9 @@ economy:
     enabled: false
     coins-per-diamond: 1
 
-# ── 개구리 경주 / 개구리 점프 (다이아 걸기) ──────────────────
+# ── 개구리 경주 / 개구리 점프 (깨굴코인 걸기, 상금도 코인) ──────────────────
 casino:
-  frog-race:                    # 개구리 4~6마리 경주, 번호에 다이아 걸기 — 건 사람끼리 나눠 갖기(수수료) + 못 맞히면 이월
+  frog-race:                    # 개구리 4~6마리 경주, 번호에 깨굴코인 걸기 — 건 사람끼리 나눠 갖기(수수료) + 못 맞히면 이월
     enabled: true
     frogs: 6
     cycle-minutes: 10            # ★ 몇 분마다 한 회차 (배팅 → 경주 → 결과). 아무도 안 걸어도 진행
@@ -360,11 +363,11 @@ casino:
     result-seconds: 10
     min-bet: 1
     max-bet: 999999             # ★ 한 경기 최대 (999999 = 사실상 제한 없음)
-    fee-percent: 10             # ★ 배팅 합계에서 떼는 수수료(%) — 이게 다이아가 무한으로 늘지 않게 함
-    seed: 0                     # 매 회차 서버가 상금에 보태는 다이아 (0 = 안 보탬)
+    fee-percent: 10             # ★ 배팅 합계에서 떼는 수수료(%) — 이게 코인이 무한으로 늘지 않게 함
+    seed: 0                     # 매 회차 서버가 상금에 보태는 코인 (0 = 안 보탬)
     lane-spacing: 2.0           # 레인 사이 간격 (race-start 기준 옆으로)
     track-length: 19            # race-finish 를 안 정했을 때 결승선까지 블록 수
-    announce-win: 100           # 이만큼 이상 따면 결과 알림에 이름
+    announce-win: 10            # 이만큼 이상 따면 결과 알림에 이름
     watch-radius: 48            # 이 안에 있으면 경주 진행 막대가 화면에 뜸 (건 사람은 어디서든)
     model: ""                   # ModelEngine 개구리 모델 id (비우면 바닐라 개구리)
     names: [깨굴, 개굴, 뚱굴, 초록이, 폴짝, 연잎, 왕눈이, 꾸르]

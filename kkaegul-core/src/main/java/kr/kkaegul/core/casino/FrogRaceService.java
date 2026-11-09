@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * 개구리 경주 (경마). 개구리 4~6마리가 달리고, 사람들은 번호에 다이아를 건다.
+ * 개구리 경주 (경마). 개구리 4~6마리가 달리고, 사람들은 번호에 깨굴코인을 건다.
  *  cycle-minutes(기본 3분)마다 자동: 배팅 → 경주 → 결과 → 대기 → 다음 회차. 아무도 안 걸어도 경주는 돈다.
  *
  * 경기장: 위치 race-start 하나만 저장하면 됨 (출발선 가운데, 달릴 방향을 바라보고). 레인은 옆으로 lane-spacing 칸씩 자동.
@@ -84,6 +84,18 @@ public final class FrogRaceService {
     /** 지금 걸린 돈 기준 예상 배당 (그 번호에 아무도 안 걸었으면 0 = "-") */
     private double estOdds(int no) { long on = poolOn(no); return on <= 0 ? 0 : Math.floor(pot() / (double) on * 10) / 10.0; }
 
+    /** 배팅·상금은 깨굴코인 (졸업자 다이아가 도박으로 남에게 넘어가지 않게) */
+    private long coins(Player p) { return plugin.data().get(p).coins; }
+    private void giveCoins(UUID id, long n) {
+        if (n <= 0) return;
+        Player p = Bukkit.getPlayer(id);
+        var d = p != null ? plugin.data().get(p) : plugin.data().get(id);
+        if (d == null) return;
+        d.coins += n;
+        d.markDirty();
+        if (p != null) { plugin.ui().actionbar(p, "&e깨굴코인 +" + Txt.num(n) + " &7(보유 " + Txt.num(d.coins) + ")"); plugin.hud().refresh(p); }
+    }
+
     private String cfg(String k) { return "casino.frog-race." + k; }
     public boolean enabled() { return plugin.getConfig().getBoolean(cfg("enabled"), true) && !plugin.global().racePaused; }
     public State state() { return state; }
@@ -131,7 +143,7 @@ public final class FrogRaceService {
                 .put("frogs", fl).put("round", round).put("minBet", minBet()).put("maxBet", maxBet()).put("winner", winner)
                 .put("pot", state == State.RESULT ? lastPot : pot()).put("carry", carry()).put("feePercent", Math.round(fee() * 100))
                 .put("nextInMs", state == State.IDLE ? Math.max(0, nextOpenAt - System.currentTimeMillis()) : 0).put("parimutuel", true);
-        if (p != null) j.put("available", plugin.submit().available(p)).put("myTotal", mine.values().stream().mapToLong(Long::longValue).sum());
+        if (p != null) j.put("available", coins(p)).put("currency", "coin").put("myTotal", mine.values().stream().mapToLong(Long::longValue).sum());
         return j;
     }
 
@@ -144,7 +156,7 @@ public final class FrogRaceService {
 
     private void lineupChat(Player p) {
         String st = switch (state) { case BETTING -> "배팅 중 (" + Math.max(0, (stateEndsAt - System.currentTimeMillis()) / 1000) + "초 남음)"; case RACING -> "경주 중"; case RESULT -> "결과 발표"; default -> "다음 경주까지 " + Math.max(0, (nextOpenAt - System.currentTimeMillis()) / 1000) + "초"; };
-        p.sendMessage(Txt.color(Txt.notice("&a[개구리 경주] &f" + st + " &7| 상금 &b" + Txt.num(pot()) + " &7(이월 " + Txt.num(carry()) + ") | /경주 걸기 <번호> <다이아>")));
+        p.sendMessage(Txt.color(Txt.notice("&a[개구리 경주] &f" + st + " &7| 상금 &e코인 " + Txt.num(pot()) + " &7(이월 " + Txt.num(carry()) + ") | /경주 걸기 <번호> <코인>")));
         for (Frog f : frogs) { double o = estOdds(f.no); p.sendMessage(Txt.color(" &f" + f.no + "번 " + f.name + " &7" + "★".repeat(f.form) + "☆".repeat(3 - f.form) + " &e예상 배당 " + (o <= 0 ? "-" : "x" + FrogJumpService.fmt(o)))); }
     }
 
@@ -196,13 +208,15 @@ public final class FrogRaceService {
         Map<Integer, Long> mine = bets.computeIfAbsent(p.getUniqueId(), k -> new LinkedHashMap<>());
         long total = mine.values().stream().mapToLong(Long::longValue).sum();
         if (amount < minBet() || total + amount > maxBet()) { plugin.ui().error(p, "&c[개구리 경주] 한 경기에 " + minBet() + "~" + maxBet() + "개까지 걸 수 있어요. &7(지금 " + total + "개)"); sync(p); return; }
-        long have = plugin.submit().available(p);
-        if (have < amount) { plugin.msg(p, "shop.no-diamond", "need", Txt.num(amount), "have", Txt.num(have)); sync(p); return; }
-        plugin.submit().takeDiamonds(p, amount);
+        long have = coins(p);
+        if (have < amount) { plugin.ui().error(p, "&c[개구리 경주] 깨굴코인이 부족합니다. &7(필요 " + Txt.num(amount) + "개, 보유 " + Txt.num(have) + "개)"); sync(p); return; }
+        var d = plugin.data().get(p);
+        d.coins -= amount;
+        d.markDirty();
         mine.merge(no, amount, Long::sum);
         plugin.hud().refresh(p);
         Frog f = frogs.get(no - 1);
-        p.sendMessage(Txt.color(Txt.notice("&a[개구리 경주] &f" + no + "번 " + f.name + "에게 다이아 &b" + Txt.num(amount) + "개 &f걸었어요. &7(지금 예상 배당 x" + FrogJumpService.fmt(estOdds(no)) + ", 마감 때 확정)")));
+        p.sendMessage(Txt.color(Txt.notice("&a[개구리 경주] &f" + no + "번 " + f.name + "에게 깨굴코인 &e" + Txt.num(amount) + "개 &f걸었어요. &7(지금 예상 배당 x" + FrogJumpService.fmt(estOdds(no)) + ", 마감 때 확정)")));
         plugin.ui().fx(p, "race_bet", Json.obj().put("no", no).put("amount", amount));
         pushAll();
     }
@@ -234,7 +248,7 @@ public final class FrogRaceService {
         stateEndsAt = System.currentTimeMillis() + t * 50L;
         long pt = pot();
         for (Frog f : frogs) f.odds = estOdds(f.no);   // 마감 시점 배당 확정
-        plugin.announce("&a[개구리 경주] &f" + round + "회차 출발! &7상금 &b" + Txt.num(pt) + (carry() > 0 ? " &7(이월 " + Txt.num(carry()) + " 포함)" : ""), false);
+        plugin.announce("&a[개구리 경주] &f" + round + "회차 출발! &7상금 &e코인 " + Txt.num(pt) + (carry() > 0 ? " &7(이월 " + Txt.num(carry()) + " 포함)" : ""), false);
         for (Player p : watchers()) p.playSound(p.getLocation(), "minecraft:entity.firework_rocket.blast", 1f, 1.2f);
         pushAll();
     }
@@ -281,8 +295,7 @@ public final class FrogRaceService {
             long got = onWinner > 0 ? (long) Math.floor(pot * (on / (double) onWinner)) : 0;
             if (got > 0) {
                 totalPaid += got;
-                if (p != null) plugin.wallet().deposit(plugin.data().get(p), got, p);
-                else { var d = plugin.data().get(e.getKey()); if (d != null) { d.held += got; d.markDirty(); } }
+                giveCoins(e.getKey(), got);
                 if (got >= plugin.getConfig().getLong(cfg("announce-win"), 100)) big.add((p != null ? plugin.displayName(p) : "?") + " +" + Txt.num(got));
             }
             if (p != null) plugin.ui().fx(p, "race_result", Json.obj().put("winner", winner).put("colorId", (winner - 1) % 6).put("name", w.name).put("odds", w.odds).put("bet", on).put("spent", spent).put("got", got).put("pot", pot));
@@ -290,8 +303,8 @@ public final class FrogRaceService {
         // 아무도 못 맞히면 전부 이월, 맞히면 나누고 남은 자투리만 이월
         plugin.global().raceCarry = onWinner > 0 ? Math.max(0, pot - totalPaid) : pot;
         plugin.global().dirty = true;
-        String tail = onWinner > 0 ? " &7상금 &b" + Txt.num(pot) + " &7→ 맞힌 사람끼리 나눔 (x" + FrogJumpService.fmt(w.odds) + ")" + (big.isEmpty() ? "" : " &b" + String.join(", ", big))
-                : total > 0 || pot > 0 ? " &7맞힌 사람이 없어 상금 &b" + Txt.num(pot) + " &7다음 회차로 이월!" : "";
+        String tail = onWinner > 0 ? " &7상금 &e코인 " + Txt.num(pot) + " &7→ 맞힌 사람끼리 나눔 (x" + FrogJumpService.fmt(w.odds) + ")" + (big.isEmpty() ? "" : " &b" + String.join(", ", big))
+                : total > 0 || pot > 0 ? " &7맞힌 사람이 없어 상금 &e코인 " + Txt.num(pot) + " &7다음 회차로 이월!" : "";
         plugin.announce("&a[개구리 경주] &e" + winner + "번 " + w.name + " &f우승!" + tail, true);
         // 우승 화면·효과음은 이번 판에 건 사람에게만 (구경꾼은 채팅 한 줄만)
         for (Player p : Bukkit.getOnlinePlayers()) if (bets.containsKey(p.getUniqueId())) p.playSound(p.getLocation(), "minecraft:ui.toast.challenge_complete", 1f, 1f);
@@ -326,7 +339,7 @@ public final class FrogRaceService {
                 idleHop();
                 if (!warned30 && stateEndsAt - now <= 30_000) {
                     warned30 = true;
-                    plugin.announce("&a[개구리 경주] &f배팅 마감 &e30초 &f전! &7상금 &b" + Txt.num(pot()) + " &7(경주 NPC / /경주)", false);
+                    plugin.announce("&a[개구리 경주] &f배팅 마감 &e30초 &f전! &7상금 &e코인 " + Txt.num(pot()) + " &7(경주 NPC / /경주)", false);
                 }
                 if (now >= stateEndsAt) startRace();
             }
@@ -494,10 +507,7 @@ public final class FrogRaceService {
     private void refundAll() {
         if (state != State.BETTING && state != State.RACING) return;
         for (var e : bets.entrySet()) {
-            long sum = e.getValue().values().stream().mapToLong(Long::longValue).sum();
-            Player p = Bukkit.getPlayer(e.getKey());
-            if (p != null) plugin.wallet().deposit(plugin.data().get(p), sum, p);
-            else { var d = plugin.data().get(e.getKey()); if (d != null) { d.held += sum; d.markDirty(); } }
+            giveCoins(e.getKey(), e.getValue().values().stream().mapToLong(Long::longValue).sum());
         }
     }
 

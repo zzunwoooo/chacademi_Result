@@ -123,6 +123,10 @@ public final class Commands implements CommandExecutor, TabCompleter {
                     plugin.economy().exchangeDiamond(p, a.length > 1 ? Actions.parse(a[1], 1) : 1);
                     return;
                 }
+                if (a.length > 0 && a[0].equals("교환")) {   // /코인구매 교환 <코인> → 다이아
+                    plugin.economy().coinToDiamond(p, a.length > 1 ? Actions.parse(a[1], 1) : 1);
+                    return;
+                }
                 int n = a.length > 0 ? Actions.parse(a[0], 1) : 1;
                 plugin.economy().buyCoins(p, Math.max(1, Math.min(n, plugin.getConfig().getInt("economy.coin.max-per-buy", 100))));
             }

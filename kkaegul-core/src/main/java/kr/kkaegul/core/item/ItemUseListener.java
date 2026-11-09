@@ -45,7 +45,12 @@ public final class ItemUseListener implements Listener {
         Player p = e.getPlayer();
         PlayerData d = plugin.data().get(p);
         switch (type) {
-            case NORMAL_BOX, PREMIUM_BOX, LUCKY_BOX -> { consume(p); plugin.boxes().open(p, plugin.boxes().kindOf(type)); }
+            case NORMAL_BOX, PREMIUM_BOX -> {   // 웅크리고 우클릭 = 한 번에 최대 10개
+                int n = p.isSneaking() ? Math.min(plugin.getConfig().getInt("boxes.sneak-open", 10), hand.getAmount()) : 1;
+                for (int i = 0; i < n; i++) consume(p);
+                plugin.boxes().open(p, plugin.boxes().kindOf(type), n);
+            }
+            case LUCKY_BOX -> { consume(p); plugin.boxes().open(p, plugin.boxes().kindOf(type)); }   // 행운상자는 전체 이벤트가 있어 1개씩
             case COIN_POUCH -> {
                 consume(p);
                 int n = ActionRunner.parseRange(plugin.getConfig().getString("items.coin_pouch.coins", "3-8"));

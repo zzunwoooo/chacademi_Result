@@ -213,7 +213,7 @@ public final class FrogJumpPanel implements Panel {
             float s = Anim.outBack(Anim.t(now, resultAt, 360));
             String rib = switch (resultKind) { case "fail" -> "jump/result_ribbon_gray"; case "rainbow" -> "jump/result_ribbon_rainbow"; default -> "jump/result_ribbon_gold"; };
             String title = switch (resultKind) { case "fail" -> "풍덩!"; case "rainbow" -> "끝까지 완주!"; default -> J.num(result, "step") + "칸에서 멈춤!"; };
-            String sub = resultKind.equals("fail") ? "투자 다이아 " + Fmt.num(J.num(result, "bet")) + "개를 잃었어요" : "다이아 +" + Fmt.num(J.num(result, "got")) + " (×" + ShopPanel.dec(J.dbl(result, "multiplier", 1)) + ")";
+            String sub = resultKind.equals("fail") ? "투자 코인 " + Fmt.num(J.num(result, "bet")) + "개를 잃었어요" : "코인 +" + Fmt.num(J.num(result, "got")) + " (×" + ShopPanel.dec(J.dbl(result, "multiplier", 1)) + ")";
             c.push();
             c.translate(560, 752);   // 연못 아래쪽 물 위 (제목·연잎을 가리지 않게)
             c.scale(s, s);
@@ -232,7 +232,7 @@ public final class FrogJumpPanel implements Panel {
         long bet = pl ? J.num(data, "bet") : amt();
         double mult = pl ? J.dbl(data, "multiplier", 1) : 1;
         long pay = pl ? J.num(data, "cashout") : bet;
-        String[] lab = {"투자 다이아", "현재 배수", "수령 다이아"};
+        String[] lab = {"투자 코인", "현재 배수", "수령 코인"};
         float[] ry = {298, 352, 406};
         for (int i = 0; i < 3; i++) {
             c.text(lab[i], 1148, ry[i], 26, INK, Canvas.LEFT, TXT);
@@ -275,7 +275,7 @@ public final class FrogJumpPanel implements Panel {
         float jy = 640, cy = 742;
         boolean hj = canJump && Anim.in(mx, my, 1120, jy, 400, 90);
         c.image(canJump ? hj ? "jump/jump_hover" : "jump/jump_default" : "jump/jump_disabled", 1120, jy, 400, 90, 0xFFFFFFFF);
-        String jl = pl ? "점프!" : J.num(data, "available") <= 0 ? "다이아가 없어요" : "투자하고 시작";
+        String jl = pl ? "점프!" : J.num(data, "available") <= 0 ? "코인이 없어요" : "투자하고 시작";
         c.textFit(busy ? "..." : jl, 1320, jy + 43, 38, 340, canJump ? 0xFF2F4A1C : 0xFF8A8A80, Canvas.CENTER, TXT);
         hits.add(new R("jump", 1120, jy, 400, 90));
         boolean canCash = pl && !busy && J.num(data, "step") > 0;
@@ -286,16 +286,16 @@ public final class FrogJumpPanel implements Panel {
         float gx = 1320 - (cw + 20 + 34 + 8 + vw) / 2;
         int cc = canCash ? 0xFF5A3A12 : 0xFF8A8A80;
         c.text(cl, gx, cy + 44, 36, cc, Canvas.LEFT, TXT);
-        c.image("shop/diamond_32", gx + cw + 20, cy + 28, 34, 34, canCash ? 0xFFFFFFFF : 0x88FFFFFF);
+        c.image("shop/coin_32", gx + cw + 20, cy + 28, 34, 34, canCash ? 0xFFFFFFFF : 0x88FFFFFF);
         c.text(Fmt.num(pay), gx + cw + 62, cy + 44, 36, cc, Canvas.LEFT, TXT);
         hits.add(new R("cashout", 1120, cy, 400, 90));
-        c.textFit(pl && J.num(data, "step") == 0 ? "한 칸 이상 뛰어야 정산할 수 있어요" : "실패하면 투자 다이아를 잃어요", 1320, 868, 22, 370, 0xFF6B5A4C, Canvas.CENTER, TXT);
+        c.textFit(pl && J.num(data, "step") == 0 ? "한 칸 이상 뛰어야 정산할 수 있어요" : "실패하면 투자 코인을 잃어요", 1320, 868, 22, 370, 0xFF6B5A4C, Canvas.CENTER, TXT);
     }
 
     private static void valueWithDiamond(Canvas c, String v, float y) {
         float tw = Math.min(150, c.textWidth(v, 28, TXT));
         c.textFit(v, 1492, y, 28, 150, INK, Canvas.RIGHT, TXT);
-        c.image("shop/diamond_32", 1492 - tw - 44, y - 17, 34, 34, 0xFFFFFFFF);
+        c.image("shop/coin_32", 1492 - tw - 44, y - 17, 34, 34, 0xFFFFFFFF);
     }
 
     // ───────── 입력 ─────────

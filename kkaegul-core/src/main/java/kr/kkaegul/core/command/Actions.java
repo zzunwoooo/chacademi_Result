@@ -59,7 +59,8 @@ public final class Actions {
         ui.onAction("race.bet", (p, a) -> plugin.frogRace().bet(p, parse(a.get("no"), 0), parseAmount(a)));
         ui.onAction("shop.info", (p, a) -> plugin.ui().update(p, "shop", plugin.economy().shopInfo(p)));
         ui.onAction("shop.buyCoins", (p, a) -> { plugin.economy().buyCoins(p, parse(a.get("amount"), 1)); shopSync(p); });
-        ui.onAction("shop.exchangeDiamond", (p, a) -> { plugin.economy().exchangeDiamond(p, parse(a.get("amount"), 1)); shopSync(p); });
+        ui.onAction("shop.toDiamond", (p, a) -> plugin.economy().coinToDiamond(p, parseAmount(a)));
+        ui.onAction("shop.exchangeDiamond",(p, a) -> { plugin.economy().exchangeDiamond(p, parse(a.get("amount"), 1)); shopSync(p); });
         ui.onAction("farm.info", (p, a) -> plugin.ui().open(p, "farm", plugin.economy().farmSnapshot()));
         ui.onAction("mail.open", (p, a) -> plugin.ui().open(p, "mail", plugin.mail().snapshot(p.getUniqueId())));
         ui.onAction("mail.claim", (p, a) -> { plugin.mail().claimAll(p); plugin.ui().update(p, "mail", plugin.mail().snapshot(p.getUniqueId())); });

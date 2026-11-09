@@ -32,13 +32,13 @@ commands:
     description: 광물/작물 판매 (/판매 [손])
     aliases: [판매]
   buycoin:
-    description: 깨굴코인 구매 (/코인구매 <개수>)
+    description: 깨굴코인 구매 (/코인구매 <개수>, /코인구매 교환 <코인> = 다이아로)
     aliases: [코인구매]
   frogjump:
-    description: 개구리 점프 (시작 <다이아> / 점프 / 그만)
+    description: 개구리 점프 (시작 <코인> / 점프 / 그만)
     aliases: [점프, 개구리점프]
   frograce:
-    description: 개구리 경주 (걸기 <번호> <다이아>)
+    description: 개구리 경주 (걸기 <번호> <코인>)
     aliases: [경주, 개구리경주]
   poker:
     description: 참가 중인 포커 테이블 창 다시 열기

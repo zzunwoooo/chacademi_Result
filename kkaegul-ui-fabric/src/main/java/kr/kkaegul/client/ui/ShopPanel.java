@@ -17,7 +17,7 @@ public final class ShopPanel implements Panel {
     private String tab;
     private int filter;                 // 0 전체 1 광물 2 작물
     private String selected;
-    private long sellAmt = -1, coinAmt = 1;
+    private long sellAmt = -1, coinAmt = 1, exAmt = 1;
     private String typed;               // 수량 칸에 직접 치는 중
     private String search;              // null = 검색 꺼짐
     private int scrollRow;
@@ -57,7 +57,7 @@ public final class ShopPanel implements Panel {
     }
 
     @Override public boolean fx(String id, JsonObject d, long now) {
-        if (!id.equals("coin_buy") && !id.equals("shop_sold")) return false;
+        if (!id.equals("coin_buy") && !id.equals("shop_sold") && !id.equals("coin_exchange")) return false;
         fxId = id;
         fx = d;
         fxStart = now;
@@ -67,7 +67,7 @@ public final class ShopPanel implements Panel {
             String o = J.str(d, "outcome");
             host.sound(o.equals("fail") ? "minecraft:block.note_block.bass" : o.equals("triple") ? "minecraft:ui.toast.challenge_complete" : "minecraft:entity.player.levelup", o.equals("fail") ? .6f : 1.2f, .7f);
         } else {
-            sellAmt = -1;
+            if (id.equals("shop_sold")) sellAmt = -1; else exAmt = 1;
             host.sound("minecraft:entity.experience_orb.pickup", 1.1f, .8f);
         }
         return true;
@@ -102,7 +102,7 @@ public final class ShopPanel implements Panel {
 
     private long avail() { return J.num(data, "available", J.num(data, "held")); }
     private long unit() { return Math.max(1, J.num(data, "coinPrice", 1)); }
-    private long coinMax() { return Math.max(0, Math.min(J.num(data, "coinMax", 100), avail() / unit())); }
+    private long coinMax() { return tab.equals("ex") ? J.num(data, "coins") : Math.max(0, Math.min(J.num(data, "coinMax", 100), avail() / unit())); }
 
     private long typedOr(long v, long max) {
         if (typed == null) return v;
@@ -114,7 +114,10 @@ public final class ShopPanel implements Panel {
         return typedOr(sellAmt < 0 ? max : Math.min(sellAmt, max), max);
     }
 
-    private long coinAmount() { return typedOr(Math.max(1, coinAmt), Math.max(1, J.num(data, "coinMax", 100))); }
+    /** 코인 구매 탭 / 코인 교환 탭(ex) 수량. 교환은 보유 코인까지 */
+    private long coinLimit() { return tab.equals("ex") ? Math.max(1, J.num(data, "coins")) : Math.max(1, J.num(data, "coinMax", 100)); }
+    private long coinAmount() { return typedOr(Math.max(1, tab.equals("ex") ? exAmt : coinAmt), coinLimit()); }
+    private void setCoinAmt(long v) { if (tab.equals("ex")) exAmt = v; else coinAmt = v; }
 
     /** 0.08 / 1.5 / 12 */
     static String dec(double v) {
@@ -160,6 +163,7 @@ public final class ShopPanel implements Panel {
         c.text("메뉴", 64, 220, 22, Theme.MUTED, Canvas.LEFT, TXT);
         menu(c, "coin", 262, "shop/coin_48", "코인 구매", mx, my);
         menu(c, "sell", 342, "shop/sell_tab_pickaxe", "판매", mx, my);
+        if (J.num(data, "toDiamond") > 0) menu(c, "ex", 422, "shop/diamond_48", "코인 교환", mx, my);
         c.text("보유", 64, 800, 22, Theme.MUTED, Canvas.LEFT, TXT);
         c.image("shop/diamond_32", 64, 828, 32, 32, 0xFFFFFFFF);
         c.textFit(Fmt.num(avail()), 110, 845, 28, 170, Theme.INK, Canvas.LEFT, TXT);
@@ -168,7 +172,7 @@ public final class ShopPanel implements Panel {
         double dust = J.dbl(data, "dust", 0);
         if (dust > 0.0005) c.textFit("모은 소수점 " + dec(dust), 64, 930, 17, 210, Theme.MUTED, Canvas.LEFT, TXT);
 
-        if (tab.equals("sell")) sell(c, now, mx, my); else coin(c, now, mx, my);
+        if (tab.equals("sell")) sell(c, now, mx, my); else if (tab.equals("ex")) exchange(c, now, mx, my); else coin(c, now, mx, my);
         c.pop();
     }
 
@@ -393,6 +397,57 @@ public final class ShopPanel implements Panel {
         else if (hInfo) odds(c);
     }
 
+    // ───────── 코인 교환 탭 (코인 → 보유 다이아, 제출용) ─────────
+    private void exchange(Canvas c, long now, float mx, float my) {
+        long rate = Math.max(1, J.num(data, "toDiamond", 15)), coins = J.num(data, "coins");
+        c.text("코인 교환", 320, 224, 34, Theme.INK, Canvas.LEFT, TXT);
+        c.image("shop/product_display", 322, 282, 720, 614, 0xFFFFFFFF);
+        c.text("깨굴코인 → 다이아", 682, 340, 46, Theme.INK, Canvas.CENTER, TXT);
+        c.text("제출에 쓸 수 있는 보유 다이아로 바꿉니다", 682, 396, 26, Theme.MUTED, Canvas.CENTER, TXT);
+        float bob = (float) Math.sin(now / 480.0) * 6;
+        c.image("shop/coin_256", 552, 438 + bob, 256, 256, 0xFFFFFFFF);
+        c.image("shop/divider_horizontal", 380, 716, 604, 2, 0xFFFFFFFF);
+        c.text("교환 비율", 682, 760, 24, Theme.INK, Canvas.CENTER, TXT);
+        c.image("shop/exchange_strip", 440, 790, 488, 72, 0xFFFFFFFF);
+        c.image("shop/coin_32", 504, 810, 32, 32, 0xFFFFFFFF);
+        c.text("1", 548, 827, 34, Theme.INK, Canvas.LEFT, TXT);
+        c.text("→", 684, 825, 34, Theme.INK, Canvas.CENTER, TXT);
+        c.image("shop/diamond_32", 776, 810, 32, 32, 0xFFFFFFFF);
+        c.textFit(Fmt.num(rate), 820, 827, 34, 110, Theme.INK, Canvas.LEFT, TXT);
+        c.text("바꾼 다이아는 코인으로 되돌릴 수 없습니다", 682, 918, 22, Theme.MUTED, Canvas.CENTER, TXT);
+
+        c.image("shop/transaction", 1088, 196, 470, 750, 0xFFFFFFFF);
+        c.text("교환 정보", 1116, 228, 26, Theme.INK, Canvas.LEFT, TXT);
+        c.image("shop/coin_128", 1250, 258, 128, 128, 0xFFFFFFFF);
+        c.text("깨굴코인", 1314, 405, 28, Theme.INK, Canvas.CENTER, TXT);
+        c.text("보유 코인", 1116, 455, 24, Theme.INK, Canvas.LEFT, TXT);
+        value(c, "shop/coin_32", Fmt.num(coins), 455, Theme.INK);
+        c.text("코인 1개당", 1116, 501, 24, Theme.INK, Canvas.LEFT, TXT);
+        value(c, "shop/diamond_32", Fmt.num(rate), 501, Theme.INK);
+        c.image("shop/divider_horizontal", 1112, 530, 416, 2, 0xFFFFFFFF);
+        c.text("교환 수량", 1116, 559, 24, Theme.INK, Canvas.LEFT, TXT);
+        long n = coinAmount();
+        stepper(c, now, 588, n, mx, my);
+        c.image("shop/divider_horizontal", 1112, 660, 416, 2, 0xFFFFFFFF);
+        c.text("받을 다이아", 1116, 690, 24, Theme.INK, Canvas.LEFT, TXT);
+        value(c, "shop/diamond_32", Fmt.num(n * rate), 690, Theme.INK);
+        long after = coins - n;
+        c.text("교환 후 코인", 1116, 737, 24, Theme.INK, Canvas.LEFT, TXT);
+        value(c, "shop/coin_32", Fmt.num(after), 737, after < 0 ? Theme.RED : Theme.INK);
+        boolean b = busy(now), ok = n > 0 && after >= 0 && !b;
+        bigButton(c, "purchase", "exchange", 782, b ? "교환 중..." : after < 0 ? "코인이 부족해요" : "교환하기", ok, mx, my, 0xFF5A3A12);
+
+        if ("coin_exchange".equals(fxId) && now - fxStart < SELL_FX) {
+            float a = Anim.fade(now, fxStart, SELL_FX, 120, 500), p = Anim.outBack(Anim.t(now, fxStart, 320));
+            c.push(); c.translate(682, 560); c.scale(p, p);
+            String msg = "다이아 +" + Fmt.num(J.num(fx, "got"));
+            float tw = c.textWidth(msg, 34, TXT) + 60;
+            MenuPanel.box(c, -tw / 2, -34, tw, 68, 34, Anim.alpha(0xFF6FAF3F, a), Anim.alpha(0xFFF4FBE8, a), 3);
+            c.text(msg, 0, 0, 34, Anim.alpha(Theme.GREEN_DARK, a), Canvas.CENTER, TXT);
+            c.pop();
+        }
+    }
+
     private void odds(Canvas c) {
         List<JsonObject> os = J.objs(data, "outcomes");
         if (os.isEmpty()) return;
@@ -483,16 +538,16 @@ public final class ShopPanel implements Panel {
                 case "search" -> { search = search == null ? "" : null; scrollRow = 0; }
                 case "input" -> typed = "";
                 case "minus" -> {
-                    if (sellTab) sellAmt = Math.max(0, sellAmount(s) - step()); else coinAmt = Math.max(1, coinAmount() - step());
+                    if (sellTab) sellAmt = Math.max(0, sellAmount(s) - step()); else setCoinAmt(Math.max(1, coinAmount() - step()));
                     press("minus", now); host.sound("minecraft:ui.button.click", 1.4f, .35f);
                 }
                 case "plus" -> {
                     if (sellTab) sellAmt = Math.min(s == null ? 0 : J.num(s, "have"), sellAmount(s) + step());
-                    else coinAmt = Math.min(Math.max(1, J.num(data, "coinMax", 100)), coinAmount() + step());
+                    else setCoinAmt(Math.min(coinLimit(), coinAmount() + step()));
                     press("plus", now); host.sound("minecraft:ui.button.click", 1.5f, .35f);
                 }
                 case "max" -> {
-                    if (sellTab) sellAmt = -1; else coinAmt = Math.max(1, coinMax());
+                    if (sellTab) sellAmt = -1; else setCoinAmt(Math.max(1, coinMax()));
                     press("max", now); host.sound("minecraft:ui.button.click", 1.2f, .35f);
                 }
                 case "sell" -> {
@@ -512,6 +567,12 @@ public final class ShopPanel implements Panel {
                     waitingSince = now;
                     host.send("shop.buy", "amount", String.valueOf(n));
                 }
+                case "exchange" -> {
+                    long n = coinAmount();
+                    if (busy(now) || n <= 0 || n > J.num(data, "coins")) { host.sound("minecraft:block.note_block.bass", .7f, .5f); return true; }
+                    waitingSince = now;
+                    host.send("shop.toDiamond", "amount", String.valueOf(n));
+                }
                 default -> { }
             }
             return true;
@@ -522,7 +583,7 @@ public final class ShopPanel implements Panel {
 
     private void commitTyped() {
         if (typed == null) return;
-        if (tab.equals("sell")) sellAmt = sellAmount(sel(items())); else coinAmt = Math.max(1, coinAmount());
+        if (tab.equals("sell")) sellAmt = sellAmount(sel(items())); else setCoinAmt(Math.max(1, coinAmount()));
         typed = null;
     }
 
@@ -535,7 +596,7 @@ public final class ShopPanel implements Panel {
         if (Anim.in(x, y, 1100, 560, 450, 140)) {
             long d = amount > 0 ? 1 : -1;
             if (tab.equals("sell")) { JsonObject s = sel(items()); sellAmt = Math.max(0, Math.min(s == null ? 0 : J.num(s, "have"), sellAmount(s) + d)); }
-            else coinAmt = Math.max(1, Math.min(Math.max(1, J.num(data, "coinMax", 100)), coinAmount() + d));
+            else setCoinAmt(Math.max(1, Math.min(coinLimit(), coinAmount() + d)));
             typed = null;
             return true;
         }
@@ -553,7 +614,7 @@ public final class ShopPanel implements Panel {
             if (typed == null) typed = "";
             if (typed.length() < 6) typed = (typed.equals("0") ? "" : typed) + ch;
             // 코인 구매칸은 한 번에 살 수 있는 최대(coinMax)를 넘겨 칠 수 없음 → 넘기면 최대로 바뀌어 보임
-            long lim = Math.max(1, J.num(data, "coinMax", 100));
+            long lim = coinLimit();
             if (!tab.equals("sell") && Long.parseLong(typed) > lim) typed = String.valueOf(lim);
             return true;
         }

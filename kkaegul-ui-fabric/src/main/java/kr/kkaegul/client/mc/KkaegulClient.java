@@ -97,6 +97,7 @@ public final class KkaegulClient implements ClientModInitializer, Host {
 
         HudRenderCallback.EVENT.register((ctx, tick) -> {
             if (mc.options.hudHidden) return;
+            hub.tabList = mc.options.playerListKey.isPressed();
             McCanvas c = canvas();
             gfx.beginFrame();
             float s = c.begin(ctx);

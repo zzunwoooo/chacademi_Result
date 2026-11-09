@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * 개구리 경주 창 (GPT 시안 layout 1600x1024).
- *  - 배팅 중: 출전표(번호·얼굴·이름·컨디션★·배당·내 다이아) + 오른쪽 배팅 패널 → race.bet no=.. amount=..
+ *  - 배팅 중: 출전표(번호·얼굴·이름·컨디션★·배당·내 코인) + 오른쪽 배팅 패널 → race.bet no=.. amount=..
  *  - 경주 중/결과: 같은 창에서 6줄 레인 경주 화면 + 우승 트로피
  * 서버 데이터 screen "race": {state, endsInMs, round, frogs:[{no,name,colorId,form,odds,myBet,pool,progress}], available, minBet, maxBet, myTotal, winner}
  */
@@ -132,8 +132,8 @@ public final class RacePanel implements Panel {
         c.image("race/star_empty", 525, 292, 32, 32, 0xFFFFFFFF);
         c.text("컨디션", 563, 308, 22, Theme.INK, Canvas.LEFT, TXT);
         c.text("예상 배당", 705, 308, 22, Theme.INK, Canvas.CENTER, TXT);
-        c.image("race/diamond", 800, 289, 40, 35, 0xFFFFFFFF);
-        c.text("내 다이아", 846, 308, 22, Theme.INK, Canvas.LEFT, TXT);
+        c.image("race/coin", 802, 288, 36, 36, 0xFFFFFFFF);
+        c.text("내 코인", 846, 308, 22, Theme.INK, Canvas.LEFT, TXT);
 
         boolean open = state().equals("betting");
         List<JsonObject> fl = J.objs(data, "frogs");
@@ -156,7 +156,7 @@ public final class RacePanel implements Panel {
             field(c, 640, y + 21, 130, 51);
             c.textFit(oddsText(J.dbl(f, "odds", 0)), 705, y + 47, 26, 115, 0xFF3F7F31, Canvas.CENTER, TXT);
             field(c, 790, y + 21, 175, 51);
-            c.image("race/diamond", 800, y + 31, 36, 31, 0xFFFFFFFF);
+            c.image("race/coin", 802, y + 30, 32, 32, 0xFFFFFFFF);
             long mine = J.num(f, "myBet");
             c.textFit(mine > 0 ? Fmt.num(mine) : "-", 900, y + 47, 26, 110, mine > 0 ? Theme.INK : Theme.MUTED, Canvas.CENTER, TXT);
             hits.add(new R("frog:" + no, 69, y, 920, 94));
@@ -182,7 +182,7 @@ public final class RacePanel implements Panel {
             field(c, 1160, 489, 280, 51);
             c.textFit(J.str(s, "name") + " · " + oddsText(J.dbl(s, "odds", 0)), 1300, 515, 26, 255, Theme.INK, Canvas.CENTER, TXT);
         }
-        c.image("race/diamond", 1110, 568, 60, 52, 0xFFFFFFFF);
+        c.image("race/coin", 1112, 566, 56, 56, 0xFFFFFFFF);
         field(c, 1198, 566, 280, 51);
         c.textFit("보유 " + Fmt.num(J.num(data, "available")), 1338, 592, 26, 255, Theme.INK, Canvas.CENTER, TXT);
         long a = amt();
@@ -213,11 +213,11 @@ public final class RacePanel implements Panel {
         boolean hb = can && Anim.in(mx, my, 1099, 775, 410, 82);
         c.image(can ? hb ? "race/bet_hover" : "race/bet_default" : "race/bet_disabled", 1099, 775, 410, 82, 0xFFFFFFFF);
         c.image("race/check", 1180, 792, 60, 48, can ? 0xFFFFFFFF : 0x88FFFFFF);
-        String bl = !open ? "배팅 마감" : room() <= 0 ? (J.num(data, "available") <= 0 ? "다이아가 없어요" : "최대까지 걸었어요") : waitingSince > 0 ? "거는 중..." : "걸기";
+        String bl = !open ? "배팅 마감" : room() <= 0 ? (J.num(data, "available") <= 0 ? "코인이 없어요" : "최대까지 걸었어요") : waitingSince > 0 ? "거는 중..." : "걸기";
         c.textFit(bl, 1340, 816, 32, 240, can ? 0xFF5A3A12 : 0xFF9A8E80, Canvas.CENTER, TXT);
         hits.add(new R("bet", 1099, 775, 410, 82));
         long mb = J.num(data, "maxBet", 300);   // 999999 이상 = 제한 없음 → 최대는 안 보여줌
-        c.textFit("이번 경주에 건 다이아 " + Fmt.num(J.num(data, "myTotal")) + (mb >= 999_999 ? "" : " / " + Fmt.num(mb)), 1304, 882, 22, 390, Theme.INK, Canvas.CENTER, TXT);
+        c.textFit("이번 경주에 건 코인 " + Fmt.num(J.num(data, "myTotal")) + (mb >= 999_999 ? "" : " / " + Fmt.num(mb)), 1304, 882, 22, 390, Theme.INK, Canvas.CENTER, TXT);
     }
 
     /** 경주 화면 (창 안 레인 6줄). overlay=false 면 테두리 없이 레인만 */
@@ -301,14 +301,14 @@ public final class RacePanel implements Panel {
         c.textFit(J.num(r, "winner") + "번 " + J.str(r, "name") + " 우승!", 0, -4, 32, 390, Anim.alpha(won || spent == 0 ? 0xFF6B4A00 : 0xFF5E5E5E, a), Canvas.CENTER, TXT);
         c.pop();
         double od = J.dbl(r, "odds", 0);
-        String sub = won ? "맞혔어요! 다이아 +" + Fmt.num(got) + " (x" + ShopPanel.dec(od) + ")"
+        String sub = won ? "맞혔어요! 코인 +" + Fmt.num(got) + " (x" + ShopPanel.dec(od) + ")"
                 : od <= 0 ? "맞힌 사람이 없어 상금 " + Fmt.num(J.num(r, "pot")) + "개는 다음 경주로 이월!"
-                : spent > 0 ? "아쉬워요... 건 다이아 " + Fmt.num(spent) + "개" : "배당 x" + ShopPanel.dec(od);
+                : spent > 0 ? "아쉬워요... 건 코인 " + Fmt.num(spent) + "개" : "배당 x" + ShopPanel.dec(od);
         c.textFit(sub, cx, 740, 32, 760, Anim.alpha(won ? 0xFFFFE27A : Theme.WHITE, a), Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
         if (won) for (int i = 0; i < 10; i++) {
             float t = ((e + i * 170) % 1700) / 1700f;
             double ang = i * .63;
-            c.image("race/diamond", cx + (float) Math.cos(ang) * (190 + 90 * t) - 20, 380 + (float) Math.sin(ang) * (150 + 70 * t) - 17, 40, 35, Anim.white(a * (1 - t)));
+            c.image("race/coin", cx + (float) Math.cos(ang) * (190 + 90 * t) - 20, 380 + (float) Math.sin(ang) * (150 + 70 * t) - 19, 38, 38, Anim.white(a * (1 - t)));
         }
     }
 
