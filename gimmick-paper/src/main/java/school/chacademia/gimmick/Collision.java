@@ -92,7 +92,26 @@ final class Collision implements Listener {
         return out;
     }
 
-    void refresh(Gimmick g) { reconcile(g.id, wanted(g)); }
+    void refresh(Gimmick g) { reconcile(g.id, wanted(g)); clearStray(g); }
+
+    // [기능:기믹복사배리어 시작] 11/09 오너 "칸 복사하면 기믹 문에 배리어가 생겨서 기믹을 풀어도 못 지나감":
+    // 던전 칸을 맵째로 복사하면 원래 칸 기믹의 배리어 블록까지 같이 복사된다. 그 블록은 이 기믹이 놓은 기록이 없어서
+    // (reconcile 은 '빈 칸에만 놓고 내가 놓은 것만 치움') 문이 열려도 남았다.
+    // → 닫힐 때: 자리에 이미 배리어가 있으면 내 것으로 기록(아래 reconcile). 열려 있을 때: 내 자리 안의 주인 없는 배리어는 치움.
+    private void clearStray(Gimmick g) {
+        if (g.attached()) return;
+        var info = plugin.catalog().get(g.model);
+        if (!info.collision().equals("solid")) return;
+        var mine = placed.getOrDefault(g.id, Map.of());
+        for (int[] c : g.columns(info)) for (int l = 0; l < g.layers(info); l++) {
+            String k = key(g.world, c[0], g.by + l, c[1]);
+            if (mine.containsKey(k)) continue;
+            Block b = block(k);
+            if (b == null || b.getType() != Material.BARRIER || ours(b) || !plugin.protection().at(b.getLocation())) continue;
+            b.setType(Material.AIR, false);
+        }
+    }
+    // [기능:기믹복사배리어 끝]
     void clear(Gimmick g) { reconcile(g.id, Map.of()); }
     void clearAll() { for (String owner : List.copyOf(placed.keySet())) reconcile(owner, Map.of()); }
 
@@ -107,12 +126,16 @@ final class Collision implements Listener {
             if (b.getType() == e.getValue()) b.setType(Material.AIR, false);
             dirty = true;
         }
-        boolean waiting = false;
+        boolean waiting = false, adopted = false;
         var add = new ArrayList<Block>();
         for (var e : want.entrySet()) {
             if (next.containsKey(e.getKey())) continue;
             Block b = block(e.getKey());
             if (b == null) { waiting = true; continue; }
+            // [기능:기믹복사배리어] 복사돼 온 같은 배리어가 이미 있으면 (다른 기믹 것이 아니면) 내 것으로 기록 → 열릴 때 같이 치워짐
+            if (b.getType() == Material.BARRIER && e.getValue() == Material.BARRIER && !ours(b) && plugin.protection().at(b.getLocation())) {
+                next.put(e.getKey(), e.getValue()); dirty = true; adopted = true; continue;
+            }
             if (!b.getType().isAir() || !plugin.protection().at(b.getLocation())) continue; // never replace the build
             if (occupied(b)) { waiting = true; continue; }
             add.add(b);
@@ -120,6 +143,7 @@ final class Collision implements Listener {
         }
         if (next.isEmpty()) placed.remove(owner); else placed.put(owner, next);
         if (waiting) pending.add(owner);
+        if (adopted && add.isEmpty()) save();   // [기능:기믹복사배리어] 넘겨받은 배리어 기록도 디스크에
         if (!add.isEmpty()) {
             // write-ahead: the record is on disk before any block appears, so a crash never leaves unrecorded barriers
             if (!save()) { for (Block b : add) next.remove(key(b.getWorld().getName(), b.getX(), b.getY(), b.getZ())); if (next.isEmpty()) placed.remove(owner); pending.add(owner); return; }
