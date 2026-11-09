@@ -50,6 +50,31 @@ public final class ItemsAdderHook {
         }
     }
 
+    /** 다른 네임스페이스 포함 아무 ItemsAdder 아이템 ("addcrop:addcrop_tomato"). 없으면 null */
+    public ItemStack createAny(String namespacedId, int amount) {
+        if (!ready) return null;
+        try {
+            Object stack = getInstance.invoke(null, namespacedId);
+            if (stack == null) return null;
+            ItemStack it = ((ItemStack) getItemStack.invoke(stack)).clone();
+            it.setAmount(Math.max(1, amount));
+            return it;
+        } catch (ReflectiveOperationException | RuntimeException e) {
+            return null;
+        }
+    }
+
+    /** ItemsAdder 아이템이면 네임스페이스 포함 id, 아니면 null */
+    public String namespacedIdOf(ItemStack it) {
+        if (!ready || it == null) return null;
+        try {
+            Object stack = byItemStack.invoke(null, it);
+            return stack == null ? null : (String) getNamespacedID.invoke(stack);
+        } catch (ReflectiveOperationException | RuntimeException e) {
+            return null;
+        }
+    }
+
     /** ItemsAdder 아이템이면 "<id>" (네임스페이스 제외), 우리 네임스페이스가 아니거나 아니면 null */
     public String idOf(ItemStack it) {
         if (!ready || it == null) return null;

@@ -9,6 +9,7 @@ import java.util.List;
  * 깨굴 상점 (GPT 시안 layout 1600x1024 좌표). 왼쪽 메뉴: 코인 구매 / 판매.
  *  - 코인 구매: 다이아로 깨굴코인. shop.buy amount=N → 서버가 실패/정상/2배/3배 결정 → fx coin_buy
  *  - 판매: 아이템 1개당 다이아(소수). shop.sell id=.. amount=N / 전부 판매 shop.sellAll → fx shop_sold
+ *  - 농작물(farm): 씨앗·도구 구매 shop.cropBuy id=.. amount=묶음 수 / 작물 판매 shop.cropSell · shop.cropSellAll (데이터 crop.buy · crop.sell)
  */
 public final class ShopPanel implements Panel {
     private final Host host;
@@ -16,8 +17,9 @@ public final class ShopPanel implements Panel {
     private long recvAt;
     private String tab;
     private int filter;                 // 0 전체 1 광물 2 작물
+    private int farmFilter;             // 농작물 탭: 0 씨앗 1 도구 2 판매
     private String selected;
-    private long sellAmt = -1, coinAmt = 1, exAmt = 1;
+    private long sellAmt = -1, coinAmt = 1, exAmt = 1, buyAmt = 1;
     private String typed;               // 수량 칸에 직접 치는 중
     private String search;              // null = 검색 꺼짐
     private int scrollRow;
@@ -78,19 +80,42 @@ public final class ShopPanel implements Panel {
     private long step() { return (mods & 2) != 0 ? 100 : (mods & 1) != 0 ? 10 : 1; }
 
     // ───────── 데이터 ─────────
+    /** 목록이 있는 탭 (판매 / 농작물) */
+    private boolean listTab() { return tab.equals("sell") || tab.equals("farm"); }
+    /** 농작물 탭의 씨앗·도구 = 구매 */
+    private boolean farmBuy() { return tab.equals("farm") && farmFilter < 2; }
+
+    private List<JsonObject> source() {
+        if (!tab.equals("farm")) return J.objs(data, "sell");
+        JsonObject crop = J.objOrEmpty(data, "crop");
+        return J.objs(crop, farmFilter == 2 ? "sell" : "buy");
+    }
+
     private List<JsonObject> items() {
         List<JsonObject> out = new ArrayList<>();
-        for (JsonObject o : J.objs(data, "sell")) {
-            boolean farm = J.bool(o, "farm");
-            if (filter == 1 && farm || filter == 2 && !farm) continue;
+        for (JsonObject o : source()) {
+            if (tab.equals("farm")) {
+                String g = J.str(o, "group");
+                if (farmFilter == 0 && !g.equals("seed") || farmFilter == 1 && !g.equals("tool")) continue;
+            } else {
+                boolean farm = J.bool(o, "farm");
+                if (filter == 1 && farm || filter == 2 && !farm) continue;
+            }
             if (search != null && !search.isEmpty() && !J.str(o, "name").contains(search)) continue;
             out.add(o);
         }
         return out;
     }
 
+    /** 구매 묶음 수 (보유 다이아로 살 수 있는 만큼, 최대 64) */
+    private long buyLimit(JsonObject s) {
+        long price = s == null ? 1 : Math.max(1, J.num(s, "price", 1));
+        return Math.max(1, Math.min(64, avail() / price));
+    }
+    private long buyAmount() { return typedOr(Math.max(1, buyAmt), 64); }
+
     private JsonObject sel(List<JsonObject> all) {
-        for (JsonObject o : J.objs(data, "sell")) if (J.str(o, "id").equals(selected)) return o;
+        for (JsonObject o : all) if (J.str(o, "id").equals(selected)) return o;
         JsonObject first = null;
         for (JsonObject o : all) {
             if (first == null) first = o;
@@ -163,7 +188,9 @@ public final class ShopPanel implements Panel {
         c.text("메뉴", 64, 220, 22, Theme.MUTED, Canvas.LEFT, TXT);
         menu(c, "coin", 262, "shop/coin_48", "코인 구매", mx, my);
         menu(c, "sell", 342, "shop/sell_tab_pickaxe", "판매", mx, my);
-        if (J.num(data, "toDiamond") > 0) menu(c, "ex", 422, "shop/diamond_48", "코인 교환", mx, my);
+        float my2 = 422;
+        if (J.num(data, "toDiamond") > 0) { menu(c, "ex", my2, "shop/diamond_48", "코인 교환", mx, my); my2 += 80; }
+        if (!J.objs(J.objOrEmpty(data, "crop"), "buy").isEmpty()) menu(c, "farm", my2, "item:minecraft:wheat", "농작물", mx, my);
         c.text("보유", 64, 800, 22, Theme.MUTED, Canvas.LEFT, TXT);
         c.image("shop/diamond_32", 64, 828, 32, 32, 0xFFFFFFFF);
         c.textFit(Fmt.num(avail()), 110, 845, 28, 170, Theme.INK, Canvas.LEFT, TXT);
@@ -172,14 +199,15 @@ public final class ShopPanel implements Panel {
         double dust = J.dbl(data, "dust", 0);
         if (dust > 0.0005) c.textFit("모은 소수점 " + dec(dust), 64, 930, 17, 210, Theme.MUTED, Canvas.LEFT, TXT);
 
-        if (tab.equals("sell")) sell(c, now, mx, my); else if (tab.equals("ex")) exchange(c, now, mx, my); else coin(c, now, mx, my);
+        if (listTab()) sell(c, now, mx, my); else if (tab.equals("ex")) exchange(c, now, mx, my); else coin(c, now, mx, my);
         c.pop();
     }
 
     private void menu(Canvas c, String key, float y, String icon, String label, float mx, float my) {
         boolean on = tab.equals(key), hov = !on && Anim.in(mx, my, 42, y, 248, 72);
         if (on || hov) c.image("shop/menu_selected", 42, y, 248, 72, on ? 0xFFFFFFFF : 0x66FFFFFF);
-        c.image(icon, 64, y + 10, 48, 48, 0xFFFFFFFF);
+        if (icon.startsWith("item:")) c.item(icon.substring(5), 64, y + 10, 48);
+        else c.image(icon, 64, y + 10, 48, 48, 0xFFFFFFFF);
         c.textFit(label, 126, y + 35, 28, 150, on ? Theme.INK : 0xFF6B5A4C, Canvas.LEFT, TXT);
         hits.add(new R("tab:" + key, 42, y, 248, 72));
     }
@@ -221,12 +249,14 @@ public final class ShopPanel implements Panel {
 
     // ───────── 판매 탭 ─────────
     private void sell(Canvas c, long now, float mx, float my) {
-        c.text("판매 아이템", 330, 216, 30, Theme.INK, Canvas.LEFT, TXT);
-        String fimg = filter == 0 ? "shop/filter_left_selected" : filter == 1 ? "shop/filter_center_selected" : "shop/filter_right_selected";
+        boolean farmTab = tab.equals("farm");
+        int f = farmTab ? farmFilter : filter;
+        c.text(farmTab ? "농작물" : "판매 아이템", 330, 216, 30, Theme.INK, Canvas.LEFT, TXT);
+        String fimg = f == 0 ? "shop/filter_left_selected" : f == 1 ? "shop/filter_center_selected" : "shop/filter_right_selected";
         c.image(fimg, 324, 254, 420, 54, 0xFFFFFFFF);
-        String[] fl = {"전체", "광물", "작물"};
+        String[] fl = farmTab ? new String[]{"씨앗", "도구", "판매"} : new String[]{"전체", "광물", "작물"};
         for (int i = 0; i < 3; i++) {
-            c.text(fl[i], 394 + i * 140, 281, 24, filter == i ? Theme.GREEN_DARK : 0xFF6B5A4C, Canvas.CENTER, TXT);
+            c.text(fl[i], 394 + i * 140, 281, 24, f == i ? Theme.GREEN_DARK : 0xFF6B5A4C, Canvas.CENTER, TXT);
             hits.add(new R("filter:" + i, 324 + i * 140, 254, 140, 54));
         }
         // 검색
@@ -259,10 +289,13 @@ public final class ShopPanel implements Panel {
             c.fill(1056, 334, 6, 538, 3, 0x22000000);
             c.fill(1056, ty, 6, th, 3, 0xFF9CCB6C);
         }
-        // 시세 갱신
-        long left = Math.max(0, J.num(data, "farmNextMs") - (now - recvAt)) / 1000;
-        c.image("shop/hourglass", 328, 900, 32, 32, 0xFFFFFFFF);
-        c.text("시세 갱신 " + String.format("%02d:%02d", left / 60, left % 60), 372, 917, 24, Theme.INK, Canvas.LEFT, TXT);
+        if (farmTab) {
+            c.text(farmBuy() ? "다이아로 사요 · 가격은 고정이에요" : "작물은 고정 시세로 팔아요", 330, 917, 24, Theme.MUTED, Canvas.LEFT, TXT);
+        } else { // 시세 갱신
+            long left = Math.max(0, J.num(data, "farmNextMs") - (now - recvAt)) / 1000;
+            c.image("shop/hourglass", 328, 900, 32, 32, 0xFFFFFFFF);
+            c.text("시세 갱신 " + String.format("%02d:%02d", left / 60, left % 60), 372, 917, 24, Theme.INK, Canvas.LEFT, TXT);
+        }
 
         // 오른쪽: 선택한 아이템
         c.image("shop/transaction", 1088, 196, 470, 750, 0xFFFFFFFF);
@@ -271,11 +304,12 @@ public final class ShopPanel implements Panel {
         double price = s == null ? 0 : J.dbl(s, "price", 0);
         if (s != null) {
             float bob = (float) Math.sin(now / 420.0) * 3;
-            c.item(J.str(s, "id"), 1250, 250 + bob, 128);
+            c.item(icon(s), 1250, 250 + bob, 128);
             c.textFit(J.str(s, "name"), 1314, 398, 30, 400, Theme.INK, Canvas.CENTER, TXT);
-            trend(c, s, 1314, 431);
+            if (!farmTab) trend(c, s, 1314, 431);
         } else c.text("아이템을 골라 주세요", 1314, 330, 24, Theme.MUTED, Canvas.CENTER, TXT);
         c.image("shop/divider_horizontal", 1112, 460, 416, 2, 0xFFFFFFFF);
+        if (farmBuy()) { buyPanel(c, now, s, mx, my); return; }
         c.text("보유 수량", 1116, 488, 24, Theme.INK, Canvas.LEFT, TXT);
         value(c, null, Fmt.num(s == null ? 0 : J.num(s, "have")) + "개", 488, Theme.INK);
         c.text("개당 가격", 1116, 533, 24, Theme.INK, Canvas.LEFT, TXT);
@@ -292,7 +326,7 @@ public final class ShopPanel implements Panel {
             c.textFit("바로 +" + Fmt.num(got) + "개 · 소수점은 모아뒀다가 1개가 되면 지급", 1324, 762, 17, 410, Theme.MUTED, Canvas.CENTER, TXT);
         boolean b = busy(now);
         bigButton(c, "sales", "sell", 782, b ? "판매 중..." : "판매하기", s != null && amt > 0 && !b, mx, my, 0xFF2F4A1C);
-        bigButton(c, "secondary", "sellAll", 862, "전부 판매", !b && !J.objs(data, "sell").isEmpty(), mx, my, Theme.INK);
+        bigButton(c, "secondary", "sellAll", 862, farmTab ? "작물 전부 판매" : "전부 판매", !b && !source().isEmpty(), mx, my, Theme.INK);
 
         // 판매 결과: 다이아가 위로 튀어 오름 + 문구
         if ("shop_sold".equals(fxId) && now - fxStart < SELL_FX) {
@@ -314,6 +348,32 @@ public final class ShopPanel implements Panel {
         }
     }
 
+    /** 그릴 아이템: ItemsAdder 아이템은 서버가 준 icon(재료|모델), 아니면 재료 id */
+    private static String icon(JsonObject o) {
+        String i = J.str(o, "icon");
+        return i.isEmpty() ? J.str(o, "id") : i;
+    }
+
+    /** 농작물 탭 구매: 묶음 수 고르기 → shop.cropBuy */
+    private void buyPanel(Canvas c, long now, JsonObject s, float mx, float my) {
+        long per = s == null ? 0 : J.num(s, "amount", 1), price = s == null ? 0 : J.num(s, "price");
+        c.text("한 묶음", 1116, 488, 24, Theme.INK, Canvas.LEFT, TXT);
+        value(c, null, Fmt.num(per) + "개", 488, Theme.INK);
+        c.text("묶음 가격", 1116, 533, 24, Theme.INK, Canvas.LEFT, TXT);
+        value(c, "shop/diamond_32", Fmt.num(price), 533, Theme.INK);
+        c.image("shop/divider_horizontal", 1112, 564, 416, 2, 0xFFFFFFFF);
+        c.text("구매 묶음 수", 1116, 592, 24, Theme.INK, Canvas.LEFT, TXT);
+        long n = buyAmount();
+        stepper(c, now, 620, n, mx, my);
+        c.image("shop/divider_horizontal", 1112, 700, 416, 2, 0xFFFFFFFF);
+        long cost = n * price, after = avail() - cost;
+        c.text("필요 다이아", 1116, 731, 24, Theme.INK, Canvas.LEFT, TXT);
+        value(c, "shop/diamond_32", Fmt.num(cost), 731, Theme.INK);
+        c.textFit("받는 개수 " + Fmt.num(n * per) + "개 · 구매 후 다이아 " + Fmt.num(after), 1324, 762, 17, 410, after < 0 ? Theme.RED : Theme.MUTED, Canvas.CENTER, TXT);
+        boolean b = busy(now), ok = s != null && n > 0 && after >= 0 && !b;
+        bigButton(c, "purchase", "cropBuy", 782, b ? "구매 중..." : after < 0 ? "다이아가 부족해요" : "구매하기", ok, mx, my, 0xFF5A3A12);
+    }
+
     private void trend(Canvas c, JsonObject s, float cx, float y) {
         int t = (int) J.num(s, "trend");
         boolean farm = J.bool(s, "farm");
@@ -331,7 +391,7 @@ public final class ShopPanel implements Panel {
         c.image(on ? "shop/item_selected" : hov ? "shop/item_hover" : "shop/item_default", x, y, 232, 260, 0xFFFFFFFF);
         if (on) c.image("shop/check", x + 186, y + 4, 36, 36, 0xFFFFFFFF);
         float lift = hov ? -3 : 0;
-        c.item(id, x + 60, y + 24 + lift, 112);
+        c.item(icon(o), x + 60, y + 24 + lift, 112);
         c.textFit(J.str(o, "name"), x + 116, y + 146, 28, 200, Theme.INK, Canvas.CENTER, TXT);
         String p = dec(J.dbl(o, "price", 0));
         int t = (int) J.num(o, "trend");
@@ -341,8 +401,11 @@ public final class ShopPanel implements Panel {
         c.textFit(p, sx + 30, y + 185, 26, 120, Theme.INK, Canvas.LEFT, TXT);
         if (aw > 0) c.image(t > 0 ? "shop/up" : "shop/down", sx + 30 + tw + 6, y + 172, 24, 24, 0xFFFFFFFF);
         c.image("shop/divider_horizontal", x + 24, y + 210, 184, 1.5f, 0xFFFFFFFF);
-        long have = J.num(o, "have");
-        c.textFit("보유 " + Fmt.num(have), x + 116, y + 233, 24, 200, have > 0 ? Theme.INK : Theme.MUTED, Canvas.CENTER, TXT);
+        if (farmBuy()) c.textFit(Fmt.num(J.num(o, "amount", 1)) + "개 묶음", x + 116, y + 233, 24, 200, Theme.INK, Canvas.CENTER, TXT);
+        else {
+            long have = J.num(o, "have");
+            c.textFit("보유 " + Fmt.num(have), x + 116, y + 233, 24, 200, have > 0 ? Theme.INK : Theme.MUTED, Canvas.CENTER, TXT);
+        }
         hits.add(new R("item:" + id, x, y, 232, 260));
     }
 
@@ -525,41 +588,55 @@ public final class ShopPanel implements Panel {
                 if (!t.equals(tab)) { tab = t; typed = null; search = null; host.sound("minecraft:ui.button.click", 1.2f, .4f); }
                 return true;
             }
-            if (key.startsWith("filter:")) { filter = Integer.parseInt(key.substring(7)); scrollRow = 0; host.sound("minecraft:ui.button.click", 1.3f, .35f); return true; }
+            if (key.startsWith("filter:")) {
+                int f = Integer.parseInt(key.substring(7));
+                if (tab.equals("farm")) { farmFilter = f; selected = null; sellAmt = -1; buyAmt = 1; } else filter = f;
+                scrollRow = 0; host.sound("minecraft:ui.button.click", 1.3f, .35f); return true;
+            }
             if (key.startsWith("item:")) {
                 String id = key.substring(5);
-                if (!id.equals(selected)) { selected = id; sellAmt = -1; host.sound("minecraft:ui.button.click", 1.5f, .35f); }
+                if (!id.equals(selected)) { selected = id; sellAmt = -1; buyAmt = 1; host.sound("minecraft:ui.button.click", 1.5f, .35f); }
                 return true;
             }
-            boolean sellTab = tab.equals("sell");
-            JsonObject s = sellTab ? sel(items()) : null;
+            boolean sellTab = listTab() && !farmBuy(), buyTab = farmBuy(), farm = tab.equals("farm");
+            JsonObject s = listTab() ? sel(items()) : null;
             switch (key) {
                 case "close" -> host.closePanel(this);
                 case "search" -> { search = search == null ? "" : null; scrollRow = 0; }
                 case "input" -> typed = "";
                 case "minus" -> {
-                    if (sellTab) sellAmt = Math.max(0, sellAmount(s) - step()); else setCoinAmt(Math.max(1, coinAmount() - step()));
+                    if (buyTab) buyAmt = Math.max(1, buyAmount() - step());
+                    else if (sellTab) sellAmt = Math.max(0, sellAmount(s) - step()); else setCoinAmt(Math.max(1, coinAmount() - step()));
                     press("minus", now); host.sound("minecraft:ui.button.click", 1.4f, .35f);
                 }
                 case "plus" -> {
-                    if (sellTab) sellAmt = Math.min(s == null ? 0 : J.num(s, "have"), sellAmount(s) + step());
+                    if (buyTab) buyAmt = Math.min(64, buyAmount() + step());
+                    else if (sellTab) sellAmt = Math.min(s == null ? 0 : J.num(s, "have"), sellAmount(s) + step());
                     else setCoinAmt(Math.min(coinLimit(), coinAmount() + step()));
                     press("plus", now); host.sound("minecraft:ui.button.click", 1.5f, .35f);
                 }
                 case "max" -> {
-                    if (sellTab) sellAmt = -1; else setCoinAmt(Math.max(1, coinMax()));
+                    if (buyTab) buyAmt = buyLimit(s);
+                    else if (sellTab) sellAmt = -1; else setCoinAmt(Math.max(1, coinMax()));
                     press("max", now); host.sound("minecraft:ui.button.click", 1.2f, .35f);
                 }
                 case "sell" -> {
                     long a = sellAmount(s);
                     if (s == null || a <= 0 || busy(now)) return true;
                     waitingSince = now;
-                    host.send("shop.sell", "id", J.str(s, "id"), "amount", String.valueOf(a));
+                    host.send(farm ? "shop.cropSell" : "shop.sell", "id", J.str(s, "id"), "amount", String.valueOf(a));
                 }
                 case "sellAll" -> {
                     if (busy(now)) return true;
                     waitingSince = now;
-                    host.send("shop.sellAll");
+                    host.send(farm ? "shop.cropSellAll" : "shop.sellAll");
+                }
+                case "cropBuy" -> {
+                    long n = buyAmount();
+                    if (s == null || busy(now) || n <= 0 || n * J.num(s, "price") > avail()) { host.sound("minecraft:block.note_block.bass", .7f, .5f); return true; }
+                    waitingSince = now;
+                    host.send("shop.cropBuy", "id", J.str(s, "id"), "amount", String.valueOf(n));
+                    host.sound("minecraft:entity.experience_orb.pickup", 1.1f, .6f);
                 }
                 case "buy" -> {
                     long n = coinAmount();
@@ -583,19 +660,21 @@ public final class ShopPanel implements Panel {
 
     private void commitTyped() {
         if (typed == null) return;
-        if (tab.equals("sell")) sellAmt = sellAmount(sel(items())); else setCoinAmt(Math.max(1, coinAmount()));
+        if (farmBuy()) buyAmt = Math.max(1, buyAmount());
+        else if (listTab()) sellAmt = sellAmount(sel(items())); else setCoinAmt(Math.max(1, coinAmount()));
         typed = null;
     }
 
     @Override public boolean scroll(float mx, float my, double amount) {
         float x = (mx - ox) / k, y = (my - oy) / k;
-        if (tab.equals("sell") && Anim.in(x, y, 310, 320, 760, 570)) {
+        if (listTab() && Anim.in(x, y, 310, 320, 760, 570)) {
             scrollRow += amount < 0 ? 1 : -1;
             return true;
         }
         if (Anim.in(x, y, 1100, 560, 450, 140)) {
             long d = amount > 0 ? 1 : -1;
-            if (tab.equals("sell")) { JsonObject s = sel(items()); sellAmt = Math.max(0, Math.min(s == null ? 0 : J.num(s, "have"), sellAmount(s) + d)); }
+            if (farmBuy()) buyAmt = Math.max(1, Math.min(64, buyAmount() + d));
+            else if (listTab()) { JsonObject s = sel(items()); sellAmt = Math.max(0, Math.min(s == null ? 0 : J.num(s, "have"), sellAmount(s) + d)); }
             else setCoinAmt(Math.max(1, Math.min(coinLimit(), coinAmount() + d)));
             typed = null;
             return true;
@@ -604,7 +683,7 @@ public final class ShopPanel implements Panel {
     }
 
     @Override public boolean typed(char ch, long now) {
-        if (search != null && tab.equals("sell") && typed == null) {
+        if (search != null && listTab() && typed == null) {
             if (Character.isISOControl(ch) || search.length() >= 10) return true;
             search += ch;
             scrollRow = 0;
@@ -614,8 +693,8 @@ public final class ShopPanel implements Panel {
             if (typed == null) typed = "";
             if (typed.length() < 6) typed = (typed.equals("0") ? "" : typed) + ch;
             // 코인 구매칸은 한 번에 살 수 있는 최대(coinMax)를 넘겨 칠 수 없음 → 넘기면 최대로 바뀌어 보임
-            long lim = coinLimit();
-            if (!tab.equals("sell") && Long.parseLong(typed) > lim) typed = String.valueOf(lim);
+            long lim = farmBuy() ? 64 : coinLimit();
+            if ((!listTab() || farmBuy()) && Long.parseLong(typed) > lim) typed = String.valueOf(lim);
             return true;
         }
         return false;

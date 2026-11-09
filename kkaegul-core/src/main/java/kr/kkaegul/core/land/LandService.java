@@ -44,15 +44,20 @@ public final class LandService {
     private final Map<UUID, LinkedHashSet<UUID>> trust = new HashMap<>();
     private final Map<UUID, String> lastSent = new HashMap<>();
     private boolean dirty;
+    private final TownService town;
 
     public LandService(KkaegulCore plugin) {
         this.plugin = plugin;
         this.file = new File(plugin.getDataFolder(), "lands.yml");
+        this.town = new TownService(plugin);
         load();
         Bukkit.getPluginManager().registerEvents(new LandProtect(plugin, this), plugin);
         Bukkit.getScheduler().runTaskTimer(plugin, this::tick, 40L, 10L);
         Bukkit.getScheduler().runTaskTimer(plugin, () -> { if (dirty) save(); }, 600L, 600L);
     }
+
+    /** 마을(분양지) 월드 */
+    public TownService town() { return town; }
 
     public static String key(String w, int cx, int cz) { return w + ";" + cx + ";" + cz; }
 
@@ -123,6 +128,7 @@ public final class LandService {
 
     /** 이 청크를 살 수 없는 이유 (없으면 null) */
     public String blockedReason(String world, int cx, int cz) {
+        if (town.isTown(world)) return town.isPlot(cx, cz) ? null : "도로에는 땅을 살 수 없어요";
         List<String> worlds = plugin.getConfig().getStringList("land.worlds");
         if (worlds.isEmpty()) worlds = List.of("world");
         if (!worlds.contains(world)) return "땅을 살 수 없는 곳이에요";
@@ -182,6 +188,8 @@ public final class LandService {
         if (why != null) { plugin.ui().error(p, "&c" + why); return false; }
         int max = plugin.getConfig().getInt("land.max-per-player", 0);
         if (max > 0 && of(p.getUniqueId()).size() >= max && !bypass(p)) { plugin.ui().error(p, "&c땅은 " + max + "칸까지 가질 수 있어요."); return false; }
+        int tmax = town.maxPerPlayer();
+        if (town.isTown(w) && tmax > 0 && !bypass(p) && of(p.getUniqueId()).stream().filter(x -> x.world().equals(w)).count() >= tmax) { plugin.ui().error(p, "&c마을 땅은 " + tmax + "칸까지 가질 수 있어요."); return false; }
         put(new Claim(w, cx, cz, p.getUniqueId(), System.currentTimeMillis()));
         dirty = true;
         plugin.ui().successSound(p);
@@ -240,8 +248,16 @@ public final class LandService {
     /** 이동 → 마을: 처음 산 내 땅 한가운데 땅 위로 */
     public boolean home(Player p) {
         List<Claim> l = of(p.getUniqueId());
-        if (l.isEmpty()) { plugin.ui().error(p, "&c내 땅이 없어요."); return false; }
-        Claim c = l.get(0);
+        if (l.isEmpty()) {   // 땅이 없으면 마을 분수 광장으로 (거기서 땅문서로 빈 땅 구매)
+            World tw = town.enabled() ? Bukkit.getWorld(town.worldName()) : null;
+            if (tw == null) { plugin.ui().error(p, "&c내 땅이 없어요."); return false; }
+            Location from = p.getLocation();
+            p.teleport(town.spawn(tw));
+            plugin.ui().teleportSound(p, from);
+            plugin.ui().center(p, "&f마을 광장", "&7땅문서를 들고 빈 땅에서 우클릭하면 내 땅이 돼요");
+            return true;
+        }
+        Claim c = l.stream().filter(x -> town.isTown(x.world())).findFirst().orElse(l.get(0));   // 마을 땅 먼저
         World w = Bukkit.getWorld(c.world());
         if (w == null) { plugin.ui().error(p, "&c내 땅이 있는 월드를 찾을 수 없어요."); return false; }
         int x = c.cx() * 16 + 8, z = c.cz() * 16 + 8;

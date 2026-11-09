@@ -188,11 +188,33 @@ public final class McCanvas implements Canvas {
 
     @Override public boolean item(String id, float x, float y, float size) {
         if (id == null || id.isEmpty()) return false;
-        net.minecraft.item.ItemStack st = stacks.computeIfAbsent(id, i -> {
-            net.minecraft.util.Identifier key = net.minecraft.util.Identifier.tryParse(i.toLowerCase(java.util.Locale.ROOT));
+        // "재료|m=item_model|f=실수,..|s=문자열,.." (ItemsAdder 아이템 모양) 또는 재료 id 만
+        net.minecraft.item.ItemStack st = stacks.computeIfAbsent(id, full -> {
+            String[] parts = full.split("\\|");
+            net.minecraft.util.Identifier key = net.minecraft.util.Identifier.tryParse(parts[0].toLowerCase(java.util.Locale.ROOT));
             if (key == null) return net.minecraft.item.ItemStack.EMPTY;
             net.minecraft.item.Item it = net.minecraft.registry.Registries.ITEM.get(key);
-            return it == net.minecraft.item.Items.AIR ? net.minecraft.item.ItemStack.EMPTY : new net.minecraft.item.ItemStack(it);
+            if (it == net.minecraft.item.Items.AIR) return net.minecraft.item.ItemStack.EMPTY;
+            net.minecraft.item.ItemStack s = new net.minecraft.item.ItemStack(it);
+            java.util.List<Float> floats = new java.util.ArrayList<>();
+            java.util.List<String> strings = new java.util.ArrayList<>();
+            for (int i = 1; i < parts.length; i++) {
+                String p = parts[i];
+                if (p.length() < 3 || p.charAt(1) != '=') continue;
+                String v = p.substring(2);
+                try {
+                    switch (p.charAt(0)) {
+                        case 'm' -> { net.minecraft.util.Identifier m = net.minecraft.util.Identifier.tryParse(v); if (m != null) s.set(net.minecraft.component.DataComponentTypes.ITEM_MODEL, m); }
+                        case 'f' -> { for (String f : v.split(",")) floats.add(Float.parseFloat(f)); }
+                        case 's' -> strings.addAll(java.util.List.of(v.split(",")));
+                        default -> { }
+                    }
+                } catch (RuntimeException ignored) { }
+            }
+            if (!floats.isEmpty() || !strings.isEmpty())
+                s.set(net.minecraft.component.DataComponentTypes.CUSTOM_MODEL_DATA,
+                        new net.minecraft.component.type.CustomModelDataComponent(floats, java.util.List.of(), strings, java.util.List.of()));
+            return s;
         });
         if (st.isEmpty()) return false;
         m().push();

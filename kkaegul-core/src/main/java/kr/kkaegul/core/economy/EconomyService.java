@@ -23,9 +23,11 @@ import java.util.Map;
  */
 public final class EconomyService {
     private final KkaegulCore plugin;
+    private final CropShop crops;
 
     public EconomyService(KkaegulCore plugin) {
         this.plugin = plugin;
+        this.crops = new CropShop(plugin, this);
         if (plugin.global().farmPrices.isEmpty() || farmOutOfRange()) rerollFarm(false); // 예전(돈) 시세가 남아 있으면 새로 뽑기
         long period = Math.max(1, plugin.getConfig().getLong("economy.farm-reroll-minutes", 60)) * 60L * 20L;
         Bukkit.getScheduler().runTaskTimer(plugin, () -> {
@@ -62,6 +64,9 @@ public final class EconomyService {
     }
     /** 직전 시세 (상승/하락 표시용) */
     private final Map<String, Double> prevFarm = new LinkedHashMap<>();
+
+    /** 상점 "농작물" 탭 */
+    public CropShop crops() { return crops; }
 
     /** 상점 창 열기 (tab: coin / sell). 렌더러 없으면 false */
     public boolean openShop(Player p, String tab) {
@@ -144,7 +149,7 @@ public final class EconomyService {
     private static double diamonds(double v) { return Math.round(v * 1000) / 1000.0; }
 
     /** 판매 대금 = 보유 다이아 (정수 부분), 소수점은 sellDust 에 쌓임 */
-    private long pay(Player p, double value, String why) {
+    long pay(Player p, double value, String why) {
         PlayerData d = plugin.data().get(p);
         double sum = d.sellDust + value + 1e-9;
         long gain = (long) Math.floor(sum);
@@ -200,7 +205,7 @@ public final class EconomyService {
                 .put("coinPrice", plugin.getConfig().getLong("economy.coin.price-diamonds", 1))
                 .put("coinMax", plugin.getConfig().getInt("economy.coin.max-per-buy", 100)).put("outcomes", outcomes())
                 .put("toDiamond", toDiamondRate())
-                .put("sell", sell).put("farmNextMs", Math.max(0, next - System.currentTimeMillis()));
+                .put("sell", sell).put("farmNextMs", Math.max(0, next - System.currentTimeMillis())).put("crop", crops.info(p));
     }
 
     // ───────── 코인 구매 ─────────

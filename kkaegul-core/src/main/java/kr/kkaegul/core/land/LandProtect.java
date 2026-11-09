@@ -42,13 +42,27 @@ final class LandProtect implements Listener {
         return true;
     }
 
+    /** 마을 월드에서는 안 팔린 땅·도로도 막음 */
+    private boolean deny(Player p, Block b) {
+        Claim c = land.at(b);
+        if (c == null && b != null && land.town().isTown(b.getWorld().getName()) && !land.bypass(p)) {
+            long now = System.currentTimeMillis();
+            Long last = warned.get(p.getUniqueId());
+            if (last == null || now - last > 1500) { warned.put(p.getUniqueId(), now); plugin.ui().error(p, "&c마을에서는 내 땅에서만 지을 수 있어요."); }
+            return true;
+        }
+        return deny(p, c);
+    }
+
+    private boolean townFree(Block b) { return land.at(b) == null && land.town().isTown(b.getWorld().getName()); }
+
     private UUID owner(Block b) { Claim c = land.at(b); return c == null ? null : c.owner(); }
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
-    public void onBreak(BlockBreakEvent e) { if (deny(e.getPlayer(), land.at(e.getBlock()))) e.setCancelled(true); }
+    public void onBreak(BlockBreakEvent e) { if (deny(e.getPlayer(), e.getBlock())) e.setCancelled(true); }
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
-    public void onPlace(BlockPlaceEvent e) { if (deny(e.getPlayer(), land.at(e.getBlock()))) e.setCancelled(true); }
+    public void onPlace(BlockPlaceEvent e) { if (deny(e.getPlayer(), e.getBlock())) e.setCancelled(true); }
 
     @EventHandler(priority = EventPriority.LOW)
     public void onInteract(PlayerInteractEvent e) {
@@ -59,14 +73,14 @@ final class LandProtect implements Listener {
             case RIGHT_CLICK_BLOCK -> LandService.interactable(b.getType());
             default -> false;
         };
-        if (touch && deny(e.getPlayer(), land.at(b))) e.setCancelled(true);
+        if (touch && deny(e.getPlayer(), b)) e.setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
-    public void onBucket(PlayerBucketEmptyEvent e) { if (deny(e.getPlayer(), land.at(e.getBlock()))) e.setCancelled(true); }
+    public void onBucket(PlayerBucketEmptyEvent e) { if (deny(e.getPlayer(), e.getBlock())) e.setCancelled(true); }
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
-    public void onBucketFill(PlayerBucketFillEvent e) { if (deny(e.getPlayer(), land.at(e.getBlock()))) e.setCancelled(true); }
+    public void onBucketFill(PlayerBucketFillEvent e) { if (deny(e.getPlayer(), e.getBlock())) e.setCancelled(true); }
 
     private static boolean protectedEntity(Entity t) {
         if (t instanceof Player || t instanceof Monster) return false;
@@ -105,10 +119,10 @@ final class LandProtect implements Listener {
 
     // ───────── 바깥에서 들어오는 것 ─────────
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
-    public void onExplode(EntityExplodeEvent e) { e.blockList().removeIf(b -> land.at(b) != null); }
+    public void onExplode(EntityExplodeEvent e) { e.blockList().removeIf(b -> land.at(b) != null || townFree(b)); }
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
-    public void onBlockExplode(BlockExplodeEvent e) { e.blockList().removeIf(b -> land.at(b) != null); }
+    public void onBlockExplode(BlockExplodeEvent e) { e.blockList().removeIf(b -> land.at(b) != null || townFree(b)); }
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onBurn(BlockBurnEvent e) { if (land.at(e.getBlock()) != null) e.setCancelled(true); }
@@ -119,14 +133,14 @@ final class LandProtect implements Listener {
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onIgnite(BlockIgniteEvent e) {
         if (land.at(e.getBlock()) == null) return;
-        if (e.getPlayer() != null) { if (deny(e.getPlayer(), land.at(e.getBlock()))) e.setCancelled(true); }
+        if (e.getPlayer() != null) { if (deny(e.getPlayer(), e.getBlock())) e.setCancelled(true); }
         else e.setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onFlow(BlockFromToEvent e) {
         UUID to = owner(e.getToBlock());
-        if (to != null && !Objects.equals(to, owner(e.getBlock()))) e.setCancelled(true);
+        if ((to != null || townFree(e.getToBlock())) && !Objects.equals(to, owner(e.getBlock()))) e.setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)

@@ -347,6 +347,51 @@ economy:
       normal: { chance: 79, multiplier: 1, message: "&a깨굴코인 {got}개 구매" }
       double: { chance: 10, multiplier: 2, message: "&e2배 구매! 깨굴코인 {got}개" }
       triple: { chance: 1,  multiplier: 3, message: "&63배 구매!! 깨굴코인 {got}개" }
+  crops:                        # ★ 상점 "농작물" 탭 (AddCrop 작물 · CustomCrops 도구). 가격 = 다이아
+    enabled: true
+    seed-bundle: 10             # 씨앗 1묶음 개수
+    list:                       # 작물: [작물 1개 판매가, 씨앗 1묶음 구매가]
+      bean:          [0.04, 1]
+      green_onion:   [0.04, 1]
+      garlic:        [0.04, 1]
+      onion:         [0.04, 1]
+      radish:        [0.04, 1]
+      turnip:        [0.04, 1]
+      rice:          [0.04, 1]
+      parsley:       [0.04, 1]
+      cabbage:       [0.04, 1]
+      korea_cabbage: [0.04, 1]
+      tomato:        [0.07, 2]
+      pepper:        [0.07, 2]
+      corn:          [0.07, 2]
+      sweet_potato:  [0.07, 2]
+      broccoli:      [0.07, 2]
+      egg_plant:     [0.07, 2]
+      artichoke:     [0.1, 3]
+      asparagus:     [0.1, 3]
+      paprika:       [0.1, 3]
+      wild_ginseng:  [0.3, 8]
+    grade-multiplier: { normal: 1, silver: 2.5, golden: 6, big: 15, rare: 40 }   # 판매가 배수 (은별·금별·대형·희귀)
+    tools:                      # 구매 목록: id · 한 번에 받는 개수 · 가격
+      - { id: "customcrops:watering_can_1", price: 5 }
+      - { id: "customcrops:watering_can_2", price: 20 }
+      - { id: "customcrops:watering_can_3", price: 60 }
+      - { id: "customcrops:watering_can_4", price: 150 }
+      - { id: "addcrop:addcrop_pot_oak_dry", amount: 8, price: 2 }
+      - { id: "addcrop:addcrop_pot_birch_dry", amount: 8, price: 2 }
+      - { id: "addcrop:addcrop_pot_spruce_dry", amount: 8, price: 2 }
+      - { id: "addcrop:addcrop_pot_cherry_dry", amount: 8, price: 3 }
+      - { id: "addcrop:addcrop_pot_bamboo_dry", amount: 8, price: 3 }
+      - { id: "addcrop:addcrop_pot_pale_oak_dry", amount: 8, price: 3 }
+      - { id: "customcrops:sprinkler_1_item", price: 10 }
+      - { id: "customcrops:sprinkler_2_item", price: 30 }
+      - { id: "customcrops:sprinkler_3_item", price: 80 }
+      - { id: "customcrops:soil_retain_1", amount: 4, price: 1 }
+      - { id: "customcrops:speed_grow_1", amount: 4, price: 2 }
+      - { id: "customcrops:quality_1", amount: 4, price: 3 }
+      - { id: "customcrops:yield_increase_1", amount: 4, price: 3 }
+      - { id: "addcrop:addcrop_item_golden_meal", amount: 4, price: 3 }
+      - { id: "addcrop:addcrop_item_scythe_iron", price: 10 }
   diamond-exchange:             # 의뢰인 고민 중 → 기본 꺼짐
     enabled: false
     coins-per-diamond: 1
@@ -527,6 +572,17 @@ land:
     gacha: 32
   excluded: []                  # 직접 원 지정: - { world: world, x: 0, z: 0, radius: 200 }
   # 보호 우회 권한: kkaegul.land.bypass (OP 기본)
+
+# ── 마을 (공허 월드 분양지) ── 2×2 청크 블록마다 폭 1청크 도로가 둘러쌈, 땅 1칸 = 1청크 (땅문서로 구매)
+town:
+  enabled: true
+  world: "kkaegul_town"         # 처음 켤 때 멀티버스+VoidGen 으로 만들고 땅·도로·분수 광장을 한 번 깔아 둠
+  groups-x: 8                   # ★ 2×2 블록 가로 수 (8×4 = 땅 128칸)
+  groups-z: 4
+  ground-y: 64
+  max-per-player: 1             # ★ 마을 땅 1인당 칸 수 (0 = 제한 없음)
+  set-village: true             # 메뉴 이동 > 마을 = 분수 광장
+
 
 wild:
   world: "world"
