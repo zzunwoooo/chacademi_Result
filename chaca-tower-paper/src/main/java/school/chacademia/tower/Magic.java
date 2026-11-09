@@ -33,4 +33,7 @@ interface Magic {
 
     /** 꺼내 놓은 펫(MCPets 바닐라 펫·동행 펫)을 들여보낸다. 탑 안에서는 매 tick 불러 다시 꺼내도 바로 들어간다. */
     void dismissPets(Player p);
+
+    /** 탑 안 마나 최대치·초당 회복을 이 값으로 고정 (restore 가 푼다). */
+    void pinMana(Player p, double max, double regen);
 }

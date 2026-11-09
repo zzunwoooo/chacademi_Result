@@ -87,15 +87,33 @@ final class MagicBridge implements Magic {
         return out;
     }
 
-    private NamespacedKey equippedKey() {
+    private NamespacedKey equippedKey() { return key("artifact_equipped"); }
+    /** 장신구 4칸: 브리지 EquipmentBridge 가 플레이어 PDC accessory_slot_0..3 (ItemStack 바이트) 에 둔다 — 가방이 아니라서 따로 맡긴다. */
+    private NamespacedKey accessoryKey(int i) { return key("accessory_slot_" + i); }
+    private NamespacedKey key(String name) {
         var b = bridge();
-        return b == null ? null : new NamespacedKey(b, "artifact_equipped");
+        return b == null ? null : new NamespacedKey(b, name);
     }
 
+    /** 장신구·아티팩트를 뺀 뒤 브리지 능력치(체력·마나·지능 보정)를 다시 계산하게 한다 (public refreshStats). */
+    private void refreshStats(Player p) {
+        var b = bridge();
+        if (b == null) return;
+        try { b.getClass().getMethod("refreshStats", Player.class).invoke(b, p); }
+        catch (ReflectiveOperationException | RuntimeException e) { plugin.getLogger().warning("능력치 다시 계산 실패: " + e); }
+    }
+
+    /** "artifact=<장착 목록>;acc0=<base64>;acc1=..;acc2=..;acc3=.." (없는 칸은 빈 값). */
     @Override public String snapshot(Player p) {
+        var pdc = p.getPersistentDataContainer();
         var key = equippedKey();
-        String eq = key == null ? "" : p.getPersistentDataContainer().getOrDefault(key, PersistentDataType.STRING, "");
-        return "artifact=" + eq;
+        var sb = new StringBuilder("artifact=").append(key == null ? "" : pdc.getOrDefault(key, PersistentDataType.STRING, ""));
+        for (int i = 0; i < 4; i++) {
+            var k = accessoryKey(i);
+            byte[] b = k == null ? null : pdc.get(k, PersistentDataType.BYTE_ARRAY);
+            sb.append(";acc").append(i).append("=").append(b == null ? "" : java.util.Base64.getEncoder().encodeToString(b));
+        }
+        return sb.toString();
     }
 
     @Override public void enterTower(Player p) {
@@ -105,6 +123,8 @@ final class MagicBridge implements Magic {
         attachments.put(p.getUniqueId(), att);
         var key = equippedKey();
         if (key != null) p.getPersistentDataContainer().remove(key);
+        for (int i = 0; i < 4; i++) { var k = accessoryKey(i); if (k != null) p.getPersistentDataContainer().remove(k); }
+        refreshStats(p);
         refresh(p);
     }
 
@@ -121,15 +141,78 @@ final class MagicBridge implements Magic {
 
     @Override public void restore(Player p, String state) {
         dropAttachment(p);
+        unpinMana(p);
+        var pdc = p.getPersistentDataContainer();
         if (state != null && state.startsWith("artifact=")) {
-            String eq = state.substring("artifact=".length());
-            var key = equippedKey();
-            if (key != null) {
-                if (eq.isBlank()) p.getPersistentDataContainer().remove(key);
-                else p.getPersistentDataContainer().set(key, PersistentDataType.STRING, eq);
+            for (String part : state.split(";")) {
+                int eq = part.indexOf('=');
+                if (eq < 0) continue;
+                String name = part.substring(0, eq), value = part.substring(eq + 1);
+                if (name.equals("artifact")) {
+                    var key = equippedKey();
+                    if (key == null) continue;
+                    if (value.isBlank()) pdc.remove(key); else pdc.set(key, PersistentDataType.STRING, value);
+                } else if (name.startsWith("acc")) {
+                    var key = accessoryKey(Integer.parseInt(name.substring(3)));
+                    if (key == null) continue;
+                    if (value.isBlank()) pdc.remove(key); else pdc.set(key, PersistentDataType.BYTE_ARRAY, java.util.Base64.getDecoder().decode(value));
+                }
             }
         }
+        refreshStats(p);
         refresh(p);
+    }
+
+    // ── 마나: ManaService(브리지 mana.mana, public 클래스) 의 수정자 하나로 최대치·회복을 탑 값에 맞춘다 (다른 보너스가 남아 있어도 결과 고정)
+    private static final String MANA_KEY = "chacatower:tower";
+    private final Map<UUID, double[]> manaOurs = new HashMap<>();
+    private Object manaService;
+    private java.lang.reflect.Method manaSnapshot, manaSet, manaRemove;
+    private boolean manaLooked;
+
+    private Object mana() {
+        var b = bridge();
+        if (b == null) return null;
+        if (manaLooked) return manaService;
+        manaLooked = true;
+        try {
+            var f = b.getClass().getDeclaredField("mana"); f.setAccessible(true);
+            var mb = f.get(b);
+            var f2 = mb.getClass().getDeclaredField("mana"); f2.setAccessible(true);
+            manaService = f2.get(mb);
+            var c = manaService.getClass();
+            manaSnapshot = c.getMethod("snapshot", UUID.class);
+            manaSet = c.getMethod("setModifier", UUID.class, String.class, double.class, double.class);
+            manaRemove = c.getMethod("removeModifier", UUID.class, String.class);
+        } catch (ReflectiveOperationException | RuntimeException e) { plugin.getLogger().warning("마나 연결 실패 (탑 안 마나 고정 안 됨): " + e); manaService = null; }
+        return manaService;
+    }
+
+    @Override public void pinMana(Player p, double max, double regen) {
+        var ms = mana();
+        if (ms == null) return;
+        var id = p.getUniqueId();
+        var ours = manaOurs.computeIfAbsent(id, k -> new double[2]);
+        try {
+            for (int i = 0; i < 4; i++) {
+                var snap = ((java.util.Optional<?>) manaSnapshot.invoke(ms, id)).orElse(null);
+                if (snap == null) return;
+                double curMax = ((Number) snap.getClass().getMethod("maximum").invoke(snap)).doubleValue();
+                double curRegen = ((Number) snap.getClass().getMethod("regeneration").invoke(snap)).doubleValue();
+                if (Math.abs(curMax - max) < 1e-6 && Math.abs(curRegen - regen) < 1e-6 && (ours[0] != 0 || ours[1] != 0 || i > 0)) return;
+                ours[0] += max - curMax;
+                ours[1] += regen - curRegen;
+                manaSet.invoke(ms, id, MANA_KEY, ours[0], ours[1]);
+            }
+        } catch (ReflectiveOperationException | RuntimeException e) { plugin.getLogger().warning("마나 고정 실패: " + e); }
+    }
+
+    private void unpinMana(Player p) {
+        manaOurs.remove(p.getUniqueId());
+        var ms = mana();
+        if (ms == null) return;
+        try { manaRemove.invoke(ms, p.getUniqueId(), MANA_KEY); }
+        catch (ReflectiveOperationException | RuntimeException e) { plugin.getLogger().warning("마나 되돌리기 실패: " + e); }
     }
 
     private void dropAttachment(Player p) {

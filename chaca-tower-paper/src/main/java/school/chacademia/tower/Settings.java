@@ -84,6 +84,7 @@ final class Settings {
     final List<String> basicSpells, excludedSpells;
     final String databaseFile;
     final double startIntelligence;
+    final double startMana, startManaRegen;
 
     Settings(FileConfiguration c) {
         name = c.getString("name", "무한의 탑");
@@ -121,6 +122,8 @@ final class Settings {
         basicSpells = List.copyOf(c.getStringList("basic-spells"));
         excludedSpells = List.copyOf(c.getStringList("excluded-spells"));
         startIntelligence = Math.max(0, c.getDouble("start-intelligence", 10));
+        startMana = Math.max(1, c.getDouble("start-mana", 100));
+        startManaRegen = Math.max(0, c.getDouble("start-mana-regen", 5));
         databaseFile = c.getString("database-file", "../MagicCodexBridge/player-state-database.properties");
     }
 

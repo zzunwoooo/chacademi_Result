@@ -123,6 +123,7 @@ final class TowerService {
         var start = s.start.location();
         p.teleport(start);
         applyAttributes(p);
+        magic.pinMana(p, s.startMana, s.startManaRegen);
         fullHeal(p);
         p.setFoodLevel(20); p.setSaturation(10);
         p.getInventory().addItem(new ItemStack(Material.BREAD, 6));
@@ -509,6 +510,7 @@ final class TowerService {
         }
         applyAttributes(p);
         magic.dismissPets(p);
+        magic.pinMana(p, s.startMana, s.startManaRegen);
         // 방 밖 검사
         var box = s.room();
         if (box != null && !(p.getWorld().getName().equals(s.start.world()) && box.contains(p.getLocation()))) {
