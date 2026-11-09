@@ -139,6 +139,22 @@ final class Defs {
         List<String> clearCommands = new ArrayList<>();
         /** 기본 = 클리어마다, 첫 클리어 = 처음 한 번 더, 확률 = 클리어마다 줄마다 chance% 로 따로 뽑음. */
         final List<Reward> baseRewards = new ArrayList<>(), firstRewards = new ArrayList<>(), randomRewards = new ArrayList<>();
+        // [기능:던전난이도 시작]
+        /**
+         * 11/09 오너: 같은 맵을 이지·하드로. 지금까지의 던전 = 하드 (위 보상 목록 = 하드 보상).
+         * 배율 = 그 판에서 나온 몹·보스의 최대 체력, 그 몹이 플레이어에게 준 피해(평타·패턴)에 곱함. 오너가 그때그때 바꿈.
+         * 이지 보상은 따로 (easy-rewards, 없으면 하드 보상을 복사해서 시작).
+         */
+        double easyHealth = 2.0 / 3, easyDamage = 0.5, hardHealth = 1, hardDamage = 1;
+        final List<Reward> easyBase = new ArrayList<>(), easyFirst = new ArrayList<>(), easyRandom = new ArrayList<>();
+        List<Reward> base(boolean hard) { return hard ? baseRewards : easyBase; }
+        List<Reward> first(boolean hard) { return hard ? firstRewards : easyFirst; }
+        List<Reward> random(boolean hard) { return hard ? randomRewards : easyRandom; }
+        double health(boolean hard) { return hard ? hardHealth : easyHealth; }
+        double damage(boolean hard) { return hard ? hardDamage : easyDamage; }
+        /** 기록 DB 의 던전 칸: 하드 = 예전 그대로 id, 이지 = id@easy (기록·서버 최고 따로). */
+        String recordKey(boolean hard) { return hard ? id : id + "@easy"; }
+        // [기능:던전난이도 끝]
         final List<Stage> stages = new ArrayList<>();
         final Map<Integer, Slot> slots = new TreeMap<>();
         Dungeon(String id) { this.id = id; }
@@ -172,6 +188,17 @@ final class Defs {
             // 기본 보상: 예전 이름 repeat 도 읽는다 (저장하면 base 로 바뀜)
             readRewards(s.getMapList(s.contains("rewards.base") ? "rewards.base" : "rewards.repeat"), d.baseRewards);
             readRewards(s.getMapList("rewards.random"), d.randomRewards);
+            // [기능:던전난이도 시작]
+            d.easyHealth = mult(s, "difficulty.easy.health", 2.0 / 3);
+            d.easyDamage = mult(s, "difficulty.easy.damage", 0.5);
+            d.hardHealth = mult(s, "difficulty.hard.health", 1);
+            d.hardDamage = mult(s, "difficulty.hard.damage", 1);
+            if (s.contains("easy-rewards")) {
+                readRewards(s.getMapList("easy-rewards.first"), d.easyFirst);
+                readRewards(s.getMapList("easy-rewards.base"), d.easyBase);
+                readRewards(s.getMapList("easy-rewards.random"), d.easyRandom);
+            } else { d.easyFirst.addAll(d.firstRewards); d.easyBase.addAll(d.baseRewards); d.easyRandom.addAll(d.randomRewards); }
+            // [기능:던전난이도 끝]
             d.naturalRegen = s.getBoolean("natural-regen", false);
             d.partySize = Math.max(1, Math.min(5, s.getInt("party-size", 1))); // [기능:파티던전]
             d.art = s.getString("art", ""); // [기능:파티던전]
@@ -258,6 +285,9 @@ final class Defs {
 
     private static String str(Object o) { return o == null ? "" : String.valueOf(o); }
 
+    /** [기능:던전난이도] 배율 (0.05 ~ 20). */
+    private static double mult(ConfigurationSection s, String path, double def) { return Math.max(0.05, Math.min(20, s.getDouble(path, def))); }
+
     // ------------------------------------------------------------ 쓰기 (인게임 설정 명령 → dungeons.yml)
 
     static void write(ConfigurationSection root, Dungeon d) {
@@ -279,6 +309,15 @@ final class Defs {
         s.set("rewards.first", rewards(d.firstRewards));
         s.set("rewards.base", rewards(d.baseRewards));
         s.set("rewards.random", rewards(d.randomRewards));
+        // [기능:던전난이도 시작]
+        s.set("difficulty.easy.health", d.easyHealth);
+        s.set("difficulty.easy.damage", d.easyDamage);
+        s.set("difficulty.hard.health", d.hardHealth);
+        s.set("difficulty.hard.damage", d.hardDamage);
+        s.set("easy-rewards.first", rewards(d.easyFirst));
+        s.set("easy-rewards.base", rewards(d.easyBase));
+        s.set("easy-rewards.random", rewards(d.easyRandom));
+        // [기능:던전난이도 끝]
         s.set("natural-regen", d.naturalRegen);
         s.set("party-size", d.partySize); // [기능:파티던전]
         s.set("art", d.art); // [기능:파티던전]

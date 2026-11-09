@@ -22,8 +22,10 @@ import school.magiccodex.database.DatabaseSettings;
  * 판 장부(run_id UNIQUE)가 "이 판의 클리어는 한 번만 처리" 를 보장한다.
  */
 final class Records implements AutoCloseable {
-    record Personal(int clears, long bestMs) {
-        static final Personal NONE = new Personal(0, -1);
+    /** [기능:던전난이도] others = 다른 난이도 클리어 횟수 (첫 클리어 보상·첫 클리어 전 입장권 면제는 난이도 상관없이 한 번). */
+    record Personal(int clears, long bestMs, int others) {
+        static final Personal NONE = new Personal(0, -1, 0);
+        boolean everCleared() { return clears > 0 || others > 0; }
     }
 
     /** 클리어 처리 결과. duplicate = 이미 처리된 판(보상 다시 주지 않음). */
@@ -80,13 +82,27 @@ final class Records implements AutoCloseable {
         titles = Map.copyOf(out);
     }
 
-    CompletableFuture<Personal> personal(String dungeon, UUID player) {
+    /** dungeon = 이 난이도의 기록 칸, other = 다른 난이도의 기록 칸 ([기능:던전난이도], 없으면 ""). */
+    CompletableFuture<Personal> personal(String dungeon, String other, UUID player) {
         return CompletableFuture.supplyAsync(() -> {
-            try (var s = holder.get().prepareStatement("SELECT clears,best_ms FROM codex_dungeon_record WHERE dungeon=? AND player=?")) {
-                s.setString(1, dungeon); s.setString(2, player.toString());
-                try (var r = s.executeQuery()) { return r.next() ? new Personal(r.getInt(1), r.getLong(2)) : Personal.NONE; }
+            try {
+                int clears = 0; long best = -1;
+                try (var s = holder.get().prepareStatement("SELECT clears,best_ms FROM codex_dungeon_record WHERE dungeon=? AND player=?")) {
+                    s.setString(1, dungeon); s.setString(2, player.toString());
+                    try (var r = s.executeQuery()) { if (r.next()) { clears = r.getInt(1); best = r.getLong(2); } }
+                }
+                return new Personal(clears, best, otherClears(holder.get(), other, player, false));
             } catch (SQLException e) { throw new IllegalStateException(e); }
         }, worker);
+    }
+
+    /** [기능:던전난이도] 다른 난이도 클리어 횟수. */
+    private int otherClears(java.sql.Connection c, String other, UUID player, boolean lock) throws SQLException {
+        if (other == null || other.isBlank()) return 0;
+        try (var s = c.prepareStatement("SELECT clears FROM codex_dungeon_record WHERE dungeon=? AND player=?" + (lock && maria ? " FOR UPDATE" : ""))) {
+            s.setString(1, other); s.setString(2, player.toString());
+            try (var r = s.executeQuery()) { return r.next() ? r.getInt(1) : 0; }
+        }
     }
 
     /** 서버 최고 기록 + 보유자 한글 닉네임 + 지금 장착한 접두·접미 칭호 (오프라인이어도 DB 에서). */
@@ -125,11 +141,11 @@ final class Records implements AutoCloseable {
     }
 
     /** 클리어 확정: 판 장부에 적고(처음일 때만) 개인 기록 갱신, 서버 최고와 비교. 한 트랜잭션. */
-    CompletableFuture<Clear> clear(UUID runId, String dungeon, UUID player, int slot, long timeMs, long startedAt, long endedAt) {
+    CompletableFuture<Clear> clear(UUID runId, String dungeon, String other, UUID player, int slot, long timeMs, long startedAt, long endedAt) {
         return CompletableFuture.supplyAsync(() -> {
             for (int attempt = 0; ; attempt++) {
                 try {
-                    return clearOnce(runId, dungeon, player, slot, timeMs, startedAt, endedAt);
+                    return clearOnce(runId, dungeon, other, player, slot, timeMs, startedAt, endedAt);
                 } catch (SQLException e) {
                     if (attempt < 3 && (e.getErrorCode() == 1213 || e.getErrorCode() == 1205 || "40001".equals(e.getSQLState()))) continue;
                     throw new IllegalStateException(e);
@@ -138,7 +154,7 @@ final class Records implements AutoCloseable {
         }, worker);
     }
 
-    private Clear clearOnce(UUID runId, String dungeon, UUID player, int slot, long timeMs, long startedAt, long endedAt) throws SQLException {
+    private Clear clearOnce(UUID runId, String dungeon, String other, UUID player, int slot, long timeMs, long startedAt, long endedAt) throws SQLException {
         Holder before = best(dungeon);
         var db = holder.begin();
         boolean committed = false;
@@ -156,7 +172,7 @@ final class Records implements AutoCloseable {
                 s.setString(1, dungeon); s.setString(2, player.toString());
                 try (var r = s.executeQuery()) { if (r.next()) { clears = r.getInt(1); prev = r.getLong(2); } }
             }
-            boolean first = clears == 0;
+            boolean first = clears == 0 && otherClears(db, other, player, true) == 0; // [기능:던전난이도] 첫 클리어는 난이도 상관없이 한 번
             boolean newPersonal = prev < 0 || timeMs < prev;
             if (clears == 0 && prev < 0) {
                 try (var s = db.prepareStatement("INSERT INTO codex_dungeon_record(dungeon,player,clears,best_ms,best_at,first_at) VALUES(?,?,1,?,?,?)")) {

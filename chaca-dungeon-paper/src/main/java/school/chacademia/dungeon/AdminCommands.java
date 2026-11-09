@@ -36,7 +36,11 @@ final class AdminCommands {
         String root = ChacaLink.던전관리;
         ChacaLink.branch(plugin, root, select(), "설정할 던전 칸 고르기", "선택 lich_lab 1");
         ChacaLink.branch(plugin, root, Commands.literal("설정도구").executes(ctx -> { Player p = self(ctx); p.getInventory().addItem(plugin.editor().tool()); ChacaLink.ok(p, "던전 설정 도구를 받았어요. 허공 우클릭 = 설정 창"); return 1; }), "던전 설정 도구 (좌·우클릭 구역, 허공 우클릭 설정 창)", "설정도구");
-        ChacaLink.branch(plugin, root, rewards(), "보상(기본·첫클리어·확률): 손에 든 아이템 추가 / 목록 / 빼기 / 비우기", "보상 확률 추가 12.5");
+        ChacaLink.branch(plugin, root, rewards(true), "하드 보상(기본·첫클리어·확률): 손에 든 아이템 추가 / 목록 / 빼기 / 비우기", "보상 확률 추가 12.5");
+        // [기능:던전난이도 시작]
+        ChacaLink.branch(plugin, root, rewards(false), "이지 보상(기본·첫클리어·확률): 손에 든 아이템 추가 / 목록 / 빼기 / 비우기", "이지보상 기본 추가");
+        ChacaLink.branch(plugin, root, difficulty(), "이지·하드 배율 (몹·보스 체력, 받는 피해): 값 없이 = 지금 값 보기", "난이도 lich_lab 이지 체력 0.67");
+        // [기능:던전난이도 끝]
         ChacaLink.branch(plugin, root, Commands.literal("설정확인").executes(this::check), "고른 던전의 칸별 빠진 설정", "설정확인");
         ChacaLink.branch(plugin, root, Commands.literal("현황").executes(ctx -> { ChacaLink.lines(ctx.getSource().getSender(), plugin.service().status()); return 1; }), "칸 사용·대기 현황", "현황");
         ChacaLink.branch(plugin, root, forceReset(), "칸 강제 정리 (진행 중이면 실패 처리)", "칸초기화 lich_lab 1");
@@ -223,12 +227,13 @@ final class AdminCommands {
     }
 
     /** 보상 묶음 이름 → 목록. 반복 = 기본 (예전 이름). */
-    private static List<Defs.Reward> group(Defs.Dungeon d, String kind) {
-        return switch (kind) { case "첫클리어" -> d.firstRewards; case "확률" -> d.randomRewards; default -> d.baseRewards; };
+    private static List<Defs.Reward> group(Defs.Dungeon d, String kind, boolean hard) {
+        return switch (kind) { case "첫클리어" -> d.first(hard); case "확률" -> d.random(hard); default -> d.base(hard); }; // [기능:던전난이도]
     }
 
-    private LiteralArgumentBuilder<CommandSourceStack> rewards() {
-        var node = Commands.literal("보상");
+    /** [기능:던전난이도] hard = /던전관리 보상 (지금까지 보상 = 하드), 아니면 /던전관리 이지보상. */
+    private LiteralArgumentBuilder<CommandSourceStack> rewards(boolean hard) {
+        var node = Commands.literal(hard ? "보상" : "이지보상");
         for (String kind : List.of("기본", "반복", "첫클리어", "확률")) {
             var k = Commands.literal(kind);
             com.mojang.brigadier.Command<CommandSourceStack> add = ctx -> {
@@ -245,8 +250,8 @@ final class AdminCommands {
                 if (ia != null) r = new Defs.Reward(ia, hand.getAmount(), "", chance);
                 else if (!hand.hasItemMeta() || hand.isSimilar(new ItemStack(hand.getType()))) r = new Defs.Reward(hand.getType().getKey().toString(), hand.getAmount(), "", chance);
                 else { var one = hand.clone(); one.setAmount(1); r = new Defs.Reward("", hand.getAmount(), Base64.getEncoder().encodeToString(one.serializeAsBytes()), chance); }
-                group(d, kind).add(r);
-                saved(p, label(kind) + " 추가: " + (r.item().isBlank() ? hand.getType().getKey() + " (아이템 그대로)" : r.item()) + " ×" + r.amount()
+                group(d, kind, hard).add(r);
+                saved(p, (hard ? "" : "이지 ") + label(kind) + " 추가: " + (r.item().isBlank() ? hand.getType().getKey() + " (아이템 그대로)" : r.item()) + " ×" + r.amount()
                         + (kind.equals("확률") ? " · " + chance + "%" : ""));
                 return 1;
             };
@@ -254,9 +259,9 @@ final class AdminCommands {
             else k.then(Commands.literal("추가").executes(add));
             k.then(Commands.literal("목록").executes(ctx -> {
                 var p = self(ctx); var d = dungeon(p);
-                var list = group(d, kind);
+                var list = group(d, kind, hard);
                 var out = new ArrayList<String>();
-                out.add("── " + d.name + " " + label(kind) + " " + list.size() + "줄 ──");
+                out.add("── " + d.name + (hard ? " 하드 " : " 이지 ") + label(kind) + " " + list.size() + "줄 ──");
                 for (int i = 0; i < list.size(); i++) {
                     var r = list.get(i);
                     out.add(" " + (i + 1) + ". " + (r.item().isBlank() ? "(손에 들었던 아이템)" : r.item()) + " ×" + r.amount() + (r.chance() > 0 ? " · " + r.chance() + "%" : ""));
@@ -266,17 +271,17 @@ final class AdminCommands {
             }));
             k.then(Commands.literal("빼기").then(Commands.argument("번호", IntegerArgumentType.integer(1, 99)).executes(ctx -> {
                 var p = self(ctx); var d = dungeon(p);
-                var list = group(d, kind);
+                var list = group(d, kind, hard);
                 int i = ctx.getArgument("번호", Integer.class);
                 if (i > list.size()) throw ChacaLink.error(label(kind) + "은 " + list.size() + "줄이에요");
                 var r = list.remove(i - 1);
-                saved(p, label(kind) + " " + i + "번 뺌: " + (r.item().isBlank() ? "(손에 들었던 아이템)" : r.item()));
+                saved(p, (hard ? "" : "이지 ") + label(kind) + " " + i + "번 뺌: " + (r.item().isBlank() ? "(손에 들었던 아이템)" : r.item()));
                 return 1;
             })));
             k.then(Commands.literal("비우기").executes(ctx -> {
                 var p = self(ctx); var d = dungeon(p);
-                group(d, kind).clear();
-                saved(p, label(kind) + "을 비웠어요");
+                group(d, kind, hard).clear();
+                saved(p, (hard ? "" : "이지 ") + label(kind) + "을 비웠어요");
                 return 1;
             }));
             node.then(k);
@@ -287,6 +292,40 @@ final class AdminCommands {
     private static String label(String kind) {
         return switch (kind) { case "첫클리어" -> "첫 클리어 보상"; case "확률" -> "확률 보상"; default -> "기본 보상"; };
     }
+
+    // [기능:던전난이도 시작]
+    /** /던전관리 난이도 &lt;던전&gt; [이지|하드 체력|공격력 &lt;배율&gt;]. 배율은 다음에 소환되는 몹·다음 피해부터. */
+    private LiteralArgumentBuilder<CommandSourceStack> difficulty() {
+        com.mojang.brigadier.Command<CommandSourceStack> show = ctx -> {
+            var d = plugin.service().dungeons.get(ctx.getArgument("던전", String.class));
+            if (d == null) throw ChacaLink.error("그런 던전이 없어요");
+            ChacaLink.lines(ctx.getSource().getSender(), List.of("── " + d.name + " 난이도 배율 ──",
+                    " 이지: 체력 ×" + fmt(d.easyHealth) + " · 공격력 ×" + fmt(d.easyDamage),
+                    " 하드: 체력 ×" + fmt(d.hardHealth) + " · 공격력 ×" + fmt(d.hardDamage)));
+            return 1;
+        };
+        return Commands.literal("난이도").then(Commands.argument("던전", ChacaLink.word(() -> plugin.service().dungeons.keySet())).executes(show)
+                .then(Commands.argument("난이도", ChacaLink.word(() -> List.of("이지", "하드")))
+                        .then(Commands.argument("항목", ChacaLink.word(() -> List.of("체력", "공격력")))
+                                .then(Commands.argument("배율", DoubleArgumentType.doubleArg(0.05, 20)).executes(ctx -> {
+                                    var d = plugin.service().dungeons.get(ctx.getArgument("던전", String.class));
+                                    if (d == null) throw ChacaLink.error("그런 던전이 없어요");
+                                    String level = ctx.getArgument("난이도", String.class), key = ctx.getArgument("항목", String.class);
+                                    double v = ctx.getArgument("배율", Double.class);
+                                    boolean hard = switch (level) { case "이지" -> false; case "하드" -> true; default -> throw ChacaLink.error("이지 또는 하드로 적어 주세요"); };
+                                    switch (key) {
+                                        case "체력" -> { if (hard) d.hardHealth = v; else d.easyHealth = v; }
+                                        case "공격력" -> { if (hard) d.hardDamage = v; else d.easyDamage = v; }
+                                        default -> throw ChacaLink.error("체력 또는 공격력으로 적어 주세요");
+                                    }
+                                    plugin.saveDungeons();
+                                    ChacaLink.ok(ctx.getSource().getSender(), d.name + " " + level + " " + key + " ×" + fmt(v) + " 저장 (새로 나오는 몹·다음 피해부터)");
+                                    return 1;
+                                })))));
+    }
+
+    private static String fmt(double v) { return String.format(java.util.Locale.ROOT, "%.2f", v); }
+    // [기능:던전난이도 끝]
 
     private int check(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
         Player p = self(ctx);

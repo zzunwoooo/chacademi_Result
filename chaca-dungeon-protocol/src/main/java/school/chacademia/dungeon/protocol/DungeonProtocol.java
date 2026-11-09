@@ -43,6 +43,11 @@ public final class DungeonProtocol {
     // [기능:파티던전 시작]
     /** C_ACCEPT·C_REJECT = 수락 창 버튼 (session = 수락 창 번호). C_PING = 핑 (JSON {"k":종류,"x","y","z","t":대상 UUID 또는 없음}). */
     public static final int C_ACCEPT = 6, C_REJECT = 7, C_PING = 8;
+    // [기능:던전난이도 시작] 11/09 오너: 입장창 이지·하드 전환 (session = 입장창 번호, json = "easy" 또는 "hard")
+    public static final int C_DIFFICULTY = 9;
+    /** Entry.difficulty: 이지 · 하드 · 난이도 없음(옛 서버 = 전환 버튼 숨김). */
+    public static final int D_EASY = 0, D_HARD = 1, D_NONE = 255;
+    // [기능:던전난이도 끝]
     /** 핑 종류 (큐디치와 같은 번호·그림): 0 위치 1 아군 2 적 3 경고 4 가는 중 5 도움 6 힐 줘. */
     public static final int PING_MAX = 6;
     // [기능:파티던전 끝]
@@ -83,7 +88,7 @@ public final class DungeonProtocol {
     public record Entry(int session, String name, String subtitle, boolean cleared, long personalBestMs, Holder best,
                         int active, int max, int ticketNeed, int ticketHave, String ticketName, boolean ticketFree,
                         int button, String lockReason, boolean noRegen, List<RewardGroup> rewards,
-                        int partySize, int partyCount, boolean leader, String art) {}
+                        int partySize, int partyCount, boolean leader, String art, int difficulty) {}
 
     public record Queue(int state, String name, int position, int queued, int active, int max, long offerLeftMs, int session) {}
 
@@ -199,7 +204,7 @@ public final class DungeonProtocol {
         var bytes = new ByteArrayOutputStream();
         try (var out = new DataOutputStream(bytes)) {
             out.writeByte(VERSION); out.writeByte(action.kind()); out.writeInt(action.session());
-            if (action.kind() == C_EDIT || action.kind() == C_PING) writeText(out, action.json());
+            if (action.kind() == C_EDIT || action.kind() == C_PING || action.kind() == C_DIFFICULTY) writeText(out, action.json()); // [기능:던전난이도]
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
@@ -218,6 +223,7 @@ public final class DungeonProtocol {
             for (int i = 0; i < Math.min(g.chances().size(), MAX_ITEMS); i++) out.writeShort(Math.clamp(g.chances().get(i), 0, 10000));
         }
         out.writeByte(e.partySize()); out.writeByte(e.partyCount()); out.writeBoolean(e.leader()); out.writeUTF(e.art());
+        out.writeByte(e.difficulty()); // [기능:던전난이도] 맨 끝에 덧붙임
     }
 
     private static void writeUuid(DataOutputStream out, java.util.UUID id) throws IOException {
@@ -267,7 +273,8 @@ public final class DungeonProtocol {
             case K_ENTRY -> new EntryMsg(new Entry(in.readInt(), in.readUTF(), in.readUTF(), in.readBoolean(), in.readLong(),
                     readHolder(in), in.readInt(), in.readInt(), in.readInt(), in.readInt(), in.readUTF(), in.readBoolean(),
                     in.readUnsignedByte(), in.readUTF(), in.readBoolean(), readGroups(in),
-                    in.readUnsignedByte(), in.readUnsignedByte(), in.readBoolean(), in.readUTF()));
+                    in.readUnsignedByte(), in.readUnsignedByte(), in.readBoolean(), in.readUTF(),
+                    in.available() > 0 ? in.readUnsignedByte() : D_NONE)); // [기능:던전난이도] 옛 서버는 이 칸이 없음
             case K_QUEUE -> new QueueMsg(new Queue(in.readUnsignedByte(), in.readUTF(), in.readInt(), in.readInt(), in.readInt(),
                     in.readInt(), in.readLong(), in.readInt()));
             case K_RUN -> new RunMsg(new Run(in.readBoolean(), in.readUTF(), in.readLong(), in.readBoolean(), in.readBoolean(),
@@ -309,9 +316,9 @@ public final class DungeonProtocol {
         var in = new DataInputStream(new ByteArrayInputStream(data));
         if (in.readUnsignedByte() != VERSION) throw new IOException("bad version");
         int kind = in.readUnsignedByte();
-        if (kind < C_ENTER || kind > C_PING) throw new IOException("unknown action");
+        if (kind < C_ENTER || kind > C_DIFFICULTY) throw new IOException("unknown action"); // [기능:던전난이도] C_PING → C_DIFFICULTY
         int session = in.readInt();
-        String json = kind == C_EDIT || kind == C_PING ? readText(in) : "";
+        String json = kind == C_EDIT || kind == C_PING || kind == C_DIFFICULTY ? readText(in) : ""; // [기능:던전난이도]
         if (in.available() != 0) throw new IOException("trailing bytes");
         return new Action(kind, session, json);
     }

@@ -82,6 +82,7 @@ final class DungeonService {
         final int session; final String dungeon; final UUID leader; final List<UUID> members;
         final Map<UUID, Integer> state = new LinkedHashMap<>(), need = new HashMap<>();
         final long deadline;
+        boolean hard; // [기능:던전난이도] 파티장이 고른 난이도
         AcceptCheck(int session, String dungeon, UUID leader, List<UUID> members, long deadline) {
             this.session = session; this.dungeon = dungeon; this.leader = leader; this.members = List.copyOf(members); this.deadline = deadline;
         }
@@ -94,6 +95,61 @@ final class DungeonService {
     /** MagicCodexBridge 교화: 보스를 잡으면 30초 봉인, 이 표시가 붙는다 (TamingBridge graceKey). */
     private static final NamespacedKey TAMING_GRACE = new NamespacedKey("magiccodexbridge", "taming_grace");
     // [기능:파티던전 끝]
+    // [기능:던전난이도 시작]
+    /** 입장창에서 고른 난이도 (true = 하드). 없으면 이지. 서버가 꺼지면 잊는다. */
+    private final Map<UUID, Boolean> hardPick = new HashMap<>();
+    private static final NamespacedKey EASY_HEALTH = new NamespacedKey("chacadungeon", "easy_health");
+
+    /** 이 사람이 지금 보는 난이도: 파티 던전에서 파티원이면 파티장이 고른 것. */
+    private boolean pickedHard(UUID id, Defs.Dungeon d) {
+        if (d.partySize > 1) {
+            var party = PartyLink.party(id);
+            if (party.isPresent()) return hardPick.getOrDefault(party.get().leader(), false);
+        }
+        return hardPick.getOrDefault(id, false);
+    }
+
+    /** 입장창 전환 버튼. 파티 던전은 파티장만 바꾼다. */
+    private void difficultyPressed(Player p, int session, String value) {
+        UUID id = p.getUniqueId();
+        var d = dungeonForSession(id, session);
+        if (d == null) { expiredWindow(p); return; }
+        if (runs.containsKey(id) || busy.contains(id) || acceptOf.containsKey(id)) return;
+        if (d.partySize > 1) {
+            var party = PartyLink.party(id);
+            if (party.isPresent() && !party.get().leader().equals(id)) {
+                ChacaLink.notify(p, "warning", "dungeon:difficulty-leader", d.name, "난이도는 파티장이 정할 수 있어요.", 3000);
+                return;
+            }
+        }
+        hardPick.put(id, value.equals("hard"));
+        if (d.partySize > 1) refreshOpenEntries(); // 파티원 창도 같이 바뀌게
+        else openEntry(p, d, session);
+    }
+
+    /** 이지 판 몹·보스의 최대 체력 배율 (소환 직후). */
+    private void scaleHealth(Run run, Entity e) {
+        var d = dungeons.get(run.slot.dungeon);
+        if (d == null || !(e instanceof LivingEntity le)) return;
+        double m = d.health(run.hard);
+        if (Math.abs(m - 1) < 1e-6) return;
+        var a = le.getAttribute(org.bukkit.attribute.Attribute.MAX_HEALTH);
+        if (a == null) return;
+        a.removeModifier(EASY_HEALTH);
+        a.addModifier(new org.bukkit.attribute.AttributeModifier(EASY_HEALTH, m - 1, org.bukkit.attribute.AttributeModifier.Operation.MULTIPLY_SCALAR_1));
+        le.setHealth(Math.max(1, a.getValue()));
+    }
+
+    /** 판 안 플레이어가 받는 몹 피해 배율 (평타·투사체·보스 패턴). 판 밖·플레이어끼리는 1. */
+    double damageMultiplier(Player victim, Entity damager) {
+        Run run = runs.get(victim.getUniqueId());
+        if (run == null || run.ended) return 1;
+        Entity src = damager instanceof org.bukkit.entity.Projectile pr && pr.getShooter() instanceof Entity sh ? sh : damager;
+        if (src == null || src instanceof Player) return 1;
+        var d = dungeons.get(run.slot.dungeon);
+        return d == null ? 1 : d.damage(run.hard);
+    }
+    // [기능:던전난이도 끝]
 
     DungeonService(DungeonPlugin plugin, Hooks hooks, ItemsAdderItems items, Records records) {
         this.plugin = plugin; this.hooks = hooks; this.items = items; this.records = records;
@@ -215,12 +271,13 @@ final class DungeonService {
             return;
         }
         UUID id = p.getUniqueId();
-        personal(d.id, id).thenCombine(best(d.id), (mine, best) -> new Object[]{mine, best}).whenComplete((pair, error) -> Bukkit.getScheduler().runTask(plugin, () -> {
+        boolean hard = pickedHard(id, d); // [기능:던전난이도] 고른 난이도의 기록·보상
+        personal(d, hard, id).thenCombine(best(d.recordKey(hard)), (mine, best) -> new Object[]{mine, best}).whenComplete((pair, error) -> Bukkit.getScheduler().runTask(plugin, () -> {
             if (!p.isOnline()) return;
             var mine = error == null ? (Records.Personal) pair[0] : Records.Personal.NONE;
             var top = error == null ? (Holder) pair[1] : Holder.NONE;
             if (error != null) plugin.getLogger().warning("기록 읽기 실패: " + error);
-            send(p, new DungeonProtocol.EntryMsg(entry(p, d, session, mine, top)));
+            send(p, new DungeonProtocol.EntryMsg(entry(p, d, session, mine, top, hard)));
         }));
     }
 
@@ -232,7 +289,7 @@ final class DungeonService {
         }
     }
 
-    private DungeonProtocol.Entry entry(Player p, Defs.Dungeon d, int session, Records.Personal mine, Holder top) {
+    private DungeonProtocol.Entry entry(Player p, Defs.Dungeon d, int session, Records.Personal mine, Holder top, boolean hard) {
         UUID id = p.getUniqueId();
         int need = ticketNeed(d, mine);
         int button;
@@ -262,18 +319,19 @@ final class DungeonService {
         else if (acceptOf.containsKey(id)) { button = DungeonProtocol.BTN_LOCKED; lock = "파티 입장 수락 중이에요."; }
         else if (!instances.hasWaiting(d.id) && instances.firstFree(d.id) != null) button = DungeonProtocol.BTN_ENTER;
         else button = DungeonProtocol.BTN_QUEUE;
-        boolean firstPending = mine.clears() == 0;
+        boolean firstPending = !mine.everCleared(); // [기능:던전난이도] 첫 클리어는 난이도 상관없이 한 번
         // 입장창 보상: 묶음별(기본·첫 클리어·확률), 줄마다 아이템 하나(수량 표시). 빈 묶음은 보내지 않는다.
         var groups = new ArrayList<DungeonProtocol.RewardGroup>();
-        addGroup(groups, DungeonProtocol.R_BASE, "기본 보상", false, d.baseRewards);
-        addGroup(groups, DungeonProtocol.R_FIRST, "첫 클리어 보상", !firstPending, d.firstRewards);
-        addGroup(groups, DungeonProtocol.R_RANDOM, "확률 보상", false, d.randomRewards);
+        addGroup(groups, DungeonProtocol.R_BASE, "기본 보상", false, d.base(hard));
+        addGroup(groups, DungeonProtocol.R_FIRST, "첫 클리어 보상", !firstPending, d.first(hard));
+        addGroup(groups, DungeonProtocol.R_RANDOM, "확률 보상", false, d.random(hard));
         String ticketName = d.ticketItem.isBlank() ? "" : itemName(d.ticketItem);
         int usual = d.ticketItem.isBlank() ? 0 : d.ticketAmount;
         return new DungeonProtocol.Entry(session, d.name, d.subtitle, mine.clears() > 0, mine.bestMs(), top,
                 instances.busy(d.id), instances.capacity(d.id), usual, usual == 0 ? 0 : countTickets(p, d.ticketItem), ticketName,
                 usual > 0 && need == 0, button, lock, !d.naturalRegen, groups,
-                d.partySize, d.partySize > 1 ? partyCount : 1, d.partySize <= 1 || leader, d.art);
+                d.partySize, d.partySize > 1 ? partyCount : 1, d.partySize <= 1 || leader, d.art,
+                hard ? DungeonProtocol.D_HARD : DungeonProtocol.D_EASY); // [기능:던전난이도]
     }
 
     private void addGroup(List<DungeonProtocol.RewardGroup> out, int kind, String label, boolean done, List<Defs.Reward> list) {
@@ -309,12 +367,12 @@ final class DungeonService {
 
     private int ticketNeed(Defs.Dungeon d, Records.Personal mine) {
         if (d.ticketItem.isBlank() || d.ticketAmount <= 0) return 0;
-        return d.freeUntilFirstClear && mine.clears() == 0 ? 0 : d.ticketAmount;
+        return d.freeUntilFirstClear && !mine.everCleared() ? 0 : d.ticketAmount; // [기능:던전난이도] 면제도 난이도 상관없이 한 번
     }
 
-    private CompletableFuture<Records.Personal> personal(String dungeon, UUID id) {
+    private CompletableFuture<Records.Personal> personal(Defs.Dungeon d, boolean hard, UUID id) {
         if (!records.ready()) return CompletableFuture.completedFuture(Records.Personal.NONE);
-        return records.personal(dungeon, id);
+        return records.personal(d.recordKey(hard), d.recordKey(!hard), id); // [기능:던전난이도]
     }
 
     private CompletableFuture<Holder> best(String dungeon) {
@@ -337,6 +395,7 @@ final class DungeonService {
             case DungeonProtocol.C_REJECT -> acceptAnswer(p, a.session(), false);
             case DungeonProtocol.C_PING -> ping(p, a.json());
             // [기능:파티던전 끝]
+            case DungeonProtocol.C_DIFFICULTY -> difficultyPressed(p, a.session(), a.json()); // [기능:던전난이도]
             default -> { }
         }
     }
@@ -430,16 +489,17 @@ final class DungeonService {
         if (!allowed(p, d)) { ChacaLink.notify(p, "warning", "dungeon:locked", d.name, d.lockMessage, 3000); return; }
         if (d.partySize > 1) { startParty(p, d); return; } // [기능:파티던전]
         busy.add(id);
-        personal(d.id, id).whenComplete((mine, error) -> Bukkit.getScheduler().runTask(plugin, () -> {
+        boolean hard = pickedHard(id, d); // [기능:던전난이도]
+        personal(d, hard, id).whenComplete((mine, error) -> Bukkit.getScheduler().runTask(plugin, () -> {
             try {
-                enterChecked(p, d, session, error == null ? mine : Records.Personal.NONE);
+                enterChecked(p, d, session, error == null ? mine : Records.Personal.NONE, hard);
             } finally {
                 if (!runs.containsKey(id)) busy.remove(id);
             }
         }));
     }
 
-    private void enterChecked(Player p, Defs.Dungeon d, int session, Records.Personal mine) {
+    private void enterChecked(Player p, Defs.Dungeon d, int session, Records.Personal mine, boolean hard) {
         UUID id = p.getUniqueId();
         if (!p.isOnline() || p.isDead() || runs.containsKey(id)) return;
         // 다시 확인: 세션·칸·입장권·설정 (화면에 보인 빈자리를 믿지 않는다)
@@ -469,12 +529,13 @@ final class DungeonService {
             return;
         }
         var run = new Run(id, slot, need, d.ticketItem);
+        run.hard = hard; // [기능:던전난이도]
         slot.state = State.RESERVED; slot.holder = id; slot.run = run;
         runs.put(id, run);
         near.remove(id);
         send(p, new DungeonProtocol.CloseMsg());
         send(p, new DungeonProtocol.QueueMsg(new DungeonProtocol.Queue(DungeonProtocol.Q_NONE, "", 0, 0, 0, 0, 0, 0)));
-        plugin.getLogger().info("입장 " + p.getName() + " → " + d.id + " " + slot.no + "번 칸 (입장권 " + need + ") run=" + run.id);
+        plugin.getLogger().info("입장 " + p.getName() + " → " + d.id + (hard ? " 하드" : " 이지") + " " + slot.no + "번 칸 (입장권 " + need + ") run=" + run.id);
         travel(run, p, start);
     }
 
@@ -871,6 +932,7 @@ final class DungeonService {
         e.addScoreboardTag("chaca_dungeon");
         run.mobs.put(e.getUniqueId(), room);
         mobOwner.put(e.getUniqueId(), run);
+        scaleHealth(run, e); // [기능:던전난이도]
     }
 
     private void roomCleared(Run run, Defs.Dungeon d, Defs.Slot def, String room) {
@@ -1004,10 +1066,10 @@ final class DungeonService {
         // 남은 문은 모두 열기 (출구까지 걸어갈 수 있게)
         for (var door : def.doors.values()) openDoor(run, door.name, false);
         // 기본 + 확률 보상 → 보스 자리 (파티당 한 벌)
-        var drops = new ArrayList<ItemStack>(build(d.baseRewards));
+        var drops = new ArrayList<ItemStack>(build(d.base(run.hard))); // [기능:던전난이도] 난이도별 보상
         int won = 0;
         var rng = java.util.concurrent.ThreadLocalRandom.current();
-        for (var r : d.randomRewards)
+        for (var r : d.random(run.hard))
             if (rng.nextDouble(100) < r.chance()) { var got = build(List.of(r)); if (!got.isEmpty()) { drops.addAll(got); won++; } }
         if (fell != null && fell.getWorld() != null) {
             Location at = fell.clone().add(0, 0.6, 0);
@@ -1029,10 +1091,10 @@ final class DungeonService {
                 (drops.isEmpty() ? "" : "보상이 보스 자리에 떨어졌어요 · ") + "출구 포탈로 나가거나 " + plugin.exitSeconds() + "초 뒤 마을로 돌아가요.");
         for (Player p : online(run)) { sendPortals(p); syncRun(run, p); }
         plugin.getLogger().info("던전 클리어 " + run.slot.dungeon + " " + run.slot.no + "번 칸 " + timeMs + "ms " + run.members.size() + "명 run=" + run.id);
-        bestCache.remove(run.slot.dungeon);
+        bestCache.remove(d.recordKey(run.hard));
         for (UUID member : List.copyOf(run.members)) {
             if (!records.ready()) { delivered(run, d, member, timeMs, null, droppedBytes, wonCount); continue; }
-            records.clear(memberRun(run, member), run.slot.dungeon, member, run.slot.no, timeMs, run.startedAt, now)
+            records.clear(memberRun(run, member), d.recordKey(run.hard), d.recordKey(!run.hard), member, run.slot.no, timeMs, run.startedAt, now) // [기능:던전난이도]
                     .whenComplete((outcome, error) -> Bukkit.getScheduler().runTask(plugin, () -> {
                         if (error != null) plugin.getLogger().severe("클리어 기록 실패 run=" + run.id + " player=" + member + ": " + error);
                         delivered(run, d, member, timeMs, error == null ? outcome : null, droppedBytes, wonCount);
@@ -1043,13 +1105,13 @@ final class DungeonService {
     /** 한 사람의 클리어 처리: 첫 클리어 보상(우편함)·클리어 명령·결과창(나갈 때). outcome=null 이면 DB 를 못 써서 첫 클리어를 모름. */
     private void delivered(Run run, Defs.Dungeon d, UUID member, long timeMs, Records.Clear outcome, List<byte[]> dropped, int won) {
         if (outcome != null && outcome.duplicate()) { plugin.getLogger().warning("이미 처리한 클리어 run=" + run.id + " player=" + member); return; }
-        if (outcome != null) bestCache.put(run.slot.dungeon, outcome.best());
+        if (outcome != null) bestCache.put(d.recordKey(run.hard), outcome.best());
         boolean first = outcome != null && outcome.firstClear();
-        String note = dropped.isEmpty() ? (d.randomRewards.isEmpty() && d.baseRewards.isEmpty() ? "설정된 기본 보상 없음" : "이번에는 떨어진 보상이 없어요")
+        String note = dropped.isEmpty() ? (d.random(run.hard).isEmpty() && d.base(run.hard).isEmpty() ? "설정된 기본 보상 없음" : "이번에는 떨어진 보상이 없어요")
                 : "보상은 보스가 쓰러진 자리에 떨어졌어요" + (won > 0 ? " (확률 보상 " + won + "개 당첨)" : "");
         var given = new ArrayList<byte[]>(dropped);
         if (first) {
-            var firstItems = build(d.firstRewards);
+            var firstItems = build(d.first(run.hard)); // [기능:던전난이도]
             if (!firstItems.isEmpty()) {
                 for (ItemStack it : firstItems) given.add(it.serializeAsBytes());
                 note += " · 첫 클리어 보상은 우편함으로 보냈어요";
@@ -1306,12 +1368,14 @@ final class DungeonService {
         }
         if (instances.firstFree(d.id) == null) { ChacaLink.notify(leader, "warning", "dungeon:full", "빈 자리가 없어요", "잠시 뒤 다시 시도해 주세요.", 3000); return; }
         busy.add(id);
+        boolean hard = hardPick.getOrDefault(id, false); // [기능:던전난이도] 파티장이 고른 난이도
         var futures = new ArrayList<CompletableFuture<Records.Personal>>();
-        for (Player mp : members) futures.add(personal(d.id, mp.getUniqueId()).exceptionally(e -> Records.Personal.NONE));
+        for (Player mp : members) futures.add(personal(d, hard, mp.getUniqueId()).exceptionally(e -> Records.Personal.NONE));
         CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new)).whenComplete((ok, error) -> Bukkit.getScheduler().runTask(plugin, () -> {
             busy.remove(id);
             if (!leader.isOnline() || runs.containsKey(id) || acceptOf.containsKey(id)) return;
             var a = new AcceptCheck(session(), d.id, id, party.get().members(), now() + plugin.acceptSeconds() * 1000L);
+            a.hard = hard; // [기능:던전난이도]
             for (int i = 0; i < members.size(); i++) {
                 Player mp = members.get(i);
                 int need = ticketNeed(d, futures.get(i).join());
@@ -1418,6 +1482,7 @@ final class DungeonService {
         broadcastAccept(a, 1);
         var run = new Run(a.leader, slot, taken.getOrDefault(a.leader, 0), d.ticketItem);
         run.party = true;
+        run.hard = a.hard; // [기능:던전난이도]
         for (Player p : players) { run.members.add(p.getUniqueId()); run.tickets.put(p.getUniqueId(), taken.getOrDefault(p.getUniqueId(), 0)); }
         slot.state = State.RESERVED; slot.holder = a.leader; slot.run = run;
         for (Player p : players) {
@@ -1427,7 +1492,7 @@ final class DungeonService {
             near.remove(m);
             send(p, new DungeonProtocol.CloseMsg());
         }
-        plugin.getLogger().info("파티 입장 " + a.members + " → " + d.id + " " + slot.no + "번 칸 run=" + run.id);
+        plugin.getLogger().info("파티 입장 " + a.members + " → " + d.id + (a.hard ? " 하드" : " 이지") + " " + slot.no + "번 칸 run=" + run.id);
         for (Player p : players) travel(run, p, start);
     }
 
@@ -1570,7 +1635,7 @@ final class DungeonService {
         Long out = run.outSince.get(id);
         long warn = out == null ? -1 : Math.max(0, plugin.leaveGraceSeconds() * 1000L - (now - out));
         long exit = run.exitAt > 0 ? Math.max(0, run.exitAt - now) : -1;
-        send(p, new DungeonProtocol.RunMsg(new DungeonProtocol.Run(true, d.name, run.elapsed(now), run.startedAt > 0, run.exitAt > 0,
+        send(p, new DungeonProtocol.RunMsg(new DungeonProtocol.Run(true, d.name + (run.hard ? " · 하드" : " · 이지"), run.elapsed(now), run.startedAt > 0, run.exitAt > 0, // [기능:던전난이도] HUD 이름에 난이도
                 Math.max(1, Math.min(Math.max(1, d.stages.size()), run.stage + 1)), d.stages.size(), stageName, goal, cur, req, run.lockedRoom != null,
                 run.party, id.equals(run.leader), run.dead.contains(id), run.alive(), run.members.size(), exit, warn)));
     }

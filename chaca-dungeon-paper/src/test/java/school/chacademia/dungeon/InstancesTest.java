@@ -89,7 +89,7 @@ class InstancesTest {
         var groups = List.of(new DungeonProtocol.RewardGroup(DungeonProtocol.R_BASE, "기본 보상", false, List.of(new byte[]{1, 2, 3}), List.of()),
                 new DungeonProtocol.RewardGroup(DungeonProtocol.R_RANDOM, "확률 보상", false, List.of(new byte[]{4}, new byte[]{5}), List.of(1250, 10000)));
         var entry = new DungeonProtocol.Entry(7, "리치의 지하 연구실", "부제", true, 99_000, holder, 2, 3, 1, 4, "던전 입장권",
-                true, DungeonProtocol.BTN_ENTER, "", true, groups, 3, 3, true, "halloween");
+                true, DungeonProtocol.BTN_ENTER, "", true, groups, 3, 3, true, "halloween", DungeonProtocol.D_HARD);
         var back = (DungeonProtocol.EntryMsg) DungeonProtocol.decodeToClient(DungeonProtocol.encode(new DungeonProtocol.EntryMsg(entry)));
         assertEquals("별빛", back.entry().best().name());
         assertEquals("용사", back.entry().best().suffix().name());

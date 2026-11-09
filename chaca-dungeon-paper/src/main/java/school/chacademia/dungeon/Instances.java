@@ -82,6 +82,8 @@ final class Instances {
         boolean has(UUID id) { return members.contains(id); }
         int alive() { int n = 0; for (UUID id : members) if (!dead.contains(id)) n++; return n; }
         // [기능:파티던전 끝]
+        /** [기능:던전난이도] 이 판이 하드인지 (입장할 때 고른 것, 파티는 파티장이 고른 것). */
+        boolean hard;
 
         Run(UUID player, Slot slot, int ticketsTaken, String ticketItem) {
             this.player = player; this.slot = slot; this.ticketsTaken = ticketsTaken; this.ticketItem = ticketItem;

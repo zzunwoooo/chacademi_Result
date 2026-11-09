@@ -44,8 +44,11 @@ final class DungeonListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     void drop(PlayerDropItemEvent e) { if (protectedHere(e.getPlayer())) e.setCancelled(true); }
 
-    /** 던전 월드에서는 죽어도 아이템·경험치 유지 (오너 결정). 진행 중이면 실패 처리. */
-    @EventHandler(priority = EventPriority.HIGHEST)
+    /**
+     * 던전 월드에서는 죽어도 아이템·경험치 유지 (오너 결정). 진행 중이면 실패 처리.
+     * [기능:던전사망인세권] 11/07 오너: 인세권(HIGH)보다 먼저 keepInventory → LOWEST (11/07 ASM 패치를 소스로 옮김).
+     */
+    @EventHandler(priority = EventPriority.LOWEST)
     void death(PlayerDeathEvent e) {
         Player p = e.getEntity();
         if (service.dungeonOfWorld(p.getWorld()) == null && service.run(p.getUniqueId()) == null) return;
@@ -108,6 +111,16 @@ final class DungeonListener implements Listener {
         var d = service.dungeonOfWorld(p.getWorld());
         if (d != null && !d.naturalRegen) e.setCancelled(true);
     }
+
+    // [기능:던전난이도 시작]
+    /** 판 안 플레이어가 몹·보스에게 받는 피해 (평타·투사체·보스 패턴 = 보스가 때린 것으로 들어옴)에 난이도 배율. 즉사(체력 0 만들기)는 그대로. */
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    void hurt(org.bukkit.event.entity.EntityDamageByEntityEvent e) {
+        if (!(e.getEntity() instanceof Player p)) return;
+        double m = service.damageMultiplier(p, e.getDamager());
+        if (Math.abs(m - 1) > 1e-6) e.setDamage(e.getDamage() * m);
+    }
+    // [기능:던전난이도 끝]
 
     /** 가장 먼저 (MythicMobs 가 몹 정보를 지우기 전에) 이름을 읽는다. */
     @EventHandler(priority = EventPriority.LOWEST)

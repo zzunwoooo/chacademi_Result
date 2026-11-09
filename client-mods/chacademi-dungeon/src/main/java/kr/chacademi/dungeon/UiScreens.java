@@ -289,6 +289,7 @@ final class UiScreens {
             Art.ui(g, "ref/right_panel", 984, 0, 688, 941, WHITE);
             Art.ui(g, "ref/entry_outer_frame", 0, 0, 1672, 941, WHITE);
             close(g, 1584, 26, 62);
+            difficultyButtons(g, e); // [기능:던전난이도]
 
             // 제목 (가운데, 양옆 장식선)
             float ts = Art.shrink(g, Art.Face.SERIF, e.name(), 66, 600, 36);
@@ -491,6 +492,27 @@ final class UiScreens {
             hit(id, bx + 14, by, bw - 28, bh, enabled);
         }
 
+        // [기능:던전난이도 시작]
+        /**
+         * 11/09 오너: 이지·하드 전환. 오른쪽 패널 맨 위(닫기 버튼 아래)에 작은 금색 버튼 두 개 (입장 버튼 그림 재사용).
+         * 고른 쪽 = 밝은 금색, 안 고른 쪽 = 어둡게. 파티 던전 파티원은 파티장이 고른 것만 보임 (눌러도 서버가 막음).
+         */
+        private void difficultyButtons(GuiGraphics g, DungeonProtocol.Entry e) {
+            if (e.difficulty() != DungeonProtocol.D_EASY && e.difficulty() != DungeonProtocol.D_HARD) return; // 옛 서버
+            boolean locked = e.partySize() > 1 && !e.leader();
+            float bw = 190, bh = bw * 178 / 1024f, gap = 14, by = 100;
+            for (int i = 0; i < 2; i++) {
+                boolean on = (i == 1) == (e.difficulty() == DungeonProtocol.D_HARD);
+                float bx = CX - gap / 2 - bw + i * (bw + gap);
+                boolean can = !on && !locked;
+                boolean hover = can && over(bx + 6, by, bw - 12, bh);
+                Art.ui(g, "ref/button_gold", bx, by, bw, bh, on ? WHITE : hover ? 0xFFB4B4B4 : 0xFF5E5E5E);
+                Art.textCenter(g, Art.Face.SERIF, i == 0 ? "이지" : "하드", bx + bw / 2, by + bh / 2, 19, on ? BTN_TEXT : SUBTLE);
+                hit(i == 0 ? "diff-easy" : "diff-hard", bx + 6, by, bw - 12, bh, can);
+            }
+        }
+        // [기능:던전난이도 끝]
+
         /** 칭호 한 줄 가운데 정렬 (접두·접미 각자 색). */
         private static void titleCenter(GuiGraphics g, DungeonProtocol.Holder h, float cx, float cy, float size, float maxW) {
             String pre = h.prefix().name(), suf = h.suffix().name();
@@ -527,6 +549,8 @@ final class UiScreens {
                 case "enter" -> Net.send(DungeonProtocol.C_ENTER, e.session());
                 case "queue" -> Net.send(DungeonProtocol.C_QUEUE_JOIN, e.session());
                 case "open-queue" -> DungeonClient.open(new QueueScreen());
+                case "diff-easy" -> Net.send(DungeonProtocol.C_DIFFICULTY, e.session(), "easy"); // [기능:던전난이도]
+                case "diff-hard" -> Net.send(DungeonProtocol.C_DIFFICULTY, e.session(), "hard"); // [기능:던전난이도]
                 default -> { }
             }
         }
