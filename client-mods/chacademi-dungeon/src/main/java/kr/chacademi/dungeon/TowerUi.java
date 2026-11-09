@@ -148,7 +148,7 @@ final class TowerUi {
             if (!o.sub().isEmpty()) Art.textCenter(g, o.sub(), W / 2, 40, 7.5f, UiScreens.MUTED);
 
             int n = Math.min(3, o.cards().size());
-            float total = n * CW + (n - 1) * GAP, x0 = (W - total) / 2, y0 = 56;
+            float total = n * CW + (n - 1) * GAP, x0 = (W - total) / 2, y0 = 52;
             for (int i = 0; i < n; i++) {
                 var c = o.cards().get(i);
                 float cx = x0 + i * (CW + GAP);
@@ -162,18 +162,18 @@ final class TowerUi {
                 hit("card" + i, cx, y0, CW, CH, !sent && ease > .6f);
             }
 
-            float by = y0 + CH + 14;
+            float by = y0 + CH + 9;
             if (o.rerolls() > 0) {
-                float bw = 150, bh = 30, bx = (W - bw) / 2;
+                float bw = 125, bh = 25, bx = (W - bw) / 2;
                 boolean hover = !sent && over(bx, by, bw, bh);
                 Art.ui(g, "tower/btn_reroll", bx, by, bw, bh, hover ? 0xFFFFFFFF : 0xE6DADADA);
-                Art.textCenter(g, Art.Face.SERIF, "다시 뽑기  ·  " + o.rerolls() + "회", bx + bw / 2 + 8, by + bh / 2 + .5f, 9, hover ? 0xFFFFFFFF : 0xFFE9DDF7);
+                Art.textCenter(g, Art.Face.SERIF, "다시 뽑기  ·  " + o.rerolls() + "회", bx + bw / 2 + 7, by + bh / 2 + .5f, 7.5f, hover ? 0xFFFFFFFF : 0xFFE9DDF7);
                 hit("reroll", bx, by, bw, bh, !sent);
             }
 
             long left = Math.max(0, o.leftMs() - (now - o.at()));
             String hint = sent ? "고르는 중…" : "카드를 눌러 고르세요 (1 · 2 · 3" + (o.rerolls() > 0 ? " · R 다시 뽑기" : "") + ")  ·  " + (left / 1000) + "초 뒤 첫 카드";
-            Art.textCenter(g, hint, W / 2, H - 9, 7, left < 10_000 ? 0xFFF2A7A7 : UiScreens.MUTED);
+            Art.textCenter(g, hint, W / 2, H - 7, 6.5f, left < 10_000 ? 0xFFF2A7A7 : UiScreens.MUTED);
         }
 
         private void drawCard(GuiGraphics g, Card c, float x, float y, int alpha, float hover, int index) {
@@ -215,7 +215,6 @@ final class TowerUi {
             int max = Math.max(1, (int) ((th - 15) / lineH));
             for (int i = 0; i < lines.size() && i < max; i++)
                 Art.textCenter(g, Art.Face.MEDIUM, lines.get(i), x + CW / 2, start + i * lineH, 5.6f, Art.argb(a, 0xEDEFF3));
-            Art.textCenter(g, String.valueOf(index + 1), x + CW / 2, y + CH - 4, 5, Art.argb(Math.round(a * .6f), 0xFFFFFF));
         }
 
         /** 설명 줄을 카드 폭에 맞게 자른다 (띄어쓰기 기준, 긴 단어는 글자 단위). */
