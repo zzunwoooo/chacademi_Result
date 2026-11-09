@@ -20,6 +20,7 @@ public final class TowerPlugin extends JavaPlugin {
         var magic = new MagicBridge(this);
         records = new Records(getLogger());
         service = new TowerService(this, magic, new Stash(getDataFolder(), getLogger()), records, new ItemsAdderItems(getLogger()));
+        TowerApi.service = service;
         reload();
         var dataDir = getDataFolder().toPath();
         records.open(dataDir.resolve(service.s.databaseFile).normalize(), dataDir.resolve("records.db")).whenComplete((ok, error) -> {
@@ -38,6 +39,7 @@ public final class TowerPlugin extends JavaPlugin {
     }
 
     @Override public void onDisable() {
+        TowerApi.service = null;
         if (service != null) service.shutdown();
         if (records != null) records.close();
     }

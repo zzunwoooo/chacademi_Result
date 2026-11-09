@@ -678,6 +678,8 @@ final class TowerService {
         };
         long ms = r.elapsedMs();
         records.finish(r, cleared, reason, cardsText(r)).thenAccept(res -> Bukkit.getScheduler().runTask(plugin, () -> {
+            bestCache.remove(r.player);
+            topAt = 0;
             var online = Bukkit.getPlayer(r.player);
             if (online == null) return;
             String body = cleared + "층까지 깼어요 · " + time(ms) + (res.newBest() ? " · 새 최고 기록" : res.before().floor() > 0 ? " · 최고 " + res.before().floor() + "층" : "");
@@ -806,6 +808,33 @@ final class TowerService {
     private void fail(Player p, RuntimeException e) {
         plugin.getLogger().warning("탑 입장 실패 " + p.getName() + ": " + e);
         ChacaLink.notify(p, "error", "tower:enter", "들어가지 못했어요", "잠시 뒤에 다시 시도해 주세요", 3000);
+    }
+
+    // ───────────────────── 던전 입장창 (TowerApi) ─────────────────────
+
+    private final Map<UUID, Records.Best> bestCache = new HashMap<>();
+    private List<Records.Rank> topCache = List.of();
+    private long topAt;
+
+    /** 버튼 번호는 ChacaDungeon DungeonProtocol: 0 입장 · 1 대기 등록 · 2 대기 중 · 3 잠김 · 4 진행 중 · 5 입장 준비. */
+    Object[] entryInfo(Player p) {
+        UUID id = p.getUniqueId();
+        int button; String lock = "";
+        boolean busy = run != null && run.phase != Run.Phase.ENDED;
+        if (inRun(p)) button = 4;
+        else if (!s.missing().isEmpty() || !magic.ready()) { button = 3; lock = "탑을 준비하고 있어요"; }
+        else if (id.equals(offered)) button = 5;
+        else if (queue.contains(id)) button = 2;
+        else if (busy || (offered != null) || !queue.isEmpty()) button = 1;
+        else button = 0;
+        if (!bestCache.containsKey(id)) { bestCache.put(id, Records.Best.NONE); records.best(id).thenAccept(b -> Bukkit.getScheduler().runTask(plugin, () -> bestCache.put(id, b))); }
+        long now = System.currentTimeMillis();
+        if (now - topAt > 60_000) { topAt = now; records.top(1).thenAccept(t -> Bukkit.getScheduler().runTask(plugin, () -> topCache = t)); }
+        var mine = bestCache.get(id);
+        var line = new StringBuilder("내 최고 ").append(mine.floor() > 0 ? mine.floor() + "층" : "기록 없음");
+        if (!topCache.isEmpty()) line.append(" · 서버 최고 ").append(topCache.getFirst().floor()).append("층 ").append(ChacaLink.name(topCache.getFirst().player()));
+        if (queue.contains(id)) line.append(" · 대기 ").append(queue.indexOf(id) + 1).append("번째");
+        return new Object[]{button, lock, line.toString(), busy ? 1 : 0, 1};
     }
 
     // ───────────────────── 관리 ─────────────────────

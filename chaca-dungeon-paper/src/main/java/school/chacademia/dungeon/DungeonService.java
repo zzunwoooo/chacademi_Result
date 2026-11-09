@@ -270,6 +270,9 @@ final class DungeonService {
             ChacaLink.notify(p, "warning", "dungeon:client", d.name, "던전 화면이 없는 실행기예요. 실행기를 다시 켜서 업데이트해 주세요.", 60_000);
             return;
         }
+        // [기능:탑연결 시작] 외부 던전: 기록·버튼은 그 플러그인에서
+        if (!d.external.isBlank()) { send(p, new DungeonProtocol.EntryMsg(externalEntry(p, d, session))); return; }
+        // [기능:탑연결 끝]
         UUID id = p.getUniqueId();
         boolean hard = pickedHard(id, d); // [기능:던전난이도] 고른 난이도의 기록·보상
         personal(d, hard, id).thenCombine(best(d.recordKey(hard)), (mine, best) -> new Object[]{mine, best}).whenComplete((pair, error) -> Bukkit.getScheduler().runTask(plugin, () -> {
@@ -334,6 +337,37 @@ final class DungeonService {
                 hard ? DungeonProtocol.D_HARD : DungeonProtocol.D_EASY); // [기능:던전난이도]
     }
 
+    // [기능:탑연결 시작]
+    private DungeonProtocol.Entry externalEntry(Player p, Defs.Dungeon d, int session) {
+        var info = TowerLink.info(d.external, p);
+        var groups = new ArrayList<DungeonProtocol.RewardGroup>();
+        addGroup(groups, DungeonProtocol.R_BASE, "기본 보상", false, d.baseRewards);
+        addGroup(groups, DungeonProtocol.R_FIRST, "첫 도달 보상", false, d.firstRewards);
+        addGroup(groups, DungeonProtocol.R_RANDOM, "확률 보상", false, d.randomRewards);
+        String ticketName = d.ticketItem.isBlank() ? "" : itemName(d.ticketItem);
+        int usual = d.ticketItem.isBlank() ? 0 : d.ticketAmount;
+        String sub = d.subtitle + (info.line().isBlank() ? "" : (d.subtitle.isBlank() ? "" : " · ") + info.line());
+        return new DungeonProtocol.Entry(session, d.name, sub, false, -1, Holder.NONE, info.active(), info.max(), usual,
+                usual == 0 ? 0 : countTickets(p, d.ticketItem), ticketName, false, info.button(), info.lock(), !d.naturalRegen, groups,
+                1, 1, true, d.art, DungeonProtocol.D_NONE);
+    }
+
+    /** 외부 던전 입장·대기 버튼: 그 플러그인에 넘기고 입장창을 닫는다 (탑이 순서·입장권을 직접 처리). */
+    private boolean externalPressed(Player p, int session, boolean enter) {
+        var d = dungeonForSession(p.getUniqueId(), session);
+        if (d == null || d.external.isBlank()) return false;
+        if (!allowed(p, d)) { ChacaLink.notify(p, "warning", "dungeon:locked", d.name, d.lockMessage, 3000); return true; }
+        TowerLink.enter(d.external, p);
+        Bukkit.getScheduler().runTaskLater(plugin, () -> { if (p.isOnline() && near.containsKey(p.getUniqueId())) openEntry(p, d, session); }, 10L);
+        return true;
+    }
+    private void externalLeave(Player p) {
+        var n = near.get(p.getUniqueId());
+        var d = n == null ? null : dungeons.get(n.dungeon());
+        if (d != null && !d.external.isBlank()) TowerLink.leaveQueue(d.external, p);
+    }
+    // [기능:탑연결 끝]
+
     private void addGroup(List<DungeonProtocol.RewardGroup> out, int kind, String label, boolean done, List<Defs.Reward> list) {
         var items = new ArrayList<byte[]>();
         var chances = new ArrayList<Integer>();
@@ -385,9 +419,9 @@ final class DungeonService {
 
     void action(Player p, DungeonProtocol.Action a) {
         switch (a.kind()) {
-            case DungeonProtocol.C_ENTER -> enter(p, a.session());
-            case DungeonProtocol.C_QUEUE_JOIN -> queueJoin(p, a.session());
-            case DungeonProtocol.C_QUEUE_LEAVE -> queueLeave(p);
+            case DungeonProtocol.C_ENTER -> { if (!externalPressed(p, a.session(), true)) enter(p, a.session()); } // [기능:탑연결]
+            case DungeonProtocol.C_QUEUE_JOIN -> { if (!externalPressed(p, a.session(), false)) queueJoin(p, a.session()); } // [기능:탑연결]
+            case DungeonProtocol.C_QUEUE_LEAVE -> { externalLeave(p); queueLeave(p); } // [기능:탑연결]
             case DungeonProtocol.C_EDIT -> plugin.editor().action(p, a.json());
             case DungeonProtocol.C_EXIT -> exitPressed(p);
             // [기능:파티던전 시작]

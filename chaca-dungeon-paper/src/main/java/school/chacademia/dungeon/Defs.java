@@ -133,6 +133,8 @@ final class Defs {
         int partySize = 1;
         /** 입장창 배경 그림 이름 (클라 textures/gui/art/&lt;art&gt;.png). 빈 값 = 기본 배경. */
         String art = "";
+        /** [기능:탑연결] 다른 플러그인이 맡는 던전 (예: "tower" = ChacaTower). 입장창만 이 플러그인이 띄우고 입장·대기·기록은 그 플러그인. */
+        String external = "";
         // [기능:파티던전 끝]
         Loc portal, exit;
         double portalRadius = 2.5;
@@ -202,6 +204,7 @@ final class Defs {
             d.naturalRegen = s.getBoolean("natural-regen", false);
             d.partySize = Math.max(1, Math.min(5, s.getInt("party-size", 1))); // [기능:파티던전]
             d.art = s.getString("art", ""); // [기능:파티던전]
+            d.external = s.getString("external", ""); // [기능:탑연결]
             for (var m : s.getMapList("stages")) {
                 var st = new Stage();
                 st.name = str(m.get("name"));
@@ -321,6 +324,7 @@ final class Defs {
         s.set("natural-regen", d.naturalRegen);
         s.set("party-size", d.partySize); // [기능:파티던전]
         s.set("art", d.art); // [기능:파티던전]
+        if (!d.external.isBlank()) s.set("external", d.external); // [기능:탑연결]
         var stages = new ArrayList<Map<String, Object>>();
         for (var st : d.stages) {
             var m = new LinkedHashMap<String, Object>();
