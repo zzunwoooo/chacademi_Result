@@ -66,9 +66,6 @@ final class Settings {
         }
     }
 
-    /** 층수 보상: 처음 도달 때 / 매번. 한 줄 = "id 수량". */
-    record FloorReward(List<String> first, List<String> every) {}
-
     final String name;
     final int floors;
     final String ticketItem;
@@ -85,7 +82,6 @@ final class Settings {
     final int rerolls;
     final double firstCardOtherSpellChance;
     final List<String> basicSpells, excludedSpells;
-    final Map<Integer, FloorReward> floorRewards = new LinkedHashMap<>();
     final String databaseFile;
     final double startIntelligence;
 
@@ -124,11 +120,6 @@ final class Settings {
         firstCardOtherSpellChance = Math.clamp(c.getDouble("first-card-other-spell-chance", 0.1), 0, 1);
         basicSpells = List.copyOf(c.getStringList("basic-spells"));
         excludedSpells = List.copyOf(c.getStringList("excluded-spells"));
-        var fr = c.getConfigurationSection("floor-rewards");
-        if (fr != null) for (String k : fr.getKeys(false)) {
-            try { floorRewards.put(Integer.parseInt(k), new FloorReward(fr.getStringList(k + ".first"), fr.getStringList(k + ".every"))); }
-            catch (NumberFormatException ignored) {}
-        }
         startIntelligence = Math.max(0, c.getDouble("start-intelligence", 10));
         databaseFile = c.getString("database-file", "../MagicCodexBridge/player-state-database.properties");
     }

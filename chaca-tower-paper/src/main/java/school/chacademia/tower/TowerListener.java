@@ -73,6 +73,32 @@ final class TowerListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     void onDrag(InventoryDragEvent e) { if (e.getInventory().getHolder() instanceof CardMenu) e.setCancelled(true); }
 
+    /** 보상 설정 창: 고르는 창은 잠그고, 편집 상자는 자유롭게 (닫을 때 저장). */
+    @EventHandler(ignoreCancelled = true)
+    void onRewardMenu(InventoryClickEvent e) {
+        if (!(e.getInventory().getHolder() instanceof Rewards.Menu menu) || !(e.getWhoClicked() instanceof Player p)) return;
+        e.setCancelled(true);
+        if (e.getClickedInventory() != e.getInventory()) return;
+        String target = menu.target(e.getRawSlot());
+        if (target == null) return;
+        var r = service.rewards;
+        if (target.equals("guardian") && (e.isLeftClick() || e.isRightClick()) && !e.isShiftClick()) {
+            r.guardianChance = Math.clamp(r.guardianChance + (e.isLeftClick() ? 5 : -5), 0, 100);
+            r.save();
+            org.bukkit.Bukkit.getScheduler().runTask(service.plugin(), () -> p.openInventory(r.new Menu().getInventory()));
+            return;
+        }
+        org.bukkit.Bukkit.getScheduler().runTask(service.plugin(), () -> p.openInventory(r.new Edit(target).getInventory()));
+    }
+
+    @EventHandler
+    void onRewardEditClose(InventoryCloseEvent e) {
+        if (!(e.getInventory().getHolder() instanceof Rewards.Edit edit) || !(e.getPlayer() instanceof Player p)) return;
+        edit.save();
+        ChacaLink.ok(p, Rewards.title(edit.target) + " 보상을 저장했어요");
+        org.bukkit.Bukkit.getScheduler().runTask(service.plugin(), () -> { if (p.isOnline()) p.openInventory(service.rewards.new Menu().getInventory()); });
+    }
+
     @EventHandler
     void onClose(InventoryCloseEvent e) {
         if (e.getInventory().getHolder() instanceof CardMenu && e.getPlayer() instanceof Player p) service.menuClosed(p);

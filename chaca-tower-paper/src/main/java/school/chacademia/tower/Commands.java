@@ -56,7 +56,7 @@ final class Commands {
             @Override public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
                 String sub = args.length == 0 ? "" : args[0];
                 switch (sub) {
-                    case "다시불러오기" -> { plugin.reload(); ChacaLink.ok(sender, "config.yml 을 다시 읽었어요" + missing()); }
+                    case "다시불러오기" -> { plugin.reload(); service().rewards.load(); ChacaLink.ok(sender, "config.yml 을 다시 읽었어요" + missing()); }
                     case "상태" -> ChacaLink.ok(sender, "탑: " + service().status() + missing());
                     case "강제종료" -> {
                         var r = service().current();
@@ -68,6 +68,7 @@ final class Commands {
                     default -> {
                         if (!(sender instanceof Player p)) { ChacaLink.fail(sender, "게임 안에서만 쓸 수 있어요"); return true; }
                         switch (sub) {
+                            case "보상" -> p.openInventory(service().rewards.new Menu().getInventory());
                             case "설정도구" -> { p.getInventory().addItem(plugin.tool().item()); ChacaLink.ok(p, "설정 도구를 줬어요. 블록 좌클릭 = 모서리1, 우클릭 = 모서리2"); }
                             case "시작" -> save(p, "locations.start", "층 시작 위치");
                             case "출구" -> save(p, "locations.exit", "출구");
@@ -77,7 +78,7 @@ final class Commands {
                                 try { service().jumpFloor(p, Integer.parseInt(args[1])); ChacaLink.ok(p, args[1] + "층으로 옮겼어요"); }
                                 catch (NumberFormatException e) { ChacaLink.fail(p, "층 번호는 숫자로 적어 주세요"); }
                             }
-                            default -> ChacaLink.ok(p, "/탑관리 설정도구 · 시작 · 출구 · 입구 · 상태 · 다시불러오기 · 강제종료 · 층 <번호>");
+                            default -> ChacaLink.ok(p, "/탑관리 보상 · 설정도구 · 시작 · 출구 · 입구 · 상태 · 다시불러오기 · 강제종료 · 층 <번호>");
                         }
                     }
                 }
@@ -85,7 +86,7 @@ final class Commands {
             }
 
             @Override public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-                return args.length == 1 ? starts(List.of("설정도구", "시작", "출구", "입구", "상태", "다시불러오기", "강제종료", "층"), args[0]) : List.of();
+                return args.length == 1 ? starts(List.of("보상", "설정도구", "시작", "출구", "입구", "상태", "다시불러오기", "강제종료", "층"), args[0]) : List.of();
             }
         };
     }

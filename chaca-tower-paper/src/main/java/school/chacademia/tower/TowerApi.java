@@ -17,6 +17,13 @@ public final class TowerApi {
         return s.entryInfo(p);
     }
 
+    /** 입장창 보상 칸: {도달 보상 아이템들, 아직 안 받은 첫 도달 보상, 수문장 보상, 수문장 확률(%)}. 아이템 = serializeAsBytes. */
+    public static Object[] rewards(Player p) {
+        var s = service;
+        if (s == null) return new Object[]{java.util.List.of(), java.util.List.of(), java.util.List.of(), 0};
+        return s.entryRewards(p);
+    }
+
     public static void enter(Player p) { if (service != null) service.enter(p); }
 
     public static void leaveQueue(Player p) { if (service != null) service.leaveQueue(p); }

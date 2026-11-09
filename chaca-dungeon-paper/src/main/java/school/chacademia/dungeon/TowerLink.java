@@ -32,6 +32,13 @@ final class TowerLink {
         } catch (ReflectiveOperationException | RuntimeException e) { return Info.OFF; }
     }
 
+    /** 입장창 보상 칸 (탑): {도달, 첫 도달, 수문장, 확률%}. 실패하면 null. */
+    static Object[] rewards(String external, Player p) {
+        if (!external.equals("tower")) return null;
+        try { return (Object[]) api().getMethod("rewards", Player.class).invoke(null, p); }
+        catch (ReflectiveOperationException | RuntimeException e) { return null; }
+    }
+
     static boolean enter(String external, Player p) { return call(external, "enter", p); }
 
     static boolean leaveQueue(String external, Player p) { return call(external, "leaveQueue", p); }

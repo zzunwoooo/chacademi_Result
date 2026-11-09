@@ -28,6 +28,8 @@ final class Run {
     final List<String> spells = new ArrayList<>();
     final Map<String, Integer> taken = new LinkedHashMap<>();
     final Set<String> relics = new HashSet<>();
+    /** 수문장 보상이 당첨된 층 (판이 끝나고 지급). */
+    final List<Integer> pendingRewards = new ArrayList<>();
     int intelligence;
     double maxHealthBonus;
     double damageBonus;     // 0.10 = +10%

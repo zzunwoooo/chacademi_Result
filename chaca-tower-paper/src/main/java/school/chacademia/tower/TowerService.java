@@ -46,6 +46,7 @@ final class TowerService {
     private final Records records;
     private final ItemsAdderItems items;
     private final NamespacedKey hpKey, speedKey;
+    final Rewards rewards;
 
     Settings s;
     private Run run;
@@ -64,6 +65,7 @@ final class TowerService {
         this.floors = new Floors(plugin);
         this.hpKey = new NamespacedKey(plugin, "tower_hp");
         this.speedKey = new NamespacedKey(plugin, "tower_speed");
+        this.rewards = new Rewards(plugin);
     }
 
     void apply(Settings next) { s = next; }
@@ -73,6 +75,8 @@ final class TowerService {
     boolean blockedCommand(String cmd) { return BLOCKED.contains(cmd); }
 
     Run current() { return run; }
+
+    TowerPlugin plugin() { return plugin; }
 
     // ───────────────────── 입장 ─────────────────────
 
@@ -590,6 +594,7 @@ final class TowerService {
 
     void mobDied(Entity e) {
         if (run == null || !run.mobs.remove(e.getUniqueId())) return;
+        if (floors.kind(e).equals("guardian")) rewards.guardian(run, run.floor);
         Player p = runner;
         if (p != null && run.harvest > 0) heal(p, run.harvest);
         if (run.relics.contains("ECHO") && e instanceof LivingEntity dead) {
@@ -681,11 +686,12 @@ final class TowerService {
             bestCache.remove(r.player);
             topAt = 0;
             var online = Bukkit.getPlayer(r.player);
+            rewards.finish(r.player, r, cleared, res.before().floor());
+            rewards.guardianAfter(r.player, online, r);
             if (online == null) return;
             String body = cleared + "층까지 깼어요 · " + time(ms) + (res.newBest() ? " · 새 최고 기록" : res.before().floor() > 0 ? " · 최고 " + res.before().floor() + "층" : "");
             ChacaLink.notify(online, reason.equals("clear") ? "shop" : "system", "tower:end", head, body, 0);
             online.showTitle(Title.title(Component.text(head, reason.equals("clear") ? NamedTextColor.GOLD : NamedTextColor.WHITE), Component.text(body, NamedTextColor.GRAY)));
-            floorRewards(online, cleared, res.before().floor());
         }));
         run = null;
         runner = null;
@@ -773,26 +779,6 @@ final class TowerService {
         if (run != null && runner != null && runner.isOnline()) end(runner, "shutdown");
     }
 
-    private void floorRewards(Player p, int cleared, int previousBest) {
-        for (var en : s.floorRewards.entrySet()) {
-            int at = en.getKey();
-            if (cleared < at) continue;
-            if (at > previousBest) for (String line : en.getValue().first()) reward(p, line);
-            for (String line : en.getValue().every()) reward(p, line);
-        }
-    }
-
-    /** "id 수량" 또는 "cmd:콘솔명령 {player}". */
-    private void reward(Player p, String line) {
-        if (line == null || line.isBlank()) return;
-        if (line.startsWith("cmd:")) { Bukkit.dispatchCommand(Bukkit.getConsoleSender(), line.substring(4).replace("{player}", p.getName())); return; }
-        String[] a = line.trim().split("\\s+");
-        int amount = a.length > 1 ? Integer.parseInt(a[1]) : 1;
-        ItemStack it = a[0].startsWith("minecraft:") ? new ItemStack(Material.matchMaterial(a[0]), amount) : items.create(a[0], amount);
-        if (it == null) { plugin.getLogger().warning("층수 보상 아이템 없음: " + line); return; }
-        give(p, it);
-    }
-
     private static String cardsText(Run r) {
         var sb = new StringBuilder();
         r.taken.forEach((k, v) -> sb.append(sb.isEmpty() ? "" : ",").append(k).append('x').append(v));
@@ -815,6 +801,13 @@ final class TowerService {
     private final Map<UUID, Records.Best> bestCache = new HashMap<>();
     private List<Records.Rank> topCache = List.of();
     private long topAt;
+
+    Object[] entryRewards(Player p) {
+        var best = bestCache.getOrDefault(p.getUniqueId(), Records.Best.NONE).floor();
+        return new Object[]{bytes(rewards.tierPreview()), bytes(rewards.firstPreview(best)), bytes(rewards.guardianPreview()), (int) Math.round(rewards.guardianChance)};
+    }
+
+    private static List<byte[]> bytes(List<ItemStack> items) { return items.stream().map(ItemStack::serializeAsBytes).toList(); }
 
     /** 버튼 번호는 ChacaDungeon DungeonProtocol: 0 입장 · 1 대기 등록 · 2 대기 중 · 3 잠김 · 4 진행 중 · 5 입장 준비. */
     Object[] entryInfo(Player p) {

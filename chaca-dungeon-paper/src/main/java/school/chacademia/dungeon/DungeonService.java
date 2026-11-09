@@ -341,9 +341,14 @@ final class DungeonService {
     private DungeonProtocol.Entry externalEntry(Player p, Defs.Dungeon d, int session) {
         var info = TowerLink.info(d.external, p);
         var groups = new ArrayList<DungeonProtocol.RewardGroup>();
-        addGroup(groups, DungeonProtocol.R_BASE, "기본 보상", false, d.baseRewards);
-        addGroup(groups, DungeonProtocol.R_FIRST, "첫 도달 보상", false, d.firstRewards);
-        addGroup(groups, DungeonProtocol.R_RANDOM, "확률 보상", false, d.randomRewards);
+        var rw = TowerLink.rewards(d.external, p);
+        if (rw != null) {
+            @SuppressWarnings("unchecked") List<byte[]> tier = (List<byte[]>) rw[0], first = (List<byte[]>) rw[1], guard = (List<byte[]>) rw[2];
+            int chance = (Integer) rw[3];
+            if (!tier.isEmpty()) groups.add(new DungeonProtocol.RewardGroup(DungeonProtocol.R_BASE, "도달 보상", false, tier, List.of()));
+            if (!guard.isEmpty()) groups.add(new DungeonProtocol.RewardGroup(DungeonProtocol.R_RANDOM, "수문장 보상", false, guard, java.util.Collections.nCopies(guard.size(), chance * 100)));
+            if (!first.isEmpty()) groups.add(new DungeonProtocol.RewardGroup(DungeonProtocol.R_FIRST, "첫 도달 보상", false, first, List.of()));
+        }
         String ticketName = d.ticketItem.isBlank() ? "" : itemName(d.ticketItem);
         int usual = d.ticketItem.isBlank() ? 0 : d.ticketAmount;
         String sub = d.subtitle + (info.line().isBlank() ? "" : (d.subtitle.isBlank() ? "" : " · ") + info.line());

@@ -104,9 +104,7 @@ basic-spells: []
 # 탑 마법 카드에서 빼는 마법 id
 excluded-spells: []
 
-# 층수 보상 (판이 끝났을 때 도달 층 기준, 처음 도달한 층 보상 + 매번 보상). 오너가 나중에 채움.
-# 예) '10': {first: ['item:money_pouch 3'], every: ['item:core_unidentified 1']}
-floor-rewards: {}
+# 보상은 인게임 /탑관리 보상 창에서 넣는다 (rewards.yml 에 저장): 도달 보상(5층마다 구간, 가장 높은 것 하나) · 첫 도달(10·20·30·40·50층) · 수문장(확률).
 
 # 기록 DB: MagicCodexBridge 공용 MariaDB 설정 (없거나 sqlite 면 이 폴더의 records.db)
 database-file: ../MagicCodexBridge/player-state-database.properties
