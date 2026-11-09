@@ -36,4 +36,8 @@ interface Magic {
 
     /** 탑 안 마나 최대치·초당 회복을 이 값으로 고정 (restore 가 푼다). */
     void pinMana(Player p, double max, double regen);
+
+    /** 들어갈 때 진짜로 배운 마법(LuckPerms 권한) 목록을 기억해 두고, 나갈 때 그 사이 새로 붙은 것을 뗀다 (탑 안에서는 영구 습득 없음). */
+    void rememberLearned(Player p);
+    void unlearnNew(Player p);
 }

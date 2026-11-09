@@ -108,6 +108,7 @@ final class TowerService {
         p.setAbsorptionAmount(0); p.setFireTicks(0); p.setFreezeTicks(0); p.setArrowsInBody(0); p.setFallDistance(0);
         p.setRemainingAir(p.getMaximumAir()); p.setExhaustion(0);
         magic.dismissPets(p);
+        magic.rememberLearned(p);
         try { magic.enterTower(p); }
         catch (RuntimeException e) {
             plugin.getLogger().severe("탑 마법 초기화 실패 " + p.getName() + ": " + e);
@@ -125,8 +126,8 @@ final class TowerService {
         applyAttributes(p);
         magic.pinMana(p, s.startMana, s.startManaRegen);
         fullHeal(p);
-        p.setFoodLevel(20); p.setSaturation(10);
-        p.getInventory().addItem(new ItemStack(Material.BREAD, 6));
+        p.setFoodLevel(20); p.setSaturation(20);
+        if (s.startPotions > 0) give(p, potion(Material.SPLASH_POTION, PotionType.HEALING, s.startPotions));
         p.showTitle(Title.title(Component.text(s.name, NamedTextColor.LIGHT_PURPLE), Component.text("시작 마법을 골라요", NamedTextColor.GRAY)));
         // 시작 카드 (기본 공격 마법)
         run.firstPick = true;
@@ -358,7 +359,11 @@ final class TowerService {
         return it;
     }
 
+    /** 탑이 준 물건 표시 (끝날 때 이 표시가 없는 물건은 바깥에서 들어온 것 → 가방·우편으로). */
+    private final NamespacedKey towerItemKey = new NamespacedKey("chacatower", "tower_item");
+
     private void give(Player p, ItemStack it) {
+        it.editMeta(m -> m.getPersistentDataContainer().set(towerItemKey, org.bukkit.persistence.PersistentDataType.BYTE, (byte) 1));
         for (var left : p.getInventory().addItem(it).values()) p.getWorld().dropItem(p.getLocation(), left);
     }
 
@@ -511,6 +516,8 @@ final class TowerService {
         applyAttributes(p);
         magic.dismissPets(p);
         magic.pinMana(p, s.startMana, s.startManaRegen);
+        // 배고픔 무한 (자연 회복은 TowerListener 가 막는다)
+        p.setFoodLevel(20); p.setSaturation(20); p.setExhaustion(0);
         // 방 밖 검사
         var box = s.room();
         if (box != null && !(p.getWorld().getName().equals(s.start.world()) && box.contains(p.getLocation()))) {
@@ -690,6 +697,11 @@ final class TowerService {
         client.close(p);
         if (p.getOpenInventory().getTopInventory().getHolder() instanceof CardMenu) p.closeInventory();
         int cleared = reason.equals("clear") ? s.floors : r.floor - 1;
+        var outside = new ArrayList<ItemStack>();
+        for (var it : p.getInventory().getContents())
+            if (it != null && !it.getType().isAir() && !(it.hasItemMeta() && it.getItemMeta().getPersistentDataContainer().has(towerItemKey)) && !it.getType().isEdible()) outside.add(it.clone());
+        if (!outside.isEmpty()) rewards.forward(r.player, outside, String.valueOf(r.runId));
+        magic.unlearnNew(p);
         giveBack(p);
         var exit = s.exit != null ? s.exit.location() : s.portal != null ? s.portal.location() : null;
         if (exit != null) p.teleport(exit);

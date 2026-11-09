@@ -119,9 +119,12 @@ final class Cards {
         if (first) {
             var basics = magic.basicSpells(s);
             var others = magic.combatSpells(s);
+            // 첫 카드는 반드시 마법 3장: 기본 공격 마법에서 뽑고, 모자라면 다른 공격 마법으로 채운다
             for (int i = 0; i < 3; i++) {
                 var pool = !others.isEmpty() && rng.nextDouble() < s.firstCardOtherSpellChance ? others : basics;
                 var sp = pickSpell(pool.isEmpty() ? others : pool, usedSpells, 99);
+                if (sp == null) sp = pickSpell(others, usedSpells, 99);
+                if (sp == null) sp = pickSpell(basics, usedSpells, 99);
                 if (sp == null) break;
                 usedSpells.add(sp.id());
                 out.add(new Card(Type.SPELL, gradeOfCircle(sp.circle()), sp.id(), sp.name()));

@@ -105,6 +105,12 @@ final class Rewards {
             ChacaLink.notify(p, "shop", "tower:guardian", "수문장 보상", "수문장 " + run.pendingRewards.size() + "마리 보상을 받았어요", 0);
     }
 
+    /** 탑 안에서 다른 플러그인이 가방에 넣어 준 물건(의뢰 보상 등): 탑 소지품과 함께 사라지지 않게 가방·우편으로 보낸다. */
+    void forward(UUID owner, List<ItemStack> items, String runId) {
+        if (items.isEmpty()) return;
+        give(owner, items, "tower:" + runId + ":forward:" + System.currentTimeMillis(), "무한의 탑에서 받은 물건", "탑 안에서 받은 물건을 보내 드려요.");
+    }
+
     private void give(UUID owner, List<ItemStack> items, String source, String title, String body) {
         var copy = items.stream().map(ItemStack::clone).toList();
         Plugin bridge = Bukkit.getPluginManager().getPlugin("MagicCodexBridge");

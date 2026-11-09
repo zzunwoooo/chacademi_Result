@@ -85,6 +85,7 @@ final class Settings {
     final String databaseFile;
     final double startIntelligence;
     final double startMana, startManaRegen;
+    final int startPotions;
 
     Settings(FileConfiguration c) {
         name = c.getString("name", "무한의 탑");
@@ -123,7 +124,9 @@ final class Settings {
         excludedSpells = List.copyOf(c.getStringList("excluded-spells"));
         startIntelligence = Math.max(0, c.getDouble("start-intelligence", 10));
         startMana = Math.max(1, c.getDouble("start-mana", 100));
-        startManaRegen = Math.max(0, c.getDouble("start-mana-regen", 5));
+        startPotions = Math.max(0, c.getInt("start-potions", 3));
+        double regen = c.getDouble("start-mana-regen", 0);
+        startManaRegen = regen > 0 ? regen : startMana * 0.10; // 규칙: 기본 회복 = 최대 마나의 10%
         databaseFile = c.getString("database-file", "../MagicCodexBridge/player-state-database.properties");
     }
 

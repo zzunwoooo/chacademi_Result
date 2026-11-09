@@ -95,9 +95,11 @@ grades:
   legendary: {name: 전설, color: '#FFD582', floor1: 1,  floor50: 7}
 # 탑 안 지능: 시작 값. 탑 안에서는 원래 지능(마법봉·장신구 포함) 대신 "시작 값 + 지능 카드" 로 친 것처럼 피해를 맞춘다.
 start-intelligence: 20
-# 탑 안 마나 최대치·초당 회복 (장신구·펫·아티팩트 보너스는 모두 빠지고 이 값으로 고정)
+# 탑 안 마나 최대치 (장신구·펫·아티팩트 보너스는 모두 빠지고 이 값으로 고정). 초당 회복은 규칙대로 최대치의 10% (start-mana-regen 에 값을 적으면 그 값)
 start-mana: 100
-start-mana-regen: 5
+start-mana-regen: 0
+# 시작 때 주는 회복 포션 개수 (즉시 회복 투척 포션)
+start-potions: 3
 # 판마다 다시 뽑기 횟수
 rerolls: 1
 # 첫 카드에서 기본 공격 마법이 아닌 다른 마법이 섞일 확률

@@ -215,6 +215,60 @@ final class MagicBridge implements Magic {
         catch (ReflectiveOperationException | RuntimeException e) { plugin.getLogger().warning("마나 되돌리기 실패: " + e); }
     }
 
+    // ── 탑 안 영구 습득 막기: 들어갈 때 LuckPerms 에 있는 magic.learned.* true 노드를 기억, 나갈 때 새로 생긴 것을 뗀다 (콘솔 lp 명령)
+    private final Map<UUID, java.util.Set<String>> learnedAtEntry = new HashMap<>();
+
+    /** LuckPerms 유저의 영구 노드 중 magic.learned.* = true (리플렉션, LP 없으면 빈 목록). */
+    private java.util.Set<String> learnedNow(Player p) {
+        var out = new java.util.HashSet<String>();
+        try {
+            var provider = Class.forName("net.luckperms.api.LuckPermsProvider");
+            var lp = provider.getMethod("get").invoke(null);
+            var um = lp.getClass().getMethod("getUserManager").invoke(lp);
+            var user = um.getClass().getMethod("getUser", UUID.class).invoke(um, p.getUniqueId());
+            if (user == null) return out;
+            var nodes = (java.util.Collection<?>) user.getClass().getMethod("getNodes").invoke(user);
+            for (var n : nodes) {
+                String key = (String) n.getClass().getMethod("getKey").invoke(n);
+                boolean value = (Boolean) n.getClass().getMethod("getValue").invoke(n);
+                if (value && key.startsWith("magic.learned.")) out.add(key);
+            }
+        } catch (ReflectiveOperationException | RuntimeException e) { plugin.getLogger().warning("배운 마법 목록 읽기 실패: " + e); return null; }
+        return out;
+    }
+
+    @Override public void rememberLearned(Player p) {
+        var now = learnedNow(p);
+        if (now != null) learnedAtEntry.put(p.getUniqueId(), now);
+    }
+
+    @Override public void unlearnNew(Player p) {
+        var before = learnedAtEntry.remove(p.getUniqueId());
+        if (before == null) return;
+        var now = learnedNow(p);
+        if (now == null) return;
+        for (String perm : now) {
+            if (before.contains(perm)) continue;
+            String id = perm.substring("magic.learned.".length());
+            plugin.getLogger().warning("탑 안에서 영구 습득이 생겨 되돌림: " + p.getName() + " " + id);
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + p.getUniqueId() + " permission unset " + perm);
+            forgetInDiscovery(p, id);
+        }
+    }
+
+    /** 발견 플러그인(MagicDiscovery) 의 습득 기록도 되돌린다: DiscoveryService.adminSetLearned(uuid, spell, false, done). 없으면 lp 만. */
+    private void forgetInDiscovery(Player p, String spell) {
+        var disc = Bukkit.getPluginManager().getPlugin("MagicDiscovery");
+        if (disc == null || !disc.isEnabled()) return;
+        try {
+            Class<?> type = Class.forName("school.magiccodex.discovery.DiscoveryService", false, disc.getClass().getClassLoader());
+            Object service = Bukkit.getServicesManager().load(type);
+            if (service == null) return;
+            java.util.function.Consumer<String> done = err -> { if (err != null) plugin.getLogger().warning("발견 기록 되돌리기 실패 " + spell + ": " + err); };
+            type.getMethod("adminSetLearned", UUID.class, String.class, boolean.class, java.util.function.Consumer.class).invoke(service, p.getUniqueId(), spell, false, done);
+        } catch (ReflectiveOperationException | RuntimeException e) { plugin.getLogger().warning("발견 플러그인 연결 실패: " + e); }
+    }
+
     private void dropAttachment(Player p) {
         var old = attachments.remove(p.getUniqueId());
         if (old != null) try { p.removeAttachment(old); } catch (IllegalArgumentException ignored) {}

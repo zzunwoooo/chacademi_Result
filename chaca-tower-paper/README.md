@@ -42,6 +42,11 @@
 - 명령은 허용 목록만 (탑·친구·채팅·화면·자동시전 등). 배낭·우편·상점 등 소지품이 바뀌는 명령은 전부 막힘.
 - 장신구 4칸(플레이어 PDC accessory_slot_0..3)도 아티팩트처럼 맡겼다가 돌려준다 (Magic.snapshot 글자에 같이). 벗긴 뒤 브리지 refreshStats 로 능력치 다시 계산.
 - 마나: ManaService 수정자 chacatower:tower 하나로 최대치·초당 회복을 start-mana / start-mana-regen 으로 고정 (tick 마다). 나갈 때 푼다.
+- 마나 회복은 규칙대로 최대치의 10% (start-mana-regen 0 = 자동). 시작 물건 = 즉시 회복 투척 포션 3개 (start-potions), 빵 없음.
+- 배고픔 무한 (FoodLevelChangeEvent 취소), 자연 회복 없음 (SATIATED 취소). 포션·카드 회복은 됨.
+- 첫 카드는 반드시 마법 3장 (기본 공격 마법, 모자라면 다른 공격 마법으로 채움).
+- 탑 안 영구 습득 막기: 들어갈 때 LuckPerms magic.learned.* 를 기억, 나갈 때 새로 생긴 것은 lp unset + MagicDiscovery adminSetLearned(false) 로 되돌림 (로그 경고).
+- 탑이 준 물건은 PDC chacatower:tower_item 표시. 끝날 때 표시 없는 물건(의뢰 보상 등 바깥에서 들어온 것)은 가방·우편으로 보냄.
 - 남은 것: 지능은 피해 환산 방식 그대로.
 
 ## 배포

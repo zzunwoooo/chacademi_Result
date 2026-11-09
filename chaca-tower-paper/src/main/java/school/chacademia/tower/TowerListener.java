@@ -55,6 +55,12 @@ final class TowerListener implements Listener {
         service.mobDied(e.getEntity());
     }
 
+    /** 탑 안에서는 배고픔이 줄지 않는다 (무한). */
+    @EventHandler(ignoreCancelled = true)
+    void onFood(org.bukkit.event.entity.FoodLevelChangeEvent e) {
+        if (e.getEntity() instanceof Player p && service.inRun(p)) { e.setCancelled(true); p.setFoodLevel(20); p.setSaturation(20); }
+    }
+
     /** 탑 안에서는 배고픔으로 체력이 차지 않는다 (회복은 카드·물약·음식 효과로만). */
     @EventHandler(ignoreCancelled = true)
     void onRegen(EntityRegainHealthEvent e) {
