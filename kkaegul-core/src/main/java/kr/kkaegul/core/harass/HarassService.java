@@ -39,8 +39,10 @@ public final class HarassService {
     /** 플러그인이 죽인 플레이어 → 인벤 유지 */
     public final Set<UUID> keepInv = ConcurrentHashMap.newKeySet();
     private final Set<UUID> touring = ConcurrentHashMap.newKeySet();
+    /** 보물광산 안 개인 괴롭히기 몬스터 = 부른 사람 전용 */
+    public final MineMobGuard mineMobs;
 
-    public HarassService(KkaegulCore plugin) { this.plugin = plugin; }
+    public HarassService(KkaegulCore plugin) { this.plugin = plugin; this.mineMobs = new MineMobGuard(plugin); }
 
     private String pick(String path) {
         ConfigurationSection s = plugin.getConfig().getConfigurationSection(path);
@@ -104,12 +106,17 @@ public final class HarassService {
         }
         List<String> types = plugin.getConfig().getStringList("harass.monster-types");
         if (types.isEmpty()) types = List.of("ZOMBIE", "SKELETON", "SPIDER", "CREEPER", "SLIME");
+        boolean inMine = plugin.mine().isInMine(p);
         for (int i = 0; i < count; i++) {
             try {
                 EntityType t = EntityType.valueOf(Rng.pick(types).toUpperCase());
                 Location l = p.getLocation().clone().add(Rng.range(-3, 3), 0, Rng.range(-3, 3));
                 l.setY(p.getLocation().getY());
-                p.getWorld().spawnEntity(l, t);
+                org.bukkit.entity.Entity en = p.getWorld().spawnEntity(l, t);
+                if (inMine) {   // 보물광산: 부른 사람만 노리고, 부른 사람만 때릴 수 있음
+                    mineMobs.tag(en, p);
+                    if (en instanceof org.bukkit.entity.Mob m) m.setTarget(p);
+                }
             } catch (IllegalArgumentException e) {
                 plugin.getLogger().warning("몬스터 종류 오류: " + e.getMessage());
             }

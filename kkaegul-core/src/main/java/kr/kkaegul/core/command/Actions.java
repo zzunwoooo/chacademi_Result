@@ -96,6 +96,7 @@ public final class Actions {
         ui.onAction("discord.link", (p, a) -> plugin.discord().link(p));
         ui.onAction("move", (p, a) -> move(p, a.getOrDefault("dest", "")));
         ui.onAction("menu.open", (p, a) -> plugin.menu().open(p, a.getOrDefault("tab", "me")));
+        ui.onAction("trash.open", (p, a) -> plugin.npcs().run(p, "trash"));   // 이동 하위 목록의 쓰레기통
     }
 
     /** 처리 뒤(거절 포함) 상점 창을 항상 갱신 → 버튼이 "..." 로 멈춰 있지 않게 */

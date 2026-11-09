@@ -53,11 +53,13 @@ public final class MineService {
         String today = plugin.clock().dayKey();
         if (!today.equals(d.mineDay)) { d.mineDay = today; d.mineMoves = 0; }
         if (d.mineMoves >= plugin.getConfig().getInt("mine.daily-moves", 3)) return;
+        if (d.inJail || plugin.minigames().busy(p)) return;
+        boolean treasure = Rng.chance(plugin.getConfig().getDouble("mine.treasure-chance", 10));
+        // 실제로 옮겨졌을 때만 하루 횟수 차감 (제한맵 구역이 없으면 그 판정은 그냥 넘어감)
+        boolean moved = treasure ? sendTreasure(p, false) : sendLimited(p);
+        if (!moved) return;
         d.mineMoves++;
         d.markDirty();
-        boolean treasure = Rng.chance(plugin.getConfig().getDouble("mine.treasure-chance", 10));
-        if (treasure) sendTreasure(p, false);
-        else sendLimited(p);
     }
 
     /** 보물광산: treasure 로 시작하는 구역 중 랜덤 한 곳. 갔으면 true */
@@ -112,13 +114,13 @@ public final class MineService {
         }
     }
 
-    public void sendLimited(Player p) {
+    public boolean sendLimited(Player p) {
         ConfigurationSection rs = regions();
         List<String> limited = new ArrayList<>();
-        if (rs != null) for (String k : rs.getKeys(false)) if (k.startsWith("limited")) limited.add(k);
+        if (rs != null) for (String k : rs.getKeys(false)) if (k.startsWith("limited") && plugin.places().get("mine." + k) != null) limited.add(k);
         String pick = Rng.pick(limited);
-        if (pick == null) return;
-        go(p, pick, "&7광산으로 끌려왔어요...");
+        if (pick == null) return false;
+        return go(p, pick, "&7광산으로 끌려왔어요...");
     }
 
     private boolean go(Player p, String region, String title) {
@@ -137,6 +139,7 @@ public final class MineService {
 
     public void leave(Player p) {
         returns.remove(p.getUniqueId());
+        plugin.harass().mineMobs.clear(p.getUniqueId());   // 내 몫 괴롭히기 몬스터 정리
         String from = origin.remove(p.getUniqueId());
         if (inMine.remove(p.getUniqueId()) == null || !p.isOnline()) return;
         Location back = Locs.fromStr(from);
@@ -148,6 +151,7 @@ public final class MineService {
     public void onQuit(Player p) {
         BukkitTask t = returns.remove(p.getUniqueId());
         if (t != null) t.cancel();
+        plugin.harass().mineMobs.clear(p.getUniqueId());
         if (inMine.remove(p.getUniqueId()) != null) markReturn(p.getUniqueId());
     }
 

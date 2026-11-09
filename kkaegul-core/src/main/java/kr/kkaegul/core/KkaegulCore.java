@@ -151,6 +151,7 @@ public final class KkaegulCore extends JavaPlugin {
 
         Bukkit.getPluginManager().registerEvents(new CoreListener(this), this);
         Bukkit.getPluginManager().registerEvents(new ItemUseListener(this), this);
+        Bukkit.getPluginManager().registerEvents(harass.mineMobs, this);
         Bukkit.getPluginManager().registerEvents(wallet, this);
         kr.kkaegul.core.api.DonationHook.install(this);
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {

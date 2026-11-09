@@ -5,23 +5,25 @@ import com.google.gson.JsonObject;
 /**
  * HUD ▼ 드롭다운 (받은 묶음 4 좌표, HUD 좌표계에서 그림).
  * 판 230×384, 꼬리 끝 (193,2) 을 HUD ▼ 아래에 맞춤. 줄 58 (첫 줄 y 24), 아이콘 (12,30+58i) 46, 글자 x 70 / 가운데 y 53+58i.
- * 이동 하위 목록 200×232 은 판 기준 (245,190), 줄 54 (아이콘 (10,12+54j), 글자 x 66 / 가운데 y 35+54j).
+ * 이동 하위 목록 200×(16+54n) 은 판 기준 (245,190), 줄 54 (아이콘 (10,12+54j), 글자 x 66 / 가운데 y 35+54j).
+ * 하위 목록 판 그림(4줄 232 높이)은 위·아래 40% 는 그대로, 가운데만 늘려서 5줄 높이로 그림.
  * 펼침: 꼬리 끝을 축으로 세로로 내려오며 커지고, 줄은 위에서부터 차례로 나타남. 닫힘은 거꾸로 짧게.
  */
 public final class DropdownPanel implements Panel {
     private static final int TXT = Canvas.BOLD | Canvas.LIGHT;
     private static final String[] ROW_ID = {"profile", "mailbox", "withdraw", "move", "ranking", "discord_link"};
     private static final String[] ROW_NAME = {"내 정보", "우편함", "인출", "이동", "랭킹", "디코 연동"};
-    private static final String[] SUB_ID = {"lobby", "village", "gacha_shop", "wild"};
-    private static final String[] SUB_NAME = {"로비", "마을", "가챠샵", "야생"};
-    private static final float PW = 230, PH = 384, TIPX = 193, TIPY = 2, SUBX = 245, SUBY = 190, SW = 200, SH = 232;
+    private static final String[] SUB_ID = {"lobby", "village", "gacha_shop", "wild", "trash"};
+    private static final String[] SUB_NAME = {"로비", "마을", "가챠샵", "야생", "쓰레기통"};
+    private static final int SUBN = SUB_ID.length;
+    private static final float PW = 230, PH = 384, TIPX = 193, TIPY = 2, SUBX = 245, SUBY = 190, SW = 200, SH = 16 + 54 * SUBN;
     private static final long OPEN = 260, CLOSE = 150;
 
     private final Host host;
     private final HudView hud;
     private final long opened;
     private long closing = -1, last;
-    private final float[] hov = new float[6], subHov = new float[4];
+    private final float[] hov = new float[6], subHov = new float[SUBN];
     private float sub, subPin;      // 하위 목록 펼침 정도
     private float px, py, hs = 1;   // 판 왼쪽 위 (HUD 좌표), HUD 배율
 
@@ -108,8 +110,11 @@ public final class DropdownPanel implements Panel {
             float ox = SUBX - 16 * (1 - se);
             c.push();
             c.translate(ox, SUBY);
-            c.image("dropdown/submenu_panel", 0, 0, SW, SH, Anim.white(sa));
-            for (int j = 0; j < 4; j++) {
+            float cap = 232 * .4f;   // 판 그림 위·아래는 그대로, 가운데만 늘림
+            c.imagePart("dropdown/submenu_panel", 0, 0, SW, cap, 0, 0, 1, .4f, Anim.white(sa));
+            c.imagePart("dropdown/submenu_panel", 0, cap, SW, SH - 2 * cap, 0, .4f, 1, .6f, Anim.white(sa));
+            c.imagePart("dropdown/submenu_panel", 0, SH - cap, SW, cap, 0, .6f, 1, 1, Anim.white(sa));
+            for (int j = 0; j < SUBN; j++) {
                 float jt = Anim.clamp(sub * 1.6f - j * .15f);
                 float ja = Anim.outCubic(jt) * sa;
                 boolean over = closing < 0 && Anim.in(lx - ox, ly - SUBY, 8, 8 + 54 * j, 184, 54);
@@ -130,9 +135,10 @@ public final class DropdownPanel implements Panel {
         float lx = mx / hs - px, ly = my / hs - py;
         // 하위 목록
         if (sub > .5f) {
-            for (int j = 0; j < 4; j++) {
+            for (int j = 0; j < SUBN; j++) {
                 if (Anim.in(lx, ly, SUBX + 8, SUBY + 8 + 54 * j, 184, 54)) {
-                    host.send("move", "dest", SUB_ID[j]);
+                    if (SUB_ID[j].equals("trash")) host.send("trash.open");
+                    else host.send("move", "dest", SUB_ID[j]);
                     host.sound("minecraft:ui.button.click", 1.2f, .4f);
                     close(now);
                     return true;
