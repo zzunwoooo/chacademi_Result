@@ -253,6 +253,7 @@ public final class CoreListener implements Listener {
         if (!(e.getEntity() instanceof Player p)) return;
         Minigame g = plugin.minigames().gameOf(p);
         if (g instanceof DangerousInviteGame dg && dg.seated.contains(p.getUniqueId())) e.setCancelled(true);
+        if (g instanceof kr.kkaegul.core.minigame.RussianRouletteGame rr && rr.seatedLock(p)) e.setCancelled(true);
     }
 
     // ───────── 데미지 / 사망 ─────────

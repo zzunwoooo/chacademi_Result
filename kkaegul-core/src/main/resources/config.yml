@@ -622,6 +622,7 @@ minigame:
     invite:   { enabled: true, every-minutes: 30 }                      # 위험한 초대: 의자 수만큼, 1분 전 회색 예고
     treasure: { enabled: true, every-minutes: 180 }                     # 보물찾기
     casino:   { enabled: true, every-minutes: 180, offset-minutes: 90 } # 홀덤·섯다 번갈아, 보물찾기와 1시간 30분 어긋나게
+    rroulette: { enabled: true, every-minutes: 120, offset-minutes: 60 }  # 러시안 룰렛: 2시간마다, 접속 인원 절반(6의 배수)
   casino:
     accept-seconds: 60          # 초대장 수락 받는 시간 (/수락 또는 채팅의 [수락])
     min-held: 50                # ★ 초대장 받는 최소 보유 다이아
@@ -694,6 +695,23 @@ minigame:
         premium: { count: 5,  label: "고급 상자", actions: ["box premium 1"], important: true }
         coin:    { count: 20, label: "깨굴코인 5개", actions: ["coins 5"] }
         lucky:   { count: 1,  label: "행운 상자", actions: ["box lucky 1"], important: true }
+    rroulette:                      # 러시안 룰렛 — 테이블(의자 6개)마다 따로, 거부 불가
+      enabled: true
+      min-players: 2
+      seats-per-table: 6            # 테이블 하나 인원. 보내는 인원 = 접속 인원 절반을 이 수의 배수로 내림 (최소 한 테이블)
+      stake: 10                     # ★ 판돈 (들어올 때 자동으로 뗌, 이만큼 없는 사람은 안 뽑힘)
+      rake-percent: 5               # 판돈 합에서 떼는 수수료(%)
+      payout: [50, 30, 20]          # ★ 1·2·3등 배당 비율 (3명 이상 테이블)
+      payout-2: [60, 40]            # 2명 테이블
+      wait-seconds: 10              # 앉은 뒤 시작까지
+      turn-seconds: 15              # ★ 차례마다 제한시간 (좌클릭 안 하면 자동 발사)
+      kill-on-hit: true             # 맞으면 사망 (아이템 유지). false = 원래 자리로 돌려보냄
+      seat-height: 0.5
+      gun-model: revolver           # ModelEngine 모델 id (plugins/ModelEngine/blueprints/revolver.bbmodel)
+      anim-prefix: "animation.revolver."
+      gun-height: 1.0               # rroulette-gun.N 위치를 안 정했을 때: 의자들 가운데 + 이 높이
+      gun-yaw-offset: 0             # 총구가 반대로 보이면 180
+      gun-fallback-item: CROSSBOW   # ModelEngine 이 없을 때 대신 띄울 아이템
 
 # ── 디스코드 보이스 자동 이동 (kkaegul-discord-bot) ─────────
 # 포커·섯다 테이블이 정해지면 같은 테이블 사람끼리 테이블별 음성 채널로 옮기고, 끝나면 원래 채널로 돌려보냄.

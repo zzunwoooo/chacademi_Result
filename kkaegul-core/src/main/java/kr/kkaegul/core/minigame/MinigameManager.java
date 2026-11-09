@@ -46,6 +46,7 @@ public final class MinigameManager {
         register(new TreasureHuntGame(plugin));
         register(new kr.kkaegul.core.casino.holdem.PokerGame(plugin));
         register(new kr.kkaegul.core.casino.seotda.SeotdaGame(plugin));
+        register(new RussianRouletteGame(plugin));
         Bukkit.getScheduler().runTaskTimer(plugin, this::tick, 20L * 10, 20L * 5);
     }
 
@@ -91,9 +92,9 @@ public final class MinigameManager {
     private long offset(String key, long def) { return Math.max(0, plugin.getConfig().getLong("minigame.schedule." + key + ".offset-minutes", def)) * 60_000L; }
     private boolean on(String key) { return plugin.getConfig().getBoolean("minigame.schedule." + key + ".enabled", true); }
 
-    private static final String[] KEYS = {"invite", "treasure", "casino"};
-    private static long defEvery(String k) { return k.equals("invite") ? 30 : 180; }
-    private static long defOffset(String k) { return k.equals("casino") ? 90 : 0; }
+    private static final String[] KEYS = {"invite", "treasure", "casino", "rroulette"};
+    private static long defEvery(String k) { return k.equals("invite") ? 30 : k.equals("rroulette") ? 120 : 180; }
+    private static long defOffset(String k) { return k.equals("casino") ? 90 : k.equals("rroulette") ? 60 : 0; }
 
     public long next(String key) {
         Long n = plugin.global().sched.get(key);
@@ -140,6 +141,7 @@ public final class MinigameManager {
         return switch (key) {
             case "invite" -> start("invite", null);
             case "treasure" -> start("treasure", null);
+            case "rroulette" -> start("rroulette", null);
             case "casino" -> {
                 String g = plugin.global().casinoTurn % 2 == 0 ? "poker" : "seotda";
                 plugin.global().casinoTurn++;
@@ -157,7 +159,7 @@ public final class MinigameManager {
         SimpleDateFormat f = new SimpleDateFormat("MM/dd HH:mm");
         f.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
         List<String> out = new ArrayList<>();
-        String[] names = {"위험한 초대", "보물찾기", "카지노(" + (plugin.global().casinoTurn % 2 == 0 ? "홀덤" : "섯다") + ")"};
+        String[] names = {"위험한 초대", "보물찾기", "카지노(" + (plugin.global().casinoTurn % 2 == 0 ? "홀덤" : "섯다") + ")", "러시안 룰렛"};
         for (int i = 0; i < KEYS.length; i++)
             out.add("&f" + names[i] + " &7다음 " + f.format(new Date(next(KEYS[i]))) + " · " + (every(KEYS[i], defEvery(KEYS[i])) / 60_000) + "분마다" + (on(KEYS[i]) ? "" : " &c(꺼짐)"));
         return out;
@@ -249,6 +251,7 @@ public final class MinigameManager {
         max = Math.min(max, g.capacity());
         min = Math.min(min, max);
         int n = Math.min(pool.size(), Rng.range(min, max));
+        if (g instanceof RussianRouletteGame rr) n = Math.min(Math.min(pool.size(), g.capacity()), rr.wanted(Bukkit.getOnlinePlayers().size()));   // 접속 인원 절반을 6의 배수로
         if (g instanceof PeperoGame && n % 2 == 1 && n > 1 && n < pool.size()) n++;
         return new ArrayList<>(pool.subList(0, n));
     }
