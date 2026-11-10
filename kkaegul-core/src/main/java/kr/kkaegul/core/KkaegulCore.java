@@ -145,6 +145,7 @@ public final class KkaegulCore extends JavaPlugin {
         hud = new HudService(this);
         menu = new MenuService(this);
         boards = new BoardService(this);
+        new kr.kkaegul.core.cleanup.CleanupService(this);
 
         Actions act = new Actions(this);
         act.register(ui);

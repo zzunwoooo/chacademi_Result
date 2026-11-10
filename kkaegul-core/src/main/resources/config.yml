@@ -819,3 +819,8 @@ locations:                      # /kg setloc 으로 바꾸면 그쪽이 우선
   invite-chair.2: "kkaegul_invite,-63.5,66.0,-36.5,180,0"
   invite-chair.3: "kkaegul_invite,-58.5,66.0,-36.5,180,0"
   invite-chair.4: "kkaegul_invite,-56.5,66.0,-36.5,180,0"
+
+# 바닥 청소: 몇 초마다 바닥 아이템·주인 없는 몹 삭제 (10초 전 채팅 한 줄, 3·2·1 액션바)
+cleanup:
+  enabled: true
+  interval-seconds: 180

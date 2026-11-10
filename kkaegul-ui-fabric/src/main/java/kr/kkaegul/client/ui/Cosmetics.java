@@ -69,6 +69,16 @@ public final class Cosmetics {
     public static Def def(String id) { return id == null ? null : defs.get(id); }
 
     /** 그 사람이 그 부위에 입은 치장품의 아이템 모양 문자열 (없으면 null) */
+    private static long lastFail;
+
+    /** 치장 관련 오류는 로그만 남기고 넘어감 (10초에 한 번) — 치장 때문에 게임이 꺼지면 안 됨 */
+    public static void fail(String where, Throwable t) {
+        long now = System.currentTimeMillis();
+        if (now - lastFail < 10_000) return;
+        lastFail = now;
+        org.slf4j.LoggerFactory.getLogger("kkaegul").warn("[치장] " + where + " 오류 (건너뜀)", t);
+    }
+
     public static String icon(String account, String slot) {
         if (account == null) return null;
         Map<String, String> s = players.get(account.toLowerCase(Locale.ROOT));

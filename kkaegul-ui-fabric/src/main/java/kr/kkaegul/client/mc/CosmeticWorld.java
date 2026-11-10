@@ -46,6 +46,14 @@ public final class CosmeticWorld {
     private static long lastNs;
 
     static void render(WorldRenderContext ctx) {
+        try {
+            render0(ctx);
+        } catch (Throwable t) {
+            Cosmetics.fail("풍선 그리기", t);
+        }
+    }
+
+    private static void render0(WorldRenderContext ctx) {
         MinecraftClient mc = MinecraftClient.getInstance();
         if (mc.world == null || !Cosmetics.any()) return;
         MatrixStack m = ctx.matrixStack();
@@ -88,9 +96,12 @@ public final class CosmeticWorld {
                 // 갑옷거치대와 같은 순서: 몸 방향 → 모델 공간(뒤집기) → 머리 칸 변환
                 m.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180 - bodyYaw));
                 m.scale(-1, -1, 1);
-                HeadFeatureRenderer.translate(m, HeadFeatureRenderer.HeadTransformation.DEFAULT);
-                ITEM.render(m, vcp, light, OverlayTexture.DEFAULT_UV);
-                m.pop();
+                try {
+                    HeadFeatureRenderer.translate(m, HeadFeatureRenderer.HeadTransformation.DEFAULT);
+                    ITEM.render(m, vcp, light, OverlayTexture.DEFAULT_UV);
+                } finally {
+                    m.pop();
+                }
             }
             string(m, vcp, cam, hand, at.add(0, -.35, 0), light);
         }
@@ -110,9 +121,12 @@ public final class CosmeticWorld {
         Matrix4f mat = e.getPositionMatrix();
         float dx = (float) (b.x - a.x), dy = (float) (b.y - a.y), dz = (float) (b.z - a.z);
         float w = .012f;
-        ribbon(vc, mat, e, dx, dy, dz, w, 0, 0, light);
-        ribbon(vc, mat, e, dx, dy, dz, 0, 0, w, light);
-        m.pop();
+        try {
+            ribbon(vc, mat, e, dx, dy, dz, w, 0, 0, light);
+            ribbon(vc, mat, e, dx, dy, dz, 0, 0, w, light);
+        } finally {
+            m.pop();
+        }
     }
 
     private static void ribbon(VertexConsumer vc, Matrix4f mat, MatrixStack.Entry e, float dx, float dy, float dz, float ox, float oy, float oz, int light) {

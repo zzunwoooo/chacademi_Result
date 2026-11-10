@@ -48,9 +48,14 @@ final class CosmeticFeatureRenderer extends FeatureRenderer<PlayerEntityRenderSt
                 && mc.player != null && state.id == mc.player.getId();
         if (hideOwn) return;
         String name = state.name;
-        head(matrices, vcp, light, Cosmetics.icon(name, Cosmetics.HEAD));
-        head(matrices, vcp, light, Cosmetics.icon(name, Cosmetics.FACE));
-        back(matrices, vcp, light, Cosmetics.icon(name, Cosmetics.BACK));
+        // 치장 그리기에서 무슨 오류가 나도 게임은 안 꺼지게 (그 장면에서만 치장을 건너뜀)
+        try {
+            head(matrices, vcp, light, Cosmetics.icon(name, Cosmetics.HEAD));
+            head(matrices, vcp, light, Cosmetics.icon(name, Cosmetics.FACE));
+            back(matrices, vcp, light, Cosmetics.icon(name, Cosmetics.BACK));
+        } catch (Throwable t) {
+            Cosmetics.fail("치장 그리기", t);
+        }
     }
 
     private boolean prepare(String icon) {
@@ -68,9 +73,12 @@ final class CosmeticFeatureRenderer extends FeatureRenderer<PlayerEntityRenderSt
         PlayerEntityModel model = getContextModel();
         model.getRootPart().rotate(m);
         model.head.rotate(m);
-        HeadFeatureRenderer.translate(m, HeadFeatureRenderer.HeadTransformation.DEFAULT);
-        item.render(m, vcp, light, OverlayTexture.DEFAULT_UV);
-        m.pop();
+        try {
+            HeadFeatureRenderer.translate(m, HeadFeatureRenderer.HeadTransformation.DEFAULT);
+            item.render(m, vcp, light, OverlayTexture.DEFAULT_UV);
+        } finally {
+            m.pop();
+        }
     }
 
     private void back(MatrixStack m, VertexConsumerProvider vcp, int light, String icon) {
@@ -80,9 +88,12 @@ final class CosmeticFeatureRenderer extends FeatureRenderer<PlayerEntityRenderSt
         model.getRootPart().rotate(m);
         model.body.rotate(m);
         m.translate(0, BACK_UP, 0);
-        m.scale(1 / PLAYER_SCALE, 1 / PLAYER_SCALE, 1 / PLAYER_SCALE);
-        HeadFeatureRenderer.translate(m, HeadFeatureRenderer.HeadTransformation.DEFAULT);
-        item.render(m, vcp, light, OverlayTexture.DEFAULT_UV);
-        m.pop();
+        try {
+            m.scale(1 / PLAYER_SCALE, 1 / PLAYER_SCALE, 1 / PLAYER_SCALE);
+            HeadFeatureRenderer.translate(m, HeadFeatureRenderer.HeadTransformation.DEFAULT);
+            item.render(m, vcp, light, OverlayTexture.DEFAULT_UV);
+        } finally {
+            m.pop();
+        }
     }
 }

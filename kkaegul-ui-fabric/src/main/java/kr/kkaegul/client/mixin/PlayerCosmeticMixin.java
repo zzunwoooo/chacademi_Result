@@ -25,6 +25,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class PlayerCosmeticMixin {
     @Inject(method = "updateRenderState(Lnet/minecraft/client/network/AbstractClientPlayerEntity;Lnet/minecraft/client/render/entity/state/PlayerEntityRenderState;F)V", at = @At("TAIL"))
     private void kkaegul$offhandCosmetic(AbstractClientPlayerEntity player, PlayerEntityRenderState state, float tickDelta, CallbackInfo ci) {
+        try {
+            offhand(player, state);
+        } catch (Throwable t) {
+            Cosmetics.fail("손 치장", t);
+        }
+    }
+
+    private static void offhand(AbstractClientPlayerEntity player, PlayerEntityRenderState state) {
         if (!Cosmetics.any() || player.isInvisible() || player.isSpectator()) return;
         String icon = Cosmetics.icon(player.getGameProfile().getName(), Cosmetics.OFFHAND);
         if (icon == null || !player.getOffHandStack().isEmpty()) return;

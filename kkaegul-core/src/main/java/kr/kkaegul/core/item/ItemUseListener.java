@@ -20,11 +20,18 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /** 커스텀 아이템 우클릭 사용 */
 public final class ItemUseListener implements Listener {
     private final KkaegulCore plugin;
+    /** 마지막으로 쓴 커스텀 아이템 (종류, 시각) — 상자에서 나온 아이템이 같은 클릭(따닥)으로 바로 쓰이는 것 막기 */
+    private final Map<UUID, CustomItem> lastType = new HashMap<>();
+    private final Map<UUID, Long> lastAt = new HashMap<>();
+    private static final long OTHER_ITEM_GAP_MS = 1000;
 
     public ItemUseListener(KkaegulCore plugin) { this.plugin = plugin; }
 
@@ -43,6 +50,12 @@ public final class ItemUseListener implements Listener {
         if (type == CustomItem.COLA || type == CustomItem.KKAEKKAERO) return; // 먹는 아이템은 바닐라 동작
         e.setCancelled(true);
         Player p = e.getPlayer();
+        // 방금(1초 안) 다른 아이템을 썼으면 이번 클릭은 무시 — 상자 깐 칸에 보상(시세변경권 등)이 들어와 바로 쓰이던 문제
+        long now = System.currentTimeMillis();
+        CustomItem prev = lastType.get(p.getUniqueId());
+        if (prev != null && prev != type && now - lastAt.getOrDefault(p.getUniqueId(), 0L) < OTHER_ITEM_GAP_MS) return;
+        lastType.put(p.getUniqueId(), type);
+        lastAt.put(p.getUniqueId(), now);
         PlayerData d = plugin.data().get(p);
         switch (type) {
             case NORMAL_BOX, PREMIUM_BOX -> {   // 웅크리고 우클릭 = 한 번에 최대 10개
