@@ -674,7 +674,7 @@ minigame:
   schedule:                     # ★ 게임마다 따로 돌아감 (동시에 열릴 수 있음, 한 사람은 한 게임만)
     invite:   { enabled: true, every-minutes: 30 }                      # 위험한 초대: 의자 수만큼, 1분 전 회색 예고
     treasure: { enabled: true, every-minutes: 180 }                     # 보물찾기
-    casino:   { enabled: true, every-minutes: 180, offset-minutes: 90 } # 홀덤·섯다 번갈아, 보물찾기와 1시간 30분 어긋나게
+    casino:   { enabled: false, every-minutes: 180, offset-minutes: 90 } # 홀덤·섯다 번갈아, 보물찾기와 1시간 30분 어긋나게
     rroulette: { enabled: true, every-minutes: 120, offset-minutes: 60 }  # 러시안 룰렛: 2시간마다, 최대 16명 (8명씩 2테이블)
     omok:     { enabled: true, every-minutes: 120, offset-minutes: 0 }   # 오목 1:1: 2시간마다, 러시안 룰렛과 1시간씩 번갈아
   casino:
@@ -711,7 +711,7 @@ minigame:
       success-actions: []           # 비우면 우편함으로 고급상자
       fail-actions: ["roulette big_increase"]
     poker:                          # 텍사스 홀덤 — 수락한 사람끼리 3인/2인 테이블, 창에서 진행 (이동 없음)
-      enabled: true
+      enabled: false
       min-players: 2
       duration-minutes: 15          # ★ 최대 게임 시간 (중간에 나가기 가능, 칩 다 잃으면 퇴장)
       big-blind: 1                  # ★ 판돈 1다이아 (스몰도 1)
@@ -722,7 +722,7 @@ minigame:
       seat-interval-ticks: 12
       summary-seconds: 6
     seotda:                         # 섯다 — 수락한 사람끼리
-      enabled: true
+      enabled: false
       min-players: 2
       duration-minutes: 15          # ★
       ante: 1                       # ★ 턴마다 내는 판돈 1다이아
