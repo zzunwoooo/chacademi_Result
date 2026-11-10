@@ -399,6 +399,53 @@ public final class Commands implements CommandExecutor, TabCompleter {
                 if (t != null) plugin.wasd().start(t, 6, 6, pl -> say(pl, "&a성공"), pl -> say(pl, "&c실패"));
             }
             case "game" -> game(s, a);
+            case "backup" -> {   // /깨굴 백업 목록|보기|복구 <닉네임> [번호]
+                String op = a.length > 1 ? a[1] : "";
+                if (a.length < 3) { say(s, "&e/깨굴 백업 목록 <닉네임>  &e/깨굴 백업 보기 <닉네임> <번호>  &e/깨굴 백업 복구 <닉네임> <번호>"); return; }
+                PlayerData d = plugin.data().findByName(a[2]);
+                java.util.UUID id = d != null ? d.uuid : null;
+                if (id == null) { org.bukkit.OfflinePlayer op0 = Bukkit.getOfflinePlayerIfCached(a[2]); if (op0 != null) id = op0.getUniqueId(); }
+                if (id == null) { say(s, "&c그런 플레이어가 없어요: " + a[2]); return; }
+                int n = 1;
+                if (a.length >= 4) { try { n = Integer.parseInt(a[3]); } catch (NumberFormatException e) { say(s, "&c번호는 숫자로: " + a[3]); return; } }
+                switch (op) {
+                    case "목록", "list" -> {
+                        var l = plugin.backups().list(id);
+                        if (l.isEmpty()) { say(s, "&e" + a[2] + " 님 백업이 없어요."); return; }
+                        say(s, "&6" + a[2] + " 님 백업 &7(1번 = 가장 최근)");
+                        for (int i = 0; i < l.size(); i++) {
+                            int cnt = 0;
+                            for (String it : l.get(i).items()) if (!it.isEmpty()) cnt++;
+                            say(s, "&e" + (i + 1) + "번 &f" + kr.kkaegul.core.util.InvBackup.time(l.get(i).at()) + " &7· 아이템 " + cnt + "칸");
+                        }
+                    }
+                    case "보기", "view" -> {
+                        if (self == null) { say(s, "&c게임 안에서만 볼 수 있어요."); return; }
+                        if (!plugin.backups().view(self, id, a[2], n)) say(s, "&c" + n + "번 백업이 없어요. /깨굴 백업 목록 " + a[2]);
+                    }
+                    case "복구", "restore" -> {
+                        Player t = Bukkit.getPlayer(id);
+                        if (t == null) { say(s, "&c" + a[2] + " 님이 접속해 있어야 복구할 수 있어요. (보기로 꺼내 줄 수는 있어요)"); return; }
+                        if (!plugin.backups().restore(t, n)) { say(s, "&c" + n + "번 백업이 없어요. /깨굴 백업 목록 " + a[2]); return; }
+                        say(s, "&a" + a[2] + " 님 인벤토리를 " + n + "번 백업으로 되돌렸어요. &7(되돌리기 전 인벤토리도 백업해 뒀어요)");
+                        plugin.getLogger().info("[백업] " + s.getName() + " → " + a[2] + " " + n + "번 복구");
+                    }
+                    default -> say(s, "&e/깨굴 백업 목록|보기|복구 <닉네임> [번호]");
+                }
+            }
+            case "pickaxe" -> {   // /깨굴 곡괭이 [닉네임] <행운> <효율> <내구성> — 손에 든 곡괭이 수치를 그대로
+                if (a.length != 4 && a.length != 5) { say(s, "&e/깨굴 곡괭이 [닉네임] <행운> <효율> <내구성> &7(손에 든 곡괭이)"); return; }
+                Player t = a.length == 5 ? plugin.data().online(a[1]) : self;
+                if (t == null) { say(s, a.length == 5 ? "&c접속해 있지 않아요: " + a[1] : "&e콘솔은 /깨굴 곡괭이 <닉네임> <행운> <효율> <내구성>"); return; }
+                int[] v = new int[3];
+                try { for (int i = 0; i < 3; i++) v[i] = Integer.parseInt(a[a.length - 3 + i]); } catch (NumberFormatException e) { say(s, "&c수치는 숫자로 적어 주세요."); return; }
+                org.bukkit.inventory.ItemStack hand = t.getInventory().getItemInMainHand();
+                if (!kr.kkaegul.core.gacha.Pickaxe.isPickaxe(hand)) { say(s, "&c" + t.getName() + " 님 손에 곡괭이가 없어요."); return; }
+                for (int i = 0; i < 3; i++) plugin.gacha().pickaxe().set(hand, kr.kkaegul.core.gacha.Pickaxe.STATS[i], v[i]);
+                t.getInventory().setItemInMainHand(hand);
+                say(s, "&a" + t.getName() + " 님 곡괭이: 행운 " + v[0] + " · 효율 " + v[1] + " · 내구성 " + v[2]);
+                plugin.getLogger().info("[곡괭이] " + s.getName() + " → " + t.getName() + " 행운 " + v[0] + " 효율 " + v[1] + " 내구성 " + v[2]);
+            }
             case "land" -> {   // /깨굴 땅 회수 [닉네임] — 서 있는 땅 하나, 또는 그 사람 땅 전부를 주인 없이 (땅문서 안 돌려줌)
                 if (a.length < 2 || !a[1].equals("revoke")) { say(s, "&e/깨굴 땅 회수 &7(서 있는 땅)  &e/깨굴 땅 회수 <닉네임> &7(그 사람 땅 전부)"); return; }
                 if (a.length >= 3) {
@@ -556,7 +603,7 @@ public final class Commands implements CommandExecutor, TabCompleter {
                 {"도움말", "help"}, {"리로드", "reload"}, {"저장", "save"}, {"위치", "loc"}, {"npc", "npc"}, {"엔피씨", "npc"},
                 {"api", "api"}, {"서버api", "sapi"}, {"실행", "run"}, {"다이아", "diamond"}, {"코인", "coins"}, {"돈", "money"},
                 {"게이지", "gauge"}, {"지급", "give"}, {"상자", "box"}, {"피버", "fever"}, {"감옥", "jail"}, {"석방", "unjail"},
-                {"괴롭히기", "harass"}, {"퀴즈", "quiz"}, {"wasd", "wasd"}, {"게임", "game"}, {"광산", "mine"}, {"땅", "land"}, {"시세변경", "farm"},
+                {"괴롭히기", "harass"}, {"퀴즈", "quiz"}, {"wasd", "wasd"}, {"게임", "game"}, {"광산", "mine"}, {"땅", "land"}, {"백업", "backup"}, {"곡괭이", "pickaxe"}, {"시세변경", "farm"},
                 {"경주", "race"}, {"초기화", "reset"}, {"칭호", "title"}, {"전체지급", "giveall"}, {"일차", "day"}, {"보호", "protection"}, {"정보", "info"}, {"ui", "ui"}};
         for (String[] x : subs) SUB.put(x[0], x[1]);
         String[][] words = {
@@ -624,6 +671,7 @@ public final class Commands implements CommandExecutor, TabCompleter {
         say(s, "&e위치 &f<저장|삭제|목록|이동> [이름]  &eNPC &f<연결|해제|실행> [동작]  &e실행 &f<플레이어|*> <액션...>");
         say(s, "&e전체지급 &f[개수] &7(손에 든 아이템을 접속자 모두에게)  &e게임 &f<시작|중지|확인|시간|일정> ...  &e경주 &f<열기|출발|취소|이월>  &e감옥/석방 &f<플레이어>");
         say(s, "&e괴롭히기 &f<플레이어|전체>  &e퀴즈 &f[유형]  &eWASD &f[플레이어]  &e광산 &f<재생성|보내기>  &e땅 회수 &f[닉네임]  &e시세변경");
+        say(s, "&e백업 &f<목록|보기|복구> <닉네임> [번호] &7(5분마다 인벤토리)  &e곡괭이 &f[닉네임] <행운> <효율> <내구성> &7(손에 든 것)");
         say(s, "&e칭호 &f<플레이어> <주기|빼기> <칭호id>  &7(새 칭호는 config titles.list 에 추가 후 리로드)");
         say(s, "&eAPI &f<플레이어> <번호>  &e서버API &f<번호>  &e정보 &f[플레이어]  &e일차  &e보호 &f[자동|켜기|끄기]  &e리로드  &e저장");
     }
@@ -671,6 +719,8 @@ public final class Commands implements CommandExecutor, TabCompleter {
                 else if (i >= 4 && a[1].equals("시작")) out.addAll(players());
             }
             case "land" -> { if (i == 2) out.add("회수"); else if (i == 3) out.addAll(players()); }
+            case "backup" -> { if (i == 2) out.addAll(List.of("목록", "보기", "복구")); else if (i == 3) out.addAll(players()); }
+            case "pickaxe" -> { if (i == 2) out.addAll(players()); }
             case "mine" -> { if (i == 2) out.addAll(List.of("재생성", "보내기")); else if (i == 3 && a[1].equals("보내기")) out.addAll(players()); }
             case "race" -> { if (i == 2) out.addAll(List.of("열기", "출발", "취소", "이월", "멈춤", "재개")); }
             case "protection" -> { if (i == 2) out.addAll(List.of("자동", "켜기", "끄기")); }

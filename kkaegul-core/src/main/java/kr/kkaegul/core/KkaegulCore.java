@@ -165,6 +165,7 @@ public final class KkaegulCore extends JavaPlugin {
             if (global.dirty) global.save();
         }, autosave, autosave);
         kr.kkaegul.core.util.LobbyVision.start(this);   // 로비에선 야간 투시 무한 (표시 없이)
+        backups = new kr.kkaegul.core.util.InvBackup(this);   // 5분마다 인벤토리 백업 (관리자 복구용)
 
         getLogger().info("운빨깨굴랜드 코어 활성화 — 서버 " + clock.serverDay() + "일차, 초반 보호 " + (clock.protectionActive() ? "ON" : "OFF"));
     }
@@ -275,6 +276,8 @@ public final class KkaegulCore extends JavaPlugin {
     public EconomyService economy() { return economy; }
     public SubmitService submit() { return submit; }
     public GachaService gacha() { return gacha; }
+    private kr.kkaegul.core.util.InvBackup backups;
+    public kr.kkaegul.core.util.InvBackup backups() { return backups; }
     public NpcService npcs() { return npcs; }
     public PlaytimeService rewards() { return rewards; }
     public kr.kkaegul.core.reward.CouponService coupons() { return coupons; }
