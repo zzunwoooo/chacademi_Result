@@ -131,6 +131,21 @@ public interface Canvas {
         pop();
     }
 
+    /**
+     * 9조각 늘이기: 그림의 가장자리(가로 bu, 세로 bv = 그림 크기 대비 0~0.5)는 늘이지 않고 화면에서 cw×ch 크기로,
+     * 변은 한 방향으로만, 가운데는 양쪽으로 늘려서 그림. 테두리 장식이 있는 판을 아무 크기로 쓸 때.
+     */
+    default void imageNine(String id, float x, float y, float w, float h, float bu, float bv, float cw, float ch, int argb) {
+        cw = Math.min(cw, w / 2); ch = Math.min(ch, h / 2);
+        float[] xs = {x, x + cw, x + w - cw, x + w}, us = {0, bu, 1 - bu, 1};
+        float[] ys = {y, y + ch, y + h - ch, y + h}, vs = {0, bv, 1 - bv, 1};
+        for (int j = 0; j < 3; j++) for (int i = 0; i < 3; i++) {
+            float ww = xs[i + 1] - xs[i], hh = ys[j + 1] - ys[j];
+            if (ww <= 0 || hh <= 0) continue;
+            imagePart(id, xs[i], ys[j], ww, hh, us[i], vs[j], us[i + 1], vs[j + 1], argb);
+        }
+    }
+
     /** 폭을 넘으면 글자 크기를 줄여서 그리기 */
     default void textFit(String s, float x, float y, float size, float maxW, int argb, int align, int style) {
         float w = textWidth(s, size, style);
