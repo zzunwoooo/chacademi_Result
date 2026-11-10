@@ -91,6 +91,7 @@ public final class WorldRestore implements Listener {
     public void noDrops(BlockBreakEvent e) {
         String n = worldName.get();
         if (n == null || !e.getBlock().getWorld().getName().equals(n) || e.getPlayer().isOp()) return;
+        if (plugin.mine().inOreArea(e.getBlock())) return;   // 같은 월드의 광산 구역은 캔 광석이 떨어져야 함 (철 등)
         e.setDropItems(false);
         e.setExpToDrop(0);
     }

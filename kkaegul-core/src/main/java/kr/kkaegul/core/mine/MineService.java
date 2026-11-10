@@ -273,6 +273,21 @@ public final class MineService {
      * 광석 다시 채우기: 구역에 ore-regen 이 있으면 스폰(mine.<구역>) 둘레 radius 블록 안에서 캔 광석(ores) 자리를
      * seconds 초 뒤 palette 대로 다시 채움.
      */
+    /** 이 블록이 광산 구역(ore-regen 이 있는 구역의 스폰 둘레 radius) 안인지 */
+    public boolean inOreArea(Block b) {
+        ConfigurationSection rs = regions();
+        if (rs == null || b.getWorld() == null) return false;
+        for (String k : rs.getKeys(false)) {
+            ConfigurationSection o = rs.getConfigurationSection(k + ".ore-regen");
+            if (o == null) continue;
+            Location c = plugin.places().get("mine." + k);
+            if (c == null || c.getWorld() == null || !c.getWorld().getName().equals(b.getWorld().getName())) continue;
+            double r = o.getDouble("radius", 300), dx = c.getX() - b.getX(), dz = c.getZ() - b.getZ();
+            if (dx * dx + dz * dz <= r * r) return true;
+        }
+        return false;
+    }
+
     public void onBroken(Block b, Material type) {
         ConfigurationSection rs = regions();
         if (rs == null || b.getWorld() == null) return;
