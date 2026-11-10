@@ -164,19 +164,19 @@ public final class MinigameView {
         c.textFit(t, 960, 20 + 137, 40, 420, INK, Canvas.CENTER, TXT);   // 리본 판 안쪽 y 213~335px (1280×400) 가운데
     }
 
-    /** B 타이머 (1710,45) 140×160. 링 가운데 (69.5, 94) 반지름 63.5 (재서 맞춤), 남은 비율로 초록→주황→빨강 */
+    /** B 타이머 (1710,45) 140×160. 링 가운데 (69, 93.1) 반지름 63 (v3 원 맞춤으로 잼), 남은 비율로 초록→주황→빨강 */
     private void timer(Canvas c, long left, long total, float x, float y) {
         c.image(P + "b_timer_empty", x, y, 140, 160, 0xFFFFFFFF);
         float f = (float) left / Math.max(1, total);
-        float cx = x + 69.5f, cy = y + 94, r = 63.5f;
+        float cx = x + 69, cy = y + 93.1f, r = 63;
         // 링 안쪽을 채워서 뒤 배경(맵)이 비치지 않게 → 숫자가 잘 보임
         c.fill(cx - r + 4, cy - r + 4, (r - 4) * 2, (r - 4) * 2, r - 4, 0xF2FFF8EE);
-        // 색 링: 그림마다 링 크기가 달라서 바깥 반지름이 같아지게 맞춤 (px: 초록 r116 중심(140,159) / 주황·빨강 r135 중심(140,140), 280px 그림)
+        // 색 링: 그림마다 링 크기가 달라서 바깥 반지름이 같아지게 맞춤 (v3 원 맞춤 px: 초록 r109.1 (137.8,146.8) / 주황 r133.2 (137.7,139.4) / 빨강 r133.1 (137.6,140.1), 280px 그림)
         String ring; float rr, ox, oy;
-        if (f > .5f) { ring = "b_timer_green"; rr = 116; ox = 140; oy = 159; }
-        else if (f > .2f) { ring = "b_timer_orange"; rr = 135; ox = 140; oy = 140; }
-        else { ring = "b_timer_red"; rr = 135; ox = 140; oy = 140; }
-        float S = r * 280 / rr;
+        if (f > .5f) { ring = "b_timer_green"; rr = 109.1f; ox = 137.8f; oy = 146.8f; }
+        else if (f > .2f) { ring = "b_timer_orange"; rr = 133.2f; ox = 137.7f; oy = 139.4f; }
+        else { ring = "b_timer_red"; rr = 133.1f; ox = 137.6f; oy = 140.1f; }
+        float S = (r + 1) * 280 / rr;   // 색 링을 1px 크게 → 밑 크림 링 가장자리 안 비침
         c.image(P + ring, cx - ox * S / 280, cy - oy * S / 280, S, S, 0xFFFFFFFF);
         c.image(P + "b_timer_knob", x, y, 140, 160, 0xFFFFFFFF);   // 시계 머리는 색 링 위에
         long s = (left + 999) / 1000;
@@ -241,13 +241,13 @@ public final class MinigameView {
         if (!finder.isEmpty()) c.textFit(finder + " 님이 찾았어요!", 1660, 362, 22, 400, 0xFFFFFFFF, Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
     }
 
-    /** K 키 판 (570,460) 780×160, L 키캡 96×96 (610+116i, 491), J 화살표 54×54 위, M 게이지 (700,730) */
+    /** K 키 판 (570,460) 780×160 (v3 판 몸통 y 486~582, 왼쪽 위·오른쪽 아래 클로버 장식), L 키캡 최대 80 — 장식 사이 x 695~1215 에 판 가운데(534) 맞춤, J 화살표 54×54 위, M 게이지 (700,730) */
     private void keyPanel(Canvas c, long now) {
         int n = keys.size();
         if (n == 0) return;
         c.image(P + "k_key_panel", 570, 460, 780, 160, 0xFFFFFFFF);
-        float step = Math.min(116, 700f / n), size = Math.min(96, step - 12);
-        float x0 = 960 - (step * (n - 1) + size) / 2, y = 491 + (96 - size) / 2;
+        float step = Math.min(100, 520f / n), size = Math.min(80, step - 10);
+        float x0 = 955 - (step * (n - 1) + size) / 2, y = 534 - size / 2;
         for (int i = 0; i < n; i++) {
             String cap = i < keyIndex ? "l_keycap_correct" : (wasdDone && !wasdOk && i == keyIndex) ? "l_keycap_wrong" : "l_keycap_default";
             float x = x0 + i * step;
@@ -293,7 +293,7 @@ public final class MinigameView {
         c.textFit(J.str(r, "label"), x + (35 + 75) * s, y + (185 + 22.5f) * s, 26 * s, 150 * s, Anim.alpha(INK, a), Canvas.CENTER, TXT);
     }
 
-    /** 결과: G 개구리 (760,250|236) 400×400 + 리본 (610,625) 700×160 글자칸 (145,45) 410×70 + 작은 보상 카드 132×156 */
+    /** 결과: G 개구리 (760,270|276) 400×400 + 리본 (610,625) 700×160 글자칸 (145,45) 410×70 + 작은 보상 카드 132×156 */
     private void resultView(Canvas c, long now) {
         float t = (now - resultAt) / 3800f;
         float a = t < .08f ? t / .08f : t > .85f ? (1 - t) / .15f : 1;
@@ -303,12 +303,12 @@ public final class MinigameView {
         c.translate(960, 600);
         c.scale(.7f + .3f * pop, .7f + .3f * pop);
         c.translate(-960, -600);
-        c.image(P + (ok ? "g_frog_success" : "g_frog_failure"), 760, ok ? 250 : 236, 400, 400, Anim.white(a));   // 발끝(그림 789px)이 리본 윗선(성공 31px·실패 4px)에 올라서게: 실패 리본이 더 높아 발이 묻히던 것
+        c.image(P + (ok ? "g_frog_success" : "g_frog_failure"), 760, ok ? 270 : 276, 400, 400, Anim.white(a));   // 발끝(v3 성공 789px·실패 755px)이 리본 몸통 윗선(v3 가운데 성공 71px·실패 51px, 1400×320)에 3px 올라서게
         c.image(P + (ok ? "result_ribbon_success" : "result_ribbon_failure"), 610, 625, 700, 160, Anim.white(a));
         String head = J.str(result, "head", ok ? "성공!" : "실패…");
         c.textFit(head, 610 + 145 + 205, 625 + 45 + 35, 52, 410, Anim.alpha(INK, a), Canvas.CENTER, TXT);
         String sub = J.str(result, "sub");
-        if (!sub.isEmpty()) c.textFit(sub, 960, ok ? 352 : 338, 28, 900, Anim.alpha(0xFFFFFFFF, a), Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
+        if (!sub.isEmpty()) c.textFit(sub, 960, ok ? 372 : 316, 28, 900, Anim.alpha(0xFFFFFFFF, a), Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
         JsonArray rw = result.has("rewards") && result.get("rewards").isJsonArray() ? result.getAsJsonArray("rewards") : null;
         if (rw != null && !rw.isEmpty()) {
             int n = Math.min(4, rw.size());
