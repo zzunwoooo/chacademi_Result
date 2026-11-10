@@ -9,6 +9,38 @@ public final class Fmt {
 
     public record Run(String text, int rgb, boolean bold) {}
 
+    private static final java.util.regex.Pattern GRADIENT = java.util.regex.Pattern.compile("<#([0-9a-fA-F]{6})>(.*?)</#([0-9a-fA-F]{6})>");
+
+    /** 그라데이션 태그 <#RRGGBB>글자</#RRGGBB> → 글자마다 §x§R§R§G§G§B§B (마크 기본 RGB 색코드) */
+    public static String gradient(String s) {
+        if (s == null || s.indexOf("<#") < 0) return s;
+        java.util.regex.Matcher m = GRADIENT.matcher(s);
+        StringBuilder out = new StringBuilder();
+        while (m.find()) {
+            int a = Integer.parseInt(m.group(1), 16), z = Integer.parseInt(m.group(3), 16);
+            String t = m.group(2).replaceAll("[&§][0-9a-fA-FrR]", "");
+            StringBuilder g = new StringBuilder();
+            int n = t.codePointCount(0, t.length()), i = 0;
+            for (int off = 0; off < t.length(); ) {
+                int cp = t.codePointAt(off);
+                float f = n <= 1 ? 0 : (float) i / (n - 1);
+                int r = Math.round(((a >> 16) & 255) + (((z >> 16) & 255) - ((a >> 16) & 255)) * f);
+                int gg = Math.round(((a >> 8) & 255) + (((z >> 8) & 255) - ((a >> 8) & 255)) * f);
+                int bb = Math.round((a & 255) + ((z & 255) - (a & 255)) * f);
+                String hex = String.format("%02x%02x%02x", r, gg, bb);
+                g.append("§x");
+                for (char h : hex.toCharArray()) g.append('§').append(h);
+                g.appendCodePoint(cp);
+                off += Character.charCount(cp);
+                i++;
+            }
+            m.appendReplacement(out, java.util.regex.Matcher.quoteReplacement(g.toString()));
+        }
+        m.appendTail(out);
+        return out.toString();
+    }
+
+
     private static final int[] COLORS = {
             0x000000, 0x0000AA, 0x00AA00, 0x00AAAA, 0xAA0000, 0xAA00AA, 0xFFAA00, 0xAAAAAA,
             0x555555, 0x5555FF, 0x55FF55, 0x55FFFF, 0xFF5555, 0xFF55FF, 0xFFFF55, 0xFFFFFF};
@@ -33,11 +65,11 @@ public final class Fmt {
 
     public static String amp(String s) {
         if (s == null) return "";
-        s = tr(s);
+        s = gradient(tr(s));
         StringBuilder b = new StringBuilder(s.length());
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
-            if (c == '&' && i + 1 < s.length() && "0123456789abcdefklmnorABCDEFKLMNOR".indexOf(s.charAt(i + 1)) >= 0) b.append('§');
+            if (c == '&' && i + 1 < s.length() && "0123456789abcdefklmnorxABCDEFKLMNORX".indexOf(s.charAt(i + 1)) >= 0) b.append('§');
             else b.append(c);
         }
         return b.toString();
@@ -69,6 +101,17 @@ public final class Fmt {
         StringBuilder cur = new StringBuilder();
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
+            if (c == '§' && i + 13 < s.length() + 0 && Character.toLowerCase(s.charAt(i + 1)) == 'x') {   // §x§R§R§G§G§B§B = RGB 색
+                StringBuilder hex = new StringBuilder();
+                for (int j = 0; j < 6; j++) hex.append(s.charAt(i + 3 + j * 2));
+                try {
+                    int rgb = Integer.parseInt(hex.toString(), 16);
+                    if (cur.length() > 0) { out.add(new Run(cur.toString(), color, bold)); cur.setLength(0); }
+                    color = rgb; bold = false;
+                } catch (NumberFormatException ignored) { }
+                i += 13;
+                continue;
+            }
             if (c == '§' && i + 1 < s.length()) {
                 char k = Character.toLowerCase(s.charAt(++i));
                 int idx = "0123456789abcdef".indexOf(k);

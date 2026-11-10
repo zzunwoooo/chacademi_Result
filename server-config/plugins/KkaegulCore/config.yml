@@ -604,6 +604,9 @@ titles:
     amazing:     { name: "&d[님 개쩔어요]",   gacha-roll: 15, statue: true, statue-commands: [], description: "가챠 15/15/15 첫 달성 + 전용 동상" }
     jail_home:   { name: "&7[집이 깜빵]",       condition: "jail >= 50",        description: "깜빵 50회" }
     jail_server: { name: "&8[이분은 깜빵서버]", condition: "jail >= 100",       description: "깜빵 100회" }
+    # 운영자 전용 (조건 없음 → /깨굴 칭호 <닉> 주기 <id> 로만). <#시작색>글자</#끝색> = 그라데이션
+    host_noob:   { name: "<#FF5FA2>[허접섭주]</#9B6BFF>", description: "운영자 전용 칭호" }
+    staff_slave: { name: "<#5BC0FF>[운영노예]</#57D98A>", description: "운영자 전용 칭호" }
 
 ranking:
   size: 10

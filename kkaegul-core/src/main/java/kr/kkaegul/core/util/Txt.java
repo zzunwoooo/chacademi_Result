@@ -11,6 +11,38 @@ public final class Txt {
 
     private static final DecimalFormat NUM = new DecimalFormat("#,###");
 
+    private static final java.util.regex.Pattern GRADIENT = java.util.regex.Pattern.compile("<#([0-9a-fA-F]{6})>(.*?)</#([0-9a-fA-F]{6})>");
+
+    /** 그라데이션 태그 <#RRGGBB>글자</#RRGGBB> → 글자마다 §x§R§R§G§G§B§B (마크 기본 RGB 색코드) */
+    public static String gradient(String s) {
+        if (s == null || s.indexOf("<#") < 0) return s;
+        java.util.regex.Matcher m = GRADIENT.matcher(s);
+        StringBuilder out = new StringBuilder();
+        while (m.find()) {
+            int a = Integer.parseInt(m.group(1), 16), z = Integer.parseInt(m.group(3), 16);
+            String t = m.group(2).replaceAll("[&§][0-9a-fA-FrR]", "");
+            StringBuilder g = new StringBuilder();
+            int n = t.codePointCount(0, t.length()), i = 0;
+            for (int off = 0; off < t.length(); ) {
+                int cp = t.codePointAt(off);
+                float f = n <= 1 ? 0 : (float) i / (n - 1);
+                int r = Math.round(((a >> 16) & 255) + (((z >> 16) & 255) - ((a >> 16) & 255)) * f);
+                int gg = Math.round(((a >> 8) & 255) + (((z >> 8) & 255) - ((a >> 8) & 255)) * f);
+                int bb = Math.round((a & 255) + ((z & 255) - (a & 255)) * f);
+                String hex = String.format("%02x%02x%02x", r, gg, bb);
+                g.append("§x");
+                for (char h : hex.toCharArray()) g.append('§').append(h);
+                g.appendCodePoint(cp);
+                off += Character.charCount(cp);
+                i++;
+            }
+            m.appendReplacement(out, java.util.regex.Matcher.quoteReplacement(g.toString()));
+        }
+        m.appendTail(out);
+        return out.toString();
+    }
+
+
     /** ItemsAdder 이모트 글리프: {e:right} → ⨃ (config emote.symbols) */
     public static final java.util.Map<String, String> EMOTES = new java.util.concurrent.ConcurrentHashMap<>();
 
@@ -22,7 +54,7 @@ public final class Txt {
 
     public static String color(String s) {
         if (s == null) return "";
-        s = emotes(s);
+        s = gradient(emotes(s));
         char[] b = s.toCharArray();
         for (int i = 0; i < b.length - 1; i++) {
             if (b[i] == '&' && "0123456789AaBbCcDdEeFfKkLlMmNnOoRrXx".indexOf(b[i + 1]) > -1) {
@@ -81,7 +113,7 @@ public final class Txt {
 
     public static String strip(String s) {
         if (s == null) return "";
-        return s.replaceAll("(?i)[§&][0-9A-FK-ORX]", "");
+        return s.replaceAll("</?#[0-9a-fA-F]{6}>", "").replaceAll("(?i)[§&][0-9A-FK-ORX]", "");
     }
 
     /** "{name}님" + ("name","준우") 형식 치환 */

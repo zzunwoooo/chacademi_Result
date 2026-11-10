@@ -211,6 +211,10 @@ public final class KkaegulClient implements ClientModInitializer, Host {
         String[] v = names.get(p.getUuid().toString().toLowerCase());
         if (v == null || v[0].isBlank()) return null;
         String title = v[1] == null ? "" : v[1];
-        return Text.literal(Fmt.amp((title.isBlank() ? "" : title + " ") + "§f" + v[0]));
+        // 색코드(RGB 그라데이션 포함)를 글자 조각별 색으로 — Text.literal 은 §x RGB 를 못 읽음
+        net.minecraft.text.MutableText out = Text.empty();
+        for (Fmt.Run r : Fmt.parse((title.isBlank() ? "" : title + " ") + "§f" + v[0], 0xFFFFFF, false))
+            out.append(Text.literal(r.text()).styled(st -> st.withColor(r.rgb() & 0xFFFFFF)));
+        return out;
     }
 }
