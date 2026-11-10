@@ -33,7 +33,7 @@ public final class BannerView {
         float slide = e < IN ? 1 - Anim.outBack(e / (float) IN) : e > life - OUT ? Anim.inCubic((e - (life - OUT)) / (float) OUT) : 0;
         float a = e < IN ? Anim.clamp(e / 200f) : e > life - OUT ? Anim.clamp((life - e) / (float) OUT) : 1;
         float bw = 900 * k, bh = 150 * k;
-        float x = (W - bw) / 2, y = H * .105f - slide * (bh + H * .1f);
+        float x = W / 2 + HudView.GAUGE_DX - bw / 2, y = H * .105f - slide * (bh + H * .1f);   // 게이지 막대와 같은 가운데
         String color = J.str(cur, "color", "blue");
         if (!color.equals("gold") && !color.equals("purple")) color = "blue";
         c.push();
@@ -48,10 +48,10 @@ public final class BannerView {
         c.pop();
         String sub = J.str(cur, "sub");
         int ink = 0xFF4A2D16;
-        if (sub.isEmpty()) c.textFit(J.str(cur, "text"), 145, 81.5f, 34, 650, Anim.alpha(ink, a), Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
+        if (sub.isEmpty()) c.textFit(J.str(cur, "text"), 145, 81.5f, 44, 650, Anim.alpha(ink, a), Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
         else {
-            c.textFit(J.str(cur, "text"), 145, 63, 32, 650, Anim.alpha(ink, a), Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
-            c.textFit(sub, 145, 97.5f, 22, 650, Anim.alpha(0xFF7A6A58, a), Canvas.LEFT, Canvas.LIGHT);
+            c.textFit(J.str(cur, "text"), 145, 61, 38, 650, Anim.alpha(ink, a), Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
+            c.textFit(sub, 145, 100, 26, 650, Anim.alpha(0xFF7A6A58, a), Canvas.LEFT, Canvas.LIGHT);
         }
         c.pop();
     }

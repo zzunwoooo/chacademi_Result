@@ -21,6 +21,8 @@ public final class HudView {
     private long lastDebt = Long.MIN_VALUE;
     /** HUD 크기 배율 (설정) */
     public float scale = 1f;
+    /** 운빨 게이지 막대 가운데 = 화면 가운데 + 이만큼 (오른쪽 깨굴이 자리만큼 왼쪽). 위 가운데 배너도 여기에 맞춤 */
+    public static final float GAUGE_DX = -30;
     /** 드롭다운: 열림 여부와 ▼ 아래 꼬리 자리 (HUD 좌표) */
     public boolean menuOpen;
     public float menuX = 497, menuY = 62;
@@ -203,7 +205,7 @@ public final class HudView {
         if (shownGauge < 0) shownGauge = value;
         shownGauge += (value - shownGauge) * 0.15f;
         if (Math.abs(value - shownGauge) < 0.05f) shownGauge = value;
-        float gw = 520, gh = 40, gx = W / 2 - gw / 2 - 30, gy = 44;
+        float gw = 520, gh = 40, gx = W / 2 - gw / 2 + GAUGE_DX, gy = 44;
         if (!hideGauge) gaugeBar(c, gx, gy, gw, gh, shownGauge / max, tier, now, .62f);
         // 가운데 퍼센트
         long pct = Math.round(shownGauge * 100.0 / max);
