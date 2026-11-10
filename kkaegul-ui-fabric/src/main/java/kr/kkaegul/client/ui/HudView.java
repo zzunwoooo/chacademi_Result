@@ -121,16 +121,19 @@ public final class HudView {
         float iw = (w - pad * 2) * Math.max(0, Math.min(1, ratio)), ih = h - pad * 2;
         if (iw > 1) {
             if ("jackpot".equals(tier)) {
-                c.imagePart("hud/gauge_fill_jackpot", x + pad, y + pad, iw, ih, 0.02f, .1f, .02f + .96f * Math.max(.05f, ratio), .9f, 0xFFFFFFFF);
-                c.fill(x + pad, y + pad, iw, ih * .45f, ih * .22f, Anim.alpha(0x66FFFFFF, .5f + .5f * (float) Math.sin(now / 160.0)));
+                // 무지개 채움 그림(1024×92) 전체를 채운 길이에 9조각으로: 양 끝 둥근 금테(가로 6%)는 그대로, 가운데만 줄임 (끝을 자르지 않음)
+                float jw = Math.max(ih * 1.4f, iw), jk = ih / 92f;
+                c.imageNine("hud/gauge_fill_jackpot", x + pad, y + pad, jw, ih, .06f, .45f, 1024 * .06f * jk, ih * .45f, 0xFFFFFFFF);
+                c.fill(x + pad, y + pad, jw, ih * .45f, ih * .22f, Anim.alpha(0x66FFFFFF, .5f + .5f * (float) Math.sin(now / 160.0)));
             } else {
                 c.fill(x + pad, y + pad, Math.max(ih, iw), ih, ih / 2, fillColor(tier));
                 c.fill(x + pad + ih * .3f, y + pad + ih * .12f, Math.max(ih, iw) - ih * .6f, ih * .3f, ih * .15f, 0x40FFFFFF);
             }
         }
-        // 테두리 그림 (hud/gauge_frame 1024×177: 막대 판은 세로 25%~100%, 오른쪽 위 잎 포함) 을 막대 크기에 9조각으로
-        float fh = h / .75f, fk = fh / 177f;
-        c.imageNine("hud/gauge_frame", x, y - fh * .25f, w, fh, .1f, .45f, 1024 * .1f * fk, fh * .45f, 0xFFFFFFFF);
+        // 테두리 그림 (hud/gauge_frame 1024×178, 원본 전체: 막대 판 x2~1022·y42~176, 오른쪽 위 잎 x931~1012·y0~42 — 픽셀 실측)
+        // 판이 막대 칸(x,y,w,h)에 딱 맞게 놓고, 양 끝 102px(둥근 끝 + 잎)은 늘이지 않는 9조각으로 그림 → 잎·둥근 끝이 잘리지 않음
+        float fk = h / 134f;
+        c.imageNine("hud/gauge_frame", x - 2 * fk, y - 42 * fk, w + 4 * fk, 178 * fk, .1f, .45f, 102.4f * fk, 178 * .45f * fk, 0xFFFFFFFF);
         // 연잎 + 깨굴이
         float lh = h * fs;
         float px = x + w + lh * 2.1f, py = y + h * .5f + lh * .85f;
@@ -149,19 +152,20 @@ public final class HudView {
         // ── 왼쪽 위: 남은 다이아 | 보유 다이아 | 코인 | ▼
         float cx = 6, cy = 2, cw = 520, ch = cw * 120 / 1024f;
         c.image("hud/currency_frame", cx, cy, cw, ch, 0xFFFFFFFF);
-        // 안쪽 판(크림색)은 그림 세로 38~102px → 가운데 70/120 (재서 맞춤)
-        float bodyY = cy + ch * (38 / 120f), bodyH = ch * (64 / 120f), mid = cy + ch * (70 / 120f);
-        float[][] seg = {{.015f, .30f}, {.30f, .60f}, {.60f, .90f}};
+        // 안쪽 크림 칸 (그림 1024×120 픽셀 실측): 세로 40~104 → 가운데 72, 칸 x 13~313 / 317~618 / 622~925 / 929~1009
+        float bodyY = cy + ch * (40 / 120f), bodyH = ch * (64 / 120f), mid = cy + ch * (72 / 120f);
+        float[][] seg = {{13 / 1024f, 313 / 1024f}, {317 / 1024f, 618 / 1024f}, {622 / 1024f, 925 / 1024f}};
         String[] keys = {"target", "held", "coin"};
         long[] vals = {J.num(data, "debt"), J.num(data, "held"), J.num(data, "coins")};
         for (int i = 0; i < 3; i++) {
             float sx = cx + cw * seg[i][0], sw = cw * (seg[i][1] - seg[i][0]);
             float ix = sx + 26;
+            // 아이콘은 칸 높이(약 32) 안에: 조준틀이 금테 위로 넘쳐 왼쪽 둥근 끝을 덮지 않게
             if (i == 0) {
-                c.imageFit("hud/diamond", ix, mid, 29, 0xFFFFFFFF);
-                c.imageFit("hud/target_reticle", ix, mid, 42, 0xFFFFFFFF);
+                c.imageFit("hud/diamond", ix, mid, 21, 0xFFFFFFFF);
+                c.imageFit("hud/target_reticle", ix, mid, bodyH - 2, 0xFFFFFFFF);
             } else if (i == 1) c.imageFit("hud/diamond", ix, mid, 28, 0xFFFFFFFF);
-            else c.imageFit("hud/frog_coin", ix, mid, 30, 0xFFFFFFFF);
+            else c.imageFit("hud/frog_coin", ix, mid, 28, 0xFFFFFFFF);
             c.textFit(Fmt.num(vals[i]), ix + 24, mid, 22, sw - 56, Theme.INK, Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
             hits.add(new Hit(keys[i], sx, bodyY, sw, bodyH));
         }

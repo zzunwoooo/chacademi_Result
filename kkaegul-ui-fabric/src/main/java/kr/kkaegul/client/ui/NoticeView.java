@@ -86,8 +86,24 @@ public final class NoticeView {
     /** 글자 칸 폭: 얼굴과 ×N 자리(없으면 오른쪽 아래 클로버 자리)를 뺀 나머지 */
     private static float textW(Card k) { return W - 26 - FACE - (k.count > 1 ? 50 : 24); }
 
-    /** 알약 카드(notice/toast_cream, 1024×160) 안 칸: 왼쪽 동그라미 가운데 x, 글자 판 x0~x1 (그림 폭 비율) */
-    private static final float PILL_FACE = .135f, PILL_X0 = .2f, PILL_X1 = .9f, PILL_H = W * 160 / 1024f;
+    /**
+     * 알약 카드(notice/toast_cream, 1024×160) 안 칸 (픽셀 실측): 왼쪽 크림 동그라미 x87~186·y32~127 → 가운데 (136.5, 79.5), 지름 96,
+     * 글자 판 x198~931. 비율은 그림 폭/높이 기준.
+     */
+    private static final float PILL_FACE = 136.5f / 1024f, PILL_FACE_Y = 79.5f / 160f, PILL_RING = 96f / 1024f,
+            PILL_X0 = 198f / 1024f, PILL_X1 = 931f / 1024f, PILL_H = W * 160 / 1024f;
+
+    /**
+     * 깨굴이 얼굴을 머리(외곽선 포함)가 (cx,cy) 가운데에 headW 폭으로 오게 그림.
+     * face_error 는 왼쪽에 느낌표가 붙어 있어 머리가 그림 x56~512 (가운데 55.5%, 폭 89%), 나머지는 그림 전체가 머리.
+     */
+    private static void face(Canvas c, String kind, float cx, float cy, float headW, int argb) {
+        String id = "notice/face_" + kind;
+        int[] s = c.size(id);
+        float hc = "error".equals(kind) ? .555f : .5f, hf = "error".equals(kind) ? .89f : 1f;
+        float w = headW / hf, h = s == null ? w * .78f : w * s[1] / (float) s[0];
+        c.image(id, cx - w * hc, cy - h / 2, w, h, argb);
+    }
     /** 금테 카드 위로 튀어나온 깨굴이 높이 (그림 세로 31% × 배율) — 카드 사이를 이만큼 더 띄움 */
     private static final float FROG_TOP = 242 * .31f * W / 1024f;
     private static float pillW(Card k) { return W * (PILL_X1 - PILL_X0) - 8 - (k.count > 1 ? 44 : 0); }
@@ -195,8 +211,9 @@ public final class NoticeView {
         if (k.pill) {
             // 알약 카드: 왼쪽 동그라미에 얼굴, 오른쪽 판에 글자 한 줄
             c.image("notice/toast_cream", x, y, W, h, Anim.white(a));
-            c.imageFit("notice/face_" + k.kind, x + W * PILL_FACE, y + h / 2, FACE * .9f, Anim.white(a));
-            c.text(k.lines.get(0), x + W * PILL_X0 + 8, y + h / 2, T, Anim.alpha(Theme.INK, a), Canvas.LEFT, TSTYLE);
+            // 얼굴: 머리를 동그라미 가운데에, 안쪽 지름의 84% 폭 (error 는 왼쪽 느낌표까지 링 안에 들도록 76%)
+            face(c, k.kind, x + W * PILL_FACE, y + h * PILL_FACE_Y, W * PILL_RING * ("error".equals(k.kind) ? .76f : .84f), Anim.white(a));
+            c.text(k.lines.get(0), x + W * PILL_X0 + 10, y + h / 2, T, Anim.alpha(Theme.INK, a), Canvas.LEFT, TSTYLE);
             if (k.count > 1) badge(c, k, x + W * PILL_X1 - 40, y + h / 2, acc, a);
             return;
         }
@@ -206,12 +223,14 @@ public final class NoticeView {
         float iw = sz == null ? 1024 : sz[0], ih = sz == null ? 240 : sz[1], s = W / iw;
         float top = ih * .31f * s, bot = ih * .02f * s;
         c.imageNine(img, x, y - top, W, h + top + bot, .22f, .45f, iw * .22f * s, ih * .45f * s, Anim.white(a));
-        c.imageFit("notice/face_" + k.kind, x + 18 + FACE / 2, y + h / 2, FACE, Anim.white(a));   // error = 땀 흘리는 깨굴이 (묶음 5)
+        // 안쪽 크림 판 (그림 실측: 세로 42%~85.5%, 위 테두리가 아래보다 두꺼움) 의 세로 가운데 — 카드 칸 가운데보다 조금 위
+        float cy = ((y - top + ih * .42f * s) + (y + h + bot - ih * .145f * s)) / 2;
+        face(c, k.kind, x + 18 + FACE / 2, cy, FACE, Anim.white(a));   // error = 땀 흘리는 깨굴이 (묶음 5)
         float tx = x + 26 + FACE;
-        float ty = y + h / 2 - (k.lines.size() * TL + k.subLines.size() * SL) / 2;   // 글자 덩어리를 세로 가운데로
+        float ty = cy - (k.lines.size() * TL + k.subLines.size() * SL) / 2;   // 글자 덩어리를 세로 가운데로
         for (String l : k.lines) { c.text(l, tx, ty + TL / 2, T, Anim.alpha(Theme.INK, a), Canvas.LEFT, TSTYLE); ty += TL; }
         for (String l : k.subLines) { c.text(l, tx, ty + SL / 2, S, Anim.alpha(Theme.MUTED, a), Canvas.LEFT, SSTYLE); ty += SL; }
-        if (k.count > 1) badge(c, k, x + W - 46, y + h / 2, acc, a);
+        if (k.count > 1) badge(c, k, x + W - 46, cy, acc, a);
     }
 
     /** ×N 알약 (x = 왼쪽, cy = 세로 가운데) */
