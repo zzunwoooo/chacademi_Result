@@ -75,6 +75,9 @@ public final class AwtCanvas implements Canvas {
         return true;
     }
 
+    /** 3D 캐릭터는 미리보기에서 못 그림 → 화면 코드가 대체 그림을 씀 */
+    @Override public boolean entity(float x, float y, float size, float yaw) { return false; }
+
     @Override public float width() { return w; }
     @Override public float height() { return h; }
 

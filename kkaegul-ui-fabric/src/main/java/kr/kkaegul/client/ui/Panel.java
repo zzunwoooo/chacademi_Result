@@ -9,6 +9,10 @@ public interface Panel {
     /** 왼쪽 클릭. 처리했으면 true */
     boolean click(float mx, float my, long now);
     default boolean scroll(float mx, float my, double amount) { return false; }
+    /** 왼쪽 버튼을 누른 채 움직임 (캐릭터 돌리기 등) */
+    default void drag(float mx, float my) {}
+    /** 왼쪽 버튼 뗌 */
+    default void release(float mx, float my) {}
     /** GLFW 키 코드 */
     default boolean key(int key, int mods, long now) { return false; }
     default boolean typed(char ch, long now) { return false; }

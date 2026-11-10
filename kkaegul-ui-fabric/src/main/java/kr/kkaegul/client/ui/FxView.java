@@ -54,10 +54,19 @@ public final class FxView {
      * v3 그림은 장식(광택·보석·번개 끝 등)이 예전 몸통 칸 밖까지 그려져 있어서, 텍스처를 몸통 + 바깥 여백으로 다시 뽑았다.
      * 값 = 몸통 크기 대비 여백 비율 (왼, 위, 오른, 아래). 코드는 몸통 자리를 그대로 쓰고 아래 함수들이 여백만큼 바깥으로 넓혀 그림.
      */
+    private static final float[] CARD_PAD = {.3233f, .2190f, .3246f, .1821f};
     private static final java.util.Map<String, float[]> PAD = java.util.Map.ofEntries(
             java.util.Map.entry("chest/advanced_beam", new float[]{.0594f, .0952f, .0657f, .1026f}),
             java.util.Map.entry("chest/lucky_beam", new float[]{.0487f, .0760f, .0458f, .0713f}),
             java.util.Map.entry("chest/normal_beam", new float[]{0, 0, 0, .0700f}),
+            // 치장 상자 (디자이너 1254 캔버스 그대로): 몸통 = 불투명 영역 (closed x 164~1087 y 178~978 / beam x 280~1257 y 81~961 of 1536x1024)
+            java.util.Map.entry("chest/cosmetic_closed", new float[]{.1775f, .2222f, .1797f, .3433f}),
+            java.util.Map.entry("chest/cosmetic_beam", new float[]{.2863f, .0919f, .2843f, .0704f}),
+            // 등급 카드 (1254 캔버스): 몸통 = 카드 사각형 x 246~1006 y 196~1090 (위 새싹·왕관·반짝이는 여백으로 삐져나옴). 네 장 모두 ±2px 안
+            java.util.Map.entry("reward/card_common", CARD_PAD),
+            java.util.Map.entry("reward/card_uncommon", CARD_PAD),
+            java.util.Map.entry("reward/card_rare", CARD_PAD),
+            java.util.Map.entry("reward/card_legendary", CARD_PAD),
             java.util.Map.entry("reward/event_banner", new float[]{.0010f, .0409f, .0010f, .0063f}),
             java.util.Map.entry("reward/event_buff", new float[]{.0457f, .0336f, .0473f, .0309f}),
             java.util.Map.entry("reward/event_debuff", new float[]{.0033f, .0028f, .0033f, .0041f}),
@@ -154,7 +163,9 @@ public final class FxView {
         JsonObject d = cur.d();
         float W = c.width(), H = c.height();
         String box = J.str(d, "box");
-        String kind = switch (box) { case "premium" -> "advanced"; case "lucky" -> "lucky"; default -> "normal"; };
+        String kind = switch (box) { case "premium" -> "advanced"; case "lucky" -> "lucky"; case "cosmetic" -> "cosmetic"; default -> "normal"; };
+        // 치장 상자 그림(chest/cosmetic_*)이 없으면 행운 상자 그림으로
+        String art = kind.equals("cosmetic") ? (c.pick("chest/cosmetic_closed", null) != null ? "cosmetic" : "lucky") : kind;
         c.fill(0, 0, W, H, 0, Anim.alpha(0x66000000, a));
         float cx = W / 2, cy = H * .72f, ch = 290;
         int tint = Anim.white(a);
@@ -173,9 +184,12 @@ public final class FxView {
             float pulse = .7f + .3f * (float) Math.sin(e / 180.0);
             // 그림대로 좁은 쪽이 상자 입구, 넓은 쪽이 위 (예전엔 뒤집어 그려서 넓은 쪽 평평한 끝이 상자 옆으로 삐져나왔음)
             float bh = ch * 1.2f * bt;
-            artAt(c, "chest/" + kind + "_beam", cx, cy - ch * .1f - bh / 2, bh, 1, 0, Anim.white(a * pulse * .85f));
+            // 치장 상자는 열린 그림의 안쪽(분홍 칸, 캔버스 y 325~583)이 몸통 위쪽이라 빛 시작점을 더 위로
+            float base = art.equals("cosmetic") ? cy - ch * .3f : cy - ch * .1f;
+            artAt(c, "chest/" + art + "_beam", cx, base - bh / 2, bh, 1, 0, Anim.white(a * pulse * .85f));
         }
-        c.imageAt("chest/" + kind + "_" + state, cx + shake, cy, ch, sc, shake * .4f, tint);
+        if (art.equals("cosmetic")) cosmeticChest(c, state, cx + shake, cy, ch, sc, shake * .4f, tint);
+        else c.imageAt("chest/" + art + "_" + state, cx + shake, cy, ch, sc, shake * .4f, tint);
         if (J.bool(d, "fever")) {
             c.imageAt("reward/chest_fever_badge", cx + ch * .62f, cy - ch * .4f, 84, 1, 0, tint);
             c.text("1+1", cx + ch * .62f, cy - ch * .4f, 28, Anim.alpha(0xFFE0564C, a), Canvas.CENTER, Canvas.BOLD);
@@ -196,7 +210,7 @@ public final class FxView {
             c.imageNine(bid, lx - bp[0] * bW * k2, ly - lh / 2 - bp[1] * lh, lw + (bp[0] + bp[2]) * bW * k2, lh * (1 + bp[1] + bp[3]),
                     cu / tw, cv / th, cu * k2, cv * k2, tint);
         }
-        c.imageFit("chest/" + kind + "_closed", lx + 1024 * .14f * lk, ly, lh * .62f, tint);
+        artFit(c, "chest/" + art + "_closed", lx + 1024 * .14f * lk, ly, lh * .62f, tint);
         float tl = lx + 1024 * .21f * lk, tr = lx + lw - 1024 * .08f * lk;
         c.textFit(label, (tl + tr) / 2, ly, 30, tr - tl - 16, Anim.alpha(Theme.INK, a), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
         if (n == 0 && e > 1300) {
@@ -211,7 +225,7 @@ public final class FxView {
         int perRow = n <= 5 ? n : (n + 1) / 2;
         // 카드 간격은 실제 카드 그림 폭으로 (별 카드는 별 끝이 옆으로 나와서 옆 카드와 겹쳤음), 한 줄이 화면을 넘으면 줄임
         float wf = .9f;
-        for (int i = 0; i < n; i++) wf = Math.max(wf, cardW(c, kind, J.bool(rewards.get(i), "rare"), 1));
+        for (int i = 0; i < n; i++) wf = Math.max(wf, cardW(c, kind, J.bool(rewards.get(i), "rare"), J.str(rewards.get(i), "rarity"), 1));
         if (perRow > 0 && perRow * (size * wf + gap) - gap > W - 120) size = (W - 120 - (perRow - 1) * gap) / (perRow * wf);
         float step = size * wf + gap;
         for (int i = 0; i < n; i++) {
@@ -229,13 +243,46 @@ public final class FxView {
             c.push();
             c.translate(x, y);
             c.scale(.4f + .6f * t, .4f + .6f * t);
-            rewardCard(c, kind, rare, J.str(r, "id"), J.str(r, "label"), J.str(r, "icon"), size, a, e);
+            rewardCard(c, kind, rare, J.str(r, "rarity"), J.str(r, "id"), J.str(r, "label"), J.str(r, "icon"), size, a, e);
             c.pop();
         }
     }
 
+    /**
+     * 치장 상자 (디자이너 1254x1254 캔버스, 여백 포함 통째로 그림). 세 그림 모두 같은 배율:
+     * 닫힌 상자 몸통 높이(캔버스 801px, y 178~978)를 ch 에 맞추고, 몸통 아래끝(closed·ajar 978/979, open 1157)을 같은 자리(cy + ch/2)에.
+     * (cx, cy) = 닫힌 상자 몸통 가운데. 가로는 몸통 가운데(closed·ajar 625.5, open 625.5)를 cx 에.
+     */
+    private static void cosmeticChest(Canvas c, String state, float cx, float cy, float ch, float sc, float rot, int tint) {
+        String id = "chest/cosmetic_" + state;
+        int[] s = c.size(id);
+        float cw = s == null ? 1254 : s[0], cH = s == null ? 1254 : s[1];
+        float k = ch / 801f;
+        float bottom = state.equals("open") ? 1157 : state.equals("ajar") ? 979 : 978;
+        float midX = 625.5f;
+        c.push();
+        c.translate(cx, cy);
+        if (rot != 0) c.rotate(rot);
+        if (sc != 1) c.scale(sc, sc);
+        // 몸통 아래끝이 +ch/2 에 오게
+        c.image(id, -midX * k, ch / 2 - bottom * k, cw * k, cH * k, tint);
+        c.pop();
+    }
+
+    /** 등급 카드 그림 (reward/card_<등급>). 없으면 null → 예전 카드 */
+    private static String rarityCard(Canvas c, String rarity) {
+        if (rarity == null || rarity.isEmpty()) return null;
+        String id = "reward/card_" + rarity;
+        return c.pick(id, null);
+    }
+
     /** 카드 그림 폭 (rewardCard 와 같은 계산) */
-    private static float cardW(Canvas c, String kind, boolean rare, float s) {
+    private static float cardW(Canvas c, String kind, boolean rare, String rarity, float s) {
+        String rc = rarityCard(c, rarity);
+        if (rc != null) {
+            float[] p = pad(rc);
+            return s * CARD_H / bodyRatio(c, rc, 895 / 761f) * (1 + p[0] + p[2]);
+        }
         boolean star = rare || kind.equals("advanced");
         String img = star ? "reward/reward_card_rare" : "reward/reward_card_normal";
         float[] p = pad(img);
@@ -250,7 +297,9 @@ public final class FxView {
      * 보상 카드 그림 (reward/reward_card_*). 일반 = 크림 카드, 고급 상자·희귀 보상 = 보라 별 카드, 행운·희귀 = 금메달.
      * 그림 안 동그라미 칸에 아이콘, 아래 이름표 칸에 이름 (칸 위치는 그림 비율로 잰 값)
      */
-    private static void rewardCard(Canvas c, String kind, boolean rare, String id, String label, String item, float s, float a, long e) {
+    private static void rewardCard(Canvas c, String kind, boolean rare, String rarity, String id, String label, String item, float s, float a, long e) {
+        String rc = rarityCard(c, rarity);
+        if (rc != null) { rarityCardDraw(c, rc, id, label, item, s, a); return; }
         boolean star = rare || kind.equals("advanced");
         String img = star ? "reward/reward_card_rare" : "reward/reward_card_normal";
         float h = s * CARD_H * (star ? 1.02f : 1), w = h / bodyRatio(c, img, 1 / .89f);
@@ -268,6 +317,23 @@ public final class FxView {
             float mx = star ? w * .3f : w * .4f, my = y + h * (star ? .24f : .12f);
             c.imageAt("menu/medal_gold", mx, my, s * .28f, 1, 8, Anim.white(a));
         }
+    }
+
+    /**
+     * 등급 카드 (치장 상자): 카드 사각형 몸통(761x895) 기준으로 잰 칸 —
+     * 동그라미 가운데 (616, 566.5) 바깥 지름 558 / 안쪽 517, 이름표 x 322~919 y 858~992 (가운데 620.5, 925). 둘 다 카드 가운데보다 약 10px 왼쪽.
+     * 메달 같은 덧그림 없음 (등급은 카드 그림 자체).
+     */
+    private static void rarityCardDraw(Canvas c, String img, String id, String label, String item, float s, float a) {
+        float h = s * CARD_H, w = h / bodyRatio(c, img, 895 / 761f);
+        float x = -w / 2, y = -h / 2, kx = w / 761f, ky = h / 895f;
+        art(c, img, x, y, w, h, Anim.white(a));
+        float ccx = x + (616 - 246) * kx, ccy = y + (566.5f - 196) * ky;
+        float isz = 517 * kx * .72f;
+        boolean drawn = !item.isEmpty() && (a < .5f || c.item(item, ccx - isz / 2, ccy - isz / 2, isz));
+        if (!drawn) artFit(c, icon(id, label), ccx, ccy, isz, Anim.white(a));
+        float px = x + (620.5f - 246) * kx, py = y + (925 - 196) * ky;
+        c.textFit(label, px, py, Math.max(19, s * .085f), (919 - 322) * kx * .88f, Anim.alpha(Theme.INK, a), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
     }
 
     /** 보상 이름으로 아이콘 고르기 */

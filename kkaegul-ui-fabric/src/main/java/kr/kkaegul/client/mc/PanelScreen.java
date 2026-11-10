@@ -43,6 +43,16 @@ public final class PanelScreen extends Screen {
         return super.mouseClicked(mx, my, button);
     }
 
+    @Override public boolean mouseDragged(double mx, double my, int button, double dx, double dy) {
+        if (button == 0) panel.drag((float) mx / s, (float) my / s);
+        return super.mouseDragged(mx, my, button, dx, dy);
+    }
+
+    @Override public boolean mouseReleased(double mx, double my, int button) {
+        if (button == 0) panel.release((float) mx / s, (float) my / s);
+        return super.mouseReleased(mx, my, button);
+    }
+
     @Override public boolean mouseScrolled(double mx, double my, double h, double v) {
         return panel.scroll((float) mx / s, (float) my / s, v) || super.mouseScrolled(mx, my, h, v);
     }
