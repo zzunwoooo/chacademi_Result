@@ -10,12 +10,14 @@ import com.google.gson.JsonObject;
  */
 public final class DropdownPanel implements Panel {
     private static final int TXT = Canvas.BOLD | Canvas.LIGHT;
-    private static final String[] ROW_ID = {"profile", "mailbox", "withdraw", "move", "ranking", "trash", "discord_link"};
-    private static final String[] ROW_NAME = {"내 정보", "우편함", "인출", "이동", "랭킹", "쓰레기통", "디코 연동"};
+    private static final String[] ROW_ID = {"profile", "wardrobe", "mailbox", "withdraw", "move", "ranking", "trash", "discord_link"};
+    private static final String[] ROW_NAME = {"내 정보", "옷장", "우편함", "인출", "이동", "랭킹", "쓰레기통", "디코 연동"};
     private static final String[] SUB_ID = {"lobby", "village", "gacha_shop", "wild"};
     private static final String[] SUB_NAME = {"로비", "마을", "가챠샵", "야생"};
-    private static final float PW = 230, PH = 442, TIPX = 193, TIPY = 2, SUBX = 245, SUBY = 190, SW = 200, SH = 232;
+    private static final float PW = 230, PH = 500, TIPX = 193, TIPY = 2, SUBX = 245, SUBY = 248, SW = 200, SH = 232;
     private static final int ROWS = ROW_ID.length;
+    /** 이동 줄 (하위 목록이 이 줄 옆에 펼쳐짐: SUBY = 24 + 58 × MOVE - 8) */
+    private static final int MOVE = 4;
     private static final long OPEN = 260, CLOSE = 150;
 
     private final Host host;
@@ -68,7 +70,7 @@ public final class DropdownPanel implements Panel {
         float a = Anim.clamp(closing >= 0 ? t * 1.4f : t * 2.2f);
 
         // 하위 목록: 이동 줄이나 하위 목록 위에 있으면 펼침
-        boolean onMove = closing < 0 && Anim.in(lx, ly, 8, 24 + 58 * 3, 214, 58);
+        boolean onMove = closing < 0 && Anim.in(lx, ly, 8, 24 + 58 * MOVE, 214, 58);
         boolean onSub = closing < 0 && sub > .3f && Anim.in(lx, ly, SUBX - 8, SUBY, SW + 8, SH);
         float subTarget = closing >= 0 ? 0 : (onMove || onSub || subPin > 0 ? 1 : 0);
         sub = approach(sub, subTarget, dt, subTarget > sub ? 55 : 70);
@@ -84,11 +86,13 @@ public final class DropdownPanel implements Panel {
         c.translate(TIPX, TIPY);
         c.scale(sx, sy);
         c.translate(-TIPX, -TIPY);
-        // 그림(384 높이)의 셋째 줄 칸(141~199)을 한 번 더 넣어 줄을 하나 늘림
+        // 그림(384 높이, 6줄)의 셋째 줄 칸(141~199)을 모자란 줄 수만큼 더 넣어 늘림
         float g = 384f;
+        int extra = ROWS - 6;
         c.imagePart("dropdown/dropdown_panel", 0, 0, PW, 199, 0, 0, 1, 199 / g, Anim.white(a));
-        c.imagePart("dropdown/dropdown_panel", 0, 199, PW, 58, 0, 141 / g, 1, 199 / g, Anim.white(a));
-        c.imagePart("dropdown/dropdown_panel", 0, 257, PW, PH - 257, 0, 199 / g, 1, 1, Anim.white(a));
+        for (int r = 0; r < extra; r++)
+            c.imagePart("dropdown/dropdown_panel", 0, 199 + 58 * r, PW, 58, 0, 141 / g, 1, 199 / g, Anim.white(a));
+        c.imagePart("dropdown/dropdown_panel", 0, 199 + 58 * extra, PW, PH - 199 - 58 * extra, 0, 199 / g, 1, 1, Anim.white(a));
         c.pop();
 
         // 줄: 위에서부터 차례로 (줄마다 35ms 늦게), 살짝 위에서 내려오며 나타남
@@ -97,14 +101,17 @@ public final class DropdownPanel implements Panel {
             float re = Anim.outCubic(rt), ra = Anim.clamp(rt * 1.6f) * a;
             if (ra <= 0.01f) continue;
             boolean over = closing < 0 && Anim.in(lx, ly, 8, 24 + 58 * i, 214, 58);
-            hov[i] = approach(hov[i], over || (i == 3 && sub > .5f) ? 1 : 0, dt, 45);
+            hov[i] = approach(hov[i], over || (i == MOVE && sub > .5f) ? 1 : 0, dt, 45);
             float ry = 24 + 58 * i;
             float yy = TIPY + (ry - TIPY) * sy - (1 - re) * 8;      // 판이 펼쳐지는 만큼 따라 내려옴
             if (hov[i] > .01f) c.image("dropdown/row_hover", 8, yy + 3, 214, 52, Anim.white(hov[i] * ra));
             float ic = 46 * (1 + .1f * hov[i]);
-            c.image("dropdown/icon_" + ROW_ID[i], 35 - ic / 2, yy + 29 - ic / 2 - 2 * hov[i], ic, ic, Anim.white(ra));
+            // 옷장 줄은 아이콘 없음 (오너 지시: dropdown/icon_wardrobe 그림이 있어도 지금은 안 씀 — 쓰려면 이 조건만 지우면 됨)
+            String icon = "dropdown/icon_" + ROW_ID[i];
+            if (!ROW_ID[i].equals("wardrobe"))
+                c.image(icon, 35 - ic / 2, yy + 29 - ic / 2 - 2 * hov[i], ic, ic, Anim.white(ra));
             c.text(ROW_NAME[i], 70 + 3 * hov[i], yy + 29, 22, Anim.alpha(Theme.INK, ra), Canvas.LEFT, TXT);
-            if (i == 3) c.image("dropdown/arrow_right", 190 + 4 * hov[i], yy + 17, 24, 24, Anim.white(ra));
+            if (i == MOVE) c.image("dropdown/arrow_right", 190 + 4 * hov[i], yy + 17, 24, 24, Anim.white(ra));
         }
 
         // 이동 하위 목록: 오른쪽으로 미끄러지며 나타남
@@ -149,6 +156,7 @@ public final class DropdownPanel implements Panel {
             host.sound("minecraft:ui.button.click", 1.2f, .4f);
             switch (ROW_ID[i]) {
                 case "profile" -> host.send("menu.open", "tab", "me");
+                case "wardrobe" -> host.send("wardrobe.open");
                 case "mailbox" -> host.send("mail.open");
                 case "withdraw" -> host.send("withdraw.open");
                 case "move" -> { subPin = subPin > 0 ? 0 : 1; return true; }

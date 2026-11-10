@@ -59,7 +59,7 @@ public final class Gfx {
     private boolean fontsTried, preloaded;
     /** 미리 읽어두고 내리지 않는 그림 (메뉴·HUD: 처음 열 때 렉 방지) */
     private final java.util.Set<String> pinned = ConcurrentHashMap.newKeySet();
-    private static final String[] PRELOAD = {"menu/", "hud/", "notice/", "gacha_machine/", "gacha/", "shop/", "dropdown/"};
+    private static final String[] PRELOAD = {"menu/", "hud/", "notice/", "gacha_machine/", "gacha/", "shop/", "dropdown/", "wardrobe/"};
 
     public Gfx(MinecraftClient client) { this.client = client; }
 

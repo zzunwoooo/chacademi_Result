@@ -72,6 +72,13 @@ public final class KkaegulClient implements ClientModInitializer, Host {
         Fmt.translator = k -> net.minecraft.client.resource.language.I18n.translate(k);
         net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents.AFTER_ENTITIES.register(ctx -> {
             try { LandWorld.render(ctx, hub.land); } catch (RuntimeException e) { LOG.warn("땅 경계 그리기 실패", e); }
+            try { CosmeticWorld.render(ctx); } catch (RuntimeException e) { LOG.warn("풍선 그리기 실패", e); }
+        });
+        // 치장품: 플레이어 렌더에 직접 붙임 (모자·얼굴·등). 손은 PlayerCosmeticMixin, 풍선은 위 월드 렌더
+        net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents.START.register(ctx -> CosmeticWorld.inWorld = true);
+        net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents.END.register(ctx -> CosmeticWorld.inWorld = false);
+        net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRendererRegistrationCallback.EVENT.register((type, renderer, helper, context) -> {
+            if (renderer instanceof net.minecraft.client.render.entity.PlayerEntityRenderer pr) helper.register(new CosmeticFeatureRenderer(pr));
         });
 
         PayloadTypeRegistry.playS2C().register(Payloads.Ui.ID, Payloads.Ui.CODEC);

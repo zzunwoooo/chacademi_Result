@@ -55,6 +55,8 @@ public final class UiHub {
             case "land" -> land.set(m, now);
             case "taunt" -> taunt.show(m, now);
             case "fx" -> fx(J.str(m, "id"), J.objOrEmpty(m, "data"), now);
+            case "cosmetic_defs" -> Cosmetics.defs(m);
+            case "cosmetics" -> Cosmetics.players(m);
             case "names" -> {
                 nameplate = m.has("nameplate") && m.get("nameplate").getAsBoolean();
                 Map<String, String[]> map = new HashMap<>();
@@ -91,6 +93,7 @@ public final class UiHub {
             case "discord_link" -> new DiscordLinkPanel(host, data, now);
             case "land" -> new LandPanel(host, data, now);
             case "omok" -> new OmokPanel(host, data, now);
+            case "wardrobe" -> new WardrobePanel(host, data, now);
             case "hud" -> { hud.set(data, now); yield null; }
             default -> null;
         };

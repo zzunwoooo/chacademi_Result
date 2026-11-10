@@ -287,6 +287,37 @@ public final class PreviewMain {
         fx(out, tex, "16b_fever_lines.png", "fever_diamond", "{\"seconds\":300}", 420);
         fx(out, tex, "21_invite_rise.png", "invite_letter", "{\"title\":\"깨굴이의 위험한 초대\",\"to\":\"깨굴러버\",\"from\":\"초록개구리\"}", 1900);
         fx(out, tex, "22_graduate.png", "graduate", "{\"name\":\"깨굴러버\"}", 1500);
+        // 8. 옷장 + 치장 상자 (등급 카드 4종)
+        UiHub wh = new UiHub(HOST);
+        wh.handle(J.parse("""
+          {"type":"cosmetic_defs","defs":{
+           "fantasticwings:angelwings":{"slot":"back","name":"천사 날개","description":"새하얀 깃털이 겹겹이 쌓인 날개. 등 뒤에서 살랑살랑 움직여요.","rarity":"legendary","icon":""},
+           "fantasticwings:icewings":{"slot":"back","name":"얼음 날개","description":"차가운 결정이 반짝이는 날개","rarity":"rare","icon":""},
+           "fantasticwings:firewings":{"slot":"back","name":"불꽃 날개","description":"타오르는 불꽃 날개","rarity":"rare","icon":""},
+           "bunny:pet":{"slot":"back","name":"토끼 인형","description":"등에 업힌 토끼","rarity":"uncommon","icon":""},
+           "bag:leaf":{"slot":"back","name":"나뭇잎 가방","description":"","rarity":"common","icon":""},
+           "bag:frog":{"slot":"back","name":"깨굴 배낭","description":"깨굴이 얼굴 배낭","rarity":"common","icon":""},
+           "cape:red":{"slot":"back","name":"빨간 망토","description":"휘날리는 망토","rarity":"uncommon","icon":""},
+           "hat:crown":{"slot":"head","name":"왕관","description":"반짝이는 왕관","rarity":"legendary","icon":""}}}"""), T);
+        wh.handle(J.parse("{\"type\":\"cosmetics\",\"full\":true,\"players\":{\"steve\":{\"back\":\"fantasticwings:angelwings\"}}}"), T);
+        wh.handle(J.parse("""
+          {"type":"open","screen":"wardrobe","data":{"owned":["fantasticwings:angelwings","fantasticwings:icewings","bag:leaf","bunny:pet","hat:crown"],
+           "equipped":{"back":"fantasticwings:angelwings","head":"hat:crown"},"counts":{"owned":5,"total":8}}}"""), T);
+        Panel wp2 = open;
+        if (wp2 != null) {
+            // 첫 탭(모자)에 장착이 있어 모자 탭이 열림 → 등 탭으로 바꿔서도 찍음
+            shot(out, "75_wardrobe_head.png", tex, c -> wp2.render(c, T + 1000, 0, 0));
+            wp2.click(1204, 309, T + 900);   // 등 탭 (k=1.0584, 원점 113,11)
+            shot(out, "75_wardrobe.png", tex, c -> {
+                wp2.render(c, T + 1000, 0, 0);
+            });
+        }
+        open = null;
+        String[] rar = {"common", "uncommon", "rare", "legendary"};
+        for (String ra : rar)
+            fx(out, tex, "76_box_cosmetic_" + ra + ".png", "box_open",
+                    "{\"box\":\"cosmetic\",\"label\":\"치장 상자\",\"rewards\":[{\"id\":\"x\",\"label\":\"천사 날개\",\"rare\":" + (ra.equals("rare") || ra.equals("legendary")) + ",\"icon\":\"\",\"rarity\":\"" + ra + "\"}]}", 3800);
+        fx(out, tex, "76_box_cosmetic_shake.png", "box_open", "{\"box\":\"cosmetic\",\"label\":\"치장 상자\",\"rewards\":[]}", 500);
         shot(out, "23_gauge_tiers.png", tex, c -> {
             String[] t = {"low", "mid", "high", "jackpot"};
             float[] rr = {.25f, .45f, .75f, 1f};

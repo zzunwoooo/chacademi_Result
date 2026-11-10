@@ -89,6 +89,15 @@ public interface Canvas {
     /** 마인크래프트 아이템 그림 (id 예: "WHEAT", "minecraft:wheat"). 정사각형 size. 그렸으면 true */
     default boolean item(String id, float x, float y, float size) { return false; }
 
+    /**
+     * 내 캐릭터 3D 미리보기 (인벤토리 화면처럼). (x,y) = 몸 가운데, size = 서 있는 키가 차지할 높이, yaw = 돌린 각도(도, 0 = 정면).
+     * 그렸으면 true (미리보기 도구에선 못 그림)
+     */
+    default boolean entity(float x, float y, float size, float yaw) { return false; }
+
+    /** 그림이 있으면 id, 없으면 fallback — 디자이너 새 그림이 들어오면 저절로 바뀌게 (게임에선 읽는 동안 잠깐 fallback) */
+    default String pick(String id, String fallback) { return size(id) != null ? id : fallback; }
+
     // ───────── 편의 ─────────
 
     /** 이미지를 가로 w 에 맞추고 비율 유지. 그린 높이를 돌려줌 */

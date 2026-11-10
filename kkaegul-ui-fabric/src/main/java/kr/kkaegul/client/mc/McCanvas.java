@@ -66,6 +66,12 @@ public final class McCanvas implements Canvas {
 
     @Override public int[] size(String id) { return gfx.size(id); }
 
+    /** 읽는 중엔 새 그림 id 그대로 (한두 프레임 빈칸) — 예전 그림이 잠깐 번쩍이지 않게. 정말 없을 때만 fallback */
+    @Override public String pick(String id, String fallback) {
+        if (gfx.size(id) != null) return id;
+        return gfx.missing(id) ? fallback : id;
+    }
+
     @Override public void text(String s, float x, float y, float size, int argb, int align, int style) {
         if (s == null || s.isEmpty() || (argb >>> 24) == 0 || !TextRaster.ready()) return;
         var mat = m().peek().getPositionMatrix();
@@ -184,44 +190,46 @@ public final class McCanvas implements Canvas {
         return true;
     }
 
-    private final java.util.Map<String, net.minecraft.item.ItemStack> stacks = new java.util.HashMap<>();
-
     @Override public boolean item(String id, float x, float y, float size) {
-        if (id == null || id.isEmpty()) return false;
-        // "재료|m=item_model|f=실수,..|s=문자열,.." (ItemsAdder 아이템 모양) 또는 재료 id 만
-        net.minecraft.item.ItemStack st = stacks.computeIfAbsent(id, full -> {
-            String[] parts = full.split("\\|");
-            net.minecraft.util.Identifier key = net.minecraft.util.Identifier.tryParse(parts[0].toLowerCase(java.util.Locale.ROOT));
-            if (key == null) return net.minecraft.item.ItemStack.EMPTY;
-            net.minecraft.item.Item it = net.minecraft.registry.Registries.ITEM.get(key);
-            if (it == net.minecraft.item.Items.AIR) return net.minecraft.item.ItemStack.EMPTY;
-            net.minecraft.item.ItemStack s = new net.minecraft.item.ItemStack(it);
-            java.util.List<Float> floats = new java.util.ArrayList<>();
-            java.util.List<String> strings = new java.util.ArrayList<>();
-            for (int i = 1; i < parts.length; i++) {
-                String p = parts[i];
-                if (p.length() < 3 || p.charAt(1) != '=') continue;
-                String v = p.substring(2);
-                try {
-                    switch (p.charAt(0)) {
-                        case 'm' -> { net.minecraft.util.Identifier m = net.minecraft.util.Identifier.tryParse(v); if (m != null) s.set(net.minecraft.component.DataComponentTypes.ITEM_MODEL, m); }
-                        case 'f' -> { for (String f : v.split(",")) floats.add(Float.parseFloat(f)); }
-                        case 's' -> strings.addAll(java.util.List.of(v.split(",")));
-                        default -> { }
-                    }
-                } catch (RuntimeException ignored) { }
-            }
-            if (!floats.isEmpty() || !strings.isEmpty())
-                s.set(net.minecraft.component.DataComponentTypes.CUSTOM_MODEL_DATA,
-                        new net.minecraft.component.type.CustomModelDataComponent(floats, java.util.List.of(), strings, java.util.List.of()));
-            return s;
-        });
+        // "재료|m=item_model|f=..|s=.." (ItemsAdder 아이템 모양) 또는 재료 id 만 — 해석은 치장품 렌더와 같은 ItemIcons
+        net.minecraft.item.ItemStack st = ItemIcons.stack(id);
         if (st.isEmpty()) return false;
         m().push();
         m().translate(x, y, 0);
         m().scale(size / 16f, size / 16f, 1);
         ctx.drawItem(st, 0, 0);
         m().pop();
+        return true;
+    }
+
+    /**
+     * 내 캐릭터 (인벤토리 화면과 같은 방식). (x,y) = 몸 가운데, size = 서 있는 키(1.8칸)가 차지할 높이, yaw = 0 이면 정면, 돌린 각도(도).
+     * 치장품은 플레이어 렌더에 붙어 있어서 여기서도 같이 그려짐.
+     */
+    @Override public boolean entity(float x, float y, float size, float yaw) {
+        var p = client.player;
+        if (p == null || size <= 0) return false;
+        float bodyYaw = p.bodyYaw, prevBodyYaw = p.prevBodyYaw, yy = p.getYaw(), pitch = p.getPitch(), headYaw = p.headYaw, prevHeadYaw = p.prevHeadYaw;
+        try {
+            float face = 180 + yaw;
+            p.bodyYaw = face;
+            p.prevBodyYaw = face;
+            p.setYaw(face);
+            p.setPitch(0);
+            p.headYaw = face;
+            p.prevHeadYaw = face;
+            float sc = p.getScale();
+            org.joml.Vector3f off = new org.joml.Vector3f(0, p.getHeight() / 2f, 0);
+            org.joml.Quaternionf rot = new org.joml.Quaternionf().rotateZ((float) Math.PI);
+            net.minecraft.client.gui.screen.ingame.InventoryScreen.drawEntity(ctx, x, y, size / 1.8f / sc, off, rot, new org.joml.Quaternionf(), p);
+        } finally {
+            p.bodyYaw = bodyYaw;
+            p.prevBodyYaw = prevBodyYaw;
+            p.setYaw(yy);
+            p.setPitch(pitch);
+            p.headYaw = headYaw;
+            p.prevHeadYaw = prevHeadYaw;
+        }
         return true;
     }
 
