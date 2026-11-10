@@ -57,7 +57,7 @@ public final class WithdrawPanel implements Panel {
         c.translate(-PW / 2, -PH / 2);
         c.image("dropdown/withdraw_panel", 0, 0, PW, PH, Anim.white(a));
         c.textFit("인출", 220, 65.5f, 26, 160, Anim.alpha(0xFF4A2D16, a), Canvas.CENTER, TXT);
-        c.imageFit("hud/diamond", 65, 120, 34, Anim.white(a));
+        HudView.fit(c, "hud/diamond", 65, 120, 34, Anim.white(a));
         c.textFit("보유 다이아 " + Fmt.num(Math.round(shownHeld)), 95, 120, 25, 300, Anim.alpha(Theme.INK, a), Canvas.LEFT, TXT);
         for (int i = 0; i < 4; i++) {
             float bx = 23 + 102 * i, by = 155;   // 판 안쪽 좌우 여백 같게 (23 / 23)

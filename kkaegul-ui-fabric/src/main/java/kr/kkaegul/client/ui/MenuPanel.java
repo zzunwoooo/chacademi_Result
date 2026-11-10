@@ -214,7 +214,7 @@ public final class MenuPanel implements Panel {
         box(c, 137, 88, 160, 162, 18, 0xFFC9DDB0, 0xFFFBF7EC, 3);
         // 머리를 안쪽 판에 꽉 차게 그리고 판의 둥근 모서리에 맞춰 잘라냄
         if (c.face(J.str(m, "account"), 141, 92, 152)) c.cornerMask(141, 92, 152, 152, 15, 0xFFFBF7EC);
-        else c.imageFit("hud/frog_smile", 217, 169, 130, 0xFFFFFFFF);
+        else HudView.fit(c, "hud/frog_smile", 217, 169, 130, 0xFFFFFFFF);
         String title = J.str(m, "title");
         if (!title.isEmpty()) c.textFit(title, 217, 256, 13, 170, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
         c.image("gacha/jackpot_ribbon", 132, 262, 170, 170 * 247 / 1024f, 0xFFFFFFFF);
@@ -225,7 +225,7 @@ public final class MenuPanel implements Panel {
         String[] nm = {"행운", "효율", "내구성"};
         for (int i = 0; i < 3; i++) {
             float cx = 160 + i * 55;
-            c.imageFit(ic[i], cx, 330, 38, 0xFFFFFFFF);
+            HudView.fit(c, ic[i], cx, 330, 38, 0xFFFFFFFF);
             c.text(String.valueOf(J.num(pk, key[i])), cx, 360, 14, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
             if (Anim.in(mx, my, cx - 22, 308, 44, 62)) hoverTip = "&f손에 든 곡괭이 " + nm[i] + " " + J.num(pk, key[i]) + "\n&7가챠 최고 수치 " + J.num(m, "bestPickaxe");
         }
@@ -244,7 +244,7 @@ public final class MenuPanel implements Panel {
             // stat_row: 왼쪽 아이콘 칸(u .03~.16) + 오른쪽 긴 칸, 아이콘 칸까지는 안 늘림
             // v3: 가운데 위 왕관(u .358~.640)은 늘이지 않고, 위로 삐져나온 왕관·보석은 여백으로
             stripMid(c, "menu/stat_row", 328, y, 326, rh, .18f, .358f, .640f, .04f, PAD_STAT, 0xFFFFFFFF);
-            c.imageFit(rows[i][0], 351.7f, y + rh / 2, 25, 0xFFFFFFFF);
+            HudView.fit(c, rows[i][0], 351.7f, y + rh / 2, 25, 0xFFFFFFFF);
             c.text(rows[i][1], 384, y + rh / 2, 15, Theme.MUTED, Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
             c.textFit(rows[i][2], 636, y + rh / 2, 19, 110, Theme.INK, Canvas.RIGHT, Canvas.BOLD | Canvas.LIGHT);
         }
@@ -252,7 +252,7 @@ public final class MenuPanel implements Panel {
         JsonObject g = J.objOrEmpty(m, "gauge");
         String line = "§7남은 다이아 §r" + Fmt.num(J.num(m, "debt")) + "   §7보유 §r" + Fmt.num(J.num(m, "held"))
                 + "   §7코인 §r" + Fmt.num(J.num(m, "coins")) + "   §7운빨 §r" + J.num(g, "value") + "   §7" + dayText(J.num(m, "day"));
-        c.textFit(line, 448, 361, 13, 236, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        c.textFit(line, 410, 361, 13, 160, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);   // 오른쪽 아래 잎·보석 장식(x 약 495~) 앞에서 끝나게
     }
 
     /** 서버 일차: 오픈 전(0 이하)이면 "오픈 D-3" */
@@ -299,7 +299,7 @@ public final class MenuPanel implements Panel {
                         .3257f, .3607f, cw * .3733f, cw * .4144f, 0xFFFFFFFF);
             else c.imageNine(claimed ? "menu/reward_card_claimed" : "menu/reward_card_locked",
                     x, cy - lift, cw, ch, .3f, .34f, cw * .3f, cw * .34f, 0xFFFFFFFF);
-            c.imageFit(FxView.icon(J.str(m, "id"), J.str(m, "label")).equals("reward/event_diamond") ? "fever/gift" : FxView.icon(J.str(m, "id"), J.str(m, "label")),
+            HudView.fit(c, FxView.icon(J.str(m, "id"), J.str(m, "label")).equals("reward/event_diamond") ? "fever/gift" : FxView.icon(J.str(m, "id"), J.str(m, "label")),
                     x + cw / 2, cy - lift + 44, 50, claimed ? 0x99FFFFFF : 0xFFFFFFFF);
             c.textFit(J.str(m, "label"), x + cw / 2, cy - lift + 88, 15, cw - 26, claimed ? Theme.MUTED : Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
             c.textFit(claimed ? "받음" : ready ? "받을 수 있어요!" : Fmt.time(J.num(m, "needSeconds")).trim() + " 접속", x + cw / 2, cy - lift + 107, 12, cw - 26,

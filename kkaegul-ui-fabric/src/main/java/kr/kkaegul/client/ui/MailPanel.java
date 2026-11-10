@@ -72,7 +72,7 @@ public final class MailPanel implements Panel {
             c.image(sel ? "mail/mail_row_selected" : "mail/mail_row_normal", 610, y, 700, 84, 0xFFFFFFFF);
             String mat = J.str(o, "material").toLowerCase();
             // 아이템 칸 (v3 그림에서 잼): 69~190 × 60~142px → 가운데 (64.7, 50.5), 높이 41 → 아이템 36. 글자도 알약 몸통 가운데(50)에
-            if (mat.isEmpty() || !c.item("minecraft:" + mat, 610 + 64.7f - 18, y + 50.5f - 18, 36)) c.imageFit("hud/diamond", 610 + 64.7f, y + 50.5f, 34, 0xFFFFFFFF);
+            if (mat.isEmpty() || !c.item("minecraft:" + mat, 610 + 64.7f - 18, y + 50.5f - 18, 36)) HudView.fit(c, "hud/diamond", 610 + 64.7f, y + 50.5f, 34, 0xFFFFFFFF);
             c.textFit(J.str(o, "name"), 610 + 112, y + 50, 26, 440, INK, Canvas.LEFT, TXT);
             c.textFit("×" + J.num(o, "amount", 1), 610 + 570 + 50, y + 50, 26, 100, INK, Canvas.CENTER, TXT);
         }

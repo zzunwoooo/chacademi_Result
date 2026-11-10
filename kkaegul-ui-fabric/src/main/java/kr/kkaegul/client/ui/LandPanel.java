@@ -79,12 +79,13 @@ public final class LandPanel implements Panel {
             if (y > 790 || y + 84 < 280) continue;
             Row r = rows.get(i);
             c.image("mail/mail_row_normal", 610, y, 700, 84, Anim.white(a));
-            if (!c.face(r.account(), 622, y + 10, 64)) c.imageFit("dropdown/icon_profile", 654, y + 42, 56, Anim.white(a));
-            c.textFit(r.name(), 610 + 112, y + 30, 26, 330, Anim.alpha(INK, a), Canvas.LEFT, TXT);
+            // v3 줄 그림: 알약 몸통 y 17~81 (가운데 49)
+            if (!c.face(r.account(), 626, y + 21, 56)) HudView.fit(c, "dropdown/icon_profile", 654, y + 49, 52, Anim.white(a));
+            c.textFit(r.name(), 610 + 112, y + 38, 24, 330, Anim.alpha(INK, a), Canvas.LEFT, TXT);
             String tag = r.inside() ? (r.trusted() ? "내 땅에 있음 · 허용됨" : "내 땅에 있음") : "허용 명단";
-            c.textFit(tag, 610 + 112, y + 60, 17, 330, Anim.alpha(MUTED, a), Canvas.LEFT, TXT);
+            c.textFit(tag, 610 + 112, y + 63, 16, 330, Anim.alpha(MUTED, a), Canvas.LEFT, TXT);
             boolean add = !r.trusted();
-            float bx = 610 + 596, by = y + 15;
+            float bx = 610 + 596, by = y + 21.5f;
             boolean hb = live && ly > 284 && ly < 780 && Anim.in(lx, ly, bx, by, 88, 55);
             c.image(hb ? "dropdown/withdraw_button_hover" : "dropdown/withdraw_button_normal", bx, by - (hb ? 2 : 0), 88, 55, Anim.white(a));
             c.textFit(add ? "허용" : "빼기", bx + 44, by + 27.5f - (hb ? 2 : 0), 22, 70, Anim.alpha(add ? 0xFF3E8E2F : 0xFFB8322B, a), Canvas.CENTER, TXT);
