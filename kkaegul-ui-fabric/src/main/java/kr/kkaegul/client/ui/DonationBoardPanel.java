@@ -13,8 +13,9 @@ import java.util.List;
 public final class DonationBoardPanel implements Panel {
     private static final int TXT = Canvas.BOLD | Canvas.LIGHT;
     private static final int INK = 0xFF4A2D16;
-    private static final float[] MEDAL_AR = {237 / 156f, 226 / 156f, 223 / 156f};
-    private static final int[] DIV = {0xFFBA8336, 0xFF7F6E5F, 0xFFAF815B};
+    // 1~3등 줄 그림(1400×176 → 700×88)에서 잰 메달 원판 가운데 x, 구분선 x
+    private static final float[] MEDAL_CX = {93, 90, 83};
+    private static final float[] DIV_X = {543, 524, 548};
     private final Host host;
     private JsonObject data;
     private final long opened;
@@ -68,14 +69,12 @@ public final class DonationBoardPanel implements Panel {
             float ry = 270 + 100 * i, rt = Anim.outCubic(Anim.t(now, opened + 80 + 50L * i, 240));
             float ra = a * rt, slide = (1 - rt) * 20;
             c.image("board/" + medal[i], 50 + slide, ry, 700, 88, Anim.white(ra));
-            // 메달·구분선은 판에서 떼어내 같은 자리에 맞춰 그림 (원본은 줄마다 위치가 달랐음)
-            float mh = 78, mw = mh * MEDAL_AR[i], mcx = 50 + 95 + slide;
-            c.image("board/medal_" + medal[i], mcx - mw / 2, ry + 5, mw, mh, Anim.white(ra));
-            c.fill(50 + 545 + slide, ry + 20, 2, 48, 1, Anim.alpha(DIV[i], ra));
-            c.text(String.valueOf(i + 1), mcx, ry + 5 + mh * .46f, 24, Anim.alpha(0xFFFFFFFF, ra), Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
+            // 새 줄 그림에 메달(빈 원판)·구분선이 들어 있음: 숫자만 원판 가운데에 (그림에서 잰 자리)
+            float mcx = 50 + MEDAL_CX[i] + slide;
+            c.text(String.valueOf(i + 1), mcx, ry + 45, 26, Anim.alpha(0xFFFFFFFF, ra), Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
             if (i < rows.size()) {
                 JsonObject r = rows.get(i);
-                c.textFit(J.str(r, "name"), 50 + 180 + slide, ry + 44, 26, 320, Anim.alpha(INK, ra), Canvas.LEFT, TXT);
+                c.textFit(J.str(r, "name"), 50 + 180 + slide, ry + 44, 26, DIV_X[i] - 180 - 14, Anim.alpha(INK, ra), Canvas.LEFT, TXT);
                 c.text(Fmt.num(J.num(r, "amount")) + "개", 50 + 676 + slide, ry + 44, 26, Anim.alpha(INK, ra), Canvas.RIGHT, TXT);
             } else c.text("-", 50 + 180 + slide, ry + 44, 24, Anim.alpha(0xFF9A8470, ra), Canvas.LEFT, TXT);
         }

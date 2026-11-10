@@ -60,7 +60,7 @@ public final class WithdrawPanel implements Panel {
         c.imageFit("hud/diamond", 65, 120, 34, Anim.white(a));
         c.textFit("보유 다이아 " + Fmt.num(Math.round(shownHeld)), 95, 120, 25, 300, Anim.alpha(Theme.INK, a), Canvas.LEFT, TXT);
         for (int i = 0; i < 4; i++) {
-            float bx = 20 + 102 * i, by = 155;
+            float bx = 23 + 102 * i, by = 155;   // 판 안쪽 좌우 여백 같게 (23 / 23)
             boolean off = i == 3 ? held <= 0 : held < Long.parseLong(AMT[i]);
             boolean over = !off && closing < 0 && Anim.in(lx, ly, bx, by, 88, 55);
             hov[i] += ((over ? 1 : 0) - hov[i]) * (1 - (float) Math.exp(-dt / 45f));
@@ -70,19 +70,19 @@ public final class WithdrawPanel implements Panel {
             c.image(skin, bx, by + lift, 88, 55, Anim.white(a));
             c.textFit(LABEL[i], bx + 44, by + 27.5f + lift, 24, 68, Anim.alpha(off ? 0xFF9A9A9A : Theme.INK, a), Canvas.CENTER, TXT);
         }
-        boolean hc = closing < 0 && Anim.in(lx, ly, 397, 55, 32, 32);
+        boolean hc = closing < 0 && Anim.in(lx, ly, 389, 59, 32, 32);
         float cs = 24 * (hc ? 1.15f : 1);
-        c.image("dropdown/close_button", 413 - cs / 2, 71 - cs / 2, cs, cs, Anim.white(a));
+        c.image("dropdown/close_button", 405 - cs / 2, 75 - cs / 2, cs, cs, Anim.white(a));   // 오른쪽 위 클로버 장식에 안 겹치게
         c.pop();
     }
 
     @Override public boolean click(float mx, float my, long now) {
         if (closing >= 0) return true;
         float lx = (mx - ox) / k - 740, ly = (my - oy) / k - 425;
-        if (Anim.in(lx, ly, 397, 55, 32, 32)) { close(now); return true; }
+        if (Anim.in(lx, ly, 389, 59, 32, 32)) { close(now); return true; }
         long held = J.num(data, "held");
         for (int i = 0; i < 4; i++) {
-            if (!Anim.in(lx, ly, 20 + 102 * i, 155, 88, 55)) continue;
+            if (!Anim.in(lx, ly, 23 + 102 * i, 155, 88, 55)) continue;
             boolean off = i == 3 ? held <= 0 : held < Long.parseLong(AMT[i]);
             if (off) { host.sound("minecraft:block.note_block.didgeridoo", 2f, .5f); return true; }
             pressed = i;

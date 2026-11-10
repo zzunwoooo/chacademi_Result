@@ -63,6 +63,22 @@ public final class MenuPanel implements Panel {
         slices(c, id, y, h, new float[]{0, uL, 1 - uR, 1}, new float[]{x, x + l, x + w - r, x + w}, argb);
     }
 
+    /**
+     * strip 과 같지만, 그림 몸통(예전 자른 범위) 바깥에 테두리·그림자 여백이 붙은 그림용.
+     * pad = 그림 픽셀 기준 왼·위·오른·아래 여백. 몸통이 (x,y,w,h) 에 오고 여백은 바깥으로 삐져나와 그려짐.
+     */
+    static void stripPad(Canvas c, String id, float x, float y, float w, float h, float uL, float uR, float[] pad, int argb) {
+        int[] s = c.size(id);
+        float s1 = s == null ? 0 : h / (s[1] - pad[1] - pad[3]);            // 그림 1픽셀 → 화면
+        strip(c, id, x - pad[0] * s1, y - pad[1] * s1, w + (pad[0] + pad[2]) * s1, h + (pad[1] + pad[3]) * s1, uL, uR, argb);
+    }
+
+    // 다시 뽑은 그림의 몸통 바깥 여백 (그림 픽셀, 왼·위·오른·아래)
+    private static final float[] PAD_SUBTAB_NORMAL = {14, 2, 14, 2};
+    private static final float[] PAD_TITLE_LOCKED = {2.4f, 1.4f, 2.8f, .5f};
+    private static final float[] PAD_TITLE_OWNED = {1.9f, 2.4f, 1.9f, 0};
+    private static final float[] PAD_TITLE_SELECTED = {2, 2, 2, 3};
+
     private float lx(float mx) { return (mx - fx) / k; }
     private float ly(float my) { return (my - fy) / k; }
 
@@ -101,7 +117,7 @@ public final class MenuPanel implements Panel {
         // 왼쪽 탭
         for (int i = 0; i < 4; i++) {
             boolean sel = TABS[i].equals(tab);
-            float tx = 22, ty = 67 + i * 73;
+            float tx = 22, ty = 75 + i * 76.67f;                          // 4개가 오른쪽 판(70~376) 높이에 고르게
             boolean hov = Anim.in(mxR, myR, tx, ty, 80, 66);
             c.imageAt("menu/tab_" + TAB_ART[i] + (sel ? "_selected" : "_normal"), tx + 40, ty + 33, 76, hov && !sel ? 1.04f : 1, 0, 0xFFFFFFFF);
             hits.add(new Hit("tab", TABS[i], tx, ty, 80, 66));
@@ -219,7 +235,10 @@ public final class MenuPanel implements Panel {
             boolean hov = ready && Anim.in(mx, my, x, cy, cw, ch);
             float lift = hov ? 3 : ready ? (float) Math.abs(Math.sin(now / 350.0 + i)) * 2 : 0;
             // 정사각 그림을 세로로 긴 카드에 맞춤: 아래 체크·자물쇠·띠는 귀퉁이 칸에 들어가게 9조각
-            c.imageNine(claimed ? "menu/reward_card_claimed" : ready ? "menu/reward_card_ready" : "menu/reward_card_locked",
+            if (ready) // 받기 카드는 바깥 금테가 더 큼: 몸통은 다른 카드 자리 그대로, 바깥 테는 둘레로 삐져나오게
+                c.imageNine("menu/reward_card_ready", x - cw * .0733f, cy - lift - cw * .0744f, cw * 1.1466f, ch + cw * .1488f,
+                        .3257f, .3607f, cw * .3733f, cw * .4144f, 0xFFFFFFFF);
+            else c.imageNine(claimed ? "menu/reward_card_claimed" : "menu/reward_card_locked",
                     x, cy - lift, cw, ch, .3f, .34f, cw * .3f, cw * .34f, 0xFFFFFFFF);
             c.imageFit(FxView.icon(J.str(m, "id"), J.str(m, "label")).equals("reward/event_diamond") ? "fever/gift" : FxView.icon(J.str(m, "id"), J.str(m, "label")),
                     x + cw / 2, cy - lift + 44, 50, claimed ? 0x99FFFFFF : 0xFFFFFFFF);
@@ -238,8 +257,9 @@ public final class MenuPanel implements Panel {
         boolean ex = papers >= need;
         boolean h2 = ex && Anim.in(mx, my, 404, 335, 210, 38);
         c.image(ex ? (h2 ? "menu/button_exchange_pressed" : "menu/button_exchange_normal") : "menu/button_exchange_disabled", 404, 335, 210, 38, 0xFFFFFFFF);
-        c.imageFit("menu/icon_losing_paper", 428, 354, 32, 0xFFFFFFFF);
-        c.text("꽝 종이 " + papers + "/" + need + " → 고급상자", 519, 354, 14, ex ? Theme.INK : Theme.MUTED, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        // 종이 아이콘은 버튼 안쪽 테두리(높이 약 28) 안에 들어가게, 둥근 왼쪽 끝을 피해 조금 안쪽으로
+        c.imageFit("menu/icon_losing_paper", 433, 354, 25, 0xFFFFFFFF);
+        c.textFit("꽝 종이 " + papers + "/" + need + " → 고급상자", 526, 354, 14, 150, ex ? Theme.INK : Theme.MUTED, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
         if (ex) hits.add(new Hit("exchange", "", 404, 335, 210, 38));
     }
 
@@ -262,10 +282,11 @@ public final class MenuPanel implements Panel {
             boolean own = J.bool(r, "owned"), sel = J.bool(r, "selected");
             boolean hov = own && Anim.in(mx, my, 134, y, 510, rh);
             // 장착(체크)·잠김(자물쇠)은 그림 오른쪽 끝에 들어 있어서 오른쪽 15%는 안 늘림
-            strip(c, sel ? "menu/title_row_selected" : own ? "menu/title_row_owned" : "menu/title_row_locked", 134, y, 510, rh, .07f, .15f, hov && !sel ? 0xFFEFFFE0 : 0xFFFFFFFF);
-            c.image("gacha/jackpot_ribbon", 150, y + rh / 2 - 24, 160, 160 * 247 / 1024f, own ? 0xFFFFFFFF : 0xCCFFFFFF);
+            stripPad(c, sel ? "menu/title_row_selected" : own ? "menu/title_row_owned" : "menu/title_row_locked", 134, y, 510, rh, .07f, .15f,
+                    sel ? PAD_TITLE_SELECTED : own ? PAD_TITLE_OWNED : PAD_TITLE_LOCKED, hov && !sel ? 0xFFEFFFE0 : 0xFFFFFFFF);
+            c.image("gacha/jackpot_ribbon", 150, y + rh / 2 - 20, 160, 160 * 247 / 1024f, own ? 0xFFFFFFFF : 0xCCFFFFFF);
             String name = J.str(r, "name");
-            c.textArc(own ? name : "§7" + Fmt.strip(name), 230, y + rh / 2 - 24 + 160 * 247 / 1024f * Theme.RIBBON_CY, 16, Theme.ribbonR(160), 110, Theme.INK, Canvas.BOLD | Canvas.LIGHT);
+            c.textArc(own ? name : "§7" + Fmt.strip(name), 230, y + rh / 2 - 20 + 160 * 247 / 1024f * Theme.RIBBON_CY, 16, Theme.ribbonR(160), 110, Theme.INK, Canvas.BOLD | Canvas.LIGHT);
             c.textFit(J.str(r, "condition"), 330, y + rh / 2, 15, 230, own ? Theme.INK : Theme.MUTED, Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
             if (own) { float hy = Math.max(91, y), hb = Math.min(384, y + rh); if (hb > hy) hits.add(new Hit("title", sel ? "none" : J.str(r, "id"), 134, hy, 510, hb - hy)); }
             if (Anim.in(mx, my, 134, y, 510, rh) && my > 91 && my < 384)
@@ -289,7 +310,8 @@ public final class MenuPanel implements Panel {
             int row = i / per, colI = i % per;
             float x = 160 + colI * (sw + gap), y = 82 + row * (shh + 6);
             boolean sel = i == board, hov = Anim.in(mx, my, x, y, sw, shh);
-            strip(c, sel ? "menu/ranking_subtab_selected" : "menu/ranking_subtab_normal", x, y, sw, shh, .09f, .09f, hov && !sel ? 0xFFF4FFE8 : 0xFFFFFFFF);
+            if (sel) strip(c, "menu/ranking_subtab_selected", x, y, sw, shh, .1f, .1f, 0xFFFFFFFF);
+            else stripPad(c, "menu/ranking_subtab_normal", x, y, sw, shh, .1f, .1f, PAD_SUBTAB_NORMAL, hov ? 0xFFF4FFE8 : 0xFFFFFFFF);
             c.textFit(J.str(boards.get(i), "label"), x + sw / 2, y + shh / 2, 13, sw - 20, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
             hits.add(new Hit("board", String.valueOf(i), x, y, sw, shh));
         }
