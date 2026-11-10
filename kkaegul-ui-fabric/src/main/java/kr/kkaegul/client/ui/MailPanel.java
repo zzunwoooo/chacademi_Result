@@ -38,7 +38,10 @@ public final class MailPanel implements Panel {
         return out;
     }
 
-    private float maxScroll() { return Math.max(0, items().size() * 100 - 484); }
+    // 줄은 제목 리본 판(아래 끝 y 300) 밑에서 시작: 예전 290 은 리본 아래 금테를 덮었음
+    private static final float TOP = 306, STEP = 96, VIEW_BOTTOM = 780;
+
+    private float maxScroll() { return Math.max(0, items().size() * STEP - 12 - (VIEW_BOTTOM - 6 - TOP)); }
 
     @Override public void render(Canvas c, long now, float mx, float my) {
         float W = c.width(), H = c.height();
@@ -60,12 +63,12 @@ public final class MailPanel implements Panel {
         scroll = Math.max(0, Math.min(scroll, maxScroll()));
         shown += (scroll - shown) * .25f;
         if (Math.abs(scroll - shown) < .3f) shown = scroll;
-        c.clip(600, 284, 716, 496);
+        c.clip(600, TOP - 6, 716, VIEW_BOTTOM - TOP + 6);
         for (int i = 0; i < it.size(); i++) {
-            float y = 290 + 100 * i - shown;
-            if (y + 84 < 280 || y > 790) continue;
+            float y = TOP + STEP * i - shown;
+            if (y + 84 < TOP - 10 || y > 790) continue;
             JsonObject o = it.get(i);
-            boolean sel = i == selected || Anim.in(lx, ly, 610, y, 700, 84) && ly > 284 && ly < 780;
+            boolean sel = i == selected || Anim.in(lx, ly, 610, y, 700, 84) && ly > TOP - 6 && ly < VIEW_BOTTOM;
             c.image(sel ? "mail/mail_row_selected" : "mail/mail_row_normal", 610, y, 700, 84, 0xFFFFFFFF);
             String mat = J.str(o, "material").toLowerCase();
             // 아이템 칸: 그림 65~190 × 24~144px → 가운데 (63.75, 42)
@@ -77,9 +80,10 @@ public final class MailPanel implements Panel {
         c.unclip();
         // 스크롤
         if (maxScroll() > 0) {
-            c.image("mail/mail_scroll_track", 1320, 290, 16, 480, 0xFFFFFFFF);
-            float th = Math.max(60, 480 * 484 / (it.size() * 100f));
-            c.image("mail/mail_scroll_thumb", 1320, 290 + (480 - th) * shown / maxScroll(), 16, th, 0xFFFFFFFF);
+            float th0 = VIEW_BOTTOM - 6 - TOP;
+            c.image("mail/mail_scroll_track", 1320, TOP, 16, th0, 0xFFFFFFFF);
+            float th = Math.max(60, th0 * th0 / (it.size() * STEP - 12));
+            c.image("mail/mail_scroll_thumb", 1320, TOP + (th0 - th) * shown / maxScroll(), 16, th, 0xFFFFFFFF);
         }
         boolean can = !it.isEmpty();
         boolean hb = can && Anim.in(lx, ly, 760, 800, 400, 70);
@@ -105,8 +109,8 @@ public final class MailPanel implements Panel {
             return true;
         }
         for (int i = 0; i < items().size(); i++) {
-            float y = 290 + 100 * i - shown;
-            if (ly > 284 && ly < 780 && Anim.in(lx, ly, 610, y, 700, 84)) { selected = i; return true; }
+            float y = TOP + STEP * i - shown;
+            if (ly > TOP - 6 && ly < VIEW_BOTTOM && Anim.in(lx, ly, 610, y, 700, 84)) { selected = i; return true; }
         }
         return false;
     }
