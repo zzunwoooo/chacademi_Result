@@ -450,7 +450,7 @@ jail:
   squat-min: 40
   squat-max: 80
   squat-min-interval-ms: 250    # 매크로 방지
-  radius: 15                    # 감옥 위치(jail)에서 이 반경 밖으로 못 나감
+  radius: 40                    # ★ 감옥 위치(jail)에서 이 반경 밖으로 못 나감
   invulnerable: true
   return-chance: 50
   msg-return-success: "&a아 까비ㅋ"
