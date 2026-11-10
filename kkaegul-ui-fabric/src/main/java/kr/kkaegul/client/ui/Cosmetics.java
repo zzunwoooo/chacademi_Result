@@ -72,8 +72,9 @@ public final class Cosmetics {
     public static String icon(String account, String slot) {
         if (account == null) return null;
         Map<String, String> s = players.get(account.toLowerCase(Locale.ROOT));
-        if (s == null) return null;
-        Def d = defs.get(s.get(slot));
+        String id = s == null ? null : s.get(slot);
+        if (id == null) return null;   // 그 부위는 안 입음 (Map.copyOf 맵은 null 키 조회에서 예외 → 반드시 먼저 거름)
+        Def d = defs.get(id);
         return d == null || d.icon().isEmpty() ? null : d.icon();
     }
 
