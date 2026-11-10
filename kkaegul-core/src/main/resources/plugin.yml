@@ -108,8 +108,8 @@ commands:
     description: 쓰레기통
     aliases: [쓰레기통]
   towngo:
-    description: 튜토리얼 → 마을 이동 (장비 뽑기·땅 구매권을 다 받았을 때만). 콘솔·NPC는 /마을가기 <플레이어>
-    aliases: [마을가기]
+    description: 튜토리얼 → 로비 이동 (장비 뽑기·땅 구매권을 다 받았을 때만). 콘솔·NPC는 /로비가기 <플레이어>
+    aliases: [로비가기, 마을가기]
   me:
     description: 내 정보
     aliases: [내정보]
