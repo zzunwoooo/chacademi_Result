@@ -71,3 +71,10 @@ items:
       generate: true
       textures:
       - kkaegul/tutorial_10.png
+  tutorial_11:
+    display_name: '&f튜토리얼 11 · 이제 시작'
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+      - kkaegul/tutorial_11.png
