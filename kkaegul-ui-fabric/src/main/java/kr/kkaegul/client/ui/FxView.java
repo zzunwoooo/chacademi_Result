@@ -229,7 +229,7 @@ public final class FxView {
             c.push();
             c.translate(x, y);
             c.scale(.4f + .6f * t, .4f + .6f * t);
-            rewardCard(c, kind, rare, J.str(r, "id"), J.str(r, "label"), size, a, e);
+            rewardCard(c, kind, rare, J.str(r, "id"), J.str(r, "label"), J.str(r, "icon"), size, a, e);
             c.pop();
         }
     }
@@ -250,7 +250,7 @@ public final class FxView {
      * 보상 카드 그림 (reward/reward_card_*). 일반 = 크림 카드, 고급 상자·희귀 보상 = 보라 별 카드, 행운·희귀 = 금메달.
      * 그림 안 동그라미 칸에 아이콘, 아래 이름표 칸에 이름 (칸 위치는 그림 비율로 잰 값)
      */
-    private static void rewardCard(Canvas c, String kind, boolean rare, String id, String label, float s, float a, long e) {
+    private static void rewardCard(Canvas c, String kind, boolean rare, String id, String label, String item, float s, float a, long e) {
         boolean star = rare || kind.equals("advanced");
         String img = star ? "reward/reward_card_rare" : "reward/reward_card_normal";
         float h = s * CARD_H * (star ? 1.02f : 1), w = h / bodyRatio(c, img, 1 / .89f);
@@ -258,7 +258,11 @@ public final class FxView {
         art(c, img, x, y, w, h, Anim.white(a));
         // {동그라미 가운데 y, 동그라미 지름(폭 대비), 이름표 가운데 y, 이름표 폭(폭 대비)}
         float[] m = star ? new float[]{.515f, .46f, .82f, .46f} : new float[]{.455f, .62f, .805f, .66f};
-        artFit(c, icon(id, label), 0, y + h * m[0], w * m[1] * .66f, Anim.white(a));
+        // 실제 아이템을 주는 보상은 그 아이템 모양 그대로 (서버가 보낸 icon), 아니면 보상 종류 그림
+        float isz = w * m[1] * .66f;
+        // 아이템 그림은 반투명이 안 돼서 반 넘게 보일 때부터. 클라에 없는 아이템이면 보상 종류 그림으로
+        boolean drawn = !item.isEmpty() && (a < .5f || c.item(item, -isz / 2, y + h * m[0] - isz / 2, isz));
+        if (!drawn) artFit(c, icon(id, label), 0, y + h * m[0], isz, Anim.white(a));
         c.textFit(label, 0, y + h * m[2], Math.max(19, s * .085f), w * m[3], Anim.alpha(Theme.INK, a), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
         if (rare || kind.equals("lucky")) {
             float mx = star ? w * .3f : w * .4f, my = y + h * (star ? .24f : .12f);

@@ -62,6 +62,33 @@ public final class BoxService {
         plugin.actions().runAll(to, set, kind + " 세트");
     }
 
+    /** 보상 카드에 그릴 실제 아이템 모양 (아이템을 주는 보상만, 나머지는 "" → 모드가 기본 그림) */
+    private String iconFor(String action) {
+        String[] a = action.trim().split(" +");
+        if (a.length == 0) return "";
+        try {
+            org.bukkit.inventory.ItemStack it = switch (a[0]) {
+                case "item" -> {
+                    if (a.length < 2) yield null;
+                    CustomItem ci = CustomItem.byId(a[1]);
+                    if (ci != null) yield plugin.items().create(ci, 1);
+                    org.bukkit.Material m = org.bukkit.Material.matchMaterial(a[1]);
+                    yield m == null ? null : new org.bukkit.inventory.ItemStack(m);
+                }
+                case "food" -> plugin.items().create(plugin.clock().isPeperoSeason() ? CustomItem.KKAEKKAERO : CustomItem.COLA, 1);
+                case "box" -> {
+                    String k = a.length > 1 ? a[1] : "normal";
+                    yield plugin.items().create(k.equals("lucky") ? CustomItem.LUCKY_BOX : k.equals("premium") ? CustomItem.PREMIUM_BOX : CustomItem.NORMAL_BOX, 1);
+                }
+                case "mending" -> new org.bukkit.inventory.ItemStack(org.bukkit.Material.ENCHANTED_BOOK);
+                default -> null;
+            };
+            return kr.kkaegul.core.util.ItemIcon.of(it);
+        } catch (RuntimeException e) {
+            return "";
+        }
+    }
+
     /** 상자 아이템 사용 */
     public void open(Player p, String kind) { open(p, kind, 1); }
 
@@ -82,7 +109,7 @@ public final class BoxService {
                 String action = c.getString("pool." + entry + ".action", "");
                 String label = c.getString("pool." + entry + ".label", entry);
                 boolean rare = c.getBoolean("pool." + entry + ".rare", false);
-                byId.putIfAbsent(entry, Json.obj().put("id", entry).put("label", label).put("rare", rare));
+                byId.putIfAbsent(entry, Json.obj().put("id", entry).put("label", label).put("rare", rare).put("icon", iconFor(action)));
                 counts.merge(entry, 1, Integer::sum);
                 plugin.actions().run(p.getUniqueId(), action, kind + " 상자");
                 if (rare) plugin.announce(Txt.fmt(plugin.getConfig().getString("boxes.rare-broadcast",
