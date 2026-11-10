@@ -7,7 +7,7 @@ import java.util.ArrayDeque;
 /**
  * 전체 이벤트 배너 (type "banner" {text, color:gold|blue|purple}, 받은 묶음 5).
  * 배너 900×150 (2배 그림), 화면 위 가운데 게이지 아래로 내려왔다가 올라감. 하나씩 차례로.
- * 판 안쪽 세로 가운데 81.5 (그림에서 잼), 느낌표 아이콘 (58,48) 60, 글자 x 145~795.
+ * 판 안쪽 세로 가운데 81.5 (그림에서 잼), 느낌표 아이콘 가운데 (112,82) 60 (v3 왼쪽 다이아·덩굴 장식을 덮지 않게 안쪽으로), 글자 x 145~795.
  */
 public final class BannerView {
     private static final long LIFE = 4200, IN = 380, OUT = 380;
@@ -42,7 +42,7 @@ public final class BannerView {
         c.image("banner/" + color, 0, 0, 900, 150, Anim.white(a));
         float pulse = 1 + .08f * (float) Math.max(0, Math.sin(Math.min(1, e / 600f) * Math.PI));
         c.push();
-        c.translate(88, 81.5f);
+        c.translate(112, 82);
         c.scale(pulse, pulse);
         c.image("banner/icon", -30, -30, 60, 60, Anim.white(a));
         c.pop();

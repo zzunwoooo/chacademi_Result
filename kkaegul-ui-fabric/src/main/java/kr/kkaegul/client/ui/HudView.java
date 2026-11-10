@@ -94,18 +94,63 @@ public final class HudView {
         };
     }
 
-    /** 잎사귀 두 장 (줄기 끝 장식) */
     /**
-     * 잎 두 장 (hud/leaf.png: 줄기 끝이 오른쪽 아래, 잎은 왼쪽 위).
-     * (x,y) = 줄기 끝. flip=true 면 그대로(잎이 왼쪽), false 면 좌우 반전(잎이 오른쪽).
+     * v3 아이콘은 예전 자른 영역(몸통) 밖에도 반짝이·테두리 장식이 있어 여백째 뽑았다. 여백 = 그림 픽셀 {왼, 위, 오른, 아래}.
+     * fit/at 은 몸통이 예전과 같은 자리·크기에 오게 그리고, 여백(장식)은 바깥으로 더 그린다.
      */
-    static void leaf(Canvas c, float x, float y, float size, boolean flip) {
-        float h = size * 1.6f, w = h * 160 / 120f;
+    private static final java.util.Map<String, float[]> PAD = java.util.Map.ofEntries(
+            java.util.Map.entry("hud/diamond", new float[]{2.9f, 0, 2.9f, 2.9f}),
+            java.util.Map.entry("hud/expand_arrow", new float[]{3, 0, 0, 7}),
+            java.util.Map.entry("hud/fever", new float[]{11.6f, 5.3f, 6.2f, 0}),
+            java.util.Map.entry("hud/frog_coin", new float[]{6.9f, 5.5f, 0, 0}),
+            java.util.Map.entry("hud/frog_neutral", new float[]{2.4f, 1.8f, 0, 0}),
+            java.util.Map.entry("hud/frog_sad", new float[]{1.8f, 0, 2.4f, 0}),
+            java.util.Map.entry("hud/frog_smile", new float[]{0, 0, 2.4f, 0}),
+            java.util.Map.entry("hud/prison_bars", new float[]{61, 71, 30, 29}),
+            java.util.Map.entry("hud/protection_shield", new float[]{16.8f, 51.9f, 13.2f, 0}),
+            java.util.Map.entry("hud/target_reticle", new float[]{20.6f, 12.4f, 22, 8.9f}));
+
+    /** imageFit 과 같되 몸통(여백 뺀 부분)의 긴 변이 box, 몸통 가운데가 (cx,cy) */
+    public static void fit(Canvas c, String id, float cx, float cy, float box, int argb) {
+        int[] s = c.size(id);
+        float[] p = PAD.get(id);
+        if (s == null || p == null) { c.imageFit(id, cx, cy, box, argb); return; }
+        float bw = s[0] - p[0] - p[2], bh = s[1] - p[1] - p[3], k = box / Math.max(bw, bh);
+        c.image(id, cx - (bw / 2 + p[0]) * k, cy - (bh / 2 + p[1]) * k, s[0] * k, s[1] * k, argb);
+    }
+
+    /** imageAt 과 같되 h = 몸통 높이, 몸통 가운데가 (cx,cy) */
+    public static void at(Canvas c, String id, float cx, float cy, float h, float scale, float rotate, int argb) {
+        int[] s = c.size(id);
+        float[] p = PAD.get(id);
+        if (s == null || p == null) { c.imageAt(id, cx, cy, h, scale, rotate, argb); return; }
+        float bw = s[0] - p[0] - p[2], bh = s[1] - p[1] - p[3], k = h / bh;
         c.push();
-        c.translate(x, y);
-        if (!flip) c.scale(-1, 1);
-        c.image("hud/leaf", -w * 150 / 160f, -h * 104 / 120f, w, h, 0xFFFFFFFF);
+        c.translate(cx, cy);
+        if (rotate != 0) c.rotate(rotate);
+        if (scale != 1) c.scale(scale, scale);
+        c.image(id, -(bw / 2 + p[0]) * k, -(bh / 2 + p[1]) * k, s[0] * k, s[1] * k, argb);
         c.pop();
+    }
+
+    /**
+     * hud/gauge_frame (v3 1024×216 = 원본 x96~2082·y132~550, 픽셀 실측). 막대 판 = 원본 x107~2068·y236~502 (높이 266).
+     * 가로 경계(원본 x): 왼쪽 끝(둥근 끝+클로버·다이아) · 별 · 별 · 별 · 오른쪽 끝(클로버·다이아+둥근 끝)은 늘이지 않고,
+     * 그 사이 민 금테 구간만 늘인다 → 장식·별이 찌그러지거나 잘리지 않음
+     */
+    private static final float[] GF_X = {96, 451, 538, 561, 1065, 1108, 1608, 1643, 1715, 2082};
+    private static final boolean[] GF_FIX = {true, false, true, false, true, false, true, false, true};
+
+    /** 가로로만 늘이는 띠: xs = 그림 가로 경계(원본 픽셀), fix 칸은 k 배 그대로, 나머지 칸이 남은 폭을 길이 비례로 나눠 가짐 */
+    static void stripH(Canvas c, String id, float x, float y, float w, float h, float[] xs, boolean[] fix, float k, int argb) {
+        float span = xs[xs.length - 1] - xs[0], fixed = 0, free = 0;
+        for (int i = 0; i < fix.length; i++) { float n = (xs[i + 1] - xs[i]) * k; if (fix[i]) fixed += n; else free += n; }
+        float f = free > 0 ? Math.max(0, w - fixed) / free : 1, xx = x;
+        for (int i = 0; i < fix.length; i++) {
+            float pw = (xs[i + 1] - xs[i]) * k * (fix[i] ? 1 : f);
+            c.imagePart(id, xx, y, pw, h, (xs[i] - xs[0]) / span, 0, (xs[i + 1] - xs[0]) / span, 1, argb);
+            xx += pw;
+        }
     }
 
     /**
@@ -116,7 +161,7 @@ public final class HudView {
 
     /** fs = 깨굴이(연잎 포함) 크기 배율 */
     public static void gaugeBar(Canvas c, float x, float y, float w, float h, float ratio, String tier, long now, float fs) {
-        leaf(c, x + h * .2f, y + h * .55f, h * 1.3f, true);
+        // (예전 왼쪽 잎은 v3 테두리 그림의 클로버 장식이 대신함)
         // 안쪽 크림 홈 (테두리는 아래 hud/gauge_frame 그림이 덮음)
         c.fill(x + h * .06f, y + h * .08f, w - h * .12f, h - h * .16f, (h - h * .16f) / 2, 0xFFFDF4E2);
         float pad = h * .22f;
@@ -132,16 +177,15 @@ public final class HudView {
                 c.fill(x + pad + ih * .3f, y + pad + ih * .12f, Math.max(ih, iw) - ih * .6f, ih * .3f, ih * .15f, 0x40FFFFFF);
             }
         }
-        // 테두리 그림 (hud/gauge_frame 1024×178, 원본 전체: 막대 판 x2~1022·y42~176, 오른쪽 위 잎 x931~1012·y0~42 — 픽셀 실측)
-        // 판이 막대 칸(x,y,w,h)에 딱 맞게 놓고, 양 끝 102px(둥근 끝 + 잎)은 늘이지 않는 9조각으로 그림 → 잎·둥근 끝이 잘리지 않음
-        float fk = h / 134f;
-        c.imageNine("hud/gauge_frame", x - 2 * fk, y - 42 * fk, w + 4 * fk, 178 * fk, .1f, .45f, 102.4f * fk, 178 * .45f * fk, 0xFFFFFFFF);
+        // 테두리 그림: 막대 판(원본 x107~2068·y236~502)이 막대 칸(x,y,w,h)에 딱 맞게, 장식 여백은 바깥으로 (GF_X 설명)
+        float fk = h / 266f;
+        stripH(c, "hud/gauge_frame", x - (107 - 96) * fk, y - (236 - 132) * fk, w + (107 - 96 + 2082 - 2068) * fk, 418 * fk, GF_X, GF_FIX, fk, 0xFFFFFFFF);
         // 연잎 + 깨굴이
         float lh = h * fs;
         float px = x + w + lh * 2.1f, py = y + h * .5f + lh * .85f;
         c.image("hud/lily_pad", px - lh * 1.6f, py - lh * .56f, lh * 3.2f, lh * 1.12f, 0xFFFFFFFF);
         float bob = "jackpot".equals(tier) ? Math.abs((float) Math.sin(now / 180.0)) * lh * .25f : (float) Math.sin(now / 600.0) * 1.5f;
-        c.imageAt(frog(tier), px, py - lh * 1.2f - bob, lh * 2.6f, 1, 0, 0xFFFFFFFF);
+        at(c, frog(tier), px, py - lh * 1.2f - bob, lh * 2.6f, 1, 0, 0xFFFFFFFF);
     }
 
     public void render(Canvas c, long now) {
@@ -152,37 +196,40 @@ public final class HudView {
         float W = c.width() / scale;
 
         // ── 왼쪽 위: 남은 다이아 | 보유 다이아 | 코인 | ▼
-        float cx = 6, cy = 2, cw = 520, ch = cw * 120 / 1024f;
-        c.image("hud/currency_frame", cx, cy, cw, ch, 0xFFFFFFFF);
-        // 안쪽 크림 칸 (그림 1024×120 픽셀 실측): 세로 40~104 → 가운데 72, 칸 x 13~313 / 317~618 / 622~925 / 929~1009
-        float bodyY = cy + ch * (40 / 120f), bodyH = ch * (64 / 120f), mid = cy + ch * (72 / 120f);
-        float[][] seg = {{13 / 1024f, 313 / 1024f}, {317 / 1024f, 618 / 1024f}, {622 / 1024f, 925 / 1024f}};
+        // hud/currency_frame (v3 1024×170 = 원본 x16~2158·y169~524). 몸통(예전 자른 영역) = 원본 x75~2100·y224~461 (2025×237).
+        // 몸통이 (cx,cy,cw,ch) 에 오고 왼쪽 위 클로버·오른쪽 아래 다이아 장식(원본 왼 59·위 55·오른 58·아래 63)은 바깥으로 더 그림.
+        // 왼쪽 위 장식이 화면 밖으로 잘리지 않게 그만큼 안쪽으로 들여 놓음
+        float cw = 520, ck = cw / 2025f, ch = 237 * ck, cx = 3 + 59 * ck, cy = 2 + 55 * ck;
+        c.image("hud/currency_frame", cx - 59 * ck, cy - 55 * ck, 2142 * ck, 355 * ck, 0xFFFFFFFF);
+        // 안쪽 크림 칸 (원본 픽셀 실측, 몸통 왼쪽 위 기준): 세로 76~209 → 가운데 142.5, 칸 x 30~624 / 633~1235 / 1243~1844 / 1852~2004
+        float bodyY = cy + 76 * ck, bodyH = 133 * ck, mid = cy + 142.5f * ck;
+        float[][] seg = {{30, 624}, {633, 1235}, {1243, 1844}};
         String[] keys = {"target", "held", "coin"};
         long[] vals = {J.num(data, "debt"), J.num(data, "held"), J.num(data, "coins")};
         for (int i = 0; i < 3; i++) {
-            float sx = cx + cw * seg[i][0], sw = cw * (seg[i][1] - seg[i][0]);
+            float sx = cx + seg[i][0] * ck, sw = (seg[i][1] - seg[i][0]) * ck;
             float ix = sx + 26;
-            // 아이콘은 칸 높이(약 32) 안에: 조준틀이 금테 위로 넘쳐 왼쪽 둥근 끝을 덮지 않게
+            // 아이콘은 칸 높이(약 34) 안에: 조준틀이 금테 위로 넘쳐 왼쪽 둥근 끝을 덮지 않게
             if (i == 0) {
-                c.imageFit("hud/diamond", ix, mid, 21, 0xFFFFFFFF);
-                c.imageFit("hud/target_reticle", ix, mid, bodyH - 2, 0xFFFFFFFF);
-            } else if (i == 1) c.imageFit("hud/diamond", ix, mid, 28, 0xFFFFFFFF);
-            else c.imageFit("hud/frog_coin", ix, mid, 28, 0xFFFFFFFF);
+                fit(c, "hud/diamond", ix, mid, 21, 0xFFFFFFFF);
+                fit(c, "hud/target_reticle", ix, mid, bodyH - 4, 0xFFFFFFFF);
+            } else if (i == 1) fit(c, "hud/diamond", ix, mid, 28, 0xFFFFFFFF);
+            else fit(c, "hud/frog_coin", ix, mid, 28, 0xFFFFFFFF);
             c.textFit(Fmt.num(vals[i]), ix + 24, mid, 22, sw - 56, Theme.INK, Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
             hits.add(new Hit(keys[i], sx, bodyY, sw, bodyH));
         }
         arrowTurn += ((menuOpen ? 1 : 0) - arrowTurn) * .3f;
-        menuX = cx + cw * .945f;
+        menuX = cx + 1928 * ck;
         menuY = cy + ch - 1;
-        if (arrowTurn < .01f) c.imageFit("hud/expand_arrow", menuX, mid, 18, 0xFFFFFFFF);
+        if (arrowTurn < .01f) fit(c, "hud/expand_arrow", menuX, mid, 18, 0xFFFFFFFF);
         else {
             c.push();
             c.translate(menuX, mid);
             c.rotate(180 * Anim.inOut(arrowTurn));
-            c.imageFit("hud/expand_arrow", 0, 0, 18, 0xFFFFFFFF);
+            fit(c, "hud/expand_arrow", 0, 0, 18, 0xFFFFFFFF);
             c.pop();
         }
-        hits.add(new Hit("menu", cx + cw * .90f, bodyY, cw * .10f, bodyH));
+        hits.add(new Hit("menu", cx + 1852 * ck, bodyY, 152 * ck, bodyH));
 
         // ── 그 아래: 상태 아이콘 + 남은 시간
         float bx = cx + 6, by = cy + ch + 8;
@@ -222,7 +269,7 @@ public final class HudView {
             float py = H - 96 - n * 34 - 22 * Anim.outCubic(t);
             float tw = c.textWidth(p.text(), 30, Canvas.BOLD | Canvas.OUTLINE);
             float px = W / 2 - (tw + 38) / 2;
-            c.imageFit("hud/diamond", px + 15, py, 30, Anim.white(a));
+            fit(c, "hud/diamond", px + 15, py, 30, Anim.white(a));
             c.text(p.text(), px + 38, py, 30, Anim.alpha(p.color(), a), Canvas.LEFT, Canvas.BOLD | Canvas.OUTLINE);
             n++;
         }
@@ -234,7 +281,7 @@ public final class HudView {
         float s = 44;
         float w = Math.max(s, c.textWidth(text, 19, Canvas.BOLD | Canvas.OUTLINE)) + 10;
         float cx = x + w / 2;
-        c.imageFit(icon, cx, y + s / 2, s, 0xFFFFFFFF);
+        fit(c, icon, cx, y + s / 2, s, 0xFFFFFFFF);
         if (inner != null) c.imageFit(inner, cx, y + s / 2, s * .55f, 0xFFFFFFFF);
         c.text(text, cx, y + s + 11, 19, Theme.WHITE, Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
         hits.add(new Hit(key, x, y, w, s + 20));

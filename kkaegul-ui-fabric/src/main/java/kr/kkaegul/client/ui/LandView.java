@@ -72,8 +72,8 @@ public final class LandView {
             float h = 50, k = h / 160f, w = Math.max(240, tw + 291 * k + 24), x = W / 2 - 30 - w / 2, y = 96 - (1 - t) * 6;
             pill(c, x, y, w, h, Anim.white(t));
             // 상태 점은 왼쪽 동그라미 가운데, 글자는 오른쪽 글자 판 안
-            c.fill(x + 136.5f * k - 7, y + 79.5f * k - 7, 14, 14, 7, Anim.alpha(0xFF000000 | rgb(status), t));
-            c.textFit(label, x + 198 * k + 8, y + h / 2, 20, w - 198 * k - 93 * k - 16, Anim.alpha(0xFF4A2D16, t), Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
+            c.fill(x + 137 * k - 7, y + 80.5f * k - 7, 14, 14, 7, Anim.alpha(0xFF000000 | rgb(status), t));
+            c.textFit(label, x + 198 * k + 8, y + h / 2, 20, w - 198 * k - 91 * k - 16, Anim.alpha(0xFF4A2D16, t), Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
         }
         JsonObject mi = mine;
         cardW = 0;
@@ -86,23 +86,26 @@ public final class LandView {
             float a = Anim.clamp(t);
             float k = h / 160f, dy = over ? -2 : 0;
             pill(c, x, y + dy, w, h, Anim.white(a));
-            // 집 아이콘은 왼쪽 동그라미(안지름 96) 가운데, 글자는 글자 판(x198~931) 안
-            c.imageFit("dropdown/icon_lobby", x + 136.5f * k, y + dy + 79.5f * k - 2 * hover, 96 * k * (1 + .06f * hover), Anim.white(a));
+            // 집 아이콘은 왼쪽 동그라미(안지름 99) 가운데, 글자는 글자 판(x198~933, 오른쪽 끝은 카드 오른쪽에서 91) 안
+            c.imageFit("dropdown/icon_lobby", x + 137 * k, y + dy + 80.5f * k - 2 * hover, 96 * k * (1 + .06f * hover), Anim.white(a));
             float tx = x + 198 * k + 10;
             c.textFit("내 땅", tx, y + dy + h / 2, 23, 70, Anim.alpha(0xFF4A2D16, a), Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
-            c.textFit(J.num(mi, "count") + "칸 · 눌러서 관리", tx + 66, y + dy + h / 2, 17, x + 931 * k - 10 - (tx + 66), Anim.alpha(0xFF8A6A4A, a), Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
+            c.textFit(J.num(mi, "count") + "칸 · 눌러서 관리", tx + 66, y + dy + h / 2, 17, x + w - 91 * k - 10 - (tx + 66), Anim.alpha(0xFF8A6A4A, a), Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
             cardX = x; cardY = y; cardW = w; cardH = h;
         }
         c.pop();
     }
 
     /**
-     * 알약 카드 그림(notice/toast_cream 1024×160)을 아무 폭으로: 높이에 맞춘 배율로 양 끝 20%(왼쪽 동그라미·오른쪽 잎 장식)는
-     * 그대로 두고 가운데 판만 가로로 늘림 (통째로 늘이면 동그라미가 찌그러짐).
+     * 알약 카드 그림(notice/toast_cream v3 1024×160)을 아무 폭으로: 높이에 맞춘 배율로 왼쪽 끝(동그라미·클로버, x0~272)·
+     * 위아래 별 셋(x521~549, 812~840; 첫 별은 왼쪽 끝에 포함)·오른쪽 끝(x888~1024, 클로버·다이아)은 그대로 두고
+     * 그 사이 민 테두리만 가로로 늘림 (통째로 늘이면 동그라미·별이 찌그러짐).
      */
+    private static final float[] PILL_X = {0, 272, 521, 549, 812, 840, 888, 1024};
+    private static final boolean[] PILL_FIX = {true, false, true, false, true, false, true};
+
     private static void pill(Canvas c, float x, float y, float w, float h, int argb) {
-        float k = h / 160f;
-        c.imageNine("notice/toast_cream", x, y, w, h, .2f, .45f, 1024 * .2f * k, h * .45f, argb);
+        HudView.stripH(c, "notice/toast_cream", x, y, w, h, PILL_X, PILL_FIX, h / 160f, argb);
     }
 
     /** 카드를 눌렀는지 (가상 좌표, scale = HUD 배율) */

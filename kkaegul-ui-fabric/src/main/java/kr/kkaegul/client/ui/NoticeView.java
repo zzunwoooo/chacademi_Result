@@ -87,11 +87,11 @@ public final class NoticeView {
     private static float textW(Card k) { return W - 26 - FACE - (k.count > 1 ? 50 : 24); }
 
     /**
-     * 알약 카드(notice/toast_cream, 1024×160) 안 칸 (픽셀 실측): 왼쪽 크림 동그라미 x87~186·y32~127 → 가운데 (136.5, 79.5), 지름 96,
-     * 글자 판 x198~931. 비율은 그림 폭/높이 기준.
+     * 알약 카드(notice/toast_cream, 1024×160) 안 칸 (픽셀 실측): 왼쪽 크림 동그라미 x88~186·y31~130 → 가운데 (137, 80.5), 지름 99,
+     * 글자 판 x198~933 (v3 실측). 비율은 그림 폭/높이 기준.
      */
-    private static final float PILL_FACE = 136.5f / 1024f, PILL_FACE_Y = 79.5f / 160f, PILL_RING = 96f / 1024f,
-            PILL_X0 = 198f / 1024f, PILL_X1 = 931f / 1024f, PILL_H = W * 160 / 1024f;
+    private static final float PILL_FACE = 137f / 1024f, PILL_FACE_Y = 80.5f / 160f, PILL_RING = 99f / 1024f,
+            PILL_X0 = 198f / 1024f, PILL_X1 = 933f / 1024f, PILL_H = W * 160 / 1024f;
 
     /**
      * 깨굴이 얼굴을 머리(외곽선 포함)가 (cx,cy) 가운데에 headW 폭으로 오게 그림.
@@ -223,8 +223,8 @@ public final class NoticeView {
         float iw = sz == null ? 1024 : sz[0], ih = sz == null ? 240 : sz[1], s = W / iw;
         float top = ih * .31f * s, bot = ih * .02f * s;
         c.imageNine(img, x, y - top, W, h + top + bot, .22f, .45f, iw * .22f * s, ih * .45f * s, Anim.white(a));
-        // 안쪽 크림 판 (그림 실측: 세로 42%~85.5%, 위 테두리가 아래보다 두꺼움) 의 세로 가운데 — 카드 칸 가운데보다 조금 위
-        float cy = ((y - top + ih * .42f * s) + (y + h + bot - ih * .145f * s)) / 2;
+        // 안쪽 크림 판 (v3 그림 실측: 세로 약 41%~88%, 위 테두리가 아래보다 두꺼움) 의 세로 가운데 — 카드 칸 가운데보다 조금 위
+        float cy = ((y - top + ih * .41f * s) + (y + h + bot - ih * .12f * s)) / 2;
         face(c, k.kind, x + 18 + FACE / 2, cy, FACE, Anim.white(a));   // error = 땀 흘리는 깨굴이 (묶음 5)
         float tx = x + 26 + FACE;
         float ty = cy - (k.lines.size() * TL + k.subLines.size() * SL) / 2;   // 글자 덩어리를 세로 가운데로
