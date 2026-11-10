@@ -57,17 +57,14 @@ public final class ApiService {
         plugin.actions().runAll(id, personalActions(number), "API " + number);
     }
 
-    public String server(String number, String source) { return server(number, source, null); }
-
-    /** self = 후원 받은 섭주(명령이면 친 사람) — 앞에 all 이 없는 액션(box cosmetic 1 등)은 이 사람에게만 */
-    public String server(String number, String source, java.util.UUID self) {
+    public String server(String number, String source) {
         List<String> actions = serverActions(number);
         if (actions.isEmpty()) return "&c섭주 API " + number + " 번이 config에 없어요";
         write("S " + number + " (" + source + ")");
         String label = plugin.getConfig().getString("api.labels.server." + number, number);
         if (plugin.getConfig().getBoolean("api.announce", true))
             plugin.announce("&8[&6섭주 API&8] &f" + label, true);
-        plugin.actions().runAll(self, actions, "섭주 API " + number);
+        plugin.actions().runAll(null, actions, "섭주 API " + number);
         return "&a섭주 API " + number + " 실행";
     }
 

@@ -52,7 +52,7 @@ public final class Commands implements CommandExecutor, TabCompleter {
                 }
                 case "ksapi" -> {
                     if (a.length < 1) { say(s, "&e/ksapi <번호>"); return true; }
-                    say(s, plugin.api().server(a[0], s.getName(), s instanceof org.bukkit.entity.Player pl ? pl.getUniqueId() : null));
+                    say(s, plugin.api().server(a[0], s.getName()));
                 }
                 case "kgnotice" -> {
                     if (!s.hasPermission("kkaegul.admin")) { say(s, "&c권한이 없어요."); return true; }
@@ -278,7 +278,7 @@ public final class Commands implements CommandExecutor, TabCompleter {
             case "tp" -> { if (self != null && a.length > 1) plugin.places().tp(self, a[1]); }
             case "npc" -> npc(s, self, a);
             case "api" -> { if (a.length >= 3) say(s, plugin.api().personal(a[1], a[2], s.getName())); else say(s, "&e/kg api <플레이어> <번호>"); }
-            case "sapi" -> { if (a.length >= 2) say(s, plugin.api().server(a[1], s.getName(), s instanceof org.bukkit.entity.Player pl ? pl.getUniqueId() : null)); else say(s, "&e/kg sapi <번호>"); }
+            case "sapi" -> { if (a.length >= 2) say(s, plugin.api().server(a[1], s.getName())); else say(s, "&e/kg sapi <번호>"); }
             case "run" -> {
                 if (a.length < 3) { say(s, "&e/kg run <플레이어|*> <액션...>  예) /kg run 준우 roulette increase"); return; }
                 String action = String.join(" ", Arrays.copyOfRange(a, 2, a.length));
