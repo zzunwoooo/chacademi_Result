@@ -139,7 +139,7 @@ public final class MinigameView {
         c.image("rroulette/cylinder_frame", x, y, S, S, 0xFFFFFFFF);
         int cur = (int) J.num(g, "cursor");
         for (int i = 0; i < 6 && i < ch.length(); i++) {
-            float cx = x + HOLE[i][0] * k, cy = y + HOLE[i][1] * k, d = 60 * k;
+            float cx = x + HOLE[i][0] * k, cy = y + HOLE[i][1] * k, d = 64 * k;   // 구멍 지름 63~64px 그대로
             String id = switch (ch.charAt(i)) { case 'E' -> "chamber_empty"; case 'B' -> "chamber_bullet"; default -> "chamber_unknown"; };
             if (i == cur && ch.charAt(i) == 'U') c.fill(cx - d / 2 - 5, cy - d / 2 - 5, d + 10, d + 10, d / 2 + 5, Anim.alpha(0xFFFFE27A, .55f + .35f * (float) Math.sin(now / 150.0)));
             c.image("rroulette/" + id, cx - d / 2, cy - d / 2, d, d, 0xFFFFFFFF);
@@ -161,7 +161,7 @@ public final class MinigameView {
     /** A 제목 리본 (640,20) 640×200, 글자칸 (110,112) 420×55 */
     private void titleRibbon(Canvas c, String t) {
         c.image(P + "a_title", 640, 20, 640, 200, 0xFFFFFFFF);
-        c.textFit(t, 640 + 110 + 210, 20 + 112 + 27.5f, 40, 420, INK, Canvas.CENTER, TXT);
+        c.textFit(t, 960, 20 + 137, 40, 420, INK, Canvas.CENTER, TXT);   // 리본 판 안쪽 y 213~335px (1280×400) 가운데
     }
 
     /** B 타이머 (1710,45) 140×160. 링 가운데 (69.5, 94) 반지름 63.5 (재서 맞춤), 남은 비율로 초록→주황→빨강 */
@@ -187,13 +187,13 @@ public final class MinigameView {
     /** D 파트너 (60,80) 160×160, 얼굴칸 (30,30) 100×100 */
     private void partner(Canvas c, JsonObject pt) {
         float x = 60, y = 80;
-        if (!c.face(J.str(pt, "account"), x + 30, y + 30, 100)) c.imageFit("hud/frog_smile", x + 80, y + 80, 96, 0xFFFFFFFF);
+        if (!c.face(J.str(pt, "account"), x + 21.75f, y + 27.75f, 114)) c.imageFit("hud/frog_smile", x + 78.75f, y + 84.75f, 100, 0xFFFFFFFF);   // 틀 구멍 x 40~275, y 52~287px(320) 가운데, 구멍보다 살짝 크게 → 가장자리는 틀 아래
         c.image(P + "d_partner_frame", x, y, 160, 160, 0xFFFFFFFF);
         c.text("파트너", x + 176, y + 58, 22, 0xFFFFFFFF, Canvas.LEFT, Canvas.BOLD | Canvas.OUTLINE);
         c.textFit(J.str(pt, "name"), x + 176, y + 100, 32, 240, 0xFFFFFFFF, Canvas.LEFT, Canvas.BOLD | Canvas.OUTLINE);
     }
 
-    /** F 참가자 줄 (60, 250+82i) 360×72, 얼굴칸 (20,21) 32, 글자칸 (85,14) 220×44, 상태 뱃지는 오른쪽 */
+    /** F 참가자 줄 (60, 250+82i) 360×72, 얼굴칸 안쪽 (18,21) 28 (그림 36~93, 42~97px 잼), 글자칸 (85,14) 220×44, 상태 뱃지는 오른쪽 */
     private void participants(Canvas c, JsonObject g) {
         JsonArray arr = g.has("participants") && g.get("participants").isJsonArray() ? g.getAsJsonArray("participants") : null;
         if (arr == null || arr.isEmpty()) return;
@@ -206,7 +206,7 @@ public final class MinigameView {
             boolean last = i == 4 && arr.size() > 5;
             c.image(P + "f_participant_row", x, y, 360, 72, 0xFFFFFFFF);
             if (last) { c.textFit("외 " + (arr.size() - 4) + "명", x + 195, y + 36, 24, 220, INK, Canvas.CENTER, TXT); continue; }
-            if (!c.face(J.str(o, "account"), x + 20, y + 21, 32)) c.imageFit("hud/frog_smile", x + 36, y + 37, 30, 0xFFFFFFFF);
+            if (!c.face(J.str(o, "account"), x + 18.25f, y + 20.75f, 28)) c.imageFit("hud/frog_smile", x + 32.25f, y + 34.75f, 26, 0xFFFFFFFF);
             c.textFit(J.str(o, "name"), x + 85, y + 36, 24, 220, INK, Canvas.LEFT, TXT);
             String st = J.str(o, "state", "wait");
             String badge = switch (st) { case "success" -> "f_badge_success"; case "out" -> "f_badge_out"; default -> "f_badge_wait"; };
@@ -228,7 +228,8 @@ public final class MinigameView {
     private void gauge(Canvas c, String k, float x, float y, float f) {
         f = Math.max(0, Math.min(1, f));
         c.image(P + k + "_gauge_empty", x, y, 520, 44, 0xFFFFFFFF);
-        if (f > 0) c.imagePart(P + k + "_gauge_fill", x + 10, y + 7, 500 * f, 30, 0, 0, f, 1, 0xFFFFFFFF);
+        // 채움 그림 오른쪽 둥근 끝이 잘리지 않게 3조각(왼끝·가운데 늘림·오른끝)으로 (끝 = 그림 1000px 중 55px)
+        if (f > 0) c.imageNine(P + k + "_gauge_fill", x + 10, y + 7, 500 * f, 30, .055f, 0, 27.5f, 0, 0xFFFFFFFF);
     }
 
     /** H 남은 상자 (1450,250) 420×90, 글자칸 (120,20) 275×50 */
@@ -292,7 +293,7 @@ public final class MinigameView {
         c.textFit(J.str(r, "label"), x + (35 + 75) * s, y + (185 + 22.5f) * s, 26 * s, 150 * s, Anim.alpha(INK, a), Canvas.CENTER, TXT);
     }
 
-    /** 결과: G 개구리 (760,255) 400×400 + 리본 (610,625) 700×160 글자칸 (145,45) 410×70 + 작은 보상 카드 132×156 */
+    /** 결과: G 개구리 (760,250|236) 400×400 + 리본 (610,625) 700×160 글자칸 (145,45) 410×70 + 작은 보상 카드 132×156 */
     private void resultView(Canvas c, long now) {
         float t = (now - resultAt) / 3800f;
         float a = t < .08f ? t / .08f : t > .85f ? (1 - t) / .15f : 1;
@@ -302,17 +303,17 @@ public final class MinigameView {
         c.translate(960, 600);
         c.scale(.7f + .3f * pop, .7f + .3f * pop);
         c.translate(-960, -600);
-        c.image(P + (ok ? "g_frog_success" : "g_frog_failure"), 760, 255, 400, 400, Anim.white(a));
+        c.image(P + (ok ? "g_frog_success" : "g_frog_failure"), 760, ok ? 250 : 236, 400, 400, Anim.white(a));   // 발끝(그림 789px)이 리본 윗선(성공 31px·실패 4px)에 올라서게: 실패 리본이 더 높아 발이 묻히던 것
         c.image(P + (ok ? "result_ribbon_success" : "result_ribbon_failure"), 610, 625, 700, 160, Anim.white(a));
         String head = J.str(result, "head", ok ? "성공!" : "실패…");
         c.textFit(head, 610 + 145 + 205, 625 + 45 + 35, 52, 410, Anim.alpha(INK, a), Canvas.CENTER, TXT);
         String sub = J.str(result, "sub");
-        if (!sub.isEmpty()) c.textFit(sub, 960, 232, 28, 900, Anim.alpha(0xFFFFFFFF, a), Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
+        if (!sub.isEmpty()) c.textFit(sub, 960, ok ? 352 : 338, 28, 900, Anim.alpha(0xFFFFFFFF, a), Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
         JsonArray rw = result.has("rewards") && result.get("rewards").isJsonArray() ? result.getAsJsonArray("rewards") : null;
         if (rw != null && !rw.isEmpty()) {
             int n = Math.min(4, rw.size());
             float gap = 168, x0 = 960 - (gap * (n - 1) + 132) / 2;
-            for (int i = 0; i < n; i++) if (rw.get(i).isJsonObject()) card(c, rw.get(i).getAsJsonObject(), x0 + i * gap, 770, 132, 156, a);
+            for (int i = 0; i < n; i++) if (rw.get(i).isJsonObject()) card(c, rw.get(i).getAsJsonObject(), x0 + i * gap, 792, 132, 156, a);   // 리본 꼬리 아래끝(783) 밑으로
         }
         c.pop();
     }

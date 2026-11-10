@@ -35,7 +35,7 @@ public final class JailExitPanel implements Panel {
         c.scale(k, k);
         float lx = (mx - ox) / k, ly = (my - oy) / k;
         c.image("jail/exit_window", 560, 220, 800, 600, 0xFFFFFFFF);
-        c.textFit("깜빵 탈출", 560 + 225 + 175, 220 + 92.5f + 25, 38, 350, 0xFF4A2D16, Canvas.CENTER, TXT);
+        c.textFit("깜빵 탈출", 960, 220 + 109, 38, 350, 0xFF4A2D16, Canvas.CENTER, TXT);   // 리본 판 안쪽 y 146~290px (1600×1200) 가운데
         boolean hs = Anim.in(lx, ly, 620, 380, 320, 340), hr = Anim.in(lx, ly, 980, 380, 320, 340);
         c.image(hs ? "jail/exit_safe_hover" : "jail/exit_safe_normal", 620, 380 - (hs ? 4 : 0), 320, 340, 0xFFFFFFFF);
         c.image(hr ? "jail/exit_risk_hover" : "jail/exit_risk_normal", 980, 380 - (hr ? 4 : 0), 320, 340, 0xFFFFFFFF);
