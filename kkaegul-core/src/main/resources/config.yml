@@ -676,7 +676,7 @@ minigame:
     treasure: { enabled: true, every-minutes: 180 }                     # 보물찾기
     casino:   { enabled: true, every-minutes: 180, offset-minutes: 90 } # 홀덤·섯다 번갈아, 보물찾기와 1시간 30분 어긋나게
     rroulette: { enabled: true, every-minutes: 120, offset-minutes: 60 }  # 러시안 룰렛: 2시간마다, 최대 16명 (8명씩 2테이블)
-    omok:     { enabled: true, every-minutes: 30, offset-minutes: 15 }   # 오목 1:1: 30분마다, 위험한 초대와 15분 어긋나게
+    omok:     { enabled: true, every-minutes: 120, offset-minutes: 0 }   # 오목 1:1: 2시간마다, 러시안 룰렛과 1시간씩 번갈아
   casino:
     accept-seconds: 60          # 초대장 수락 받는 시간 (/수락 또는 채팅의 [수락])
     min-held: 50                # ★ 초대장 받는 최소 보유 다이아
@@ -771,7 +771,7 @@ minigame:
     omok:                           # 오목 1:1 — 로비(위치 omok 이 있으면 그곳)로 데려가 모드 오목판 창에서 진행, 거부 불가
       enabled: true
       min-players: 2
-      invite-percent: 25            # ★ 접속 인원의 이 % 를 판 수로(내림) · 판마다 2명 (10명 → 2판 4명, 최소 1판)
+      invite-percent: 12            # ★ 접속 인원의 이 % 를 판 수로(내림) · 판마다 2명 (20명 → 2판 4명, 최소 1판)
       stake: 50                     # ★ 진 사람 보유 다이아에서 떼서 이긴 사람에게 (이만큼 없는 사람은 안 뽑힘)
       wait-seconds: 10              # 로비 도착 뒤 시작까지
       turn-seconds: 20              # 차례 제한시간 (넘기면 차례가 넘어감)
