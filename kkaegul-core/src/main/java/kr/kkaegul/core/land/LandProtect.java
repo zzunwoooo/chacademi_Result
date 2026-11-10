@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
-/** 땅 보호: 주인·허용 명단만. 폭발·불·피스톤·흘러드는 물/용암은 다른 주인의 땅으로 못 들어감 */
+/** 땅 보호: 주인·허용 명단만 (마을 월드는 내 땅 밖이면 부수기·놓기·우클릭·엔티티 전부 금지). 폭발·불·피스톤·흘러드는 물/용암은 다른 주인의 땅으로 못 들어감 */
 final class LandProtect implements Listener {
     private final KkaegulCore plugin;
     private final LandService land;
@@ -48,10 +48,18 @@ final class LandProtect implements Listener {
         if (c == null && b != null && land.town().isTown(b.getWorld().getName()) && !land.bypass(p)) {
             long now = System.currentTimeMillis();
             Long last = warned.get(p.getUniqueId());
-            if (last == null || now - last > 1500) { warned.put(p.getUniqueId(), now); plugin.ui().error(p, "&c마을에서는 내 땅에서만 지을 수 있어요."); }
+            if (last == null || now - last > 1500) { warned.put(p.getUniqueId(), now); plugin.ui().error(p, "&c마을에서는 내 땅에서만 짓거나 쓸 수 있어요."); }
             return true;
         }
         return deny(p, c);
+    }
+
+    private boolean inTown(Block b) { return b != null && land.town().isTown(b.getWorld().getName()); }
+
+    /** 마을에서는 내 땅이 아니면 모든 엔티티(동물·액자·거치대·가구 등) 손대기 금지 (사람·NPC 제외) */
+    private boolean denyTownEntity(Player p, Entity t) {
+        if (t instanceof Player || plugin.npcs().boundAction(t) != null) return false;
+        return inTown(t.getLocation().getBlock()) && deny(p, t.getLocation().getBlock());
     }
 
     private boolean townFree(Block b) { return land.at(b) == null && land.town().isTown(b.getWorld().getName()); }
@@ -70,7 +78,8 @@ final class LandProtect implements Listener {
         if (b == null) return;
         boolean touch = switch (e.getAction()) {
             case PHYSICAL -> true;
-            case RIGHT_CLICK_BLOCK -> LandService.interactable(b.getType());
+            case RIGHT_CLICK_BLOCK -> LandService.interactable(b.getType()) || inTown(b);   // 마을은 우클릭 전부
+            case LEFT_CLICK_BLOCK -> inTown(b);
             default -> false;
         };
         if (touch && deny(e.getPlayer(), b)) e.setCancelled(true);
@@ -90,6 +99,7 @@ final class LandProtect implements Listener {
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onEntityClick(PlayerInteractEntityEvent e) {
         Entity t = e.getRightClicked();
+        if (inTown(t.getLocation().getBlock())) { if (denyTownEntity(e.getPlayer(), t)) e.setCancelled(true); return; }
         if (!protectedEntity(t) || plugin.npcs().boundAction(t) != null) return;
         String n = t.getType().name();
         if (!(n.contains("FRAME") || n.contains("ARMOR_STAND") || n.contains("PAINTING"))) return;   // 동물 먹이 주기 등은 허용
@@ -98,6 +108,8 @@ final class LandProtect implements Listener {
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onHit(EntityDamageByEntityEvent e) {
+        Player p0 = attacker(e.getDamager());
+        if (p0 != null && inTown(e.getEntity().getLocation().getBlock())) { if (denyTownEntity(p0, e.getEntity())) e.setCancelled(true); return; }
         Player p = attacker(e.getDamager());
         if (p == null || !protectedEntity(e.getEntity())) return;
         if (deny(p, land.at(e.getEntity()))) e.setCancelled(true);
@@ -110,6 +122,12 @@ final class LandProtect implements Listener {
         if (p == null) { if (c != null) e.setCancelled(true); return; }
         if (deny(p, c)) e.setCancelled(true);
     }
+
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+    public void onEntityClickAt(org.bukkit.event.player.PlayerInteractAtEntityEvent e) { if (denyTownEntity(e.getPlayer(), e.getRightClicked())) e.setCancelled(true); }
+
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+    public void onStand(org.bukkit.event.player.PlayerArmorStandManipulateEvent e) { if (denyTownEntity(e.getPlayer(), e.getRightClicked())) e.setCancelled(true); }
 
     private static Player attacker(Entity d) {
         if (d instanceof Player p) return p;

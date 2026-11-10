@@ -21,6 +21,7 @@ public final class NoticeView {
     private static final int MAX = 3;
     private static final float W = 340, GAP = 8, MARGIN = 12;
     private static final long IN = 220, OUT = 420;
+    private static final float SCALE = 1.7f;   // 카드 전체 크기 배율
 
     public void center(String text, String sub, long ms, long now) {
         add(text, sub == null ? "" : sub, Math.max(1800, ms) + 600, now);
@@ -79,8 +80,11 @@ public final class NoticeView {
     private static float height(Card c) { return c.sub.isBlank() ? 46 : 66; }
 
     public void render(Canvas c, long now) {
-        float SW = c.width(), SH = c.height();
         cards.removeIf(k -> now - k.start > k.life);
+        if (cards.isEmpty()) return;
+        float SW = c.width() / SCALE, SH = c.height() / SCALE;
+        c.push();
+        c.scale(SCALE, SCALE);
         float bottom = SH - MARGIN;
         // 최근 것이 맨 아래
         for (int i = cards.size() - 1; i >= 0; i--) {
@@ -96,6 +100,7 @@ public final class NoticeView {
             draw(c, k, x, k.y, h, a);
             bottom = target - GAP;
         }
+        c.pop();
     }
 
     private void draw(Canvas c, Card k, float x, float y, float h, float a) {

@@ -99,7 +99,7 @@ public final class Actions {
         ui.onAction("discord.link", (p, a) -> plugin.discord().link(p));
         ui.onAction("move", (p, a) -> move(p, a.getOrDefault("dest", "")));
         ui.onAction("menu.open", (p, a) -> plugin.menu().open(p, a.getOrDefault("tab", "me")));
-        ui.onAction("trash.open", (p, a) -> plugin.npcs().run(p, "trash"));   // 이동 하위 목록의 쓰레기통
+        ui.onAction("trash.open", (p, a) -> plugin.npcs().run(p, "trash"));   // 메뉴의 쓰레기통
     }
 
     /** 처리 뒤(거절 포함) 상점 창을 항상 갱신 → 버튼이 "..." 로 멈춰 있지 않게 */
@@ -145,21 +145,24 @@ public final class Actions {
         long now = System.currentTimeMillis(), cd = plugin.getConfig().getLong("menu.move-cooldown-seconds", 5) * 1000;
         Long last = moveCool.get(p.getUniqueId());
         if (last != null && now - last < cd) { plugin.ui().error(p, "&c" + ((cd - (now - last)) / 1000 + 1) + "초 뒤에 다시 이동할 수 있어요."); return; }
-        if (dest.equals("village")) {   // 마을 = 내 집 (처음 산 땅). 로비에서만, 땅이 없으면 알림만
-            org.bukkit.Location lobby = plugin.places().get("lobby");
-            if (lobby != null && lobby.getWorld() != null && !lobby.getWorld().equals(p.getWorld())) {
-                plugin.ui().error(p, "&c내 집 이동은 로비에서만 할 수 있어요.");
-                return;
-            }
+        boolean wild = plugin.npcs().wild().inWild(p);
+        if (wild && !dest.equals("wild")) {   // 야생에서는 메뉴로 다른 곳에 못 감 (야생 = 랜덤 장거리 이동만)
+            plugin.ui().error(p, "&c야생에서는 이동 메뉴로 다른 곳에 갈 수 없어요. 로비는 귀환권으로 갈 수 있어요.");
+            return;
+        }
+        boolean town = plugin.land().town().isTown(p.getWorld().getName());
+        org.bukkit.Location lobby = plugin.places().get("lobby");
+        boolean inLobby = lobby != null && lobby.getWorld() != null && lobby.getWorld().equals(p.getWorld());
+        if (dest.equals("village")) {   // 마을 = 마을의 내 땅 (없으면 광장). 로비·마을에서
+            if (!inLobby && !town) { plugin.ui().error(p, "&c마을 이동은 로비나 마을에서만 할 수 있어요."); return; }
             if (plugin.land().home(p)) moveCool.put(p.getUniqueId(), now);
             return;
         }
-        if (dest.equals("lobby") && !nearHomeOrWild(p)) {   // 로비 이동은 내 집·야생 스폰 30칸 안에서만
-            int r = plugin.getConfig().getInt("menu.lobby-move-radius", 30);
-            plugin.ui().error(p, "&c로비 이동은 내 집이나 야생 스폰 " + r + "칸 안에서만 할 수 있어요. (귀환권으로 언제든 로비로)");
+        if (dest.equals("lobby") && !inLobby && !town) {   // 로비 이동은 로비·마을에서만
+            plugin.ui().error(p, "&c로비 이동은 마을에서만 할 수 있어요. 로비는 귀환권으로 갈 수 있어요.");
             return;
         }
-        if (dest.equals("wild") && plugin.npcs().wild().inWild(p)) {   // 야생에서 누르면 '야생' = 랜덤 장거리 이동 (다이아 50)
+        if (dest.equals("wild") && wild) {   // 야생에서 누르면 '야생' = 랜덤 장거리 이동 (다이아 50)
             moveCool.put(p.getUniqueId(), now);
             plugin.npcs().wild().paidRandomTp(p);
             return;
@@ -168,20 +171,6 @@ public final class Actions {
         if (npc == null) return;
         moveCool.put(p.getUniqueId(), now);
         plugin.npcs().run(p, npc);
-    }
-
-    /** 내 집(처음 산 땅 한가운데) 또는 야생 스폰 근처인지 */
-    private boolean nearHomeOrWild(org.bukkit.entity.Player p) {
-        double r = plugin.getConfig().getDouble("menu.lobby-move-radius", 30), r2 = r * r;
-        org.bukkit.Location at = p.getLocation();
-        org.bukkit.Location home = plugin.land().homeSpot(p.getUniqueId());
-        if (home != null && home.getWorld() != null && home.getWorld().equals(at.getWorld()) && flat(home, at) <= r2) return true;
-        org.bukkit.Location wild = plugin.places().get("wild");
-        if (wild == null) {
-            org.bukkit.World w = org.bukkit.Bukkit.getWorld(plugin.getConfig().getString("wild.world", "world"));
-            wild = w == null ? null : w.getSpawnLocation();
-        }
-        return wild != null && wild.getWorld() != null && wild.getWorld().equals(at.getWorld()) && flat(wild, at) <= r2;
     }
 
     private static double flat(org.bukkit.Location a, org.bukkit.Location b) {

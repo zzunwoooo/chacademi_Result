@@ -9,10 +9,6 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.block.data.Directional;
-import org.bukkit.block.data.type.Leaves;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -27,7 +23,7 @@ import java.io.IOException;
  *  - 도로·안 팔린 땅은 아무도 못 건드림 (LandProtect), 땅은 1인당 max-per-player 칸까지
  */
 public final class TownService {
-    private static final int VERSION = 1;
+    private static final int VERSION = 2;   // 2: 인도 나무·벤치·화분, 노란 중앙선 없앰 (v1 월드는 도로 청크만 다시 깜)
     private final KkaegulCore plugin;
 
     TownService(KkaegulCore plugin) {
@@ -89,7 +85,7 @@ public final class TownService {
         Location sp = spawn(w);
         w.setSpawnLocation(sp);
         File mark = new File(w.getWorldFolder(), "kkaegul_town.v" + VERSION);
-        if (!mark.exists()) build(w, mark);
+        if (!mark.exists()) build(w, mark, new File(w.getWorldFolder(), "kkaegul_town.v1").exists());
         else linkVillage(sp);
     }
 
@@ -103,7 +99,8 @@ public final class TownService {
         }
     }
 
-    private void build(World w, File mark) {
+    /** roadsOnly = 이미 깔린 월드: 땅(유저가 지은 것)은 건드리지 않고 도로 청크만 다시 깜 */
+    private void build(World w, File mark, boolean roadsOnly) {
         int x0 = ox(), x1 = ox() + 3 * gx(), z0 = oz(), z1 = oz() + 3 * gz();
         int total = (x1 - x0 + 1) * (z1 - z0 + 1);
         plugin.getLogger().info("[마을] 땅·도로 까는 중... (" + total + "청크, 땅 " + (gx() * gz() * 4) + "칸)");
@@ -112,8 +109,7 @@ public final class TownService {
         final BukkitTask[] task = new BukkitTask[1];
         task[0] = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
             for (int n = 0; n < 2; n++) {
-                chunk(w, cur[0], cur[1]);
-                done[0]++;
+                if (!roadsOnly || !isPlot(cur[0], cur[1])) { chunk(w, cur[0], cur[1]); done[0]++; }
                 if (++cur[0] > x1) {
                     cur[0] = x0;
                     if (++cur[1] > z1) {
@@ -144,6 +140,7 @@ public final class TownService {
                 continue;
             }
             set(w, x, g - 2, z, Material.STONE);
+            for (int y = g + 1; y <= g + 7; y++) set(w, x, y, z, Material.AIR);   // 예전 장식 지우기
             if (plaza) { plazaColumn(w, x, z, u, v, g); continue; }
             Material top;
             boolean low;     // 차도 = 한 칸 낮음
@@ -161,7 +158,7 @@ public final class TownService {
                 else if (a == 3 || a == 12) { top = Material.SMOOTH_STONE; low = false; }
                 else {
                     low = true;
-                    top = (a == 7 || a == 8) && along % 8 < 4 ? Material.YELLOW_CONCRETE : asphalt(x, z);
+                    top = asphalt(x, z);
                 }
             }
             if (low) { set(w, x, g - 1, z, top); }
@@ -181,7 +178,7 @@ public final class TownService {
         return Math.floorMod(h, 23) == 0 ? Material.LIGHT_GRAY_CONCRETE_POWDER : Math.floorMod(h, 7) == 0 ? Material.CYAN_TERRACOTTA : Material.GRAY_CONCRETE;
     }
 
-    /** 인도 꾸미기: 가로등 · 나무 · 벤치 · 화분 */
+    /** 인도 꾸미기: 가로등만 (땅 옆 인도는 비워 둠) */
     private void decorate(World w, int cx, int cz, boolean rx, boolean rz, int g) {
         if (rx && rz) {   // 교차로 모서리 가로등
             lamp(w, cx * 16 + 1, g, cz * 16 + 1);
@@ -191,21 +188,8 @@ public final class TownService {
             return;
         }
         for (int side : new int[]{1, 14}) {
-            BlockFace face = rx ? (side == 1 ? BlockFace.EAST : BlockFace.WEST) : (side == 1 ? BlockFace.SOUTH : BlockFace.NORTH);
-            for (int along : new int[]{3, 8, 12}) {
-                int x = cx * 16 + (rx ? side : along), z = cz * 16 + (rx ? along : side);
-                switch (along) {
-                    case 3 -> lamp(w, x, g, z);
-                    case 8 -> tree(w, x, g, z);
-                    default -> {
-                        bench(w, x, g, z, face);
-                        int x2 = cx * 16 + (rx ? side : along + 1), z2 = cz * 16 + (rx ? along + 1 : side);
-                        bench(w, x2, g, z2, face);
-                        int x3 = cx * 16 + (rx ? side : along + 2), z3 = cz * 16 + (rx ? along + 2 : side);
-                        set(w, x3, g + 1, z3, Material.POTTED_AZALEA_BUSH);
-                    }
-                }
-            }
+            int x = cx * 16 + (rx ? side : 8), z = cz * 16 + (rx ? 8 : side);
+            lamp(w, x, g, z);
         }
     }
 
@@ -214,29 +198,6 @@ public final class TownService {
         set(w, x, g + 2, z, Material.DARK_OAK_FENCE);
         set(w, x, g + 3, z, Material.DARK_OAK_FENCE);
         set(w, x, g + 4, z, Material.LANTERN);
-    }
-
-    private void tree(World w, int x, int g, int z) {
-        set(w, x, g, z, Material.GRASS_BLOCK);
-        for (int y = 1; y <= 3; y++) set(w, x, g + y, z, Material.OAK_LOG);
-        for (int dx = -1; dx <= 1; dx++) for (int dz = -1; dz <= 1; dz++) for (int y = 4; y <= 5; y++) {
-            if (y == 5 && Math.abs(dx) + Math.abs(dz) == 2) continue;
-            leaves(w, x + dx, g + y, z + dz, (dx + dz) % 2 == 0 ? Material.FLOWERING_AZALEA_LEAVES : Material.AZALEA_LEAVES);
-        }
-        leaves(w, x, g + 6, z, Material.AZALEA_LEAVES);
-    }
-
-    private void bench(World w, int x, int g, int z, BlockFace facing) {
-        Block b = w.getBlockAt(x, g + 1, z);
-        BlockData d = Material.SPRUCE_STAIRS.createBlockData();
-        if (d instanceof Directional dir) dir.setFacing(facing.getOppositeFace());
-        b.setBlockData(d, false);
-    }
-
-    private void leaves(World w, int x, int y, int z, Material m) {
-        BlockData d = m.createBlockData();
-        if (d instanceof Leaves l) l.setPersistent(true);
-        w.getBlockAt(x, y, z).setBlockData(d, false);
     }
 
     /** 마을 바깥 테두리: 낮은 담 */
