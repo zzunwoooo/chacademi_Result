@@ -268,4 +268,39 @@ public final class MineService {
     }
 
     public boolean isInMine(Player p) { return inMine.containsKey(p.getUniqueId()); }
+
+    /**
+     * 광석 다시 채우기: 구역에 ore-regen 이 있으면 스폰(mine.<구역>) 둘레 radius 블록 안에서 캔 광석(ores) 자리를
+     * seconds 초 뒤 palette 대로 다시 채움. 심층암 광석을 캤으면 심층암판으로.
+     */
+    public void onBroken(Block b, Material type) {
+        ConfigurationSection rs = regions();
+        if (rs == null || b.getWorld() == null) return;
+        for (String k : rs.getKeys(false)) {
+            ConfigurationSection o = rs.getConfigurationSection(k + ".ore-regen");
+            if (o == null) continue;
+            Location c = plugin.places().get("mine." + k);
+            if (c == null || c.getWorld() == null || !c.getWorld().getName().equals(b.getWorld().getName())) continue;
+            double r = o.getDouble("radius", 300), dx = c.getX() - b.getX(), dz = c.getZ() - b.getZ();
+            if (dx * dx + dz * dz > r * r) continue;
+            List<String> ores = o.getStringList("ores");
+            if (ores.isEmpty()) ores = List.of("IRON_ORE", "DEEPSLATE_IRON_ORE", "DIAMOND_ORE", "DEEPSLATE_DIAMOND_ORE");
+            if (!ores.contains(type.name())) return;
+            ConfigurationSection pal = o.getConfigurationSection("palette");
+            Map<Material, Double> weights = new LinkedHashMap<>();
+            if (pal != null) for (String m : pal.getKeys(false)) {
+                Material mat = Material.matchMaterial(m);
+                if (mat != null && mat.isBlock()) weights.put(mat, pal.getDouble(m));
+            }
+            Material pick = weights.isEmpty() ? type : Rng.weighted(weights);
+            if (pick == null) return;
+            if (type.name().startsWith("DEEPSLATE_") && !pick.name().startsWith("DEEPSLATE_")) {
+                Material deep = Material.matchMaterial("DEEPSLATE_" + pick.name());
+                if (deep != null) pick = deep;
+            }
+            final Material to = pick;
+            Bukkit.getScheduler().runTaskLater(plugin, () -> { if (b.getType().isAir()) b.setType(to); }, Math.max(1, o.getLong("seconds", 10)) * 20L);
+            return;
+        }
+    }
 }

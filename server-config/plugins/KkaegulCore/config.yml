@@ -621,24 +621,24 @@ mine:
   trigger-chance: 2             # ★ 광물 캘 때 광산 이동 확률 %
   trigger-blocks: [DIAMOND_ORE, DEEPSLATE_DIAMOND_ORE, IRON_ORE, DEEPSLATE_IRON_ORE, GOLD_ORE, DEEPSLATE_GOLD_ORE, COAL_ORE, DEEPSLATE_COAL_ORE, REDSTONE_ORE, DEEPSLATE_REDSTONE_ORE, LAPIS_ORE, DEEPSLATE_LAPIS_ORE, EMERALD_ORE, DEEPSLATE_EMERALD_ORE, COPPER_ORE, DEEPSLATE_COPPER_ORE]
   daily-moves: 3
-  treasure-chance: 10           # 나머지 90% 는 제한맵
+  treasure-chance: 0            # ★ 광질 랜덤 이동 중 다이아 광산 확률 % (0 = 철 광산만, 다이아는 이동권으로만)
   stay-seconds: 60              # ★ 머무는 시간 (0 = 자동 복귀 없음)
   regen-blocks-per-tick: 4000
   auto-setup: true              # ★ 아래 구역의 월드(빈 월드)·바닥·벽·스폰을 처음 켤 때 자동으로 만듦
   generator: VoidGen
-  regions:                      # treasure 로 시작하는 구역 = 보물광산 (이동권·당첨 시 그중 랜덤 한 곳)
-    treasure:                   # 다이아 원석만
-      world: "kkaegul_mine"
-      min: "0,60,0"
-      max: "24,80,24"
-      regen-minutes: 10
-      palette: { DIAMOND_ORE: 70, DEEPSLATE_DIAMOND_ORE: 30 }
-    treasure_iron:              # 철 많고 다이아 원석 조금
-      world: "kkaegul_mine"
-      min: "100,60,0"
-      max: "124,80,24"
-      regen-minutes: 10
-      palette: { STONE: 45, IRON_ORE: 40, DEEPSLATE_IRON_ORE: 8, DIAMOND_ORE: 7 }
+  regions:                      # treasure 로 시작 = 다이아 광산 (이동권으로만, 그중 랜덤), limited 로 시작 = 철 광산 (광질하다 랜덤 이동)
+    # 스폰 = 위치 mine.<구역> (locations 에 있음). 맵은 직접 지은 것 → min/max·palette 통째 재생성 없음,
+    # 대신 ore-regen: 스폰 둘레 radius 블록 안에서 캔 광석 자리를 seconds 초 뒤 palette 대로 다시 채움
+    limited1:                   # 철 광산 1 (tresure 0.5,65,1000)
+      ore-regen: { radius: 400, seconds: 10, palette: { IRON_ORE: 90, DIAMOND_ORE: 10 } }
+    limited2:                   # 철 광산 2 (z 2000)
+      ore-regen: { radius: 400, seconds: 10, palette: { IRON_ORE: 90, DIAMOND_ORE: 10 } }
+    treasure1:                  # 다이아 광산 1 (z 3000)
+      ore-regen: { radius: 400, seconds: 10, palette: { DIAMOND_ORE: 100 } }
+    treasure2:                  # 다이아 광산 2 (z 4000)
+      ore-regen: { radius: 400, seconds: 10, palette: { DIAMOND_ORE: 100 } }
+    treasure3:                  # 다이아 광산 3 (z 5000)
+      ore-regen: { radius: 400, seconds: 10, palette: { DIAMOND_ORE: 100 } }
   # 예시 (스폰 위치는 /kg setloc mine.treasure, /kg setloc mine.limited1)
   # regions:
   #   treasure:
@@ -809,6 +809,12 @@ npc-actions: {}
 #   mine.<구역>, pepero 또는 pepero.N.a/b,
 #   invite-chair.1~N, invite-drop, treasure-start, gacha-machine.1~3
 locations:                      # /kg setloc 으로 바꾸면 그쪽이 우선
+  # 광산 스폰 5곳 (tresure 월드, 모두 -134.5 / -12.9 방향)
+  mine.limited1: "tresure,0.5,65,1000.5,-134.5,-12.9"
+  mine.limited2: "tresure,0.5,65,2000.5,-134.5,-12.9"
+  mine.treasure1: "tresure,0.5,65,3000.5,-134.5,-12.9"
+  mine.treasure2: "tresure,0.5,65,4000.5,-134.5,-12.9"
+  mine.treasure3: "tresure,0.5,65,5000.5,-134.5,-12.9"
   # 위험한 초대 맵(kkaegul_invite 월드) 의자 4개 — 원본 서버 chairs.yml 좌표, 무대(북쪽)를 바라봄. 실패하면 뒤쪽 수영장으로.
   invite-chair.1: "kkaegul_invite,-65.5,66.0,-36.5,180,0"
   invite-chair.2: "kkaegul_invite,-63.5,66.0,-36.5,180,0"

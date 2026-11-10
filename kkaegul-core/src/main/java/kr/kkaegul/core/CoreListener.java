@@ -343,6 +343,7 @@ public final class CoreListener implements Listener {
                 plugin.ui().actionbar(p, "&b운빨! 다이아 블록 드랍");
             }
         }
+        plugin.mine().onBroken(b, type);
         if (region == null) plugin.mine().onOreMined(p, type);
     }
 
