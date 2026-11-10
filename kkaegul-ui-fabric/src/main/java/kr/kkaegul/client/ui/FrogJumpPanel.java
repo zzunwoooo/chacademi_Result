@@ -110,38 +110,40 @@ public final class FrogJumpPanel implements Panel {
 
         c.image("jump/window_frame", 0, 0, 1600, 1024, 0xFFFFFFFF);
         c.textFit("깨굴이", 800, 126, 40, 330, INK, Canvas.CENTER, TXT);
-        boolean hc = Anim.in(mx, my, 1352, 112, 52, 52);   // 닫기: 오른쪽 위 모서리 보석·덩굴 장식(창 1414~1550) 왼쪽 빈 곳 — 예전엔 보석 위를 덮었음
-        c.image("shop/close", 1358, 118, 40, 40, hc ? 0xFFFFB9A8 : 0xFFFFFFFF);
-        hits.add(new R("close", 1352, 112, 52, 52));
+        boolean hc = Anim.in(mx, my, 1174, 112, 52, 52);   // 닫기: v3 오른쪽 위 장식(덩굴 1290~1560, 별 1375,140)과 연한 클로버(1237~1275) 왼쪽 빈 곳
+        c.image("shop/close", 1180, 118, 40, 40, hc ? 0xFFFFB9A8 : 0xFFFFFFFF);
+        hits.add(new R("close", 1174, 112, 52, 52));
 
         // 왼쪽: 제목 + 현재 칸
-        c.text("개구리 점프", 72, 236, 56, INK, Canvas.LEFT, TXT);
-        c.text("어디까지 뛸 수 있을까?", 76, 295, 28, 0xFF6B5A4C, Canvas.LEFT, TXT);
+        c.text("개구리 점프", 142, 236, 56, INK, Canvas.LEFT, TXT);   // v3 왼쪽 위 클로버·덩굴(x ~110)과 작은 별(100~135, 228) 오른쪽
+        c.text("어디까지 뛸 수 있을까?", 146, 295, 28, 0xFF6B5A4C, Canvas.LEFT, TXT);
         int shown = anim.equals("ok") || anim.equals("fail") ? (now - animStart > HOP ? toStep : fromStep) : toStep;
         int total = Math.max(10, steps().size());
         // 진행 게이지 (jump/gauge_empty 안에 gauge_fill 을 간 칸만큼) + 가운데 글자
-        float gx = 740, gy = 231, gw = 318, gh = 50;
-        c.imageNine("jump/gauge_empty", gx, gy, gw, gh, .07f, .45f, gh * .55f, gh * .45f, 0xFFFFFFFF);
-        float fr = Anim.clamp(shown / (float) total), fw = (gw - 18) * fr;
-        if (fw > 2) c.imageNine("jump/gauge_fill", gx + 9, gy + 8, Math.max(gh - 16, fw), gh - 16, .06f, .45f, (gh - 16) * .6f, (gh - 16) * .45f, 0xFFFFFFFF);
-        c.textFit("현재 " + shown + " / " + total + "칸", gx + gw / 2, 256, 28, 260, INK, Canvas.CENTER, TXT);
+        // v3 게이지는 캔버스 가운데 얇게 그려져 있어 투명 여백을 뗀 그림(빈 358×20, 채움 342×14)을 몸통 34px 로 9조각 (양끝 보석 26px 안 늘어나게)
+        float gx = 740, gy = 238, gw = 318, gh = 36;
+        c.imageNine("jump/gauge_empty", gx, gy, gw, gh, .075f, .45f, 26 * gh / 20, gh * .45f, 0xFFFFFFFF);
+        float fr = Anim.clamp(shown / (float) total), fw = (gw - 10) * fr, fh = gh - 10;
+        if (fw > 2) c.imageNine("jump/gauge_fill", gx + 5, gy + 5, Math.max(fh, fw), fh, .03f, .45f, 7 * fh / 14, fh * .45f, 0xFFFFFFFF);
+        c.textFit("현재 " + shown + " / " + total + "칸", gx + gw / 2, 256, 24, 240, INK, Canvas.CENTER, TXT);
 
         pond(c, now);
 
         // 아래 범례
-        c.imageNine("jump/probability_panel", 112, 852, 906, 54, .06f, .3f, 24, 16, 0xFFFFFFFF);
-        c.text("위험도", 150, 879, 26, INK, Canvas.LEFT, TXT);
-        c.fill(262, 862, 2, 34, 1, 0x55A08B72);
+        // v3 창 왼쪽 아래 보석·클로버(x ~240, y 840~) 오른쪽 250~1080 에. 판 왼쪽 보석·클로버(그림 391×52 중 0~62px)는 안 늘어나게
+        c.imageNine("jump/probability_panel", 250, 852, 830, 54, .16f, .3f, 64, 16, 0xFFFFFFFF);
+        c.text("위험도", 322, 879, 26, INK, Canvas.LEFT, TXT);
+        c.fill(410, 862, 2, 34, 1, 0x55A08B72);
         String[] rl = {"낮음", "보통", "높음"};
         int[] rc = {0xFF6FBF3C, 0xFFF2C230, 0xFFE9584F};
         for (int i = 0; i < 3; i++) {
-            float x = 296 + i * 116;
+            float x = 444 + i * 106;
             c.fill(x - 13, 866, 26, 26, 13, 0xFF4A2D16);
             c.fill(x - 11, 868, 22, 22, 11, rc[i]);
             c.text(rl[i], x + 22, 879, 26, INK, Canvas.LEFT, TXT);
         }
-        c.fill(650, 862, 2, 34, 1, 0x55A08B72);
-        c.textFit("성공할수록 배수가 올라가요", 830, 879, 26, 330, INK, Canvas.CENTER, TXT);
+        c.fill(748, 862, 2, 34, 1, 0x55A08B72);
+        c.textFit("성공할수록 배수가 올라가요", 908, 879, 26, 300, INK, Canvas.CENTER, TXT);
 
         info(c, now, mx, my);
         c.pop();
@@ -199,7 +201,9 @@ public final class FrogJumpPanel implements Panel {
         }
         if (!playing() && result == null && anim.isEmpty()) { fx = START_X; fy = START_Y; }
         float breathe = sprite.equals("jump/frog_idle") ? (float) Math.sin(now / 400.0) * 2 : 0;
-        c.image(sprite, fx - 80, fy - 120 + breathe, 160, 140, 0xFFFFFFFF);
+        // v3 개구리 그림은 발끝이 캔버스 위로 올라가 있음(140px 중 idle 106·jump 114·cheer 116·splash 115, 예전 119) → 발이 연잎에 닿게 내림
+        float foot = switch (sprite) { case "jump/frog_idle" -> 13; case "jump/frog_jump" -> 5; case "jump/frog_land_cheer" -> 3; default -> 4; };
+        c.image(sprite, fx - 80, fy - 120 + foot + breathe, 160, 140, 0xFFFFFFFF);
         // 효과
         if (!airborne && e < HOP + LAND && (anim.equals("ok") || anim.equals("cash"))) {
             float t = Anim.clamp((e - HOP) / (float) LAND);
@@ -222,43 +226,43 @@ public final class FrogJumpPanel implements Panel {
             c.push();
             c.translate(560, 752);   // 연못 아래쪽 물 위 (제목·연잎을 가리지 않게)
             c.scale(s, s);
-            c.image(rib, -320, -74, 640, 160, 0xFFFFFFFF);
+            c.image(rib, -368, -85, 736, 184, 0xFFFFFFFF);   // v3 리본은 크림 글자칸이 작아(640×160 중 x 120~520, y 40~105) 1.15배로
             int ink = resultKind.equals("fail") ? 0xFF5E5E5E : INK;
-            c.textFit(title, -2, -21, 46, 420, ink, Canvas.CENTER, TXT);
-            c.textFit(sub, -2, 23, 30, 420, resultKind.equals("fail") ? 0xFF7A7A7A : 0xFF3F7F31, Canvas.CENTER, TXT);
+            c.textFit(title, 0, -17, 40, 440, ink, Canvas.CENTER, TXT);
+            c.textFit(sub, 0, 21, 26, 440, resultKind.equals("fail") ? 0xFF7A7A7A : 0xFF3F7F31, Canvas.CENTER, TXT);
             c.pop();
         }
     }
 
     private void info(Canvas c, long now, float mx, float my) {
         c.image("jump/information_panel", 1100, 190, 440, 750, 0xFFFFFFFF);
-        c.text("진행 정보", 1148, 242, 34, INK, Canvas.LEFT, TXT);
+        c.text("진행 정보", 1320, 262, 34, INK, Canvas.CENTER, TXT);   // v3 판 위 왕관(가운데 y ~50까지)·양쪽 클로버 사이 가운데
         boolean pl = playing();
         long bet = pl ? J.num(data, "bet") : amt();
         double mult = pl ? J.dbl(data, "multiplier", 1) : 1;
         long pay = pl ? J.num(data, "cashout") : bet;
         String[] lab = {"투자 코인", "현재 배수", "수령 코인"};
-        float[] ry = {298, 352, 406};
+        float[] ry = {306, 357, 408};
         for (int i = 0; i < 3; i++) {
             c.text(lab[i], 1148, ry[i], 26, INK, Canvas.LEFT, TXT);
             if (i < 2) c.fill(1146, ry[i] + 25, 348, 2, 1, 0x33A08B72);
         }
-        valueWithDiamond(c, Fmt.num(bet), 298);
-        c.textFit("×" + ShopPanel.dec(mult), 1492, 352, 28, 150, INK, Canvas.RIGHT, TXT);
-        valueWithDiamond(c, Fmt.num(pay), 406);
+        valueWithDiamond(c, Fmt.num(bet), ry[0]);
+        c.textFit("×" + ShopPanel.dec(mult), 1492, ry[1], 28, 150, INK, Canvas.RIGHT, TXT);
+        valueWithDiamond(c, Fmt.num(pay), ry[2]);
         c.fill(1146, 433, 348, 2, 1, 0x33A08B72);
 
         // 다음 성공 확률
-        c.image("jump/probability_panel", 1120, 445, 400, 90, 0xFFFFFFFF);
+        c.image("jump/probability_panel", 1125, 462, 391, 52, 0xFFFFFFFF);   // 투명 여백 뗀 그림(원래 400×90 의 5,17~)
         List<JsonObject> st = steps();
         int next = pl ? (int) J.num(data, "step") : 0;
         double ch = next < st.size() ? J.dbl(st.get(next), "chance", 0) : 0;
-        c.text("다음 성공 확률", 1164, 489, 26, INK, Canvas.LEFT, TXT);
-        c.textFit(ShopPanel.dec(ch) + "%", 1476, 489, 42, 140, INK, Canvas.RIGHT, TXT);
+        c.text("다음 성공 확률", 1194, 489, 26, INK, Canvas.LEFT, TXT);   // 판 왼쪽 보석·클로버(1125~1185) 오른쪽
+        c.textFit(ShopPanel.dec(ch) + "%", 1490, 489, 38, 130, INK, Canvas.RIGHT, TXT);
         // 수량 (시작 전에만) — 정보판 안쪽(1130~1510)에 들어가게 작게
         float dim = pl ? .45f : 1;
-        float sy = 560, sh = 52;
-        c.image("jump/stepper", 1136, sy, 236, sh, Anim.white(dim));
+        float sy = 548, sh = 52;
+        c.imageNine("jump/stepper", 1136, sy + 8, 236, 35, .06f, .45f, 18, 16, Anim.white(dim));   // 투명 여백 뗀 v3 그림(264×32)을 최대 버튼 몸통(52 중 8~43)과 같은 높이로
         c.text("−", 1166, sy + sh / 2, 30, Anim.alpha(INK, dim), Canvas.CENTER, TXT);
         c.text("+", 1342, sy + sh / 2, 30, Anim.alpha(INK, dim), Canvas.CENTER, TXT);
         String q = typed != null ? (typed.isEmpty() ? "0" : typed) : Fmt.num(amt());
@@ -277,11 +281,11 @@ public final class FrogJumpPanel implements Panel {
         // 버튼
         boolean busy = waitingSince > 0 || (!anim.isEmpty() && now - animStart < HOP);
         boolean canJump = !busy && (pl ? next < st.size() : amt() > 0 && amt() <= J.num(data, "available"));
-        float jy = 640, cy = 742;
+        float jy = 604, cy = 688;   // 버튼 몸통 = 그림 90px 중 18~71 → 622~675, 706~759 (정보판 아래 장식 795~ 위)
         boolean hj = canJump && Anim.in(mx, my, 1120, jy, 400, 90);
         c.image(canJump ? hj ? "jump/jump_hover" : "jump/jump_default" : "jump/jump_disabled", 1120, jy, 400, 90, 0xFFFFFFFF);
         String jl = pl ? "점프!" : J.num(data, "available") <= 0 ? "코인이 없어요" : "투자하고 시작";
-        c.textFit(busy ? "..." : jl, 1320, jy + 43, 38, 340, canJump ? 0xFF2F4A1C : 0xFF8A8A80, Canvas.CENTER, TXT);
+        c.textFit(busy ? "..." : jl, 1320, jy + 44, 36, 340, canJump ? 0xFF2F4A1C : 0xFF8A8A80, Canvas.CENTER, TXT);
         hits.add(new R("jump", 1120, jy, 400, 90));
         boolean canCash = pl && !busy && J.num(data, "step") > 0;
         boolean hh = canCash && Anim.in(mx, my, 1120, cy, 400, 90);
@@ -294,7 +298,7 @@ public final class FrogJumpPanel implements Panel {
         c.image("shop/coin_32", gx + cw + 20, cy + 28, 34, 34, canCash ? 0xFFFFFFFF : 0x88FFFFFF);
         c.text(Fmt.num(pay), gx + cw + 62, cy + 44, 36, cc, Canvas.LEFT, TXT);
         hits.add(new R("cashout", 1120, cy, 400, 90));
-        c.textFit(pl && J.num(data, "step") == 0 ? "한 칸 이상 뛰어야 정산할 수 있어요" : "실패하면 투자 코인을 잃어요", 1320, 868, 22, 370, 0xFF6B5A4C, Canvas.CENTER, TXT);
+        c.textFit(pl && J.num(data, "step") == 0 ? "한 칸 이상 뛰어야 정산할 수 있어요" : "실패하면 투자 코인을 잃어요", 1320, 788, 22, 260, 0xFF6B5A4C, Canvas.CENTER, TXT);
     }
 
     private static void valueWithDiamond(Canvas c, String v, float y) {

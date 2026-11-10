@@ -39,8 +39,8 @@ public final class JailExitPanel implements Panel {
         boolean hs = Anim.in(lx, ly, 620, 380, 320, 340), hr = Anim.in(lx, ly, 980, 380, 320, 340);
         c.image(hs ? "jail/exit_safe_hover" : "jail/exit_safe_normal", 620, 380 - (hs ? 4 : 0), 320, 340, 0xFFFFFFFF);
         c.image(hr ? "jail/exit_risk_hover" : "jail/exit_risk_normal", 980, 380 - (hr ? 4 : 0), 320, 340, 0xFFFFFFFF);
-        c.textFit("로비로 나가기", 620 + 35 + 125, 380 + 262 - (hs ? 4 : 0), 30, 250, 0xFF2F5A1C, Canvas.CENTER, TXT);
-        c.textFit("원래 자리로 (50%)", 980 + 35 + 125, 380 + 270 - (hr ? 4 : 0), 30, 250, 0xFF7A4A00, Canvas.CENTER, TXT);
+        c.textFit("로비로 나가기", 620 + 35 + 125, 380 + 244 - (hs ? 4 : 0), 30, 250, 0xFF2F5A1C, Canvas.CENTER, TXT);   // v3 글자칸 y 418~558px (640×680) 가운데
+        c.textFit("원래 자리로 (50%)", 980 + 35 + 125, 380 + 260 - (hr ? 4 : 0), 30, 250, 0xFF7A4A00, Canvas.CENTER, TXT);   // v3 글자칸 y 450~588px 가운데
         c.text("실패하면 로비로 가요", 1140, 745, 20, 0xFF7A6A58, Canvas.CENTER, TXT);
         boolean hc = Anim.in(lx, ly, 1290, 240, 60, 60);
         c.image(hc ? "jail/close_hover" : "jail/close_normal", 1290, 240, 60, 60, 0xFFFFFFFF);

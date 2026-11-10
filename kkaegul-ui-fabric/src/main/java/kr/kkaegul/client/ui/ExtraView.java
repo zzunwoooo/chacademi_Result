@@ -103,16 +103,20 @@ public final class ExtraView {
         c.pop();
     }
 
-    /** 운동 카운터 (1500,190) 400×110, 숫자칸 (125,42.5) 245×50 / 바 (1520,310) 360×40, 채움 (1528,318) 344×24 */
+    /** 운동 카운터 (1500,190) 400×110, 숫자칸 (125,42.5) 245×50 / 바 (1520,316) 360×28 (v3 막대는 투명 여백 뗀 711×28·718×31 그림) */
     private void jailCounter(Canvas c) {
         long done = J.num(jail, "done"), req = Math.max(1, J.num(jail, "required", 1));
         c.image("jail/exercise_counter", 1500, 190, 400, 110, 0xFFFFFFFF);
         boolean ready = J.bool(jail, "exitReady");
         c.textFit(ready ? "운동 완료!" : done + " / " + req, 1736, 259, 40, 245, ready ? 0xFF3F7F31 : INK, Canvas.CENTER, TXT);
         float f = Math.min(1, (float) done / req);
-        c.image("jail/exercise_bar_empty", 1520, 310, 360, 40, 0xFFFFFFFF);
-        // 채움 막대가 빈 막대 안쪽 홈(x 15~705, y 21~64 / 720×80)에 딱 맞게, 오른쪽 둥근 끝은 잘리지 않게 3조각으로
-        if (f > 0) c.imageNine("jail/exercise_bar_fill", 1525.6f, 319.3f, 348.9f * f, 23.9f, 44 / 720f, 0, 13.1f, 0, 0xFFFFFFFF);
+        // v3 빈 막대·채움 막대 둘 다 양끝 클로버·보석 장식이 있는 같은 모양 → 양끝(그림 64px)은 안 늘어나게 9조각, 채움은 같은 자리에 그리고 진행 비율만큼만 보이게 자름
+        c.imageNine("jail/exercise_bar_empty", 1520, 316, 360, 28, .09f, .45f, 64, 12.6f, 0xFFFFFFFF);
+        if (f > 0) {
+            c.clip(1516, 306, 4 + 364 * f, 50);
+            c.imageNine("jail/exercise_bar_fill", 1518, 315, 364, 31, .09f, .45f, 64.6f, 14, 0xFFFFFFFF);   // 원래 캔버스에서 채움(1,23)이 빈 막대(5,24)보다 살짝 큼
+            c.unclip();
+        }
         c.text(ready ? "출구 NPC 를 눌러 나가요" : "웅크리기(Shift)로 운동", 1700, 372, 20, 0xFFFFFFFF, Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
     }
 
@@ -215,13 +219,13 @@ public final class ExtraView {
         float x = 1710, y = 45;
         c.image("minigame/b_timer_empty", x, y, 140, 160, 0xFFFFFFFF);
         float f = (float) left / Math.max(1, total);
-        float cx = x + 69.5f, cy = y + 94, r = 63.5f;
+        float cx = x + 69, cy = y + 93.1f, r = 63;
         c.fill(cx - r + 4, cy - r + 4, (r - 4) * 2, (r - 4) * 2, r - 4, 0xF2FFF8EE);   // 링 안쪽 채움 (숫자 잘 보이게)
         String ring; float rr, ox, oy;
-        if (f > .5f) { ring = "b_timer_green"; rr = 116; ox = 140; oy = 159; }
-        else if (f > .2f) { ring = "b_timer_orange"; rr = 135; ox = 140; oy = 140; }
-        else { ring = "b_timer_red"; rr = 135; ox = 140; oy = 140; }
-        float S = r * 280 / rr;
+        if (f > .5f) { ring = "b_timer_green"; rr = 109.1f; ox = 137.8f; oy = 146.8f; }
+        else if (f > .2f) { ring = "b_timer_orange"; rr = 133.2f; ox = 137.7f; oy = 139.4f; }
+        else { ring = "b_timer_red"; rr = 133.1f; ox = 137.6f; oy = 140.1f; }
+        float S = (r + 1) * 280 / rr;   // 색 링을 1px 크게 → 밑 크림 링 가장자리 안 비침
         c.image("minigame/" + ring, cx - ox * S / 280, cy - oy * S / 280, S, S, 0xFFFFFFFF);
         c.image("minigame/b_timer_knob", x, y, 140, 160, 0xFFFFFFFF);   // 시계 머리는 색 링 위에
         long s = (left + 999) / 1000;
