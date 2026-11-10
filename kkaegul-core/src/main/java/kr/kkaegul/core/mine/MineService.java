@@ -271,7 +271,7 @@ public final class MineService {
 
     /**
      * 광석 다시 채우기: 구역에 ore-regen 이 있으면 스폰(mine.<구역>) 둘레 radius 블록 안에서 캔 광석(ores) 자리를
-     * seconds 초 뒤 palette 대로 다시 채움. 심층암 광석을 캤으면 심층암판으로.
+     * seconds 초 뒤 palette 대로 다시 채움.
      */
     public void onBroken(Block b, Material type) {
         ConfigurationSection rs = regions();
@@ -294,10 +294,6 @@ public final class MineService {
             }
             Material pick = weights.isEmpty() ? type : Rng.weighted(weights);
             if (pick == null) return;
-            if (type.name().startsWith("DEEPSLATE_") && !pick.name().startsWith("DEEPSLATE_")) {
-                Material deep = Material.matchMaterial("DEEPSLATE_" + pick.name());
-                if (deep != null) pick = deep;
-            }
             final Material to = pick;
             Bukkit.getScheduler().runTaskLater(plugin, () -> { if (b.getType().isAir()) b.setType(to); }, Math.max(1, o.getLong("seconds", 10)) * 20L);
             return;
