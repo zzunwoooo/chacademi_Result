@@ -97,12 +97,13 @@ public final class SubmitPanel implements Panel {
         long debt = J.num(data, "debt"), held = J.num(data, "held"), inv = J.num(data, "inventory");
         c.image("submit/info_remaining", 60, 215, 420, 110, 0xFFFFFFFF);
         c.text("남은 다이아", 190, 247, 21, 0xFF4E7FA8, Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
-        c.textFit(Fmt.num(debt) + "개", 190, 290, 38, 270, Theme.INK, Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
+        c.textFit(Fmt.num(debt) + "개", 190, 290, 38, 220, Theme.INK, Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
         c.image("submit/info_owned", 520, 215, 420, 110, 0xFFFFFFFF);
         c.text("낼 수 있는 다이아", 625, 247, 21, 0xFF4F7F45, Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
-        c.textFit(Fmt.num(held + inv) + "개", 625, 290, 38, 180, Theme.INK, Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
-        c.textFit("§7보유 " + Fmt.num(held), 906, 270, 17, 120, Theme.MUTED, Canvas.RIGHT, Canvas.BOLD | Canvas.LIGHT);
-        c.textFit("§7인벤 " + Fmt.num(inv), 906, 293, 17, 120, Theme.MUTED, Canvas.RIGHT, Canvas.BOLD | Canvas.LIGHT);
+        c.textFit(Fmt.num(held + inv) + "개", 625, 290, 38, 140, Theme.INK, Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
+        // 초록 칸 오른쪽 위·아래 클로버·다이아(칸 그림 x ≥ 360: y ≤ 29 · y ≥ 74)를 피해 오른쪽 끝 870, y 262/284
+        c.textFit("§7보유 " + Fmt.num(held), 870, 262, 17, 100, Theme.MUTED, Canvas.RIGHT, Canvas.BOLD | Canvas.LIGHT);
+        c.textFit("§7인벤 " + Fmt.num(inv), 870, 284, 17, 100, Theme.MUTED, Canvas.RIGHT, Canvas.BOLD | Canvas.LIGHT);
 
         // 개수 고르기
         long amt = amount(), max = max();
@@ -124,16 +125,16 @@ public final class SubmitPanel implements Panel {
         c.text("전부", 790, 425, 26, 0xFF3F7F31, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
         hits.add(new R("all", 710, 390, 160, 70));
 
-        // 제출 버튼: 판 아래 두 모서리 장식(클로버·다이아, x<137 · x>863, y 530~660)을 가리지 않게 400x110 → 350x96 (비율 그대로)
+        // 제출 버튼: v3 판 아래 두 모서리 장식(클로버·다이아·덩굴: x<150 · x>855, y 530~660)을 가리지 않게 400x110 → 340x93.5 (비율 그대로)
         boolean can = amt > 0 && !busy(now);
         boolean hn = can && Anim.in(mx, my, BN_X, BTN_Y, BTN_W, BTN_H), hr = can && Anim.in(mx, my, BR_X, BTN_Y, BTN_W, BTN_H);
         c.image(!can ? "submit/submit_normal_disabled" : hn ? "submit/submit_normal_hover" : "submit/submit_normal_default", BN_X, BTN_Y, BTN_W, BTN_H, 0xFFFFFFFF);
-        c.text("일반 제출", BN_X + .575f * BTN_W, BTN_Y + 34, 28, can ? 0xFF2F6E9E : 0xFF9AA7B0, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
-        c.textFit("남은 다이아 -" + Fmt.num(amt), BN_X + .575f * BTN_W, BTN_Y + 67, 16, 220, can ? 0xFF4E7FA8 : 0xFF9AA7B0, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        c.text("일반 제출", BN_X + .575f * BTN_W, BTN_Y + BTN_H * .36f, 28, can ? 0xFF2F6E9E : 0xFF9AA7B0, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        c.textFit("남은 다이아 -" + Fmt.num(amt), BN_X + .575f * BTN_W, BTN_Y + BTN_H * .7f, 16, 210, can ? 0xFF4E7FA8 : 0xFF9AA7B0, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
         hits.add(new R("normal", BN_X, BTN_Y, BTN_W, BTN_H));
         c.image(!can ? "submit/submit_random_disabled" : hr ? "submit/submit_random_hover" : "submit/submit_random_default", BR_X, BTN_Y, BTN_W, BTN_H, 0xFFFFFFFF);
-        c.text("랜덤 제출", BR_X + .575f * BTN_W, BTN_Y + 34, 28, can ? 0xFF6B44A0 : 0xFFA9A0B4, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
-        c.textFit("2배 인정 or 일부 기부", BR_X + .575f * BTN_W, BTN_Y + 67, 16, 220, can ? 0xFF8A66B8 : 0xFFA9A0B4, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        c.text("랜덤 제출", BR_X + .575f * BTN_W, BTN_Y + BTN_H * .36f, 28, can ? 0xFF6B44A0 : 0xFFA9A0B4, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        c.textFit("2배 인정 or 일부 기부", BR_X + .575f * BTN_W, BTN_Y + BTN_H * .7f, 16, 210, can ? 0xFF5E3A8C : 0xFFA9A0B4, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
         hits.add(new R("random", BR_X, BTN_Y, BTN_W, BTN_H));
 
         if (fx != null && now - fxStart < fxLife()) drawFx(c, now - fxStart);
@@ -154,7 +155,7 @@ public final class SubmitPanel implements Panel {
         }
     }
 
-    private static final float BTN_Y = 535, BTN_W = 350, BTN_H = 96, BN_X = 140, BR_X = 510;
+    private static final float BTN_Y = 538, BTN_W = 340, BTN_H = BTN_W * 110 / 400f, BN_X = 152, BR_X = 508;
 
     private static String trim(double d) { return d == Math.floor(d) ? String.valueOf((long) d) : String.valueOf(d); }
 
@@ -197,7 +198,7 @@ public final class SubmitPanel implements Panel {
         c.imageAt(frog, 500, 540 - 10 * (float) Math.abs(Math.sin(r / 200.0)), 200, 1, 0, Anim.white(a));
         if (donated > 0) {
             float ft = Anim.t(r, 300, 1500);
-            c.imageAt("submit/donation_diamond", 700 + 60 * ft, 520 - 220 * ft, 90, 1, 0, Anim.white(a * (1 - ft * .7f)));
+            c.imageAt("submit/donation_diamond", 690 + 80 * ft, 580 - 110 * ft, 90, 1, 0, Anim.white(a * (1 - ft * .7f)));
         }
     }
 
