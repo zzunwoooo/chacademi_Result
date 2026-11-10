@@ -49,7 +49,7 @@ public final class Places {
         return out;
     }
 
-    /** 기계 블록: prefix.N 위치(기계 앞에 서서 저장한 자리)에서 2칸 안의 블록이면 N (가장 가까운 것), 아니면 null */
+    /** 기계 블록: prefix.N 또는 prefix.N.아무거나 위치(기계 앞에 서서 저장한 자리)에서 2칸 안의 블록이면 N (가장 가까운 것), 아니면 null */
     public String machineAt(String prefix, org.bukkit.block.Block b) {
         if (b == null || b.getWorld() == null) return null;
         Location bl = b.getLocation().add(0.5, 0.5, 0.5);
@@ -62,7 +62,7 @@ public final class Places {
             Location l = get(k);
             if (l == null || l.getWorld() == null || !l.getWorld().getName().equals(b.getWorld().getName())) continue;
             double d = l.distanceSquared(bl);
-            if (d <= best) { best = d; hit = k.substring(prefix.length() + 1); }
+            if (d <= best) { best = d; String id = k.substring(prefix.length() + 1); int dot = id.indexOf('.'); hit = dot < 0 ? id : id.substring(0, dot); }   // gacha-machine.1.a → "1" (같은 기계 여러 곳)
         }
         return hit;
     }

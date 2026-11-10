@@ -622,7 +622,7 @@ public final class Commands implements CommandExecutor, TabCompleter {
             case "loc" -> {
                 if (i == 2) out.addAll(List.of("저장", "삭제", "목록", "이동"));
                 else if (i == 3 && (a[1].equals("삭제") || a[1].equals("이동"))) out.addAll(plugin.places().names());
-                else if (i == 3 && a[1].equals("저장")) { out.addAll(List.of("lobby", "start", "village", "gacha", "jail", "wild", "race-start", "race-finish", "frog-jump-machine.1", "gacha-machine.1", "gacha-machine.2", "gacha-machine.3", "treasure-start", "invite-drop", "board.donation", "rroulette.1.1", "rroulette-gun.1")); out.addAll(plugin.places().names()); }
+                else if (i == 3 && a[1].equals("저장")) { out.addAll(List.of("lobby", "start", "village", "gacha", "jail", "wild", "race-start", "race-finish", "frog-jump-machine.1", "gacha-machine.1", "gacha-machine.2", "gacha-machine.3", "gacha-machine.1.a", "gacha-machine.1.b", "treasure-start", "invite-drop", "board.donation", "rroulette.1.1", "rroulette-gun.1")); out.addAll(plugin.places().names()); }
             }
             case "setloc", "delloc", "tp" -> { if (i == 2) out.addAll(plugin.places().names()); }
             case "npc" -> {
