@@ -39,6 +39,8 @@ public final class HarassService {
     /** 플러그인이 죽인 플레이어 → 인벤 유지 */
     public final Set<UUID> keepInv = ConcurrentHashMap.newKeySet();
     private final Set<UUID> touring = ConcurrentHashMap.newKeySet();
+    /** 순회공연 예약된 이동들 (죽으면 취소) */
+    private final java.util.Map<UUID, List<org.bukkit.scheduler.BukkitTask>> tourTasks = new ConcurrentHashMap<>();
     /** 보물광산 안 개인 괴롭히기 몬스터 = 부른 사람 전용 */
     public final MineMobGuard mineMobs;
 
@@ -272,19 +274,30 @@ public final class HarassService {
         if (stops.isEmpty()) { touring.remove(p.getUniqueId()); return; }
         plugin.announce("&d[순회공연] &f" + plugin.displayName(p) + "님의 전국 순회공연이 시작됩니다!", true);
         long delay = 0;
+        List<org.bukkit.scheduler.BukkitTask> tasks = new ArrayList<>();
         for (Player s : stops) {
             long stay = Rng.range(plugin.getConfig().getInt("tour.min-seconds", 3), plugin.getConfig().getInt("tour.max-seconds", 5)) * 20L;
-            Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            tasks.add(Bukkit.getScheduler().runTaskLater(plugin, () -> {
                 if (!p.isOnline() || !s.isOnline()) return;
                 p.teleport(s.getLocation());
                 plugin.ui().center(s, "&d" + plugin.displayName(p), "&f순회공연 왔어요!");
-            }, delay);
+            }, delay));
             delay += stay;
         }
-        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+        tasks.add(Bukkit.getScheduler().runTaskLater(plugin, () -> {
             touring.remove(p.getUniqueId());
+            tourTasks.remove(p.getUniqueId());
             if (p.isOnline()) p.teleport(home);
-        }, delay);
+        }, delay));
+        tourTasks.put(p.getUniqueId(), tasks);
+    }
+
+    /** 순회공연 중 죽으면 남은 이동 취소 (원래 자리로도 안 보냄 — 평소처럼 리스폰) */
+    public void stopTour(Player p) {
+        List<org.bukkit.scheduler.BukkitTask> tasks = tourTasks.remove(p.getUniqueId());
+        if (tasks == null) return;
+        for (org.bukkit.scheduler.BukkitTask t : tasks) t.cancel();
+        touring.remove(p.getUniqueId());
     }
 
     public void saveBack(Player p) {

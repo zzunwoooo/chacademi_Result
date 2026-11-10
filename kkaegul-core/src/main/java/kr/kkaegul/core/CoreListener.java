@@ -293,6 +293,7 @@ public final class CoreListener implements Listener {
     @EventHandler
     public void onDeath(PlayerDeathEvent e) {
         Player p = e.getEntity();
+        plugin.harass().stopTour(p);   // 순회공연 중이면 끊김
         boolean saved = plugin.harass().keepInv.remove(p.getUniqueId());
         if (!saved && plugin.getConfig().getBoolean("safe-zones.keep-inventory", true) && plugin.safeZone(p.getLocation())) saved = true;   // 마을·로비 = 기본 인벤세이브
         if (!saved && plugin.getConfig().getBoolean("items.inven_save_ticket.keep-inventory", true)
