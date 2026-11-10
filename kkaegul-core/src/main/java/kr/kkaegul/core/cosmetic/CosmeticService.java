@@ -125,6 +125,7 @@ public final class CosmeticService {
             Def def = def(id);
             if (def != null && def.slot().equals(slot)) m.put(slot, id);
         }
+        if (m.map().containsKey("head")) m.map().remove("face");
         return m;
     }
 
@@ -212,6 +213,9 @@ public final class CosmeticService {
         if (def == null) { plugin.ui().error(p, "&c없는 치장품이에요."); sync(p); return; }
         if (!d.cosmeticsOwned.contains(id)) { plugin.ui().error(p, "&c아직 가지고 있지 않은 치장품이에요."); sync(p); return; }
         if (!id.equals(d.cosmeticsEquipped.get(def.slot()))) {
+            // 모자·얼굴은 둘 다 머리에 씌우는 것 → 머리에는 하나만 (하나 입으면 다른 쪽은 벗김)
+            if (def.slot().equals("head")) d.cosmeticsEquipped.remove("face");
+            if (def.slot().equals("face")) d.cosmeticsEquipped.remove("head");
             d.cosmeticsEquipped.put(def.slot(), id);
             d.markDirty();
             broadcastDelta(p);
