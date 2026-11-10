@@ -88,7 +88,7 @@ public final class SubmitPanel implements Panel {
         my = (my - oy) / k;
 
         c.image("submit/panel_base", 0, 0, 1000, 680, 0xFFFFFFFF);
-        c.textFit("다이아 제출소", 499, 125, 38, 340, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        c.textFit("다이아 제출소", 499, 137, 38, 340, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
         boolean hc = Anim.in(mx, my, 899, 113, 67, 66);
         if (hc) c.fill(899, 113, 67, 66, 18, 0x22FFFFFF);
         hits.add(new R("close", 899, 113, 67, 66));
@@ -101,8 +101,8 @@ public final class SubmitPanel implements Panel {
         c.image("submit/info_owned", 520, 215, 420, 110, 0xFFFFFFFF);
         c.text("낼 수 있는 다이아", 625, 247, 21, 0xFF4F7F45, Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
         c.textFit(Fmt.num(held + inv) + "개", 625, 290, 38, 180, Theme.INK, Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
-        c.textFit("§7보유 " + Fmt.num(held), 920, 278, 17, 120, Theme.MUTED, Canvas.RIGHT, Canvas.BOLD | Canvas.LIGHT);
-        c.textFit("§7인벤 " + Fmt.num(inv), 920, 302, 17, 120, Theme.MUTED, Canvas.RIGHT, Canvas.BOLD | Canvas.LIGHT);
+        c.textFit("§7보유 " + Fmt.num(held), 906, 270, 17, 120, Theme.MUTED, Canvas.RIGHT, Canvas.BOLD | Canvas.LIGHT);
+        c.textFit("§7인벤 " + Fmt.num(inv), 906, 293, 17, 120, Theme.MUTED, Canvas.RIGHT, Canvas.BOLD | Canvas.LIGHT);
 
         // 개수 고르기
         long amt = amount(), max = max();
@@ -124,23 +124,23 @@ public final class SubmitPanel implements Panel {
         c.text("전부", 790, 425, 26, 0xFF3F7F31, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
         hits.add(new R("all", 710, 390, 160, 70));
 
-        // 제출 버튼
+        // 제출 버튼: 판 아래 두 모서리 장식(클로버·다이아, x<137 · x>863, y 530~660)을 가리지 않게 400x110 → 350x96 (비율 그대로)
         boolean can = amt > 0 && !busy(now);
-        boolean hn = can && Anim.in(mx, my, 70, 535, 400, 110), hr = can && Anim.in(mx, my, 530, 535, 400, 110);
-        c.image(!can ? "submit/submit_normal_disabled" : hn ? "submit/submit_normal_hover" : "submit/submit_normal_default", 70, 535, 400, 110, 0xFFFFFFFF);
-        c.text("일반 제출", 300, 574, 32, can ? 0xFF2F6E9E : 0xFF9AA7B0, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
-        c.textFit("남은 다이아 -" + Fmt.num(amt), 300, 612, 18, 250, can ? 0xFF4E7FA8 : 0xFF9AA7B0, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
-        hits.add(new R("normal", 70, 535, 400, 110));
-        c.image(!can ? "submit/submit_random_disabled" : hr ? "submit/submit_random_hover" : "submit/submit_random_default", 530, 535, 400, 110, 0xFFFFFFFF);
-        c.text("랜덤 제출", 760, 574, 32, can ? 0xFF6B44A0 : 0xFFA9A0B4, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
-        c.textFit("2배 인정 or 일부 기부", 760, 612, 18, 250, can ? 0xFF8A66B8 : 0xFFA9A0B4, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
-        hits.add(new R("random", 530, 535, 400, 110));
+        boolean hn = can && Anim.in(mx, my, BN_X, BTN_Y, BTN_W, BTN_H), hr = can && Anim.in(mx, my, BR_X, BTN_Y, BTN_W, BTN_H);
+        c.image(!can ? "submit/submit_normal_disabled" : hn ? "submit/submit_normal_hover" : "submit/submit_normal_default", BN_X, BTN_Y, BTN_W, BTN_H, 0xFFFFFFFF);
+        c.text("일반 제출", BN_X + .575f * BTN_W, BTN_Y + 34, 28, can ? 0xFF2F6E9E : 0xFF9AA7B0, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        c.textFit("남은 다이아 -" + Fmt.num(amt), BN_X + .575f * BTN_W, BTN_Y + 67, 16, 220, can ? 0xFF4E7FA8 : 0xFF9AA7B0, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        hits.add(new R("normal", BN_X, BTN_Y, BTN_W, BTN_H));
+        c.image(!can ? "submit/submit_random_disabled" : hr ? "submit/submit_random_hover" : "submit/submit_random_default", BR_X, BTN_Y, BTN_W, BTN_H, 0xFFFFFFFF);
+        c.text("랜덤 제출", BR_X + .575f * BTN_W, BTN_Y + 34, 28, can ? 0xFF6B44A0 : 0xFFA9A0B4, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        c.textFit("2배 인정 or 일부 기부", BR_X + .575f * BTN_W, BTN_Y + 67, 16, 220, can ? 0xFF8A66B8 : 0xFFA9A0B4, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        hits.add(new R("random", BR_X, BTN_Y, BTN_W, BTN_H));
 
         if (fx != null && now - fxStart < fxLife()) drawFx(c, now - fxStart);
         c.pop();
 
         // 랜덤 제출 설명 툴팁
-        if (Anim.in(mx, my, 530, 535, 400, 110) && (fx == null || now - fxStart >= fxLife())) {
+        if (Anim.in(mx, my, BR_X, BTN_Y, BTN_W, BTN_H) && (fx == null || now - fxStart >= fxLife())) {
             StringBuilder t = new StringBuilder("&d랜덤 제출\n&f고른 개수를 내고, 결과는 운빨!");
             JsonObject r = J.objOrEmpty(data, "random");
             for (var e : r.entrySet()) {
@@ -154,11 +154,14 @@ public final class SubmitPanel implements Panel {
         }
     }
 
+    private static final float BTN_Y = 535, BTN_W = 350, BTN_H = 96, BN_X = 140, BR_X = 510;
+
     private static String trim(double d) { return d == Math.floor(d) ? String.valueOf((long) d) : String.valueOf(d); }
 
     /** 결과 연출: 일반 = 상자 받는 깨굴이 + 배너 / 랜덤 = 주사위 굴림 → 결과 배너 */
     private void drawFx(Canvas c, long e) {
-        c.fill(28, 186, 944, 474, 30, Anim.alpha(0xFAFDF6EA, Anim.fade(e, 0, fxLife(), 120, 400)));
+        // 덮개 = 판 그림 아래쪽(y 180~680)을 그대로 한 번 더: 안의 칸·버튼만 가려지고 금테·모서리 장식(클로버·다이아)은 그대로 보임
+        c.imagePart("submit/panel_base", 0, 180, 1000, 500, 0, 180 / 680f, 1, 1, Anim.white(Anim.fade(e, 0, fxLife(), 120, 400)));
         float a = Anim.fade(e, 0, fxLife(), 120, 400);
         if (fxId.equals("random_submit") && e < DICE_MS) {
             String[] dice = {"submit/die_01", "submit/die_02", "submit/die_03"};

@@ -82,17 +82,17 @@ public final class PlayerSelectPanel implements Panel {
             // 얼굴 칸: 그림마다 자리가 조금씩 달라서 그림 대비 비율로 {x0, x1, y0, y1}
             float[] slot;
             if (sel) {
-                // 고른 줄: 잎 달린 하늘색 그림(1024x237) — 몸통이 그림 높이의 15~95% 라 그만큼 위아래로 키워 9조각으로 폭만 늘림
-                float ph = rh / .8f, py = ry - .15f * ph, s = ph / 237f;
+                // 고른 줄: 잎 달린 하늘색 그림(1024x237) — 몸통(금테)이 그림 높이의 14.5~96% (픽셀 34~227) 라 그만큼 위아래로 키워 9조각으로 폭만 늘림
+                float ph = rh / .815f, py = ry - .145f * ph, s = ph / 237f;
                 c.imageNine("user_select/user_row_pressed", ROW_X - 4, py, ROW_W + 8, ph, .2f, .45f, .2f * 1024 * s, .45f * ph, 0xFFFFFFFF);
-                float ax0 = ROW_X - 4 + .061f * 1024 * s, ax1 = ROW_X - 4 + .175f * 1024 * s;
-                slot = new float[]{ax0, ax1, py + .30f * ph, py + .79f * ph};
+                float ax0 = ROW_X - 4 + .052f * 1024 * s, ax1 = ROW_X - 4 + .183f * 1024 * s;   // 얼굴 칸 픽셀 x 53~187, y 64~194
+                slot = new float[]{ax0, ax1, py + .27f * ph, py + .819f * ph};
             } else if (hov) {
                 c.image("user_select/user_row_hover", ROW_X, ry, ROW_W, rh, 0xFFFFFFFF);
-                slot = new float[]{ROW_X + .044f * ROW_W, ROW_X + .135f * ROW_W, ry + .214f * rh, ry + .774f * rh};
+                slot = new float[]{ROW_X + .037f * ROW_W, ROW_X + .142f * ROW_W, ry + .17f * rh, ry + .887f * rh};   // 픽셀 x 38~145, y 27~141
             } else {
                 c.image("user_select/user_row_normal", ROW_X, ry, ROW_W, rh, 0xFFFFFFFF);
-                slot = new float[]{ROW_X + .027f * ROW_W, ROW_X + .134f * ROW_W, ry + .152f * rh, ry + .829f * rh};
+                slot = new float[]{ROW_X + .024f * ROW_W, ROW_X + .137f * ROW_W, ry + .139f * rh, ry + .854f * rh};   // 픽셀 x 25~140, y 22~135
             }
             float fcx = (slot[0] + slot[1]) / 2, fcy = (slot[2] + slot[3]) / 2, fs = Math.min(slot[1] - slot[0], slot[3] - slot[2]) * .8f;
             if (!c.face(names().get(i), fcx - fs / 2, fcy - fs / 2, fs)) c.text(label(i).isEmpty() ? "?" : label(i).substring(0, 1), fcx, fcy, fs * .62f, Theme.BLUE, Canvas.CENTER, Canvas.BOLD);
