@@ -101,11 +101,9 @@ public final class FxView {
         if (state.equals("open")) {
             float bt = Anim.outCubic((e - 1150) / 400f);
             float pulse = .7f + .3f * (float) Math.sin(e / 180.0);
-            c.push();
-            c.translate(cx, cy - ch * .25f);
-            c.scale(1, -1);
-            c.imageAt("chest/" + kind + "_beam", 0, ch * .55f * bt, ch * 1.2f * bt, 1, 0, Anim.white(a * pulse * .85f));
-            c.pop();
+            // 그림대로 좁은 쪽이 상자 입구, 넓은 쪽이 위 (예전엔 뒤집어 그려서 넓은 쪽 평평한 끝이 상자 옆으로 삐져나왔음)
+            float bh = ch * 1.2f * bt;
+            c.imageAt("chest/" + kind + "_beam", cx, cy - ch * .1f - bh / 2, bh, 1, 0, Anim.white(a * pulse * .85f));
         }
         c.imageAt("chest/" + kind + "_" + state, cx + shake, cy, ch, sc, shake * .4f, tint);
         if (J.bool(d, "fever")) {
@@ -131,14 +129,19 @@ public final class FxView {
         // 보상 카드: 1장이면 크게, 여러 장이면 줄지어
         float size = n <= 1 ? 290 : n <= 3 ? 250 : n <= 5 ? 220 : 180, gap = 26;
         int perRow = n <= 5 ? n : (n + 1) / 2;
+        // 카드 간격은 실제 카드 그림 폭으로 (별 카드는 별 끝이 옆으로 나와서 옆 카드와 겹쳤음), 한 줄이 화면을 넘으면 줄임
+        float wf = .9f;
+        for (int i = 0; i < n; i++) wf = Math.max(wf, cardW(c, kind, J.bool(rewards.get(i), "rare"), 1));
+        if (perRow > 0 && perRow * (size * wf + gap) - gap > W - 120) size = (W - 120 - (perRow - 1) * gap) / (perRow * wf);
+        float step = size * wf + gap;
         for (int i = 0; i < n; i++) {
             long st = 1250 + i * 230L;
             if (e < st) continue;
             float t = Anim.outBack(Anim.t(e, st, 420));
             int row = i / Math.max(1, perRow), col = i % Math.max(1, perRow);
             int inRow = Math.min(perRow, n - row * perRow);
-            float tx = cx + (col - (inRow - 1) / 2f) * (size + gap);
-            float ty = n <= 5 ? H * .3f : H * .17f + row * (size * CARD_H + 14);
+            float tx = cx + (col - (inRow - 1) / 2f) * step;
+            float ty = n <= 5 ? H * .3f : H * .17f + row * (size * CARD_H * 1.02f + 14);
             float x = Anim.lerp(cx, tx, t), y = Anim.lerp(cy - 60, ty, t);
             JsonObject r = rewards.get(i);
             boolean rare = J.bool(r, "rare");
@@ -149,6 +152,14 @@ public final class FxView {
             rewardCard(c, kind, rare, J.str(r, "id"), J.str(r, "label"), size, a, e);
             c.pop();
         }
+    }
+
+    /** 카드 그림 폭 (rewardCard 와 같은 계산) */
+    private static float cardW(Canvas c, String kind, boolean rare, float s) {
+        boolean star = rare || kind.equals("advanced");
+        int[] sz = c.size(star ? "reward/reward_card_rare" : "reward/reward_card_normal");
+        float h = s * CARD_H * (star ? 1.02f : 1);
+        return sz == null ? h * .89f : h * sz[0] / sz[1];
     }
 
     /** 카드 높이 = 카드 크기(s) × 이 값 (위아래 줄 간격 계산에도 씀) */
@@ -216,12 +227,15 @@ public final class FxView {
         c.translate(W / 2, H * .42f);
         c.scale(pop, pop);
         // 테두리 없이 안쪽 구성만 (깨굴이 · 리본 · 아이콘 · 메달)
+        // 가로 배치 (w 비율): 리본 가운데 BXC, 깨굴이는 리본 왼쪽 꼬리 끝에 살짝만 걸치고, 메달은 리본 오른쪽 꼬리 밖에
+        // (예전엔 깨굴이·메달이 리본 양쪽 꼬리 장식을 덮었음)
+        final float BXC = .1f;
         // 위 아이콘 3개 (가운데 크게)
         String deco = switch (k) { case "triple" -> "fever/lightning"; case "chest" -> "fever/gift"; default -> "fever/flame"; };
         for (int i = -1; i <= 1; i++) {
             float bt = Anim.outBack(Anim.t(e, 200 + (i + 1) * 90L, 350));
             float s = (i == 0 ? h * .3f : h * .2f) * bt;
-            c.imageAt(deco, i * w * .13f + w * .04f, y + h * (i == 0 ? .2f : .26f) + Anim.shake(e, 2, 3 + i), s, 1, i * 10, tint);
+            c.imageAt(deco, i * w * .13f + w * BXC, y + h * (i == 0 ? .2f : .26f) + Anim.shake(e, 2, 3 + i), s, 1, i * 10, tint);
         }
         // 리본 (살짝 기울게)
         float bw = w * .78f;
@@ -229,7 +243,7 @@ public final class FxView {
         float bh = bs == null ? bw * .18f : bw * bs[1] / bs[0];
         float slide = (1 - Anim.outCubic(Anim.t(e, 100, 400))) * w * .3f;
         c.push();
-        c.translate(w * .07f + slide, h * .05f);
+        c.translate(w * BXC + slide, h * .05f);
         c.rotate(-5);
         // 속도선: 리본이 오른쪽에서 날아드는 동안 뒤(오른쪽)에 남았다가 사라짐
         float sl = 1 - Anim.t(e, 350, 450);
@@ -244,15 +258,18 @@ public final class FxView {
         c.pop();
         // 오른쪽 메달 (3배 / 상자)
         if (!k.equals("diamond")) {
-            float mt = Anim.outBack(Anim.t(e, 500, 400));
-            c.imageAt("reward/chest_fever_badge", x + w * .86f, h * .02f, h * .3f * mt, 1, 0, tint);
-            c.text(k.equals("triple") ? "x3" : "1+1", x + w * .86f, h * .02f, h * .1f * mt, Anim.alpha(accent, a), Canvas.CENTER, Canvas.BOLD);
+            float mt = Anim.outBack(Anim.t(e, 500, 400)), ms = h * .3f;
+            float mx = w * BXC + bw / 2 + ms * .5f, my = h * .05f - (mx - w * BXC) * (float) Math.sin(Math.toRadians(5));
+            c.imageAt(k.equals("triple") ? "fever/badge_triple" : "fever/badge_chest", mx, my, ms * mt, 1, 0, tint);
+            c.text(k.equals("triple") ? "x3" : "1+1", mx, my, h * .1f * mt, Anim.alpha(accent, a), Canvas.CENTER, Canvas.BOLD);
         }
         // 왼쪽 깨굴이
         String frog = switch (k) { case "triple" -> "fever/frog_megaphones"; case "chest" -> "fever/frog_boxes"; default -> "fever/frog_drummer"; };
         float bounce = Math.abs((float) Math.sin(e / 130.0)) * 10;
-        c.imageAt(frog, x + w * .17f, y + h * .64f - bounce, h * .56f, 1, 0, tint);
-        c.textFit(sub, w * .1f, y + h * .86f, h * .065f, w * .6f, Anim.alpha(Theme.WHITE, a), Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
+        int[] fz = c.size(frog);
+        float fh = h * .56f, fw = fz == null ? fh : fh * fz[0] / fz[1];
+        c.imageAt(frog, w * BXC - bw / 2 + w * .04f - fw / 2, y + h * .64f - bounce, fh, 1, 0, tint);
+        c.textFit(sub, w * BXC, y + h * .86f, h * .065f, w * .6f, Anim.alpha(Theme.WHITE, a), Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
         c.pop();
     }
 
@@ -295,15 +312,22 @@ public final class FxView {
             if (rise > .98f) {
                 // 올라온 뒤 위쪽 봉인이 반짝
                 float glow = .5f + .5f * (float) Math.sin(e / 200.0);
-                c.fill(-cardW * .1f, -cardH / 2 - cardW * .02f, cardW * .2f, cardW * .2f, cardW * .1f, Anim.alpha(0x66B6F07A, a * glow));
+                // 봉인 그림 가운데(카드 높이 .082)에 맞춘 원
+                c.fill(-cardW * .15f, -cardH / 2 + cardH * .082f - cardW * .15f, cardW * .3f, cardW * .3f, cardW * .15f, Anim.alpha(0x66B6F07A, a * glow));
             }
             c.image("invite/invitation_card", -cardW / 2, -cardH / 2, cardW, cardH, tint);
             float ta = a * Anim.t(e, 2100, 300);
-            c.textFit(J.str(d, "title", "깨굴이의 위험한 초대"), 0, -cardH / 2 + cardH * .125f, cardW * .055f, cardW * .6f, Anim.alpha(0xFF6B4A9C, ta), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
-            c.textFit("To. " + J.str(d, "to"), 0, -cardH / 2 + cardH * .38f, cardW * .075f, cardW * .78f, Anim.alpha(Theme.INK, ta), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+            // 제목은 리본 위, 가운데 깨굴이 봉인(그림 .006~.157) 아래 보이는 띠(.157~.19)에 (예전엔 봉인 그림 위에 글자가 겹쳤음)
+            c.textFit(J.str(d, "title", "깨굴이의 위험한 초대"), 0, -cardH / 2 + cardH * .174f, cardH * .03f, cardW * .58f, Anim.alpha(0xFF6B4A9C, ta), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+            c.textFit("To. " + J.str(d, "to"), 0, -cardH / 2 + cardH * .39f, cardW * .075f, cardW * .78f, Anim.alpha(Theme.INK, ta), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
             String line2 = d.has("from") ? "From. " + J.str(d, "from") : "장소 : " + J.str(d, "place", "비밀");
             c.textFit(line2, 0, -cardH / 2 + cardH * .655f, cardW * .065f, cardW * .78f, Anim.alpha(Theme.INK, ta), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+            c.pop();
+            c.image("invite/envelope_front_overlay", cx - ew / 2, bottom - fh, ew, fh, tint);
+            // 도장은 봉투 앞판 위에 찍음 (예전엔 카드와 같이 앞판 뒤에 그려져 아래쪽이 봉투 V 에 가려졌음)
             if (e > 2900) {
+                c.push();
+                c.translate(cx, cy);
                 float st = Anim.t(e, 2900, 260);
                 sound(host, 4, "minecraft:entity.iron_golem.attack", .7f);
                 float ss = 2.2f - 1.2f * Anim.outCubic(st);
@@ -313,9 +337,8 @@ public final class FxView {
                 c.text("거부", 0, -sz * .14f, sz * .22f, Anim.alpha(0xFFD8423B, a * st), Canvas.CENTER, Canvas.BOLD);
                 c.text("불가", 0, sz * .14f, sz * .22f, Anim.alpha(0xFFD8423B, a * st), Canvas.CENTER, Canvas.BOLD);
                 c.pop();
+                c.pop();
             }
-            c.pop();
-            c.image("invite/envelope_front_overlay", cx - ew / 2, bottom - fh, ew, fh, tint);
         }
         // 봉인 조각이 떨어진다
         if (e < 1900) {
@@ -338,7 +361,7 @@ public final class FxView {
         confetti(c, e, a, cur.start());
         float t = Anim.outBack(Anim.t(e, 0, 500));
         c.imageAt("gacha/jackpot_sunburst", W / 2, H * .45f, 560, 1 + .05f * (float) Math.sin(e / 300.0), e / 40f, Anim.white(a * .8f));
-        c.imageAt("gacha/frog_jackpot", W / 2, H * .47f, 330 * t, 1, 0, Anim.white(a));
+        GachaPanel.artAt(c, "gacha/frog_jackpot", W / 2, H * .47f, 330 * t, 1, 0, Anim.white(a));
         float rw = 760, rh = rw * 247 / 1024f;
         c.image("gacha/jackpot_ribbon", W / 2 - rw / 2, H * .66f, rw, rh, Anim.white(a));
         c.textArc("졸업 축하해요!", W / 2, H * .66f + rh * Theme.RIBBON_CY, 44, Theme.ribbonR(rw), rw * .6f, Anim.alpha(0xFFE0564C, a), Canvas.BOLD | Canvas.LIGHT);

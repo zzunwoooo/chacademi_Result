@@ -59,8 +59,7 @@ public final class RouletteView {
         Frame f = frame(body);
         float W = c.width(), H = c.height();
         float w = Math.min(700, W - 260);
-        int[] sz = c.size("roulette/" + body);
-        float h = sz == null ? w * .53f : w * sz[1] / sz[0];
+        float h = w * GachaPanel.bodyRatio(c, "roulette/" + body, .53f);
         float x = (W - w) / 2, y = H * .44f - h / 2;
         float a = Anim.fade(now, cur.start(), life, 160, 420);
         float drop = (1 - Anim.outBack(Anim.t(now, cur.start(), 380))) * -40;
@@ -80,7 +79,7 @@ public final class RouletteView {
             c.text(ft, 0, 0, 26, Anim.alpha(Theme.WHITE, a), Canvas.CENTER, Canvas.BOLD);
             c.pop();
         }
-        c.image("roulette/" + body, x, y, w, h, tint);
+        GachaPanel.art(c, "roulette/" + body, x, y, w, h, tint);
         // 릴 칸 바탕 (roulette/reel_background 를 칸 크기에 9조각으로)
         for (int i = 0; i < 4; i++) {
             float rx = x + w * f.reels()[i][0] / 100, rw = w * (f.reels()[i][1] - f.reels()[i][0]) / 100;
@@ -110,6 +109,8 @@ public final class RouletteView {
             int ink = inc ? 0xFFD9493F : 0xFF3F8F32;
             if (e < stopAt) {
                 allStopped = false;
+                // 흘러가는 숫자는 크림 칸 안에서만 보이게 (칸 밖으로 삐져나오던 것)
+                c.clip(rx + 3, ry + 3, rw - 6, rh - 6);
                 // 도는 중: 숫자가 위로 흘러간다 (칸 밖은 흐리게)
                 float speed = 0.022f * (1 - .5f * Anim.clamp(e / (float) stopAt));
                 float pos = e * speed + i * 3.1f;
@@ -122,6 +123,7 @@ public final class RouletteView {
                     if (vis <= 0) continue;
                     c.text(String.valueOf(((dgt - k) % 10 + 10) % 10), cxr, cyr + oy, size, Anim.alpha(0xFF6B5A4C, a * vis * .9f), Canvas.CENTER, Canvas.BOLD);
                 }
+                c.unclip();
             } else {
                 float st = Anim.t(now, cur.start() + stopAt, 260);
                 float oy = (1 - Anim.outBack(st)) * -rh * .25f;
@@ -150,15 +152,20 @@ public final class RouletteView {
             if (extra > 0) {
                 String b = extra >= 2 ? "roulette/badge_fancy" : "roulette/badge_basic";
                 float bs = 120 * Anim.outBack(rt);
-                c.imageAt(b, x + w - 10, y + 6, bs, 1, -12, tint);
-                c.text("1+" + extra, x + w - 10, y + 8, 30 * Anim.outBack(rt), Anim.alpha(0xFFFFFFFF, a), Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
+                // 본체 오른쪽 위 장식(클로버·보석)을 덮지 않게 바깥 모서리에
+                float bx0 = x + w + 44, by0 = y - 28;
+                c.imageAt(b, bx0, by0, bs, 1, -12, tint);
+                c.text("1+" + extra, bx0, by0, 30 * Anim.outBack(rt), Anim.alpha(0xFFFFFFFF, a), Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
             }
         }
 
         // 깨굴이 + 레버
         String frog = "roulette/frog_" + (big ? "big_" : "") + (inc ? "increase" : "decrease");
         float fb = (float) Math.sin(now / 140.0) * (allStopped ? 4 : 1.5f);
-        c.imageFit(frog, x - 30, y + h * .72f + fb, 190, tint);
+        // 깨굴이는 본체 왼쪽 밖에 세움 (본체 왼쪽 아래 장식과 첫 칸을 덮지 않게), 발은 본체 바닥선에
+        int[] fsz = c.size(frog);
+        float fk = fsz == null ? 1 : 190f / Math.max(fsz[0], fsz[1]), fw = fsz == null ? 190 : fsz[0] * fk, fh = fsz == null ? 190 : fsz[1] * fk;
+        c.image(frog, x + 14 - fw, y + h * .99f - fh + fb, fw, fh, tint);
         float pull = e < 420 ? (float) Math.sin(Anim.clamp(e / 420f) * Math.PI) : 0;
         c.push();
         c.translate(x + w + 34, y + h * .78f);
