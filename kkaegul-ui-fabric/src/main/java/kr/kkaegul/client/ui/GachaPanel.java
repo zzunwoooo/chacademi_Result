@@ -66,14 +66,22 @@ public final class GachaPanel implements Panel {
         return switch (machine()) { case "2" -> "gacha/body_purple"; case "3" -> "gacha/body_charcoal_gold"; default -> "gacha/body_green"; };
     }
 
-    /** 몸통 그림 안 크림 창 세로 범위 (그림 대비 비율) — 기계마다 조금씩 다름 */
+    /** 몸통 그림 안 크림 창 세로 범위 (몸통 대비 비율, v3 그림에서 잰 값) — 기계마다 다름 */
     private float[] winY() {
-        return switch (machine()) { case "2" -> new float[]{.405f, .852f}; case "3" -> new float[]{.406f, .859f}; default -> new float[]{.398f, .841f}; };
+        return switch (machine()) { case "2" -> new float[]{.376f, .854f}; case "3" -> new float[]{.397f, .867f}; default -> new float[]{.392f, .843f}; };
     }
 
-    // 몸통 그림 자리 (1024x860 비율 그대로) · 크림 창 3개 가로 범위
+    /** 크림 창 3개 가로 범위 (몸통 대비 비율, v3 그림에서 잰 값) — 보라 기계는 창이 바깥쪽으로 벌어져 있음 */
+    private float[][] winX() {
+        return switch (machine()) {
+            case "2" -> new float[][]{{.069f, .325f}, {.375f, .628f}, {.678f, .934f}};
+            case "3" -> new float[][]{{.084f, .337f}, {.374f, .627f}, {.664f, .916f}};
+            default -> new float[][]{{.099f, .341f}, {.381f, .619f}, {.660f, .902f}};
+        };
+    }
+
+    // 몸통 그림 자리 (1024x860 비율 그대로)
     private static final float BX = 200, BY = 22, BW = 410, BH = BW * 860 / 1024f;
-    private static final float[][] WIN_X = {{.104f, .338f}, {.385f, .617f}, {.664f, .898f}};
     // 왼판(panel_info 614x1024) · 오른판(panel_cost 691x1024): 높이 300 기준
     private static final float PY = 44, PH = 300, LX = 10, LW = PH * 614 / 1024f, RW = PH * 691 / 1024f, RX = 820 - RW;
     private static final float SPIN = 78, SPIN_CY = BY + BH + 16;
@@ -139,13 +147,13 @@ public final class GachaPanel implements Panel {
         float picX0 = LX + .217f * LW, picX1 = LX + .787f * LW, picY0 = PY + .157f * PH, picY1 = PY + .484f * PH;
         float picCx = (picX0 + picX1) / 2;
         String pick = !holding ? "gacha_machine/pickaxe_empty" : live && fxId.equals("gacha_destroy") ? "gacha_machine/pickaxe_cracked" : "gacha_machine/pickaxe";
-        c.imageFit(pick, picCx, (picY0 + picY1) / 2 - (holding ? 0 : 6), holding ? 78 : 62, holding ? 0xFFFFFFFF : 0x88FFFFFF);
+        artFit(c, pick, picCx, (picY0 + picY1) / 2 - (holding ? 0 : 6), holding ? 78 : 62, holding ? 0xFFFFFFFF : 0x88FFFFFF);
         if (!holding) c.textFit("곡괭이를 들어 주세요", picCx, picY1 - 11, 10, picX1 - picX0 - 8, Theme.RED, Canvas.CENTER, Canvas.BOLD);
         float[][] infoY = {{.563f, .646f}, {.691f, .773f}, {.819f, .901f}};
         float rowX0 = LX + .119f * LW, rowX1 = LX + .884f * LW;
         for (int i = 0; i < 3; i++) {
             float y0 = PY + infoY[i][0] * PH, y1 = PY + infoY[i][1] * PH, cy = (y0 + y1) / 2;
-            c.imageFit(SMALL_ICON[i], rowX0 + 14, cy, 19, 0xFFFFFFFF);
+            artFit(c, SMALL_ICON[i], rowX0 + 14, cy, 19, 0xFFFFFFFF);
             c.text(STAT_NAME[i], rowX0 + 29, cy, 11, Theme.MUTED, Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
             c.text(String.valueOf(J.num(st, STAT[i])), rowX1 - 10, cy, 14, ink, Canvas.RIGHT, Canvas.BOLD | Canvas.LIGHT);
             hits.add(new R(STAT[i], rowX0, y0, rowX1 - rowX0, y1 - y0));
@@ -164,7 +172,7 @@ public final class GachaPanel implements Panel {
         float qx0 = RX + .101f * RW, qx1 = RX + .895f * RW, qtx = (qx0 + 34 + qx1) / 2;
         for (int i = 0; i < 4; i++) {
             float y0 = PY + costY[i][0] * PH, y1 = PY + costY[i][1] * PH, cy = (y0 + y1) / 2;
-            c.imageFit(qi[i], qx0 + 19, cy, 25, 0xFFFFFFFF);
+            artFit(c, qi[i], qx0 + 19, cy, 25, 0xFFFFFFFF);
             c.textFit(qn[i], qtx, cy - 7.5f, 10, qx1 - qx0 - 44, Theme.MUTED, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
             c.textFit(qv[i], qtx, cy + 7.5f, 14, qx1 - qx0 - 44, qc[i], Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
             hits.add(new R(qk[i], qx0, y0, qx1 - qx0, y1 - y0));
@@ -175,7 +183,7 @@ public final class GachaPanel implements Panel {
         if (!cheer) {
             String sign = switch (machine()) { case "2" -> "frog_sign_grin"; case "3" -> "frog_sign_villain"; default -> "frog_sign_gentle"; };
             float sw = 170, sh = sw * bodyRatio(c, "gacha_machine/" + sign, 315 / 512f), bob = (float) Math.sin(now / 600.0) * 1.5f;
-            c.image("gacha_machine/" + sign, 405 - sw / 2, BY + .06f * BH - sh * .62f + bob, sw, sh, 0xFFFFFFFF);
+            art(c, "gacha_machine/" + sign, 405 - sw / 2, BY + .06f * BH - sh * .62f + bob, sw, sh, 0xFFFFFFFF);
         }
         // 잭팟 햇살은 기계 뒤에 (앞에 그리면 이름판 글자를 덮음)
         if (cheer && fxId.equals("gacha_jackpot")) {
@@ -193,11 +201,12 @@ public final class GachaPanel implements Panel {
 
         long[] before = rolling ? J.longs(fx, "before") : null, after = rolling ? J.longs(fx, "after") : null;
         float[] wy = winY();
+        float[][] wx = winX();
         float ry0 = BY + wy[0] * BH, ry1 = BY + wy[1] * BH, numCy = (ry0 + ry1) / 2 + 12;
         int maxedCount = 0;
         for (int i = 0; i < 3; i++) {
-            float x = BX + WIN_X[i][0] * BW, w = (WIN_X[i][1] - WIN_X[i][0]) * BW, y = ry0, h = ry1 - ry0, cx = x + w / 2;
-            c.imageFit(SMALL_ICON[i], cx, y + 22, 28, 0xFFFFFFFF);
+            float x = BX + wx[i][0] * BW, w = (wx[i][1] - wx[i][0]) * BW, y = ry0, h = ry1 - ry0, cx = x + w / 2;
+            artFit(c, SMALL_ICON[i], cx, y + 22, 28, 0xFFFFFFFF);
             boolean maxed;
             long v = J.num(st, STAT[i]);
             if (rolling && after != null && after.length == 3) {
@@ -231,12 +240,15 @@ public final class GachaPanel implements Panel {
         }
         // 세 칸 모두 최대 (잭팟 포함) → 숫자 줄에 777 띠
         if (maxedCount == 3) {
-            float tw = (WIN_X[2][1] - WIN_X[0][0]) * BW + 26, th2 = tw * 190 / 1024f;
+            float tw = (wx[2][1] - wx[0][0]) * BW + 26, th2 = tw * 190 / 1024f;
             c.image("gacha/triple_seven_outline", 405 - tw / 2, numCy - th2 / 2, tw, th2, Anim.white(.75f + .25f * (float) Math.sin(now / 150.0)));
         }
         // 동전 넣는 곳 (창 아래 띠)
-        float slW = 112, slH = slW * 96 / 512f;
-        c.image("gacha_machine/coin_slot", 405 - slW / 2, ry1 + (BY + .935f * BH - ry1) / 2 - slH / 2 - 3, slW, slH, 0xFFFFFFFF);
+        float slW = 92, slH = slW * bodyRatio(c, "gacha_machine/coin_slot", 96 / 512f);
+        // v3 는 구멍 둘레에 크림 테가 붙어 커졌음 → 구멍 112→92 로 줄이고 테까지 포함한 전체를 창 아래 틈 가운데에 (창 테두리를 덮지 않게)
+        float[] sp = PAD.get("gacha_machine/coin_slot");
+        float slGap = ry1 + (BY + .935f * BH - ry1) / 2;
+        art(c, "gacha_machine/coin_slot", 405 - slW / 2, slGap - slH / 2 + (sp[1] - sp[3]) / 2 * slH + 2, slW, slH, 0xFFFFFFFF);
         // 돌리기 (주황 동그라미, 몸통 아래쪽에 걸침)
         boolean can = canSpin(now);
         float spx = 405 - SPIN / 2, spy = SPIN_CY - SPIN / 2;
@@ -309,10 +321,10 @@ public final class GachaPanel implements Panel {
                 float a = Anim.fade(now, fxStart, 2600, 80, 500);
                 float t = Anim.outBack(Anim.t(e, 0, 400));
                 c.imageAt("gacha_fx/purple_protection_shield", 300, 378, 100 * t, 1, 0, Anim.white(a));
-                c.imageAt("gacha_machine/pickaxe", 300, 375, 50 * t, 1, 0, Anim.white(a));
+                artAt(c, "gacha_machine/pickaxe", 300, 375, 50 * t, 1, 0, Anim.white(a));
                 rays(c, 300, 348, 30, a, now);
                 float ft = Anim.outBack(Anim.t(e, 250, 400));
-                c.imageAt("gacha_fx/frog_relief", 512, 378, 105 * ft, 1, 0, Anim.white(a));
+                artAt(c, "gacha_fx/frog_relief", 512, 378, 105 * ft, 1, 0, Anim.white(a));
                 plate(c, 300, 452, "방지권 사용!", 0xFF8E5BD0, a);
                 plate(c, 512, 452, "휴, 살았다...", Theme.INK, a);
             }
@@ -366,22 +378,48 @@ public final class GachaPanel implements Panel {
      * 끝이 잘려 있던 그림을 원본에서 다시 뽑으면서 늘어난 바깥 여백 (예전 그림 크기 대비 비율: 왼, 위, 오른, 아래).
      * 코드는 예전 자리(몸통)를 그대로 쓰고, art()/artAt() 이 여백만큼 바깥으로 넓혀 그려서 잘렸던 장식 끝까지 보이게 한다.
      */
-    private static final java.util.Map<String, float[]> PAD = java.util.Map.of(
-            "gacha/body_green", new float[]{.0025f, .0090f, .0050f, .0010f},
-            "gacha/body_charcoal_gold", new float[]{.0058f, .0047f, .0019f, .0035f},
-            "gacha/frog_jackpot", new float[]{0, .0187f, 0, .0012f},
-            "gacha_machine/panel_info", new float[]{.0377f, .0092f, .0419f, .0059f},
-            "gacha_machine/panel_cost", new float[]{.0159f, 0, .0159f, .0078f},
-            "gacha_machine/spin_normal", new float[]{.0035f, 0, .0046f, 0},
-            "gacha_machine/spin_pressed", new float[]{.0116f, .0125f, .0104f, .0091f},
-            "roulette/body_increase", new float[]{.0031f, .0015f, .0031f, .0075f},
-            "roulette/body_big_increase", new float[]{.0023f, 0, .0023f, 0});
+    private static final java.util.Map<String, float[]> PAD = java.util.Map.ofEntries(
+            // v3 그림 (다이아·클로버·광택 장식이 예전 자리 밖까지 나옴) — 몸통은 예전 자리 그대로
+            java.util.Map.entry("gacha/body_green", new float[]{.0101f, .0160f, .0126f, .0010f}),
+            java.util.Map.entry("gacha/body_purple", new float[]{.0372f, .0324f, .0391f, .0417f}),
+            java.util.Map.entry("gacha/body_charcoal_gold", new float[]{.0106f, .0047f, .0106f, .0047f}),
+            java.util.Map.entry("gacha/frog_jackpot", new float[]{.0051f, .0292f, .0041f, .0071f}),
+            java.util.Map.entry("gacha/stat_luck", new float[]{.1557f, .1591f, .1439f, .1470f}),
+            java.util.Map.entry("gacha/stat_efficiency", new float[]{.0915f, .0810f, .0936f, .0778f}),
+            java.util.Map.entry("gacha_fx/frog_relief", new float[]{.0048f, .0079f, .0079f, .0105f}),
+            java.util.Map.entry("gacha_machine/panel_info", new float[]{.0377f, .0092f, .0419f, .0059f}),
+            java.util.Map.entry("gacha_machine/panel_cost", new float[]{.0159f, 0, .0159f, .0078f}),
+            java.util.Map.entry("gacha_machine/spin_normal", new float[]{.0035f, 0, .0046f, 0}),
+            java.util.Map.entry("gacha_machine/spin_pressed", new float[]{.0151f, .0171f, .0116f, .0091f}),
+            java.util.Map.entry("gacha_machine/spin_disabled", new float[]{.0035f, 0, 0, 0}),
+            java.util.Map.entry("gacha_machine/coin_slot", new float[]{.2539f, .2442f, .2539f, .1935f}),
+            java.util.Map.entry("gacha_machine/coin_wallet", new float[]{.0062f, .0030f, 0, 0}),
+            java.util.Map.entry("gacha_machine/frog_coin", new float[]{0, .0033f, .0046f, 0}),
+            java.util.Map.entry("gacha_machine/protection_ticket", new float[]{.0040f, .1431f, .0030f, .0820f}),
+            java.util.Map.entry("gacha_machine/durability_shield", new float[]{.0022f, .0074f, 0, .0148f}),
+            java.util.Map.entry("gacha_machine/efficiency_bolt", new float[]{.0075f, 0, .0015f, .0022f}),
+            java.util.Map.entry("gacha_machine/luck_clover", new float[]{.0035f, 0, .0035f, 0}),
+            java.util.Map.entry("gacha_machine/pickaxe", new float[]{.0110f, 0, 0, 0}),
+            java.util.Map.entry("gacha_machine/pickaxe_empty", new float[]{.0036f, .0011f, .0071f, .0079f}),
+            java.util.Map.entry("gacha_machine/frog_sign_grin", new float[]{.0289f, .0335f, .0306f, .0134f}),
+            java.util.Map.entry("roulette/body_increase", new float[]{.0062f, .0179f, .0055f, .0239f}),
+            java.util.Map.entry("roulette/body_decrease", new float[]{.0025f, .0180f, .0008f, .0014f}),
+            java.util.Map.entry("roulette/body_big_increase", new float[]{.0023f, 0, .0023f, 0}),
+            java.util.Map.entry("roulette/body_big_decrease", new float[]{.0029f, 0, .0029f, 0}),
+            java.util.Map.entry("roulette/frog_decrease", new float[]{.0012f, .0023f, 0, .0045f}),
+            java.util.Map.entry("roulette/frog_big_decrease", new float[]{0, .0040f, .0019f, .0013f}));
 
     /** (x,y,w,h) = 그림 몸통 자리. 여백이 있는 그림은 그만큼 넓혀 그림 */
     static void art(Canvas c, String id, float x, float y, float w, float h, int argb) {
         float[] p = PAD.get(id);
         if (p == null) { c.image(id, x, y, w, h, argb); return; }
         c.image(id, x - p[0] * w, y - p[1] * h, w * (1 + p[0] + p[2]), h * (1 + p[1] + p[3]), argb);
+    }
+
+    /** imageFit 과 같지만 몸통(여백 빼고)을 box 안에 맞춤 (여백 장식은 바깥으로) */
+    static void artFit(Canvas c, String id, float cx, float cy, float box, int argb) {
+        float r = bodyRatio(c, id, 1), w = r > 1 ? box / r : box, h = r > 1 ? box : box * r;
+        art(c, id, cx - w / 2, cy - h / 2, w, h, argb);
     }
 
     /** 몸통 세로/가로 비율 (여백 빼고) */
