@@ -16,15 +16,15 @@ public final class RouletteView {
     private int stopMask;
     private static final long HOLD = 2300;
 
-    /** 본체별 안쪽 칸 위치 (그림 비율 0~100, 릴 칸은 그림에서 잰 크림 칸 바깥 테두리). {윗판 x0,y0,x1,y1}, 릴 y0,y1, 릴 4개 x 구간, {아랫판 x0,y0,x1,y1} */
+    /** 본체별 안쪽 칸 위치 (몸통 비율 0~100, v3 그림에서 다시 잼, 릴 칸은 그림에서 잰 크림 칸 바깥 테두리). {윗판 x0,y0,x1,y1}, 릴 y0,y1, 릴 4개 x 구간, {아랫판 x0,y0,x1,y1} */
     private record Frame(float[] plate, float reelY0, float reelY1, float[][] reels, float[] bottom) {}
 
     private static Frame frame(String body) {
         return switch (body) {
-            case "body_decrease" -> new Frame(new float[]{19, 6, 81, 20}, 27.2f, 83.1f, new float[][]{{6.2f, 27.1f}, {28.5f, 49.3f}, {50.7f, 71.5f}, {72.9f, 93.8f}}, new float[]{31, 87, 71, 99});
+            case "body_decrease" -> new Frame(new float[]{19, 8, 81, 21}, 27.2f, 83.1f, new float[][]{{6.2f, 27.1f}, {28.5f, 49.3f}, {50.7f, 71.5f}, {72.9f, 93.8f}}, new float[]{31, 87, 71, 99});
             case "body_big_increase" -> new Frame(new float[]{23, 2, 77, 16}, 19.5f, 83.1f, new float[][]{{6.2f, 27.1f}, {28.5f, 49.2f}, {50.8f, 71.5f}, {72.9f, 93.8f}}, new float[]{34, 88, 66, 99});
             case "body_big_decrease" -> new Frame(new float[]{18, 1, 82, 17}, 22.7f, 81.7f, new float[][]{{6.7f, 27.1f}, {28.9f, 49.1f}, {50.9f, 71.2f}, {72.9f, 93.3f}}, new float[]{31, 87, 71, 99});
-            default -> new Frame(new float[]{23, 1, 78, 17}, 25.5f, 82.9f, new float[][]{{6.4f, 27.2f}, {28.6f, 49.3f}, {50.7f, 71.4f}, {72.7f, 93.6f}}, new float[]{34, 87, 67, 100});
+            default -> new Frame(new float[]{22, 5, 78, 18}, 25.5f, 82.9f, new float[][]{{6.4f, 27.2f}, {28.6f, 49.3f}, {50.7f, 71.4f}, {72.7f, 93.6f}}, new float[]{34, 87, 67, 100});
         };
     }
 
@@ -163,9 +163,9 @@ public final class RouletteView {
         String frog = "roulette/frog_" + (big ? "big_" : "") + (inc ? "increase" : "decrease");
         float fb = (float) Math.sin(now / 140.0) * (allStopped ? 4 : 1.5f);
         // 깨굴이는 본체 왼쪽 밖에 세움 (본체 왼쪽 아래 장식과 첫 칸을 덮지 않게), 발은 본체 바닥선에
-        int[] fsz = c.size(frog);
-        float fk = fsz == null ? 1 : 190f / Math.max(fsz[0], fsz[1]), fw = fsz == null ? 190 : fsz[0] * fk, fh = fsz == null ? 190 : fsz[1] * fk;
-        c.image(frog, x + 14 - fw, y + h * .99f - fh + fb, fw, fh, tint);
+        float fr = GachaPanel.bodyRatio(c, frog, 1);   // 몸통(여백 빼고) 세로/가로
+        float fw = fr > 1 ? 190 / fr : 190, fh = fr > 1 ? 190 : 190 * fr;
+        GachaPanel.art(c, frog, x + 14 - fw, y + h * .99f - fh + fb, fw, fh, tint);
         float pull = e < 420 ? (float) Math.sin(Anim.clamp(e / 420f) * Math.PI) : 0;
         c.push();
         c.translate(x + w + 34, y + h * .78f);
