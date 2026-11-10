@@ -114,6 +114,7 @@ api:
       "333": "전체 괴롭히기"
       "1000": "다이아 증감 피버"
       "1289": "상자 피버 + 고급상자"
+      "777": "전체 치장 상자"
   personal:
     "33":   ["food"]
     "50":   ["roulette increase"]
@@ -135,6 +136,7 @@ api:
     "333":  ["harass-all"]
     "1000": ["fever diamond"]
     "1289": ["fever box", "all box premium 1"]
+    "777":  ["all box cosmetic 1"]
 
 food:
   min: 3
