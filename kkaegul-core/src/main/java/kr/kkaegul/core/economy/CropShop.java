@@ -19,9 +19,10 @@ import java.util.Map;
 
 /**
  * 상점 "농작물" 탭 (AddCrop · CustomCrops ItemsAdder 아이템).
- *  - 씨앗: economy.crops.list.<작물>: [1개 판매가, 씨앗 묶음 가격] → addcrop:addcrop_<작물>_seed seed-bundle 개를 다이아로 구매
+ *  - 씨앗: economy.crops.list 의 작물마다 addcrop:addcrop_<작물>_seed seed-bundle 개를 seed-price 다이아로 (모든 작물 같은 값)
  *  - 도구: economy.crops.tools (물뿌리개·경작지·스프링클러 등) 다이아로 구매. id 가 minecraft: 면 바닐라 아이템, name 으로 화면 이름 지정
- *  - 판매: 작물 1개 판매가 × 등급 배수 (economy.crops.grade-multiplier) — 시세 변동 없음
+ *  - 판매: 작물 1개 시세 × 등급 배수 (economy.crops.grade-multiplier). 시세는 sell-range 안에서 작물마다 랜덤,
+ *    농사 시세(economy.farm-reroll-minutes)가 바뀔 때 같이 바뀜 → 한 작물만 계속 비싸지 않게
  */
 public final class CropShop {
     private static final String[] GRADES = {"normal", "silver", "golden", "big", "rare"};
@@ -50,18 +51,51 @@ public final class CropShop {
         return plugin.items().itemsAdder().createAny(id, amount);
     }
 
+    /** 작물 이름 목록 (list: [bean, ...] 또는 예전 list.<작물>: [...]) */
+    private List<String> cropNames() {
+        ConfigurationSection c = cfg();
+        if (c == null) return List.of();
+        if (c.isList("list")) return c.getStringList("list");
+        ConfigurationSection list = c.getConfigurationSection("list");
+        return list == null ? List.of() : new ArrayList<>(list.getKeys(false));
+    }
+
+    private double[] range() {
+        ConfigurationSection c = cfg();
+        List<?> r = c == null ? null : c.getList("sell-range");
+        double lo = r != null && r.size() > 0 ? ((Number) r.get(0)).doubleValue() : 0.02;
+        double hi = r != null && r.size() > 1 ? ((Number) r.get(1)).doubleValue() : lo;
+        return new double[]{lo, Math.max(lo, hi)};
+    }
+
+    /** 시세가 없는 작물이 있거나 범위를 벗어나면 true (처음 켤 때 새로 뽑기) */
+    boolean needsReroll() {
+        double[] r = range();
+        for (String crop : cropNames()) {
+            Double v = plugin.global().cropPrices.get(crop);
+            if (v == null || v < r[0] - 1e-9 || v > r[1] + 1e-9) return true;
+        }
+        return false;
+    }
+
+    /** 작물 시세 새로 뽑기 (작물마다 sell-range 안에서 랜덤, 소수 셋째 자리) */
+    void reroll() {
+        double[] r = range();
+        plugin.global().cropPrices.clear();
+        for (String crop : cropNames())
+            plugin.global().cropPrices.put(crop, Math.round((r[0] + Math.random() * (r[1] - r[0])) * 1000) / 1000.0);
+        plugin.global().dirty = true;
+    }
+
     /** 판매가 표: 아이템 id → 1개당 다이아 */
     private Map<String, Double> sellTable() {
         Map<String, Double> out = new LinkedHashMap<>();
         ConfigurationSection c = cfg();
         if (c == null) return out;
-        ConfigurationSection list = c.getConfigurationSection("list");
         ConfigurationSection mul = c.getConfigurationSection("grade-multiplier");
-        if (list == null) return out;
-        for (String crop : list.getKeys(false)) {
-            List<?> v = list.getList(crop);
-            if (v == null || v.isEmpty()) continue;
-            double base = ((Number) v.get(0)).doubleValue();
+        double[] r = range();
+        for (String crop : cropNames()) {
+            double base = plugin.global().cropPrices.getOrDefault(crop, (r[0] + r[1]) / 2);
             for (String g : GRADES) {
                 double m = mul == null ? 1 : mul.getDouble(g, 0);
                 if (m <= 0) continue;
@@ -78,13 +112,8 @@ public final class CropShop {
         ConfigurationSection c = cfg();
         if (c == null) return out;
         int bundle = Math.max(1, c.getInt("seed-bundle", 10));
-        ConfigurationSection list = c.getConfigurationSection("list");
-        if (list != null) for (String crop : list.getKeys(false)) {
-            List<?> v = list.getList(crop);
-            if (v == null || v.size() < 2) continue;
-            long price = ((Number) v.get(1)).longValue();
-            if (price > 0) out.add(new Offer("addcrop:addcrop_" + crop + "_seed", bundle, price, "seed"));
-        }
+        long seed = c.getLong("seed-price", 1);
+        if (seed > 0) for (String crop : cropNames()) out.add(new Offer("addcrop:addcrop_" + crop + "_seed", bundle, seed, "seed"));
         for (Map<?, ?> m : c.getMapList("tools")) {
             Object id = m.get("id"), price = m.get("price"), amount = m.get("amount");
             if (id == null || !(price instanceof Number pn)) continue;

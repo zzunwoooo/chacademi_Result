@@ -324,9 +324,13 @@ economy:
     EMERALD: 0.5
     QUARTZ: 0.02
     AMETHYST_SHARD: 0.03
+    COD: 0.01                   # 물고기 (자연 낚시)
+    SALMON: 0.015
+    TROPICAL_FISH: 0.03
+    PUFFERFISH: 0.03
   sell-blocks: true             # ★ 광물 블록도 판매 (블록 가격 = 재료 가격 x9, 석영·자수정 x4)
   farm-reroll-minutes: 60
-  farm:                         # ★ 작물 시세 = 1개당 다이아 범위, 1시간마다 랜덤
+  farm:                         # ★ 작물 시세 = 1개당 다이아 범위, 1시간마다 랜덤 (농작물 탭 작물 시세도 이때 같이 바뀜)
     WHEAT: { min: 0.008, max: 0.03 }
     CARROT: { min: 0.008, max: 0.03 }
     POTATO: { min: 0.008, max: 0.03 }
@@ -350,27 +354,9 @@ economy:
   crops:                        # ★ 상점 "농작물" 탭 (AddCrop 작물 · CustomCrops 도구, minecraft: 바닐라 아이템도 됨). 가격 = 다이아
     enabled: true
     seed-bundle: 10             # 씨앗 1묶음 개수
-    list:                       # 작물: [작물 1개 판매가, 씨앗 1묶음 구매가]
-      bean:          [0.04, 1]
-      green_onion:   [0.04, 1]
-      garlic:        [0.04, 1]
-      onion:         [0.04, 1]
-      radish:        [0.04, 1]
-      turnip:        [0.04, 1]
-      rice:          [0.04, 1]
-      parsley:       [0.04, 1]
-      cabbage:       [0.04, 1]
-      korea_cabbage: [0.04, 1]
-      tomato:        [0.07, 2]
-      pepper:        [0.07, 2]
-      corn:          [0.07, 2]
-      sweet_potato:  [0.07, 2]
-      broccoli:      [0.07, 2]
-      egg_plant:     [0.07, 2]
-      artichoke:     [0.1, 3]
-      asparagus:     [0.1, 3]
-      paprika:       [0.1, 3]
-      wild_ginseng:  [0.3, 8]
+    seed-price: 1               # ★ 씨앗 1묶음 가격 (모든 작물 같음, 다이아)
+    sell-range: [0.02, 0.12]    # ★ 작물 1개 판매가 범위 — 시세가 바뀔 때마다(farm-reroll-minutes) 작물마다 이 안에서 랜덤
+    list: [bean, green_onion, garlic, onion, radish, turnip, rice, parsley, cabbage, korea_cabbage, tomato, pepper, corn, sweet_potato, broccoli, egg_plant, artichoke, asparagus, paprika, wild_ginseng]
     grade-multiplier: { normal: 1, silver: 2.5, golden: 6, big: 15, rare: 40 }   # 판매가 배수 (은별·금별·대형·희귀)
     tools:                      # 구매 목록: id · 한 번에 받는 개수 · 가격
       - { id: "customcrops:watering_can_1", price: 5 }

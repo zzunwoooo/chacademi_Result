@@ -21,6 +21,8 @@ public final class GlobalData {
     /** 작물 material -> 현재 판매가 */
     public final Map<String, Double> farmPrices = new LinkedHashMap<>();
     public long farmUpdatedAt = 0;
+    /** 농작물 탭(AddCrop) 작물 1개 판매가 시세 — 작물 이름 → 다이아 (농사 시세와 같이 바뀜) */
+    public final Map<String, Double> cropPrices = new LinkedHashMap<>();
     public long totalSubmittedAll = 0;
     public long totalDonatedAll = 0;
     public long lastMinigameAt = 0;
@@ -50,6 +52,8 @@ public final class GlobalData {
         ConfigurationSection fp = y.getConfigurationSection("farm.prices");
         if (fp != null) for (String k : fp.getKeys(false)) farmPrices.put(k, fp.getDouble(k));
         farmUpdatedAt = y.getLong("farm.updated", 0);
+        ConfigurationSection cp = y.getConfigurationSection("crop.prices");
+        if (cp != null) for (String k : cp.getKeys(false)) cropPrices.put(k, cp.getDouble(k));
         totalSubmittedAll = y.getLong("submit.total", 0);
         totalDonatedAll = y.getLong("submit.donated", 0);
         lastMinigameAt = y.getLong("minigame.last", 0);
@@ -69,6 +73,7 @@ public final class GlobalData {
         for (Map.Entry<String, String> e : firsts.entrySet()) y.set("firsts." + e.getKey(), e.getValue());
         for (Map.Entry<String, Double> e : farmPrices.entrySet()) y.set("farm.prices." + e.getKey(), e.getValue());
         y.set("farm.updated", farmUpdatedAt);
+        for (Map.Entry<String, Double> e : cropPrices.entrySet()) y.set("crop.prices." + e.getKey(), e.getValue());
         y.set("submit.total", totalSubmittedAll);
         y.set("submit.donated", totalDonatedAll);
         y.set("minigame.last", lastMinigameAt);

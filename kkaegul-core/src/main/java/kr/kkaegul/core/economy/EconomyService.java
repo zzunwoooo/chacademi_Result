@@ -29,6 +29,7 @@ public final class EconomyService {
         this.plugin = plugin;
         this.crops = new CropShop(plugin, this);
         if (plugin.global().farmPrices.isEmpty() || farmOutOfRange()) rerollFarm(false); // 예전(돈) 시세가 남아 있으면 새로 뽑기
+        else if (crops.needsReroll()) crops.reroll();
         long period = Math.max(1, plugin.getConfig().getLong("economy.farm-reroll-minutes", 60)) * 60L * 20L;
         Bukkit.getScheduler().runTaskTimer(plugin, () -> {
             long mins = plugin.getConfig().getLong("economy.farm-reroll-minutes", 60);
@@ -44,6 +45,7 @@ public final class EconomyService {
             Map.entry("EMERALD", "에메랄드"), Map.entry("QUARTZ", "석영"), Map.entry("AMETHYST_SHARD", "자수정 조각"),
             Map.entry("WHEAT", "밀"), Map.entry("CARROT", "당근"), Map.entry("POTATO", "감자"), Map.entry("BEETROOT", "비트"),
             Map.entry("MELON_SLICE", "수박 조각"), Map.entry("PUMPKIN", "호박"), Map.entry("SUGAR_CANE", "사탕수수"),
+            Map.entry("COD", "대구"), Map.entry("SALMON", "연어"), Map.entry("TROPICAL_FISH", "열대어"), Map.entry("PUFFERFISH", "복어"),
             Map.entry("COAL_BLOCK", "석탄 블록"), Map.entry("RAW_IRON_BLOCK", "철 원석 블록"), Map.entry("IRON_BLOCK", "철 블록"),
             Map.entry("RAW_COPPER_BLOCK", "구리 원석 블록"), Map.entry("COPPER_BLOCK", "구리 블록"), Map.entry("RAW_GOLD_BLOCK", "금 원석 블록"),
             Map.entry("GOLD_BLOCK", "금 블록"), Map.entry("REDSTONE_BLOCK", "레드스톤 블록"), Map.entry("LAPIS_BLOCK", "청금석 블록"),
@@ -296,6 +298,7 @@ public final class EconomyService {
             double v = Math.round((lo + Math.random() * (hi - lo)) * 1000) / 1000.0; // 소수 셋째 자리
             plugin.global().farmPrices.put(k.toUpperCase(), v);
         }
+        crops.reroll();   // 농작물 탭 작물 시세도 같이
         plugin.global().farmUpdatedAt = System.currentTimeMillis();
         plugin.global().dirty = true;
         if (announce) {
