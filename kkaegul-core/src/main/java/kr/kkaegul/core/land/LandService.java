@@ -215,6 +215,21 @@ public final class LandService {
         plugin.getLogger().info("[땅] " + p.getName() + " 회수 " + c.key());
     }
 
+    /** 관리자 강제 회수: 이 땅을 주인 없이 (땅문서는 돌려주지 않음) */
+    public void adminRevoke(Claim c, String by) {
+        remove(c);
+        dirty = true;
+        plugin.getLogger().info("[땅] 관리자 " + by + " 강제 회수 " + c.key() + " (주인 " + ownerName(c.owner()) + ")");
+    }
+
+    /** 관리자 강제 회수: 이 사람 땅 전부 + 허용 명단. 회수한 땅 수 */
+    public int adminRevokeAll(UUID owner, String by) {
+        List<Claim> l = new ArrayList<>(of(owner));
+        for (Claim c : l) adminRevoke(c, by);
+        if (trust.remove(owner) != null) dirty = true;
+        return l.size();
+    }
+
     public void trust(Player owner, UUID who) {
         if (who.equals(owner.getUniqueId())) return;
         if (trust.computeIfAbsent(owner.getUniqueId(), k -> new LinkedHashSet<>()).add(who)) {

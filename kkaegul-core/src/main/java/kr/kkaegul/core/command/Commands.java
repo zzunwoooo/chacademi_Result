@@ -399,6 +399,23 @@ public final class Commands implements CommandExecutor, TabCompleter {
                 if (t != null) plugin.wasd().start(t, 6, 6, pl -> say(pl, "&a성공"), pl -> say(pl, "&c실패"));
             }
             case "game" -> game(s, a);
+            case "land" -> {   // /깨굴 땅 회수 [닉네임] — 서 있는 땅 하나, 또는 그 사람 땅 전부를 주인 없이 (땅문서 안 돌려줌)
+                if (a.length < 2 || !a[1].equals("revoke")) { say(s, "&e/깨굴 땅 회수 &7(서 있는 땅)  &e/깨굴 땅 회수 <닉네임> &7(그 사람 땅 전부)"); return; }
+                if (a.length >= 3) {
+                    PlayerData d = plugin.data().findByName(a[2]);
+                    java.util.UUID id = d != null ? d.uuid : null;
+                    if (id == null) { org.bukkit.OfflinePlayer op = Bukkit.getOfflinePlayerIfCached(a[2]); if (op != null) id = op.getUniqueId(); }
+                    if (id == null) { say(s, "&c그런 플레이어가 없어요: " + a[2]); return; }
+                    int n = plugin.land().adminRevokeAll(id, s.getName());
+                    say(s, n > 0 ? "&a" + a[2] + " 님 땅 " + n + "칸을 회수했어요." : "&e" + a[2] + " 님은 땅이 없어요.");
+                    return;
+                }
+                if (self == null) { say(s, "&e콘솔은 /깨굴 땅 회수 <닉네임>"); return; }
+                kr.kkaegul.core.land.LandService.Claim c = plugin.land().at(self.getLocation());
+                if (c == null) { say(s, "&e여기는 주인 있는 땅이 아니에요."); return; }
+                plugin.land().adminRevoke(c, s.getName());
+                say(s, "&a" + plugin.land().ownerName(c.owner()) + " 님 땅을 회수했어요. &7(청크 " + c.cx() + ", " + c.cz() + ")");
+            }
             case "mine" -> {
                 if (a.length >= 3 && a[1].equals("regen")) say(s, plugin.mine().regen(a[2]) ? "&a재생성 시작: " + a[2] : "&c구역 설정 확인 (mine.regions." + a[2] + ")");
                 else if (a.length >= 3 && a[1].equals("send")) { Player t = plugin.data().online(a[2]); if (t != null) plugin.mine().sendTreasure(t, true); }
@@ -539,14 +556,14 @@ public final class Commands implements CommandExecutor, TabCompleter {
                 {"도움말", "help"}, {"리로드", "reload"}, {"저장", "save"}, {"위치", "loc"}, {"npc", "npc"}, {"엔피씨", "npc"},
                 {"api", "api"}, {"서버api", "sapi"}, {"실행", "run"}, {"다이아", "diamond"}, {"코인", "coins"}, {"돈", "money"},
                 {"게이지", "gauge"}, {"지급", "give"}, {"상자", "box"}, {"피버", "fever"}, {"감옥", "jail"}, {"석방", "unjail"},
-                {"괴롭히기", "harass"}, {"퀴즈", "quiz"}, {"wasd", "wasd"}, {"게임", "game"}, {"광산", "mine"}, {"시세변경", "farm"},
+                {"괴롭히기", "harass"}, {"퀴즈", "quiz"}, {"wasd", "wasd"}, {"게임", "game"}, {"광산", "mine"}, {"땅", "land"}, {"시세변경", "farm"},
                 {"경주", "race"}, {"초기화", "reset"}, {"칭호", "title"}, {"전체지급", "giveall"}, {"일차", "day"}, {"보호", "protection"}, {"정보", "info"}, {"ui", "ui"}};
         for (String[] x : subs) SUB.put(x[0], x[1]);
         String[][] words = {
                 {"설정", "set"}, {"추가", "add"}, {"감소", "sub"}, {"강제감소", "force-sub"},
                 {"일반", "normal"}, {"고급", "premium"}, {"행운", "lucky"}, {"중지", "stop"},
                 {"전체", "all"}, {"랜덤", "random"}, {"시작", "start"}, {"확인", "check"}, {"시간", "time"},
-                {"재생성", "regen"}, {"보내기", "send"}, {"연결", "bind"}, {"해제", "unbind"},
+                {"재생성", "regen"}, {"보내기", "send"}, {"회수", "revoke"}, {"연결", "bind"}, {"해제", "unbind"},
                 {"열기", "open"}, {"출발", "go"}, {"취소", "cancel"}, {"이월", "carry"}, {"멈춤", "pause"}, {"재개", "resume"},
                 {"켜기", "on"}, {"끄기", "off"}, {"자동", "auto"}, {"일정", "schedule"},
                 {"위험한초대", "invite"}, {"보물찾기", "treasure"}, {"카지노", "casino"}, {"홀덤", "poker"}, {"포커", "poker"}, {"섯다", "seotda"}, {"빼빼로", "pepero"}, {"러시안룰렛", "rroulette"}};
@@ -606,7 +623,7 @@ public final class Commands implements CommandExecutor, TabCompleter {
         say(s, "&e지급 &f<플레이어> <아이템> [개수]  &e상자 &f<플레이어> <일반|고급|행운> [개수]  &e피버 &f<다이아|상자|중지> [초]");
         say(s, "&e위치 &f<저장|삭제|목록|이동> [이름]  &eNPC &f<연결|해제|실행> [동작]  &e실행 &f<플레이어|*> <액션...>");
         say(s, "&e전체지급 &f[개수] &7(손에 든 아이템을 접속자 모두에게)  &e게임 &f<시작|중지|확인|시간|일정> ...  &e경주 &f<열기|출발|취소|이월>  &e감옥/석방 &f<플레이어>");
-        say(s, "&e괴롭히기 &f<플레이어|전체>  &e퀴즈 &f[유형]  &eWASD &f[플레이어]  &e광산 &f<재생성|보내기>  &e시세변경");
+        say(s, "&e괴롭히기 &f<플레이어|전체>  &e퀴즈 &f[유형]  &eWASD &f[플레이어]  &e광산 &f<재생성|보내기>  &e땅 회수 &f[닉네임]  &e시세변경");
         say(s, "&e칭호 &f<플레이어> <주기|빼기> <칭호id>  &7(새 칭호는 config titles.list 에 추가 후 리로드)");
         say(s, "&eAPI &f<플레이어> <번호>  &e서버API &f<번호>  &e정보 &f[플레이어]  &e일차  &e보호 &f[자동|켜기|끄기]  &e리로드  &e저장");
     }
@@ -653,6 +670,7 @@ public final class Commands implements CommandExecutor, TabCompleter {
                 else if (i == 4 && a[1].equals("시간")) out.addAll(List.of("1h", "90m", "2h", "3h"));
                 else if (i >= 4 && a[1].equals("시작")) out.addAll(players());
             }
+            case "land" -> { if (i == 2) out.add("회수"); else if (i == 3) out.addAll(players()); }
             case "mine" -> { if (i == 2) out.addAll(List.of("재생성", "보내기")); else if (i == 3 && a[1].equals("보내기")) out.addAll(players()); }
             case "race" -> { if (i == 2) out.addAll(List.of("열기", "출발", "취소", "이월", "멈춤", "재개")); }
             case "protection" -> { if (i == 2) out.addAll(List.of("자동", "켜기", "끄기")); }
