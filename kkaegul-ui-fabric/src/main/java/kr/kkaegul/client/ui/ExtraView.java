@@ -221,6 +221,7 @@ public final class ExtraView {
         else { ring = "b_timer_red"; rr = 135; ox = 140; oy = 140; }
         float S = r * 280 / rr;
         c.image("minigame/" + ring, cx - ox * S / 280, cy - oy * S / 280, S, S, 0xFFFFFFFF);
+        c.image("minigame/b_timer_knob", x, y, 140, 160, 0xFFFFFFFF);   // 시계 머리는 색 링 위에
         long s = (left + 999) / 1000;
         c.textFit(String.valueOf(s), cx, cy, 40, 80, f > .2f ? INK : 0xFFE0564C, Canvas.CENTER, TXT);
     }

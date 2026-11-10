@@ -103,9 +103,8 @@ public final class MinigameView {
         long left = -1, total = 1;
         if (wasdShow && !wasdDone) { total = wasdSec * 1000; left = Math.max(0, total - (now - wasdAt)); }
         else if (game != null && J.num(game, "seconds") > 0) { total = J.num(game, "seconds") * 1000; left = Math.max(0, total - (now - gameAt)); }
-        // 타이머: 오른쪽 위는 미니맵과 겹쳐서 화면 아래 가운데로. WASD 판이 있으면 판 위쪽(제목 리본과 화살표 사이)에 판보다 나중에 그림
+        // 타이머: 오른쪽 위는 미니맵과 겹쳐서 화면 아래 가운데로. 다른 판보다 나중에 그려서 가려지지 않게
         boolean showTimer = left >= 0 && !res;
-        if (showTimer && !wasdShow) timer(c, left, total, 890.5f, H / k - 330);
 
         if (game != null && !res) {
             JsonObject partner = J.objOrEmpty(game, "partner");
@@ -118,6 +117,10 @@ public final class MinigameView {
         }
         if (wasdShow && !res) keyPanel(c, now);
         if (showTimer && wasdShow) timer(c, left, total, 890.5f, 236);   // 236~396: 리본(~220)과 화살표(416~) 사이
+        else if (showTimer) {
+            boolean pep = game != null && J.str(game, "game").equals("pepero");
+            timer(c, left, total, 890.5f, pep ? 520 : H / k - 330);   // 빼빼로: 막대(690~) 바로 위
+        }
         if (fnd && !res) foundCard(c, now);
         if (bangAt > 0 && now - bangAt < 1400 && !res) bang(c, now);
         if (res) resultView(c, now);
@@ -175,6 +178,7 @@ public final class MinigameView {
         else { ring = "b_timer_red"; rr = 135; ox = 140; oy = 140; }
         float S = r * 280 / rr;
         c.image(P + ring, cx - ox * S / 280, cy - oy * S / 280, S, S, 0xFFFFFFFF);
+        c.image(P + "b_timer_knob", x, y, 140, 160, 0xFFFFFFFF);   // 시계 머리는 색 링 위에
         long s = (left + 999) / 1000;
         String t = s >= 60 ? s / 60 + ":" + String.format("%02d", s % 60) : String.valueOf(s);
         c.textFit(t, cx, cy, s >= 60 ? 30 : 40, 80, f > .2f ? INK : 0xFFE0564C, Canvas.CENTER, TXT);
