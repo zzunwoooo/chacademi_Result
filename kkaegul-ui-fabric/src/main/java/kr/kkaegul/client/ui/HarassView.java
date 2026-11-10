@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 
 /**
  * 괴롭히기 룰렛 (fx "harass_roulette", 받은 묶음 3 룰렛).
- * 판 (560,260) 800×520. 제목 판 안쪽 가운데 (400,86), 결과 판 가운데 (400,457) — 그림에서 잼.
+ * 판 (560,260) 800×520. 제목 판 안쪽 가운데 (400,86), 결과 판(초록 띠 y 400~478) 가운데 (400,440) — 그림에서 잼.
  * 칸 110×140 (y 185), 5칸이면 간격 147.5 / 6칸이면 118, 칸 이름 가운데 y 117.
  * 도장 400×140 (760,805), 글자 가운데 (240,70).
  */
@@ -113,7 +113,7 @@ public final class HarassView {
         // 결과
         float rt = Anim.t(now, at + 250 + spin, 260);
         if (done) {
-            c.textFit(J.str(data, "resultText", name(result)) + "!", 400, 457, 30, 520, Anim.alpha(INK, a * rt), Canvas.CENTER, TXT);
+            c.textFit(J.str(data, "resultText", name(result)) + "!", 400, 440, 30, 520, Anim.alpha(INK, a * rt), Canvas.CENTER, TXT);
             // 도장: 위에서 크게 찍힘
             float dt = Anim.t(now, at + 250 + spin + 180, 260);
             if (dt > 0) {

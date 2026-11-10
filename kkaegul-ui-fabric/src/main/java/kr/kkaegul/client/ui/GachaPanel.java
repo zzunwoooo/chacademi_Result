@@ -135,7 +135,7 @@ public final class GachaPanel implements Panel {
         boolean rolling = live && (fxId.equals("gacha_result") || fxId.equals("gacha_jackpot"));
 
         // ── 왼판 (panel_info): 그림 칸 = 곡괭이, 크림 줄 3개 = 3스탯
-        c.image("gacha_machine/panel_info", LX, PY, LW, PH, 0xFFFFFFFF);
+        art(c, "gacha_machine/panel_info", LX, PY, LW, PH, 0xFFFFFFFF);
         float picX0 = LX + .217f * LW, picX1 = LX + .787f * LW, picY0 = PY + .157f * PH, picY1 = PY + .484f * PH;
         float picCx = (picX0 + picX1) / 2;
         String pick = !holding ? "gacha_machine/pickaxe_empty" : live && fxId.equals("gacha_destroy") ? "gacha_machine/pickaxe_cracked" : "gacha_machine/pickaxe";
@@ -152,7 +152,7 @@ public final class GachaPanel implements Panel {
         }
 
         // ── 오른판 (panel_cost): 크림 줄 4개 = 비용 · 코인 · 파괴확률 · 방지권
-        c.image("gacha_machine/panel_cost", RX, PY, RW, PH, 0xFFFFFFFF);
+        art(c, "gacha_machine/panel_cost", RX, PY, RW, PH, 0xFFFFFFFF);
         String[] qi = {"gacha_machine/frog_coin", "gacha_machine/coin_wallet", "gacha_machine/pickaxe_cracked", "gacha_machine/protection_ticket"};
         String[] qn = {"1회 비용", "보유 코인", "파괴 확률", "파괴 방지권"};
         String[] qk = {"cost", "cost", "destroy", "protect"};
@@ -160,8 +160,8 @@ public final class GachaPanel implements Panel {
         String[] qv = {J.num(data, "cost") + "개", Fmt.num(J.num(data, "coins")) + "개",
                 dc <= 0 ? "없음" : (dc == Math.floor(dc) ? String.valueOf((long) dc) : String.format("%.1f", dc)) + "%", J.num(data, "protectTickets") + "장"};
         int[] qc = {ink, J.num(data, "coins") < J.num(data, "cost") ? Theme.RED : ink, dc > 0 ? Theme.RED : Theme.GREEN_DARK, 0xFF8E5BD0};
-        float[][] costY = {{.222f, .332f}, {.396f, .511f}, {.576f, .692f}, {.756f, .873f}};
-        float qx0 = RX + .101f * RW, qx1 = RX + .867f * RW, qtx = (qx0 + 34 + qx1) / 2;
+        float[][] costY = {{.221f, .339f}, {.395f, .518f}, {.576f, .699f}, {.756f, .879f}};
+        float qx0 = RX + .101f * RW, qx1 = RX + .895f * RW, qtx = (qx0 + 34 + qx1) / 2;
         for (int i = 0; i < 4; i++) {
             float y0 = PY + costY[i][0] * PH, y1 = PY + costY[i][1] * PH, cy = (y0 + y1) / 2;
             c.imageFit(qi[i], qx0 + 19, cy, 25, 0xFFFFFFFF);
@@ -174,10 +174,15 @@ public final class GachaPanel implements Panel {
         boolean cheer = rolling && e >= REEL_MS;
         if (!cheer) {
             String sign = switch (machine()) { case "2" -> "frog_sign_grin"; case "3" -> "frog_sign_villain"; default -> "frog_sign_gentle"; };
-            float sw = 170, sh = sw * 315 / 512f, bob = (float) Math.sin(now / 600.0) * 1.5f;
+            float sw = 170, sh = sw * bodyRatio(c, "gacha_machine/" + sign, 315 / 512f), bob = (float) Math.sin(now / 600.0) * 1.5f;
             c.image("gacha_machine/" + sign, 405 - sw / 2, BY + .06f * BH - sh * .62f + bob, sw, sh, 0xFFFFFFFF);
         }
-        c.image(body(), BX, BY, BW, BH, 0xFFFFFFFF);
+        // 잭팟 햇살은 기계 뒤에 (앞에 그리면 이름판 글자를 덮음)
+        if (cheer && fxId.equals("gacha_jackpot")) {
+            float ja = Anim.fade(now, fxStart + REEL_MS, life() - REEL_MS, 150, 450);
+            c.imageAt("gacha/jackpot_sunburst", 405, 20, 190, 1, (e - REEL_MS) / 30f, Anim.white(ja * .45f));
+        }
+        art(c, body(), BX, BY, BW, BH, 0xFFFFFFFF);
         float plX0 = BX + .178f * BW, plX1 = BX + .823f * BW, plCy = BY + (.088f + .215f) / 2 * BH;
         c.textFit(J.str(data, "label", "가챠"), 405, plCy, 17, plX1 - plX0 - 24, ink, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
         // 닫기 (오른판 위 오른쪽)
@@ -239,8 +244,10 @@ public final class GachaPanel implements Panel {
         boolean down = pressed && now - pressedAt < 160;
         String spinTex = !can ? "gacha_machine/spin_disabled" : down ? "gacha_machine/spin_pressed" : "gacha_machine/spin_normal";
         float grow = hov && !down ? 3 : 0;
-        c.image(spinTex, spx - grow / 2, spy - grow / 2 + (down ? 2 : 0), SPIN + grow, SPIN + grow, 0xFFFFFFFF);
-        c.text(waitingSince > 0 ? "..." : "돌리기", 405, SPIN_CY + (down ? 2 : 0), 17, Theme.WHITE, Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
+        if (!cheer) {   // 결과 리본이 버튼 자리를 덮으므로 그동안은 버튼을 숨김
+            art(c, spinTex, spx - grow / 2, spy - grow / 2 + (down ? 2 : 0), SPIN + grow, SPIN + grow, 0xFFFFFFFF);
+            c.text(waitingSince > 0 ? "..." : "돌리기", 405, SPIN_CY + (down ? 2 : 0), 17, Theme.WHITE, Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
+        }
         hits.add(new R("spin", spx, spy, SPIN, SPIN));
         if (!live && waitingSince == 0) {
             String why = blockReason();
@@ -270,9 +277,8 @@ public final class GachaPanel implements Panel {
                 long j = e - REEL_MS;
                 float a = Anim.fade(now, fxStart + REEL_MS, life() - REEL_MS, 150, 450);
                 float t = Anim.outBack(Anim.t(j, 0, 400));
-                if (jp) c.imageAt("gacha/jackpot_sunburst", 405, 20, 190, 1, j / 30f, Anim.white(a * .45f));
                 rays(c, 405, 10, 70, a, now);
-                c.imageAt(jp ? "gacha/frog_jackpot" : "hud/frog_yay", 405, 0 - 8 * t, 110 * t, 1, 0, Anim.white(a));
+                artAt(c, jp ? "gacha/frog_jackpot" : "hud/frog_yay", 405, 0 - 8 * t, 110 * t, 1, 0, Anim.white(a));
                 float rw = 330, rh = rw * 247 / 1024f;
                 c.image("gacha/jackpot_ribbon", 405 - rw / 2, 330, rw, rh, Anim.white(a));
                 long[] af = J.longs(fx, "after");
@@ -355,4 +361,46 @@ public final class GachaPanel implements Panel {
     }
     /** 이번에 오르내린 값 "(+3)" / "(-2)" */
     private static String d(long v) { return v > 0 ? "(+" + v + ")" : "(" + v + ")"; }
+
+    /**
+     * 끝이 잘려 있던 그림을 원본에서 다시 뽑으면서 늘어난 바깥 여백 (예전 그림 크기 대비 비율: 왼, 위, 오른, 아래).
+     * 코드는 예전 자리(몸통)를 그대로 쓰고, art()/artAt() 이 여백만큼 바깥으로 넓혀 그려서 잘렸던 장식 끝까지 보이게 한다.
+     */
+    private static final java.util.Map<String, float[]> PAD = java.util.Map.of(
+            "gacha/body_green", new float[]{.0025f, .0090f, .0050f, .0010f},
+            "gacha/body_charcoal_gold", new float[]{.0058f, .0047f, .0019f, .0035f},
+            "gacha/frog_jackpot", new float[]{0, .0187f, 0, .0012f},
+            "gacha_machine/panel_info", new float[]{.0377f, .0092f, .0419f, .0059f},
+            "gacha_machine/panel_cost", new float[]{.0159f, 0, .0159f, .0078f},
+            "gacha_machine/spin_normal", new float[]{.0035f, 0, .0046f, 0},
+            "gacha_machine/spin_pressed", new float[]{.0116f, .0125f, .0104f, .0091f},
+            "roulette/body_increase", new float[]{.0031f, .0015f, .0031f, .0075f},
+            "roulette/body_big_increase", new float[]{.0023f, 0, .0023f, 0});
+
+    /** (x,y,w,h) = 그림 몸통 자리. 여백이 있는 그림은 그만큼 넓혀 그림 */
+    static void art(Canvas c, String id, float x, float y, float w, float h, int argb) {
+        float[] p = PAD.get(id);
+        if (p == null) { c.image(id, x, y, w, h, argb); return; }
+        c.image(id, x - p[0] * w, y - p[1] * h, w * (1 + p[0] + p[2]), h * (1 + p[1] + p[3]), argb);
+    }
+
+    /** 몸통 세로/가로 비율 (여백 빼고) */
+    static float bodyRatio(Canvas c, String id, float fallback) {
+        int[] s = c.size(id);
+        if (s == null) return fallback;
+        float[] p = PAD.getOrDefault(id, new float[4]);
+        return s[1] / (1 + p[1] + p[3]) / (s[0] / (1 + p[0] + p[2]));
+    }
+
+    /** imageAt 과 같지만 h 는 몸통 높이 (여백은 바깥으로) */
+    static void artAt(Canvas c, String id, float cx, float cy, float h, float scale, float rotate, int argb) {
+        float w = h / bodyRatio(c, id, 1);
+        float[] p = PAD.getOrDefault(id, new float[4]);
+        c.push();
+        c.translate(cx, cy);
+        if (rotate != 0) c.rotate(rotate);
+        if (scale != 1) c.scale(scale, scale);
+        c.image(id, -w / 2 - p[0] * w, -h / 2 - p[1] * h, w * (1 + p[0] + p[2]), h * (1 + p[1] + p[3]), argb);
+        c.pop();
+    }
 }
