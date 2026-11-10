@@ -104,6 +104,10 @@ public final class Actions {
         ui.onAction("move", (p, a) -> move(p, a.getOrDefault("dest", "")));
         ui.onAction("menu.open", (p, a) -> plugin.menu().open(p, a.getOrDefault("tab", "me")));
         ui.onAction("trash.open", (p, a) -> plugin.npcs().run(p, "trash"));   // 메뉴의 쓰레기통
+        // ── 옷장 (치장품) ──
+        ui.onAction("wardrobe.open", (p, a) -> plugin.cosmetics().open(p));
+        ui.onAction("wardrobe.equip", (p, a) -> plugin.cosmetics().equip(p, a.getOrDefault("id", "")));
+        ui.onAction("wardrobe.unequip", (p, a) -> plugin.cosmetics().unequip(p, a.getOrDefault("slot", a.getOrDefault("id", ""))));
     }
 
     /** 처리 뒤(거절 포함) 상점 창을 항상 갱신 → 버튼이 "..." 로 멈춰 있지 않게 */

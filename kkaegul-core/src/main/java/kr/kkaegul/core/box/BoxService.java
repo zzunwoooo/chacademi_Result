@@ -34,6 +34,7 @@ public final class BoxService {
         return switch (kind.toLowerCase()) {
             case "premium", "고급" -> CustomItem.PREMIUM_BOX;
             case "lucky", "행운" -> CustomItem.LUCKY_BOX;
+            case "cosmetic", "치장" -> CustomItem.COSMETIC_BOX;
             default -> CustomItem.NORMAL_BOX;
         };
     }
@@ -42,6 +43,7 @@ public final class BoxService {
         return switch (item) {
             case PREMIUM_BOX -> "premium";
             case LUCKY_BOX -> "lucky";
+            case COSMETIC_BOX -> "cosmetic";
             default -> "normal";
         };
     }
@@ -78,7 +80,7 @@ public final class BoxService {
                 case "food" -> plugin.items().create(plugin.clock().isPeperoSeason() ? CustomItem.KKAEKKAERO : CustomItem.COLA, 1);
                 case "box" -> {
                     String k = a.length > 1 ? a[1] : "normal";
-                    yield plugin.items().create(k.equals("lucky") ? CustomItem.LUCKY_BOX : k.equals("premium") ? CustomItem.PREMIUM_BOX : CustomItem.NORMAL_BOX, 1);
+                    yield plugin.items().create(itemOf(k), 1);
                 }
                 case "mending" -> new org.bukkit.inventory.ItemStack(org.bukkit.Material.ENCHANTED_BOOK);
                 default -> null;
@@ -94,6 +96,10 @@ public final class BoxService {
 
     /** count 개를 한 번에 연다 (웅크리고 우클릭 = 최대 10개). 보상은 같은 것끼리 묶어 연출 한 번 */
     public void open(Player p, String kind, int count) {
+        if (kind.equals(kr.kkaegul.core.cosmetic.CosmeticService.BOX_KIND)) {   // 치장 상자는 풀 대신 "아직 없는 치장품" 1개 (전부 보유면 알림만)
+            plugin.cosmetics().openBox(p);
+            return;
+        }
         PlayerData d = plugin.data().get(p);
         ConfigurationSection c = plugin.getConfig().getConfigurationSection("boxes." + kind);
         if (c == null) { plugin.ui().error(p, "&c상자 설정이 없어요: " + kind); return; }

@@ -89,6 +89,11 @@ public final class PlayerData {
     /** 광산 안에서 접속 종료/서버 종료됐을 때 돌아갈 위치 */
     public String mineReturn = "";
 
+    // ── 치장품 (id = ItemsAdder namespaced id) ──
+    public final Set<String> cosmeticsOwned = new LinkedHashSet<>();
+    /** 부위(head/face/back/offhand/balloon) → 장착한 치장품 id */
+    public final java.util.Map<String, String> cosmeticsEquipped = new java.util.LinkedHashMap<>();
+
     public PlayerData(UUID uuid) { this.uuid = uuid; }
 
     public void markDirty() { dirty = true; }
@@ -146,6 +151,14 @@ public final class PlayerData {
         pendingApi.addAll(y.getStringList("pending-api"));
         backLocation = y.getString("back", "");
         mineReturn = y.getString("mine-return", "");
+        cosmeticsOwned.clear();
+        cosmeticsOwned.addAll(y.getStringList("cosmetics.owned"));
+        cosmeticsEquipped.clear();
+        var eq = y.getConfigurationSection("cosmetics.equipped");
+        if (eq != null) for (String slot : eq.getKeys(false)) {
+            String id = eq.getString(slot, "");
+            if (id != null && !id.isEmpty()) cosmeticsEquipped.put(slot, id);
+        }
     }
 
     public void save(YamlConfiguration y) {
@@ -197,5 +210,7 @@ public final class PlayerData {
         y.set("pending-api", new ArrayList<>(pendingApi));
         y.set("back", backLocation);
         y.set("mine-return", mineReturn);
+        y.set("cosmetics.owned", new ArrayList<>(cosmeticsOwned));
+        for (java.util.Map.Entry<String, String> e : cosmeticsEquipped.entrySet()) y.set("cosmetics.equipped." + e.getKey(), e.getValue());
     }
 }

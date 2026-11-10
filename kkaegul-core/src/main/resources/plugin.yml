@@ -131,6 +131,9 @@ commands:
   deposit:
     description: 인벤토리 다이아를 보유 다이아로 입금
     aliases: [입금]
+  wardrobe:
+    description: 옷장 (치장품 장착/해제)
+    aliases: [옷장]
 
 permissions:
   kkaegul.admin:

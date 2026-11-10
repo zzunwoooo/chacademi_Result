@@ -30,7 +30,7 @@ public final class Commands implements CommandExecutor, TabCompleter {
         this.plugin = plugin;
         this.actions = actions;
         for (String c : List.of("kg", "kapi", "ksapi", "mailbox", "submit", "randomsubmit", "sell", "buycoin", "farmprice",
-                "gacha", "fortune", "wild", "jailexit", "title", "hall", "playtime", "trash", "me", "usertp", "gauge", "profile", "withdraw", "deposit", "nickname", "frogjump", "frograce", "poker", "seotda", "discordlink", "kgnotice", "kgwhisper", "kgreply", "kghelp", "kgaccept", "kgtp", "kgsummon", "coupon", "couponadmin")) {
+                "gacha", "fortune", "wild", "jailexit", "title", "hall", "playtime", "trash", "me", "usertp", "gauge", "profile", "withdraw", "deposit", "nickname", "frogjump", "frograce", "poker", "seotda", "discordlink", "kgnotice", "kgwhisper", "kgreply", "kghelp", "kgaccept", "kgtp", "kgsummon", "coupon", "couponadmin", "wardrobe")) {
             PluginCommand pc = plugin.getCommand(c);
             if (pc == null) { plugin.getLogger().warning("plugin.yml 에 명령어 없음: " + c); continue; }
             pc.setExecutor(this);
@@ -93,6 +93,7 @@ public final class Commands implements CommandExecutor, TabCompleter {
         switch (name) {
             case "coupon" -> plugin.coupons().use(p, a.length > 0 ? a[0] : "");
             case "couponadmin" -> plugin.coupons().admin(p, a);
+            case "wardrobe" -> plugin.cosmetics().open(p);   // /옷장
             case "kgtp", "kgsummon" -> {
                 boolean summon = name.equals("kgsummon");
                 if (a.length < 1) { plugin.ui().error(p, summon ? "&c/소환 <닉네임>" : "&c/텔포 <닉네임>"); return; }
@@ -300,6 +301,17 @@ public final class Commands implements CommandExecutor, TabCompleter {
                 boolean take = a[2].equals("빼기") || a[2].equalsIgnoreCase("take");
                 say(s, take ? plugin.titles().adminTake(d, a[3]) : plugin.titles().adminGive(d, a[3]));
             }
+            case "cosmetic" -> {   // /깨굴 치장 <닉> 주기|빼기|목록 [id]
+                if (a.length < 3) { say(s, "&e/깨굴 치장 <플레이어> <주기|빼기|목록> [치장품id]  &7치장품 " + plugin.cosmetics().ids().size() + "개 (cosmetics.yml)"); return; }
+                PlayerData d = target(s, a[1]);
+                if (d == null) return;
+                String op = a[2];
+                if (op.equals("목록") || op.equalsIgnoreCase("list")) { for (String l : plugin.cosmetics().adminList(d)) say(s, l); return; }
+                boolean take = op.equals("빼기") || op.equalsIgnoreCase("take");
+                if (!take && !op.equals("주기") && !op.equalsIgnoreCase("give")) { say(s, "&c주기 | 빼기 | 목록 중에서 고르세요."); return; }
+                if (a.length < 4) { say(s, "&e/깨굴 치장 " + a[1] + " " + op + " <치장품id>"); return; }
+                say(s, take ? plugin.cosmetics().adminTake(d, a[3]) : plugin.cosmetics().adminGive(d, a[3]));
+            }
             case "reset" -> {
                 if (a.length < 3) { say(s, "&e/깨굴 초기화 <플레이어> <장비|부동산|운세|닉네임|전부>  &7(전부 = 장비·부동산·운세)"); return; }
                 PlayerData d = target(s, a[1]);
@@ -360,7 +372,7 @@ public final class Commands implements CommandExecutor, TabCompleter {
                 say(s, "&a지급 완료");
             }
             case "box" -> {
-                if (a.length < 3) { say(s, "&e/kg box <플레이어> <normal|premium|lucky> [개수]"); return; }
+                if (a.length < 3) { say(s, "&e/깨굴 상자 <플레이어> <일반|고급|행운|치장> [개수]"); return; }
                 PlayerData d = target(s, a[1]);
                 if (d != null) plugin.boxes().giveBox(d.uuid, a[2], a.length > 3 ? Actions.parse(a[3], 1) : 1);
             }
@@ -604,11 +616,11 @@ public final class Commands implements CommandExecutor, TabCompleter {
                 {"api", "api"}, {"서버api", "sapi"}, {"실행", "run"}, {"다이아", "diamond"}, {"코인", "coins"}, {"돈", "money"},
                 {"게이지", "gauge"}, {"지급", "give"}, {"상자", "box"}, {"피버", "fever"}, {"감옥", "jail"}, {"석방", "unjail"},
                 {"괴롭히기", "harass"}, {"퀴즈", "quiz"}, {"wasd", "wasd"}, {"게임", "game"}, {"광산", "mine"}, {"땅", "land"}, {"백업", "backup"}, {"곡괭이", "pickaxe"}, {"시세변경", "farm"},
-                {"경주", "race"}, {"초기화", "reset"}, {"칭호", "title"}, {"전체지급", "giveall"}, {"일차", "day"}, {"보호", "protection"}, {"정보", "info"}, {"ui", "ui"}};
+                {"경주", "race"}, {"초기화", "reset"}, {"칭호", "title"}, {"치장", "cosmetic"}, {"전체지급", "giveall"}, {"일차", "day"}, {"보호", "protection"}, {"정보", "info"}, {"ui", "ui"}};
         for (String[] x : subs) SUB.put(x[0], x[1]);
         String[][] words = {
                 {"설정", "set"}, {"추가", "add"}, {"감소", "sub"}, {"강제감소", "force-sub"},
-                {"일반", "normal"}, {"고급", "premium"}, {"행운", "lucky"}, {"중지", "stop"},
+                {"일반", "normal"}, {"고급", "premium"}, {"행운", "lucky"}, {"치장", "cosmetic"}, {"중지", "stop"},
                 {"전체", "all"}, {"랜덤", "random"}, {"시작", "start"}, {"확인", "check"}, {"시간", "time"},
                 {"재생성", "regen"}, {"보내기", "send"}, {"회수", "revoke"}, {"연결", "bind"}, {"해제", "unbind"},
                 {"열기", "open"}, {"출발", "go"}, {"취소", "cancel"}, {"이월", "carry"}, {"멈춤", "pause"}, {"재개", "resume"},
@@ -635,7 +647,7 @@ public final class Commands implements CommandExecutor, TabCompleter {
             // 플레이어 이름 자리에는 바꾸지 않도록: 정해진 단어만
             String w = WORD.get(a[i]);
             if (w == null) continue;
-            boolean playerSlot = (a[0].equals("diamond") || a[0].equals("coins") || a[0].equals("money") || a[0].equals("give") || a[0].equals("box") || a[0].equals("info")) && i == 1;
+            boolean playerSlot = (a[0].equals("diamond") || a[0].equals("coins") || a[0].equals("money") || a[0].equals("give") || a[0].equals("box") || a[0].equals("info") || a[0].equals("cosmetic")) && i == 1;
             if (!playerSlot) a[i] = w;
         }
         return a;
@@ -667,12 +679,13 @@ public final class Commands implements CommandExecutor, TabCompleter {
     private void help(CommandSender s) {
         say(s, "&6/깨굴 &7(= /kg) 관리자 명령");
         say(s, "&e다이아 &f<플레이어> <설정|추가|감소|강제감소> <수>  &e코인/돈 &f<플레이어> <수|+수|-수>  &e게이지 &f<수|+수|-수> &7(공용)");
-        say(s, "&e지급 &f<플레이어> <아이템> [개수]  &e상자 &f<플레이어> <일반|고급|행운> [개수]  &e피버 &f<다이아|상자|중지> [초]");
+        say(s, "&e지급 &f<플레이어> <아이템> [개수]  &e상자 &f<플레이어> <일반|고급|행운|치장> [개수]  &e피버 &f<다이아|상자|중지> [초]");
         say(s, "&e위치 &f<저장|삭제|목록|이동> [이름]  &eNPC &f<연결|해제|실행> [동작]  &e실행 &f<플레이어|*> <액션...>");
         say(s, "&e전체지급 &f[개수] &7(손에 든 아이템을 접속자 모두에게)  &e게임 &f<시작|중지|확인|시간|일정> ...  &e경주 &f<열기|출발|취소|이월>  &e감옥/석방 &f<플레이어>");
         say(s, "&e괴롭히기 &f<플레이어|전체>  &e퀴즈 &f[유형]  &eWASD &f[플레이어]  &e광산 &f<재생성|보내기>  &e땅 회수 &f[닉네임]  &e시세변경");
         say(s, "&e백업 &f<목록|보기|복구> <닉네임> [번호] &7(5분마다 인벤토리)  &e곡괭이 &f[닉네임] <행운> <효율> <내구성> &7(손에 든 것)");
         say(s, "&e칭호 &f<플레이어> <주기|빼기> <칭호id>  &7(새 칭호는 config titles.list 에 추가 후 리로드)");
+        say(s, "&e치장 &f<플레이어> <주기|빼기|목록> [치장품id]  &7(치장품은 cosmetics.yml 에 추가 후 리로드, 유저는 /옷장)");
         say(s, "&eAPI &f<플레이어> <번호>  &e서버API &f<번호>  &e정보 &f[플레이어]  &e일차  &e보호 &f[자동|켜기|끄기]  &e리로드  &e저장");
     }
 
@@ -699,7 +712,18 @@ public final class Commands implements CommandExecutor, TabCompleter {
             case "coins", "money" -> { if (i == 2) out.addAll(players()); else if (i == 3) out.addAll(List.of("+10", "-10", "100")); }
             case "gauge" -> { if (i == 2) out.addAll(List.of(String.valueOf(plugin.gauge().value()), "+10", "-10", "50", "92")); }
             case "give" -> { if (i == 2) out.addAll(players()); else if (i == 3) for (CustomItem c : CustomItem.values()) out.add(itemName(c)); else if (i == 4) out.addAll(List.of("1", "5", "10")); }
-            case "box" -> { if (i == 2) out.addAll(players()); else if (i == 3) out.addAll(List.of("일반", "고급", "행운")); else if (i == 4) out.addAll(List.of("1", "5")); }
+            case "box" -> { if (i == 2) out.addAll(players()); else if (i == 3) out.addAll(List.of("일반", "고급", "행운", "치장")); else if (i == 4) out.addAll(List.of("1", "5")); }
+            case "cosmetic" -> {
+                if (i == 2) out.addAll(players());
+                else if (i == 3) out.addAll(List.of("주기", "빼기", "목록"));
+                else if (i == 4 && (a[2].equals("빼기") || a[2].equalsIgnoreCase("take"))) {
+                    PlayerData d = plugin.data().findByName(a[1]);
+                    if (d != null) out.addAll(d.cosmeticsOwned); else out.addAll(plugin.cosmetics().ids());
+                } else if (i == 4 && (a[2].equals("주기") || a[2].equalsIgnoreCase("give"))) {
+                    PlayerData d = plugin.data().findByName(a[1]);
+                    for (String id : plugin.cosmetics().ids()) if (d == null || !d.cosmeticsOwned.contains(id)) out.add(id);
+                }
+            }
             case "fever" -> { if (i == 2) out.addAll(List.of("다이아", "상자", "중지")); else if (i == 3) out.addAll(List.of("60", "300", "600")); }
             case "jail", "unjail", "wasd", "info" -> { if (i == 2) out.addAll(players()); }
             case "giveall" -> { if (i == 2) out.addAll(List.of("1", "10", "64")); }

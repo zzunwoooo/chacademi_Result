@@ -23,7 +23,8 @@ public enum CustomItem {
     FAIL_PAPER("fail_paper", Material.PAPER, "&8꽝 종이", "&75개를 모으면 고급상자로 교환"),
     NORMAL_BOX("normal_box", Material.CHEST, "&f일반상자", "&7{e:right} 열기"),
     PREMIUM_BOX("premium_box", Material.ENDER_CHEST, "&b고급상자", "&7{e:right} 열기"),
-    LUCKY_BOX("lucky_box", Material.TRAPPED_CHEST, "&6행운상자", "&7열면 전체 이벤트 발생!");
+    LUCKY_BOX("lucky_box", Material.TRAPPED_CHEST, "&6행운상자", "&7열면 전체 이벤트 발생!"),
+    COSMETIC_BOX("cosmetic_box", Material.PINK_SHULKER_BOX, "&d치장 상자", "&7{e:right} 열기 · 아직 없는 치장품 하나");
 
     public final String id;
     public final Material material;

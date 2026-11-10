@@ -115,6 +115,7 @@ public final class KkaegulCore extends JavaPlugin {
         actions = new ActionRunner(this);
         api = new ApiService(this);
         boxes = new BoxService(this);
+        cosmetics = new kr.kkaegul.core.cosmetic.CosmeticService(this);
         jail = new JailService(this);
         wasd = new WasdService(this);
         quiz = new QuizService(this);
@@ -208,6 +209,7 @@ public final class KkaegulCore extends JavaPlugin {
     public void reloadAll() {
         reloadConfig();
         loadExtra();
+        if (cosmetics != null) cosmetics.reload();   // cosmetics.yml 다시 읽고 접속자에게 정의·상태 재전송
     }
 
     /** messages.yml 키로 메시지 보내기. kv = "name","값",... */
@@ -269,6 +271,8 @@ public final class KkaegulCore extends JavaPlugin {
     /** 화면/방송에 쓰는 이름 (닉네임 우선) */
     public String displayName(org.bukkit.entity.Player p) { return nickname == null ? p.getName() : nickname.display(data.get(p)); }
     public BoxService boxes() { return boxes; }
+    private kr.kkaegul.core.cosmetic.CosmeticService cosmetics;
+    public kr.kkaegul.core.cosmetic.CosmeticService cosmetics() { return cosmetics; }
     public JailService jail() { return jail; }
     public WasdService wasd() { return wasd; }
     public QuizService quiz() { return quiz; }

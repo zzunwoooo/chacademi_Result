@@ -36,7 +36,7 @@ emote:
 ui:
   force-fallback: false         # true 면 렌더러가 있어도 채팅/타이틀로만 출력 (테스트용)
   # 렌더러가 실제로 그리는 화면만 (나머지는 중앙 멘트/토스트/채팅/월드 전광판으로 대체)
-  renderer-screens: [hud, gauge, diamond, fever, gacha, menu, player_select, nickname, submit, shop, frog_jump, race, race_hud, minigame, wasd, jail, jail_exit, quiz, fortune, mail, withdraw, donation_board, discord_link, land, omok]
+  renderer-screens: [hud, gauge, diamond, fever, gacha, menu, player_select, nickname, submit, shop, frog_jump, race, race_hud, minigame, wasd, jail, jail_exit, quiz, fortune, mail, withdraw, donation_board, discord_link, land, omok, wardrobe]
   fallback-debug-open: false    # 렌더러 없을 때 화면 열기 데이터를 채팅에 JSON 으로 찍기 (개발용)
   hud-refresh-ticks: 40
   fallback-hud-actionbar: true  # 렌더러 없는 클라에 액션바로 HUD 표시
@@ -215,6 +215,9 @@ boxes:
       coin:      { weight: 15, label: "깨굴코인 1개", actions: ["coins 1"] }
       fatigue:   { weight: 5,  label: "채굴 피로 1분", effect: fatigue, seconds: 60 }
       freeze:    { weight: 5,  label: "3초 자리 고정", effect: freeze, seconds: 3 }
+  cosmetic:                     # 치장 상자: 풀 없음. cosmetics.yml 의 치장품 중 아직 없는 것 1개 (weights 로 등급 가중치)
+    label: "치장 상자"
+    broadcast-rarities: [legendary]   # 이 등급이 나오면 전체 알림 (boxes.rare-broadcast 문구)
 
 items:
   food-restore:                 # ★ 콜라·깨깨로 1개 먹을 때 (스테이크와 같음)

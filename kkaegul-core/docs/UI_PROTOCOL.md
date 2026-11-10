@@ -26,6 +26,8 @@
 | `roulette` | `kind`, `label`, `increase`, `min`, `max`, `rolls[]`, `total`, `extra`, `spinMs`, `fever` | 다이아 증감 룰렛 연출. `spinMs` 동안 돌리고 `rolls` 결과로 멈추면 됨. 장부 반영은 서버가 `spinMs` 뒤에 함 |
 | `fx` | `id`, `data` | 일회성 연출 |
 | `names` | `map{uuid:{name,title}}` | 머리 위 이름표용 닉네임/칭호 (접속·닉변·칭호 변경 시 전체에게) |
+| `cosmetic_defs` | `defs{치장품id:{slot,name,description,rarity,icon}}` | 치장품 정의 (접속 30틱 뒤 렌더러 있는 클라에게, /깨굴 리로드 때 전원). icon = ItemIcon 문자열, IA 에 없으면 "" |
+| `cosmetics` | `full`, `players{계정명 소문자:{slot:id}}` | 착용 상태. full=true: 접속 때 본인에게 전원 상태(입은 게 없는 사람은 빠짐) / full=false: 바뀐 사람 한 명의 현재 슬롯 전부를 전원에게 (`{}` = 다 벗음) |
 
 ## 화면 (`open` / `update` 의 `screen`)
 
@@ -55,13 +57,14 @@
 | `mail` | 우편함 | `items[{name,amount,material}]` / update `count` |
 | `me` | 내 정보 | hud 필드 + 누적 통계 |
 | `card_draw` | 카드뽑기 NPC | `cards`(장 수), `cost` → `card.pick index=N` |
+| `wardrobe` | `/옷장`, NPC `wardrobe`, `wardrobe.open` / 장착·해제 뒤 update | `owned[id]`, `equipped{slot:id}`, `counts{owned,total}` (정의는 cosmetic_defs 로 받은 것) |
 
 ## 일회성 연출 (`fx` 의 `id`)
 
 `gacha_result` / `gacha_jackpot`(개구리 축하) `{machine,max,before[3],after[3],fortune,efficiency,unbreaking,jackpot}` — 3칸 슬롯(행운/효율/내구성)이 after 숫자로 멈추면 됨, `gacha_destroy`, `gacha_protect`, `box_open{box,label,rewards[],fever}`,
 `coin_buy{outcome,multiplier,amount,got}`, `random_submit{outcome,factor,used,credited,donated}`, `armor_roll{tier,message}`,
 `jail_game{multiplier,label,base,amount}`, `mending_draw{win,milestone}`, `title_unlock{id,name,serverFirst}`,
-`invite_letter{title,to,place|from}`(초대장), `card_reveal{picked,label,all[]}`, `graduate`, `fever_diamond`, `fever_box`, `fever_triple`
+`invite_letter{title,to,place|from}`(초대장), `card_reveal{picked,label,all[]}`, `box_open` 의 `box:"cosmetic"` (치장 상자) 는 rewards 에 `rarity` 가 더 붙음 (`rare` = rare|legendary), `graduate`, `fever_diamond`, `fever_box`, `fever_triple`
 
 ## 클라 → 서버 액션 (`action`)
 
@@ -89,6 +92,7 @@
 | `card.pick` | `index` (0부터) | 카드뽑기 카드 고르기 |
 | `me` | | 내 정보 화면 |
 | `nickname.check` / `nickname.save` / `nickname.open` | `name` | 닉네임 중복·규칙 확인 / 저장 / 창 열기 |
+| `wardrobe.open` / `wardrobe.equip` / `wardrobe.unequip` | `id` / `slot`(head·face·back·offhand·balloon) | 옷장 열기 / 가진 것 장착(같은 부위 교체) / 부위 해제 |
 
 ## 렌더러 쪽에서 해야 할 것 (체크리스트)
 

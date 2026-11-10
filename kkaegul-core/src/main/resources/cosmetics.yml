@@ -1,0 +1,23 @@
+# ─────────────────────────────────────────────────────────────
+# 치장품 (옷장 / 치장 상자)
+#  - 치장품 id = ItemsAdder namespaced id (모델·그림은 ItemsAdder 아이템 그대로, 클라 모드가 플레이어에 직접 그림)
+#  - slot: head(모자) | face(얼굴) | back(등) | offhand(손) | balloon(풍선)
+#  - rarity: common | uncommon | rare | legendary  → 치장 상자에서 아래 weights 로 등급을 먼저 고르고, 그 등급 안에서 균등
+#  - 치장 상자는 "아직 없는 것"만 뽑음. 다 모았으면 상자를 쓰지 않음.
+#  - 고친 뒤 /깨굴 리로드 → 접속자에게 바로 다시 보냄
+#  - 목록에서 지운 id 는 유저 데이터에 남아 있어도 무시됨 (다시 넣으면 되살아남)
+# ─────────────────────────────────────────────────────────────
+weights: { common: 50, uncommon: 30, rare: 15, legendary: 5 }   # 상자 등급 가중치
+
+list:
+  # ↓ 예시 2개 (실제 목록은 나중에 채움)
+  "fantasticwings:angel_wings":
+    slot: back
+    name: "천사 날개"
+    description: "새하얀 깃털이 겹겹이 쌓인 날개"
+    rarity: legendary
+  "kkaegul:frog_hat":
+    slot: head
+    name: "개구리 모자"
+    description: "깨굴이를 닮은 초록 모자"
+    rarity: common

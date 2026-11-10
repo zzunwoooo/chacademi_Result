@@ -70,6 +70,7 @@ public final class NpcService {
         builtins.put("gacha-shop", p -> plugin.places().tp(p, "gacha"));
         builtins.put("titles", p -> plugin.titles().open(p));
         builtins.put("card-draw", p -> plugin.minigames().cards().open(p));
+        builtins.put("wardrobe", p -> plugin.cosmetics().open(p));   // 옷장 (치장품)
     }
 
     public FortuneService fortune() { return fortune; }

@@ -20,7 +20,7 @@ import java.util.UUID;
  *
  * 대상 1명 액션:
  *   roulette <종류>            증감 룰렛 (config roulette.<종류>)
- *   box <normal|premium|lucky|random> [개수]
+ *   box <normal|premium|lucky|cosmetic|random> [개수]
  *   set <normal|premium>       상자 세트(1111/5555)
  *   item <아이템id> [최소-최대]
  *   food                       음식(콜라/깨깨로) 3~11개

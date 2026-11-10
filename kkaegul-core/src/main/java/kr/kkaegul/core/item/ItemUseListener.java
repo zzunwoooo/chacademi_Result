@@ -51,6 +51,7 @@ public final class ItemUseListener implements Listener {
                 plugin.boxes().open(p, plugin.boxes().kindOf(type), n);
             }
             case LUCKY_BOX -> { consume(p); plugin.boxes().open(p, plugin.boxes().kindOf(type)); }   // 행운상자는 전체 이벤트가 있어 1개씩
+            case COSMETIC_BOX -> { if (plugin.cosmetics().openBox(p)) consume(p); }   // 치장 상자: 1개씩, 전부 보유면 상자를 쓰지 않음
             case COIN_POUCH -> {
                 consume(p);
                 int n = ActionRunner.parseRange(plugin.getConfig().getString("items.coin_pouch.coins", "3-8"));
