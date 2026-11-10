@@ -26,7 +26,6 @@ public final class MenuPanel implements Panel {
     private static final String[] TAB_NAME = {"내 정보", "접속 보상", "칭호", "명예의 전당"};
 
     // 시안 색
-    private static final int FRAME_BORDER = 0xFFCFE6A8, FRAME_FILL = 0xFFFDF8EC;
     private static final int PANEL_BORDER = 0xFFE9DFCB, PANEL_FILL = 0xFFF9F2E3;
 
     public MenuPanel(Host host, JsonObject data, long now) {
@@ -48,6 +47,20 @@ public final class MenuPanel implements Panel {
     static void box(Canvas c, float x, float y, float w, float h, float r, int border, int fill, float bw) {
         c.fill(x, y, w, h, r, border);
         c.fill(x + bw, y + bw, w - bw * 2, h - bw * 2, Math.max(0, r - bw), fill);
+    }
+
+    /** 그림을 가로로 잘라 그리기: 텍스처 u 지점 us[i] 를 화면 x 지점 xs[i] 에 맞춤 (세로는 통째로) */
+    static void slices(Canvas c, String id, float y, float h, float[] us, float[] xs, int argb) {
+        for (int i = 0; i + 1 < us.length; i++)
+            if (xs[i + 1] > xs[i]) c.imagePart(id, xs[i], y, xs[i + 1] - xs[i], h, us[i], 0, us[i + 1], 1, argb);
+    }
+
+    /** 가로 3조각: 양끝(uL·uR 만큼)은 그림 비율 그대로, 가운데만 늘림 — 알약 모양 줄·버튼용 */
+    static void strip(Canvas c, String id, float x, float y, float w, float h, float uL, float uR, int argb) {
+        int[] s = c.size(id);
+        float tw = s == null ? h * 8 : s[0] * h / s[1];                  // 높이 h 로 맞췄을 때 그림 전체 너비
+        float l = Math.min(w / 2, uL * tw), r = Math.min(w / 2, uR * tw);
+        slices(c, id, y, h, new float[]{0, uL, 1 - uR, 1}, new float[]{x, x + l, x + w - r, x + w}, argb);
     }
 
     private float lx(float mx) { return (mx - fx) / k; }
@@ -72,11 +85,14 @@ public final class MenuPanel implements Panel {
         c.translate(fx, fy);
         c.scale(k, k);
 
-        // 프레임
-        box(c, 0, 0, 680, 407, 26, FRAME_BORDER, FRAME_FILL, 4);
-        c.fill(4, 4, 672, 399, 22, 0x10FFFFFF);
-        HudView.leaf(c, 30, 398, 16, true);
-        HudView.leaf(c, 650, 398, 16, false);
+        // 프레임 (금·연두 이중 테두리 그림, 네 귀퉁이 보석·클로버는 안 늘어나게 9조각)
+        c.imageNine("menu/menu_frame", 0, 0, 680, 407, .1f, .16f, 46, 46, 0xFFFFFFFF);
+        // 아래 테두리에 매달린 깨굴이 (살랑살랑)
+        c.push();
+        c.translate(214, 403);
+        c.rotate((float) Math.sin(now / 900.0) * 4);
+        c.image("menu/frog_hanging", -24, -18, 48, 48 * 512 / 421f, 0xFFFFFFFF);
+        c.pop();
 
         // 깨굴이 간판 + 제목
         float sw = 250, sh = sw * 312 / 512f, sy = 26 - sh * .79f;
@@ -86,7 +102,7 @@ public final class MenuPanel implements Panel {
 
         // 닫기
         boolean ch = Anim.in(mxR, myR, 615, 12, 44, 44);
-        c.image(ch ? "gacha_machine/close_pressed" : "gacha_machine/close_normal", 615, 12, 44, 44, 0xFFFFFFFF);
+        c.image(ch ? "menu/close_pressed" : "menu/close_normal", 615, 12, 44, 44, 0xFFFFFFFF);
         hits.add(new Hit("close", "", 615, 12, 44, 44));
 
         // 왼쪽 탭
@@ -155,22 +171,19 @@ public final class MenuPanel implements Panel {
                 {"menu/icon_jail", "깜빵", J.num(m, "jailCount") + "회"},
                 {"menu/icon_broken_pickaxe", "곡괭이 파괴", J.num(m, "pickaxeBreaks") + "회"},
                 {"menu/icon_death", "즉사", J.num(m, "instantDeaths") + "회"}};
-        int[][] col = {{0xFFC7DBEF, 0xFFE4EEF8}, {0xFFE6D6BF, 0xFFF7EEDF}, {0xFFF0C6C6, 0xFFFCE3E3},
-                {0xFFD4CAEA, 0xFFEDE7F7}, {0xFFEFD5C0, 0xFFFBEDE1}, {0xFFD3D3D3, 0xFFEBEBEB}};
         for (int i = 0; i < 6; i++) {
             float y = 70 + i * 51;
-            box(c, 328, y, 326, 44, 22, col[i][0], col[i][1], 2);
-            box(c, 330, y + 2, 64, 40, 20, 0x00000000, 0xB0FFFFFF, 0);
-            c.fill(394, y + 8, 1.5f, 28, 0, col[i][0]);
-            c.imageFit(rows[i][0], 362, y + 22, 30, 0xFFFFFFFF);
-            c.text(rows[i][1], 408, y + 22, 15, Theme.MUTED, Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
-            c.textFit(rows[i][2], 640, y + 22, 19, 110, Theme.INK, Canvas.RIGHT, Canvas.BOLD | Canvas.LIGHT);
+            // stat_row: 왼쪽 아이콘 칸(u .03~.16) + 오른쪽 긴 칸, 아이콘 칸까지는 안 늘림
+            strip(c, "menu/stat_row", 328, y, 326, 44, .18f, .04f, 0xFFFFFFFF);
+            c.imageFit(rows[i][0], 352.6f, y + 22, 27, 0xFFFFFFFF);
+            c.text(rows[i][1], 386, y + 22, 15, Theme.MUTED, Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
+            c.textFit(rows[i][2], 636, y + 22, 19, 110, Theme.INK, Canvas.RIGHT, Canvas.BOLD | Canvas.LIGHT);
         }
         // 맨 아래: 남은/보유 다이아 · 코인 · 게이지
         JsonObject g = J.objOrEmpty(m, "gauge");
         String line = "§7남은 다이아 §r" + Fmt.num(J.num(m, "debt")) + "   §7보유 §r" + Fmt.num(J.num(m, "held"))
                 + "   §7코인 §r" + Fmt.num(J.num(m, "coins")) + "   §7운빨 §r" + J.num(g, "value") + "   §7" + dayText(J.num(m, "day"));
-        c.textFit(line, 491, 388, 13, 326, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        c.textFit(line, 486, 385, 13, 296, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
     }
 
     /** 서버 일차: 오픈 전(0 이하)이면 "오픈 D-3" */
@@ -188,17 +201,19 @@ public final class MenuPanel implements Panel {
         // 진행 막대 + 별 표시
         float bx = 152, bw = 476, by = 105, bh = 16;
         float ratio = Math.min(1, today / (float) maxNeed);
-        box(c, bx, by, bw, bh, 8, 0xFFE3D8C2, 0xFFFFFBF2, 1.5f);
-        if (ratio > 0) box(c, bx, by, Math.max(bh, bw * ratio), bh, 8, 0xFF9FCB72, 0xFFB5DB8A, 1.5f);
-        for (JsonObject m : ms) {
+        strip(c, "menu/progress_track", bx, by, bw, bh, .035f, .035f, 0xFFFFFFFF);
+        if (ratio > 0) strip(c, "menu/progress_fill", bx, by - 1, Math.max(bh, bw * ratio), bh + 2, .05f, .05f, 0xFFFFFFFF);
+        // 눈금: 처음 short · 중간 medium · 마지막 long
+        for (int i = 0; i < ms.size(); i++) {
+            JsonObject m = ms.get(i);
             float px = bx + bw * Math.min(1, J.num(m, "needSeconds") / (float) maxNeed);
             boolean reached = today >= J.num(m, "needSeconds");
-            c.imageAt("gacha/confetti_star", px, by + bh / 2, 30, 1, 0, reached ? 0xFFFFFFFF : 0x88FFFFFF);
+            String mk = i == ms.size() - 1 ? "long" : i == 0 ? "short" : "medium";
+            c.imageAt("menu/progress_marker_" + mk, px, by + bh / 2, 24, 1, 0, reached ? 0xFFFFFFFF : 0xAAFFFFFF);
             c.text(Fmt.time(J.num(m, "needSeconds")).trim(), px, by + 30, 11, reached ? Theme.GREEN_DARK : Theme.MUTED, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
         }
 
-        // 보상 카드 (초록/보라/분홍 반복)
-        int[][] col = {{0xFFCFE3B4, 0xFFEAF3DD}, {0xFFD9CCEE, 0xFFF0EAF8}, {0xFFF2CACA, 0xFFFCE8E6}};
+        // 보상 카드 (받음/잠김/받기 그림 — 체크·자물쇠는 그림에 들어 있음)
         int n = Math.max(1, ms.size());
         float gap = 17, cw = Math.min(160, (510 - gap * (n - 1)) / n), ch = 155;
         float cx0 = 135 + (510 - (cw * n + gap * (n - 1))) / 2, cy = 158;
@@ -210,16 +225,14 @@ public final class MenuPanel implements Panel {
             float x = cx0 + i * (cw + gap);
             boolean hov = ready && Anim.in(mx, my, x, cy, cw, ch);
             float lift = hov ? 3 : ready ? (float) Math.abs(Math.sin(now / 350.0 + i)) * 2 : 0;
-            int[] cc = col[i % 3];
-            box(c, x, cy - lift, cw, ch, 16, ready ? 0xFF8FC25E : cc[0], cc[1], ready ? 3 : 2);
+            // 정사각 그림을 세로로 긴 카드에 맞춤: 아래 체크·자물쇠·띠는 귀퉁이 칸에 들어가게 9조각
+            c.imageNine(claimed ? "menu/reward_card_claimed" : ready ? "menu/reward_card_ready" : "menu/reward_card_locked",
+                    x, cy - lift, cw, ch, .3f, .34f, cw * .3f, cw * .34f, 0xFFFFFFFF);
             c.imageFit(FxView.icon(J.str(m, "id"), J.str(m, "label")).equals("reward/event_diamond") ? "fever/gift" : FxView.icon(J.str(m, "id"), J.str(m, "label")),
-                    x + cw / 2, cy - lift + 38, 56, claimed ? 0x99FFFFFF : 0xFFFFFFFF);
-            box(c, x + 10, cy - lift + 70, cw - 20, 75, 12, cc[0], 0xFFFFFCF5, 1.5f);
-            c.textFit(J.str(m, "label"), x + cw / 2, cy - lift + 96, 15, cw - 30, claimed ? Theme.MUTED : Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
-            c.text(claimed ? "받음" : ready ? "받을 수 있어요!" : Fmt.time(J.num(m, "needSeconds")).trim() + " 접속", x + cw / 2, cy - lift + 122, 12,
+                    x + cw / 2, cy - lift + 44, 50, claimed ? 0x99FFFFFF : 0xFFFFFFFF);
+            c.textFit(J.str(m, "label"), x + cw / 2, cy - lift + 88, 15, cw - 26, claimed ? Theme.MUTED : Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+            c.textFit(claimed ? "받음" : ready ? "받을 수 있어요!" : Fmt.time(J.num(m, "needSeconds")).trim() + " 접속", x + cw / 2, cy - lift + 107, 12, cw - 26,
                     claimed ? Theme.MUTED : ready ? Theme.GREEN_DARK : Theme.MUTED, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
-            if (claimed) c.image("menu/check_badge", x + cw - 36, cy - lift + 6, 30, 30, 0xFFFFFFFF);
-            else if (!ready) c.image("menu/lock", x + cw - 34, cy - lift + 6, 26, 26, 0xFFFFFFFF);
             if (ready) hits.add(new Hit("claim", "", x, cy, cw, ch));
         }
 
@@ -254,15 +267,13 @@ public final class MenuPanel implements Panel {
             float y = top + i * step - scrollShown;
             if (y + rh < 88 || y > 386) continue;
             boolean own = J.bool(r, "owned"), sel = J.bool(r, "selected");
-            int border = sel ? 0xFFC3DCA4 : own ? 0xFFE6D8C0 : 0xFFD8CCEC, fill = sel ? 0xFFE6F1D8 : own ? 0xFFFAF2E4 : 0xFFEEE8F7;
             boolean hov = own && Anim.in(mx, my, 134, y, 510, rh);
-            box(c, 134, y, 510, rh, 14, hov ? 0xFF9FCB72 : border, fill, 2);
+            // 장착(체크)·잠김(자물쇠)은 그림 오른쪽 끝에 들어 있어서 오른쪽 15%는 안 늘림
+            strip(c, sel ? "menu/title_row_selected" : own ? "menu/title_row_owned" : "menu/title_row_locked", 134, y, 510, rh, .07f, .15f, hov && !sel ? 0xFFEFFFE0 : 0xFFFFFFFF);
             c.image("gacha/jackpot_ribbon", 150, y + rh / 2 - 24, 160, 160 * 247 / 1024f, own ? 0xFFFFFFFF : 0xCCFFFFFF);
             String name = J.str(r, "name");
             c.textArc(own ? name : "§7" + Fmt.strip(name), 230, y + rh / 2 - 24 + 160 * 247 / 1024f * Theme.RIBBON_CY, 16, Theme.ribbonR(160), 110, Theme.INK, Canvas.BOLD | Canvas.LIGHT);
             c.textFit(J.str(r, "condition"), 330, y + rh / 2, 15, 230, own ? Theme.INK : Theme.MUTED, Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
-            if (sel) c.image("menu/check_badge", 598, y + rh / 2 - 19, 38, 38, 0xFFFFFFFF);
-            else if (!own) c.image("menu/lock", 600, y + rh / 2 - 17, 34, 34, 0xFFFFFFFF);
             if (own) { float hy = Math.max(91, y), hb = Math.min(384, y + rh); if (hb > hy) hits.add(new Hit("title", sel ? "none" : J.str(r, "id"), 134, hy, 510, hb - hy)); }
             if (Anim.in(mx, my, 134, y, 510, rh) && my > 91 && my < 384)
                 hoverTip = own ? (sel ? "&a장착 중 &7(누르면 해제)" : "&e누르면 장착") : "&7아직 없는 칭호";
@@ -285,8 +296,8 @@ public final class MenuPanel implements Panel {
             int row = i / per, colI = i % per;
             float x = 160 + colI * (sw + gap), y = 82 + row * (shh + 6);
             boolean sel = i == board, hov = Anim.in(mx, my, x, y, sw, shh);
-            box(c, x, y, sw, shh, shh / 2, sel ? 0xFF9FCB72 : hov ? 0xFFC9B99C : 0xFFDCCFB8, sel ? 0xFFCDE8A8 : 0xFFF5EEDF, 2);
-            c.textFit(J.str(boards.get(i), "label"), x + sw / 2, y + shh / 2, 13, sw - 16, sel ? Theme.GREEN_DARK : Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+            strip(c, sel ? "menu/ranking_subtab_selected" : "menu/ranking_subtab_normal", x, y, sw, shh, .09f, .09f, hov && !sel ? 0xFFF4FFE8 : 0xFFFFFFFF);
+            c.textFit(J.str(boards.get(i), "label"), x + sw / 2, y + shh / 2, 13, sw - 20, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
             hits.add(new Hit("board", String.valueOf(i), x, y, sw, shh));
         }
         float top = 82 + lines * (shh + 6) + 10;
@@ -300,7 +311,7 @@ public final class MenuPanel implements Panel {
         scrollShown += (scroll - scrollShown) * .25f;
         if (Math.abs(scroll - scrollShown) < .3f) scrollShown = scroll;
         c.clip(118, top - 2, 541, viewBottom - top + 4);
-        int[][] medal = {{0xFFEBD48C, 0xFFFDF5DA}, {0xFFC7CCE0, 0xFFEDEFF6}, {0xFFE6C3A2, 0xFFFAEBDD}};
+        int[] medal = {0xFFFFF0C4, 0xFFF0F2FA, 0xFFFFE8DA};                 // 1~3등 줄은 메달 빛으로 살짝 물들임
         String[] art = {"menu/medal_gold", "menu/medal_silver", "menu/medal_bronze"};
         float y = top - scrollShown;
         for (int i = 0; i < rows.size(); i++) {
@@ -309,13 +320,15 @@ public final class MenuPanel implements Panel {
             float h = big ? 58 : 38;
             if (y + h >= top - 2 && y <= viewBottom + 2) {
                 long rank = J.num(r, "rank", i + 1);
-                int[] cc = rank <= 3 ? medal[(int) rank - 1] : new int[]{0xFFE6DCC8, 0xFFFBF6EC};
-                box(c, 135, y, 513, h, 12, cc[0], cc[1], 2);
+                // ranking_row: 칸막이 두 줄(u .174 / .694)을 순위칸·이름칸 끝(212 / 502)에 맞춤
+                float cap = .05f * 1024 * h / 112;
+                slices(c, "menu/ranking_row", y, h, new float[]{0, .05f, .172f, .178f, .692f, .697f, .95f, 1},
+                        new float[]{135, 135 + cap, 211, 213, 501, 503, 648 - cap, 648}, rank <= 3 ? medal[(int) rank - 1] : 0xFFFFFFFF);
                 if (rank <= 3) c.imageFit(art[(int) rank - 1], 180, y + h / 2, h * .95f, 0xFFFFFFFF);
                 else c.text(String.valueOf(rank), 180, y + h / 2, 16, Theme.MUTED, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
                 String t = J.str(r, "title");
-                c.textFit((t.isEmpty() ? "" : t + " ") + "§r" + J.str(r, "name"), 222, y + h / 2, big ? 19 : 16, 280, Theme.INK, Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
-                c.textFit(Fmt.num(J.num(r, "value")), 632, y + h / 2, big ? 20 : 16, 120, Theme.INK, Canvas.RIGHT, Canvas.BOLD | Canvas.LIGHT);
+                c.textFit((t.isEmpty() ? "" : t + " ") + "§r" + J.str(r, "name"), 222, y + h / 2, big ? 19 : 16, 270, Theme.INK, Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
+                c.textFit(Fmt.num(J.num(r, "value")), 624, y + h / 2, big ? 20 : 16, 112, Theme.INK, Canvas.RIGHT, Canvas.BOLD | Canvas.LIGHT);
             }
             y += h + 10;
         }

@@ -117,14 +117,19 @@ public final class FrogJumpPanel implements Panel {
         // 왼쪽: 제목 + 현재 칸
         c.text("개구리 점프", 72, 236, 56, INK, Canvas.LEFT, TXT);
         c.text("어디까지 뛸 수 있을까?", 76, 295, 28, 0xFF6B5A4C, Canvas.LEFT, TXT);
-        MenuPanel.box(c, 828, 228, 230, 56, 28, 0xFFC9B79F, 0xFFFBF3E6, 2.5f);
         int shown = anim.equals("ok") || anim.equals("fail") ? (now - animStart > HOP ? toStep : fromStep) : toStep;
-        c.textFit("현재 " + shown + " / " + Math.max(10, steps().size()) + "칸", 943, 256, 28, 200, INK, Canvas.CENTER, TXT);
+        int total = Math.max(10, steps().size());
+        // 진행 게이지 (jump/gauge_empty 안에 gauge_fill 을 간 칸만큼) + 가운데 글자
+        float gx = 740, gy = 231, gw = 318, gh = 50;
+        c.imageNine("jump/gauge_empty", gx, gy, gw, gh, .07f, .45f, gh * .55f, gh * .45f, 0xFFFFFFFF);
+        float fr = Anim.clamp(shown / (float) total), fw = (gw - 18) * fr;
+        if (fw > 2) c.imageNine("jump/gauge_fill", gx + 9, gy + 8, Math.max(gh - 16, fw), gh - 16, .06f, .45f, (gh - 16) * .6f, (gh - 16) * .45f, 0xFFFFFFFF);
+        c.textFit("현재 " + shown + " / " + total + "칸", gx + gw / 2, 256, 28, 260, INK, Canvas.CENTER, TXT);
 
         pond(c, now);
 
         // 아래 범례
-        MenuPanel.box(c, 112, 852, 906, 54, 27, 0xFFC9B79F, 0xFFFBF3E6, 2.5f);
+        c.imageNine("jump/probability_panel", 112, 852, 906, 54, .06f, .3f, 24, 16, 0xFFFFFFFF);
         c.text("위험도", 150, 879, 26, INK, Canvas.LEFT, TXT);
         c.fill(262, 862, 2, 34, 1, 0x55A08B72);
         String[] rl = {"낮음", "보통", "높음"};

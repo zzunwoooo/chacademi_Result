@@ -112,8 +112,21 @@ public final class FxView {
             c.imageAt("reward/chest_fever_badge", cx + ch * .62f, cy - ch * .4f, 84, 1, 0, tint);
             c.text("1+1", cx + ch * .62f, cy - ch * .4f, 28, Anim.alpha(0xFFE0564C, a), Canvas.CENTER, Canvas.BOLD);
         }
-        c.textFit(J.str(d, "label", "상자"), cx, cy + ch * .6f, 30, 600, Anim.alpha(Theme.WHITE, a), Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
-        if (n == 0 && e > 1300) c.text("꽝!", cx, H * .34f, 60, Anim.alpha(0xFFFFFFFF, a), Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
+        // 상자 이름표 (reward/event_banner: 왼쪽 네모 칸에 상자 아이콘, 오른쪽 판에 이름)
+        String label = J.str(d, "label", "상자");
+        float lh = 64, lk = lh / 166f, ly = cy + ch * .6f;
+        float lw = Math.min(680, Math.max(360, c.textWidth(label, 30, Canvas.BOLD | Canvas.LIGHT) + 200));
+        float lx = cx - lw / 2;
+        c.imageNine("reward/event_banner", lx, ly - lh / 2, lw, lh, .22f, .45f, 1024 * .22f * lk, lh * .45f, tint);
+        c.imageFit("chest/" + kind + "_closed", lx + 1024 * .14f * lk, ly, lh * .62f, tint);
+        float tl = lx + 1024 * .21f * lk, tr = lx + lw - 1024 * .08f * lk;
+        c.textFit(label, (tl + tr) / 2, ly, 30, tr - tl - 16, Anim.alpha(Theme.INK, a), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        if (n == 0 && e > 1300) {
+            // 꽝: 손 흔드는 깨굴이 + 글자
+            float wt = Anim.outBack(Anim.t(e, 1300, 400)), wave = (float) Math.sin(e / 160.0) * 6;
+            c.imageAt("reward/frog_waving", cx - 160, H * .34f, 220 * wt, 1, wave, tint);
+            c.text("꽝!", cx, H * .34f, 60, Anim.alpha(0xFFFFFFFF, a), Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
+        }
 
         // 보상 카드: 1장이면 크게, 여러 장이면 줄지어
         float size = n <= 1 ? 290 : n <= 3 ? 250 : n <= 5 ? 220 : 180, gap = 26;
@@ -125,7 +138,7 @@ public final class FxView {
             int row = i / Math.max(1, perRow), col = i % Math.max(1, perRow);
             int inRow = Math.min(perRow, n - row * perRow);
             float tx = cx + (col - (inRow - 1) / 2f) * (size + gap);
-            float ty = n <= 5 ? H * .3f : H * .18f + row * (size * .86f + 20);
+            float ty = n <= 5 ? H * .3f : H * .17f + row * (size * CARD_H + 14);
             float x = Anim.lerp(cx, tx, t), y = Anim.lerp(cy - 60, ty, t);
             JsonObject r = rewards.get(i);
             boolean rare = J.bool(r, "rare");
@@ -138,27 +151,27 @@ public final class FxView {
         }
     }
 
-    /** 보상 카드 (일반=크림, 고급=보라+별 3개, 행운=금테+메달, 희귀=메달) */
+    /** 카드 높이 = 카드 크기(s) × 이 값 (위아래 줄 간격 계산에도 씀) */
+    static final float CARD_H = 1.1f;
+
+    /**
+     * 보상 카드 그림 (reward/reward_card_*). 일반 = 크림 카드, 고급 상자·희귀 보상 = 보라 별 카드, 행운·희귀 = 금메달.
+     * 그림 안 동그라미 칸에 아이콘, 아래 이름표 칸에 이름 (칸 위치는 그림 비율로 잰 값)
+     */
     private static void rewardCard(Canvas c, String kind, boolean rare, String id, String label, float s, float a, long e) {
-        int border, fill;
-        switch (kind) {
-            case "advanced" -> { border = 0xFFC9B2E6; fill = 0xFFF1E9FA; }
-            case "lucky" -> { border = 0xFFE8C255; fill = 0xFFFDF6E3; }
-            default -> { border = 0xFFE6D6B6; fill = 0xFFFBF5E8; }
-        }
-        float h = s * .86f;
-        HudView.leaf(c, -s * .36f, -h / 2 + 4, s * .07f, true);
-        HudView.leaf(c, s * .36f, -h / 2 + 4, s * .07f, false);
-        if (kind.equals("advanced"))
-            for (int k = -1; k <= 1; k++) c.imageAt("gacha/confetti_star", k * s * .14f, -h / 2 - s * (k == 0 ? .1f : .06f), s * (k == 0 ? .14f : .1f), 1, 0, Anim.white(a));
-        MenuPanel.box(c, -s / 2, -h / 2, s, h, s * .16f, Anim.alpha(border, a), Anim.alpha(fill, a), s * .025f);
-        MenuPanel.box(c, -s * .22f, -h / 2 + s * .1f, s * .44f, s * .4f, s * .08f, Anim.alpha(0xFFE6D9C2, a), Anim.alpha(0xFFFFFBF2, a), s * .012f);
-        c.imageFit(icon(id, label), 0, -h / 2 + s * .3f, s * .3f, Anim.white(a));
-        MenuPanel.box(c, -s * .4f, h / 2 - s * .27f, s * .8f, s * .17f, s * .085f, Anim.alpha(0xFFE6D9C2, a), Anim.alpha(0xFFFFFBF2, a), s * .01f);
-        c.textFit(label, 0, h / 2 - s * .185f, Math.max(19, s * .085f), s * .68f, Anim.alpha(Theme.INK, a), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        boolean star = rare || kind.equals("advanced");
+        String img = star ? "reward/reward_card_rare" : "reward/reward_card_normal";
+        int[] sz = c.size(img);
+        float h = s * CARD_H * (star ? 1.02f : 1), w = sz == null ? h * .89f : h * sz[0] / sz[1];
+        float x = -w / 2, y = -h / 2;
+        c.image(img, x, y, w, h, Anim.white(a));
+        // {동그라미 가운데 y, 동그라미 지름(폭 대비), 이름표 가운데 y, 이름표 폭(폭 대비)}
+        float[] m = star ? new float[]{.515f, .46f, .82f, .46f} : new float[]{.455f, .62f, .805f, .66f};
+        c.imageFit(icon(id, label), 0, y + h * m[0], w * m[1] * .66f, Anim.white(a));
+        c.textFit(label, 0, y + h * m[2], Math.max(19, s * .085f), w * m[3], Anim.alpha(Theme.INK, a), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
         if (rare || kind.equals("lucky")) {
-            float mx = s * .42f, my = -h / 2 + s * .06f;
-            c.imageAt("menu/medal_gold", mx, my + s * .06f, s * .28f, 1, 8, Anim.white(a));
+            float mx = star ? w * .3f : w * .4f, my = y + h * (star ? .24f : .12f);
+            c.imageAt("menu/medal_gold", mx, my, s * .28f, 1, 8, Anim.white(a));
         }
     }
 
@@ -166,7 +179,10 @@ public final class FxView {
     static String icon(String id, String label) {
         String s = (id + " " + label).toLowerCase();
         if (s.contains("다이아") || s.contains("diamond")) return "hud/diamond";
-        if (s.contains("코인") || s.contains("coin")) return "hud/frog_coin";
+        if (s.contains("코인") || s.contains("coin")) return "reward/event_frog_coin";
+        if (s.contains("얼음") || s.contains("빙결") || s.contains("freeze")) return "reward/event_freeze";
+        if (s.contains("피로") || s.contains("fatigue")) return "reward/event_mining_fatigue";
+        if (s.contains("디버프") || s.contains("저주") || s.contains("debuff")) return "reward/event_debuff";
         if (s.contains("상자") || s.contains("box")) return "chest/normal_closed";
         if (s.contains("방지") || s.contains("protect")) return "gacha_machine/protection_ticket";
         if (s.contains("텔레포트") || s.contains("텔포") || s.contains("teleport")) return "user_select/teleport_ticket";
@@ -215,6 +231,12 @@ public final class FxView {
         c.push();
         c.translate(w * .07f + slide, h * .05f);
         c.rotate(-5);
+        // 속도선: 리본이 오른쪽에서 날아드는 동안 뒤(오른쪽)에 남았다가 사라짐
+        float sl = 1 - Anim.t(e, 350, 450);
+        if (sl > 0) {
+            float lw = bw * .45f, lh = lw * 464 / 1024f;
+            c.image("fever/speed_lines", bw * .42f + slide * .3f, -lh / 2, lw, lh, Anim.white(a * sl * .9f));
+        }
         c.image("fever/banner_" + k, -bw / 2, -bh / 2, bw, bh, tint);
         float pc = switch (k) { case "triple" -> .054f; case "chest" -> -.033f; default -> -.043f; };   // 리본 안쪽 판 세로 중심 (그림 측정값)
         float ph = switch (k) { case "triple" -> .483f; case "chest" -> .574f; default -> .654f; };
@@ -253,39 +275,48 @@ public final class FxView {
             return;
         }
         float bh = ew * 797 / 1024f, fh = ew * 514 / 1024f;
-        float envTop = bottom - bh;
-        c.image("invite/envelope_back", cx - ew / 2, envTop, ew, bh, tint);
-        // 카드가 올라온다
-        float cardW = ew * .78f, cardH = cardW * 1024 / 707f;
-        float rise = Anim.outCubic(Anim.t(e, 1300, 900));
-        float cardBottom = Anim.lerp(bottom - 30, bottom - fh * .42f, rise);
-        float cy = cardBottom - cardH / 2;
-        c.push();
-        c.translate(cx, cy);
-        if (rise > .98f) {
-            // 올라온 뒤 위쪽 봉인이 반짝
-            float glow = .5f + .5f * (float) Math.sin(e / 200.0);
-            c.fill(-cardW * .1f, -cardH / 2 - cardW * .02f, cardW * .2f, cardW * .2f, cardW * .1f, Anim.alpha(0x66B6F07A, a * glow));
-        }
-        c.image("invite/invitation_card", -cardW / 2, -cardH / 2, cardW, cardH, tint);
-        float ta = a * Anim.t(e, 2100, 300);
-        c.textFit(J.str(d, "title", "깨굴이의 위험한 초대"), 0, -cardH / 2 + cardH * .125f, cardW * .055f, cardW * .6f, Anim.alpha(0xFF6B4A9C, ta), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
-        c.textFit("To. " + J.str(d, "to"), 0, -cardH / 2 + cardH * .38f, cardW * .075f, cardW * .78f, Anim.alpha(Theme.INK, ta), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
-        String line2 = d.has("from") ? "From. " + J.str(d, "from") : "장소 : " + J.str(d, "place", "비밀");
-        c.textFit(line2, 0, -cardH / 2 + cardH * .655f, cardW * .065f, cardW * .78f, Anim.alpha(Theme.INK, ta), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
-        if (e > 2900) {
-            float st = Anim.t(e, 2900, 260);
-            sound(host, 4, "minecraft:entity.iron_golem.attack", .7f);
-            float ss = 2.2f - 1.2f * Anim.outCubic(st);
-            float sy = -cardH / 2 + cardH * .89f, sz = cardW * .4f;
-            c.imageAt("invite/stamp_red", 0, sy, sz, ss, -12, Anim.white(a * st));
-            c.push(); c.translate(0, sy); c.rotate(-12); c.scale(ss, ss);
-            c.text("거부", 0, -sz * .14f, sz * .22f, Anim.alpha(0xFFD8423B, a * st), Canvas.CENTER, Canvas.BOLD);
-            c.text("불가", 0, sz * .14f, sz * .22f, Anim.alpha(0xFFD8423B, a * st), Canvas.CENTER, Canvas.BOLD);
+        if (e < 1300) {
+            // 봉인이 깨진 직후: 뚜껑이 열린 봉투 (invite/envelope_open) → 카드가 올라오기 시작하면 앞·뒤 겹친 그림으로
+            float op = 1 + .05f * (1 - Anim.outCubic(Anim.t(e, 1150, 150)));
+            float oh = ew * 892 / 1024f;
+            c.push(); c.translate(cx, bottom); c.scale(op, op);
+            c.image("invite/envelope_open", -ew / 2, -oh, ew, oh, tint);
             c.pop();
+        } else {
+            float envTop = bottom - bh;
+            c.image("invite/envelope_back", cx - ew / 2, envTop, ew, bh, tint);
+            // 카드가 올라온다
+            float cardW = ew * .78f, cardH = cardW * 1024 / 707f;
+            float rise = Anim.outCubic(Anim.t(e, 1300, 900));
+            float cardBottom = Anim.lerp(bottom - 30, bottom - fh * .42f, rise);
+            float cy = cardBottom - cardH / 2;
+            c.push();
+            c.translate(cx, cy);
+            if (rise > .98f) {
+                // 올라온 뒤 위쪽 봉인이 반짝
+                float glow = .5f + .5f * (float) Math.sin(e / 200.0);
+                c.fill(-cardW * .1f, -cardH / 2 - cardW * .02f, cardW * .2f, cardW * .2f, cardW * .1f, Anim.alpha(0x66B6F07A, a * glow));
+            }
+            c.image("invite/invitation_card", -cardW / 2, -cardH / 2, cardW, cardH, tint);
+            float ta = a * Anim.t(e, 2100, 300);
+            c.textFit(J.str(d, "title", "깨굴이의 위험한 초대"), 0, -cardH / 2 + cardH * .125f, cardW * .055f, cardW * .6f, Anim.alpha(0xFF6B4A9C, ta), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+            c.textFit("To. " + J.str(d, "to"), 0, -cardH / 2 + cardH * .38f, cardW * .075f, cardW * .78f, Anim.alpha(Theme.INK, ta), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+            String line2 = d.has("from") ? "From. " + J.str(d, "from") : "장소 : " + J.str(d, "place", "비밀");
+            c.textFit(line2, 0, -cardH / 2 + cardH * .655f, cardW * .065f, cardW * .78f, Anim.alpha(Theme.INK, ta), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+            if (e > 2900) {
+                float st = Anim.t(e, 2900, 260);
+                sound(host, 4, "minecraft:entity.iron_golem.attack", .7f);
+                float ss = 2.2f - 1.2f * Anim.outCubic(st);
+                float sy = -cardH / 2 + cardH * .89f, sz = cardW * .4f;
+                c.imageAt("invite/stamp_red", 0, sy, sz, ss, -12, Anim.white(a * st));
+                c.push(); c.translate(0, sy); c.rotate(-12); c.scale(ss, ss);
+                c.text("거부", 0, -sz * .14f, sz * .22f, Anim.alpha(0xFFD8423B, a * st), Canvas.CENTER, Canvas.BOLD);
+                c.text("불가", 0, sz * .14f, sz * .22f, Anim.alpha(0xFFD8423B, a * st), Canvas.CENTER, Canvas.BOLD);
+                c.pop();
+            }
+            c.pop();
+            c.image("invite/envelope_front_overlay", cx - ew / 2, bottom - fh, ew, fh, tint);
         }
-        c.pop();
-        c.image("invite/envelope_front_overlay", cx - ew / 2, bottom - fh, ew, fh, tint);
         // 봉인 조각이 떨어진다
         if (e < 1900) {
             float t = Anim.t(e, 1150, 750);

@@ -115,8 +115,8 @@ public final class HudView {
     /** fs = 깨굴이(연잎 포함) 크기 배율 */
     public static void gaugeBar(Canvas c, float x, float y, float w, float h, float ratio, String tier, long now, float fs) {
         leaf(c, x + h * .2f, y + h * .55f, h * 1.3f, true);
-        MenuPanel.box(c, x, y, w, h, h / 2, 0xFF9C6B22, 0xFFE9B54C, Math.max(1.5f, h * .06f));
-        MenuPanel.box(c, x + h * .14f, y + h * .14f, w - h * .28f, h - h * .28f, (h - h * .28f) / 2, 0xFFD9A441, 0xFFFDF4E2, 1);
+        // 안쪽 크림 홈 (테두리는 아래 hud/gauge_frame 그림이 덮음)
+        c.fill(x + h * .06f, y + h * .08f, w - h * .12f, h - h * .16f, (h - h * .16f) / 2, 0xFFFDF4E2);
         float pad = h * .22f;
         float iw = (w - pad * 2) * Math.max(0, Math.min(1, ratio)), ih = h - pad * 2;
         if (iw > 1) {
@@ -128,13 +128,15 @@ public final class HudView {
                 c.fill(x + pad + ih * .3f, y + pad + ih * .12f, Math.max(ih, iw) - ih * .6f, ih * .3f, ih * .15f, 0x40FFFFFF);
             }
         }
-        leaf(c, x + w - h * .2f, y + h * .55f, h * 1.3f, false);
+        // 테두리 그림 (hud/gauge_frame 1024×177: 막대 판은 세로 25%~100%, 오른쪽 위 잎 포함) 을 막대 크기에 9조각으로
+        float fh = h / .75f, fk = fh / 177f;
+        c.imageNine("hud/gauge_frame", x, y - fh * .25f, w, fh, .1f, .45f, 1024 * .1f * fk, fh * .45f, 0xFFFFFFFF);
         // 연잎 + 깨굴이
-        float fh = h * fs;
-        float px = x + w + fh * 2.1f, py = y + h * .5f + fh * .85f;
-        c.image("hud/lily_pad", px - fh * 1.6f, py - fh * .56f, fh * 3.2f, fh * 1.12f, 0xFFFFFFFF);
-        float bob = "jackpot".equals(tier) ? Math.abs((float) Math.sin(now / 180.0)) * fh * .25f : (float) Math.sin(now / 600.0) * 1.5f;
-        c.imageAt(frog(tier), px, py - fh * 1.2f - bob, fh * 2.6f, 1, 0, 0xFFFFFFFF);
+        float lh = h * fs;
+        float px = x + w + lh * 2.1f, py = y + h * .5f + lh * .85f;
+        c.image("hud/lily_pad", px - lh * 1.6f, py - lh * .56f, lh * 3.2f, lh * 1.12f, 0xFFFFFFFF);
+        float bob = "jackpot".equals(tier) ? Math.abs((float) Math.sin(now / 180.0)) * lh * .25f : (float) Math.sin(now / 600.0) * 1.5f;
+        c.imageAt(frog(tier), px, py - lh * 1.2f - bob, lh * 2.6f, 1, 0, 0xFFFFFFFF);
     }
 
     public void render(Canvas c, long now) {

@@ -132,6 +132,11 @@ public final class PreviewMain {
                    {"id":"EMERALD","name":"에메랄드","price":0.5,"have":0,"farm":false}]}""");
         ShopPanel shs = new ShopPanel(HOST, shd, T);
         shot(out, "28_shop_sell.png", tex, c -> shs.render(c, T + 1000, 700, 700));
+        // 검색 칸 열고 + 왼쪽 메뉴(코인 구매)에 마우스
+        ShopPanel shq = new ShopPanel(HOST, shd, T);
+        shq.render(scratch(tex), T + 1000, 0, 0);
+        shq.click(1181, 329, T + 1000);
+        shot(out, "28b_shop_search.png", tex, c -> shq.render(c, T + 1100, 316, 345));
         JsonObject shc = J.merge(shd, J.parse("{\"tab\":\"coin\"}"));
         ShopPanel shc1 = new ShopPanel(HOST, shc, T);
         shot(out, "29_shop_coin.png", tex, c -> shc1.render(c, T + 1000, 1300, 600));
@@ -270,11 +275,16 @@ public final class PreviewMain {
         fx(out, tex, "14_box_open.png", "box_open", """
           {"box":"premium","label":"고급상자","fever":true,"rewards":[{"id":"diamond","label":"다이아 감소 룰렛","rare":false},{"id":"coin","label":"깨굴코인 5개","rare":false},{"id":"protect","label":"파괴 방지권","rare":true},{"id":"cola","label":"깨굴 콜라","rare":false}]}""", 3800);
         fx(out, tex, "15_box_shake.png", "box_open", "{\"box\":\"lucky\",\"label\":\"행운상자\",\"rewards\":[]}", 500);
+        fx(out, tex, "15b_box_empty.png", "box_open", "{\"box\":\"lucky\",\"label\":\"행운상자\",\"rewards\":[]}", 3000);
+        fx(out, tex, "15c_box_many.png", "box_open", """
+          {"box":"normal","label":"일반상자","rewards":[{"id":"coin","label":"깨굴코인 3개"},{"id":"freeze","label":"3초 얼음"},{"id":"fatigue","label":"채광 피로"},{"id":"diamond","label":"다이아 ×10","rare":true},{"id":"debuff","label":"저주 물약"},{"id":"cola","label":"깨굴 콜라"},{"id":"protect","label":"파괴 방지권"}]}""", 5200);
         fx(out, tex, "16_fever_diamond.png", "fever_diamond", "{\"seconds\":300}", 1400);
         fx(out, tex, "17_fever_triple.png", "fever_triple", "{\"seconds\":30}", 1400);
         fx(out, tex, "18_fever_box.png", "fever_box", "{\"seconds\":300}", 1400);
         fx(out, tex, "19_invite_envelope.png", "invite_letter", "{\"title\":\"깨굴이의 위험한 초대\",\"to\":\"깨굴러버\",\"place\":\"위험한 의자\"}", 800);
         fx(out, tex, "20_invite_card.png", "invite_letter", "{\"title\":\"깨굴이의 위험한 초대\",\"to\":\"깨굴러버\",\"place\":\"위험한 의자\"}", 3600);
+        fx(out, tex, "21b_invite_open.png", "invite_letter", "{\"title\":\"깨굴이의 위험한 초대\",\"to\":\"깨굴러버\"}", 1220);
+        fx(out, tex, "16b_fever_lines.png", "fever_diamond", "{\"seconds\":300}", 420);
         fx(out, tex, "21_invite_rise.png", "invite_letter", "{\"title\":\"깨굴이의 위험한 초대\",\"to\":\"깨굴러버\",\"from\":\"초록개구리\"}", 1900);
         fx(out, tex, "22_graduate.png", "graduate", "{\"name\":\"깨굴러버\"}", 1500);
         shot(out, "23_gauge_tiers.png", tex, c -> {
@@ -293,7 +303,10 @@ public final class PreviewMain {
         UiHub h = new UiHub(HOST);
         long T = 1_000_000;
         h.handle(J.parse("{\"type\":\"fx\",\"id\":\"" + id + "\",\"data\":" + json + "}"), T);
-        shot(out, name, tex, c -> h.renderOverlay(c, T + at, false, 0, 0, true));
+        // 상자 연출은 프레임마다 쌓인 시간으로 진행하므로 미리 프레임을 돌려 둔다 (1.6배속)
+        long end = id.equals("box_open") ? (long) (at / 1.6) : at;
+        if (id.equals("box_open")) for (long t = 0; t < end; t += 50) h.renderOverlay(scratch(tex), T + t, false, 0, 0, true);
+        shot(out, name, tex, c -> h.renderOverlay(c, T + end, false, 0, 0, true));
     }
 
     static final StringBuilder REPORT = new StringBuilder();

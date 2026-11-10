@@ -44,7 +44,8 @@ public final class RussianRouletteGame extends Minigame {
         Entity gun;
         long pot;
         int bullet, cursor, round, starter, turn = -1, token;
-        boolean waiting, done;
+        boolean waiting, done, fired;   // fired = 이번 라운드 총알이 나감 (실린더 그림에 빨간 칸)
+        int bangs;                      // 탕 횟수 (늘면 모드가 "탕!" 그림)
         Table(int no, List<Location> chairs) { this.no = no; this.chairs = chairs; }
     }
 
@@ -208,6 +209,7 @@ public final class RussianRouletteGame extends Minigame {
         t.round++;
         t.bullet = Rng.r().nextInt(6);
         t.cursor = 0;
+        t.fired = false;
         if (t.round == 1) t.starter = Rng.r().nextInt(t.order.size());
         t.starter = nextAlive(t, t.starter - 1);
         tellTable(t, "&f" + t.round + "라운드", "&7총알 1발 장전 · 실린더를 돌립니다 (" + t.alive.size() + "명 남음)");
@@ -267,12 +269,15 @@ public final class RussianRouletteGame extends Minigame {
         boolean bang = t.cursor == t.bullet;
         if (!bang) {
             t.cursor++;
+            for (UUID o : t.order) { Player op = Bukkit.getPlayer(o); if (op != null && players.contains(o)) hud(t, op); }
             anim(t, "click");
             sound(t, "minecraft:block.dispenser.fail", 1.4f);
             tellTable(t, "&7철컥…", "&f" + name + " &7생존 · 남은 칸 " + (6 - t.cursor));
             later(40, () -> { if (t.token == tok) turn(t, nextAlive(t, t.turn)); });
             return;
         }
+        t.fired = true;
+        t.bangs++;
         anim(t, "fire");
         sound(t, "minecraft:entity.generic.explode", 1.7f);
         sound(t, "minecraft:entity.firework_rocket.blast", 0.6f);
@@ -370,7 +375,10 @@ public final class RussianRouletteGame extends Minigame {
             Player o = Bukkit.getPlayer(u);
             arr.add(Json.obj().put("name", name(u)).put("account", o != null ? o.getName() : "").put("state", t.alive.contains(u) ? "wait" : "out"));
         }
-        Json data = Json.obj().put("game", id).put("title", label() + " · 테이블 " + t.no).put("participants", arr).put("pot", t.pot).put("round", t.round);
+        StringBuilder ch = new StringBuilder();   // 실린더 6칸: E 빈 칸(철컥) · B 총알(탕) · U 아직
+        for (int i = 0; i < 6; i++) ch.append(i < t.cursor ? 'E' : i == t.cursor && t.fired ? 'B' : 'U');
+        Json data = Json.obj().put("game", id).put("title", label() + " · 테이블 " + t.no).put("participants", arr).put("pot", t.pot).put("round", t.round)
+                .put("chambers", ch.toString()).put("cursor", t.cursor).put("bangs", t.bangs);
         if (t.waiting && t.turn >= 0) {
             UUID cur = t.order.get(t.turn);
             Player cp = Bukkit.getPlayer(cur);

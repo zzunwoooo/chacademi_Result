@@ -32,6 +32,7 @@ public final class MinigameView {
 
     private JsonObject result, found;
     private long resultAt, foundAt;
+    private long bangs, bangAt;   // 러시안 룰렛 "탕!" (bangs 가 늘면 연출)
 
     public boolean handles(String screen) { return screen.equals("minigame") || screen.equals("wasd"); }
 
@@ -57,7 +58,13 @@ public final class MinigameView {
             wasdOn = true;
             wasdDone = false;
             wasdEnd = 0;
-        } else { game = d; gameAt = now; }
+        } else { game = d; gameAt = now; bangCheck(d, now); }
+    }
+
+    private void bangCheck(JsonObject d, long now) {
+        long b = J.num(d, "bangs", bangs);
+        if (b > bangs) bangAt = now;
+        bangs = b;
     }
 
     public void update(String screen, JsonObject d, long now) {
@@ -65,7 +72,7 @@ public final class MinigameView {
             keyIndex = (int) J.num(d, "index", keyIndex);
             if (d.has("seconds") && !J.bool(d, "done")) { wasdSec = Math.max(1, J.num(d, "seconds", wasdSec)); wasdAt = now; }   // 키마다 제한시간 다시
             if (J.bool(d, "done")) { wasdDone = true; wasdOk = J.bool(d, "success"); wasdEnd = now; }
-        } else if (game != null) game = J.merge(game, d);
+        } else if (game != null) { game = J.merge(game, d); bangCheck(d, now); }
     }
 
     public void close(String screen, long now) {
@@ -107,12 +114,41 @@ public final class MinigameView {
             String g = J.str(game, "game");
             if (g.equals("pepero")) pepero(c, game);
             if (game.has("chests")) chests(c, game);
+            if (game.has("chambers")) cylinder(c, game, now);
         }
         if (wasdShow && !res) keyPanel(c, now);
         if (showTimer && wasdShow) timer(c, left, total, 890.5f, 236);   // 236~396: 리본(~220)과 화살표(416~) 사이
         if (fnd && !res) foundCard(c, now);
+        if (bangAt > 0 && now - bangAt < 1400 && !res) bang(c, now);
         if (res) resultView(c, now);
         c.pop();
+    }
+
+    /**
+     * 러시안 룰렛 실린더 (rroulette/cylinder_frame 300×300, 구멍 6개 지름 64: 맨 위부터 시계 방향 HOLE 좌표, 맨 위 = 빨간 표시 칸).
+     * chambers 6글자 E 빈 칸 · B 총알 · U 아직, cursor = 지금 칸 (반짝이는 고리)
+     */
+    private static final float[][] HOLE = {{148.9f, 72.5f}, {221.7f, 113.7f}, {221f, 193.8f}, {148.1f, 230.5f}, {75.6f, 193.6f}, {75.3f, 113.6f}};
+
+    private void cylinder(Canvas c, JsonObject g, long now) {
+        String ch = J.str(g, "chambers");
+        float S = 260, x = 1600, y = 360, k = S / 300f;
+        c.image("rroulette/cylinder_frame", x, y, S, S, 0xFFFFFFFF);
+        int cur = (int) J.num(g, "cursor");
+        for (int i = 0; i < 6 && i < ch.length(); i++) {
+            float cx = x + HOLE[i][0] * k, cy = y + HOLE[i][1] * k, d = 60 * k;
+            String id = switch (ch.charAt(i)) { case 'E' -> "chamber_empty"; case 'B' -> "chamber_bullet"; default -> "chamber_unknown"; };
+            if (i == cur && ch.charAt(i) == 'U') c.fill(cx - d / 2 - 5, cy - d / 2 - 5, d + 10, d + 10, d / 2 + 5, Anim.alpha(0xFFFFE27A, .55f + .35f * (float) Math.sin(now / 150.0)));
+            c.image("rroulette/" + id, cx - d / 2, cy - d / 2, d, d, 0xFFFFFFFF);
+        }
+        c.textFit(J.num(g, "round") + "라운드 · 판돈 " + J.num(g, "pot") + "다이아", x + S / 2, y + S + 24, 22, 320, 0xFFFFFFFF, Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
+    }
+
+    /** "탕!" 연출 (rroulette/bang 800×400): 튀어나와 흔들리다 사라짐 */
+    private void bang(Canvas c, long now) {
+        long e = now - bangAt;
+        float t = Anim.outBack(Anim.clamp(e / 260f)), a = e < 1000 ? 1 : 1 - (e - 1000) / 400f;
+        c.imageAt("rroulette/bang", 960 + Anim.shake(now, 6, 10) * (e < 500 ? 1 : 0), 430, 380 * t, 1, -6 + 6 * t, Anim.white(Anim.clamp(a)));
     }
 
     private static String name(String id) {

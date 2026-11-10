@@ -60,57 +60,67 @@ public final class PlayerSelectPanel implements Panel {
         mx = (mx - ox) / k;
         my = (my - oy) / k;
 
-        // 창: 크림 테 · 하늘색 띠 · 크림 안쪽
-        MenuPanel.box(c, 110, 225, 730, 1140, 90, 0xFFE9DCC4, 0xFFFBF4E6, 5);
-        MenuPanel.box(c, 128, 243, 694, 1104, 76, 0xFF9FCDEB, 0xFFC4E3F6, 4);
-        MenuPanel.box(c, 146, 261, 658, 1068, 62, 0xFFE6D8BF, 0xFFFAF3E6, 3);
-        // 위 이름판 + 잎
-        HudView.leaf(c, 230, 215, 44, true);
-        HudView.leaf(c, 720, 215, 44, false);
-        MenuPanel.box(c, 228, 183, 500, 109, 54, 0xFFE3D3B6, 0xFFFBF4E6, 5);
-        MenuPanel.box(c, 244, 197, 468, 81, 40, 0xFFEADFC9, 0xFFF9F1E2, 2);
-        c.text("유저 텔레포트", 478, 237, 44, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        // 창 그림 (676x1024 비율 그대로): 금테 · 하늘색 띠 · 크림 안쪽 + 위 이름판·잎
+        c.image("user_select/window_frame", FX, FY, FW, FH, 0xFFFFFFFF);
+        c.textFit("유저 텔레포트", 475, FY + (.043f + .117f) / 2 * FH, 40, .56f * FW, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
         // 티켓 + 안내
-        c.imageAt("user_select/teleport_ticket", 232, 345, 58, 1, -14, 0xFFFFFFFF);
-        c.text(search.isEmpty() ? "누구에게 갈까요?" : "검색: " + HangulInput.compose(search), 300, 347, 30, Theme.MUTED, Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
-        c.fill(157, 400, 633, 3, 1.5f, 0xFFE3D6BF);
+        c.imageAt("user_select/teleport_ticket", 215, 410, 54, 1, -14, 0xFFFFFFFF);
+        c.textFit(search.isEmpty() ? "누구에게 갈까요?" : "검색: " + HangulInput.compose(search), 280, 412, 30, 480, Theme.MUTED, Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
+        c.fill(170, 452, 610, 3, 1.5f, 0xFFE8DCC6);
 
-        // 목록
+        // 목록 (줄 그림 1024x158 비율 그대로)
         List<Integer> vis = visible();
-        float listY = 435, listH = 720, step = 147, rh = 130;
+        float listY = LIST_Y, listH = LIST_H, step = ROW_H + 12, rh = ROW_H;
         scrollMax = Math.max(0, vis.size() * step - (listH + (step - rh)));
         scroll = Math.max(0, Math.min(scroll, scrollMax));
-        if (vis.isEmpty()) c.text(names().isEmpty() ? "접속한 다른 유저가 없어요" : "검색 결과가 없어요", 455, 700, 34, Theme.MUTED, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        if (vis.isEmpty()) c.text(names().isEmpty() ? "접속한 다른 유저가 없어요" : "검색 결과가 없어요", 475, 760, 34, Theme.MUTED, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
         for (int n = 0; n < vis.size(); n++) {
             int i = vis.get(n);
             float ry = listY + n * step - scroll;
             if (ry < listY - 4 || ry + rh > listY + listH + 4) continue;
-            boolean sel = i == selected, hov = Anim.in(mx, my, 157, ry, 593, rh);
-            MenuPanel.box(c, 157, ry, 593, rh, 30, sel ? 0xFF8CC4EA : hov ? 0xFFC9B999 : 0xFFE3D6BF, sel ? 0xFFC3E3F8 : hov ? 0xFFFBF2E0 : 0xFFF8F0E2, 3);
-            MenuPanel.box(c, 180, ry + 15, 100, 100, 22, 0xFFDCCDB1, 0xFFFBF2E2, 3);
-            if (!c.face(names().get(i), 195, ry + 30, 70)) c.text(label(i).isEmpty() ? "?" : label(i).substring(0, 1), 230, ry + 65, 44, Theme.BLUE, Canvas.CENTER, Canvas.BOLD);
+            boolean sel = i == selected, hov = Anim.in(mx, my, ROW_X, ry, ROW_W, rh);
+            // 얼굴 칸: 그림마다 자리가 조금씩 달라서 그림 대비 비율로 {x0, x1, y0, y1}
+            float[] slot;
+            if (sel) {
+                // 고른 줄: 잎 달린 하늘색 그림(1024x237) — 몸통이 그림 높이의 15~95% 라 그만큼 위아래로 키워 9조각으로 폭만 늘림
+                float ph = rh / .8f, py = ry - .15f * ph, s = ph / 237f;
+                c.imageNine("user_select/user_row_pressed", ROW_X - 4, py, ROW_W + 8, ph, .2f, .45f, .2f * 1024 * s, .45f * ph, 0xFFFFFFFF);
+                float ax0 = ROW_X - 4 + .061f * 1024 * s, ax1 = ROW_X - 4 + .175f * 1024 * s;
+                slot = new float[]{ax0, ax1, py + .30f * ph, py + .79f * ph};
+            } else if (hov) {
+                c.image("user_select/user_row_hover", ROW_X, ry, ROW_W, rh, 0xFFFFFFFF);
+                slot = new float[]{ROW_X + .044f * ROW_W, ROW_X + .135f * ROW_W, ry + .214f * rh, ry + .774f * rh};
+            } else {
+                c.image("user_select/user_row_normal", ROW_X, ry, ROW_W, rh, 0xFFFFFFFF);
+                slot = new float[]{ROW_X + .027f * ROW_W, ROW_X + .134f * ROW_W, ry + .152f * rh, ry + .829f * rh};
+            }
+            float fcx = (slot[0] + slot[1]) / 2, fcy = (slot[2] + slot[3]) / 2, fs = Math.min(slot[1] - slot[0], slot[3] - slot[2]) * .8f;
+            if (!c.face(names().get(i), fcx - fs / 2, fcy - fs / 2, fs)) c.text(label(i).isEmpty() ? "?" : label(i).substring(0, 1), fcx, fcy, fs * .62f, Theme.BLUE, Canvas.CENTER, Canvas.BOLD);
             String nm = label(i);
             boolean nick = !nm.equals(names().get(i));
-            c.textFit(nm, 310, ry + rh / 2 - (nick ? 14 : 0), 40, 410, Theme.INK, Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
-            if (nick) c.text(names().get(i), 310, ry + rh / 2 + 28, 24, Theme.MUTED, Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
-            hits.add(new R("row", i, 157, ry, 593, rh));
+            float tx = ROW_X + .17f * ROW_W, tw = ROW_X + ROW_W - 28 - tx;
+            c.textFit(nm, tx, ry + rh / 2 - (nick ? 12 : 0), 34, tw, Theme.INK, Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
+            if (nick) c.textFit(names().get(i), tx, ry + rh / 2 + 22, 21, tw, Theme.MUTED, Canvas.LEFT, Canvas.BOLD | Canvas.LIGHT);
+            hits.add(new R("row", i, ROW_X, ry, ROW_W, rh));
         }
-        // 스크롤 막대
-        MenuPanel.box(c, 768, 432, 22, 720, 11, 0xFFE3D6BF, 0xFFFBF4E8, 2);
-        float th = scrollMax > 0 ? Math.max(80, 720 * 720 / (720 + scrollMax)) : 720;
-        float ty = scrollMax > 0 ? 432 + (720 - th) * scroll / scrollMax : 432;
-        MenuPanel.box(c, 768, ty, 22, th, 11, 0xFF7FB8E4, 0xFFA8D4F2, 2);
-        c.fill(157, 1185, 633, 3, 1.5f, 0xFFE3D6BF);
+        // 스크롤 막대 (가는 길 + 하늘색 손잡이)
+        float sx = 770, sw = 16;
+        nine(c, "user_select/scroll_track", sx, listY - 4, sw, listH + 8, .45f, .06f);
+        float th = scrollMax > 0 ? Math.max(90, listH * listH / (listH + scrollMax)) : listH;
+        float ty = scrollMax > 0 ? listY + (listH - th) * scroll / scrollMax : listY;
+        nine(c, "user_select/scroll_thumb", sx - 5, ty, sw + 10, th, .45f, .3f);
+        c.fill(170, 1137, 610, 3, 1.5f, 0xFFE8DCC6);
 
-        // 버튼: 이동(파랑) · 취소(크림)
+        // 버튼: 이동(파랑) · 취소(크림) — 누르는 중(마우스 올림)은 눌린 그림
         boolean canMove = selected >= 0;
-        boolean hm = canMove && Anim.in(mx, my, 170, 1215, 278, 85), hc = Anim.in(mx, my, 470, 1215, 278, 85);
-        MenuPanel.box(c, 170, 1215, 278, 85, 42, canMove ? 0xFF6FB3E3 : 0xFFC9D6DE, canMove ? (hm ? 0xFF8FCBF2 : 0xFFA5D8F7) : 0xFFDDE6EC, 4);
-        c.text("이동", 309, 1257, 38, canMove ? Theme.WHITE : 0xFFF2F6F8, Canvas.CENTER, Canvas.BOLD | (canMove ? Canvas.OUTLINE : 0));
-        MenuPanel.box(c, 470, 1215, 278, 85, 42, hc ? 0xFFC9B999 : 0xFFE3D3B6, 0xFFFBF1DD, 4);
-        c.text("취소", 609, 1257, 38, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
-        hits.add(new R("move", -1, 170, 1215, 278, 85));
-        hits.add(new R("cancel", -1, 470, 1215, 278, 85));
+        float by = 1158, bh = 76, bw = 280, mxB = 185, cxB = 485;
+        boolean hm = canMove && Anim.in(mx, my, mxB, by, bw, bh), hc = Anim.in(mx, my, cxB, by, bw, bh);
+        nine(c, !canMove ? "user_select/move_disabled" : hm ? "user_select/move_pressed" : "user_select/move_normal", mxB, by + (hm ? 2 : 0), bw, bh, .25f, .45f);
+        c.text("이동", mxB + bw / 2, by + bh / 2 + (hm ? 2 : 0), 36, canMove ? Theme.WHITE : 0xFF9AA4AC, Canvas.CENTER, Canvas.BOLD | (canMove ? Canvas.OUTLINE : Canvas.LIGHT));
+        nine(c, hc ? "user_select/cancel_pressed" : "user_select/cancel_normal", cxB, by + (hc ? 2 : 0), bw, bh, .25f, .45f);
+        c.text("취소", cxB + bw / 2, by + bh / 2 + (hc ? 2 : 0), 36, Theme.INK, Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+        hits.add(new R("move", -1, mxB, by, bw, bh));
+        hits.add(new R("cancel", -1, cxB, by, bw, bh));
 
         // 오른쪽 아래 깨굴이 + 포탈
         float jump = Math.abs((float) Math.sin(now / 380.0)) * 18;
@@ -118,8 +128,20 @@ public final class PlayerSelectPanel implements Panel {
         c.pop();
     }
 
+    // 창 그림 자리 (676x1024) · 목록 줄 자리 (줄 그림 1024x158 비율)
+    private static final float FX = 110, FW = 730, FH = FW * 1024 / 676f, FY = 200;
+    private static final float ROW_X = 168, ROW_W = 590, ROW_H = ROW_W * 158 / 1024f, LIST_Y = 476, LIST_H = 646;
+
+    /** 9조각 그림: 가장자리는 그림 비율 그대로 (가로·세로 중 작은 배율), 가운데만 늘림 */
+    private static void nine(Canvas c, String id, float x, float y, float w, float h, float bu, float bv) {
+        int[] s = c.size(id);
+        if (s == null) { c.image(id, x, y, w, h, 0xFFFFFFFF); return; }
+        float sc = Math.min(w / s[0], h / s[1]);
+        c.imageNine(id, x, y, w, h, bu, bv, bu * s[0] * sc, bv * s[1] * sc, 0xFFFFFFFF);
+    }
+
     @Override public boolean scroll(float mx, float my, double amount) {
-        scroll = (float) Math.max(0, Math.min(scrollMax, scroll - amount * 147));
+        scroll = (float) Math.max(0, Math.min(scrollMax, scroll - amount * (ROW_H + 12)));
         return true;
     }
 

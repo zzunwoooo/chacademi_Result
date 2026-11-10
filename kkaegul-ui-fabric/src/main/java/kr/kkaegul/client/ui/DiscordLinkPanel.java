@@ -58,7 +58,7 @@ public final class DiscordLinkPanel implements Panel {
             c.pop();
         }
         boolean hb = closing < 0 && Anim.in(lx, ly, 80, 236, 320, 32);
-        if (hb) c.image("discord/connect_hover", 80, 236, 320, 32, Anim.white(a));
+        c.image(hb ? "discord/connect_hover" : "discord/connect_normal", 80, 236, 320, 32, Anim.white(a));   // 판 그림에 있는 버튼 자리 위에 버튼 그림
         boolean copied = copiedAt > 0 && now - copiedAt < 2000;
         c.textFit(copied ? "복사했어요! 디스코드 채팅창에 붙여넣기" : "/연동 " + code + "  복사하기", 240, 251, 17, 270, Anim.alpha(0xFF2F5A1C, a), Canvas.CENTER, TXT);
         boolean hc = closing < 0 && Anim.in(lx, ly, 405, 28, 60, 60);

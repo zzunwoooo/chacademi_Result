@@ -16,6 +16,7 @@ public final class NoticeView {
         float y = -1;        // 지금 그려지는 위치 (부드럽게 따라감)
         List<String> lines, subLines;   // 줄 나눈 글자 (폭이 바뀌면 다시)
         float linesW = -1;
+        boolean pill;        // 한 줄짜리 = 알약 카드(toast_cream), 아니면 깨굴이 금테 카드(banner_*)
         Card(String text, String sub, String kind, long start, long life) { this.text = text; this.sub = sub; this.kind = kind; this.start = start; this.life = life; }
     }
 
@@ -82,8 +83,24 @@ public final class NoticeView {
     private static final float T = 18, S = 15, TL = 22, SL = 19, FACE = 36;   // 제목·부제 글자 크기 / 줄 높이, 깨굴이 얼굴
     private static final int TSTYLE = Canvas.BOLD | Canvas.LIGHT, SSTYLE = Canvas.LIGHT, MAXL = 3;
 
-    /** 글자 칸 폭: 얼굴과 ×N 자리를 뺀 나머지 */
-    private static float textW(Card k) { return W - 26 - FACE - (k.count > 1 ? 50 : 14); }
+    /** 글자 칸 폭: 얼굴과 ×N 자리(없으면 오른쪽 아래 클로버 자리)를 뺀 나머지 */
+    private static float textW(Card k) { return W - 26 - FACE - (k.count > 1 ? 50 : 24); }
+
+    /** 알약 카드(notice/toast_cream, 1024×160) 안 칸: 왼쪽 동그라미 가운데 x, 글자 판 x0~x1 (그림 폭 비율) */
+    private static final float PILL_FACE = .135f, PILL_X0 = .2f, PILL_X1 = .9f, PILL_H = W * 160 / 1024f;
+    /** 금테 카드 위로 튀어나온 깨굴이 높이 (그림 세로 31% × 배율) — 카드 사이를 이만큼 더 띄움 */
+    private static final float FROG_TOP = 242 * .31f * W / 1024f;
+    private static float pillW(Card k) { return W * (PILL_X1 - PILL_X0) - 8 - (k.count > 1 ? 44 : 0); }
+
+    /** 종류별 카드 그림 (notice/banner_*: 위에 깨굴이가 걸터앉은 금테 판) */
+    private static String banner(String kind) {
+        return switch (kind) {
+            case "failure", "error" -> "notice/banner_failure";
+            case "success" -> "notice/banner_success";
+            case "jackpot" -> "notice/banner_jackpot";
+            default -> "notice/banner_neutral";
+        };
+    }
 
     /** 카드 폭에 맞춰 줄 나누기 (최대 3줄, 넘치면 …). 색 코드는 다음 줄로 이어 감 */
     static List<String> wrap(String s, float size, int style, float maxW) {
@@ -134,12 +151,16 @@ public final class NoticeView {
         float tw = textW(k);
         if (k.lines != null && k.linesW == tw) return;
         k.linesW = tw;
-        k.lines = wrap(k.text, T, TSTYLE, tw);
-        k.subLines = wrap(k.sub, S, SSTYLE, tw);
+        // 부제 없이 한 줄에 들어가면 알약 카드, 아니면 금테 카드
+        List<String> one = k.sub.isBlank() ? wrap(k.text, T, TSTYLE, pillW(k)) : null;
+        k.pill = one != null && one.size() == 1;
+        k.lines = k.pill ? one : wrap(k.text, T, TSTYLE, tw);
+        k.subLines = k.pill ? List.of() : wrap(k.sub, S, SSTYLE, tw);
     }
 
     private static float height(Card k) {
         layout(k);
+        if (k.pill) return PILL_H;
         float h = 24 + k.lines.size() * TL + k.subLines.size() * SL;
         return Math.max(52, h);
     }
@@ -163,25 +184,39 @@ public final class NoticeView {
             float a = Math.min(in, out);
             float x = SW - MARGIN - W + (1 - in) * 40;
             draw(c, k, x, k.y, h, a);
-            bottom = target - GAP;
+            bottom = target - GAP - (k.pill ? 0 : FROG_TOP);
         }
         c.pop();
     }
 
     private void draw(Canvas c, Card k, float x, float y, float h, float a) {
         int acc = accent(k.kind);
-        c.fill(x + 2, y + 3, W, h, 14, Anim.alpha(0x40000000, a));                 // 그림자
-        MenuPanel.box(c, x, y, W, h, 14, Anim.alpha(0xFF8A6A48, a), Anim.alpha(0xF2FFF7EA, a), 2);
-        c.fill(x + 6, y + 8, 5, h - 16, 2.5f, Anim.alpha(acc, a));                  // 왼쪽 색 띠
-        c.imageFit("notice/face_" + k.kind, x + 18 + FACE / 2, y + h / 2, FACE, Anim.white(a));   // error = 땀 흘리는 깨굴이 (묶음 5)
         layout(k);
+        if (k.pill) {
+            // 알약 카드: 왼쪽 동그라미에 얼굴, 오른쪽 판에 글자 한 줄
+            c.image("notice/toast_cream", x, y, W, h, Anim.white(a));
+            c.imageFit("notice/face_" + k.kind, x + W * PILL_FACE, y + h / 2, FACE * .9f, Anim.white(a));
+            c.text(k.lines.get(0), x + W * PILL_X0 + 8, y + h / 2, T, Anim.alpha(Theme.INK, a), Canvas.LEFT, TSTYLE);
+            if (k.count > 1) badge(c, k, x + W * PILL_X1 - 40, y + h / 2, acc, a);
+            return;
+        }
+        // 금테 카드 그림: 판(그림 세로 31%~98%)이 카드 칸 (x,y,W,h)에 오게, 위로 튀어나온 깨굴이는 카드 위로. 높이는 9조각으로 늘림
+        String img = banner(k.kind);
+        int[] sz = c.size(img);
+        float iw = sz == null ? 1024 : sz[0], ih = sz == null ? 240 : sz[1], s = W / iw;
+        float top = ih * .31f * s, bot = ih * .02f * s;
+        c.imageNine(img, x, y - top, W, h + top + bot, .22f, .45f, iw * .22f * s, ih * .45f * s, Anim.white(a));
+        c.imageFit("notice/face_" + k.kind, x + 18 + FACE / 2, y + h / 2, FACE, Anim.white(a));   // error = 땀 흘리는 깨굴이 (묶음 5)
         float tx = x + 26 + FACE;
         float ty = y + h / 2 - (k.lines.size() * TL + k.subLines.size() * SL) / 2;   // 글자 덩어리를 세로 가운데로
         for (String l : k.lines) { c.text(l, tx, ty + TL / 2, T, Anim.alpha(Theme.INK, a), Canvas.LEFT, TSTYLE); ty += TL; }
         for (String l : k.subLines) { c.text(l, tx, ty + SL / 2, S, Anim.alpha(Theme.MUTED, a), Canvas.LEFT, SSTYLE); ty += SL; }
-        if (k.count > 1) {
-            c.fill(x + W - 46, y + h / 2 - 13, 36, 26, 13, Anim.alpha(acc, a));
-            c.text("×" + k.count, x + W - 28, y + h / 2, 17, Anim.alpha(Theme.WHITE, a), Canvas.CENTER, Canvas.BOLD);
-        }
+        if (k.count > 1) badge(c, k, x + W - 46, y + h / 2, acc, a);
+    }
+
+    /** ×N 알약 (x = 왼쪽, cy = 세로 가운데) */
+    private static void badge(Canvas c, Card k, float x, float cy, int acc, float a) {
+        c.fill(x, cy - 13, 36, 26, 13, Anim.alpha(acc, a));
+        c.text("×" + k.count, x + 18, cy, 17, Anim.alpha(Theme.WHITE, a), Canvas.CENTER, Canvas.BOLD);
     }
 }

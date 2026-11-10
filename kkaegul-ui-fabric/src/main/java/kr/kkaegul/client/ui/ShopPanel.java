@@ -206,7 +206,7 @@ public final class ShopPanel implements Panel {
 
     private void menu(Canvas c, String key, float y, String icon, String label, float mx, float my) {
         boolean on = tab.equals(key), hov = !on && Anim.in(mx, my, 42, y, 248, 72);
-        if (on || hov) c.image("shop/menu_selected", 42, y, 248, 72, on ? 0xFFFFFFFF : 0x66FFFFFF);
+        if (on || hov) c.image("shop/menu_selected", 42, y, 248, 72, on ? 0xFFFFFFFF : 0x66FFFFFF);   // shop/menu_default 는 빈(투명) 그림이라 안 그림
         if (icon.startsWith("item:")) c.item(icon.substring(5), 64, y + 10, 48);
         else c.image(icon, 64, y + 10, 48, 48, 0xFFFFFFFF);
         c.textFit(label, 126, y + 35, 28, 150, on ? Theme.INK : 0xFF6B5A4C, Canvas.LEFT, TXT);
@@ -262,7 +262,7 @@ public final class ShopPanel implements Panel {
         }
         // 검색
         if (search != null) {
-            MenuPanel.box(c, 770, 256, 218, 50, 25, 0xFFC9B79F, 0xFFFFFDF7, 2);
+            c.imageNine("shop/filter_default", 770, 256, 218, 50, .2f, .45f, 26, 22.5f, 0xFFFFFFFF);   // 크림 금테 알약 = 입력 칸
             String q = search.isEmpty() ? "§7이름 검색" : search;
             c.textFit(q, 790, 281, 22, 180, Theme.INK, Canvas.LEFT, TXT);
             if (!search.isEmpty() || (now / 530) % 2 == 0) {
@@ -343,7 +343,7 @@ public final class ShopPanel implements Panel {
             c.push(); c.translate(1324, 330); c.scale(p, p);
             String msg = "다이아 +" + Fmt.num(J.num(fx, "got"));
             float tw = c.textWidth(msg, 30, TXT) + 56;
-            MenuPanel.box(c, -tw / 2, -30, tw, 60, 30, Anim.alpha(0xFF6FAF3F, a), Anim.alpha(0xFFF4FBE8, a), 3);
+            pill(c, -tw / 2, -30, tw, 60, a);
             c.text(msg, 0, 0, 30, Anim.alpha(Theme.GREEN_DARK, a), Canvas.CENTER, TXT);
             c.pop();
         }
@@ -506,18 +506,23 @@ public final class ShopPanel implements Panel {
             c.push(); c.translate(682, 560); c.scale(p, p);
             String msg = "다이아 +" + Fmt.num(J.num(fx, "got"));
             float tw = c.textWidth(msg, 34, TXT) + 60;
-            MenuPanel.box(c, -tw / 2, -34, tw, 68, 34, Anim.alpha(0xFF6FAF3F, a), Anim.alpha(0xFFF4FBE8, a), 3);
+            pill(c, -tw / 2, -34, tw, 68, a);
             c.text(msg, 0, 0, 34, Anim.alpha(Theme.GREEN_DARK, a), Canvas.CENTER, TXT);
             c.pop();
         }
+    }
+
+    /** 결과 알약 (초록 필터 그림 shop/filter_selected 를 늘여서) */
+    private static void pill(Canvas c, float x, float y, float w, float h, float a) {
+        c.imageNine("shop/filter_selected", x, y, w, h, .2f, .45f, h * .52f, h * .45f, Anim.white(a));
     }
 
     private void odds(Canvas c) {
         List<JsonObject> os = J.objs(data, "outcomes");
         if (os.isEmpty()) return;
         float w = 330, h = 62 + os.size() * 40, x = 1040 - w, y = 266;
-        c.fill(x + 3, y + 5, w, h, 16, 0x33000000);
-        MenuPanel.box(c, x, y, w, h, 16, 0xFFC9B79F, 0xFFFFFCF4, 3);
+        c.fill(x + 3, y + 6, w, h, 22, 0x33000000);
+        c.imageNine("shop/product_display", x, y, w, h, .05f, .06f, 30, 30, 0xFFFFFFFF);   // 상품 칸과 같은 크림 판
         c.text("구매 1회당 결과 확률", x + 22, y + 30, 22, Theme.INK, Canvas.LEFT, TXT);
         float ry = y + 72;
         for (JsonObject o : os) {
@@ -536,7 +541,7 @@ public final class ShopPanel implements Panel {
         boolean fail = o.equals("fail");
         long e = now - fxStart;
         float a = Anim.fade(now, fxStart, COIN_FX, 150, 450);
-        c.fill(330, 290, 704, 598, 26, Anim.alpha(0xFFFFF8EC, a));
+        c.image("shop/product_display", 322, 282, 720, 614, Anim.white(a));   // 상품 칸을 결과 판으로 덮음
         // 1) 다이아 → 금화 (0~700ms)
         if (e < 900) {
             float t = Anim.t(now, fxStart, 700);

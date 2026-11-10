@@ -90,6 +90,7 @@ public final class UiHub {
             case "donation_board" -> new DonationBoardPanel(host, data, now);
             case "discord_link" -> new DiscordLinkPanel(host, data, now);
             case "land" -> new LandPanel(host, data, now);
+            case "omok" -> new OmokPanel(host, data, now);
             case "hud" -> { hud.set(data, now); yield null; }
             default -> null;
         };

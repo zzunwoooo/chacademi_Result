@@ -16,15 +16,15 @@ public final class RouletteView {
     private int stopMask;
     private static final long HOLD = 2300;
 
-    /** 본체별 안쪽 칸 위치 (그림 비율 0~100). {윗판 x0,y0,x1,y1}, 릴 y0,y1, 릴 4개 x 구간, {아랫판 x0,y0,x1,y1} */
+    /** 본체별 안쪽 칸 위치 (그림 비율 0~100, 릴 칸은 그림에서 잰 크림 칸 바깥 테두리). {윗판 x0,y0,x1,y1}, 릴 y0,y1, 릴 4개 x 구간, {아랫판 x0,y0,x1,y1} */
     private record Frame(float[] plate, float reelY0, float reelY1, float[][] reels, float[] bottom) {}
 
     private static Frame frame(String body) {
         return switch (body) {
-            case "body_decrease" -> new Frame(new float[]{19, 6, 81, 20}, 30, 82, new float[][]{{7, 27}, {29, 49}, {51, 71}, {73, 93}}, new float[]{31, 87, 71, 99});
-            case "body_big_increase" -> new Frame(new float[]{23, 2, 77, 16}, 21, 86, new float[][]{{6, 27}, {28, 49}, {50, 71}, {72, 94}}, new float[]{34, 88, 66, 99});
-            case "body_big_decrease" -> new Frame(new float[]{18, 1, 82, 17}, 23, 81, new float[][]{{7, 27}, {29, 49}, {51, 71}, {73, 94}}, new float[]{31, 87, 71, 99});
-            default -> new Frame(new float[]{23, 1, 78, 17}, 28, 82, new float[][]{{7, 27}, {29, 49}, {51, 71}, {73, 94}}, new float[]{34, 87, 67, 100});
+            case "body_decrease" -> new Frame(new float[]{19, 6, 81, 20}, 27.2f, 83.1f, new float[][]{{6.2f, 27.1f}, {28.5f, 49.3f}, {50.7f, 71.5f}, {72.9f, 93.8f}}, new float[]{31, 87, 71, 99});
+            case "body_big_increase" -> new Frame(new float[]{23, 2, 77, 16}, 19.5f, 83.1f, new float[][]{{6.2f, 27.1f}, {28.5f, 49.2f}, {50.8f, 71.5f}, {72.9f, 93.8f}}, new float[]{34, 88, 66, 99});
+            case "body_big_decrease" -> new Frame(new float[]{18, 1, 82, 17}, 22.7f, 81.7f, new float[][]{{6.7f, 27.1f}, {28.9f, 49.1f}, {50.9f, 71.2f}, {72.9f, 93.3f}}, new float[]{31, 87, 71, 99});
+            default -> new Frame(new float[]{23, 1, 78, 17}, 25.5f, 82.9f, new float[][]{{6.4f, 27.2f}, {28.6f, 49.3f}, {50.7f, 71.4f}, {72.7f, 93.6f}}, new float[]{34, 87, 67, 100});
         };
     }
 
@@ -69,16 +69,24 @@ public final class RouletteView {
         c.push();
         c.translate(0, drop);
         if (J.bool(d, "fever")) {
-            // 피버 중: 위에 빨간 알약 표시만 (테두리 없음)
+            // 피버 중: 위에 불꽃 금테(roulette/fever_frame) 안 빨간 알약 표시 (본체 테두리 없음)
             // 피버 = 범위 배수(2배/3배), 1+1·1+2 는 운빨 게이지 (오른쪽 위 뱃지)
             String ft = J.num(d, "mult", 2) >= 3 ? "3배 피버! 범위 x3" : "2배 피버! 범위 x2";
-            float tw = c.textWidth(ft, 26, Canvas.BOLD) + 50, pulse = 1 + .04f * (float) Math.sin(now / 90.0);
+            float tw = c.textWidth(ft, 26, Canvas.BOLD) + 110, th = 58, pulse = 1 + .04f * (float) Math.sin(now / 90.0);
+            float fk = th / 200f;   // 그림 세로 200px → th
             c.push(); c.translate(x + w / 2, y - 34); c.scale(pulse, pulse);
-            MenuPanel.box(c, -tw / 2, -22, tw, 44, 22, Anim.alpha(0xFFFFF4E6, a), Anim.alpha(0xFFE95A50, a), 3);
+            c.fill(-tw / 2 + 1024 * .05f * fk, -th / 2 + th * .1f, tw - 1024 * .1f * fk, th * .8f, th * .4f, Anim.alpha(0xFFE95A50, a));
+            c.imageNine("roulette/fever_frame", -tw / 2, -th / 2, tw, th, .13f, .45f, 1024 * .13f * fk, th * .45f, tint);
             c.text(ft, 0, 0, 26, Anim.alpha(Theme.WHITE, a), Canvas.CENTER, Canvas.BOLD);
             c.pop();
         }
         c.image("roulette/" + body, x, y, w, h, tint);
+        // 릴 칸 바탕 (roulette/reel_background 를 칸 크기에 9조각으로)
+        for (int i = 0; i < 4; i++) {
+            float rx = x + w * f.reels()[i][0] / 100, rw = w * (f.reels()[i][1] - f.reels()[i][0]) / 100;
+            float ry = y + h * f.reelY0() / 100, rh = h * (f.reelY1() - f.reelY0()) / 100;
+            c.imageNine("roulette/reel_background", rx - 1.5f, ry - 1.5f, rw + 3, rh + 3, .2f, .1f, rw * .2f, rw * .214f, tint);
+        }
 
         // 윗판: 룰렛 이름
         float px = x + w * f.plate()[0] / 100, py = y + h * f.plate()[1] / 100, pw = w * (f.plate()[2] - f.plate()[0]) / 100, ph = h * (f.plate()[3] - f.plate()[1]) / 100;
@@ -130,10 +138,13 @@ public final class RouletteView {
             String res = (inc ? "+" : "-") + Fmt.num(Math.abs(J.num(d, "total")));
             c.textFit(res, bx + bw / 2, byy + bh / 2 + 1, 26 * (.8f + .2f * Anim.outBack(rt)), bw * .86f, Anim.alpha(inc ? 0xFFD9493F : 0xFF3F8F32, a), Canvas.CENTER, Canvas.BOLD);
             if (rolls.length > 1) {
-                // 1+1 / 1+2 계산식은 본체 아래에
+                // 1+1 / 1+2 계산식은 본체 아래 빛나는 결과 띠(roulette/result_highlight) 위에
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < rolls.length; i++) sb.append(i == 0 ? "" : " + ").append(Fmt.num(rolls[i]));
-                c.text(sb + " = " + res, x + w / 2, y + h + 30, 26, Anim.alpha(Theme.WHITE, a), Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
+                String eq = sb + " = " + res;
+                float hw = Math.max(260, c.textWidth(eq, 26, Canvas.BOLD) + 90), hh = 46;
+                c.imageNine("roulette/result_highlight", x + w / 2 - hw / 2 * (.7f + .3f * rt), y + h + 30 - hh / 2, hw * (.7f + .3f * rt), hh, .06f, .45f, hh * .7f, hh * .45f, Anim.white(a * rt));
+                c.text(eq, x + w / 2, y + h + 30, 26, Anim.alpha(inc ? 0xFFD9493F : 0xFF3F8F32, a), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
             }
             long extra = J.num(d, "extra");
             if (extra > 0) {
