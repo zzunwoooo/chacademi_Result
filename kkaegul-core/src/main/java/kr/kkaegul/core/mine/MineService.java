@@ -62,11 +62,18 @@ public final class MineService {
         d.markDirty();
     }
 
-    /** 보물광산: treasure 로 시작하는 구역 중 랜덤 한 곳. 갔으면 true */
+    /** 보물광산: treasure 로 시작하는 구역 중 랜덤 한 곳. 이동권은 mine.ticket-diamond-chance % 로 다이아, 나머지는 철 광산. 갔으면 true */
     public boolean sendTreasure(Player p, boolean byTicket) {
         ConfigurationSection rs = regions();
+        boolean diamond = !byTicket || Rng.chance(plugin.getConfig().getDouble("mine.ticket-diamond-chance", 50));
+        String prefix = diamond ? "treasure" : "limited";
         List<String> list = new ArrayList<>();
-        if (rs != null) for (String k : rs.getKeys(false)) if (k.startsWith("treasure") && plugin.places().get("mine." + k) != null) list.add(k);
+        if (rs != null) for (String k : rs.getKeys(false)) if (k.startsWith(prefix) && plugin.places().get("mine." + k) != null) list.add(k);
+        if (!diamond) {
+            String iron = Rng.pick(list);
+            if (iron != null) return go(p, iron, "&e보물광산 이동권 사용! &7(철 광산)");
+            if (rs != null) for (String k : rs.getKeys(false)) if (k.startsWith("treasure") && plugin.places().get("mine." + k) != null) list.add(k);   // 철 광산이 없으면 다이아로
+        }
         String pick = Rng.pick(list);
         if (pick == null) { plugin.getLogger().warning("보물광산 구역/스폰 위치가 없어요 (mine.regions.treasure*)"); return false; }
         return go(p, pick, byTicket ? "&e보물광산 이동권 사용!" : "&6보물광산 당첨!!");
