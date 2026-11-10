@@ -50,6 +50,72 @@ public final class FxView {
         return 1.6;
     }
 
+    /**
+     * v3 그림은 장식(광택·보석·번개 끝 등)이 예전 몸통 칸 밖까지 그려져 있어서, 텍스처를 몸통 + 바깥 여백으로 다시 뽑았다.
+     * 값 = 몸통 크기 대비 여백 비율 (왼, 위, 오른, 아래). 코드는 몸통 자리를 그대로 쓰고 아래 함수들이 여백만큼 바깥으로 넓혀 그림.
+     */
+    private static final java.util.Map<String, float[]> PAD = java.util.Map.ofEntries(
+            java.util.Map.entry("chest/advanced_beam", new float[]{.0594f, .0952f, .0657f, .1026f}),
+            java.util.Map.entry("chest/lucky_beam", new float[]{.0487f, .0760f, .0458f, .0713f}),
+            java.util.Map.entry("chest/normal_beam", new float[]{0, 0, 0, .0700f}),
+            java.util.Map.entry("reward/event_banner", new float[]{.0010f, .0409f, .0010f, .0063f}),
+            java.util.Map.entry("reward/event_buff", new float[]{.0457f, .0336f, .0473f, .0309f}),
+            java.util.Map.entry("reward/event_debuff", new float[]{.0033f, .0028f, .0033f, .0041f}),
+            java.util.Map.entry("reward/frog_waving", new float[]{.0953f, .0057f, .0814f, .0132f}),
+            java.util.Map.entry("reward/reward_card_normal", new float[]{.0155f, .0116f, .0107f, .0021f}),
+            java.util.Map.entry("fever/badge_chest", new float[]{.0204f, .0971f, .0447f, .0738f}),
+            java.util.Map.entry("fever/badge_triple", new float[]{.0421f, .1454f, .0462f, .0444f}),
+            java.util.Map.entry("fever/banner_chest", new float[]{.0010f, .1719f, .0026f, .0057f}),
+            java.util.Map.entry("fever/banner_diamond", new float[]{.0010f, .1196f, .0025f, .0054f}),
+            java.util.Map.entry("fever/banner_triple", new float[]{.0010f, .1870f, .0050f, .0050f}),
+            java.util.Map.entry("fever/flame", new float[]{.0272f, .0028f, .0527f, .0579f}),
+            java.util.Map.entry("fever/frame_diamond", new float[]{.0136f, .0406f, .0136f, .0144f}),
+            java.util.Map.entry("fever/frame_triple", new float[]{.0210f, .0429f, .0188f, .0028f}),
+            java.util.Map.entry("fever/frog_boxes", new float[]{.0147f, .0972f, .0181f, .0127f}),
+            java.util.Map.entry("fever/frog_drummer", new float[]{.0040f, .0024f, .0020f, .0047f}),
+            java.util.Map.entry("fever/frog_megaphones", new float[]{.0059f, .1819f, .0084f, .0358f}),
+            java.util.Map.entry("fever/gift", new float[]{.0039f, .1958f, .0039f, .0058f}),
+            java.util.Map.entry("fever/lightning", new float[]{.0837f, .2243f, .0909f, .0187f}),
+            java.util.Map.entry("fever/speed_lines", new float[]{.0360f, .1332f, .0135f, .0557f}),
+            java.util.Map.entry("invite/envelope_back", new float[]{.0018f, .0082f, .0018f, .0023f}),
+            java.util.Map.entry("invite/invitation_card", new float[]{.0065f, .0015f, .0043f, .0015f}),
+            java.util.Map.entry("invite/stamp_red", new float[]{.0023f, .0033f, .0023f, .0022f}));
+    private static final float[] NO_PAD = new float[4];
+
+    static float[] pad(String id) { return PAD.getOrDefault(id, NO_PAD); }
+
+    /** 몸통 세로/가로 비율 (여백 빼고). 그림이 없으면 fallback */
+    static float bodyRatio(Canvas c, String id, float fallback) {
+        int[] s = c.size(id);
+        if (s == null) return fallback;
+        float[] p = pad(id);
+        return s[1] / (1 + p[1] + p[3]) / (s[0] / (1 + p[0] + p[2]));
+    }
+
+    /** image 와 같지만 (x,y,w,h) = 몸통 자리, 여백은 바깥으로 */
+    static void art(Canvas c, String id, float x, float y, float w, float h, int argb) {
+        float[] p = pad(id);
+        c.image(id, x - p[0] * w, y - p[1] * h, w * (1 + p[0] + p[2]), h * (1 + p[1] + p[3]), argb);
+    }
+
+    /** imageAt 과 같지만 h = 몸통 높이, (cx,cy) = 몸통 가운데 */
+    static void artAt(Canvas c, String id, float cx, float cy, float h, float scale, float rotate, int argb) {
+        float w = h / bodyRatio(c, id, 1);
+        c.push();
+        c.translate(cx, cy);
+        if (rotate != 0) c.rotate(rotate);
+        if (scale != 1) c.scale(scale, scale);
+        art(c, id, -w / 2, -h / 2, w, h, argb);
+        c.pop();
+    }
+
+    /** imageFit 과 같지만 몸통의 긴 변을 box 에 맞춤 (여백 장식은 바깥으로) */
+    static void artFit(Canvas c, String id, float cx, float cy, float box, int argb) {
+        float r = bodyRatio(c, id, 1);
+        float w = r > 1 ? box / r : box, h = r > 1 ? box : box * r;
+        art(c, id, cx - w / 2, cy - h / 2, w, h, argb);
+    }
+
     public boolean active() { return cur != null; }
 
     /** 클릭으로 넘기기 */
@@ -103,7 +169,7 @@ public final class FxView {
             float pulse = .7f + .3f * (float) Math.sin(e / 180.0);
             // 그림대로 좁은 쪽이 상자 입구, 넓은 쪽이 위 (예전엔 뒤집어 그려서 넓은 쪽 평평한 끝이 상자 옆으로 삐져나왔음)
             float bh = ch * 1.2f * bt;
-            c.imageAt("chest/" + kind + "_beam", cx, cy - ch * .1f - bh / 2, bh, 1, 0, Anim.white(a * pulse * .85f));
+            artAt(c, "chest/" + kind + "_beam", cx, cy - ch * .1f - bh / 2, bh, 1, 0, Anim.white(a * pulse * .85f));
         }
         c.imageAt("chest/" + kind + "_" + state, cx + shake, cy, ch, sc, shake * .4f, tint);
         if (J.bool(d, "fever")) {
@@ -115,14 +181,24 @@ public final class FxView {
         float lh = 64, lk = lh / 166f, ly = cy + ch * .6f;
         float lw = Math.min(680, Math.max(360, c.textWidth(label, 30, Canvas.BOLD | Canvas.LIGHT) + 200));
         float lx = cx - lw / 2;
-        c.imageNine("reward/event_banner", lx, ly - lh / 2, lw, lh, .22f, .45f, 1024 * .22f * lk, lh * .45f, tint);
+        {
+            // v3 판은 위 보석·클로버가 몸통 위로 나와 있음 → 여백만큼 바깥으로 넓혀 9조각 (모서리 = 몸통 .22 + 여백)
+            String bid = "reward/event_banner";
+            float[] bp = pad(bid);
+            int[] bz = c.size(bid);
+            float tw = bz == null ? 1024 : bz[0], th = bz == null ? 166 : bz[1];
+            float bW = tw / (1 + bp[0] + bp[2]), bH = th / (1 + bp[1] + bp[3]), k2 = lh / bH;
+            float cu = (bp[0] + .22f) * bW, cv = (bp[1] + .45f) * bH;
+            c.imageNine(bid, lx - bp[0] * bW * k2, ly - lh / 2 - bp[1] * lh, lw + (bp[0] + bp[2]) * bW * k2, lh * (1 + bp[1] + bp[3]),
+                    cu / tw, cv / th, cu * k2, cv * k2, tint);
+        }
         c.imageFit("chest/" + kind + "_closed", lx + 1024 * .14f * lk, ly, lh * .62f, tint);
         float tl = lx + 1024 * .21f * lk, tr = lx + lw - 1024 * .08f * lk;
         c.textFit(label, (tl + tr) / 2, ly, 30, tr - tl - 16, Anim.alpha(Theme.INK, a), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
         if (n == 0 && e > 1300) {
             // 꽝: 손 흔드는 깨굴이 + 글자
             float wt = Anim.outBack(Anim.t(e, 1300, 400)), wave = (float) Math.sin(e / 160.0) * 6;
-            c.imageAt("reward/frog_waving", cx - 160, H * .34f, 220 * wt, 1, wave, tint);
+            artAt(c, "reward/frog_waving", cx - 160, H * .34f, 220 * wt, 1, wave, tint);
             c.text("꽝!", cx, H * .34f, 60, Anim.alpha(0xFFFFFFFF, a), Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
         }
 
@@ -157,9 +233,10 @@ public final class FxView {
     /** 카드 그림 폭 (rewardCard 와 같은 계산) */
     private static float cardW(Canvas c, String kind, boolean rare, float s) {
         boolean star = rare || kind.equals("advanced");
-        int[] sz = c.size(star ? "reward/reward_card_rare" : "reward/reward_card_normal");
+        String img = star ? "reward/reward_card_rare" : "reward/reward_card_normal";
+        float[] p = pad(img);
         float h = s * CARD_H * (star ? 1.02f : 1);
-        return sz == null ? h * .89f : h * sz[0] / sz[1];
+        return h / bodyRatio(c, img, 1 / .89f) * (1 + p[0] + p[2]);
     }
 
     /** 카드 높이 = 카드 크기(s) × 이 값 (위아래 줄 간격 계산에도 씀) */
@@ -172,13 +249,12 @@ public final class FxView {
     private static void rewardCard(Canvas c, String kind, boolean rare, String id, String label, float s, float a, long e) {
         boolean star = rare || kind.equals("advanced");
         String img = star ? "reward/reward_card_rare" : "reward/reward_card_normal";
-        int[] sz = c.size(img);
-        float h = s * CARD_H * (star ? 1.02f : 1), w = sz == null ? h * .89f : h * sz[0] / sz[1];
+        float h = s * CARD_H * (star ? 1.02f : 1), w = h / bodyRatio(c, img, 1 / .89f);
         float x = -w / 2, y = -h / 2;
-        c.image(img, x, y, w, h, Anim.white(a));
+        art(c, img, x, y, w, h, Anim.white(a));
         // {동그라미 가운데 y, 동그라미 지름(폭 대비), 이름표 가운데 y, 이름표 폭(폭 대비)}
         float[] m = star ? new float[]{.515f, .46f, .82f, .46f} : new float[]{.455f, .62f, .805f, .66f};
-        c.imageFit(icon(id, label), 0, y + h * m[0], w * m[1] * .66f, Anim.white(a));
+        artFit(c, icon(id, label), 0, y + h * m[0], w * m[1] * .66f, Anim.white(a));
         c.textFit(label, 0, y + h * m[2], Math.max(19, s * .085f), w * m[3], Anim.alpha(Theme.INK, a), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
         if (rare || kind.equals("lucky")) {
             float mx = star ? w * .3f : w * .4f, my = y + h * (star ? .24f : .12f);
@@ -218,8 +294,7 @@ public final class FxView {
         if (e > 300) sound(host, 2, "minecraft:entity.player.levelup", 1.2f);
         float W = c.width(), H = c.height();
         float w = Math.min(860, W - 160);
-        int[] fs = c.size("fever/frame_" + k);
-        float h = fs == null ? w * .5f : w * fs[1] / fs[0];
+        float h = w * bodyRatio(c, "fever/frame_" + k, .5f);
         float pop = .8f + .2f * Anim.outBack(Anim.t(e, 0, 380));
         float x = -w / 2, y = -h / 2;
         int tint = Anim.white(a);
@@ -235,12 +310,11 @@ public final class FxView {
         for (int i = -1; i <= 1; i++) {
             float bt = Anim.outBack(Anim.t(e, 200 + (i + 1) * 90L, 350));
             float s = (i == 0 ? h * .3f : h * .2f) * bt;
-            c.imageAt(deco, i * w * .13f + w * BXC, y + h * (i == 0 ? .2f : .26f) + Anim.shake(e, 2, 3 + i), s, 1, i * 10, tint);
+            artAt(c, deco, i * w * .13f + w * BXC, y + h * (i == 0 ? .2f : .26f) + Anim.shake(e, 2, 3 + i), s, 1, i * 10, tint);
         }
         // 리본 (살짝 기울게)
         float bw = w * .78f;
-        int[] bs = c.size("fever/banner_" + k);
-        float bh = bs == null ? bw * .18f : bw * bs[1] / bs[0];
+        float bh = bw * bodyRatio(c, "fever/banner_" + k, .18f);
         float slide = (1 - Anim.outCubic(Anim.t(e, 100, 400))) * w * .3f;
         c.push();
         c.translate(w * BXC + slide, h * .05f);
@@ -248,10 +322,10 @@ public final class FxView {
         // 속도선: 리본이 오른쪽에서 날아드는 동안 뒤(오른쪽)에 남았다가 사라짐
         float sl = 1 - Anim.t(e, 350, 450);
         if (sl > 0) {
-            float lw = bw * .45f, lh = lw * 464 / 1024f;
-            c.image("fever/speed_lines", bw * .42f + slide * .3f, -lh / 2, lw, lh, Anim.white(a * sl * .9f));
+            float lw = bw * .45f, lh = lw * bodyRatio(c, "fever/speed_lines", 464 / 1024f);
+            art(c, "fever/speed_lines", bw * .42f + slide * .3f, -lh / 2, lw, lh, Anim.white(a * sl * .9f));
         }
-        c.image("fever/banner_" + k, -bw / 2, -bh / 2, bw, bh, tint);
+        art(c, "fever/banner_" + k, -bw / 2, -bh / 2, bw, bh, tint);
         float pc = switch (k) { case "triple" -> .054f; case "chest" -> -.033f; default -> -.043f; };   // 리본 안쪽 판 세로 중심 (그림 측정값)
         float ph = switch (k) { case "triple" -> .483f; case "chest" -> .574f; default -> .654f; };
         c.textFit(title, -bw * .02f, bh * pc, bh * ph * .6f, bw * .74f, Anim.alpha(accent, a), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
@@ -260,15 +334,14 @@ public final class FxView {
         if (!k.equals("diamond")) {
             float mt = Anim.outBack(Anim.t(e, 500, 400)), ms = h * .3f;
             float mx = w * BXC + bw / 2 + ms * .5f, my = h * .05f - (mx - w * BXC) * (float) Math.sin(Math.toRadians(5));
-            c.imageAt(k.equals("triple") ? "fever/badge_triple" : "fever/badge_chest", mx, my, ms * mt, 1, 0, tint);
+            artAt(c, k.equals("triple") ? "fever/badge_triple" : "fever/badge_chest", mx, my, ms * mt, 1, 0, tint);
             c.text(k.equals("triple") ? "x3" : "1+1", mx, my, h * .1f * mt, Anim.alpha(accent, a), Canvas.CENTER, Canvas.BOLD);
         }
         // 왼쪽 깨굴이
         String frog = switch (k) { case "triple" -> "fever/frog_megaphones"; case "chest" -> "fever/frog_boxes"; default -> "fever/frog_drummer"; };
         float bounce = Math.abs((float) Math.sin(e / 130.0)) * 10;
-        int[] fz = c.size(frog);
-        float fh = h * .56f, fw = fz == null ? fh : fh * fz[0] / fz[1];
-        c.imageAt(frog, w * BXC - bw / 2 + w * .04f - fw / 2, y + h * .64f - bounce, fh, 1, 0, tint);
+        float fh = h * .56f, fw = fh / bodyRatio(c, frog, 1);
+        artAt(c, frog, w * BXC - bw / 2 + w * .04f - fw / 2, y + h * .64f - bounce, fh, 1, 0, tint);
         c.textFit(sub, w * BXC, y + h * .86f, h * .065f, w * .6f, Anim.alpha(Theme.WHITE, a), Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
         c.pop();
     }
@@ -291,7 +364,7 @@ public final class FxView {
             c.imageAt("invite/wax_seal", cx + sh, y + eh * .52f, eh * .4f, 1, sh * 2, tint);
             return;
         }
-        float bh = ew * 797 / 1024f, fh = ew * 514 / 1024f;
+        float bh = ew * bodyRatio(c, "invite/envelope_back", 797 / 1024f), fh = ew * 514 / 1024f;
         if (e < 1300) {
             // 봉인이 깨진 직후: 뚜껑이 열린 봉투 (invite/envelope_open) → 카드가 올라오기 시작하면 앞·뒤 겹친 그림으로
             float op = 1 + .05f * (1 - Anim.outCubic(Anim.t(e, 1150, 150)));
@@ -301,9 +374,9 @@ public final class FxView {
             c.pop();
         } else {
             float envTop = bottom - bh;
-            c.image("invite/envelope_back", cx - ew / 2, envTop, ew, bh, tint);
+            art(c, "invite/envelope_back", cx - ew / 2, envTop, ew, bh, tint);
             // 카드가 올라온다
-            float cardW = ew * .78f, cardH = cardW * 1024 / 707f;
+            float cardW = ew * .78f, cardH = cardW * bodyRatio(c, "invite/invitation_card", 1024 / 707f);
             float rise = Anim.outCubic(Anim.t(e, 1300, 900));
             float cardBottom = Anim.lerp(bottom - 30, bottom - fh * .42f, rise);
             float cy = cardBottom - cardH / 2;
@@ -315,10 +388,10 @@ public final class FxView {
                 // 봉인 그림 가운데(카드 높이 .082)에 맞춘 원
                 c.fill(-cardW * .15f, -cardH / 2 + cardH * .082f - cardW * .15f, cardW * .3f, cardW * .3f, cardW * .15f, Anim.alpha(0x66B6F07A, a * glow));
             }
-            c.image("invite/invitation_card", -cardW / 2, -cardH / 2, cardW, cardH, tint);
+            art(c, "invite/invitation_card", -cardW / 2, -cardH / 2, cardW, cardH, tint);
             float ta = a * Anim.t(e, 2100, 300);
-            // 제목은 리본 위, 가운데 깨굴이 봉인(그림 .006~.157) 아래 보이는 띠(.157~.19)에 (예전엔 봉인 그림 위에 글자가 겹쳤음)
-            c.textFit(J.str(d, "title", "깨굴이의 위험한 초대"), 0, -cardH / 2 + cardH * .174f, cardH * .03f, cardW * .58f, Anim.alpha(0xFF6B4A9C, ta), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
+            // 제목은 리본 위, 가운데 깨굴이 봉인(v3 그림 .006~.162) 아래 보이는 띠(.165~.192)에 (봉인 그림 위에 글자가 겹치지 않게)
+            c.textFit(J.str(d, "title", "깨굴이의 위험한 초대"), 0, -cardH / 2 + cardH * .179f, cardH * .025f, cardW * .58f, Anim.alpha(0xFF6B4A9C, ta), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
             c.textFit("To. " + J.str(d, "to"), 0, -cardH / 2 + cardH * .39f, cardW * .075f, cardW * .78f, Anim.alpha(Theme.INK, ta), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
             String line2 = d.has("from") ? "From. " + J.str(d, "from") : "장소 : " + J.str(d, "place", "비밀");
             c.textFit(line2, 0, -cardH / 2 + cardH * .655f, cardW * .065f, cardW * .78f, Anim.alpha(Theme.INK, ta), Canvas.CENTER, Canvas.BOLD | Canvas.LIGHT);
@@ -331,11 +404,12 @@ public final class FxView {
                 float st = Anim.t(e, 2900, 260);
                 sound(host, 4, "minecraft:entity.iron_golem.attack", .7f);
                 float ss = 2.2f - 1.2f * Anim.outCubic(st);
-                float sy = -cardH / 2 + cardH * .89f, sz = cardW * .4f;
-                c.imageAt("invite/stamp_red", 0, sy, sz, ss, -12, Anim.white(a * st));
-                c.push(); c.translate(0, sy); c.rotate(-12); c.scale(ss, ss);
-                c.text("거부", 0, -sz * .14f, sz * .22f, Anim.alpha(0xFFD8423B, a * st), Canvas.CENTER, Canvas.BOLD);
-                c.text("불가", 0, sz * .14f, sz * .22f, Anim.alpha(0xFFD8423B, a * st), Canvas.CENTER, Canvas.BOLD);
+                // v3 카드 아래 동그라미 칸(가운데 x -.011·y .878, 지름 폭 .222)에 맞춰 찍고, 글자는 그 칸 금테 안쪽에
+                float sx = -cardW * .011f, sy = -cardH / 2 + cardH * .878f, sz = cardW * .4f;
+                artAt(c, "invite/stamp_red", sx, sy, sz, ss, -12, Anim.white(a * st));
+                c.push(); c.translate(sx, sy); c.rotate(-12); c.scale(ss, ss);
+                c.text("거부", 0, -sz * .11f, sz * .17f, Anim.alpha(0xFFD8423B, a * st), Canvas.CENTER, Canvas.BOLD);
+                c.text("불가", 0, sz * .11f, sz * .17f, Anim.alpha(0xFFD8423B, a * st), Canvas.CENTER, Canvas.BOLD);
                 c.pop();
                 c.pop();
             }

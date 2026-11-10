@@ -93,20 +93,20 @@ public final class HarassView {
             c.translate(x + 55, y + 70);
             c.scale(pop, pop);
             c.translate(-55, -70);
+            float glow = done ? .75f + .25f * (float) Math.sin(e / 120.0) : 1;
+            if (on) {
+                // 빨간 강조는 칸 뒤에 둥근 빛으로 (v3 칸은 테두리에 클로버·보석·왕관이 있어서 위에 빨간 테두리를 겹쳐 그리면 장식이 번져 보였음)
+                c.fill(-9, -9, 128, 158, 24, Anim.alpha(0x66FF2A2A, a * glow));
+                c.fill(-4, -4, 118, 148, 18, Anim.alpha(0xEEFF2A2A, a * glow));
+            }
             c.image("harass/b_" + art(ids[i]), 0, 0, 110, 140, Anim.alpha(0xFFFFFFFF, a * dim));
             if (ids[i].equals("wasd")) {
                 String[] keys = {"W", "A", "S", "D"};
                 float[][] kp = {{56, 47}, {27, 74}, {55, 74}, {84, 74}};
                 for (int q = 0; q < 4; q++) c.text(keys[q], kp[q][0], kp[q][1], 13, Anim.alpha(INK, a * dim), Canvas.CENTER, Canvas.BOLD);
             }
-            c.textFit(name(ids[i]), 55, 117, 15, 98, Anim.alpha(INK, a * dim), Canvas.CENTER, TXT);
-            if (on) {
-                float glow = done ? .75f + .25f * (float) Math.sin(e / 120.0) : 1;
-                // 빨간 강조: 옅은 빨간 칠 + 빨갛게 물들인 테두리 두 겹 (초록은 칸 색과 섞여 안 보였음)
-                c.fill(2, 2, 106, 136, 14, Anim.alpha(0x33FF3B30, a * glow));
-                c.image("harass/b_lit", -6, -6, 122, 152, Anim.alpha(0x88FF2A2A, a * glow));
-                c.image("harass/b_lit", -2, -2, 114, 144, Anim.alpha(0xFFFF2A2A, a * glow));
-            }
+            // 이름: v3 칸 아래 모서리 장식(왼 왕관·오른 보석) 사이 빈 띠 (그림 실측 y 108~116, x 25~90)
+            c.textFit(name(ids[i]), 57, 111, 14, 64, Anim.alpha(INK, a * dim), Canvas.CENTER, TXT);
             c.pop();
         }
 
