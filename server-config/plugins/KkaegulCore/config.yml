@@ -346,7 +346,7 @@ economy:
       normal: { chance: 79, multiplier: 1, message: "&a깨굴코인 {got}개 구매" }
       double: { chance: 10, multiplier: 2, message: "&e2배 구매! 깨굴코인 {got}개" }
       triple: { chance: 1,  multiplier: 3, message: "&63배 구매!! 깨굴코인 {got}개" }
-  crops:                        # ★ 상점 "농작물" 탭 (AddCrop 작물 · CustomCrops 도구). 가격 = 다이아
+  crops:                        # ★ 상점 "농작물" 탭 (AddCrop 작물 · CustomCrops 도구, minecraft: 바닐라 아이템도 됨). 가격 = 다이아
     enabled: true
     seed-bundle: 10             # 씨앗 1묶음 개수
     list:                       # 작물: [작물 1개 판매가, 씨앗 1묶음 구매가]
@@ -385,12 +385,9 @@ economy:
       - { id: "customcrops:sprinkler_1_item", price: 10 }
       - { id: "customcrops:sprinkler_2_item", price: 30 }
       - { id: "customcrops:sprinkler_3_item", price: 80 }
-      - { id: "customcrops:soil_retain_1", amount: 4, price: 1 }
-      - { id: "customcrops:speed_grow_1", amount: 4, price: 2 }
-      - { id: "customcrops:quality_1", amount: 4, price: 3 }
-      - { id: "customcrops:yield_increase_1", amount: 4, price: 3 }
-      - { id: "addcrop:addcrop_item_golden_meal", amount: 4, price: 3 }
       - { id: "addcrop:addcrop_item_scythe_iron", price: 10 }
+      - { id: "addcrop:addcrop_item_scythe_diamond", price: 40 }
+      - { id: "minecraft:diamond_hoe", name: "다이아 호미", price: 15 }
   diamond-exchange:             # 의뢰인 고민 중 → 기본 꺼짐
     enabled: false
     coins-per-diamond: 1

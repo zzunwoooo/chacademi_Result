@@ -4,6 +4,7 @@ import kr.kkaegul.core.KkaegulCore;
 import kr.kkaegul.core.util.Json;
 import kr.kkaegul.core.util.Txt;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -19,7 +20,7 @@ import java.util.Map;
 /**
  * 상점 "농작물" 탭 (AddCrop · CustomCrops ItemsAdder 아이템).
  *  - 씨앗: economy.crops.list.<작물>: [1개 판매가, 씨앗 묶음 가격] → addcrop:addcrop_<작물>_seed seed-bundle 개를 다이아로 구매
- *  - 도구: economy.crops.tools (물뿌리개·경작지·스프링클러·비료 등) 다이아로 구매
+ *  - 도구: economy.crops.tools (물뿌리개·경작지·스프링클러 등) 다이아로 구매. id 가 minecraft: 면 바닐라 아이템, name 으로 화면 이름 지정
  *  - 판매: 작물 1개 판매가 × 등급 배수 (economy.crops.grade-multiplier) — 시세 변동 없음
  */
 public final class CropShop {
@@ -29,6 +30,8 @@ public final class CropShop {
     private final EconomyService economy;
     /** 아이템 id → 화면 이름/아이콘 (처음 만들 때 한 번) */
     private final Map<String, String[]> look = new HashMap<>();
+    /** 도구 id → 설정의 화면 이름 (name) */
+    private final Map<String, String> names = new HashMap<>();
 
     CropShop(KkaegulCore plugin, EconomyService economy) {
         this.plugin = plugin;
@@ -39,7 +42,13 @@ public final class CropShop {
 
     public boolean enabled() { ConfigurationSection c = cfg(); return c != null && c.getBoolean("enabled", true) && plugin.items().itemsAdder() != null; }
 
-    private ItemStack make(String id, int amount) { return plugin.items().itemsAdder().createAny(id, amount); }
+    private ItemStack make(String id, int amount) {
+        if (id.startsWith("minecraft:")) {
+            Material m = Material.matchMaterial(id);
+            return m == null ? null : new ItemStack(m, Math.max(1, amount));
+        }
+        return plugin.items().itemsAdder().createAny(id, amount);
+    }
 
     /** 판매가 표: 아이템 id → 1개당 다이아 */
     private Map<String, Double> sellTable() {
@@ -79,6 +88,7 @@ public final class CropShop {
         for (Map<?, ?> m : c.getMapList("tools")) {
             Object id = m.get("id"), price = m.get("price"), amount = m.get("amount");
             if (id == null || !(price instanceof Number pn)) continue;
+            if (m.get("name") != null) names.put(id.toString(), m.get("name").toString());
             out.add(new Offer(id.toString(), amount instanceof Number an ? an.intValue() : 1, pn.longValue(), "tool"));
         }
         return out;
@@ -105,7 +115,7 @@ public final class CropShop {
                 }
             } catch (LinkageError | RuntimeException ignored) { }
         }
-        name = Txt.strip(name).replace("★", "").trim();
+        name = Txt.strip(names.getOrDefault(id, name)).replace("★", "").trim();
         if (id.endsWith("_silver")) name += " (은별)";
         else if (id.endsWith("_golden")) name += " (금별)";
         l = new String[]{name, icon.toString()};

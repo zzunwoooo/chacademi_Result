@@ -164,6 +164,7 @@ public final class KkaegulCore extends JavaPlugin {
             data.saveDirty(true);
             if (global.dirty) global.save();
         }, autosave, autosave);
+        kr.kkaegul.core.util.LobbyVision.start(this);   // 로비에선 야간 투시 무한 (표시 없이)
 
         getLogger().info("운빨깨굴랜드 코어 활성화 — 서버 " + clock.serverDay() + "일차, 초반 보호 " + (clock.protectionActive() ? "ON" : "OFF"));
     }
