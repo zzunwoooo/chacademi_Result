@@ -265,22 +265,6 @@ public final class CoreListener implements Listener {
         if (plugin.data().get(p).inJail && plugin.getConfig().getBoolean("jail.invulnerable", true)) e.setCancelled(true);
     }
 
-    /** 가챠 파괴 방지권: 곡괭이가 닳아서 부서지기 직전에도 1장 써서 지킴 (내구도 가득 채움) */
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-    public void onItemDamage(org.bukkit.event.player.PlayerItemDamageEvent e) {
-        org.bukkit.inventory.ItemStack it = e.getItem();
-        if (it == null || !kr.kkaegul.core.gacha.Pickaxe.isPickaxe(it)) return;
-        int max = it.getType().getMaxDurability();
-        if (max <= 0 || !(it.getItemMeta() instanceof org.bukkit.inventory.meta.Damageable dm)) return;
-        if (dm.getDamage() + e.getDamage() < max) return;
-        if (!plugin.gacha().consumeProtect(e.getPlayer())) return;
-        e.setCancelled(true);
-        dm.setDamage(0);
-        it.setItemMeta(dm);
-        plugin.ui().fx(e.getPlayer(), "gacha_protect", kr.kkaegul.core.util.Json.obj().put("machine", "wear"));
-        e.getPlayer().sendMessage(kr.kkaegul.core.util.Txt.color(kr.kkaegul.core.util.Txt.notice("&f파괴 방지권으로 곡괭이를 지켰어요! &7(내구도 회복)")));
-    }
-
     /** 안전 구역(로비·마을)에서는 PK 금지 */
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onPvp(org.bukkit.event.entity.EntityDamageByEntityEvent e) {

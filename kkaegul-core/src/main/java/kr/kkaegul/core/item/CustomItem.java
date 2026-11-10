@@ -13,7 +13,7 @@ public enum CustomItem {
     COIN_POUCH("coin_pouch", Material.PAPER, "&a깨굴코인 주머니", "&7{e:right} 깨굴코인 3~8개"),
     TELEPORT_TICKET("teleport_ticket", Material.PAPER, "&b텔레포트권", "&7원하는 유저에게 이동"),
     RETURN_TICKET("return_ticket", Material.PAPER, "&f귀환권", "&7사용하면 로비로 귀환 (감옥·미니게임 중 불가)"),
-    GACHA_PROTECT("gacha_protect", Material.PAPER, "&d가챠 파괴 방지권", "&7곡괭이가 부서질 때 1회 막아줘요 (자동 사용)"),
+    GACHA_PROTECT("gacha_protect", Material.PAPER, "&d가챠 파괴 방지권", "&7가챠에서 곡괭이가 부서질 때 1회 막아줘요 (자동 사용)"),
     GAUGE_TICKET("gauge_ticket", Material.PAPER, "&6게이지 변동권", "&7{e:right} +10 / {e:shift}+{e:right} -10"),
     GAUGE_RANDOM("gauge_random", Material.PAPER, "&6랜덤 게이지 변동권", "&7운빨 게이지 -10 ~ +10 랜덤"),
     FARM_TICKET("farm_ticket", Material.PAPER, "&2농사 금액 변동권", "&7작물 시세를 즉시 바꿔요"),
