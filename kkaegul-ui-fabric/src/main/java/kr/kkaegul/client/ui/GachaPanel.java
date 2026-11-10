@@ -422,6 +422,9 @@ public final class GachaPanel implements Panel {
         art(c, id, cx - w / 2, cy - h / 2, w, h, argb);
     }
 
+    /** 이 그림의 여백 비율 L/T/R/B (없으면 null) — 다른 화면도 같은 값으로 그리게 */
+    static float[] padOf(String id) { return PAD.get(id); }
+
     /** 몸통 세로/가로 비율 (여백 빼고) */
     static float bodyRatio(Canvas c, String id, float fallback) {
         int[] s = c.size(id);

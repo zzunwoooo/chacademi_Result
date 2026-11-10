@@ -114,7 +114,7 @@ public final class HudView {
     public static void fit(Canvas c, String id, float cx, float cy, float box, int argb) {
         int[] s = c.size(id);
         float[] p = PAD.get(id);
-        if (s == null || p == null) { c.imageFit(id, cx, cy, box, argb); return; }
+        if (s == null || p == null) { FxView.artFit(c, id, cx, cy, box, argb); return; }   // HUD 표에 없으면 피버·가챠 쪽 여백 표로
         float bw = s[0] - p[0] - p[2], bh = s[1] - p[1] - p[3], k = box / Math.max(bw, bh);
         c.image(id, cx - (bw / 2 + p[0]) * k, cy - (bh / 2 + p[1]) * k, s[0] * k, s[1] * k, argb);
     }
@@ -282,7 +282,7 @@ public final class HudView {
         float w = Math.max(s, c.textWidth(text, 19, Canvas.BOLD | Canvas.OUTLINE)) + 10;
         float cx = x + w / 2;
         fit(c, icon, cx, y + s / 2, s, 0xFFFFFFFF);
-        if (inner != null) c.imageFit(inner, cx, y + s / 2, s * .55f, 0xFFFFFFFF);
+        if (inner != null) fit(c, inner, cx, y + s / 2, s * .55f, 0xFFFFFFFF);
         c.text(text, cx, y + s + 11, 19, Theme.WHITE, Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
         hits.add(new Hit(key, x, y, w, s + 20));
         return x + w + 6;

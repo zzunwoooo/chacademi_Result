@@ -147,8 +147,8 @@ public final class ExtraView {
             boolean on = i == lit;
             float lift = on ? (spinning ? 4 : 8) : 0;
             c.image("jail/" + TILES[i], x, y - lift, tw, th, on ? Anim.white(a) : Anim.white(a * .55f));
-            if (i > 0) c.imageFit("hud/diamond", x + tw / 2, y - lift + th * .34f, 26, on ? Anim.white(a) : Anim.white(a * .55f));
-            else c.imageFit("hud/diamond", x + tw / 2, y - lift + th * .34f, 26, Anim.white((on ? a : a * .55f) * .25f));   // 꽝: 흐린 다이아
+            if (i > 0) HudView.fit(c, "hud/diamond", x + tw / 2, y - lift + th * .34f, 26, on ? Anim.white(a) : Anim.white(a * .55f));
+            else HudView.fit(c, "hud/diamond", x + tw / 2, y - lift + th * .34f, 26, Anim.white((on ? a : a * .55f) * .25f));   // 꽝: 흐린 다이아
             c.textFit(multText(MULTS[i]), x + tw / 2, y - lift + th * .77f, 17, tw - 8, Anim.alpha(INK, on ? a : a * .6f), Canvas.CENTER, TXT);
         }
         if (!spinning) {

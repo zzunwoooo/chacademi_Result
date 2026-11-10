@@ -82,7 +82,11 @@ public final class FxView {
             java.util.Map.entry("invite/stamp_red", new float[]{.0023f, .0033f, .0023f, .0022f}));
     private static final float[] NO_PAD = new float[4];
 
-    static float[] pad(String id) { return PAD.getOrDefault(id, NO_PAD); }
+    static float[] pad(String id) {   // 내 표 → 가챠 화면 표 (가챠 아이콘을 보상 카드에도 씀) → 여백 없음
+        float[] p = PAD.get(id);
+        if (p == null) p = GachaPanel.padOf(id);
+        return p == null ? NO_PAD : p;
+    }
 
     /** 몸통 세로/가로 비율 (여백 빼고). 그림이 없으면 fallback */
     static float bodyRatio(Canvas c, String id, float fallback) {

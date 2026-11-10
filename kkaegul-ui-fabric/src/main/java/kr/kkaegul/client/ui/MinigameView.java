@@ -187,7 +187,7 @@ public final class MinigameView {
     /** D 파트너 (60,80) 160×160, 얼굴칸 (30,30) 100×100 */
     private void partner(Canvas c, JsonObject pt) {
         float x = 60, y = 80;
-        if (!c.face(J.str(pt, "account"), x + 21.75f, y + 27.75f, 114)) c.imageFit("hud/frog_smile", x + 78.75f, y + 84.75f, 100, 0xFFFFFFFF);   // 틀 구멍 x 40~275, y 52~287px(320) 가운데, 구멍보다 살짝 크게 → 가장자리는 틀 아래
+        if (!c.face(J.str(pt, "account"), x + 21.75f, y + 27.75f, 114)) HudView.fit(c, "hud/frog_smile", x + 78.75f, y + 84.75f, 100, 0xFFFFFFFF);   // 틀 구멍 x 40~275, y 52~287px(320) 가운데, 구멍보다 살짝 크게 → 가장자리는 틀 아래
         c.image(P + "d_partner_frame", x, y, 160, 160, 0xFFFFFFFF);
         c.text("파트너", x + 176, y + 58, 22, 0xFFFFFFFF, Canvas.LEFT, Canvas.BOLD | Canvas.OUTLINE);
         c.textFit(J.str(pt, "name"), x + 176, y + 100, 32, 240, 0xFFFFFFFF, Canvas.LEFT, Canvas.BOLD | Canvas.OUTLINE);
@@ -206,7 +206,7 @@ public final class MinigameView {
             boolean last = i == 4 && arr.size() > 5;
             c.image(P + "f_participant_row", x, y, 360, 72, 0xFFFFFFFF);
             if (last) { c.textFit("외 " + (arr.size() - 4) + "명", x + 195, y + 36, 24, 220, INK, Canvas.CENTER, TXT); continue; }
-            if (!c.face(J.str(o, "account"), x + 18.25f, y + 20.75f, 28)) c.imageFit("hud/frog_smile", x + 32.25f, y + 34.75f, 26, 0xFFFFFFFF);
+            if (!c.face(J.str(o, "account"), x + 18.25f, y + 20.75f, 28)) HudView.fit(c, "hud/frog_smile", x + 32.25f, y + 34.75f, 26, 0xFFFFFFFF);
             c.textFit(J.str(o, "name"), x + 85, y + 36, 24, 220, INK, Canvas.LEFT, TXT);
             String st = J.str(o, "state", "wait");
             String badge = switch (st) { case "success" -> "f_badge_success"; case "out" -> "f_badge_out"; default -> "f_badge_wait"; };
@@ -289,7 +289,7 @@ public final class MinigameView {
         float ix = x + 40 * s, iy = y + 35 * s, iw = 140 * s, ih = 135 * s;
         float isz = Math.min(iw, ih) * .7f;
         String item = J.str(r, "item");
-        if (item.isEmpty() || !c.item(item, ix + (iw - isz) / 2, iy + (ih - isz) / 2, isz)) c.imageFit("hud/diamond", ix + iw / 2, iy + ih / 2, isz, Anim.white(a));
+        if (item.isEmpty() || !c.item(item, ix + (iw - isz) / 2, iy + (ih - isz) / 2, isz)) HudView.fit(c, "hud/diamond", ix + iw / 2, iy + ih / 2, isz, Anim.white(a));
         c.textFit(J.str(r, "label"), x + (35 + 75) * s, y + (185 + 22.5f) * s, 26 * s, 150 * s, Anim.alpha(INK, a), Canvas.CENTER, TXT);
     }
 
