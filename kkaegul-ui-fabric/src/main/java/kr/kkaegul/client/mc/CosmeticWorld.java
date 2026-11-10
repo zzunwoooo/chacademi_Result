@@ -89,8 +89,7 @@ public final class CosmeticWorld {
             Vec3d hand = feet.add(rx * .35, .75, rz * .35);
             int light = WorldRenderer.getLightmapCoordinates(mc.world, BlockPos.ofFloored(at));
 
-            ITEM.clear();   // 매번 비우고 채움 (겹쳐 쌓임 방지)
-            mc.getItemModelManager().update(ITEM, st, ModelTransformationMode.HEAD, mc.world, null, 0);
+            mc.getItemModelManager().update(ITEM, st, ModelTransformationMode.HEAD, false, mc.world, null, 0);   // 비우기 + HEAD 표시 위치까지
             if (!ITEM.isEmpty()) {
                 m.push();
                 m.translate(at.x - cam.x, at.y - cam.y, at.z - cam.z);
