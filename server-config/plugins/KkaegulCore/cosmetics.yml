@@ -1,23 +1,81 @@
-# ─────────────────────────────────────────────────────────────
-# 치장품 (옷장 / 치장 상자)
-#  - 치장품 id = ItemsAdder namespaced id (모델·그림은 ItemsAdder 아이템 그대로, 클라 모드가 플레이어에 직접 그림)
-#  - slot: head(모자) | face(얼굴) | back(등) | offhand(손) | balloon(풍선)
-#  - rarity: common | uncommon | rare | legendary  → 치장 상자에서 아래 weights 로 등급을 먼저 고르고, 그 등급 안에서 균등
-#  - 치장 상자는 "아직 없는 것"만 뽑음. 다 모았으면 상자를 쓰지 않음.
-#  - 고친 뒤 /깨굴 리로드 → 접속자에게 바로 다시 보냄
-#  - 목록에서 지운 id 는 유저 데이터에 남아 있어도 무시됨 (다시 넣으면 되살아남)
-# ─────────────────────────────────────────────────────────────
-weights: { common: 50, uncommon: 30, rare: 15, legendary: 5 }   # 상자 등급 가중치
-
+# 깨굴 치장품 목록 (치장 상자에서 아직 없는 것 중 하나가 나오고, 옷장에서 장착)
+# 키 = ItemsAdder 아이템 id  ·  slot: head(모자)|face(얼굴)|back(등)|offhand(손)|balloon(풍선)
+# rarity: common(일반)|uncommon(고급)|rare(희귀)|legendary(전설)  ·  고친 뒤 /깨굴 리로드
+weights: { common: 50, uncommon: 30, rare: 15, legendary: 5 }   # 상자에서 등급 고를 때 가중치 (남은 등급끼리)
 list:
-  # ↓ 예시 2개 (실제 목록은 나중에 채움)
-  "fantasticwings:angel_wings":
-    slot: back
-    name: "천사 날개"
-    description: "새하얀 깃털이 겹겹이 쌓인 날개"
-    rarity: legendary
-  "kkaegul:frog_hat":
-    slot: head
-    name: "개구리 모자"
-    description: "깨굴이를 닮은 초록 모자"
-    rarity: common
+  # -- lanshan_cos_bunny (4)
+  "lanshan_cos_bunny:bunny_headband": { slot: head, rarity: uncommon, name: "토끼 귀 머리띠", description: "분홍 속귀가 살짝 보이는 말랑한 귀" }
+  "lanshan_cos_bunny:bunny_pet": { slot: back, rarity: rare, name: "어깨 토끼", description: "어깨 위에 폴짝 올라앉은 작은 친구" }
+  "lanshan_cos_bunny:giant_carrot_prop": { slot: offhand, rarity: uncommon, name: "왕당근", description: "한 손으로 들기 벅찬 커다란 당근" }
+  "lanshan_cos_bunny:bunny_balloon": { slot: balloon, rarity: rare, name: "토끼 풍선", description: "머리 위에서 둥실둥실 따라다니는 토끼" }
+  # -- ero_feral_fantasy_set (12)
+  "ero_feral_fantasy_set:ero_feral_fantasy_cosmetics_bear_ears": { slot: head, rarity: uncommon, name: "곰 귀", description: "동글동글한 갈색 귀로 포근한 인상" }
+  "ero_feral_fantasy_set:ero_feral_fantasy_cosmetics_bear_tail_normal_2": { slot: back, rarity: uncommon, name: "곰 꼬리", description: "엉덩이에 콕 붙은 동그란 갈색 꼬리" }
+  "ero_feral_fantasy_set:ero_feral_fantasy_cosmetics_cat_ears": { slot: head, rarity: uncommon, name: "고양이 귀", description: "분홍 리본을 묶은 회색 뾰족 귀" }
+  "ero_feral_fantasy_set:ero_feral_fantasy_cosmetics_cat_tail_normal_2": { slot: back, rarity: uncommon, name: "고양이 꼬리", description: "살랑살랑 길게 늘어진 회색 꼬리" }
+  "ero_feral_fantasy_set:ero_feral_fantasy_cosmetics_fox_ears": { slot: head, rarity: uncommon, name: "여우 귀", description: "끝이 하얗게 물든 주황빛 뾰족 귀" }
+  "ero_feral_fantasy_set:ero_feral_fantasy_cosmetics_fox_tail_normal_2": { slot: back, rarity: rare, name: "여우 꼬리", description: "복슬복슬 탐스럽게 부푼 주황 꼬리" }
+  "ero_feral_fantasy_set:ero_feral_fantasy_cosmetics_rabbit_ears": { slot: head, rarity: uncommon, name: "토끼 귀", description: "길쭉하게 솟은 연분홍빛 귀" }
+  "ero_feral_fantasy_set:ero_feral_fantasy_cosmetics_rabbit_tail_normal_2": { slot: back, rarity: uncommon, name: "토끼 꼬리", description: "솜뭉치처럼 동그란 분홍 꼬리" }
+  "ero_feral_fantasy_set:ero_feral_fantasy_cosmetics_tiger_ears": { slot: head, rarity: uncommon, name: "호랑이 귀", description: "줄무늬가 들어간 용맹한 귀" }
+  "ero_feral_fantasy_set:ero_feral_fantasy_cosmetics_tiger_tail_normal_2": { slot: back, rarity: uncommon, name: "호랑이 꼬리", description: "검은 줄무늬가 감긴 기다란 꼬리" }
+  "ero_feral_fantasy_set:ero_feral_fantasy_cosmetics_wolf_ears": { slot: head, rarity: uncommon, name: "늑대 귀", description: "잿빛 털이 곤두선 날렵한 귀" }
+  "ero_feral_fantasy_set:ero_feral_fantasy_cosmetics_wolf_tail_normal_2": { slot: back, rarity: uncommon, name: "늑대 꼬리", description: "잿빛 털이 북슬북슬한 꼬리" }
+  # -- fall_hats_2025 (10)
+  "fall_hats_2025:acorn_beanie_hat": { slot: head, rarity: common, name: "도토리 비니", description: "도토리 깍정이를 꼭 닮은 갈색 니트" }
+  "fall_hats_2025:green_beanie_hat": { slot: head, rarity: common, name: "초록 비니", description: "꼭대기에 잔가지가 달린 니트 모자" }
+  "fall_hats_2025:hay_bale_hat": { slot: head, rarity: uncommon, name: "건초더미 모자", description: "머리 위에 수북하게 얹은 가을 볏짚" }
+  "fall_hats_2025:maple_witch_hat": { slot: head, rarity: rare, name: "단풍 마녀 모자", description: "붉은 잎이 내려앉은 뾰족한 고깔" }
+  "fall_hats_2025:pilgrim_hat": { slot: head, rarity: common, name: "순례자 모자", description: "버클 장식이 달린 높고 각진 모자" }
+  "fall_hats_2025:pumpkin_mask_hat": { slot: face, rarity: uncommon, name: "호박 가면", description: "얼굴을 쏙 가리는 웃는 호박 탈" }
+  "fall_hats_2025:pumpkin_spice_latte_hat": { slot: head, rarity: rare, name: "호박 라떼 모자", description: "머리 위 컵에서 김이 모락모락" }
+  "fall_hats_2025:scarf_and_glasses_hat": { slot: face, rarity: uncommon, name: "안경과 목도리", description: "동그란 안경에 체크 목도리 한 바퀴" }
+  "fall_hats_2025:squirrel_and_acorn_hat": { slot: head, rarity: rare, name: "도토리 다람쥐", description: "도토리를 꼭 끌어안은 다람쥐가 머리 위에" }
+  "fall_hats_2025:white_fedora_hat": { slot: head, rarity: uncommon, name: "하얀 중절모", description: "갈색 띠를 두른 깔끔한 신사 모자" }
+  # -- springhats2025 (10)
+  "springhats2025:beehive_hat": { slot: head, rarity: rare, name: "벌집 모자", description: "꿀벌들이 붕붕 맴도는 작은 벌통" }
+  "springhats2025:blossom_hat": { slot: head, rarity: uncommon, name: "꽃망울 모자", description: "파란 꽃과 새싹이 피어난 머리" }
+  "springhats2025:duck_hat": { slot: head, rarity: rare, name: "아기 오리 모자", description: "머리 위에서 꼼지락대는 노란 오리" }
+  "springhats2025:flower_garden_hat": { slot: head, rarity: uncommon, name: "꽃밭 밀짚모자", description: "챙 위에 알록달록 꽃이 피어 있음" }
+  "springhats2025:frog_bucket_hat": { slot: head, rarity: rare, name: "개구리 버킷햇", description: "눈알 두 개가 톡 튀어나온 초록 모자" }
+  "springhats2025:gnome_hat": { slot: head, rarity: rare, name: "노움 모자", description: "덥수룩한 수염까지 달린 파란 고깔" }
+  "springhats2025:lemon_hat": { slot: head, rarity: common, name: "레몬 모자", description: "잎사귀 하나 달린 상큼한 노란 열매" }
+  "springhats2025:mushroom_hat": { slot: head, rarity: common, name: "버섯 모자", description: "하얀 점이 콕콕 박힌 빨간 갓" }
+  "springhats2025:rain_cloud_hat": { slot: head, rarity: rare, name: "비구름 모자", description: "내 머리 위에만 보슬비가 내림" }
+  "springhats2025:sun_hat": { slot: head, rarity: uncommon, name: "해님 모자", description: "사방으로 햇살이 뻗은 노란 해" }
+  # -- summerhats2025 (10)
+  "summerhats2025:coconut_hat": { slot: head, rarity: uncommon, name: "코코넛 음료 모자", description: "빨대 꽂힌 코코넛을 통째로 얹음" }
+  "summerhats2025:cool_duck_hat": { slot: head, rarity: uncommon, name: "선글라스 오리", description: "선글라스를 걸친 여유만만 노란 오리" }
+  "summerhats2025:crab_hat": { slot: head, rarity: rare, name: "꽃게 모자", description: "집게발을 번쩍 치켜든 빨간 게" }
+  "summerhats2025:ice_cream_cone_hat": { slot: head, rarity: rare, name: "아이스크림콘 모자", description: "알록달록 세 가지 맛이 녹아내리는 중" }
+  "summerhats2025:life_buoy_hat": { slot: head, rarity: common, name: "구명튜브 모자", description: "빨강 하양 줄무늬 튜브를 머리에 쏙" }
+  "summerhats2025:octopus_hat": { slot: head, rarity: rare, name: "문어 모자", description: "다리로 머리를 꼭 끌어안은 파란 문어" }
+  "summerhats2025:shark_fin_hat": { slot: head, rarity: common, name: "상어 지느러미", description: "머리 위로 쓱 솟은 회색 지느러미" }
+  "summerhats2025:snorkel_hat": { slot: face, rarity: rare, name: "스노클 물안경", description: "숨대롱 끝에서 물방울이 보글보글" }
+  "summerhats2025:tiki_mask_hat": { slot: face, rarity: uncommon, name: "티키 가면", description: "풀잎 장식이 달린 남국의 나무 가면" }
+  "summerhats2025:tropical_hat": { slot: head, rarity: uncommon, name: "휴양지 밀짚모자", description: "파란 띠에 작은 꽃을 꽂은 넓은 챙" }
+  # -- winter_hats_2025 (10)
+  "winter_hats_2025:winter_antler_beanie_hat": { slot: head, rarity: uncommon, name: "사슴뿔 비니", description: "뿔 두 개가 쏙 솟은 하늘색 니트" }
+  "winter_hats_2025:winter_beanie_hat": { slot: head, rarity: common, name: "파란 방울 비니", description: "방울 하나 달린 기본 겨울 니트" }
+  "winter_hats_2025:winter_ear_muffs_hat": { slot: head, rarity: common, name: "하늘색 귀마개", description: "양쪽 귀를 폭신하게 덮어 주는 털" }
+  "winter_hats_2025:winter_hood_hat": { slot: head, rarity: uncommon, name: "청록 방한 후드", description: "목까지 폭 덮어 주는 두툼한 털모자" }
+  "winter_hats_2025:winter_ice_crown_hat": { slot: head, rarity: rare, name: "얼음 왕관", description: "투명한 얼음 결정이 뾰족뾰족 솟음" }
+  "winter_hats_2025:winter_icicle_horns_hat": { slot: head, rarity: uncommon, name: "고드름 뿔", description: "머리에서 뾰족하게 자라난 얼음" }
+  "winter_hats_2025:winter_newsboy_hat": { slot: head, rarity: common, name: "눈 쌓인 헌팅캡", description: "갈색 챙 모자 위에 소복이 쌓인 눈" }
+  "winter_hats_2025:winter_oversized_beanie_hat": { slot: head, rarity: uncommon, name: "보라 왕비니", description: "눈썹까지 푹 덮이는 큼직한 니트" }
+  "winter_hats_2025:winter_scarf_and_ear_muffs_hat": { slot: head, rarity: uncommon, name: "분홍 귀마개 목도리", description: "귀부터 목까지 분홍빛으로 따뜻하게" }
+  "winter_hats_2025:winter_ski_gear_hat": { slot: head, rarity: uncommon, name: "스키 헬멧", description: "무지개 렌즈 고글을 척 올린 헬멧" }
+  # -- fantasticwings (6)
+  "fantasticwings:angelwings": { slot: back, rarity: rare, name: "천사 날개", description: "보석 장식이 반짝이는 순백의 깃털" }
+  "fantasticwings:fallenwings": { slot: back, rarity: legendary, name: "별똥별 날개", description: "금빛 별 박힌 깃털에서 별가루가 떨어짐" }
+  "fantasticwings:cosmoswings": { slot: back, rarity: legendary, name: "우주 날개", description: "보랏빛 고리와 함께 일렁이는 검은 깃털" }
+  "fantasticwings:firewings": { slot: back, rarity: legendary, name: "불꽃 날개", description: "타오르는 깃털 사이로 불티가 튐" }
+  "fantasticwings:icewings": { slot: back, rarity: rare, name: "얼음 날개", description: "푸른 얼음 깃털 주위로 서리가 반짝" }
+  "fantasticwings:starwings": { slot: back, rarity: legendary, name: "밤하늘 날개", description: "금테 두른 남색 깃털에 별빛이 반짝" }
+  # -- osmiq (6)
+  "osmiq:magic_butterfly_wings": { slot: back, rarity: rare, name: "나비 날개", description: "연분홍 날개 끝에서 금가루가 흩날림" }
+  "osmiq:magic_golden_wings": { slot: back, rarity: legendary, name: "황금 날개", description: "햇살처럼 빛나는 금빛 깃털" }
+  "osmiq:magic_leaves_wings": { slot: back, rarity: rare, name: "잎사귀 날개", description: "덩굴손이 돌돌 말린 초록 잎 날개" }
+  "osmiq:magic_pink_fire_wings": { slot: back, rarity: legendary, name: "보랏빛 불꽃 날개", description: "자줏빛 불길이 일렁이는 신비한 날개" }
+  "osmiq:magic_sakura_wings": { slot: back, rarity: legendary, name: "벚꽃 날개", description: "연분홍 깃털 사이로 꽃잎이 흩날림" }
+  "osmiq:magic_sparkle_wings": { slot: back, rarity: rare, name: "별가루 박쥐 날개", description: "반짝임이 스치는 보랏빛 막날개" }
