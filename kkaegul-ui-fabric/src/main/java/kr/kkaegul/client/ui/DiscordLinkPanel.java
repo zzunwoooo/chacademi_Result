@@ -62,15 +62,15 @@ public final class DiscordLinkPanel implements Panel {
         c.image(hb ? "discord/connect_hover" : "discord/connect_normal", 80, 214, 320, 32, Anim.white(a));
         boolean copied = copiedAt > 0 && now - copiedAt < 2000;
         c.textFit(copied ? "복사했어요! 디스코드 채팅창에 붙여넣기" : "/연동 " + code + "  복사하기", 240, 230, 17, 270, Anim.alpha(0xFF2F5A1C, a), Canvas.CENTER, TXT);
-        boolean hc = closing < 0 && Anim.in(lx, ly, 405, 28, 60, 60);
-        c.image(hc ? "discord/close_hover" : "discord/close_normal", 405, 28, 60, 60, Anim.white(a));
+        boolean hc = closing < 0 && Anim.in(lx, ly, 446, -8, 48, 48);
+        c.image(hc ? "discord/close_hover" : "discord/close_normal", 446, -8, 48, 48, Anim.white(a));
         c.pop();
     }
 
     @Override public boolean click(float mx, float my, long now) {
         if (closing >= 0) return true;
         float lx = (mx - ox) / k - PX, ly = (my - oy) / k - PY;
-        if (Anim.in(lx, ly, 405, 28, 60, 60) || !Anim.in(lx, ly, 0, 0, PW, PH)) { closing = now; return true; }
+        if (Anim.in(lx, ly, 446, -8, 48, 48) || !Anim.in(lx, ly, 0, 0, PW, PH)) { closing = now; return true; }
         if (Anim.in(lx, ly, 80, 214, 320, 32)) {
             host.copy("/연동 " + J.str(data, "code"));
             copiedAt = now;

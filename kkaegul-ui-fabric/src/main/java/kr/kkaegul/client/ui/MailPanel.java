@@ -71,10 +71,10 @@ public final class MailPanel implements Panel {
             boolean sel = i == selected || Anim.in(lx, ly, 610, y, 700, 84) && ly > TOP - 6 && ly < VIEW_BOTTOM;
             c.image(sel ? "mail/mail_row_selected" : "mail/mail_row_normal", 610, y, 700, 84, 0xFFFFFFFF);
             String mat = J.str(o, "material").toLowerCase();
-            // 아이템 칸: 그림 65~190 × 24~144px → 가운데 (63.75, 42)
-            if (mat.isEmpty() || !c.item("minecraft:" + mat, 610 + 63.75f - 24, y + 42 - 24, 48)) c.imageFit("hud/diamond", 610 + 63.75f, y + 42, 42, 0xFFFFFFFF);
-            c.textFit(J.str(o, "name"), 610 + 112, y + 42, 26, 440, INK, Canvas.LEFT, TXT);
-            c.textFit("×" + J.num(o, "amount", 1), 610 + 570 + 50, y + 42, 26, 100, INK, Canvas.CENTER, TXT);
+            // 아이템 칸 (v3 그림에서 잼): 69~190 × 60~142px → 가운데 (64.7, 50.5), 높이 41 → 아이템 36. 글자도 알약 몸통 가운데(50)에
+            if (mat.isEmpty() || !c.item("minecraft:" + mat, 610 + 64.7f - 18, y + 50.5f - 18, 36)) c.imageFit("hud/diamond", 610 + 64.7f, y + 50.5f, 34, 0xFFFFFFFF);
+            c.textFit(J.str(o, "name"), 610 + 112, y + 50, 26, 440, INK, Canvas.LEFT, TXT);
+            c.textFit("×" + J.num(o, "amount", 1), 610 + 570 + 50, y + 50, 26, 100, INK, Canvas.CENTER, TXT);
         }
         if (it.isEmpty()) c.text("받을 우편이 없어요", 960, 520, 28, 0xFF8A7A68, Canvas.CENTER, TXT);
         c.unclip();
