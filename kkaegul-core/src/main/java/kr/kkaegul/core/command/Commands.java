@@ -59,6 +59,11 @@ public final class Commands implements CommandExecutor, TabCompleter {
                     if (a.length == 0) { say(s, "&e/공지 <할 말>"); return true; }
                     plugin.chat().notice(String.join(" ", a));
                 }
+                case "towngo" -> {   // 튜토리얼 끝 → 마을. 콘솔·NPC·관리자는 대상 지정 가능
+                    Player t = a.length > 0 && (!(s instanceof Player) || s.hasPermission("kkaegul.admin")) ? Bukkit.getPlayerExact(a[0]) : s instanceof Player sp ? sp : null;
+                    if (t == null) { say(s, "&e/마을가기 <플레이어>"); return true; }
+                    townGo(t);
+                }
                 default -> {
                     if (!(s instanceof Player p)) { say(s, "&c플레이어만 쓸 수 있어요."); return true; }
                     player(p, name, a);
@@ -69,6 +74,16 @@ public final class Commands implements CommandExecutor, TabCompleter {
             plugin.getLogger().warning("명령어 오류 /" + label + " " + String.join(" ", a) + ": " + e);
         }
         return true;
+    }
+
+    /** 튜토리얼에서 마을로: 최초 장비 뽑기와 땅 구매권(부동산업자)을 다 받은 사람만 */
+    private void townGo(Player p) {
+        PlayerData d = plugin.data().get(p);
+        java.util.List<String> left = new java.util.ArrayList<>();
+        if (!d.armorRolled) left.add("최초 장비 뽑기");
+        if (!d.realtorClaimed) left.add("땅 구매권 받기");
+        if (!left.isEmpty()) { plugin.ui().error(p, "&c" + String.join(", ", left) + "를 먼저 마쳐 주세요."); return; }
+        plugin.land().home(p);
     }
 
     // ───────── 플레이어 명령 ─────────

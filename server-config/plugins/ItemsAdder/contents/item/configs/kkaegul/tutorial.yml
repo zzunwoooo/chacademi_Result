@@ -64,3 +64,10 @@ items:
       generate: true
       textures:
       - kkaegul/tutorial_9.png
+  tutorial_10:
+    display_name: '&f튜토리얼 10 · 미니게임 초대'
+    resource:
+      material: PAPER
+      generate: true
+      textures:
+      - kkaegul/tutorial_10.png
