@@ -82,7 +82,9 @@ public final class Commands implements CommandExecutor, TabCompleter {
         java.util.List<String> left = new java.util.ArrayList<>();
         if (!d.armorRolled) left.add("최초 장비 뽑기");
         if (!d.realtorClaimed) left.add("땅 구매권 받기");
+        plugin.getLogger().info("[로비가기] " + p.getName() + (left.isEmpty() ? " → 로비" : " 거부: " + String.join(", ", left)));   // NPC 가 부르는지 확인용
         if (!left.isEmpty()) { plugin.ui().error(p, "&c" + String.join(", ", left) + "를 먼저 마쳐 주세요."); return; }
+        if (plugin.places().get("lobby") == null) { plugin.ui().error(p, "&c로비 위치가 아직 없어요."); return; }
         plugin.places().tp(p, "lobby");
     }
 
