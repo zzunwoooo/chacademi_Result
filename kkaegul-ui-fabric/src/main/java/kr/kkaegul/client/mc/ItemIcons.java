@@ -23,6 +23,28 @@ public final class ItemIcons {
     private ItemIcons() {}
 
     private static final Map<String, ItemStack> CACHE = new HashMap<>();
+    /** 치장품 머리(HEAD) 모양 — 아이콘마다 한 번만 만들어 두고 매 프레임 그대로 그림 (10초마다 새로 만들어 리소스팩 바뀜 반영) */
+    private static final Map<String, net.minecraft.client.render.item.ItemRenderState> HEAD_STATES = new HashMap<>();
+    private static final Map<String, Long> HEAD_AT = new HashMap<>();
+
+    /** 치장품을 머리 모드로 그릴 준비가 된 모양 (못 만들면 null). 렌더 스레드 전용 */
+    public static net.minecraft.client.render.item.ItemRenderState head(String icon) {
+        if (icon == null || icon.isEmpty()) return null;
+        long now = System.currentTimeMillis();
+        net.minecraft.client.render.item.ItemRenderState st = HEAD_STATES.get(icon);
+        Long at = HEAD_AT.get(icon);
+        if (st == null || at == null || now - at > 10_000) {
+            ItemStack s = stack(icon);
+            if (st == null) st = new net.minecraft.client.render.item.ItemRenderState();
+            var mc = net.minecraft.client.MinecraftClient.getInstance();
+            // 인자 7개 update = 비우기 + HEAD 표시 위치 지정
+            mc.getItemModelManager().update(st, s, net.minecraft.item.ModelTransformationMode.HEAD, false, mc.world, null, 0);
+            if (HEAD_STATES.size() > 500) { HEAD_STATES.clear(); HEAD_AT.clear(); }
+            HEAD_STATES.put(icon, st);
+            HEAD_AT.put(icon, now);
+        }
+        return st.isEmpty() ? null : st;
+    }
 
     /** 못 만들면 ItemStack.EMPTY. 돌려준 스택은 캐시 공용이니 고치지 말 것 */
     public static ItemStack stack(String icon) {

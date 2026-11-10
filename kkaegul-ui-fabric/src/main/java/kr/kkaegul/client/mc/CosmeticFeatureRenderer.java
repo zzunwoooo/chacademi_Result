@@ -34,7 +34,7 @@ final class CosmeticFeatureRenderer extends FeatureRenderer<PlayerEntityRenderSt
     private static final float BACK_UP = -(1.8f + 1.501f - 0.0625f - 0.9375f * 1.501f) / 0.9375f;
     private static final float PLAYER_SCALE = 0.9375f;
 
-    private final ItemRenderState item = new ItemRenderState();
+    private ItemRenderState item;
 
     CosmeticFeatureRenderer(FeatureRendererContext<PlayerEntityRenderState, PlayerEntityModel> ctx) {
         super(ctx);
@@ -58,14 +58,10 @@ final class CosmeticFeatureRenderer extends FeatureRenderer<PlayerEntityRenderSt
         }
     }
 
+    /** 그릴 모양 (아이콘마다 미리 만들어 둔 것 재사용 — 매 프레임 모델을 다시 찾지 않음) */
     private boolean prepare(String icon) {
-        if (icon == null) return false;
-        ItemStack st = ItemIcons.stack(icon);
-        if (st.isEmpty()) return false;
-        MinecraftClient mc = MinecraftClient.getInstance();
-        // 인자 7개짜리 update = 비우기 + 표시 모드(HEAD) 지정까지 함 → 모델의 머리 표시 위치(display.head)가 적용되고 예전 모델이 안 쌓임
-        mc.getItemModelManager().update(item, st, ModelTransformationMode.HEAD, false, mc.world, null, 0);
-        return !item.isEmpty();
+        item = ItemIcons.head(icon);
+        return item != null;
     }
 
     private void head(MatrixStack m, VertexConsumerProvider vcp, int light, String icon) {

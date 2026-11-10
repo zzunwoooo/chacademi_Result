@@ -33,6 +33,7 @@ import java.util.Map;
  * 이 모드가 kkaegul:ui 채널을 등록하면 서버는 자동으로 "렌더러 있음"으로 보고 채팅/타이틀 대체 출력을 멈춘다.
  */
 public final class KkaegulClient implements ClientModInitializer, Host {
+    private static long lastDrawFail;
     private static final Logger LOG = LoggerFactory.getLogger("kkaegul-ui");
     private static KkaegulClient instance;
     private MinecraftClient mc;
@@ -118,7 +119,8 @@ public final class KkaegulClient implements ClientModInitializer, Host {
                 }
                 hub.renderOverlay(c, System.currentTimeMillis(), cursor, mx, my, mc.currentScreen instanceof PanelScreen);
             } catch (RuntimeException e) {
-                LOG.warn("UI 그리기 실패", e);
+                long now = System.currentTimeMillis();   // 매 프레임 실패해도 로그는 10초에 한 번 (로그 폭주로 렉 안 나게)
+                if (now - lastDrawFail > 10_000) { lastDrawFail = now; LOG.warn("UI 그리기 실패", e); }
             } finally {
                 c.end();
             }
