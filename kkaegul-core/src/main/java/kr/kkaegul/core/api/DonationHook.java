@@ -86,7 +86,11 @@ public final class DonationHook implements Listener {
             if (plugin.getConfig().getBoolean("donation.announce", true)) {
                 String fmt = plugin.getConfig().getString("donation.announce-format", "&8[&d후원&8] &f{donor}님이 &e{target}&f님에게 &d{count}개 &7→ {label}");
                 String label = plugin.getConfig().getString("api.labels." + (server ? "server." : "personal.") + number, number);
-                plugin.announce(Txt.fmt(fmt, "donor", donor, "target", plugin.displayName(target), "count", units, "label", label), true);
+                // 후원 알림은 후원 받은 사람에게만 (채팅 + 모드 배너)
+                String msg = Txt.strip(Txt.color(Txt.fmt(fmt, "donor", donor, "target", plugin.displayName(target), "count", units, "label", label))).trim();
+                target.sendMessage(Txt.color("&f{e:system} &f" + msg));
+                if (plugin.ui().hasRenderer(target))
+                    plugin.ui().send(target, kr.kkaegul.core.util.Json.obj().put("type", "banner").put("text", msg.replaceAll("[\uE000-\uF8FF\u2000-\u2BFF]", "").trim()).put("color", server ? "purple" : "blue"));
             }
             String result = server ? plugin.api().server(number, src) : plugin.api().personal(target.getName(), number, src);
             plugin.getLogger().info("[후원] " + Txt.strip(Txt.color(result)));
