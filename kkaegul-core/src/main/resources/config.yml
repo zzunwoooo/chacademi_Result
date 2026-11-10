@@ -675,7 +675,7 @@ minigame:
     invite:   { enabled: true, every-minutes: 30 }                      # 위험한 초대: 의자 수만큼, 1분 전 회색 예고
     treasure: { enabled: true, every-minutes: 180 }                     # 보물찾기
     casino:   { enabled: true, every-minutes: 180, offset-minutes: 90 } # 홀덤·섯다 번갈아, 보물찾기와 1시간 30분 어긋나게
-    rroulette: { enabled: true, every-minutes: 120, offset-minutes: 60 }  # 러시안 룰렛: 2시간마다, 접속 인원 절반(6의 배수)
+    rroulette: { enabled: true, every-minutes: 120, offset-minutes: 60 }  # 러시안 룰렛: 2시간마다, 최대 16명 (8명씩 2테이블)
     omok:     { enabled: true, every-minutes: 30, offset-minutes: 15 }   # 오목 1:1: 30분마다, 위험한 초대와 15분 어긋나게
   casino:
     accept-seconds: 60          # 초대장 수락 받는 시간 (/수락 또는 채팅의 [수락])
@@ -749,10 +749,11 @@ minigame:
         premium: { count: 5,  label: "고급 상자", actions: ["box premium 1"], important: true }
         coin:    { count: 20, label: "깨굴코인 5개", actions: ["coins 5"] }
         lucky:   { count: 1,  label: "행운 상자", actions: ["box lucky 1"], important: true }
-    rroulette:                      # 러시안 룰렛 — 테이블(의자 6개)마다 따로, 거부 불가
+    rroulette:                      # 러시안 룰렛 — 테이블(의자 8개)마다 따로, 거부 불가
       enabled: true
-      min-players: 2
-      seats-per-table: 6            # 테이블 하나 인원. 보내는 인원 = 접속 인원 절반을 이 수의 배수로 내림 (최소 한 테이블)
+      min-players: 4                # ★ 판돈 낼 사람이 이만큼 안 되면 안 열림
+      seats-per-table: 8            # ★ 테이블 하나 인원 (의자 rroulette.N.1~8). 8명 이하면 한 테이블, 넘으면 두 테이블에 반씩 (14명 → 7·7)
+      max-tables: 2                 # ★ 테이블 수 → 최대 인원 = 8 × 2 = 16명. 지난 판 사람은 뒤로 밀림 (모자라면 다시 뽑힘)
       stake: 10                     # ★ 판돈 (들어올 때 자동으로 뗌, 이만큼 없는 사람은 안 뽑힘)
       rake-percent: 5               # 판돈 합에서 떼는 수수료(%)
       payout: [50, 30, 20]          # ★ 1·2·3등 배당 비율 (3명 이상 테이블)

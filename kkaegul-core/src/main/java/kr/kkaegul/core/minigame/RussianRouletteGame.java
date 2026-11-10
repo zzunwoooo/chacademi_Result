@@ -24,11 +24,11 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * 러시안 룰렛: 테이블(의자 6개)마다 따로 진행.
- *  - 2시간마다 접속 인원 절반을 6의 배수로 내려서 강제 초대 (MinigameManager). 판돈은 들어올 때 자동으로 뗌.
+ * 러시안 룰렛: 테이블(의자 8개, 최대 2개)마다 따로 진행.
+ *  - 2시간마다 최대 16명 강제 초대, 지난 판 사람은 뒤로 (MinigameManager). 8명 이하면 한 테이블, 넘으면 반씩. 판돈은 들어올 때 자동으로 뗌.
  *  - 6칸 실린더에 1발. 라운드마다 다시 장전하고 돌림. 차례인 사람이 좌클릭(또는 시간 끝)으로 방아쇠.
  *  - 맞으면 탈락 → 남은 사람끼리 다음 라운드. 마지막 생존 1등, 마지막 탈락 2등, 그 전 3등만 배당.
- *  - 위치: rroulette.<테이블>.<1~6> (의자, 테이블 쪽을 보고 저장), rroulette-gun.<테이블> (총 자리, 없으면 의자들 가운데)
+ *  - 위치: rroulette.<테이블>.<1~8> (의자, 테이블 쪽을 보고 저장), rroulette-gun.<테이블> (총 자리, 없으면 의자들 가운데)
  *  - 총 그림: ModelEngine 모델 gun-model (revolver.bbmodel). 없으면 gun-fallback-item 아이템.
  */
 public final class RussianRouletteGame extends Minigame {
@@ -56,13 +56,14 @@ public final class RussianRouletteGame extends Minigame {
 
     @Override public String label() { return "러시안 룰렛"; }
 
-    private int perTable() { return Math.max(2, cfgInt("seats-per-table", 6)); }
+    private int perTable() { return Math.max(2, cfgInt("seats-per-table", 8)); }
+    private int maxTables() { return Math.max(1, cfgInt("max-tables", 2)); }
     private long stake() { return Math.max(0, cfgInt("stake", 10)); }
 
-    /** 등록된 테이블들 (rroulette.N.1~6). 번호 사이가 비어도 됨 */
+    /** 등록된 테이블들 (rroulette.N.1~8), 앞에서부터 max-tables 개. 번호 사이가 비어도 됨 */
     private List<List<Location>> tableLocs() {
         List<List<Location>> out = new ArrayList<>();
-        for (int t = 1; t <= 50; t++) {
+        for (int t = 1; t <= 50 && out.size() < maxTables(); t++) {
             List<Location> l = plugin.places().list("rroulette." + t);
             if (l.size() >= 2) out.add(l.subList(0, Math.min(perTable(), l.size())));
         }
@@ -70,22 +71,18 @@ public final class RussianRouletteGame extends Minigame {
     }
     private List<Integer> tableNos() {
         List<Integer> out = new ArrayList<>();
-        for (int t = 1; t <= 50; t++) if (plugin.places().list("rroulette." + t).size() >= 2) out.add(t);
+        for (int t = 1; t <= 50 && out.size() < maxTables(); t++) if (plugin.places().list("rroulette." + t).size() >= 2) out.add(t);
         return out;
     }
 
     @Override public int capacity() { int n = 0; for (List<Location> l : tableLocs()) n += l.size(); return n <= 0 ? Integer.MAX_VALUE : n; }
 
-    @Override public String readiness() { return tableLocs().isEmpty() ? "위치 rroulette.1.1 ~ rroulette.1.6 필요" : null; }
+    @Override public String readiness() { return tableLocs().isEmpty() ? "위치 rroulette.1.1 ~ rroulette.1.8 필요" : null; }
 
     @Override public boolean eligible(Player p) { return CasinoSupport.available(plugin, p) >= stake(); }
 
-    /** 보낼 인원: 접속 인원 절반을 6의 배수로 내림. 6명 안 되면 6명(있는 만큼) */
-    public int wanted(int online) {
-        int per = perTable();
-        int n = (online / 2) / per * per;
-        return Math.max(per, n);
-    }
+    /** 보낼 인원: 테이블 자리 전부 (기본 8명 × 2테이블 = 최대 16명). 8명 이하면 한 테이블, 넘으면 두 테이블에 반씩 */
+    public int wanted() { return Math.min(capacity(), perTable() * maxTables()); }
 
     public boolean seatedLock(Player p) { return seated.contains(p.getUniqueId()); }
 
@@ -96,7 +93,7 @@ public final class RussianRouletteGame extends Minigame {
         seated.clear();
         List<List<Location>> locs = tableLocs();
         List<Integer> nos = tableNos();
-        // 테이블 수 = 6명씩 나눈 수 (테이블이 모자라면 있는 만큼), 인원은 고르게
+        // 테이블 수 = 한 테이블 인원(8)으로 나눈 수 (테이블이 모자라면 있는 만큼), 인원은 고르게 (14명 → 7·7)
         int per = perTable();
         int k = Math.max(1, Math.min(locs.size(), (list.size() + per - 1) / per));
         for (int i = 0; i < k; i++) tables.add(new Table(nos.get(i), locs.get(i)));

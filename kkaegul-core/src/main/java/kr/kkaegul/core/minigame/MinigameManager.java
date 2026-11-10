@@ -30,6 +30,8 @@ public final class MinigameManager {
     private final Map<String, List<UUID>> pending = new HashMap<>();
     /** 지난 위험한 초대 참가자 */
     private final Set<UUID> lastInviteRound = new HashSet<>();
+    /** 러시안 룰렛 지난 판 사람 (다음 판엔 뒤로 밀림) */
+    private final Set<UUID> lastRrouletteRound = new HashSet<>();
     private final Set<String> preNoticed = new HashSet<>();
 
     // 카지노 수락 받기
@@ -203,6 +205,7 @@ public final class MinigameManager {
             return g.label() + " 건너뜀: 새로 뽑을 사람이 부족 (" + list.size() + "명)";
         if (list.size() < g.minPlayers()) return g.label() + " 인원 부족 (" + list.size() + "/" + g.minPlayers() + ")";
         if (g instanceof DangerousInviteGame) { lastInviteRound.clear(); for (Player p : list) lastInviteRound.add(p.getUniqueId()); }
+        if (g instanceof RussianRouletteGame) { lastRrouletteRound.clear(); for (Player p : list) lastRrouletteRound.add(p.getUniqueId()); }
 
         if (g.timed()) {   // 카지노는 이동 없이 바로 창으로
             g.begin(list);
@@ -253,7 +256,10 @@ public final class MinigameManager {
         max = Math.min(max, g.capacity());
         min = Math.min(min, max);
         int n = Math.min(pool.size(), Rng.range(min, max));
-        if (g instanceof RussianRouletteGame rr) n = Math.min(Math.min(pool.size(), g.capacity()), rr.wanted(Bukkit.getOnlinePlayers().size()));   // 접속 인원 절반을 6의 배수로
+        if (g instanceof RussianRouletteGame rr) {   // 최대 16명, 지난 판 사람은 뒤로 (사람이 모자라면 그때 채움)
+            n = Math.min(pool.size(), rr.wanted());
+            pool.sort(java.util.Comparator.comparing(p -> lastRrouletteRound.contains(p.getUniqueId())));
+        }
         if (g instanceof OmokGame og) { n = Math.min(pool.size(), og.wanted(Bukkit.getOnlinePlayers().size())); n -= n % 2; }   // 접속 인원 25% 를 판 수로, 2명씩
         if (g instanceof PeperoGame && n % 2 == 1 && n > 1 && n < pool.size()) n++;
         return new ArrayList<>(pool.subList(0, n));
