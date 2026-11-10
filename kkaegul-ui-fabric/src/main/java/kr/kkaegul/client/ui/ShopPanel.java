@@ -192,13 +192,14 @@ public final class ShopPanel implements Panel {
         if (J.num(data, "toDiamond") > 0) { menu(c, "ex", my2, "shop/diamond_48", "코인 판매", mx, my); my2 += 80; }
         menu(c, "sell", my2, "shop/sell_tab_pickaxe", "판매", mx, my); my2 += 80;
         if (!J.objs(J.objOrEmpty(data, "crop"), "buy").isEmpty()) menu(c, "farm", my2, "item:minecraft:wheat", "농작물", mx, my);
-        c.text("보유", 64, 800, 22, Theme.MUTED, Canvas.LEFT, TXT);
-        c.image("shop/diamond_32", 64, 828, 32, 32, 0xFFFFFFFF);
-        c.textFit(Fmt.num(avail()), 110, 845, 28, 170, Theme.INK, Canvas.LEFT, TXT);
-        c.image("shop/coin_32", 64, 876, 32, 32, 0xFFFFFFFF);
-        c.textFit(Fmt.num(J.num(data, "coins")), 110, 893, 28, 170, Theme.INK, Canvas.LEFT, TXT);
+        // 왼쪽 아래 모서리 장식(다이아·클로버: y 897~944, x 42~149)에 겹치지 않게 조금 위로
+        c.text("보유", 64, 790, 22, Theme.MUTED, Canvas.LEFT, TXT);
+        c.image("shop/diamond_32", 64, 812, 32, 32, 0xFFFFFFFF);
+        c.textFit(Fmt.num(avail()), 110, 829, 28, 170, Theme.INK, Canvas.LEFT, TXT);
+        c.image("shop/coin_32", 64, 854, 32, 32, 0xFFFFFFFF);
+        c.textFit(Fmt.num(J.num(data, "coins")), 110, 871, 28, 170, Theme.INK, Canvas.LEFT, TXT);
         double dust = J.dbl(data, "dust", 0);
-        if (dust > 0.0005) c.textFit("모은 소수점 " + dec(dust), 64, 930, 17, 210, Theme.MUTED, Canvas.LEFT, TXT);
+        if (dust > 0.0005) c.textFit("모은 소수점 " + dec(dust), 64, 898, 17, 210, Theme.MUTED, Canvas.LEFT, TXT);
 
         if (listTab()) sell(c, now, mx, my); else if (tab.equals("ex")) exchange(c, now, mx, my); else coin(c, now, mx, my);
         c.pop();
@@ -223,29 +224,49 @@ public final class ShopPanel implements Panel {
 
     private void stepper(Canvas c, long now, float y, long amount, float mx, float my) {
         String img = isPressed("minus", now) ? "shop/stepper_left_pressed" : isPressed("plus", now) ? "shop/stepper_right_pressed" : "shop/stepper_default";
-        c.image(img, 1150, y, 260, 56, 0xFFFFFFFF);
-        c.image("shop/minus", 1167, y + 15, 24, 24, 0xFFFFFFFF);
-        c.image("shop/plus", 1370, y + 15, 24, 24, 0xFFFFFFFF);
+        // 수량 칸 + 최대 버튼 묶음을 거래 판 가운데(1323)에 — 칸 그림 3칸: 왼 4~60 · 가운데 62~198 · 오른 200~256 (260x56 기준)
+        final float sx = 1135;
+        c.image(img, sx, y, 260, 56, 0xFFFFFFFF);
+        c.image("shop/minus", sx + 20, y + 16, 24, 24, 0xFFFFFFFF);
+        c.image("shop/plus", sx + 216, y + 16, 24, 24, 0xFFFFFFFF);
         String shown = typed != null ? (typed.isEmpty() ? "0" : typed) : Fmt.num(amount);
-        c.textFit(shown, 1280, y + 28, 28, 130, Theme.INK, Canvas.CENTER, TXT);
+        c.textFit(shown, sx + 130, y + 28, 28, 126, Theme.INK, Canvas.CENTER, TXT);
         if (typed != null && (now / 530) % 2 == 0) {
-            float tw = Math.min(130, c.textWidth(shown, 28, TXT));
-            c.fill(1280 + tw / 2 + 3, y + 13, 3, 30, 1.5f, 0xFF7CB342);
+            float tw = Math.min(126, c.textWidth(shown, 28, TXT));
+            c.fill(sx + 130 + tw / 2 + 3, y + 13, 3, 30, 1.5f, 0xFF7CB342);
         }
-        hits.add(new R("minus", 1150, y, 58, 56));
-        hits.add(new R("input", 1208, y, 144, 56));
-        hits.add(new R("plus", 1352, y, 58, 56));
-        boolean hMax = Anim.in(mx, my, 1434, y, 92, 54);
-        c.image(isPressed("max", now) || hMax ? "shop/small_outline_pressed" : "shop/small_outline_default", 1434, y, 92, 54, 0xFFFFFFFF);
-        c.text("최대", 1480, y + 27, 22, Theme.INK, Canvas.CENTER, TXT);
-        hits.add(new R("max", 1434, y, 92, 54));
+        hit("minus", sx, y, 61, 56);
+        hit("input", sx + 61, y, 138, 56);
+        hit("plus", sx + 199, y, 61, 56);
+        float bx = sx + 284;
+        boolean hMax = Anim.in(mx, my, bx, y + 1, 92, 54);
+        c.image(isPressed("max", now) || hMax ? "shop/small_outline_pressed" : "shop/small_outline_default", bx, y + 1, 92, 54, 0xFFFFFFFF);
+        c.text("최대", bx + 46, y + 28, 22, Theme.INK, Canvas.CENTER, TXT);
+        hit("max", bx, y + 1, 92, 54);
     }
 
+    /** 클릭 자리 (오른쪽 판을 옮겨 그릴 때는 hx 만큼 같이 옮김) */
+    private void hit(String key, float x, float y, float w, float h) { hits.add(new R(key, x + hx, y, w, h)); }
+
+    /** 오른쪽 거래 판: 프레임 오른쪽 칸(1072~1558) 가운데로, 아래 모서리 장식(다이아·클로버, y≥898)을 덮지 않게 높이를 줄여 9조각으로 */
+    private float hx;
+    private static final float RX = -8, PANEL_Y = 190, PANEL_H = 700;
+
+    private float beginRight(Canvas c, float mx) {
+        c.push();
+        c.translate(RX, 0);
+        hx = RX;
+        c.imageNine("shop/transaction", 1088, PANEL_Y, 470, PANEL_H, .1f, .1f, 47, 75, 0xFFFFFFFF);
+        return mx - RX;
+    }
+
+    private void endRight(Canvas c) { c.pop(); hx = 0; }
+
     private void bigButton(Canvas c, String kind, String key, float y, String label, boolean enabled, float mx, float my, int ink) {
-        boolean hov = enabled && Anim.in(mx, my, 1112, y, 424, 68);
-        c.image("shop/" + kind + (enabled ? hov ? "_hover" : "_default" : "_disabled"), 1112, y, 424, 68, 0xFFFFFFFF);
-        c.textFit(label, 1324, y + 34, 30, 380, enabled ? ink : 0xFF9A8E80, Canvas.CENTER, TXT);
-        hits.add(new R(key, 1112, y, 424, 68));
+        boolean hov = enabled && Anim.in(mx, my, 1111, y, 424, 68);
+        c.image("shop/" + kind + (enabled ? hov ? "_hover" : "_default" : "_disabled"), 1111, y, 424, 68, 0xFFFFFFFF);
+        c.textFit(label, 1323, y + 34, 30, 380, enabled ? ink : 0xFF9A8E80, Canvas.CENTER, TXT);
+        hit(key, 1111, y, 424, 68);
     }
 
     // ───────── 판매 탭 ─────────
@@ -298,36 +319,17 @@ public final class ShopPanel implements Panel {
             c.text("시세 갱신 " + String.format("%02d:%02d", left / 60, left % 60), 372, 917, 24, Theme.INK, Canvas.LEFT, TXT);
         }
 
-        // 오른쪽: 선택한 아이템
-        c.image("shop/transaction", 1088, 196, 470, 750, 0xFFFFFFFF);
-        c.text("선택한 아이템", 1116, 228, 26, Theme.INK, Canvas.LEFT, TXT);
-        long amt = sellAmount(s);
-        double price = s == null ? 0 : J.dbl(s, "price", 0);
+        // 오른쪽: 선택한 아이템 (거래 판 1088~1558 을 RX 만큼 옮겨 프레임 칸 가운데로)
+        mx = beginRight(c, mx);
+        c.text("선택한 아이템", 1116, 220, 26, Theme.INK, Canvas.LEFT, TXT);
         if (s != null) {
             float bob = (float) Math.sin(now / 420.0) * 3;
-            c.item(icon(s), 1250, 250 + bob, 128);
-            c.textFit(J.str(s, "name"), 1314, 398, 30, 400, Theme.INK, Canvas.CENTER, TXT);
-            if (!farmTab) trend(c, s, 1314, 431);
-        } else c.text("아이템을 골라 주세요", 1314, 330, 24, Theme.MUTED, Canvas.CENTER, TXT);
-        c.image("shop/divider_horizontal", 1112, 460, 416, 2, 0xFFFFFFFF);
-        if (farmBuy()) { buyPanel(c, now, s, mx, my); return; }
-        c.text("보유 수량", 1116, 488, 24, Theme.INK, Canvas.LEFT, TXT);
-        value(c, null, Fmt.num(s == null ? 0 : J.num(s, "have")) + "개", 488, Theme.INK);
-        c.text("개당 가격", 1116, 533, 24, Theme.INK, Canvas.LEFT, TXT);
-        value(c, "shop/diamond_32", dec(price), 533, Theme.INK);
-        c.image("shop/divider_horizontal", 1112, 564, 416, 2, 0xFFFFFFFF);
-        c.text("판매 수량", 1116, 592, 24, Theme.INK, Canvas.LEFT, TXT);
-        stepper(c, now, 620, amt, mx, my);
-        c.image("shop/divider_horizontal", 1112, 700, 416, 2, 0xFFFFFFFF);
-        c.text("받을 다이아", 1116, 731, 24, Theme.INK, Canvas.LEFT, TXT);
-        double val = price * amt;
-        value(c, "shop/diamond_32", dec(val), 731, Theme.INK);
-        long got = (long) Math.floor(J.dbl(data, "dust", 0) + val + 1e-9);
-        if (amt > 0 && Math.abs(val - Math.rint(val)) > 1e-6)
-            c.textFit("바로 +" + Fmt.num(got) + "개 · 소수점은 모아뒀다가 1개가 되면 지급", 1324, 762, 17, 410, Theme.MUTED, Canvas.CENTER, TXT);
-        boolean b = busy(now);
-        bigButton(c, "sales", "sell", 782, b ? "판매 중..." : "판매하기", s != null && amt > 0 && !b, mx, my, 0xFF2F4A1C);
-        bigButton(c, "secondary", "sellAll", 862, farmTab ? "작물 전부 판매" : "전부 판매", !b && !source().isEmpty(), mx, my, Theme.INK);
+            c.item(icon(s), 1271, 240 + bob, 104);
+            c.textFit(J.str(s, "name"), 1323, 366, 30, 400, Theme.INK, Canvas.CENTER, TXT);
+            if (!farmTab) trend(c, s, 1323, 397);
+        } else c.text("아이템을 골라 주세요", 1323, 300, 24, Theme.MUTED, Canvas.CENTER, TXT);
+        c.image("shop/divider_horizontal", 1115, 420, 416, 2, 0xFFFFFFFF);
+        if (farmBuy()) buyPanel(c, now, s, mx, my); else sellInfo(c, now, s, farmTab, mx, my);
 
         // 판매 결과: 다이아가 위로 튀어 오름 + 문구
         if ("shop_sold".equals(fxId) && now - fxStart < SELL_FX) {
@@ -337,16 +339,40 @@ public final class ShopPanel implements Panel {
                 if (tt <= 0 || tt >= 1) continue;
                 double ang = i * Math.PI / 4 + .4;
                 float r = 30 + 110 * Anim.outCubic(tt);
-                c.imageAt("shop/diamond_48", 1314 + (float) Math.cos(ang) * r, 330 + (float) Math.sin(ang) * r * .6f, 36, 1, i * 20, Anim.white(a * (1 - tt)));
+                c.imageAt("shop/diamond_48", 1323 + (float) Math.cos(ang) * r, 292 + (float) Math.sin(ang) * r * .6f, 36, 1, i * 20, Anim.white(a * (1 - tt)));
             }
             float p = Anim.outBack(Anim.t(now, fxStart, 320));
-            c.push(); c.translate(1324, 330); c.scale(p, p);
+            c.push(); c.translate(1323, 292); c.scale(p, p);
             String msg = "다이아 +" + Fmt.num(J.num(fx, "got"));
             float tw = c.textWidth(msg, 30, TXT) + 56;
             pill(c, -tw / 2, -30, tw, 60, a);
             c.text(msg, 0, 0, 30, Anim.alpha(Theme.GREEN_DARK, a), Canvas.CENTER, TXT);
             c.pop();
         }
+        endRight(c);
+    }
+
+    /** 판매: 보유·가격 → 수량 → 받을 다이아 → 판매 / 전부 판매 (판 아래 890 안쪽) */
+    private void sellInfo(Canvas c, long now, JsonObject s, boolean farmTab, float mx, float my) {
+        long amt = sellAmount(s);
+        double price = s == null ? 0 : J.dbl(s, "price", 0);
+        c.text("보유 수량", 1116, 448, 24, Theme.INK, Canvas.LEFT, TXT);
+        value(c, null, Fmt.num(s == null ? 0 : J.num(s, "have")) + "개", 448, Theme.INK);
+        c.text("개당 가격", 1116, 490, 24, Theme.INK, Canvas.LEFT, TXT);
+        value(c, "shop/diamond_32", dec(price), 490, Theme.INK);
+        c.image("shop/divider_horizontal", 1115, 516, 416, 2, 0xFFFFFFFF);
+        c.text("판매 수량", 1116, 542, 24, Theme.INK, Canvas.LEFT, TXT);
+        stepper(c, now, 566, amt, mx, my);
+        c.image("shop/divider_horizontal", 1115, 640, 416, 2, 0xFFFFFFFF);
+        c.text("받을 다이아", 1116, 668, 24, Theme.INK, Canvas.LEFT, TXT);
+        double val = price * amt;
+        value(c, "shop/diamond_32", dec(val), 668, Theme.INK);
+        long got = (long) Math.floor(J.dbl(data, "dust", 0) + val + 1e-9);
+        if (amt > 0 && Math.abs(val - Math.rint(val)) > 1e-6)
+            c.textFit("바로 +" + Fmt.num(got) + "개 · 소수점은 모아뒀다가 1개가 되면 지급", 1323, 697, 17, 410, Theme.MUTED, Canvas.CENTER, TXT);
+        boolean b = busy(now);
+        bigButton(c, "sales", "sell", 712, b ? "판매 중..." : "판매하기", s != null && amt > 0 && !b, mx, my, 0xFF2F4A1C);
+        bigButton(c, "secondary", "sellAll", 792, farmTab ? "작물 전부 판매" : "전부 판매", !b && !source().isEmpty(), mx, my, Theme.INK);
     }
 
     /** 그릴 아이템: ItemsAdder 아이템은 서버가 준 icon(재료|모델), 아니면 재료 id */
@@ -358,21 +384,21 @@ public final class ShopPanel implements Panel {
     /** 농작물 탭 구매: 묶음 수 고르기 → shop.cropBuy */
     private void buyPanel(Canvas c, long now, JsonObject s, float mx, float my) {
         long per = s == null ? 0 : J.num(s, "amount", 1), price = s == null ? 0 : J.num(s, "price");
-        c.text("한 묶음", 1116, 488, 24, Theme.INK, Canvas.LEFT, TXT);
-        value(c, null, Fmt.num(per) + "개", 488, Theme.INK);
-        c.text("묶음 가격", 1116, 533, 24, Theme.INK, Canvas.LEFT, TXT);
-        value(c, "shop/diamond_32", Fmt.num(price), 533, Theme.INK);
-        c.image("shop/divider_horizontal", 1112, 564, 416, 2, 0xFFFFFFFF);
-        c.text("구매 묶음 수", 1116, 592, 24, Theme.INK, Canvas.LEFT, TXT);
+        c.text("한 묶음", 1116, 448, 24, Theme.INK, Canvas.LEFT, TXT);
+        value(c, null, Fmt.num(per) + "개", 448, Theme.INK);
+        c.text("묶음 가격", 1116, 490, 24, Theme.INK, Canvas.LEFT, TXT);
+        value(c, "shop/diamond_32", Fmt.num(price), 490, Theme.INK);
+        c.image("shop/divider_horizontal", 1115, 516, 416, 2, 0xFFFFFFFF);
+        c.text("구매 묶음 수", 1116, 542, 24, Theme.INK, Canvas.LEFT, TXT);
         long n = buyAmount();
-        stepper(c, now, 620, n, mx, my);
-        c.image("shop/divider_horizontal", 1112, 700, 416, 2, 0xFFFFFFFF);
+        stepper(c, now, 566, n, mx, my);
+        c.image("shop/divider_horizontal", 1115, 640, 416, 2, 0xFFFFFFFF);
         long cost = n * price, after = avail() - cost;
-        c.text("필요 다이아", 1116, 731, 24, Theme.INK, Canvas.LEFT, TXT);
-        value(c, "shop/diamond_32", Fmt.num(cost), 731, Theme.INK);
-        c.textFit("받는 개수 " + Fmt.num(n * per) + "개 · 구매 후 다이아 " + Fmt.num(after), 1324, 762, 17, 410, after < 0 ? Theme.RED : Theme.MUTED, Canvas.CENTER, TXT);
+        c.text("필요 다이아", 1116, 668, 24, Theme.INK, Canvas.LEFT, TXT);
+        value(c, "shop/diamond_32", Fmt.num(cost), 668, Theme.INK);
+        c.textFit("받는 개수 " + Fmt.num(n * per) + "개 · 구매 후 다이아 " + Fmt.num(after), 1323, 697, 17, 410, after < 0 ? Theme.RED : Theme.MUTED, Canvas.CENTER, TXT);
         boolean b = busy(now), ok = s != null && n > 0 && after >= 0 && !b;
-        bigButton(c, "purchase", "cropBuy", 782, b ? "구매 중..." : after < 0 ? "다이아가 부족해요" : "구매하기", ok, mx, my, 0xFF5A3A12);
+        bigButton(c, "purchase", "cropBuy", 712, b ? "구매 중..." : after < 0 ? "다이아가 부족해요" : "구매하기", ok, mx, my, 0xFF5A3A12);
     }
 
     private void trend(Canvas c, JsonObject s, float cx, float y) {
@@ -434,28 +460,29 @@ public final class ShopPanel implements Panel {
         c.text("지급량은 구매 결과에 따라 달라집니다", 682, 918, 22, Theme.MUTED, Canvas.CENTER, TXT);
 
         // 오른쪽: 구매 정보
-        c.image("shop/transaction", 1088, 196, 470, 750, 0xFFFFFFFF);
-        c.text("구매 정보", 1116, 228, 26, Theme.INK, Canvas.LEFT, TXT);
-        c.image("shop/coin_128", 1250, 258, 128, 128, 0xFFFFFFFF);
-        c.text("깨굴코인", 1314, 405, 28, Theme.INK, Canvas.CENTER, TXT);
-        c.text("1회 비용", 1116, 455, 24, Theme.INK, Canvas.LEFT, TXT);
-        value(c, "shop/diamond_32", Fmt.num(unit()), 455, Theme.INK);
-        c.text("기준 수량", 1116, 501, 24, Theme.INK, Canvas.LEFT, TXT);
-        value(c, "shop/coin_32", "1", 501, Theme.INK);
-        c.image("shop/divider_horizontal", 1112, 530, 416, 2, 0xFFFFFFFF);
-        c.text("구매 수량", 1116, 559, 24, Theme.INK, Canvas.LEFT, TXT);
+        float rmx = beginRight(c, mx);
+        c.text("구매 정보", 1116, 220, 26, Theme.INK, Canvas.LEFT, TXT);
+        c.image("shop/coin_128", 1259, 236, 128, 128, 0xFFFFFFFF);
+        c.text("깨굴코인", 1323, 388, 28, Theme.INK, Canvas.CENTER, TXT);
+        c.text("1회 비용", 1116, 432, 24, Theme.INK, Canvas.LEFT, TXT);
+        value(c, "shop/diamond_32", Fmt.num(unit()), 432, Theme.INK);
+        c.text("기준 수량", 1116, 474, 24, Theme.INK, Canvas.LEFT, TXT);
+        value(c, "shop/coin_32", "1", 474, Theme.INK);
+        c.image("shop/divider_horizontal", 1115, 500, 416, 2, 0xFFFFFFFF);
+        c.text("구매 수량", 1116, 526, 24, Theme.INK, Canvas.LEFT, TXT);
         long n = coinAmount();
-        stepper(c, now, 588, n, mx, my);
-        c.image("shop/divider_horizontal", 1112, 660, 416, 2, 0xFFFFFFFF);
+        stepper(c, now, 550, n, rmx, my);
+        c.image("shop/divider_horizontal", 1115, 624, 416, 2, 0xFFFFFFFF);
         long cost = n * unit(), after = avail() - cost;
-        c.text("필요 다이아", 1116, 690, 24, Theme.INK, Canvas.LEFT, TXT);
-        value(c, "shop/diamond_32", Fmt.num(cost), 690, Theme.INK);
-        c.text("구매 후 잔액", 1116, 737, 24, Theme.INK, Canvas.LEFT, TXT);
-        value(c, "shop/diamond_32", Fmt.num(after), 737, after < 0 ? Theme.RED : Theme.INK);
+        c.text("필요 다이아", 1116, 652, 24, Theme.INK, Canvas.LEFT, TXT);
+        value(c, "shop/diamond_32", Fmt.num(cost), 652, Theme.INK);
+        c.text("구매 후 잔액", 1116, 694, 24, Theme.INK, Canvas.LEFT, TXT);
+        value(c, "shop/diamond_32", Fmt.num(after), 694, after < 0 ? Theme.RED : Theme.INK);
         boolean b = busy(now), ok = n > 0 && after >= 0 && !b;
-        bigButton(c, "purchase", "buy", 782, b ? "구매 중..." : after < 0 ? "다이아가 부족해요" : "구매하기", ok, mx, my, 0xFF5A3A12);
+        bigButton(c, "purchase", "buy", 724, b ? "구매 중..." : after < 0 ? "다이아가 부족해요" : "구매하기", ok, rmx, my, 0xFF5A3A12);
         String last = fx != null && "coin_buy".equals(fxId) ? J.str(fx, "message") : "";
-        c.textFit(last.isEmpty() ? "결과는 구매 후 표시됩니다" : last, 1324, 882, 22, 410, last.isEmpty() ? Theme.MUTED : Theme.INK, Canvas.CENTER, TXT);
+        c.textFit(last.isEmpty() ? "결과는 구매 후 표시됩니다" : last, 1323, 834, 22, 410, last.isEmpty() ? Theme.MUTED : Theme.INK, Canvas.CENTER, TXT);
+        endRight(c);
 
         if ("coin_buy".equals(fxId) && now - fxStart < COIN_FX) coinResult(c, now);
         else if (hInfo) odds(c);
@@ -480,26 +507,27 @@ public final class ShopPanel implements Panel {
         c.textFit(Fmt.num(rate), 820, 827, 34, 110, Theme.INK, Canvas.LEFT, TXT);
         c.text("판매한 코인은 다시 되돌릴 수 없습니다", 682, 918, 22, Theme.MUTED, Canvas.CENTER, TXT);
 
-        c.image("shop/transaction", 1088, 196, 470, 750, 0xFFFFFFFF);
-        c.text("판매 정보", 1116, 228, 26, Theme.INK, Canvas.LEFT, TXT);
-        c.image("shop/coin_128", 1250, 258, 128, 128, 0xFFFFFFFF);
-        c.text("깨굴코인", 1314, 405, 28, Theme.INK, Canvas.CENTER, TXT);
-        c.text("보유 코인", 1116, 455, 24, Theme.INK, Canvas.LEFT, TXT);
-        value(c, "shop/coin_32", Fmt.num(coins), 455, Theme.INK);
-        c.text("코인 1개당", 1116, 501, 24, Theme.INK, Canvas.LEFT, TXT);
-        value(c, "shop/diamond_32", Fmt.num(rate), 501, Theme.INK);
-        c.image("shop/divider_horizontal", 1112, 530, 416, 2, 0xFFFFFFFF);
-        c.text("판매 수량", 1116, 559, 24, Theme.INK, Canvas.LEFT, TXT);
+        float rmx = beginRight(c, mx);
+        c.text("판매 정보", 1116, 220, 26, Theme.INK, Canvas.LEFT, TXT);
+        c.image("shop/coin_128", 1259, 236, 128, 128, 0xFFFFFFFF);
+        c.text("깨굴코인", 1323, 388, 28, Theme.INK, Canvas.CENTER, TXT);
+        c.text("보유 코인", 1116, 432, 24, Theme.INK, Canvas.LEFT, TXT);
+        value(c, "shop/coin_32", Fmt.num(coins), 432, Theme.INK);
+        c.text("코인 1개당", 1116, 474, 24, Theme.INK, Canvas.LEFT, TXT);
+        value(c, "shop/diamond_32", Fmt.num(rate), 474, Theme.INK);
+        c.image("shop/divider_horizontal", 1115, 500, 416, 2, 0xFFFFFFFF);
+        c.text("판매 수량", 1116, 526, 24, Theme.INK, Canvas.LEFT, TXT);
         long n = coinAmount();
-        stepper(c, now, 588, n, mx, my);
-        c.image("shop/divider_horizontal", 1112, 660, 416, 2, 0xFFFFFFFF);
-        c.text("받을 다이아", 1116, 690, 24, Theme.INK, Canvas.LEFT, TXT);
-        value(c, "shop/diamond_32", Fmt.num(n * rate), 690, Theme.INK);
+        stepper(c, now, 550, n, rmx, my);
+        c.image("shop/divider_horizontal", 1115, 624, 416, 2, 0xFFFFFFFF);
+        c.text("받을 다이아", 1116, 652, 24, Theme.INK, Canvas.LEFT, TXT);
+        value(c, "shop/diamond_32", Fmt.num(n * rate), 652, Theme.INK);
         long after = coins - n;
-        c.text("판매 후 코인", 1116, 737, 24, Theme.INK, Canvas.LEFT, TXT);
-        value(c, "shop/coin_32", Fmt.num(after), 737, after < 0 ? Theme.RED : Theme.INK);
+        c.text("판매 후 코인", 1116, 694, 24, Theme.INK, Canvas.LEFT, TXT);
+        value(c, "shop/coin_32", Fmt.num(after), 694, after < 0 ? Theme.RED : Theme.INK);
         boolean b = busy(now), ok = n > 0 && after >= 0 && !b;
-        bigButton(c, "purchase", "exchange", 782, b ? "판매 중..." : after < 0 ? "코인이 부족해요" : "판매하기", ok, mx, my, 0xFF5A3A12);
+        bigButton(c, "purchase", "exchange", 724, b ? "판매 중..." : after < 0 ? "코인이 부족해요" : "판매하기", ok, rmx, my, 0xFF5A3A12);
+        endRight(c);
 
         if ("coin_exchange".equals(fxId) && now - fxStart < SELL_FX) {
             float a = Anim.fade(now, fxStart, SELL_FX, 120, 500), p = Anim.outBack(Anim.t(now, fxStart, 320));
@@ -677,7 +705,7 @@ public final class ShopPanel implements Panel {
             scrollRow += amount < 0 ? 1 : -1;
             return true;
         }
-        if (Anim.in(x, y, 1100, 560, 450, 140)) {
+        if (Anim.in(x, y, 1080, 500, 470, 140)) {
             long d = amount > 0 ? 1 : -1;
             if (farmBuy()) buyAmt = Math.max(1, Math.min(64, buyAmount() + d));
             else if (listTab()) { JsonObject s = sel(items()); sellAmt = Math.max(0, Math.min(s == null ? 0 : J.num(s, "have"), sellAmount(s) + d)); }
