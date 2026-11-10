@@ -215,6 +215,7 @@ public final class ExtraView {
         c.image("minigame/b_timer_empty", x, y, 140, 160, 0xFFFFFFFF);
         float f = (float) left / Math.max(1, total);
         float cx = x + 69.5f, cy = y + 94, r = 63.5f;
+        c.fill(cx - r + 4, cy - r + 4, (r - 4) * 2, (r - 4) * 2, r - 4, 0xF2FFF8EE);   // 링 안쪽 채움 (숫자 잘 보이게)
         String ring; float rr, ox, oy;
         if (f > .5f) { ring = "b_timer_green"; rr = 116; ox = 140; oy = 159; }
         else if (f > .2f) { ring = "b_timer_orange"; rr = 135; ox = 140; oy = 140; }
