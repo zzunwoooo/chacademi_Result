@@ -63,6 +63,7 @@ final class CosmeticFeatureRenderer extends FeatureRenderer<PlayerEntityRenderSt
         ItemStack st = ItemIcons.stack(icon);
         if (st.isEmpty()) return false;
         MinecraftClient mc = MinecraftClient.getInstance();
+        item.clear();   // 매번 비우고 채움 — 안 비우면 예전에 입었던 모델이 계속 겹쳐 쌓임
         mc.getItemModelManager().update(item, st, ModelTransformationMode.HEAD, mc.world, null, 0);
         return !item.isEmpty();
     }
