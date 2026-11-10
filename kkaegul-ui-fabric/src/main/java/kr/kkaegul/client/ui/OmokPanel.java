@@ -141,8 +141,9 @@ public final class OmokPanel implements Panel {
     /** 이름판: 얼굴 · 이름 · (차례면) 남은 초 · 시간 초과 횟수 */
     private void plate(Canvas c, String id, float x, float y, JsonObject p, boolean active, boolean me, long left, long now) {
         float lift = active ? (float) Math.sin(now / 160.0) * 2 - 4 : 0;
+        c.fill(x + 30, y + 28 + lift, 93, 82, 14, 0xFFF6EAD3);   // 얼굴 칸은 그림에서 뚫린 구멍(x 36~117, y 34~104px) → 얼굴·글자를 먼저 깔고 틀을 위에
+        if (!c.face(J.str(p, "account"), x + 35.5f, y + 28 + lift, 82)) c.textFit(J.str(p, "name").isEmpty() ? "?" : J.str(p, "name").substring(0, 1), x + 76.5f, y + 69 + lift, 40, 72, 0xFF6B4A26, Canvas.CENTER, TXT);
         c.image(P + id, x, y + lift, 480, 140, 0xFFFFFFFF);
-        if (!c.face(J.str(p, "account"), x + 26, y + 26 + lift, 88)) c.textFit(J.str(p, "name").isEmpty() ? "?" : J.str(p, "name").substring(0, 1), x + 70, y + 70 + lift, 40, 80, 0xFF6B4A26, Canvas.CENTER, TXT);
         c.textFit(J.str(p, "name") + (me ? " (나)" : ""), x + 260, y + 52 + lift, 28, 250, 0xFF4A2D16, Canvas.CENTER, TXT);
         long s = J.num(p, "strikes");
         String sub = active ? left + "초 남음" : "대기";

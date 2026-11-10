@@ -99,9 +99,9 @@ public final class RacePanel implements Panel {
         c.image("race/main_window", 28, 100, 1543, 904, 0xFFFFFFFF);
         c.image("race/frog_header_ribbon", 540, 8, 520, 188, 0xFFFFFFFF);
         c.textFit("개구리 경주", 800, 136, 50, 380, Theme.INK, Canvas.CENTER, TXT);
-        boolean hc = Anim.in(mx, my, 1485, 129, 52, 52);
-        c.image("race/close", 1495, 139, 32, 32, hc ? 0xFFFFB9A8 : 0xFFFFFFFF);
-        hits.add(new R("close", 1485, 129, 52, 52));
+        boolean hc = Anim.in(mx, my, 1490, 102, 52, 52);   // 닫기: 창 오른쪽 위 안쪽. 경주 화면의 결승 깃발(1440~1560, 165~)과 겹치지 않게 위로
+        c.image("race/close", 1500, 112, 32, 32, hc ? 0xFFFFB9A8 : 0xFFFFFFFF);
+        hits.add(new R("close", 1490, 102, 52, 52));
 
         String st = state();
         if (st.equals("racing") || st.equals("result")) {
@@ -276,8 +276,8 @@ public final class RacePanel implements Panel {
             }
             if (win == J.num(f, "no")) c.image("race/check", front - 40, y + 30, 50, 40, 0xFFFFFFFF);
         }
-        c.image("race/finish_strip", 1435, 285, 70, Math.min(672, 112 * Math.max(1, fl.size())), 0xFFFFFFFF);
-        if (header) c.image("race/finish_flag", 1395, 150, 140, 140, 0xFFFFFFFF);
+        c.image("race/finish_strip", 1446, 285, 70, Math.min(672, 112 * Math.max(1, fl.size())), 0xFFFFFFFF);   // 레인 오른끝(80+1436)에 맞춰 둥근 끝이 띠 밖으로 삐져나오지 않게
+        if (header) c.image("race/finish_flag", 1440, 165, 120, 120, 0xFFFFFFFF);   // 깃대 밑동(그림 x 1~22px)이 결승선 띠(1446~1516) 위에 서게
     }
 
     /** 우승 트로피 + 리본 (가운데 cx 기준, 시안 result_overlay) */

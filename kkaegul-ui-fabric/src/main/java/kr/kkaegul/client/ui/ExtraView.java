@@ -108,10 +108,11 @@ public final class ExtraView {
         long done = J.num(jail, "done"), req = Math.max(1, J.num(jail, "required", 1));
         c.image("jail/exercise_counter", 1500, 190, 400, 110, 0xFFFFFFFF);
         boolean ready = J.bool(jail, "exitReady");
-        c.textFit(ready ? "운동 완료!" : done + " / " + req, 1500 + 125 + 122.5f, 190 + 42.5f + 25, 40, 245, ready ? 0xFF3F7F31 : INK, Canvas.CENTER, TXT);
+        c.textFit(ready ? "운동 완료!" : done + " / " + req, 1736, 259, 40, 245, ready ? 0xFF3F7F31 : INK, Canvas.CENTER, TXT);
         float f = Math.min(1, (float) done / req);
         c.image("jail/exercise_bar_empty", 1520, 310, 360, 40, 0xFFFFFFFF);
-        if (f > 0) c.imagePart("jail/exercise_bar_fill", 1528, 318, 344 * f, 24, 0, 0, f, 1, 0xFFFFFFFF);
+        // 채움 막대가 빈 막대 안쪽 홈(x 15~705, y 21~64 / 720×80)에 딱 맞게, 오른쪽 둥근 끝은 잘리지 않게 3조각으로
+        if (f > 0) c.imageNine("jail/exercise_bar_fill", 1525.6f, 319.3f, 348.9f * f, 23.9f, 44 / 720f, 0, 13.1f, 0, 0xFFFFFFFF);
         c.text(ready ? "출구 NPC 를 눌러 나가요" : "웅크리기(Shift)로 운동", 1700, 372, 20, 0xFFFFFFFF, Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
     }
 
@@ -126,7 +127,7 @@ public final class ExtraView {
         for (int i = 0; i < MULTS.length; i++) if (Math.abs(MULTS[i] - mult) < 1e-6) target = i;
         float a = e < 200 ? e / 200f : e > SLOT_LIFE - 500 ? (SLOT_LIFE - e) / 500f : 1;
         c.image("jail/slot_machine_base", 660, 300, 600, 400, Anim.white(a));
-        c.textFit("다이아 증가 게임", 660 + 175 + 127.5f, 300 + 77.5f + 18.75f, 32, 255, Anim.alpha(INK, a), Canvas.CENTER, TXT);
+        c.textFit("다이아 증가 게임", 960, 300 + 85, 32, 255, Anim.alpha(INK, a), Canvas.CENTER, TXT);   // 리본 판 안쪽 y 127~213px (1200×800) 가운데
         // 돌아가는 동안 불빛이 칸을 옮겨 다니다가 결과 칸에서 멈춤 (점점 느려짐)
         boolean spinning = e < SPIN;
         int lit;
@@ -135,16 +136,16 @@ public final class ExtraView {
             int steps = 18 + target;                          // 마지막에 target 에 닿게
             lit = (int) Math.floor(steps * (1 - (1 - t) * (1 - t))) % TILES.length;
         } else lit = target;
-        // 8칸: 칸 66×81, 70 간격 (680~1240, 판 660~1260 안)
-        float tw = 66, th = 81, step = 70, x0 = 960 - (step * (TILES.length - 1) + tw) / 2;
+        // 8칸: 칸 58×71, 64 간격. 판 안쪽 홈 (화면 700~1220, 453~559 = 그림 80~1120, 306~518px) 안에 다 들어가게, 세로 가운데
+        float tw = 58, th = 71, step = 64, x0 = 960 - (step * (TILES.length - 1) + tw) / 2;
         for (int i = 0; i < TILES.length; i++) {
-            float x = x0 + step * i, y = 462;
+            float x = x0 + step * i, y = 506 - th / 2;
             boolean on = i == lit;
             float lift = on ? (spinning ? 4 : 8) : 0;
             c.image("jail/" + TILES[i], x, y - lift, tw, th, on ? Anim.white(a) : Anim.white(a * .55f));
-            if (i > 0) c.imageFit("hud/diamond", x + tw / 2, y - lift + th * .34f, 30, on ? Anim.white(a) : Anim.white(a * .55f));
-            else c.imageFit("hud/diamond", x + tw / 2, y - lift + th * .34f, 30, Anim.white((on ? a : a * .55f) * .25f));   // 꽝: 흐린 다이아
-            c.textFit(multText(MULTS[i]), x + tw / 2, y - lift + th * .77f, 18, tw - 8, Anim.alpha(INK, on ? a : a * .6f), Canvas.CENTER, TXT);
+            if (i > 0) c.imageFit("hud/diamond", x + tw / 2, y - lift + th * .34f, 26, on ? Anim.white(a) : Anim.white(a * .55f));
+            else c.imageFit("hud/diamond", x + tw / 2, y - lift + th * .34f, 26, Anim.white((on ? a : a * .55f) * .25f));   // 꽝: 흐린 다이아
+            c.textFit(multText(MULTS[i]), x + tw / 2, y - lift + th * .77f, 17, tw - 8, Anim.alpha(INK, on ? a : a * .6f), Canvas.CENTER, TXT);
         }
         if (!spinning) {
             long amount = J.num(slot, "amount");
@@ -188,7 +189,7 @@ public final class ExtraView {
         if (quizResult.isEmpty() && quizCloseAt == 0) {
             float s = 100 / 140f;
             c.push();
-            c.translate(1280, 110);
+            c.translate(1374, 150);   // 문제 카드(560~1360) 오른쪽 밖: 카드 귀퉁이 장식을 가리지 않게
             c.scale(s, s);
             c.translate(-1710, -45);
             timer(c, left, total);
@@ -244,20 +245,20 @@ public final class ExtraView {
         c.textFit("오늘의 깨굴 운세", 960, 160 + (good ? 91.75f : 86.75f), 32, 330,   // 리본 판 안쪽 130~237px (재서 맞춤)
                 Anim.alpha(INK, a), Canvas.CENTER, TXT);
         c.image(good ? "fortune/fortune_frog_good" : "fortune/fortune_frog_bad", 810, 350, 300, 250, Anim.white(a));
-        c.image("fortune/fortune_sentence", 720, 622, 480, 100, Anim.white(a));
+        c.image("fortune/fortune_sentence", 720, 610, 480, 100, Anim.white(a));
         java.util.List<String> lines = TextRaster.wrap(Fmt.strip(J.str(fortune, "message")), 425, 24, TXT);
         if (lines.size() > 2) lines = lines.subList(0, 2);
         for (int i = 0; i < lines.size(); i++)
-            c.textFit(lines.get(i), 960, 672 + (i - (lines.size() - 1) / 2f) * 30, 24, 432, Anim.alpha(INK, a), Canvas.CENTER, TXT);
-        c.image("fortune/fortune_effect", 740, 740, 440, 60, Anim.white(a));
+            c.textFit(lines.get(i), 960, 660 + (i - (lines.size() - 1) / 2f) * 30, 24, 432, Anim.alpha(INK, a), Canvas.CENTER, TXT);
+        c.image("fortune/fortune_effect", 740, 722, 440, 60, Anim.white(a));
         long amt = J.num(fortune, "amount"), sec = J.num(fortune, "seconds");
         String stat = J.str(fortune, "stat").equals("fortune") ? "행운" : "효율";
         String eff = amt == 0 ? "효과 없음 (이미 최대)" : stat + " " + (amt > 0 ? "+" : "") + amt + " · " + (sec >= 60 ? sec / 60 + "분" : sec + "초");
         long gd = J.num(fortune, "gaugeDelta");
         if (gd != 0) eff += " · 게이지 " + (gd > 0 ? "+" : "") + gd;
-        c.textFit(eff, 960, 770, 24, 400, Anim.alpha(good ? 0xFF3F7F31 : 0xFF7A3FA0, a), Canvas.CENTER, TXT);
-        c.image("fortune/fortune_remaining", 1100, 810, 140, 40, Anim.white(a));
-        c.textFit("남은 " + J.num(fortune, "usesLeft") + "회", 1170, 830, 18, 116, Anim.alpha(INK, a), Canvas.CENTER, TXT);
+        c.textFit(eff, 960, 752, 24, 400, Anim.alpha(good ? 0xFF3F7F31 : 0xFF7A3FA0, a), Canvas.CENTER, TXT);
+        c.image("fortune/fortune_remaining", 896, 790, 128, 36, Anim.white(a));   // 판 안쪽(아래 끝 835) 가운데: 오른쪽 아래 보석·테두리와 겹치지 않게
+        c.textFit("남은 " + J.num(fortune, "usesLeft") + "회", 960, 808, 17, 106, Anim.alpha(INK, a), Canvas.CENTER, TXT);
         c.pop();
     }
 

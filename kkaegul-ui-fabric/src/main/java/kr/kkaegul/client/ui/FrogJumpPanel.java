@@ -29,8 +29,8 @@ public final class FrogJumpPanel implements Panel {
     private float k = 1, ox, oy;
     private static final int TXT = Canvas.BOLD | Canvas.LIGHT;
     private static final int INK = 0xFF4A2D16;
-    /** 연잎 위치 (시안 pads) */
-    private static final float[][] PAD = {{142, 576}, {236, 558}, {330, 566}, {424, 576}, {518, 552}, {612, 578}, {706, 552}, {800, 569}, {894, 579}, {988, 558}};
+    /** 연잎 위치 (왼쪽 위 90×68). 연못 물 안쪽 (그림 x 110~950px → 창 150~990)에 10칸이 다 들어가게 83.8 간격 (예전 94 간격은 10번 연잎·×18 꼬리표가 연못 밖으로 나감) */
+    private static final float[][] PAD = {{146, 576}, {229.8f, 558}, {313.6f, 566}, {397.3f, 576}, {481.1f, 552}, {564.9f, 578}, {648.7f, 552}, {732.4f, 569}, {816.2f, 579}, {900, 558}};
     private static final float START_X = 92, START_Y = 716;   // 출발 둑 (개구리 발 위치)
     private static final long HOP = 460, LAND = 650;
 
@@ -85,7 +85,7 @@ public final class FrogJumpPanel implements Panel {
     private static float[] padFoot(int step) {
         if (step <= 0) return new float[]{START_X, START_Y};
         float[] p = PAD[Math.min(9, step - 1)];
-        return new float[]{p[0] + 48, p[1] + 40};
+        return new float[]{p[0] + 45, p[1] + 38};
     }
 
     /** 성공 확률에 따른 위험도: 0 낮음 / 1 보통 / 2 높음 */
@@ -110,9 +110,9 @@ public final class FrogJumpPanel implements Panel {
 
         c.image("jump/window_frame", 0, 0, 1600, 1024, 0xFFFFFFFF);
         c.textFit("깨굴이", 800, 126, 40, 330, INK, Canvas.CENTER, TXT);
-        boolean hc = Anim.in(mx, my, 1490, 110, 52, 52);
-        c.image("shop/close", 1496, 116, 40, 40, hc ? 0xFFFFB9A8 : 0xFFFFFFFF);
-        hits.add(new R("close", 1490, 110, 52, 52));
+        boolean hc = Anim.in(mx, my, 1352, 112, 52, 52);   // 닫기: 오른쪽 위 모서리 보석·덩굴 장식(창 1414~1550) 왼쪽 빈 곳 — 예전엔 보석 위를 덮었음
+        c.image("shop/close", 1358, 118, 40, 40, hc ? 0xFFFFB9A8 : 0xFFFFFFFF);
+        hits.add(new R("close", 1352, 112, 52, 52));
 
         // 왼쪽: 제목 + 현재 칸
         c.text("개구리 점프", 72, 236, 56, INK, Canvas.LEFT, TXT);
@@ -171,14 +171,14 @@ public final class FrogJumpPanel implements Panel {
             int s = i + 1;
             String img = s < stand ? "jump/lily_pad_passed" : s == stand ? "jump/lily_pad_current" : "jump/lily_pad_default";
             float bob = (float) Math.sin(now / 520.0 + i) * 1.5f;
-            c.image(img, p[0], p[1] + bob, 96, 72, 0xFFFFFFFF);
-            c.text(String.valueOf(s), p[0] + 48, p[1] + 87, 30, Theme.WHITE, Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
+            c.image(img, p[0], p[1] + bob, 90, 68, 0xFFFFFFFF);
+            c.text(String.valueOf(s), p[0] + 45, p[1] + 83, 30, Theme.WHITE, Canvas.CENTER, Canvas.BOLD | Canvas.OUTLINE);
             if (i < st.size()) {
                 JsonObject o = st.get(i);
                 String tag = switch (risk(J.dbl(o, "chance", 50))) { case 0 -> "jump/tag_safe_green"; case 1 -> "jump/tag_medium_orange"; default -> "jump/tag_high_red"; };
-                float ty = p[1] - 76;
-                c.image(tag, p[0] + 3, ty, 90, 40, 0xFFFFFFFF);
-                c.textFit("×" + ShopPanel.dec(J.dbl(o, "multiplier", 1)), p[0] + 48, ty + 19, 22, 78, INK, Canvas.CENTER, TXT);
+                float ty = p[1] - 72;
+                c.image(tag, p[0] + 4, ty, 82, 36, 0xFFFFFFFF);   // 꼬리표 간격(83.8)보다 좁게 → 옆 꼬리표와 안 겹침
+                c.textFit("×" + ShopPanel.dec(J.dbl(o, "multiplier", 1)), p[0] + 45, ty + 17.5f, 21, 70, INK, Canvas.CENTER, TXT);
             }
         }
         // 개구리
@@ -224,8 +224,8 @@ public final class FrogJumpPanel implements Panel {
             c.scale(s, s);
             c.image(rib, -320, -74, 640, 160, 0xFFFFFFFF);
             int ink = resultKind.equals("fail") ? 0xFF5E5E5E : INK;
-            c.textFit(title, -2, -18, 46, 420, ink, Canvas.CENTER, TXT);
-            c.textFit(sub, -2, 26, 30, 420, resultKind.equals("fail") ? 0xFF7A7A7A : 0xFF3F7F31, Canvas.CENTER, TXT);
+            c.textFit(title, -2, -21, 46, 420, ink, Canvas.CENTER, TXT);
+            c.textFit(sub, -2, 23, 30, 420, resultKind.equals("fail") ? 0xFF7A7A7A : 0xFF3F7F31, Canvas.CENTER, TXT);
             c.pop();
         }
     }
