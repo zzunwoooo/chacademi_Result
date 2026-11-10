@@ -92,7 +92,7 @@ public final class DonationHook implements Listener {
                 if (plugin.ui().hasRenderer(target))
                     plugin.ui().send(target, kr.kkaegul.core.util.Json.obj().put("type", "banner").put("text", msg.replaceAll("[\uE000-\uF8FF\u2000-\u2BFF]", "").trim()).put("color", server ? "purple" : "blue"));
             }
-            String result = server ? plugin.api().server(number, src) : plugin.api().personal(target.getName(), number, src);
+            String result = server ? plugin.api().server(number, src, target.getUniqueId()) : plugin.api().personal(target.getName(), number, src);
             plugin.getLogger().info("[후원] " + Txt.strip(Txt.color(result)));
         } catch (ReflectiveOperationException | ClassCastException | NullPointerException ex) {
             plugin.getLogger().warning("후원 이벤트 처리 실패: " + ex);
