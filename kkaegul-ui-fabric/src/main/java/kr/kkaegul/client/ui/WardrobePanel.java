@@ -280,8 +280,6 @@ public final class WardrobePanel implements Panel {
             host.sound("minecraft:item.armor.equip_leather", .9f, .6f);
         } else {
             host.send("wardrobe.equip", "id", d.id());
-            if (d.slot().equals(Cosmetics.HEAD)) equipped.remove(Cosmetics.FACE);   // 머리에는 하나만 (서버와 같게)
-            if (d.slot().equals(Cosmetics.FACE)) equipped.remove(Cosmetics.HEAD);
             equipped.put(d.slot(), d.id());
             host.sound("minecraft:item.armor.equip_leather", 1.2f, .7f);
         }
