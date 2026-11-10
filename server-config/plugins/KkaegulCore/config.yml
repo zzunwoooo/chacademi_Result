@@ -618,7 +618,7 @@ mine:
   trigger-chance: 2             # ★ 광물 캘 때 광산 이동 확률 %
   trigger-blocks: [DIAMOND_ORE, DEEPSLATE_DIAMOND_ORE, IRON_ORE, DEEPSLATE_IRON_ORE, GOLD_ORE, DEEPSLATE_GOLD_ORE, COAL_ORE, DEEPSLATE_COAL_ORE, REDSTONE_ORE, DEEPSLATE_REDSTONE_ORE, LAPIS_ORE, DEEPSLATE_LAPIS_ORE, EMERALD_ORE, DEEPSLATE_EMERALD_ORE, COPPER_ORE, DEEPSLATE_COPPER_ORE]
   daily-moves: 3
-  treasure-chance: 0            # ★ 광질 랜덤 이동 중 다이아 광산 확률 % (0 = 철 광산만, 다이아는 이동권으로만)
+  treasure-chance: 50           # ★ 광질 랜덤 이동 때 다이아 광산 확률 % (나머지는 철 광산)
   stay-seconds: 60              # ★ 머무는 시간 (0 = 자동 복귀 없음)
   regen-blocks-per-tick: 4000
   auto-setup: true              # ★ 아래 구역의 월드(빈 월드)·바닥·벽·스폰을 처음 켤 때 자동으로 만듦
