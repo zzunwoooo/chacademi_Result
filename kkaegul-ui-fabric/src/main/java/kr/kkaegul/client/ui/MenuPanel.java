@@ -87,13 +87,6 @@ public final class MenuPanel implements Panel {
 
         // 프레임 (금·연두 이중 테두리 그림, 네 귀퉁이 보석·클로버는 안 늘어나게 9조각)
         c.imageNine("menu/menu_frame", 0, 0, 680, 407, .1f, .16f, 46, 46, 0xFFFFFFFF);
-        // 아래 테두리에 매달린 깨굴이 (살랑살랑)
-        c.push();
-        c.translate(214, 403);
-        c.rotate((float) Math.sin(now / 900.0) * 4);
-        c.image("menu/frog_hanging", -24, -18, 48, 48 * 512 / 421f, 0xFFFFFFFF);
-        c.pop();
-
         // 깨굴이 간판 + 제목
         float sw = 250, sh = sw * 312 / 512f, sy = 26 - sh * .79f;
         float bob = (float) Math.sin(now / 700.0) * 1.5f;
