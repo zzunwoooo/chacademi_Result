@@ -30,7 +30,7 @@ public final class Commands implements CommandExecutor, TabCompleter {
         this.plugin = plugin;
         this.actions = actions;
         for (String c : List.of("kg", "kapi", "ksapi", "mailbox", "submit", "randomsubmit", "sell", "buycoin", "farmprice",
-                "gacha", "fortune", "wild", "jailexit", "title", "hall", "playtime", "trash", "me", "usertp", "gauge", "profile", "withdraw", "deposit", "nickname", "frogjump", "frograce", "poker", "seotda", "discordlink", "kgnotice", "kgwhisper", "kgreply", "kghelp", "kgaccept", "kgtp", "kgsummon", "coupon", "couponadmin", "wardrobe", "omok")) {
+                "gacha", "fortune", "wild", "jailexit", "title", "hall", "playtime", "trash", "me", "usertp", "gauge", "profile", "withdraw", "deposit", "nickname", "frogjump", "frograce", "poker", "seotda", "discordlink", "kgnotice", "kgwhisper", "kgreply", "kghelp", "kgaccept", "kgtp", "kgsummon", "coupon", "couponadmin", "wardrobe", "omok", "kgsethome")) {
             PluginCommand pc = plugin.getCommand(c);
             if (pc == null) { plugin.getLogger().warning("plugin.yml 에 명령어 없음: " + c); continue; }
             pc.setExecutor(this);
@@ -94,6 +94,7 @@ public final class Commands implements CommandExecutor, TabCompleter {
             case "coupon" -> plugin.coupons().use(p, a.length > 0 ? a[0] : "");
             case "couponadmin" -> plugin.coupons().admin(p, a);
             case "wardrobe" -> plugin.cosmetics().open(p);   // /옷장
+            case "kgsethome" -> plugin.land().setHome(p);   // /집설정
             case "omok" -> {   // /오목 신청 <닉네임> <다이아> · 수락 · 거절
                 var duel = plugin.minigames().duel();
                 if (a.length >= 3 && (a[0].equals("신청") || a[0].equalsIgnoreCase("ask"))) duel.offer(p, a[1], Actions.parse(a[2], 0));

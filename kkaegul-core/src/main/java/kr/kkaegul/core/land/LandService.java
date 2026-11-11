@@ -43,6 +43,11 @@ public final class LandService {
     private final Map<UUID, List<Claim>> byOwner = new HashMap<>();
     private final Map<UUID, LinkedHashSet<UUID>> trust = new HashMap<>();
     private final Map<UUID, String> lastSent = new HashMap<>();
+    /** 집 위치 (/집설정) — 이동 > 마을 때 땅 가운데 대신 여기로 */
+    private record Home(String world, double x, double y, double z, float yaw) {
+        Location loc() { World w = Bukkit.getWorld(world); return w == null ? null : new Location(w, x, y, z, yaw, 0); }
+    }
+    private final Map<UUID, Home> homes = new HashMap<>();   // 월드가 늦게 켜져도 되게 이름으로 저장
     private boolean dirty;
     private final TownService town;
 
@@ -80,6 +85,12 @@ public final class LandService {
                 trust.put(UUID.fromString(k), set);
             } catch (RuntimeException ignored) { }
         }
+        ConfigurationSection h = y.getConfigurationSection("homes");
+        if (h != null) for (String k : h.getKeys(false)) {
+            try {
+                homes.put(UUID.fromString(k), new Home(h.getString(k + ".world", ""), h.getDouble(k + ".x"), h.getDouble(k + ".y"), h.getDouble(k + ".z"), (float) h.getDouble(k + ".yaw")));
+            } catch (RuntimeException ignored) { }
+        }
     }
 
     public void save() {
@@ -92,6 +103,12 @@ public final class LandService {
             List<String> l = new ArrayList<>();
             for (UUID u : e.getValue()) l.add(u.toString());
             if (!l.isEmpty()) y.set("trust." + e.getKey(), l);
+        }
+        for (var e : homes.entrySet()) {
+            Home l = e.getValue();
+            String k = "homes." + e.getKey();
+            y.set(k + ".world", l.world());
+            y.set(k + ".x", l.x()); y.set(k + ".y", l.y()); y.set(k + ".z", l.z()); y.set(k + ".yaw", (double) l.yaw());
         }
         try { y.save(file); dirty = false; } catch (IOException e) { plugin.getLogger().warning("lands.yml 저장 실패: " + e); }
     }
@@ -260,8 +277,29 @@ public final class LandService {
         return w == null ? null : new Location(w, c.cx() * 16 + 8.5, 0, c.cz() * 16 + 8.5);
     }
 
-    /** 이동 → 마을: 처음 산 내 땅 한가운데 땅 위로 */
+    /** /집설정: 내 땅 안에 서서 치면 그 자리가 집 (이동 > 마을 때 여기로) */
+    public void setHome(Player p) {
+        Claim c = at(p.getLocation());
+        if (c == null || !c.owner().equals(p.getUniqueId())) { plugin.ui().error(p, "&c내 땅 안에서만 집 위치를 정할 수 있어요."); return; }
+        Location l = p.getLocation();
+        homes.put(p.getUniqueId(), new Home(l.getWorld().getName(), l.getX(), l.getY(), l.getZ(), l.getYaw()));
+        dirty = true;
+        p.sendMessage(Txt.color(Txt.notice("&a여기를 집으로 정했어요. &7이동 > 마을 을 누르면 이 자리로 와요.")));
+    }
+
+    /** 이동 → 마을: 정한 집 위치(아직 내 땅 안일 때) → 없으면 처음 산 내 땅 한가운데 땅 위로 */
     public boolean home(Player p) {
+        Home hm = homes.get(p.getUniqueId());
+        Location hs = hm == null ? null : hm.loc();
+        if (hs != null) {
+            Claim hc = at(hs);
+            if (hc != null && hc.owner().equals(p.getUniqueId())) {
+                Location from = p.getLocation();
+                p.teleport(hs);
+                plugin.ui().teleportSound(p, from);
+                return true;
+            }
+        }
         List<Claim> l = of(p.getUniqueId());
         if (l.isEmpty()) {   // 땅이 없으면 마을 분수 광장으로 (거기서 땅문서로 빈 땅 구매)
             World tw = town.enabled() ? Bukkit.getWorld(town.worldName()) : null;

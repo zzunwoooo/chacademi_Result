@@ -353,9 +353,9 @@ economy:
     max-per-buy: 100
     to-diamond: 30              # ★ 코인 1개 → 보유 다이아 몇 개 (11/11: 30). 상점 "코인 판매" 탭 / /코인구매 교환 <코인>
     outcomes:
-      fail:   { chance: 30, multiplier: 0, message: "&c구매 실패..." }
-      normal: { chance: 59, multiplier: 1, message: "&a깨굴코인 {got}개 구매" }
-      double: { chance: 10, multiplier: 2, message: "&e2배 구매! 깨굴코인 {got}개" }
+      fail:   { chance: 20, multiplier: 0, message: "&c구매 실패..." }
+      normal: { chance: 64, multiplier: 1, message: "&a깨굴코인 {got}개 구매" }
+      double: { chance: 15, multiplier: 2, message: "&e2배 구매! 깨굴코인 {got}개" }
       triple: { chance: 1,  multiplier: 3, message: "&63배 구매!! 깨굴코인 {got}개" }
   crops:                        # ★ 상점 "농작물" 탭 (AddCrop 작물 · CustomCrops 도구, minecraft: 바닐라 아이템도 됨). 가격 = 다이아
     enabled: true
@@ -386,6 +386,7 @@ economy:
     - { id: return_ticket, price: 15 }
     - { id: teleport_ticket, price: 5 }
     - { id: gauge_random, price: 5 }
+    - { id: gacha_protect, price: 20 }
   diamond-exchange:             # 의뢰인 고민 중 → 기본 꺼짐
     enabled: false
     coins-per-diamond: 1
@@ -616,6 +617,7 @@ titles:
     # 운영자 전용 (조건 없음 → /깨굴 칭호 <닉> 주기 <id> 로만). <#시작색>글자</#끝색> = 그라데이션
     host_noob:   { name: "<#FF5FA2>[허접섭주]</#9B6BFF>", description: "운영자 전용 칭호" }
     staff_slave: { name: "<#5BC0FF>[운영노예]</#57D98A>", description: "운영자 전용 칭호" }
+    donation_king: { name: "<#FFD54A>[기부왕]</#FF8A3D>", description: "운영자 전용 칭호" }
 
 ranking:
   size: 10
@@ -760,12 +762,12 @@ minigame:
       min-players: 4                # ★ 판돈 낼 사람이 이만큼 안 되면 안 열림
       seats-per-table: 8            # ★ 테이블 하나 인원 (의자 rroulette.N.1~8). 8명 이하면 한 테이블, 넘으면 두 테이블에 반씩 (14명 → 7·7)
       max-tables: 2                 # ★ 테이블 수 → 최대 인원 = 8 × 2 = 16명. 지난 판 사람은 뒤로 밀림 (모자라면 다시 뽑힘)
-      stake: 10                     # ★ 판돈 (들어올 때 자동으로 뗌, 이만큼 없는 사람은 안 뽑힘)
+      stake: 100                    # ★ 판돈 (들어올 때 자동으로 뗌, 이만큼 없는 사람은 안 뽑힘) (11/12: 100)
       rake-percent: 5               # 판돈 합에서 떼는 수수료(%)
       payout: [50, 30, 20]          # ★ 1·2·3등 배당 비율 (3명 이상 테이블)
       payout-2: [60, 40]            # 2명 테이블
       wait-seconds: 10              # 앉은 뒤 시작까지
-      turn-seconds: 15              # ★ 차례마다 제한시간 (좌클릭 안 하면 자동 발사)
+      turn-seconds: 7               # ★ 차례마다 제한시간 (좌클릭 안 하면 자동 발사) (11/12: 7초)
       kill-on-hit: true             # 맞으면 사망 (아이템 유지). false = 원래 자리로 돌려보냄
       seat-height: 0.5
       gun-model: revolver           # ModelEngine 모델 id (plugins/ModelEngine/blueprints/revolver.bbmodel)
@@ -778,7 +780,7 @@ minigame:
       enabled: true
       min-players: 2
       invite-percent: 12            # ★ 접속 인원의 이 % 를 판 수로(내림) · 판마다 2명 (20명 → 2판 4명, 최소 1판)
-      stake: 50                     # ★ 진 사람 보유 다이아에서 떼서 이긴 사람에게 (이만큼 없는 사람은 안 뽑힘)
+      stake: 100                    # ★ 진 사람 보유 다이아에서 떼서 이긴 사람에게 (이만큼 없는 사람은 안 뽑힘) (11/12: 100)
       wait-seconds: 10              # 로비 도착 뒤 시작까지
       turn-seconds: 20              # 차례 제한시간 (넘기면 차례가 넘어감)
       max-timeouts: 2               # 시간 초과 이 횟수면 패배

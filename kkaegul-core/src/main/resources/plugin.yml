@@ -137,6 +137,9 @@ commands:
   omok:
     description: 오목 자유 대전 (신청/수락/거절)
     aliases: [오목]
+  kgsethome:
+    description: 내 땅 안에서 집 위치 정하기 (이동 > 마을 때 여기로)
+    aliases: [집설정]
 
 permissions:
   kkaegul.admin:
