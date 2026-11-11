@@ -102,7 +102,7 @@ api:
       "111": "일반상자"
       "1111": "일반상자 11개"
       "555": "고급상자"
-      "5555": "고급상자 세트"
+      "5555": "고급상자 11개"
       "112": "깜빵에서 운동하세요"
       "333": "개인 괴롭히기"
       "1000": "순회공연"
@@ -124,7 +124,7 @@ api:
     "111":  ["box normal 1"]
     "1111": ["box normal 11"]
     "555":  ["box premium 1"]
-    "5555": ["set premium"]
+    "5555": ["box premium 11"]
     "112":  ["jail"]
     "333":  ["harass"]
     "1000": ["tour"]
@@ -263,6 +263,7 @@ fever:
 # ── 운빨 게이지 ──────────────────────────────────────────────
 gauge:
   start: 50                     # ★ 서버 공용 게이지 시작값 (global.yml 에 저장, 모두가 같은 게이지)
+  random-every-hours: 3         # ★ 이 시간마다(0시·3시·6시…) 공용 게이지를 0~max 랜덤으로 (0 = 끔)
   max: 99
   tiers:
     low:     { from: 0,  to: 40, bonus-diamond-min: 1, bonus-diamond-max: 2 }
@@ -305,6 +306,7 @@ gacha:
       max: 15
       cost: 15
       destroy-chance: 10        # ★ % (높음)
+      levels: { "1": 10, "2": 10, "3": 10, "4": 10, "5": 10, "6": 10, "7": 10, "8": 10, "9": 10, "10": 4, "11": 3, "12": 2, "13": 0.6, "14": 0.4, "15": 0.2 }   # ★ 11/11: 10 이상 약 10%, 13 이상 약 1.2% (칸마다)
 
 # ── 안전 구역 ── PK 금지 · 괴롭히기 몬스터 소환 금지 · 죽어도 아이템 유지
 safe-zones:
@@ -344,15 +346,15 @@ economy:
     SUGAR_CANE: { min: 0.008, max: 0.03 }
   coin:
     currency: diamond           # diamond = 다이아로 구매 (보유 다이아 → 인벤 다이아 순) / money = 돈
-    price-diamonds: 15           # ★ 코인 1개 = 다이아 몇 개
+    price-diamonds: 30          # ★ 코인 1개 = 다이아 몇 개 (11/11: 30)
     price: 1000                 # (currency: money 일 때) 코인 1개 가격
     click-amount: 1             # 코인 상점 NPC 클릭
     sneak-amount: 10            # 웅크리고 클릭
     max-per-buy: 100
-    to-diamond: 15              # ★ 코인 1개 → 보유 다이아 몇 개 (제출용 교환, 0 = 끔). 상점 "코인 교환" 탭 / /코인구매 교환 <코인>
+    to-diamond: 30              # ★ 코인 1개 → 보유 다이아 몇 개 (11/11: 30). 상점 "코인 판매" 탭 / /코인구매 교환 <코인>
     outcomes:
-      fail:   { chance: 10, multiplier: 0, message: "&c구매 실패..." }
-      normal: { chance: 79, multiplier: 1, message: "&a깨굴코인 {got}개 구매" }
+      fail:   { chance: 30, multiplier: 0, message: "&c구매 실패..." }
+      normal: { chance: 59, multiplier: 1, message: "&a깨굴코인 {got}개 구매" }
       double: { chance: 10, multiplier: 2, message: "&e2배 구매! 깨굴코인 {got}개" }
       triple: { chance: 1,  multiplier: 3, message: "&63배 구매!! 깨굴코인 {got}개" }
   crops:                        # ★ 상점 "농작물" 탭 (AddCrop 작물 · CustomCrops 도구, minecraft: 바닐라 아이템도 됨). 가격 = 다이아
@@ -587,7 +589,7 @@ backup:
 
 # ── 접속 보상 ────────────────────────────────────────────────
 playtime:
-  mending-chance: 30            # ★ 수선 당첨 확률
+  mending-chance: 1             # ★ 수선 당첨 확률 % (11/11 의뢰인: 1%)
   fail-exchange: 5
   milestones:
     m30: { minutes: 30,  label: "30분" }
@@ -674,8 +676,8 @@ minigame:
     invite:   { enabled: true, every-minutes: 30 }                      # 위험한 초대: 의자 수만큼, 1분 전 회색 예고
     treasure: { enabled: true, every-minutes: 180 }                     # 보물찾기
     casino:   { enabled: false, every-minutes: 180, offset-minutes: 90 } # 홀덤·섯다 번갈아, 보물찾기와 1시간 30분 어긋나게
-    rroulette: { enabled: true, every-minutes: 120, offset-minutes: 60 }  # 러시안 룰렛: 2시간마다, 최대 16명 (8명씩 2테이블)
-    omok:     { enabled: true, every-minutes: 120, offset-minutes: 0 }   # 오목 1:1: 2시간마다, 러시안 룰렛과 1시간씩 번갈아
+    rroulette: { enabled: true, every-minutes: 80, offset-minutes: 40 }   # 러시안 룰렛: 오목과 40분씩 번갈아 (80분마다)
+    omok:     { enabled: true, every-minutes: 80, offset-minutes: 0 }    # 오목 1:1: 러시안 룰렛과 40분씩 번갈아 (80분마다)
   casino:
     accept-seconds: 60          # 초대장 수락 받는 시간 (/수락 또는 채팅의 [수락])
     min-held: 50                # ★ 초대장 받는 최소 보유 다이아
@@ -695,7 +697,7 @@ minigame:
       invite-max: 4
       wait-seconds: 20              # ★ 의자에 앉은 뒤 정신 차리는 시간
       length: 7
-      seconds: 5                    # ★ 키 전체 입력 제한시간(초) (per-key-seconds 가 0 일 때)
+      seconds: 2.5                  # ★ 키 전체 입력 제한시간(초, 소수 가능) (per-key-seconds 가 0 일 때)
       per-key-seconds: 0            # ★ 키 하나마다 제한시간(초). 0 = 위 seconds 가 전체 시간
       naked: true                   # ★ 맨몸으로 초대 (아이템은 맡겼다가 끝나면 돌려줌)
       kill-after-ticks: 40          # ★ 실패하면 날아간 뒤 이 틱 후 사망 (아이템 유지, 0 = 안 죽임)
@@ -776,6 +778,8 @@ minigame:
       turn-seconds: 20              # 차례 제한시간 (넘기면 차례가 넘어감)
       max-timeouts: 2               # 시간 초과 이 횟수면 패배
       result-seconds: 5             # 결과 보여 준 뒤 원래 자리로
+      duel:                         # 오목 자유 대전 (/오목 신청 <닉네임> <다이아>, NPC 동작 omok) — 건 다이아 제한 없음
+        fee-percent: 5              # ★ 수수료 % (양쪽에서 각각)
 # ── 디스코드 보이스 자동 이동 (kkaegul-discord-bot) ─────────
 # 포커·섯다 테이블이 정해지면 같은 테이블 사람끼리 테이블별 음성 채널로 옮기고, 끝나면 원래 채널로 돌려보냄.
 # 유저는 /디코연동 → 디스코드에서 /연동 <코드> 한 번만. 디스코드 음성 채널에 들어가 있는 사람만 옮길 수 있음.
@@ -826,3 +830,9 @@ locations:                      # /kg setloc 으로 바꾸면 그쪽이 우선
 cleanup:
   enabled: true
   interval-seconds: 180
+
+# ── 농사 밭 보호 (AddCrop 경작지는 웅크리고 부술 때만 부서짐)
+farm:
+  pot-guard:
+    enabled: true
+    prefixes: ["addcrop:addcrop_pot"]

@@ -20,7 +20,25 @@ import org.bukkit.entity.Player;
 public final class GaugeService {
     private final KkaegulCore plugin;
 
-    public GaugeService(KkaegulCore plugin) { this.plugin = plugin; }
+    private long randomSlot = Long.MIN_VALUE;
+
+    public GaugeService(KkaegulCore plugin) {
+        this.plugin = plugin;
+        Bukkit.getScheduler().runTaskTimer(plugin, this::randomTick, 20L * 30, 20L * 30);
+    }
+
+    /** gauge.random-every-hours(3)마다 (0시·3시·6시… 서버 시간 기준) 공용 게이지를 0~max 랜덤 값으로 */
+    private void randomTick() {
+        int hours = plugin.getConfig().getInt("gauge.random-every-hours", 3);
+        if (hours <= 0) return;
+        long sec = java.time.ZonedDateTime.now(plugin.clock().zone()).toLocalDateTime().toEpochSecond(java.time.ZoneOffset.UTC);
+        long slot = sec / (hours * 3600L);
+        if (randomSlot == Long.MIN_VALUE) { randomSlot = slot; return; }   // 켜자마자는 안 바꿈
+        if (slot == randomSlot) return;
+        randomSlot = slot;
+        int v = set(kr.kkaegul.core.util.Rng.range(0, max()));
+        plugin.announce("&6[운빨 게이지] &f게이지가 랜덤으로 바뀌었어요! &7→ 현재 &e" + v, true);
+    }
 
     public int max() { return plugin.getConfig().getInt("gauge.max", 99); }
 

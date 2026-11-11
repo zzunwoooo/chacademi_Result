@@ -26,7 +26,7 @@ public final class MinigameView {
 
     private List<Character> keys = List.of();
     private int keyIndex;
-    private long wasdAt, wasdSec, wasdEnd;
+    private long wasdAt, wasdSec, wasdMs, wasdEnd;
     private boolean wasdOn, wasdDone, wasdOk;
     private String wasdTitle = "";
 
@@ -53,6 +53,7 @@ public final class MinigameView {
             keys = k;
             keyIndex = (int) J.num(d, "index");
             wasdSec = Math.max(1, J.num(d, "seconds", 7));
+            wasdMs = d.has("ms") ? Math.max(500, J.num(d, "ms")) : wasdSec * 1000;   // 2.5초 같은 소수 초
             wasdTitle = J.str(d, "title");
             wasdAt = now;
             wasdOn = true;
@@ -70,7 +71,7 @@ public final class MinigameView {
     public void update(String screen, JsonObject d, long now) {
         if (screen.equals("wasd")) {
             keyIndex = (int) J.num(d, "index", keyIndex);
-            if (d.has("seconds") && !J.bool(d, "done")) { wasdSec = Math.max(1, J.num(d, "seconds", wasdSec)); wasdAt = now; }   // 키마다 제한시간 다시
+            if (d.has("seconds") && !J.bool(d, "done")) { wasdSec = Math.max(1, J.num(d, "seconds", wasdSec)); wasdMs = wasdSec * 1000; wasdAt = now; }   // 키마다 제한시간 다시
             if (J.bool(d, "done")) { wasdDone = true; wasdOk = J.bool(d, "success"); wasdEnd = now; }
         } else if (game != null) { game = J.merge(game, d); bangCheck(d, now); }
     }
@@ -101,7 +102,7 @@ public final class MinigameView {
         if (!title.isEmpty() && !res) titleRibbon(c, title);
         // 남은 시간
         long left = -1, total = 1;
-        if (wasdShow && !wasdDone) { total = wasdSec * 1000; left = Math.max(0, total - (now - wasdAt)); }
+        if (wasdShow && !wasdDone) { total = wasdMs; left = Math.max(0, total - (now - wasdAt)); }
         else if (game != null && J.num(game, "seconds") > 0) { total = J.num(game, "seconds") * 1000; left = Math.max(0, total - (now - gameAt)); }
         // 타이머: 오른쪽 위는 미니맵과 겹쳐서 화면 아래 가운데로. 다른 판보다 나중에 그려서 가려지지 않게
         boolean showTimer = left >= 0 && !res;

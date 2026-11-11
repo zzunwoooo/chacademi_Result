@@ -26,6 +26,7 @@ public final class MinigameManager {
     private final KkaegulCore plugin;
     private final Map<String, Minigame> games = new LinkedHashMap<>();
     private final CardDrawService cards;
+    private final OmokDuel duel;
     /** 초대장 받고 이동 기다리는 사람 (게임 id 별) */
     private final Map<String, List<UUID>> pending = new HashMap<>();
     /** 지난 위험한 초대 참가자 */
@@ -43,6 +44,7 @@ public final class MinigameManager {
     public MinigameManager(KkaegulCore plugin) {
         this.plugin = plugin;
         this.cards = new CardDrawService(plugin);
+        this.duel = new OmokDuel(plugin);
         register(new PeperoGame(plugin));
         register(new DangerousInviteGame(plugin));
         register(new TreasureHuntGame(plugin));
@@ -58,6 +60,8 @@ public final class MinigameManager {
     public Map<String, Minigame> games() { return games; }
 
     public CardDrawService cards() { return cards; }
+
+    public OmokDuel duel() { return duel; }
 
     public Minigame game(String id) { return games.get(id); }
 
@@ -80,7 +84,7 @@ public final class MinigameManager {
 
     /** 게임 중이거나 초대받아 이동 대기 중 */
     public boolean busy(Player p) {
-        if (gameOf(p) != null) return true;
+        if (gameOf(p) != null || duel.playing(p)) return true;
         for (List<UUID> l : pending.values()) if (l.contains(p.getUniqueId())) return true;
         return false;
     }
@@ -330,6 +334,7 @@ public final class MinigameManager {
 
     public void stop() {
         for (Minigame g : games.values()) if (g.running()) g.end();
+        duel.shutdown();
         pending.clear();
         casinoGame = null;
     }

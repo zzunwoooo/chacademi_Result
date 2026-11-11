@@ -135,10 +135,16 @@ public final class CoreListener implements Listener {
     }
 
     @EventHandler
+    public void onRegisterChannel(org.bukkit.event.player.PlayerRegisterChannelEvent e) {
+        if (kr.kkaegul.core.ui.UiBridge.OUT.equals(e.getChannel())) plugin.nickname().pushLater();
+    }
+
+    @EventHandler
     public void onQuit(PlayerQuitEvent e) {
         Player p = e.getPlayer();
         Minigame g = plugin.minigames().gameOf(p);
         if (g != null) g.quit(p);
+        plugin.minigames().duel().quit(p);
         plugin.mine().onQuit(p);
         plugin.wasd().cancel(p);
         plugin.frogJump().quit(p);

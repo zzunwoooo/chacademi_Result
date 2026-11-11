@@ -134,6 +134,9 @@ commands:
   wardrobe:
     description: 옷장 (치장품 장착/해제)
     aliases: [옷장]
+  omok:
+    description: 오목 자유 대전 (신청/수락/거절)
+    aliases: [오목]
 
 permissions:
   kkaegul.admin:

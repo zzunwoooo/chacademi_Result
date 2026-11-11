@@ -279,7 +279,10 @@ public final class HarassService {
             long stay = Rng.range(plugin.getConfig().getInt("tour.min-seconds", 3), plugin.getConfig().getInt("tour.max-seconds", 5)) * 20L;
             tasks.add(Bukkit.getScheduler().runTaskLater(plugin, () -> {
                 if (!p.isOnline() || !s.isOnline()) return;
-                p.teleport(s.getLocation());
+                Location to = tourSpot(s);
+                if (to == null) return;   // 갈 수 없는 곳(게임·감옥·발밑이 비어 있음)이면 건너뜀
+                p.setFallDistance(0);
+                p.teleport(to);
                 plugin.ui().center(s, "&d" + plugin.displayName(p), "&f순회공연 왔어요!");
             }, delay));
             delay += stay;
@@ -287,9 +290,27 @@ public final class HarassService {
         tasks.add(Bukkit.getScheduler().runTaskLater(plugin, () -> {
             touring.remove(p.getUniqueId());
             tourTasks.remove(p.getUniqueId());
-            if (p.isOnline()) p.teleport(home);
+            if (p.isOnline()) { p.setFallDistance(0); p.teleport(home); }
         }, delay));
         tourTasks.put(p.getUniqueId(), tasks);
+    }
+
+    /** 순회공연으로 보낼 자리: 상대 발밑에 땅이 있으면 그 자리, 공중이면 그 아래 가장 가까운 땅 위. 없으면 null */
+    private Location tourSpot(Player s) {
+        if (plugin.minigames().busy(s) || plugin.data().get(s).inJail) return null;
+        Location l = s.getLocation().clone();
+        org.bukkit.World w = l.getWorld();
+        if (w == null) return null;
+        int x = l.getBlockX(), z = l.getBlockZ();
+        for (int y = l.getBlockY() - 1; y >= Math.max(w.getMinHeight(), l.getBlockY() - 64); y--) {
+            org.bukkit.block.Block b = w.getBlockAt(x, y, z);
+            if (b.getType().isSolid() && !b.getRelative(0, 1, 0).getType().isSolid() && !b.getRelative(0, 2, 0).getType().isSolid()) {
+                Location to = l.clone();
+                to.setY(y + 1);
+                return to;
+            }
+        }
+        return null;
     }
 
     /** 순회공연 중 죽으면 남은 이동 취소 (원래 자리로도 안 보냄 — 평소처럼 리스폰) */

@@ -172,13 +172,14 @@ public final class DangerousInviteGame extends Minigame {
             seated.add(p.getUniqueId());
             // 초대장은 MinigameManager 가 초대할 때 이미 보냄 (여기서 또 보내면 2번 뜸)
         }
-        int len = cfgInt("length", 7), sec = cfgInt("seconds", 7);
+        int len = cfgInt("length", 7);
+        double sec = cfgDouble("seconds", 7);
         waitPhase(cfgInt("wait-seconds", 30), "위험한 초대 시작", () -> {
             for (Player p : online()) hudOpen(p, Json.obj());
             later(cfgInt("countdown-ticks", 60), () -> {
                 for (Player p : online()) plugin.wasd().start(p, len, sec, cfgInt("per-key-seconds", 3), label(), this::success, this::fail);
             });
-            int pk = cfgInt("per-key-seconds", 3), total = pk > 0 ? pk * len : sec;
+            int pk = cfgInt("per-key-seconds", 3), total = pk > 0 ? pk * len : (int) Math.ceil(sec);
             later(cfgInt("countdown-ticks", 60) + (total + 8) * 20L, this::end);
         });
     }

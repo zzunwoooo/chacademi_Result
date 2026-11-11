@@ -71,6 +71,7 @@ public final class NpcService {
         builtins.put("titles", p -> plugin.titles().open(p));
         builtins.put("card-draw", p -> plugin.minigames().cards().open(p));
         builtins.put("wardrobe", p -> plugin.cosmetics().open(p));   // 옷장 (치장품)
+        builtins.put("omok", p -> plugin.minigames().duel().help(p));   // 오목 자유 대전 안내 (/오목 신청)
     }
 
     public FortuneService fortune() { return fortune; }

@@ -30,7 +30,7 @@ public final class Commands implements CommandExecutor, TabCompleter {
         this.plugin = plugin;
         this.actions = actions;
         for (String c : List.of("kg", "kapi", "ksapi", "mailbox", "submit", "randomsubmit", "sell", "buycoin", "farmprice",
-                "gacha", "fortune", "wild", "jailexit", "title", "hall", "playtime", "trash", "me", "usertp", "gauge", "profile", "withdraw", "deposit", "nickname", "frogjump", "frograce", "poker", "seotda", "discordlink", "kgnotice", "kgwhisper", "kgreply", "kghelp", "kgaccept", "kgtp", "kgsummon", "coupon", "couponadmin", "wardrobe")) {
+                "gacha", "fortune", "wild", "jailexit", "title", "hall", "playtime", "trash", "me", "usertp", "gauge", "profile", "withdraw", "deposit", "nickname", "frogjump", "frograce", "poker", "seotda", "discordlink", "kgnotice", "kgwhisper", "kgreply", "kghelp", "kgaccept", "kgtp", "kgsummon", "coupon", "couponadmin", "wardrobe", "omok")) {
             PluginCommand pc = plugin.getCommand(c);
             if (pc == null) { plugin.getLogger().warning("plugin.yml 에 명령어 없음: " + c); continue; }
             pc.setExecutor(this);
@@ -94,6 +94,13 @@ public final class Commands implements CommandExecutor, TabCompleter {
             case "coupon" -> plugin.coupons().use(p, a.length > 0 ? a[0] : "");
             case "couponadmin" -> plugin.coupons().admin(p, a);
             case "wardrobe" -> plugin.cosmetics().open(p);   // /옷장
+            case "omok" -> {   // /오목 신청 <닉네임> <다이아> · 수락 · 거절
+                var duel = plugin.minigames().duel();
+                if (a.length >= 3 && (a[0].equals("신청") || a[0].equalsIgnoreCase("ask"))) duel.offer(p, a[1], Actions.parse(a[2], 0));
+                else if (a.length >= 1 && (a[0].equals("수락") || a[0].equalsIgnoreCase("accept"))) duel.accept(p);
+                else if (a.length >= 1 && (a[0].equals("거절") || a[0].equalsIgnoreCase("deny"))) duel.deny(p);
+                else duel.help(p);
+            }
             case "kgtp", "kgsummon" -> {
                 boolean summon = name.equals("kgsummon");
                 if (a.length < 1) { plugin.ui().error(p, summon ? "&c/소환 <닉네임>" : "&c/텔포 <닉네임>"); return; }
@@ -772,6 +779,7 @@ public final class Commands implements CommandExecutor, TabCompleter {
             case "buycoin" -> { if (i == 1) out.addAll(List.of("1", "10", "다이아")); }
             case "withdraw" -> { if (i == 1) out.addAll(List.of("1", "10", "64")); }
             case "frogjump" -> { if (i == 1) out.addAll(List.of("시작", "그만")); else if (i == 2 && a[0].equals("시작")) out.addAll(List.of("1", "10", "50")); }
+            case "omok" -> { if (i == 1) out.addAll(List.of("신청", "수락", "거절")); else if (i == 2 && a[0].equals("신청")) out.addAll(players()); else if (i == 3) out.addAll(List.of("10", "50", "100")); }
             case "frograce" -> { if (i == 1) out.add("걸기"); else if (i == 2) out.addAll(List.of("1", "2", "3", "4", "5", "6")); else if (i == 3) out.addAll(List.of("1", "10", "50")); }
             case "wild" -> { if (i == 1) out.add("랜덤"); }
             case "jailexit" -> { if (i == 1) out.addAll(List.of("로비", "복귀", "게임")); }

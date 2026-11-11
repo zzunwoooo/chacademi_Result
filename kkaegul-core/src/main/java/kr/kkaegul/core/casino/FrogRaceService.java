@@ -206,6 +206,9 @@ public final class FrogRaceService {
         if (state != State.BETTING) { plugin.ui().error(p, "&c[개구리 경주] 지금은 걸 수 없어요."); sync(p); return; }
         if (no < 1 || no > frogs.size()) { plugin.ui().error(p, "&c[개구리 경주] 1~" + frogs.size() + "번 중에 골라 주세요."); sync(p); return; }
         Map<Integer, Long> mine = bets.computeIfAbsent(p.getUniqueId(), k -> new LinkedHashMap<>());
+        for (int other : mine.keySet()) if (other != no && mine.get(other) > 0) {
+            plugin.ui().error(p, "&c[개구리 경주] 한 경기에 한 마리에게만 걸 수 있어요. &7(이미 " + other + "번에 걸었어요)"); sync(p); return;
+        }
         long total = mine.values().stream().mapToLong(Long::longValue).sum();
         if (amount < minBet() || total + amount > maxBet()) { plugin.ui().error(p, "&c[개구리 경주] 한 경기에 " + minBet() + "~" + maxBet() + "개까지 걸 수 있어요. &7(지금 " + total + "개)"); sync(p); return; }
         long have = coins(p);

@@ -33,9 +33,10 @@ public final class Actions {
             else if (g instanceof kr.kkaegul.core.casino.seotda.SeotdaGame sg && game.equals("seotda")) sg.handle(p, json);
             else kr.kkaegul.core.casino.CasinoSupport.close(plugin, p, game.equals("seotda") ? "seotda" : "holdem");
         });
-        ui.onAction("omok.place", (p, a) -> {   // 오목판 클릭
-            if (plugin.minigames().game("omok") instanceof kr.kkaegul.core.minigame.OmokGame og)
-                og.place(p, parse(a.getOrDefault("x", "-1"), -1), parse(a.getOrDefault("y", "-1"), -1));
+        ui.onAction("omok.place", (p, a) -> {   // 오목판 클릭 (자유 대전 먼저)
+            int x = parse(a.getOrDefault("x", "-1"), -1), y = parse(a.getOrDefault("y", "-1"), -1);
+            if (plugin.minigames().duel().place(p, x, y)) return;
+            if (plugin.minigames().game("omok") instanceof kr.kkaegul.core.minigame.OmokGame og) og.place(p, x, y);
         });
         ui.onAction("npc", (p, a) -> plugin.npcs().run(p, a.getOrDefault("id", "")));
         ui.onAction("gacha.info", (p, a) -> plugin.ui().open(p, "gacha", plugin.gacha().info(p, a.getOrDefault("machine", "1"))));

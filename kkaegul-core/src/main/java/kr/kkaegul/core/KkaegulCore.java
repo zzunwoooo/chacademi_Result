@@ -152,6 +152,7 @@ public final class KkaegulCore extends JavaPlugin {
         new Commands(this, act);
 
         Bukkit.getPluginManager().registerEvents(new CoreListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new kr.kkaegul.core.land.PotGuard(this), this);
         Bukkit.getPluginManager().registerEvents(new ItemUseListener(this), this);
         Bukkit.getPluginManager().registerEvents(harass.mineMobs, this);
         Bukkit.getPluginManager().registerEvents(wallet, this);
