@@ -56,7 +56,8 @@ public final class CleanupService {
 
     /** 자연 스폰된 평범한 몹만 true */
     private static boolean unowned(Mob m) {
-        if (m instanceof Boss || m instanceof org.bukkit.entity.Shulker) return false;   // 셜커(껍데기 파밍)는 안 지움
+        // 셜커·철골렘·눈골렘(Golem)·주민·떠돌이 상인은 원래 사라지지 않는 몹이라 안 지움 (엔드 셜커 껍데기 파밍)
+        if (m instanceof Boss || m instanceof org.bukkit.entity.Golem || m instanceof org.bukkit.entity.AbstractVillager) return false;
         if (m instanceof Tameable t && t.isTamed()) return false;
         if (m.customName() != null || m.isLeashed() || m.isInsideVehicle() || !m.getPassengers().isEmpty()) return false;
         if (!m.getRemoveWhenFarAway()) return false;      // 주민·플러그인 소환 몹 등 '남겨둘' 몹
