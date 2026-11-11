@@ -58,6 +58,7 @@ public final class Actions {
         ui.onAction("shop.cropBuy", (p, a) -> { plugin.economy().crops().buy(p, a.get("id"), parseAmount(a)); shopSync(p); });
         ui.onAction("shop.cropSell", (p, a) -> { plugin.economy().crops().sell(p, a.get("id"), parseAmount(a)); shopSync(p); });
         ui.onAction("shop.cropSellAll", (p, a) -> { plugin.economy().crops().sellAll(p); shopSync(p); });
+        ui.onAction("shop.itemBuy", (p, a) -> { plugin.economy().coinItems().buy(p, a.get("id"), parseAmount(a)); shopSync(p); });   // 아이템 탭 (코인)
         ui.onAction("shop.buy", (p, a) -> { plugin.economy().buyCoins(p, (int) Math.max(1, Math.min(parseAmount(a), plugin.getConfig().getInt("economy.coin.max-per-buy", 100)))); shopSync(p); });
         ui.onAction("jump.open", (p, a) -> plugin.frogJump().open(p));
         ui.onAction("jump.start", (p, a) -> plugin.frogJump().start(p, parseAmount(a)));

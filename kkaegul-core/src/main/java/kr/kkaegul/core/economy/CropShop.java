@@ -129,7 +129,19 @@ public final class CropShop {
         if (l != null) return l;
         ItemStack it = make(id, 1);
         if (it == null) return new String[]{id, ""};
-        String name = id.substring(id.indexOf(':') + 1);
+        String[] dsc = describe(it, id.substring(id.indexOf(':') + 1));
+        String name = Txt.strip(names.getOrDefault(id, dsc[0])).replace("★", "").trim();
+        if (id.endsWith("_silver")) name += " (은별)";
+        else if (id.endsWith("_golden")) name += " (금별)";
+        l = new String[]{name, dsc[1]};
+        look.put(id, l);
+        return l;
+    }
+
+    /** 아이템 → [보이는 이름, 모드 아이콘 문자열] (코인 아이템 탭도 같이 씀) */
+    static String[] describe(ItemStack it, String fallback) {
+        if (it == null) return new String[]{fallback, ""};
+        String name = fallback;
         StringBuilder icon = new StringBuilder(it.getType().getKey().toString());
         ItemMeta meta = it.getItemMeta();
         if (meta != null) {
@@ -144,12 +156,7 @@ public final class CropShop {
                 }
             } catch (LinkageError | RuntimeException ignored) { }
         }
-        name = Txt.strip(names.getOrDefault(id, name)).replace("★", "").trim();
-        if (id.endsWith("_silver")) name += " (은별)";
-        else if (id.endsWith("_golden")) name += " (금별)";
-        l = new String[]{name, icon.toString()};
-        look.put(id, l);
-        return l;
+        return new String[]{Txt.strip(name).trim(), icon.toString()};
     }
 
     /** 상점 창 데이터 crop: {buy:[...], sell:[...]} */

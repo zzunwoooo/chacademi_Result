@@ -81,11 +81,13 @@ public final class ShopPanel implements Panel {
 
     // ───────── 데이터 ─────────
     /** 목록이 있는 탭 (판매 / 농작물) */
-    private boolean listTab() { return tab.equals("sell") || tab.equals("farm"); }
-    /** 농작물 탭의 씨앗·도구 = 구매 */
-    private boolean farmBuy() { return tab.equals("farm") && farmFilter < 2; }
+    private boolean listTab() { return tab.equals("sell") || tab.equals("farm") || tab.equals("item"); }
+    /** 구매 목록 = 농작물 탭의 씨앗·도구 / 아이템 탭(코인) */
+    private boolean farmBuy() { return tab.equals("item") || tab.equals("farm") && farmFilter < 2; }
+    private boolean coinTab() { return tab.equals("item"); }
 
     private List<JsonObject> source() {
+        if (coinTab()) return J.objs(data, "coinItems");
         if (!tab.equals("farm")) return J.objs(data, "sell");
         JsonObject crop = J.objOrEmpty(data, "crop");
         return J.objs(crop, farmFilter == 2 ? "sell" : "buy");
@@ -94,7 +96,8 @@ public final class ShopPanel implements Panel {
     private List<JsonObject> items() {
         List<JsonObject> out = new ArrayList<>();
         for (JsonObject o : source()) {
-            if (tab.equals("farm")) {
+            if (coinTab()) { /* 거르기 없음 */ }
+            else if (tab.equals("farm")) {
                 String g = J.str(o, "group");
                 if (farmFilter == 0 && !g.equals("seed") || farmFilter == 1 && !g.equals("tool")) continue;
             } else {
@@ -107,11 +110,12 @@ public final class ShopPanel implements Panel {
         return out;
     }
 
-    /** 구매 묶음 수 (보유 다이아로 살 수 있는 만큼, 최대 64) */
+    /** 구매 묶음 수 (보유 다이아·아이템 탭은 코인으로 살 수 있는 만큼, 최대 64) */
     private long buyLimit(JsonObject s) {
         long price = s == null ? 1 : Math.max(1, J.num(s, "price", 1));
-        return Math.max(1, Math.min(64, avail() / price));
+        return Math.max(1, Math.min(64, buyMoney() / price));
     }
+    private long buyMoney() { return coinTab() ? J.num(data, "coins") : avail(); }
     private long buyAmount() { return typedOr(Math.max(1, buyAmt), 64); }
 
     private JsonObject sel(List<JsonObject> all) {
@@ -187,10 +191,12 @@ public final class ShopPanel implements Panel {
         // 왼쪽 메뉴
         // v3 프레임 왼쪽 칸 장식: 흐린 클로버 x 62~100 y 198~232 · 반짝이 x 45~70 y 240~270 · 큰 반짝이 x 18~60 y 295~345 → 글자·메뉴 판은 그 오른쪽(x≥66)
         c.text("메뉴", 108, 220, 22, Theme.MUTED, Canvas.LEFT, TXT);
-        // 순서: 코인 구매 / 코인 판매 / 판매 / 농작물
+        // 순서: 코인 구매 / 코인 판매 / 아이템 / 판매 / 농작물
         float my2 = 262;
         menu(c, "coin", my2, "shop/coin_48", "코인 구매", mx, my); my2 += 80;
         if (J.num(data, "toDiamond") > 0) { menu(c, "ex", my2, "shop/diamond_48", "코인 판매", mx, my); my2 += 80; }
+        List<JsonObject> ci = J.objs(data, "coinItems");
+        if (!ci.isEmpty()) { menu(c, "item", my2, "item:" + icon(ci.get(0)), "아이템", mx, my); my2 += 80; }
         menu(c, "sell", my2, "shop/sell_tab_pickaxe", "판매", mx, my); my2 += 80;
         if (!J.objs(J.objOrEmpty(data, "crop"), "buy").isEmpty()) menu(c, "farm", my2, "item:minecraft:wheat", "농작물", mx, my);
         // 보유: 구분선(766) 아래 ~ 왼쪽 아래 모서리 장식(y≥880) 위, 반짝이(x 45~70 y 805~832)·흐린 클로버(x 55~90 y 838~875) 오른쪽(x≥100)
@@ -279,7 +285,8 @@ public final class ShopPanel implements Panel {
     private void sell(Canvas c, long now, float mx, float my) {
         boolean farmTab = tab.equals("farm");
         int f = farmTab ? farmFilter : filter;
-        c.text(farmTab ? "농작물" : "판매 아이템", 330, 216, 30, Theme.INK, Canvas.LEFT, TXT);
+        c.text(coinTab() ? "코인 아이템" : farmTab ? "농작물" : "판매 아이템", 330, 216, 30, Theme.INK, Canvas.LEFT, TXT);
+        if (!coinTab()) {
         String fimg = f == 0 ? "shop/filter_left_selected" : f == 1 ? "shop/filter_center_selected" : "shop/filter_right_selected";
         c.image(fimg, 324, 254, 420, 54, 0xFFFFFFFF);
         String[] fl = farmTab ? new String[]{"씨앗", "도구", "판매"} : new String[]{"전체", "광물", "작물"};
@@ -300,12 +307,13 @@ public final class ShopPanel implements Panel {
         boolean hS = Anim.in(mx, my, 990, 254, 56, 56);
         c.image("shop/search", 998, 262, 40, 40, hS || search != null ? 0xFFB9E39A : 0xFFFFFFFF);
         hits.add(new R("search", 990, 254, 56, 56));
+        }
 
         List<JsonObject> all = items();
         JsonObject s = sel(all);
         int rows = (all.size() + 2) / 3;
         scrollRow = Math.max(0, Math.min(scrollRow, Math.max(0, rows - 2)));
-        if (all.isEmpty()) c.text(search != null ? "찾는 아이템이 없어요" : "팔 수 있는 아이템이 없어요", 688, 600, 26, Theme.MUTED, Canvas.CENTER, TXT);
+        if (all.isEmpty()) c.text(search != null ? "찾는 아이템이 없어요" : coinTab() ? "살 수 있는 아이템이 없어요" : "팔 수 있는 아이템이 없어요", 688, 600, 26, Theme.MUTED, Canvas.CENTER, TXT);
         for (int r = 0; r < 2; r++)
             for (int col = 0; col < 3; col++) {
                 int i = (scrollRow + r) * 3 + col;
@@ -317,7 +325,9 @@ public final class ShopPanel implements Panel {
             c.fill(1056, 334, 6, 538, 3, 0x22000000);
             c.fill(1056, ty, 6, th, 3, 0xFF9CCB6C);
         }
-        if (farmTab) {
+        if (coinTab()) {
+            c.text("깨굴코인으로 사요", 330, 917, 24, Theme.MUTED, Canvas.LEFT, TXT);
+        } else if (farmTab) {
             c.text(farmBuy() ? "다이아로 사요 · 가격은 고정이에요" : "작물은 고정 시세로 팔아요", 330, 917, 24, Theme.MUTED, Canvas.LEFT, TXT);
         } else { // 시세 갱신
             long left = Math.max(0, J.num(data, "farmNextMs") - (now - recvAt)) / 1000;
@@ -332,7 +342,7 @@ public final class ShopPanel implements Panel {
             float bob = (float) Math.sin(now / 420.0) * 3;
             c.item(icon(s), 1255, 236 + bob, 96);
             c.textFit(J.str(s, "name"), 1303, 352, 30, 380, Theme.INK, Canvas.CENTER, TXT);
-            if (!farmTab) trend(c, s, 1303, 380);
+            if (!farmTab && !coinTab()) trend(c, s, 1303, 380);
         } else c.text("아이템을 골라 주세요", 1303, 290, 24, Theme.MUTED, Canvas.CENTER, TXT);
         c.image("shop/divider_horizontal", 1112, 400, 382, 2, 0xFFFFFFFF);
         if (farmBuy()) buyPanel(c, now, s, mx, my); else sellInfo(c, now, s, farmTab, mx, my);
@@ -390,21 +400,23 @@ public final class ShopPanel implements Panel {
     /** 농작물 탭 구매: 묶음 수 고르기 → shop.cropBuy */
     private void buyPanel(Canvas c, long now, JsonObject s, float mx, float my) {
         long per = s == null ? 0 : J.num(s, "amount", 1), price = s == null ? 0 : J.num(s, "price");
+        boolean ct = coinTab();
+        String cur = ct ? "shop/coin_32" : "shop/diamond_32", curName = ct ? "코인" : "다이아";
         c.text("한 묶음", 1116, 426, 24, Theme.INK, Canvas.LEFT, TXT);
         value(c, null, Fmt.num(per) + "개", 426, Theme.INK);
         c.text("묶음 가격", 1116, 464, 24, Theme.INK, Canvas.LEFT, TXT);
-        value(c, "shop/diamond_32", Fmt.num(price), 464, Theme.INK);
+        value(c, cur, Fmt.num(price), 464, Theme.INK);
         c.image("shop/divider_horizontal", 1112, 488, 382, 2, 0xFFFFFFFF);
         c.text("구매 묶음 수", 1116, 512, 24, Theme.INK, Canvas.LEFT, TXT);
         long n = buyAmount();
         stepper(c, now, 532, n, mx, my);
         c.image("shop/divider_horizontal", 1112, 604, 382, 2, 0xFFFFFFFF);
-        long cost = n * price, after = avail() - cost;
-        c.text("필요 다이아", 1116, 630, 24, Theme.INK, Canvas.LEFT, TXT);
-        value(c, "shop/diamond_32", Fmt.num(cost), 630, Theme.INK);
-        c.textFit("받는 개수 " + Fmt.num(n * per) + "개 · 구매 후 다이아 " + Fmt.num(after), 1303, 657, 17, 380, after < 0 ? Theme.RED : Theme.MUTED, Canvas.CENTER, TXT);
+        long cost = n * price, after = buyMoney() - cost;
+        c.text("필요 " + curName, 1116, 630, 24, Theme.INK, Canvas.LEFT, TXT);
+        value(c, cur, Fmt.num(cost), 630, Theme.INK);
+        c.textFit("받는 개수 " + Fmt.num(n * per) + "개 · 구매 후 " + curName + " " + Fmt.num(after), 1303, 657, 17, 380, after < 0 ? Theme.RED : Theme.MUTED, Canvas.CENTER, TXT);
         boolean b = busy(now), ok = s != null && n > 0 && after >= 0 && !b;
-        bigButton(c, "purchase", "cropBuy", 670, b ? "구매 중..." : after < 0 ? "다이아가 부족해요" : "구매하기", ok, mx, my, 0xFF5A3A12);
+        bigButton(c, "purchase", "cropBuy", 670, b ? "구매 중..." : after < 0 ? (ct ? "코인이 부족해요" : "다이아가 부족해요") : "구매하기", ok, mx, my, 0xFF5A3A12);
     }
 
     private void trend(Canvas c, JsonObject s, float cx, float y) {
@@ -430,7 +442,7 @@ public final class ShopPanel implements Panel {
         int t = (int) J.num(o, "trend");
         float tw = Math.min(120, c.textWidth(p, 26, TXT)), aw = J.bool(o, "farm") && t != 0 ? 30 : 0;
         float sx = x + 116 - (30 + tw + aw) / 2;
-        c.image("shop/diamond_24", sx, y + 172, 24, 24, 0xFFFFFFFF);
+        c.image(coinTab() ? "shop/coin_32" : "shop/diamond_24", sx, y + 172, 24, 24, 0xFFFFFFFF);
         c.textFit(p, sx + 30, y + 185, 26, 120, Theme.INK, Canvas.LEFT, TXT);
         if (aw > 0) c.image(t > 0 ? "shop/up" : "shop/down", sx + 30 + tw + 6, y + 172, 24, 24, 0xFFFFFFFF);
         c.image("shop/divider_horizontal", x + 24, y + 210, 184, 1.5f, 0xFFFFFFFF);
@@ -676,9 +688,9 @@ public final class ShopPanel implements Panel {
                 }
                 case "cropBuy" -> {
                     long n = buyAmount();
-                    if (s == null || busy(now) || n <= 0 || n * J.num(s, "price") > avail()) { host.sound("minecraft:block.note_block.bass", .7f, .5f); return true; }
+                    if (s == null || busy(now) || n <= 0 || n * J.num(s, "price") > buyMoney()) { host.sound("minecraft:block.note_block.bass", .7f, .5f); return true; }
                     waitingSince = now;
-                    host.send("shop.cropBuy", "id", J.str(s, "id"), "amount", String.valueOf(n));
+                    host.send(coinTab() ? "shop.itemBuy" : "shop.cropBuy", "id", J.str(s, "id"), "amount", String.valueOf(n));
                     host.sound("minecraft:entity.experience_orb.pickup", 1.1f, .6f);
                 }
                 case "buy" -> {

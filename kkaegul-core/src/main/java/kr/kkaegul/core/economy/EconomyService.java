@@ -24,10 +24,12 @@ import java.util.Map;
 public final class EconomyService {
     private final KkaegulCore plugin;
     private final CropShop crops;
+    private final CoinItemShop coinItems;
 
     public EconomyService(KkaegulCore plugin) {
         this.plugin = plugin;
         this.crops = new CropShop(plugin, this);
+        this.coinItems = new CoinItemShop(plugin);
         if (plugin.global().farmPrices.isEmpty() || farmOutOfRange()) rerollFarm(false); // 예전(돈) 시세가 남아 있으면 새로 뽑기
         else if (crops.needsReroll()) crops.reroll();
         long period = Math.max(1, plugin.getConfig().getLong("economy.farm-reroll-minutes", 60)) * 60L * 20L;
@@ -69,6 +71,7 @@ public final class EconomyService {
 
     /** 상점 "농작물" 탭 */
     public CropShop crops() { return crops; }
+    public CoinItemShop coinItems() { return coinItems; }
 
     /** 상점 창 열기 (tab: coin / sell). 렌더러 없으면 false */
     public boolean openShop(Player p, String tab) {
@@ -207,7 +210,7 @@ public final class EconomyService {
                 .put("coinPrice", plugin.getConfig().getLong("economy.coin.price-diamonds", 1))
                 .put("coinMax", plugin.getConfig().getInt("economy.coin.max-per-buy", 100)).put("outcomes", outcomes())
                 .put("toDiamond", toDiamondRate())
-                .put("sell", sell).put("farmNextMs", Math.max(0, next - System.currentTimeMillis())).put("crop", crops.info(p));
+                .put("sell", sell).put("farmNextMs", Math.max(0, next - System.currentTimeMillis())).put("crop", crops.info(p)).put("coinItems", coinItems.info());
     }
 
     // ───────── 코인 구매 ─────────

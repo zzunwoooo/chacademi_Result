@@ -381,6 +381,11 @@ economy:
       - { id: "addcrop:addcrop_item_scythe_iron", price: 10 }
       - { id: "addcrop:addcrop_item_scythe_diamond", price: 40 }
       - { id: "minecraft:diamond_hoe", name: "다이아 호미", price: 15 }
+  coin-items:                   # ★ 상점 "아이템" 탭 (코인 구매·판매 아래): 깨굴코인으로 사는 아이템 (id = 깨굴 아이템 id, price = 코인)
+    - { id: inven_save_ticket, price: 15 }
+    - { id: return_ticket, price: 15 }
+    - { id: teleport_ticket, price: 5 }
+    - { id: gauge_random, price: 5 }
   diamond-exchange:             # 의뢰인 고민 중 → 기본 꺼짐
     enabled: false
     coins-per-diamond: 1
