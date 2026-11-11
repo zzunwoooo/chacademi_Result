@@ -46,6 +46,8 @@ public final class LandPanel implements Panel {
         return new ArrayList<>(m.values());
     }
 
+    private static final float HW = 220, HH = 55, HX = 960 - HW / 2, HY = 796;
+
     private float maxScroll(int n) { return Math.max(0, n * 100 - 484); }
 
     private void close(long now) { if (closing < 0) closing = now; }
@@ -100,8 +102,12 @@ public final class LandPanel implements Panel {
             float th = Math.max(40, 480 * 484f / (rows.size() * 100));
             c.image("mail/mail_scroll_thumb", 1320, 290 + (480 - th) * shown / maxScroll(rows.size()), 16, th, Anim.white(a));
         }
+        // 집 위치 버튼: 지금 서 있는 자리를 집으로 (이동 > 마을 때 여기로)
+        boolean hh = live && Anim.in(lx, ly, HX, HY, HW, HH);
+        c.imageNine(hh ? "dropdown/withdraw_button_hover" : "dropdown/withdraw_button_normal", HX, HY - (hh ? 2 : 0), HW, HH, .3f, .4f, 26, 22, Anim.white(a));
+        c.textFit("여기를 집으로", HX + HW / 2, HY + HH / 2 - (hh ? 2 : 0), 22, HW - 30, Anim.alpha(0xFF3E8E2F, a), Canvas.CENTER, TXT);
         String here = J.str(data, "here");
-        c.textFit("내 땅에 들어온 사람을 허용하면 같이 쓸 수 있어요" + (here.isEmpty() ? "" : "  ·  지금 청크 " + here), 960, 835, 20, 700, Anim.alpha(MUTED, a), Canvas.CENTER, TXT);
+        c.textFit("이동 > 마을 을 누르면 집으로 와요 · 허용한 사람은 내 땅을 같이 써요" + (here.isEmpty() ? "" : "  ·  지금 청크 " + here), 960, 868, 17, 700, Anim.alpha(MUTED, a), Canvas.CENTER, TXT);
         c.pop();
 
         if (confirm) renderConfirm(c, now, mx, my);
@@ -144,6 +150,7 @@ public final class LandPanel implements Panel {
         }
         float lx = (mx - ox) / k, ly = (my - oy) / k;
         if (Anim.in(lx, ly, 1290, 170, 60, 60) || !Anim.in(lx, ly, 560, 160, 800, 740)) { close(now); return true; }
+        if (Anim.in(lx, ly, HX, HY, HW, HH)) { host.send("land.sethome"); host.sound("minecraft:block.note_block.bell", 1.2f, .5f); return true; }
         if (ly > 284 && ly < 780) {
             List<Row> rows = rows();
             for (int i = 0; i < rows.size(); i++) {

@@ -23,6 +23,7 @@ public final class Actions {
         ui.onAction("hud.request", (p, a) -> plugin.hud().refresh(p));
         ui.onAction("land.open", (p, a) -> plugin.land().open(p));
         ui.onAction("land.release", (p, a) -> plugin.land().release(p));
+        ui.onAction("land.sethome", (p, a) -> plugin.land().setHome(p));   // 땅 관리 창 '여기를 집으로'
         ui.onAction("land.trust", (p, a) -> { try { plugin.land().trust(p, java.util.UUID.fromString(a.getOrDefault("uuid", ""))); } catch (IllegalArgumentException ignored) { } });
         ui.onAction("land.untrust", (p, a) -> { try { plugin.land().untrust(p, java.util.UUID.fromString(a.getOrDefault("uuid", ""))); } catch (IllegalArgumentException ignored) { } });
         ui.onAction("casino", (p, a) -> {
