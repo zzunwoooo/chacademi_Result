@@ -193,6 +193,7 @@ final class TowerService {
         // 시작 카드 (기본 공격 마법)
         run.firstPick = true;
         run.startPicksLeft = s.startSpellPicks;
+        client.loadout(p, run.spells);   // [기능:탑마법키] 원래 마법은 키에서 빠지고, 배우는 대로 왼쪽부터
         offerCards(p, -1);
     }
 
@@ -252,7 +253,8 @@ final class TowerService {
         run.phaseEndsAt = System.currentTimeMillis() + s.cardSeconds * 1000L;
         run.currentMinGrade = minGrade;
         showCards(p);
-        p.playSound(p.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 1, 1.2f);
+        if (!TowerClient.modded(p)) offerSound(p);   // [기능:탑카드소리] 모드가 있으면 카드가 한 장씩 뜰 때 클라가 등급별로
+
     }
 
     // 카드가 뜬 시각(run.offerShownAt): 바로 뒤 0.4초 동안의 고르기는 무시한다 (앞 카드를 두 번 눌렀을 때 새 카드까지 골라지는 것 방지).
@@ -260,8 +262,21 @@ final class TowerService {
     /** 카드 화면: 모드가 있으면 모드 화면(보유 증강 목록도 같이 보냄), 없으면 상자 창. */
     private void showCards(Player p) { if (!client.cards(p, s, run)) new CardMenu(s, run).open(p); }
 
-    // [기능:탑내증강 시작]
-    /** /탑 증강: 지금까지 고른 증강을 모아 보는 창. 모드가 있으면 카드 그림 그대로, 없으면 상자 창. */
+// [기능:탑카드소리 시작] 상자 창용: 이번 카드 중 가장 높은 등급의 소리
+private void offerSound(Player p) {
+    int best = 0;
+    for (var c : run.offer) best = Math.max(best, c.grade());
+    switch (best) {
+        case 0 -> p.playSound(p.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 1, 1.2f);
+        case 1 -> p.playSound(p.getLocation(), Sound.BLOCK_AMETHYST_BLOCK_CHIME, 1, 1.1f);
+        case 2 -> p.playSound(p.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1, 1.0f);
+        default -> { p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 0.6f, 1.2f); p.playSound(p.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 0.7f, 1.6f); }
+    }
+}
+// [기능:탑카드소리 끝]
+
+// [기능:탑내증강 시작]
+/** /탑 증강: 지금까지 고른 증강을 모아 보는 창. 모드가 있으면 카드 그림 그대로, 없으면 상자 창. */
     void showBuild(Player p) {
         if (!inRun(p)) { ChacaLink.notify(p, "warning", "tower:build", "탑 안에서만 볼 수 있어요", "", 1000); return; }
         if (client.build(p, s, run)) return;
@@ -357,7 +372,7 @@ final class TowerService {
         double v = c.value();
         int g = c.grade();
         switch (c.type()) {
-            case SPELL -> { if (magic.learn(p, c.spell())) { run.spells.add(c.spell()); run.spellNames.put(c.spell(), c.spellName()); run.spellGrades.put(c.spell(), g); } }
+            case SPELL -> { if (magic.learn(p, c.spell())) { run.spells.add(c.spell()); run.spellNames.put(c.spell(), c.spellName()); run.spellGrades.put(c.spell(), g); client.loadout(p, run.spells); } }
             case INTELLIGENCE -> { run.intelligence += (int) v; magic.addIntelligence(p, (int) v); }
             case HEALTH -> { run.maxHealthBonus += v; applyAttributes(p); p.setHealth(Math.min(maxHealth(p), p.getHealth() + v)); }
             case HEAL -> heal(p, maxHealth(p) * v);
@@ -739,6 +754,9 @@ final class TowerService {
             run.windUsed += add;
             p.setHealth(p.getHealth() + add);
         }
+        // [기능:탑야간투시] 탑 안은 어두워도 보이게 (오너 11/12) — 아이콘·입자 없는 무한 야간투시
+        var nv = p.getPotionEffect(PotionEffectType.NIGHT_VISION);
+        if (nv == null || !nv.isInfinite()) p.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, PotionEffect.INFINITE_DURATION, 0, false, false, false));
         // 배고픔 무한 (자연 회복은 TowerListener 가 막는다)
         p.setFoodLevel(20); p.setSaturation(20); p.setExhaustion(0);
         // 방 밖 검사
@@ -1022,20 +1040,36 @@ final class TowerService {
     }
 
     /** 우리 수정자 하나로 최종값을 target 에 맞춘다 (다른 곱셈 보정이 있어도 몇 번 보정해서 수렴). */
+    /** 달리기 보정 (바닐라 minecraft:sprinting, 이동 속도 ×1.3). */
+    private static final NamespacedKey SPRINT = NamespacedKey.minecraft("sprinting");
+
+    /** 달리기 보정을 뺀 값 (달릴 때마다 목표가 바뀐 줄 알고 다시 맞추면 달리기가 끊김 — 오너 11/12 "뛰는 게 자꾸 풀림"). */
+    private static double withoutSprint(org.bukkit.attribute.AttributeInstance a) {
+        var sp = a.getModifier(SPRINT);
+        if (sp == null) return a.getValue();
+        return switch (sp.getOperation()) {
+            case MULTIPLY_SCALAR_1 -> a.getValue() / (1 + sp.getAmount());
+            case ADD_NUMBER -> a.getValue() - sp.getAmount();
+            default -> a.getValue();
+        };
+    }
+
     private static void pin(org.bukkit.attribute.AttributeInstance a, NamespacedKey key, double target) {
         if (a == null) return;
         var cur = a.getModifier(key);
         double ours = cur == null ? 0 : cur.getAmount();
-        if (Math.abs(a.getValue() - target) < 1e-6 && cur != null) return;
+        if (Math.abs(withoutSprint(a) - target) < 1e-4 && cur != null) return;   // 이미 맞으면 아무것도 안 보냄 (속성 갱신이 달리기를 끊음)
         for (int i = 0; i < 4; i++) {
-            ours += target - a.getValue();
+            ours += target - withoutSprint(a);
             a.removeModifier(key);
             a.addTransientModifier(new AttributeModifier(key, ours, AttributeModifier.Operation.ADD_NUMBER));   // 저장 안 되는 수정치: 서버가 갑자기 꺼져도 플레이어 데이터(HuskSync 로 5대 공유)에 안 남음
-            if (Math.abs(a.getValue() - target) < 1e-6) break;
+            if (Math.abs(withoutSprint(a) - target) < 1e-4) break;
         }
     }
 
     private void clearAttributes(Player p) {
+        var nv = p.getPotionEffect(PotionEffectType.NIGHT_VISION);   // 탑이 준 야간투시 (무한·아이콘 없음) 만 뗀다
+        if (nv != null && nv.isInfinite() && !nv.hasIcon()) p.removePotionEffect(PotionEffectType.NIGHT_VISION);
         var hp = p.getAttribute(Attribute.MAX_HEALTH);
         if (hp != null) hp.removeModifier(hpKey);
         var sp = p.getAttribute(Attribute.MOVEMENT_SPEED);
@@ -1059,6 +1093,7 @@ final class TowerService {
             hideGuardian();
             removeMobs(r);
             client.close(p);
+            client.loadout(p, null);   // [기능:탑마법키] 원래 마법 키로
         } catch (RuntimeException e) { plugin.getLogger().warning("탑 끝 정리 실패: " + e); }
         try {
             // 탑 표시가 없는 물건 = 판 중에 바깥에서 들어온 것 (의뢰 보상 등) → 가방·우편으로. 음식·커서 물건도 포함.

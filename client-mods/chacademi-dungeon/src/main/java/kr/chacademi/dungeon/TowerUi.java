@@ -70,7 +70,7 @@ final class TowerUi {
         ClientPlayNetworking.registerGlobalReceiver(ToClient.TYPE, (p, ctx) -> ctx.client().execute(() -> receive(p.json())));
     }
 
-    static void clear() { offer = null; pending = false; build = List.of(); buildSub = ""; }
+    static void clear() { offer = null; pending = false; build = List.of(); buildSub = ""; TowerLoadout.clear(); }
 
     private static void receive(String json) {
         var mc = Minecraft.getInstance();
@@ -87,6 +87,13 @@ final class TowerUi {
             return;
         }
         // [기능:탑내증강 시작]
+        // [기능:탑마법키] 탑에서 배운 마법 → 마법 키에 왼쪽부터 (active false = 원래 키로)
+        if (t.equals("loadout")) {
+            var list = new ArrayList<String>();
+            for (var e : o.getAsJsonArray("spells")) list.add(e.getAsString());
+            TowerLoadout.set(o.get("active").getAsBoolean(), list);
+            return;
+        }
         if (t.equals("build")) {   // /탑 증강
             readBuild(o);
             var s = mc.screen;
@@ -128,6 +135,7 @@ final class TowerUi {
     /** 다른 창이 비면 연다. 카드가 남아 있는데 창이 닫혀 있으면 다시 연다 (고르기 전에는 진행 안 됨). */
     static void tick(Minecraft mc) {
         if (mc.player == null) return;
+        TowerLoadout.tick();   // [기능:탑마법키]
         // 카드가 없는데 카드 화면이 떠 있으면 닫는다 (ESC 도 막힌 화면이라 서버 신호가 한 번 빠지면 갇혔음, 11/12 점검)
         if (offer == null) { if (mc.screen instanceof CardScreen) mc.setScreen(null); return; }
         if (DungeonClient.now() - offer.at() > offer.leftMs() + 5_000) { offer = null; pending = false; if (mc.screen instanceof CardScreen) mc.setScreen(null); return; }
@@ -232,7 +240,46 @@ static void send(int choice) {
     }
 
     /** 설명 줄을 카드 폭에 맞게 자른다 (띄어쓰기 기준, 긴 단어는 글자 단위). */
-    private static List<String> wrap(GuiGraphics g, List<String> src, float size, float maxW) {
+// [기능:탑마법설명 시작] 마법 카드에 마우스를 올리면 마법도감의 설명·마나·재사용 시간
+static void spellTip(UiScreens.Base s, GuiGraphics g, String spell) {
+    var info = SpellIcons.info(spell);
+    if (info == null) return;
+    float bw = 168, pad = 6, size = 5.6f, lineH = size * 1.32f;
+    var body = info.description().isBlank() ? List.<String>of() : wrap(g, List.of(info.description()), size, bw - pad * 2);
+    String meta = (info.mana() >= 0 ? "마나 " + info.mana() : "") + (info.cooldown() >= 0 ? (info.mana() >= 0 ? "  ·  " : "") + "재사용 " + info.cooldown() + "초" : "");
+    float bh = pad + 10 + body.size() * lineH + (meta.isEmpty() ? 0 : 9) + pad;
+    float x = s.mx + 10, y = s.my + 10;
+    if (x + bw > W - 4) x = s.mx - bw - 10;
+    if (y + bh > H - 4) y = H - 4 - bh;
+    x = Math.max(4, x); y = Math.max(4, y);
+    var pose = g.pose();
+    pose.pushPose();
+    pose.translate(0, 0, 300);
+    Art.rect(g, x, y, bw, bh, 0xF0120F1C);
+    Art.rect(g, x, y, bw, .8f, 0xFF7E63B8); Art.rect(g, x, y + bh - .8f, bw, .8f, 0xFF7E63B8);
+    Art.rect(g, x, y, .8f, bh, 0xFF7E63B8); Art.rect(g, x + bw - .8f, y, .8f, bh, 0xFF7E63B8);
+    float cy = y + pad + 4;
+    Art.text(g, Art.Face.SERIF, info.name().isBlank() ? spell : info.name(), x + pad, cy, 7f, UiScreens.GOLD);
+    cy += 10;
+    for (String line : body) { Art.text(g, Art.Face.MEDIUM, line, x + pad, cy, size, 0xFFE6E8EF); cy += lineH; }
+    if (!meta.isEmpty()) Art.text(g, Art.Face.MEDIUM, meta, x + pad, cy + 1, 5.2f, UiScreens.MUTED);
+    pose.popPose();
+}
+// [기능:탑마법설명 끝]
+
+// [기능:탑카드소리] 카드가 한 장씩 뜰 때 등급별 소리
+static void cardSound(int grade) {
+    var p = Minecraft.getInstance().player;
+    if (p == null) return;
+    switch (grade) {
+        case 0 -> p.playSound(SoundEvents.BOOK_PAGE_TURN, .8f, 1.25f);
+        case 1 -> p.playSound(SoundEvents.AMETHYST_BLOCK_CHIME, 1f, 1.1f);
+        case 2 -> { p.playSound(SoundEvents.ENCHANTMENT_TABLE_USE, .9f, 1.15f); p.playSound(SoundEvents.AMETHYST_BLOCK_CHIME, .7f, 1.5f); }
+        default -> { p.playSound(SoundEvents.UI_TOAST_CHALLENGE_COMPLETE, .55f, 1.25f); p.playSound(SoundEvents.BEACON_POWER_SELECT, .7f, 1.7f); }
+    }
+}
+
+private static List<String> wrap(GuiGraphics g, List<String> src, float size, float maxW) {
         var out = new ArrayList<String>();
         for (String line : src) {
             var cur = new StringBuilder();
@@ -289,11 +336,11 @@ static void send(int choice) {
             Art.textCenter(g, Art.Face.SERIF, "내 증강", W / 2, 18, 14, UiScreens.GOLD);
             if (!buildSub.isEmpty()) Art.textCenter(g, buildSub, W / 2, 33, 6.5f, UiScreens.MUTED);
 
-            int per = COLS * ROWS, from = page * per;
+            int per = COLS * ROWS, from = page * per, tipIdx = -1;
             for (int i = 0; i < per && from + i < list.size(); i++) {
                 int idx = from + i;
                 float tx = X0 + (i % COLS) * (TW + GX), ty = Y0 + (i / COLS) * (TH + GY);
-                if (over(tx, ty, TW, TH)) focus = idx;
+                if (over(tx, ty, TW, TH)) { focus = idx; tipIdx = idx; }
                 var o = list.get(idx);
                 var pose = g.pose();
                 pose.pushPose();
@@ -342,6 +389,7 @@ static void send(int choice) {
                 long left = Math.max(0, offer.leftMs() - (DungeonClient.now() - offer.at()));
                 Art.textCenter(g, "카드 고르기 " + (left / 1000) + "초 남음", bx + CW / 2, 259, 6.5f, left < 10_000 ? 0xFFF2A7A7 : UiScreens.MUTED);
             }
+            if (tipIdx >= 0 && !list.get(tipIdx).card().spell().isEmpty()) spellTip(this, g, list.get(tipIdx).card().spell());   // [기능:탑마법설명] 맨 위에 그리게 마지막에
         }
 
         @Override void clicked(String id) {
@@ -373,13 +421,14 @@ static void send(int choice) {
 
     static final class CardScreen extends UiScreens.Base {
         private final float[] lift = new float[3];
+        private final boolean[] played = new boolean[3];   // [기능:탑카드소리]
         private long openedAt = DungeonClient.now();
         private boolean sent;
         private long sentAt;
 
         CardScreen() { super("탑 카드"); }
 
-        void reset() { openedAt = DungeonClient.now(); sent = false; }
+        void reset() { openedAt = DungeonClient.now(); sent = false; java.util.Arrays.fill(played, false); }
 
         /** 고른 뒤 4초가 지나도 서버 답(닫기·새 카드)이 없으면 다시 고를 수 있게 푼다. */
         void unstick() { if (sent && DungeonClient.now() - sentAt > 4_000) sent = false; }
@@ -407,6 +456,7 @@ static void send(int choice) {
 
             int n = Math.min(3, o.cards().size());
             float total = n * CW + (n - 1) * GAP, x0 = (W - total) / 2, y0 = 52;
+            Card tipCard = null;   // [기능:탑마법설명]
             for (int i = 0; i < n; i++) {
                 var c = o.cards().get(i);
                 float cx = x0 + i * (CW + GAP);
@@ -414,6 +464,8 @@ static void send(int choice) {
                 float dy = (1 - delay) * 18;
                 int alpha = Math.round(255 * delay);
                 boolean hover = !sent && over(cx, y0, CW, CH);
+                if (over(cx, y0, CW, CH) && delay > .9f) tipCard = c;
+                if (delay > 0 && !played[i]) { played[i] = true; cardSound(c.grade()); }   // [기능:탑카드소리]
                 lift[i] += ((hover ? 1f : 0f) - lift[i]) * 0.25f;
                 float y = y0 + dy - lift[i] * 5;
                 drawCard(g, c, cx, y, alpha, lift[i], false);
@@ -439,6 +491,7 @@ static void send(int choice) {
             }
             // [기능:탑내증강 끝]
             quitButton(this, g, 22, by + 4.5f, 80, 16);   // [기능:탑포기]
+            if (tipCard != null && !tipCard.spell().isEmpty()) spellTip(this, g, tipCard.spell());   // [기능:탑마법설명]
 
             long left = Math.max(0, o.leftMs() - (now - o.at()));
             String hint = sent ? "" : (left / 1000) + "초";
