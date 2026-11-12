@@ -1595,5 +1595,7 @@ final class TowerService {
         return "판 " + runs.size() + " / 방 " + s.readyRooms().size() + " · 대기 " + queue.size() + "명" + sb;
     }
 
+    String seedRewards(boolean overwrite) { return rewards.seed(items, overwrite); }   // [기능:탑기본보상]
+
     Set<String> knownMobs() { return new LinkedHashSet<>(s.normalMobs); }
 }

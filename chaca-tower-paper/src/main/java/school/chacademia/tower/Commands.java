@@ -59,6 +59,7 @@ final class Commands {
                 switch (sub) {
                     case "다시불러오기" -> { plugin.reload(); service().rewards.load(); ChacaLink.ok(sender, "config.yml 을 다시 읽었어요" + missing()); }
                     case "상태" -> ChacaLink.ok(sender, "탑: " + service().status() + missing());
+                    case "보상기본" -> ChacaLink.ok(sender, "기본 보상: " + service().seedRewards(args.length >= 2 && args[1].equals("덮어쓰기")) + " (빈 칸만 · 전부 바꾸려면 /탑관리 보상기본 덮어쓰기)");   // [기능:탑기본보상]
                     case "강제종료" -> {
                         String who = service().forceEnd(args.length >= 2 ? args[1] : null);
                         if (who == null) { ChacaLink.fail(sender, args.length >= 2 ? "그 사람의 판이 없어요" : "판이 없거나 여러 개예요 — /탑관리 강제종료 <이름>"); return true; }
@@ -137,7 +138,7 @@ final class Commands {
             }
 
             @Override public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-                if (args.length == 1) return starts(List.of("방", "방목록", "방삭제", "설정도구", "시작", "소환자리", "출구", "입구", "보상", "상태", "다시불러오기", "강제종료", "층"), args[0]);
+                if (args.length == 1) return starts(List.of("방", "방목록", "방삭제", "설정도구", "시작", "소환자리", "출구", "입구", "보상", "보상기본", "상태", "다시불러오기", "강제종료", "층"), args[0]);
                 if (args.length == 2 && (args[0].equals("방") || args[0].equals("방삭제"))) return starts(List.copyOf(service().s.rooms.keySet()), args[1]);
                 if (args.length == 2 && args[0].equals("소환자리")) return starts(List.of("목록", "지우기"), args[1]);
                 return List.of();
