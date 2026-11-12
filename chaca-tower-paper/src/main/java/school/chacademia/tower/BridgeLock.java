@@ -33,7 +33,10 @@ final class BridgeLock {
     void install(Collection<String> channels, Predicate<Player> locked) {
         var m = Bukkit.getMessenger();
         for (String ch : channels) {
-            for (var reg : new ArrayList<>(m.getIncomingChannelRegistrations(ch))) {
+            java.util.Set<org.bukkit.plugin.messaging.PluginMessageListenerRegistration> regs;
+            try { regs = m.getIncomingChannelRegistrations(ch); }
+            catch (RuntimeException e) { plugin.getLogger().warning("잠글 채널 이름이 잘못됨 (건너뜀): " + ch); continue; }   // 설정에 틀린 이름이 있어도 플러그인이 켜지게
+            for (var reg : new ArrayList<>(regs)) {
                 if (reg.getPlugin() == plugin) continue;
                 Plugin owner = reg.getPlugin();
                 PluginMessageListener original = reg.getListener();

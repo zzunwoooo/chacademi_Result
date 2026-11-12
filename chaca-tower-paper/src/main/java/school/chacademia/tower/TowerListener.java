@@ -164,7 +164,7 @@ final class TowerListener implements Listener {
     /** 판 중에 방 안에서 생긴 몹 (탑 몹이 스킬로 부른 졸개 등) 을 탑 몹으로 넣는다. 탑이 직접 부른 몹은 다음 틱엔 이미 표시가 붙어 있어 건너뛴다. */
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     void onSpawn(org.bukkit.event.entity.CreatureSpawnEvent e) {
-        if (service.current() == null) return;
+        if (service.current() == null || !service.inTowerWorld(e.getEntity().getWorld())) return;   // 판 중 + 탑 월드에서 생긴 것만
         Entity spawned = e.getEntity();
         org.bukkit.Bukkit.getScheduler().runTask(service.plugin(), () -> { if (spawned.isValid()) service.spawnedInRoom(spawned); });
     }
@@ -187,6 +187,14 @@ final class TowerListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     void onOpen(org.bukkit.event.inventory.InventoryOpenEvent e) {
         if (e.getPlayer() instanceof Player p && service.inRun(p) && !(e.getInventory().getHolder() instanceof CardMenu)) e.setCancelled(true);
+    }
+
+    /** 마시는 물약의 빈 병은 탑 표시가 없어 끝날 때 "바깥 물건" 으로 우편에 가므로, 탑 안에서는 병을 남기지 않는다. */
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    void onConsume(org.bukkit.event.player.PlayerItemConsumeEvent e) {
+        Player p = e.getPlayer();
+        if (!service.inRun(p)) return;
+        org.bukkit.Bukkit.getScheduler().runTask(service.plugin(), () -> { if (service.inRun(p)) p.getInventory().remove(org.bukkit.Material.GLASS_BOTTLE); });
     }
 
     static boolean living(Entity e) { return e instanceof LivingEntity le && !le.isDead(); }

@@ -122,15 +122,14 @@ final class TowerService {
         p.setLevel(0); p.setExp(0);
         p.setAbsorptionAmount(0); p.setFireTicks(0); p.setFreezeTicks(0); p.setArrowsInBody(0); p.setFallDistance(0);
         p.setRemainingAir(p.getMaximumAir()); p.setExhaustion(0);
-        magic.dismissPets(p);
-        magic.rememberLearned(p);
-        try { magic.enterTower(p); }
+        try { magic.dismissPets(p); magic.rememberLearned(p); magic.enterTower(p); }
         catch (RuntimeException e) {
             activeRunner = null;
             plugin.getLogger().severe("탑 마법 초기화 실패 " + p.getName() + ": " + e);
-            stash.restore(p);
+            boolean restored = stash.restore(p);
             try { magic.restore(p, snapshot); } catch (RuntimeException ignored) {}
-            refundTicket(p);
+            if (restored) refundTicket(p);   // 못 돌려놨는데 입장권만 넣으면 다음 복구가 "진짜 소지품 있음" 으로 잘못 봄
+            else plugin.getLogger().severe("입장 실패 뒤 소지품 되돌리기 실패 " + p.getName() + " — 맡김 파일 남음, 입장권 1장 수동 지급 필요");
             ChacaLink.notify(p, "error", "tower:enter", "들어가지 못했어요", "마법 상태를 바꾸지 못했어요", 3000);
             return;
         }
@@ -474,6 +473,7 @@ final class TowerService {
 
     private void floorCleared(Player p) {
         hideGuardian();
+        removeMobs(run);   // 늦게 불려 나온 졸개가 카드 고르는 동안 남아 있지 않게
         if (run.vigor > 0) heal(p, maxHealth(p) * run.vigor);
         p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 0.6f, 1.4f);
         if (run.floor >= s.floors) { end(p, "clear"); return; }
@@ -665,9 +665,9 @@ final class TowerService {
         if (p != null && run.harvest > 0) heal(p, run.harvest);
         if (run.relics.contains("ECHO") && e instanceof LivingEntity dead) {
             var max = dead.getAttribute(Attribute.MAX_HEALTH);
-            double blow = (max == null ? 20 : max.getValue()) * 0.15;
+            double total = floors.effectiveHealth(dead) * 0.15;   // 죽은 몹 실제 체력의 15%
             for (var near : e.getNearbyEntities(4, 2, 4))
-                if (near instanceof LivingEntity le && run.mobs.contains(near.getUniqueId())) le.damage(blow);
+                if (near instanceof LivingEntity le && run.mobs.contains(near.getUniqueId())) le.damage(total / floors.tough(le));   // 맞는 몹의 단단함만큼 나눔 (플레이어 피해와 같은 규칙)
             e.getWorld().spawnParticle(Particle.SONIC_BOOM, e.getLocation().add(0, 1, 0), 1);
         }
         if (floors.has(e, "split") && !e.getScoreboardTags().contains("tower_split_child")) {
@@ -740,21 +740,28 @@ final class TowerService {
         if (run == null || run.phase == Run.Phase.ENDED) return;
         Run r = run;
         r.phase = Run.Phase.ENDED;
-        hideGuardian();
-        removeMobs(r);
-        client.close(p);
-        p.closeInventory();
         int cleared = reason.equals("clear") ? s.floors : r.floor - 1;
-        // 탑 표시가 없는 물건 = 판 중에 바깥에서 들어온 것 (의뢰 보상 등) → 가방·우편으로. 음식·커서 물건도 포함.
-        var outside = new ArrayList<ItemStack>();
-        for (var it : p.getInventory().getContents())
-            if (it != null && !it.getType().isAir() && !towerItem(it)) outside.add(it.clone());
-        var cursor = p.getItemOnCursor();
-        if (cursor != null && !cursor.getType().isAir()) { if (!towerItem(cursor)) outside.add(cursor.clone()); p.setItemOnCursor(null); }
-        if (!outside.isEmpty()) rewards.forward(r.player, outside, String.valueOf(r.runId));
-        magic.unlearnNew(p);
-        giveBack(p);
-        activeRunner = null;   // 원래 소지품으로 돌아왔으니 이제 HuskSync 저장을 막지 않는다
+        // 아래 정리 단계 하나가 실패해도 소지품 돌려주기(giveBack)까지는 반드시 간다 (중간에 멈추면 저장 막기가 풀리지 않고 탑 소지품인 채로 남음)
+        try {
+            hideGuardian();
+            removeMobs(r);
+            client.close(p);
+        } catch (RuntimeException e) { plugin.getLogger().warning("탑 끝 정리 실패: " + e); }
+        try {
+            // 탑 표시가 없는 물건 = 판 중에 바깥에서 들어온 것 (의뢰 보상 등) → 가방·우편으로. 음식·커서 물건도 포함.
+            // 커서 물건은 창을 닫기 전에 먼저 챙긴다 (닫으면 가방이 찼을 때 바닥에 떨어져 방 청소에 같이 지워짐).
+            var outside = new ArrayList<ItemStack>();
+            var cursor = p.getItemOnCursor();
+            if (cursor != null && !cursor.getType().isAir()) { if (!towerItem(cursor)) outside.add(cursor.clone()); p.setItemOnCursor(null); }
+            p.closeInventory();
+            for (var it : p.getInventory().getContents())
+                if (it != null && !it.getType().isAir() && !towerItem(it)) outside.add(it.clone());
+            if (!outside.isEmpty()) rewards.forward(r.player, outside, String.valueOf(r.runId));
+        } catch (RuntimeException e) { plugin.getLogger().severe("탑 안에서 받은 바깥 물건 전달 실패 " + p.getName() + ": " + e); }
+        try { magic.unlearnNew(p); }
+        catch (RuntimeException e) { plugin.getLogger().warning("탑 안 영구 습득 되돌리기 실패 " + p.getName() + ": " + e); }
+        try { giveBack(p); }
+        finally { activeRunner = null; }   // 원래 소지품으로 돌아왔으니 이제 HuskSync 저장을 막지 않는다
         var exit = s.exit != null ? s.exit.location() : s.portal != null ? s.portal.location() : null;
         if (exit != null) p.teleport(exit);
         clearDrops();
@@ -832,11 +839,14 @@ final class TowerService {
     /** 판 중에 방 안에서 새로 생긴 몹 (탑 몹이 부른 졸개 등): 탑 몹으로 표시하고 이번 층에 넣는다 (전리품 없음, 끝날 때 같이 사라짐). */
     void spawnedInRoom(Entity e) {
         if (run == null || run.phase == Run.Phase.ENDED || !(e instanceof org.bukkit.entity.Mob) || e.getScoreboardTags().contains("chaca_tower")) return;
+        // 플레이어 쪽 소환물(마법 소환수·펫)·무적 표식은 탑 몹이 아니다 (넣으면 사라질 때까지 층이 안 끝남)
+        var tags = e.getScoreboardTags();
+        if (tags.contains("chacademia_summon") || tags.contains("chacademia_pet") || tags.contains("magiccodex_npc") || e.isInvulnerable()) return;
         var box = s.room();
         if (box == null || !e.getWorld().getName().equals(s.start.world()) || !box.contains(e.getLocation())) return;
         e.addScoreboardTag("chaca_tower");
         e.setPersistent(false);
-        if (run.phase == Run.Phase.FIGHT) run.mobs.add(e.getUniqueId());
+        run.mobs.add(e.getUniqueId());
         if (runner != null) aggro(e, runner);
     }
 
@@ -853,6 +863,7 @@ final class TowerService {
         catch (RuntimeException e) { plugin.getLogger().severe("마법 되돌리기 실패 " + p.getName() + " (맡긴 파일 확인): " + e); }
         if (!magicOk) { stash.keepMagic(p.getUniqueId(), magicState); plugin.getLogger().severe("장신구·아티팩트 되돌리기 미룸 (다음 접속 때 다시): " + p.getName()); }
         if (!stash.restore(p)) plugin.getLogger().severe("소지품 되돌리기 실패 " + p.getName());
+        if (p.getUniqueId().equals(activeRunner)) activeRunner = null;   // 어떤 길로 돌려줬든 저장 막기는 여기서 푼다 (안 풀리면 이 사람 저장이 계속 취소됨)
     }
 
     /** 미뤄 둔 장신구·아티팩트 되돌리기 다시 시도. */
@@ -889,6 +900,7 @@ final class TowerService {
         var inv = p.getInventory();
         for (int i = 0; i < inv.getSize(); i++) if (towerItem(inv.getItem(i))) inv.setItem(i, null);
         stash.conflict(p.getUniqueId());
+        if (p.getUniqueId().equals(activeRunner)) activeRunner = null;
         plugin.getLogger().severe("탑 맡김이 남아 있었지만 " + p.getName() + " 의 가방에 이미 진짜 소지품이 있어 그대로 둠 (맡김 파일은 stash/conflict 에 보관 — 물건이 비면 여기서 꺼내 확인)");
     }
 
@@ -901,11 +913,14 @@ final class TowerService {
 
     /** 남은 맡김이 있어 복구를 기다리는 사람 (그동안 가방을 만지면 복사가 될 수 있어 잠근다). */
     private final Set<UUID> pendingRestore = new java.util.HashSet<>();
+    private final Map<UUID, Integer> joinSeq = new HashMap<>();
     /** HuskSync 저장 이벤트(다른 스레드일 수 있음)가 읽는 "지금 판 중인 사람". */
     private volatile UUID activeRunner;
     boolean huskHooked;
 
     boolean savingBlocked(UUID id) { return id != null && id.equals(activeRunner); }
+
+    boolean inTowerWorld(org.bukkit.World w) { return s != null && s.start != null && w.getName().equals(s.start.world()); }
 
     boolean waitingRestore(Player p) { return pendingRestore.contains(p.getUniqueId()); }
 
@@ -917,7 +932,8 @@ final class TowerService {
         pendingRestore.add(p.getUniqueId());
         // HuskSync 가 있으면 "불러오기 끝" 알림(synced)에 맞춰 복구한다. 알림이 안 오는 경우를 대비해 30초 뒤에도 한 번.
         long wait = huskHooked ? 600L : 60L;
-        Bukkit.getScheduler().runTaskLater(plugin, () -> synced(p.getUniqueId()), wait);
+        int seq = joinSeq.merge(p.getUniqueId(), 1, Integer::sum);   // 나갔다 바로 들어오면 앞 접속의 예약이 뒤 접속에서 터지지 않게
+        Bukkit.getScheduler().runTaskLater(plugin, () -> { if (joinSeq.getOrDefault(p.getUniqueId(), 0) == seq) synced(p.getUniqueId()); }, wait);
     }
 
     /** HuskSync 가 이 사람 데이터를 다 불러온 뒤 (또는 대기 시간이 지난 뒤). */
