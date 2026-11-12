@@ -70,54 +70,55 @@ final class Rewards {
         try { y.save(file); } catch (Exception e) { log.severe("rewards.yml 저장 실패: " + e); }
     }
 
-// [기능:탑기본보상 시작] 오너 11/12 "보상도 적당히, 소모품·강화 위주": /탑관리 보상기본 으로 아래 표를 채운다 (빈 칸만, '덮어쓰기' 면 전부).
-// 강화 = 마력코어(미감정) + 돈(재화 주머니) + 주문서(복구·강화 초기화·성향 변환). 소모품 = 체력·마나 포션(일반·상급)·차큐빵·던전 입장권.
-static final java.util.Map<String, String[]> DEFAULTS = new java.util.LinkedHashMap<>();
-static {
-    DEFAULTS.put("tier:5", new String[]{"item:health_potion 3", "item:mana_potion 3", "item:food 5"});
-    DEFAULTS.put("tier:10", new String[]{"item:core_unidentified 1", "item:money_pouch 1", "item:health_potion 4", "item:mana_potion 4"});
-    DEFAULTS.put("tier:15", new String[]{"item:core_unidentified 1", "item:money_pouch 1", "item:health_potion_big 1", "item:mana_potion_big 1", "item:dungeon_ticket 1"});
-    DEFAULTS.put("tier:20", new String[]{"item:core_unidentified 2", "item:money_pouch 2", "item:core_scroll_blue 1", "item:health_potion_big 2", "item:mana_potion_big 2"});
-    DEFAULTS.put("tier:25", new String[]{"item:core_unidentified 2", "item:money_pouch 2", "item:core_scroll_blue 1", "item:health_potion_big 3", "item:mana_potion_big 3", "item:dungeon_ticket 1"});
-    DEFAULTS.put("tier:30", new String[]{"item:core_unidentified 3", "item:money_pouch 3", "item:core_scroll_blue 1", "item:core_scroll_red 1", "item:health_potion_big 3", "item:mana_potion_big 3"});
-    DEFAULTS.put("tier:35", new String[]{"item:core_unidentified 3", "item:money_pouch 3", "item:core_scroll_blue 2", "item:core_scroll_purple 1", "item:health_potion_big 4", "item:mana_potion_big 4", "item:dungeon_ticket 1"});
-    DEFAULTS.put("tier:40", new String[]{"item:core_unidentified 4", "item:money_pouch 4", "item:core_scroll_blue 2", "item:core_scroll_red 1", "item:core_scroll_purple 1", "item:health_potion_big 4", "item:mana_potion_big 4"});
-    DEFAULTS.put("tier:45", new String[]{"item:core_unidentified 5", "item:money_pouch 5", "item:core_scroll_blue 2", "item:core_scroll_red 1", "item:core_scroll_purple 1", "item:health_potion_big 5", "item:mana_potion_big 5", "item:dungeon_ticket 2"});
-    DEFAULTS.put("tier:50", new String[]{"item:core_unidentified 6", "item:money_pouch 6", "item:core_scroll_blue 3", "item:core_scroll_red 2", "item:core_scroll_purple 2", "item:health_potion_big 6", "item:mana_potion_big 6", "item:dungeon_ticket 2"});
-    DEFAULTS.put("first:10", new String[]{"item:core_unidentified 2", "item:money_pouch 2", "item:core_scroll_blue 1"});
-    DEFAULTS.put("first:20", new String[]{"item:core_unidentified 3", "item:money_pouch 3", "item:core_scroll_blue 1", "item:core_scroll_red 1"});
-    DEFAULTS.put("first:30", new String[]{"item:core_unidentified 4", "item:money_pouch 4", "item:core_scroll_blue 2", "item:core_scroll_purple 1"});
-    DEFAULTS.put("first:40", new String[]{"item:core_unidentified 5", "item:money_pouch 5", "item:core_scroll_blue 2", "item:core_scroll_red 1", "item:core_scroll_purple 1"});
-    DEFAULTS.put("first:50", new String[]{"item:core_unidentified 8", "item:money_pouch 8", "item:core_scroll_blue 3", "item:core_scroll_red 2", "item:core_scroll_purple 2"});
-    DEFAULTS.put("guardian", new String[]{"item:core_unidentified 1", "item:money_pouch 1", "item:health_potion_big 1"});
-}
-
-/** @return 채운 칸 수 · 못 만든 아이템 목록 (아이템애더 이름이 틀렸거나 아직 안 켜짐). */
-String seed(ItemsAdderItems items, boolean overwrite) {
-    int filled = 0;
-    var missing = new java.util.LinkedHashSet<String>();
-    for (var e : DEFAULTS.entrySet()) {
-        var list = new ArrayList<ItemStack>();
-        for (String spec : e.getValue()) {
-            String[] p = spec.split(" ");
-            int amount = p.length > 1 ? Integer.parseInt(p[1]) : 1;
-            var it = items.create(p[0], 1);
-            if (it == null) { missing.add(p[0]); continue; }
-            while (amount > 0) { var c = it.clone(); int n = Math.min(amount, it.getMaxStackSize()); c.setAmount(n); list.add(c); amount -= n; }
-        }
-        if (list.isEmpty()) continue;
-        String key = e.getKey();
-        if (key.equals("guardian")) { if (overwrite || guardian.isEmpty()) { guardian = list; filled++; } continue; }
-        int at = Integer.parseInt(key.substring(key.indexOf(':') + 1));
-        var map = key.startsWith("tier") ? tiers : milestones;
-        if (overwrite || map.getOrDefault(at, List.of()).isEmpty()) { map.put(at, list); filled++; }
+    // [기능:탑기본보상 시작] 오너 11/12 "보상도 적당히, 소모품·강화 위주": /탑관리 보상기본 으로 아래 표를 채운다 (빈 칸만, '덮어쓰기' 면 전부).
+    // 강화 = 마력코어(미감정) + 돈(재화 주머니) + 주문서(복구·강화 초기화·성향 변환). 소모품 = 체력·마나 포션(일반·상급)·차큐빵·던전 입장권.
+    static final java.util.Map<String, String[]> DEFAULTS = new java.util.LinkedHashMap<>();
+    static {
+        // 11/12 오너 "팍팍 뿌려, 강화 재료 더 좋게": 마력코어 약 3배·재화 주머니 약 2배·주문서 약 2배, 30층부터 감정 마력코어
+        DEFAULTS.put("tier:5", new String[]{"item:core_unidentified 2", "item:money_pouch 1", "item:health_potion 4", "item:mana_potion 4"});
+        DEFAULTS.put("tier:10", new String[]{"item:core_unidentified 4", "item:money_pouch 2", "item:core_scroll_blue 1", "item:health_potion 5", "item:mana_potion 5"});
+        DEFAULTS.put("tier:15", new String[]{"item:core_unidentified 5", "item:money_pouch 3", "item:core_scroll_blue 1", "item:health_potion_big 2", "item:mana_potion_big 2", "item:dungeon_ticket 1"});
+        DEFAULTS.put("tier:20", new String[]{"item:core_unidentified 7", "item:money_pouch 4", "item:core_scroll_blue 2", "item:core_scroll_red 1", "item:health_potion_big 3", "item:mana_potion_big 3"});
+        DEFAULTS.put("tier:25", new String[]{"item:core_unidentified 8", "item:money_pouch 5", "item:core_scroll_blue 2", "item:core_scroll_red 1", "item:core_scroll_purple 1", "item:health_potion_big 4", "item:mana_potion_big 4", "item:dungeon_ticket 1"});
+        DEFAULTS.put("tier:30", new String[]{"item:core_unidentified 10", "item:core_identified 1", "item:money_pouch 6", "item:core_scroll_blue 3", "item:core_scroll_red 2", "item:core_scroll_purple 1", "item:health_potion_big 4", "item:mana_potion_big 4"});
+        DEFAULTS.put("tier:35", new String[]{"item:core_unidentified 12", "item:core_identified 1", "item:money_pouch 7", "item:core_scroll_blue 4", "item:core_scroll_red 2", "item:core_scroll_purple 2", "item:health_potion_big 5", "item:mana_potion_big 5", "item:dungeon_ticket 2"});
+        DEFAULTS.put("tier:40", new String[]{"item:core_unidentified 14", "item:core_identified 2", "item:money_pouch 8", "item:core_scroll_blue 4", "item:core_scroll_red 3", "item:core_scroll_purple 2", "item:health_potion_big 5", "item:mana_potion_big 5"});
+        DEFAULTS.put("tier:45", new String[]{"item:core_unidentified 16", "item:core_identified 2", "item:money_pouch 10", "item:core_scroll_blue 5", "item:core_scroll_red 3", "item:core_scroll_purple 3", "item:health_potion_big 6", "item:mana_potion_big 6", "item:dungeon_ticket 2"});
+        DEFAULTS.put("tier:50", new String[]{"item:core_unidentified 20", "item:core_identified 3", "item:money_pouch 12", "item:core_scroll_blue 6", "item:core_scroll_red 4", "item:core_scroll_purple 4", "item:health_potion_big 8", "item:mana_potion_big 8", "item:dungeon_ticket 3"});
+        DEFAULTS.put("first:10", new String[]{"item:core_unidentified 6", "item:money_pouch 4", "item:core_scroll_blue 2"});
+        DEFAULTS.put("first:20", new String[]{"item:core_unidentified 10", "item:money_pouch 6", "item:core_scroll_blue 3", "item:core_scroll_red 2"});
+        DEFAULTS.put("first:30", new String[]{"item:core_unidentified 14", "item:core_identified 2", "item:money_pouch 8", "item:core_scroll_blue 4", "item:core_scroll_red 2", "item:core_scroll_purple 2"});
+        DEFAULTS.put("first:40", new String[]{"item:core_unidentified 18", "item:core_identified 3", "item:money_pouch 10", "item:core_scroll_blue 5", "item:core_scroll_red 3", "item:core_scroll_purple 3"});
+        DEFAULTS.put("first:50", new String[]{"item:core_unidentified 25", "item:core_identified 5", "item:money_pouch 15", "item:core_scroll_blue 8", "item:core_scroll_red 5", "item:core_scroll_purple 5"});
+        DEFAULTS.put("guardian", new String[]{"item:core_unidentified 3", "item:money_pouch 2", "item:core_scroll_blue 1", "item:health_potion_big 1"});
     }
-    save();
-    return filled + "칸 채움" + (missing.isEmpty() ? "" : " · 못 만든 아이템: " + String.join(", ", missing));
-}
-// [기능:탑기본보상 끝]
 
-/** 깬 층에 맞는 도달 구간 (없으면 0). */
+    /** @return 채운 칸 수 · 못 만든 아이템 목록 (아이템애더 이름이 틀렸거나 아직 안 켜짐). */
+    String seed(ItemsAdderItems items, boolean overwrite) {
+        int filled = 0;
+        var missing = new java.util.LinkedHashSet<String>();
+        for (var e : DEFAULTS.entrySet()) {
+            var list = new ArrayList<ItemStack>();
+            for (String spec : e.getValue()) {
+                String[] p = spec.split(" ");
+                int amount = p.length > 1 ? Integer.parseInt(p[1]) : 1;
+                var it = items.create(p[0], 1);
+                if (it == null) { missing.add(p[0]); continue; }
+                while (amount > 0) { var c = it.clone(); int n = Math.min(amount, it.getMaxStackSize()); c.setAmount(n); list.add(c); amount -= n; }
+            }
+            if (list.isEmpty()) continue;
+            String key = e.getKey();
+            if (key.equals("guardian")) { if (overwrite || guardian.isEmpty()) { guardian = list; guardianChance = Math.max(guardianChance, 50); filled++; } continue; }   // 수문장 보상 확률 50%
+            int at = Integer.parseInt(key.substring(key.indexOf(':') + 1));
+            var map = key.startsWith("tier") ? tiers : milestones;
+            if (overwrite || map.getOrDefault(at, List.of()).isEmpty()) { map.put(at, list); filled++; }
+        }
+        save();
+        return filled + "칸 채움" + (missing.isEmpty() ? "" : " · 못 만든 아이템: " + String.join(", ", missing));
+    }
+    // [기능:탑기본보상 끝]
+
+    /** 깬 층에 맞는 도달 구간 (없으면 0). */
     static int tierFor(int cleared) {
         int out = 0;
         for (int t : TIERS) if (cleared >= t) out = t;
