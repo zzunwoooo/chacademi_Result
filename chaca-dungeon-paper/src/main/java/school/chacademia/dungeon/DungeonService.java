@@ -136,9 +136,21 @@ final class DungeonService {
         var a = le.getAttribute(org.bukkit.attribute.Attribute.MAX_HEALTH);
         if (a == null) return;
         a.removeModifier(EASY_HEALTH);
+        double ratio = Math.clamp(le.getHealth() / Math.max(1e-6, a.getValue()), 0, 1); // 이어 받은 보스는 이미 깎인 체력 비율 유지 [기능:던전보스이어받기]
         a.addModifier(new org.bukkit.attribute.AttributeModifier(EASY_HEALTH, m - 1, org.bukkit.attribute.AttributeModifier.Operation.MULTIPLY_SCALAR_1));
-        le.setHealth(Math.max(1, a.getValue()));
+        le.setHealth(Math.max(1, a.getValue() * ratio));
     }
+
+    // [기능:던전보스이어받기 시작]
+    /** 지워진 보스의 새 몸: 보스 코드가 새 몸에 "chaca_boss_next:<옛 UUID>" 태그를 단다 (엘리시아→벨자르). 없으면 null. */
+    private Entity successor(Run run, String world) {
+        World w = Bukkit.getWorld(world);
+        if (w == null || run.boss == null) return null;
+        String tag = "chaca_boss_next:" + run.boss;
+        for (LivingEntity le : w.getLivingEntities()) if (le.isValid() && le.getScoreboardTags().contains(tag)) return le;
+        return null;
+    }
+    // [기능:던전보스이어받기 끝]
 
     /** 판 안 플레이어가 받는 몹 피해 배율 (평타·투사체·보스 패턴). 판 밖·플레이어끼리는 1. */
     double damageMultiplier(Player victim, Entity damager) {
@@ -670,6 +682,7 @@ final class DungeonService {
         if (run.exitAt > 0) { exitTick(run, now); return; } // [기능:파티던전]
         if (anchor(run) == null) return;
         regionTick(run, d, def, now); // [기능:파티던전]
+        if (ticks % 2 == 0) unstick(run, d, def); // [기능:던전몹끼임]
         if (run.ended) return;
         var alive = alivePlayers(run);
         if (run.startedAt == 0) {
@@ -711,7 +724,14 @@ final class DungeonService {
                         // [기능:파티던전] 교화 봉인(체력 1·무적, 30초) 중인 보스: 교화에 성공하면 몹이 그냥 사라지므로 처치로 친다
                         if (e != null && e.isValid() && e.getPersistentDataContainer().has(TAMING_GRACE)) { run.bossSealed = true; run.bossFell = e.getLocation(); }
                         else if (e == null || !e.isValid()) {
-                            if (run.bossSealed) {
+                            // [기능:던전보스이어받기] 형태가 바뀌는 보스(엘리시아→벨자르)는 옛 몸을 지우고 새 몸을 세운다 → 새 몸을 이 판 보스로 이어 받는다
+                            Entity next = run.bossSealed ? null : successor(run, d.world);
+                            if (next != null) {
+                                mobOwner.remove(run.boss); run.mobs.remove(run.boss);
+                                track(run, next, "#boss");
+                                run.boss = next.getUniqueId();
+                                plugin.getLogger().info("보스 형태 변화 → 새 몸 이어 받음 run=" + run.id);
+                            } else if (run.bossSealed) {
                                 plugin.getLogger().info("보스가 교화되어 처치로 처리 run=" + run.id);
                                 mobOwner.remove(run.boss); run.mobs.remove(run.boss); run.boss = null;
                                 completeStage(run, d, def);
@@ -897,8 +917,14 @@ final class DungeonService {
             plugin.getLogger().info("이로치 보스 등장 " + mob + " run=" + run.id);
             notifyRun(run, "system", "dungeon:shiny", "이로치 보스가 나타났어요!", "평소와 다른 빛을 띠고 있어요.");
         }
+        var size = mobSizes.get(mob);
+        if (size != null && !fits(at.getWorld(), at.getX(), at.getY(), at.getZ(), size[0] / 2, size[0] / 2, size[1])) {
+            Location near = nearFit(at, size[0], size[1], 10); // [기능:던전몹끼임] 보스 자리에 몸이 안 들어가면 가까운 빈자리
+            if (near != null) at = near;
+        }
         Entity e = hooks.spawn(mob, at);
         if (e == null) return;
+        settle(e, mob, null); // [기능:던전몹끼임]
         track(run, e, "#boss");
         run.boss = e.getUniqueId();
     }
@@ -907,13 +933,14 @@ final class DungeonService {
         run.roomsTriggered.add(room.name);
         int spawned = 0;
         for (var z : room.zones) {
-            var spots = safeSpots(w, z.box(), z.count);
+            var size = mobSizes.get(z.mob); // [기능:던전몹끼임] 이 몹의 실제 몸 크기 (처음 소환 때 잰 것)
+            var spots = safeSpots(w, z.box(), z.count, size);
             // [기능:던전안전소환] 몹 구역을 잘못 잡아 안전한 자리가 모자라면 방 전체에서 마저 찾는다 (그래도 없으면 덜 소환)
             var roomBox = room.box();
-            if (spots.size() < z.count && roomBox != null) spots.addAll(safeSpots(w, roomBox, z.count - spots.size()));
+            if (spots.size() < z.count && roomBox != null) spots.addAll(safeSpots(w, roomBox, z.count - spots.size(), size));
             for (Location l : spots) {
                 Entity e = hooks.spawn(z.mob, l);
-                if (e != null) { track(run, e, room.name); spawned++; }
+                if (e != null) { settle(e, z.mob, room); track(run, e, room.name); spawned++; }
             }
             if (spots.size() < z.count) plugin.getLogger().warning(run.slot.dungeon + " " + run.slot.no + "번 칸 방 " + room.name + ": 몹 구역에 안전한 땅이 모자라 "
                     + spots.size() + "/" + z.count + "마리만 소환");
@@ -928,7 +955,10 @@ final class DungeonService {
      * [기능:던전안전소환] 2026-10-31 오너: 벽에 끼어 소환 → 가운데 칸뿐 아니라 둘레 8칸도 발·머리·머리 위(3칸 높이)가 비어 있어야 하고,
      * 둘레 바닥도 꺼져 있지 않아야 한다 (큰 모델 몹이 벽·천장에 박히지 않게).
      */
-    static List<Location> safeSpots(World w, Defs.Box box, int count) {
+    static List<Location> safeSpots(World w, Defs.Box box, int count) { return safeSpots(w, box, count, null); }
+
+    /** size = {가로, 높이} (모르면 null): 알면 그 몸 크기가 블록과 겹치지 않는 자리만 [기능:던전몹끼임]. */
+    static List<Location> safeSpots(World w, Defs.Box box, int count, double[] size) {
         var out = new ArrayList<Location>();
         var rng = java.util.concurrent.ThreadLocalRandom.current();
         var used = new HashSet<Long>();
@@ -942,6 +972,7 @@ final class DungeonService {
                 var floor = feet.getRelative(org.bukkit.block.BlockFace.DOWN);
                 if (!floor.getType().isSolid()) continue;
                 if (!roomy(w, x, y, z)) continue;
+                if (size != null && !fits(w, x + .5, y, z + .5, size[0] / 2, size[0] / 2, size[1])) continue;
                 long k = ((long) x << 40) ^ ((long) y << 20) ^ z;
                 if (used.add(k)) out.add(new Location(w, x + .5, y, z + .5, rng.nextFloat() * 360, 0));
                 break;
@@ -964,6 +995,100 @@ final class DungeonService {
         return true;
     }
     // [기능:던전안전소환 끝]
+
+    // [기능:던전몹끼임 시작]
+    /*
+     * 11/09 오너: 재의 그림자 잡몹이 벽에 끼어 나옴 → 소환 방식 자체를 모든 던전에서 고침.
+     * 모델 히트박스(hb=true)를 켠 몹은 몸이 3×3 검사보다 커서 "빈 땅"에 소환돼도 벽·천장에 박혔다.
+     *  1) 몹 종류마다 실제 몸 크기를 처음 소환 2틱 뒤(모델 히트박스가 붙은 뒤) 재서 기억 → 다음부터는 그 크기가 들어가는 자리만 고른다 (방 몹·보스).
+     *  2) 소환 2틱 뒤 몸이 블록과 겹치면 바로 몸이 통째로 들어가는 가까운 자리(방 몹은 같은 방)로 옮긴다 — 처음 보는 몹도 박힌 채로 남지 않게.
+     *  3) 던전 월드에서 스킬·패턴으로 소환되는 몹(보스가 부르는 졸개 등)도 2) 를 똑같이 거친다.
+     *  4) 싸우다 밀려 벽에 박힌 판 몹(보스 포함)도 1초마다 확인해 빼낸다.
+     */
+    private final Map<String, double[]> mobSizes = new HashMap<>();
+
+    /** 몹 하나 소환 직후: 2틱 뒤 몸 크기를 기억하고, 박혀 있으면 빈자리로. */
+    private void settle(Entity e, String mob, Defs.Room room) {
+        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            if (!e.isValid()) return;
+            var bb = e.getBoundingBox();
+            if (mob != null) mobSizes.put(mob, new double[] { Math.max(bb.getWidthX(), bb.getWidthZ()), bb.getHeight() });
+            free(e, room);
+        }, 2);
+    }
+
+    /** 몸이 블록과 겹치면 (방 몹은 같은 방 안, 아니면 둘레 10칸 안) 몸이 통째로 들어가는 자리로 옮긴다. */
+    private void free(Entity e, Defs.Room room) {
+        var bb = e.getBoundingBox();
+        World w = e.getWorld();
+        if (!w.hasCollisionsIn(bb.clone().expand(-0.05))) return;
+        double width = Math.max(bb.getWidthX(), bb.getWidthZ()), h = bb.getHeight();
+        Location to = nearFit(e.getLocation(), width, h, 6);
+        if (to == null && room != null) to = fitSpot(w, room, width, h);
+        if (to == null) to = nearFit(e.getLocation(), width, h, 12);
+        if (to != null) e.teleport(to);
+    }
+
+    /** 던전 월드에서 판이 따로 부르지 않은 몹 (스킬·패턴 소환) — DungeonListener 의 EntitySpawnEvent. */
+    void spawnedInDungeon(Entity e) {
+        if (!(e instanceof org.bukkit.entity.Mob m) || !m.hasAI() || mobOwner.containsKey(e.getUniqueId())) return; // AI 없는 기믹 장치는 일부러 놓은 자리 그대로
+        if (dungeonOfWorld(e.getWorld()) == null) return;
+        settle(e, null, null);
+    }
+
+    private void unstick(Run run, Defs.Dungeon d, Defs.Slot def) {
+        for (var en : run.mobs.entrySet()) {
+            Entity e = Bukkit.getEntity(en.getKey());
+            if (e == null || !e.isValid()) continue;
+            free(e, def.rooms.get(en.getValue()));
+        }
+    }
+
+    private static boolean fits(World w, double x, double y, double z, double hx, double hz, double h) {
+        return !w.hasCollisionsIn(new org.bukkit.util.BoundingBox(x - hx, y + 0.01, z - hz, x + hx, y + h, z + hz));
+    }
+
+    /** at 둘레 r칸 안(위아래 4칸)에서 발밑이 단단하고 가로 width·높이 h 몸이 블록과 겹치지 않는 가장 가까운 자리. */
+    private static Location nearFit(Location at, double width, double h, int r) {
+        World w = at.getWorld();
+        if (w == null) return null;
+        int bx = at.getBlockX(), by = at.getBlockY(), bz = at.getBlockZ();
+        Location best = null; double bd = Double.MAX_VALUE;
+        for (int dx = -r; dx <= r; dx++)
+            for (int dz = -r; dz <= r; dz++) {
+                if (dx * dx + dz * dz > r * r) continue;
+                for (int dy = -4; dy <= 4; dy++) {
+                    double dist = dx * dx + dz * dz + dy * dy * 2;
+                    if (dist >= bd) continue;
+                    int x = bx + dx, y = by + dy, z = bz + dz;
+                    if (!w.getBlockAt(x, y - 1, z).getType().isSolid() || !w.getBlockAt(x, y, z).isPassable() || w.getBlockAt(x, y, z).isLiquid()) continue;
+                    if (!fits(w, x + .5, y, z + .5, width / 2, width / 2, h)) continue;
+                    bd = dist; best = new Location(w, x + .5, y, z + .5, at.getYaw(), at.getPitch());
+                }
+            }
+        return best;
+    }
+
+    /** 방의 몹 구역 → 방 전체 순서로, 발밑이 단단하고 bb 크기 몸이 블록과 겹치지 않는 자리. */
+    private static Location fitSpot(World w, Defs.Room room, double width, double h) {
+        double hx = width / 2, hz = width / 2;
+        var boxes = new ArrayList<Defs.Box>();
+        for (var z : room.zones) boxes.add(z.box());
+        if (room.box() != null) boxes.add(room.box());
+        var rng = java.util.concurrent.ThreadLocalRandom.current();
+        for (var box : boxes)
+            for (int t = 0; t < 40; t++) {
+                int x = rng.nextInt(box.minX(), box.maxX() + 1), z = rng.nextInt(box.minZ(), box.maxZ() + 1);
+                for (int y = box.minY(); y <= box.maxY(); y++) {
+                    if (!w.getBlockAt(x, y - 1, z).getType().isSolid() || !w.getBlockAt(x, y, z).isPassable()) continue;
+                    var cand = new org.bukkit.util.BoundingBox(x + .5 - hx, y + 0.01, z + .5 - hz, x + .5 + hx, y + h, z + .5 + hz);
+                    if (w.hasCollisionsIn(cand)) continue;
+                    return new Location(w, x + .5, y, z + .5, rng.nextFloat() * 360, 0);
+                }
+            }
+        return null;
+    }
+    // [기능:던전몹끼임 끝]
 
     private void track(Run run, Entity e, String room) {
         e.setPersistent(false);

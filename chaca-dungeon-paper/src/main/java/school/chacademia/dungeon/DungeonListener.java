@@ -122,6 +122,10 @@ final class DungeonListener implements Listener {
     }
     // [기능:던전난이도 끝]
 
+    /** [기능:던전몹끼임] 던전 월드에서 스킬·패턴으로 소환된 몹도 벽에 박히면 빈자리로. */
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    void spawned(org.bukkit.event.entity.EntitySpawnEvent e) { service.spawnedInDungeon(e.getEntity()); }
+
     /** 가장 먼저 (MythicMobs 가 몹 정보를 지우기 전에) 이름을 읽는다. */
     @EventHandler(priority = EventPriority.LOWEST)
     void mobDeath(EntityDeathEvent e) {
