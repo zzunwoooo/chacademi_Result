@@ -102,6 +102,11 @@ final class Settings {
     // [기능:탑퀘스트] 판이 끝날 때(어떤 결과든) 콘솔로 실행할 명령 ({player}) · 처음 하는 사람은 입장권 없이
     final java.util.List<String> endCommands;
     final boolean freeFirstPlay;
+    /** 치유 물약으로 줄 아이템애더 아이템 (일반·상급). */
+    final String potionItem, potionBig;
+    /** [기능:탑몹스킬] 몹별 큰 스킬 (MythicMobs 스킬 이름). 탑 안에선 skill-pulse-seconds 마다 하나씩 쓰게 한다 (원래는 약 43초에 한 번). */
+    final Map<String, List<String>> mobSkills = new LinkedHashMap<>();
+    final double skillPulseSeconds;
 
     Settings(FileConfiguration c) {
         name = c.getString("name", "무한의 탑");
@@ -125,7 +130,7 @@ final class Settings {
         }
         floorStartSeconds = Math.max(1, c.getInt("floor-start-seconds", 3));
         cardDelaySeconds = Math.max(0, c.getInt("card-delay-seconds", 1));
-        cardSeconds = Math.max(10, c.getInt("card-seconds", 40));
+        cardSeconds = Math.max(10, c.getInt("card-seconds", 30));
         leaveGraceSeconds = Math.max(1, c.getInt("leave-grace-seconds", 5));
         queueOfferSeconds = Math.max(10, c.getInt("queue-offer-seconds", 30));
         normalMobs = List.copyOf(c.getStringList("mobs.normal"));
@@ -148,11 +153,16 @@ final class Settings {
         basicSpells = List.copyOf(c.getStringList("basic-spells"));
         excludedSpells = List.copyOf(c.getStringList("excluded-spells"));
         startIntelligence = Math.max(0, c.getDouble("start-intelligence", 10));
-        startMana = Math.max(1, c.getDouble("start-mana", 100));
+        startMana = Math.max(1, c.getDouble("start-mana", 300));
         startPotions = Math.max(0, c.getInt("start-potions", 3));
         startSpellPicks = Math.clamp(c.getInt("start-spell-picks", 2), 1, 3);
         endCommands = c.isList("end-commands") ? c.getStringList("end-commands") : java.util.List.of("유저관리 {player} 스토리신호 탑도전");
         freeFirstPlay = c.getBoolean("ticket.free-first-play", true);
+        potionItem = c.getString("potion-item", "item:health_potion");
+        var ms = c.getConfigurationSection("mob-skills");
+        if (ms != null) for (String id : ms.getKeys(false)) mobSkills.put(id, List.copyOf(ms.getStringList(id)));
+        skillPulseSeconds = Math.max(3, c.getDouble("skill-pulse-seconds", 8));
+        potionBig = c.getString("potion-item-big", "item:health_potion_big");
         Cards.LIFESTEAL_FLOOR_HEAL = balance.getDouble("lifesteal-floor-heal", 80);
         double regen = c.getDouble("start-mana-regen", 0);
         startManaRegen = regen > 0 ? regen : startMana * 0.10; // 규칙: 기본 회복 = 최대 마나의 10%

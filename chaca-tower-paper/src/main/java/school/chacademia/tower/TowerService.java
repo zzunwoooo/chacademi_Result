@@ -188,7 +188,7 @@ final class TowerService {
         pinMana(p);
         fullHeal(p);
         p.setFoodLevel(20); p.setSaturation(20);
-        if (s.startPotions > 0) give(p, potion(Material.SPLASH_POTION, PotionType.HEALING, s.startPotions));
+        if (s.startPotions > 0) give(p, healPotion(false, s.startPotions));   // 우리 체력 포션 (아이템애더)
         p.showTitle(Title.title(Component.text(s.name, NamedTextColor.LIGHT_PURPLE), Component.text("시작 마법을 골라요", NamedTextColor.GRAY)));
         // 시작 카드 (기본 공격 마법)
         run.firstPick = true;
@@ -262,21 +262,21 @@ final class TowerService {
     /** 카드 화면: 모드가 있으면 모드 화면(보유 증강 목록도 같이 보냄), 없으면 상자 창. */
     private void showCards(Player p) { if (!client.cards(p, s, run)) new CardMenu(s, run).open(p); }
 
-// [기능:탑카드소리 시작] 상자 창용: 이번 카드 중 가장 높은 등급의 소리
-private void offerSound(Player p) {
-    int best = 0;
-    for (var c : run.offer) best = Math.max(best, c.grade());
-    switch (best) {
-        case 0 -> p.playSound(p.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 1, 1.2f);
-        case 1 -> p.playSound(p.getLocation(), Sound.BLOCK_AMETHYST_BLOCK_CHIME, 1, 1.1f);
-        case 2 -> p.playSound(p.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1, 1.0f);
-        default -> { p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 0.6f, 1.2f); p.playSound(p.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 0.7f, 1.6f); }
+    // [기능:탑카드소리 시작] 상자 창용: 이번 카드 중 가장 높은 등급의 소리
+    private void offerSound(Player p) {
+        int best = 0;
+        for (var c : run.offer) best = Math.max(best, c.grade());
+        switch (best) {
+            case 0 -> p.playSound(p.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 1, 1.2f);
+            case 1 -> p.playSound(p.getLocation(), Sound.BLOCK_AMETHYST_BLOCK_CHIME, 1, 1.1f);
+            case 2 -> p.playSound(p.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1, 1.0f);
+            default -> { p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 0.6f, 1.2f); p.playSound(p.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 0.7f, 1.6f); }
+        }
     }
-}
-// [기능:탑카드소리 끝]
+    // [기능:탑카드소리 끝]
 
-// [기능:탑내증강 시작]
-/** /탑 증강: 지금까지 고른 증강을 모아 보는 창. 모드가 있으면 카드 그림 그대로, 없으면 상자 창. */
+    // [기능:탑내증강 시작]
+    /** /탑 증강: 지금까지 고른 증강을 모아 보는 창. 모드가 있으면 카드 그림 그대로, 없으면 상자 창. */
     void showBuild(Player p) {
         if (!inRun(p)) { ChacaLink.notify(p, "warning", "tower:build", "탑 안에서만 볼 수 있어요", "", 1000); return; }
         if (client.build(p, s, run)) return;
@@ -452,14 +452,37 @@ private void offerSound(Player p) {
             case SCHOLAR -> run.scholar += v;
             case OVERKILL -> run.overkill = Math.min(1, run.overkill + v);
             case LASTSTAND -> run.lastStand = Math.min(0.8, run.lastStand + v);
+            case MANA_FLOW -> { run.manaFlow += v; pinMana(p); }
+            case MANA_HEART -> { run.manaHeart += v; pinMana(p); magic.addMana(p, v); }
+            case MANA_SHIELD -> run.manaShield = Math.min(0.6, run.manaShield + v);
+            case MEDITATE -> run.meditate = Math.min(4, run.meditate + v);
+            case ECHO_CAST -> run.echoCast = Math.min(1, run.echoCast + v);
+            case BURN -> run.burn = Math.min(2.0, run.burn + v);
+            case VENOM -> run.venom = Math.min(0.012, run.venom + v);
+            case MARK -> run.mark = Math.min(1.5, run.mark + v);
+            case PRECISION -> run.precision = Math.min(1.5, run.precision + v);
+            case POINT_BLANK -> run.pointBlank = Math.min(1.5, run.pointBlank + v);
+            case LONE -> run.lone = Math.min(2.5, run.lone + v);
+            case CROWD -> run.crowd = Math.min(0.15, run.crowd + v);
+            case DEATH_BLAST -> run.deathBlast += v;
+            case ABSORB -> run.absorb = Math.min(6, run.absorb + v);
+            case FRENZY -> run.frenzy = Math.min(0.25, run.frenzy + v);
+            case MIRROR -> run.mirror = Math.min(0.4, run.mirror + v);
+            case STASIS -> run.stasis = Math.min(8, run.stasis + v);
+            case THUNDER -> run.thunder = Math.min(6, run.thunder + v);
+            case WISP -> run.wisp = Math.min(3, run.wisp + v);
+            case COIN -> run.coin = Math.min(0.8, run.coin + v);
+            case FORTUNE -> run.fortune = Math.min(0.6, run.fortune + v);
         }
     }
 
     /** 탑 안 마나: 시작값 + 마나 샘 증강. 초당 회복은 최대치와 같은 비율로 따라간다. */
     private void pinMana(Player p) {
-        double max = s.startMana + run.manaBonus;
-        magic.pinMana(p, max, s.startManaRegen * max / s.startMana);
+        double max = maxMana();
+        magic.pinMana(p, max, s.startManaRegen * max / s.startMana * (1 + run.manaFlow));
     }
+
+    private double maxMana() { return s.startMana + run.manaBonus + run.manaHeart; }
 
     private void giveArmor(Player p, int g) {
         var slots = List.of(EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET);
@@ -505,20 +528,28 @@ private void offerSound(Player p) {
 
     private void givePotions(Player p, int g) {
         switch (g) {
-            case 0 -> give(p, potion(Material.SPLASH_POTION, PotionType.HEALING, 2));
-            case 1 -> { give(p, potion(Material.SPLASH_POTION, PotionType.STRONG_HEALING, 2)); give(p, potion(Material.POTION, PotionType.REGENERATION, 1)); }
+            case 0 -> give(p, healPotion(false, 2));
+            case 1 -> { give(p, healPotion(false, 2)); give(p, potion(Material.POTION, PotionType.REGENERATION, 1)); }
             case 2 -> {
-                give(p, potion(Material.SPLASH_POTION, PotionType.STRONG_HEALING, 3));
+                give(p, healPotion(true, 2));
                 give(p, potion(Material.POTION, PotionType.LONG_STRENGTH, 1));
                 give(p, resistance(0));
             }
             default -> {
-                give(p, potion(Material.SPLASH_POTION, PotionType.STRONG_HEALING, 4));
+                give(p, healPotion(true, 3));
                 give(p, potion(Material.POTION, PotionType.STRONG_STRENGTH, 1));
                 give(p, resistance(1));
                 give(p, potion(Material.POTION, PotionType.STRONG_REGENERATION, 1));
             }
         }
+    }
+
+    /** 치유 물약 = 우리 체력 포션 (아이템애더 item:health_potion · 상급 item:health_potion_big, 효과·쿨은 MagicMythic). 없으면 바닐라 치유 투척 물약. */
+    private ItemStack healPotion(boolean big, int amount) {
+        var it = items.create(big ? s.potionBig : s.potionItem, 1);
+        if (it == null) return potion(Material.SPLASH_POTION, big ? PotionType.STRONG_HEALING : PotionType.HEALING, amount);
+        it.setAmount(Math.max(1, amount));
+        return it;
     }
 
     private static ItemStack potion(Material m, PotionType type, int amount) {
@@ -584,6 +615,7 @@ private void offerSound(Player p) {
         }
         run.lastDamagedAt = System.currentTimeMillis();
         run.momentumStacks = 0; run.momentumUntil = 0; run.comboTarget = null; run.comboStacks = 0; run.windUsed = 0;
+        run.stasisUsed = false; run.stasisUntil = 0; run.burns.clear(); run.venoms.clear(); run.marks.clear(); run.frenzyStacks = 0; run.skillAt.clear();
         run.phase = Run.Phase.COUNTDOWN;
         run.phaseEndsAt = System.currentTimeMillis() + s.floorStartSeconds * 1000L;
         run.waves.clear();
@@ -681,6 +713,7 @@ private void offerSound(Player p) {
             ChacaLink.notify(p, "shop", "tower:gamble", "내기에서 이겼어요", "카드를 " + run.gamblePicks + "번 골라요", 0);
             for (int i = 0; i < run.gamblePicks; i++) run.picks.add(-1);
         } else run.picks.add(-1);
+        if (run.coin > 0 && ThreadLocalRandom.current().nextDouble() < Math.min(0.8, run.coin)) { run.picks.add(-1); ChacaLink.notify(p, "shop", "tower:coin", "행운의 동전", "카드를 한 번 더 골라요", 0); }
         int first = run.picks.poll();
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
             if (!inRun(p)) return;
@@ -754,6 +787,10 @@ private void offerSound(Player p) {
             run.windUsed += add;
             p.setHealth(p.getHealth() + add);
         }
+        if (run.phase == Run.Phase.FIGHT) tickAugments(p, now);
+        magic.holdDiscovery(p);   // 판 중엔 마법 발견 멈춤 유지
+        // 탑 안은 서바이벌 (크리에이티브면 몹·마법 피해를 안 받음 — 11/12 "몹 공격이 안 들어옴")
+        if (p.getGameMode() != org.bukkit.GameMode.SURVIVAL && p.getGameMode() != org.bukkit.GameMode.ADVENTURE) p.setGameMode(org.bukkit.GameMode.SURVIVAL);
         // [기능:탑야간투시] 탑 안은 어두워도 보이게 (오너 11/12) — 아이콘·입자 없는 무한 야간투시
         var nv = p.getPotionEffect(PotionEffectType.NIGHT_VISION);
         if (nv == null || !nv.isInfinite()) p.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, PotionEffect.INFINITE_DURATION, 0, false, false, false));
@@ -778,10 +815,69 @@ private void offerSound(Player p) {
     }
 
 
+    // [기능:탑증강3 시작] 0.5초마다: 화상·맹독 지속 피해, 낙뢰·수호 정령, 명상
+    private void tickAugments(Player p, long now) {
+        for (var en : new ArrayList<>(run.burns.entrySet())) {
+            var e = Bukkit.getEntity(en.getKey());
+            if (!(e instanceof LivingEntity le) || le.isDead() || en.getValue()[1] <= 0) { run.burns.remove(en.getKey()); continue; }
+            en.getValue()[1]--;
+            pierce(le, en.getValue()[0] / floors.tough(le));
+            le.getWorld().spawnParticle(Particle.FLAME, le.getLocation().add(0, le.getHeight() * .6, 0), 4, .3, .3, .3, .01);
+        }
+        if (run.venom > 0) for (var en : new ArrayList<>(run.venoms.entrySet())) {
+            var e = Bukkit.getEntity(en.getKey());
+            if (!(e instanceof LivingEntity le) || le.isDead()) { run.venoms.remove(en.getKey()); continue; }
+            double per = floors.effectiveHealth(le) * run.venom * en.getValue() * 0.5 * (floors.kind(e).equals("guardian") ? 0.5 : 1);
+            pierce(le, per / floors.tough(le));
+            le.getWorld().spawnParticle(Particle.ITEM_SLIME, le.getLocation().add(0, le.getHeight() * .6, 0), 3, .3, .3, .3, .01);
+        }
+        double power = s.startIntelligence + run.intelligence;
+        if (run.thunder > 0 && now >= run.thunderAt) {
+            run.thunderAt = now + 4000;
+            var t = nearestMob(p, 16);
+            if (t != null) {
+                t.getWorld().strikeLightningEffect(t.getLocation());
+                pierce(t, power * run.thunder * (1 + run.damageBonus) / floors.tough(t));
+            }
+        }
+        if (run.wisp > 0 && now >= run.wispAt) {
+            run.wispAt = now + 2000;
+            var t = nearestMob(p, 12);
+            if (t != null) {
+                p.getWorld().spawnParticle(Particle.END_ROD, t.getLocation().add(0, 1, 0), 8, .2, .3, .2, .02);
+                pierce(t, power * run.wisp * (1 + run.damageBonus) / floors.tough(t));
+            }
+        }
+        if (run.meditate > 0 && now - run.lastDamagedAt >= 3000) magic.addMana(p, s.startManaRegen * maxMana() / s.startMana * (1 + run.manaFlow) * run.meditate * 0.5);
+    }
+
+    private LivingEntity nearestMob(Player p, double range) {
+        LivingEntity best = null; double bd = range * range;
+        for (var id : run.mobs) {
+            if (!(Bukkit.getEntity(id) instanceof LivingEntity le) || le.isDead() || !le.getWorld().equals(p.getWorld())) continue;
+            double d = le.getLocation().distanceSquared(p.getLocation());
+            if (d < bd) { bd = d; best = le; }
+        }
+        return best;
+    }
+    // [기능:탑증강3 끝]
+
     private void tickAffixes() {
         for (var id : run.mobs) {
             if (!(Bukkit.getEntity(id) instanceof LivingEntity le) || le.isDead()) continue;
             if (runner != null) aggro(le, runner);
+            // [기능:탑몹스킬] 큰 스킬을 자주: 처음엔 3~6초 뒤, 그다음 skill-pulse-seconds ±30% 마다 (노리는 사람이 14칸 안일 때만)
+            var skills = s.mobSkills.get(floors.mythicId(le));
+            if (skills != null && !skills.isEmpty() && runner != null) {
+                long now = System.currentTimeMillis();
+                Long at = run.skillAt.get(id);
+                var rng = ThreadLocalRandom.current();
+                if (at == null) run.skillAt.put(id, now + rng.nextLong(3000, 6000));
+                else if (now >= at && le.getWorld().equals(runner.getWorld()) && le.getLocation().distanceSquared(runner.getLocation()) < 196) {
+                    boolean cast = floors.castSkill(le, skills.get(rng.nextInt(skills.size())));
+                    run.skillAt.put(id, now + (cast ? (long) (s.skillPulseSeconds * 1000 * rng.nextDouble(0.7, 1.3)) : 1000));   // 재사용 대기로 안 나갔으면 1초 뒤 다시
+                }
+            }
             var max = le.getAttribute(Attribute.MAX_HEALTH);
             if (max == null) continue;
             if (floors.has(le, "regen") && le.getHealth() < max.getValue()) le.setHealth(Math.min(max.getValue(), le.getHealth() + max.getValue() * 0.01));
@@ -842,6 +938,28 @@ private void offerSound(Player p) {
         dmg *= 1 - r.guard;
         dmg *= 1 + r.glassTaken;
         if (r.lastStand > 0 && victim.getHealth() <= maxHealth(victim) * 0.3) dmg *= 1 - Math.min(0.8, r.lastStand);
+        // [기능:탑증강3] 시간 정지 중 무적 · 거울 방패 · 마나 방패
+        if (now < r.stasisUntil) { e.setCancelled(true); return; }
+        if (r.mirror > 0 && ThreadLocalRandom.current().nextDouble() < Math.min(0.4, r.mirror)) {
+            e.setCancelled(true);
+            double back = dmg * 2;
+            if (mob instanceof LivingEntity ml && r.mobs.contains(mob.getUniqueId())) Bukkit.getScheduler().runTask(plugin, () -> { if (ml.isValid() && !ml.isDead()) pierce(ml, back / floors.tough(ml)); });
+            victim.playSound(victim.getLocation(), Sound.BLOCK_GLASS_BREAK, 0.7f, 1.6f);
+            victim.sendActionBar(Component.text("거울 방패 — 되돌렸어요", NamedTextColor.AQUA));
+            return;
+        }
+        if (r.manaShield > 0) {
+            double part = dmg * Math.min(0.6, r.manaShield);
+            if (magic.consumeMana(victim, part * 4)) dmg -= part;
+        }
+        if (r.stasis > 0 && !r.stasisUsed && victim.getHealth() - dmg <= maxHealth(victim) * 0.3) {
+            r.stasisUsed = true;
+            r.stasisUntil = now + (long) (Math.min(8, r.stasis) * 1000);
+            dmg = Math.min(dmg, Math.max(0, victim.getHealth() - 1));   // 켜지는 그 한 방으로 쓰러지지 않게
+            victim.getWorld().spawnParticle(Particle.END_ROD, victim.getLocation().add(0, 1, 0), 40, .5, .8, .5, .05);
+            victim.playSound(victim.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 1, 1.8f);
+            victim.sendActionBar(Component.text("시간 정지 — " + Cards.num(Math.min(8, r.stasis)) + "초 동안 무적", NamedTextColor.LIGHT_PURPLE));
+        }
         e.setDamage(dmg);
         r.lastDamagedAt = now;
         // 되갚기: 맞으면 다음 공격이 준비됨 (재사용 대기가 끝났을 때만)
@@ -884,6 +1002,14 @@ private void offerSound(Player p) {
         // 조건부 증강: 종류가 다르면 서로 곱해진다 (여러 종류를 모을수록 크게 세짐)
         if (r.firstStrike > 0 && le != null && le.getHealth() >= mobMax - 0.01) dmg *= 1 + r.firstStrike;
         if (r.berserk > 0) dmg *= 1 + r.berserk * Math.floor((1 - attacker.getHealth() / maxHealth(attacker)) * 10 + 1e-9);
+        // [기능:탑증강3]
+        if (r.manaHeart > 0) dmg *= 1 + 0.03 * Math.floor(maxMana() / 100);
+        if (r.mark > 0) { Long until = r.marks.get(mob.getUniqueId()); if (until == null) { r.marks.put(mob.getUniqueId(), now + 10_000); until = now + 10_000; } if (now < until) dmg *= 1 + r.mark; }
+        double dist = attacker.getLocation().distance(mob.getLocation());
+        if (r.precision > 0 && dist > 8) dmg *= 1 + r.precision;
+        if (r.pointBlank > 0 && dist <= 3) dmg *= 1 + r.pointBlank;
+        if (r.lone > 0 && r.mobs.size() <= 1 && r.waves.isEmpty()) dmg *= 1 + r.lone;
+        if (r.crowd > 0) dmg *= 1 + r.crowd * Math.min(8, r.mobs.size());
         if (r.momentum > 0 && now < r.momentumUntil) dmg *= 1 + r.momentum * r.momentumStacks;
         if (r.overflow > 0 && Math.max(magic.manaFraction(attacker), Math.max(r.manaNow, r.manaPrev)) >= 0.8) dmg *= 1 + r.overflow;   // 시전으로 마나를 쓴 뒤에 맞으므로 최근 1초 안의 가장 높은 값
         if (r.hunter > 0 && !kind.equals("normal")) dmg *= 1 + r.hunter;
@@ -915,6 +1041,14 @@ private void offerSound(Player p) {
             attacker.playSound(attacker.getLocation(), Sound.ENTITY_PLAYER_ATTACK_CRIT, 0.8f, 1.2f);
         }
         double real2 = dmg;                 // 몹의 실제 체력 기준 피해 (단단함 나누기 전)
+        // [기능:탑증강3] 화상·맹독·메아리 (공격자 없는 추가 피해로 → 이 계산을 다시 타지 않음)
+        if (r.burn > 0) { var b = r.burns.computeIfAbsent(mob.getUniqueId(), k -> new double[2]); b[0] = Math.max(b[0], real2 * r.burn / 6); b[1] = 6; }
+        if (r.venom > 0) r.venoms.merge(mob.getUniqueId(), 1, (a, c) -> Math.min(10, a + c));
+        if (r.echoCast > 0 && le != null && rng.nextDouble() < Math.min(1, r.echoCast)) {
+            double echo = real2 * 0.6;
+            LivingEntity target = le;
+            Bukkit.getScheduler().runTaskLater(plugin, () -> { if (target.isValid() && !target.isDead()) { target.getWorld().spawnParticle(Particle.SONIC_BOOM, target.getLocation().add(0, 1, 0), 1); pierce(target, echo / floors.tough(target)); } }, 10L);
+        }
         dmg /= floors.tough(mob);           // 상한을 넘는 체력 몫 (Floors.setHealth)
         // 마무리: 이 공격으로 체력이 기준 아래로 내려가면 바로 처치 (수문장은 기준 절반)
         boolean executed = r.finisher > 0 && le != null && le.getHealth() + le.getAbsorptionAmount() - dmg <= mobMax * (kind.equals("guardian") ? r.finisher / 2 : r.finisher);
@@ -974,6 +1108,29 @@ private void offerSound(Player p) {
         Player p = runner;
         if (p != null && run.harvest > 0) heal(p, run.harvest);
         if (p != null && run.siphon > 0) magic.addMana(p, run.siphon);
+        // [기능:탑증강3]
+        run.burns.remove(e.getUniqueId()); run.venoms.remove(e.getUniqueId()); run.marks.remove(e.getUniqueId());
+        if (run.deathBlast > 0 && e instanceof LivingEntity deadMob) {
+            double blast = floors.effectiveHealth(deadMob) * run.deathBlast;
+            for (var near : e.getNearbyEntities(3, 2, 3))
+                if (near instanceof LivingEntity nl && run.mobs.contains(near.getUniqueId()) && !nl.isDead()) pierce(nl, blast / floors.tough(nl));
+            e.getWorld().spawnParticle(Particle.EXPLOSION, e.getLocation().add(0, 1, 0), 3, .6, .4, .6);
+        }
+        if (p != null && run.absorb > 0) {
+            var cap = p.getAttribute(Attribute.MAX_ABSORPTION);
+            double room = Math.max(0, 12 - p.getAbsorptionAmount());
+            if (cap != null && room > 0) {
+                double want = Math.min(12, p.getAbsorptionAmount() + Math.min(room, run.absorb));
+                var cur = cap.getModifier(absKey);
+                if (cur == null || cur.getAmount() < want) { if (cur != null) cap.removeModifier(absKey); cap.addTransientModifier(new AttributeModifier(absKey, Math.max(want, cur == null ? 0 : cur.getAmount()), AttributeModifier.Operation.ADD_NUMBER)); }
+                p.setAbsorptionAmount(want);
+            }
+        }
+        if (run.frenzy > 0) {
+            long now2 = System.currentTimeMillis();
+            run.frenzyStacks = Math.min(3, (now2 < run.frenzyUntil ? run.frenzyStacks : 0) + 1);
+            run.frenzyUntil = now2 + 5000;
+        }
         if (run.momentum > 0) {
             long now = System.currentTimeMillis();
             run.momentumStacks = Math.min(3, (now < run.momentumUntil ? run.momentumStacks : 0) + 1);
@@ -1035,7 +1192,8 @@ private void offerSound(Player p) {
     /** 탑 안 최종 능력치 = 기본값 + 탑 보너스. 다른 플러그인 보정(장신구 PDC·펫 도감 체력·아티팩트)이 붙어 있어도 결과를 이 값으로 맞춘다 (tick 마다 다시). */
     private void applyAttributes(Player p) {
         pin(p.getAttribute(Attribute.MAX_HEALTH), hpKey, Math.max(4, 20 + run.maxHealthBonus));   // 저주받은 힘을 여러 번 골라도 하트 2칸 밑으로는 안 내려감
-        pin(p.getAttribute(Attribute.MOVEMENT_SPEED), speedKey, 0.1 * (1 + run.speedBonus));
+        double frenzy = System.currentTimeMillis() < run.frenzyUntil ? run.frenzy * run.frenzyStacks : 0;
+        pin(p.getAttribute(Attribute.MOVEMENT_SPEED), speedKey, 0.1 * (1 + run.speedBonus + frenzy));
         if (p.getHealth() > maxHealth(p)) p.setHealth(maxHealth(p));
     }
 
@@ -1108,6 +1266,8 @@ private void offerSound(Player p) {
         } catch (RuntimeException e) { plugin.getLogger().severe("탑 안에서 받은 바깥 물건 전달 실패 " + p.getName() + ": " + e); }
         try { magic.unlearnNew(p); }
         catch (RuntimeException e) { plugin.getLogger().warning("탑 안 영구 습득 되돌리기 실패 " + p.getName() + ": " + e); }
+        // 발견 기록·권한 저장은 비동기라 끝난 뒤에 늦게 들어올 수 있어 10초 뒤 한 번 더 (11/12 오너 "안에서 마법 안 배워지게")
+        Bukkit.getScheduler().runTaskLater(plugin, () -> { var again = Bukkit.getPlayer(r.player); if (again != null && !playing(r.player)) { try { magic.unlearnNew(again); } finally { magic.forgetLearned(again); } } }, 200L);
         try { giveBack(p); }
         finally { lastEnded.put(r.player, System.currentTimeMillis()); activeRunners.remove(r.player); runs.remove(r.player); }   // 원래 소지품으로 돌아왔으니 이제 HuskSync 저장을 막지 않는다 (직전에 찍힌 것만 3초 더)
         var exit = s.exit != null ? s.exit.location() : s.portal != null ? s.portal.location() : null;

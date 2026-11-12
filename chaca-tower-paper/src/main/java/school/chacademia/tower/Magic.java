@@ -46,6 +46,15 @@ interface Magic {
 
     void addMana(Player p, double amount);
 
+    /** 마나를 쓴다 (모자라면 false, 안 씀). */
+    boolean consumeMana(Player p, double amount);
+
+    /** 들어갈 때 기억한 습득 목록을 버린다 (두 번째 되돌리기 뒤). */
+    void forgetLearned(Player p);
+
+    /** 판 중: 마법 발견이 멈춰 있게 (들어온 직후 불러오기가 끝나 다시 켜진 경우). */
+    void holdDiscovery(Player p);
+
     /** 시전 가속 (재사용 대기 감소 % = 100·h/(100+h)). 0 이면 지운다. restore 가 푼다. */
     void setHaste(Player p, double haste);
 

@@ -103,21 +103,21 @@ final class TowerClient implements PluginMessageListener {
     }
     // [기능:탑내증강 끝]
 
-// [기능:탑마법키 시작]
-/** 탑에서 배운 마법을 모드에 알려 준다 → 마법 키(유저가 쓰던 키 그대로)에 왼쪽부터 채워 씀. spells = null 이면 원래 키로. */
-void loadout(Player p, java.util.List<String> spells) {
-    if (!modded(p)) return;
-    var o = new JsonObject();
-    o.addProperty("t", "loadout");
-    o.addProperty("active", spells != null);
-    var arr = new JsonArray();
-    if (spells != null) spells.forEach(arr::add);
-    o.add("spells", arr);
-    send(p, o);
-}
-// [기능:탑마법키 끝]
+    // [기능:탑마법키 시작]
+    /** 탑에서 배운 마법을 모드에 알려 준다 → 마법 키(유저가 쓰던 키 그대로)에 왼쪽부터 채워 씀. spells = null 이면 원래 키로. */
+    void loadout(Player p, java.util.List<String> spells) {
+        if (!modded(p)) return;
+        var o = new JsonObject();
+        o.addProperty("t", "loadout");
+        o.addProperty("active", spells != null);
+        var arr = new JsonArray();
+        if (spells != null) spells.forEach(arr::add);
+        o.add("spells", arr);
+        send(p, o);
+    }
+    // [기능:탑마법키 끝]
 
-void close(Player p) {
+    void close(Player p) {
         if (shown.remove(p.getUniqueId()) == null || !modded(p)) return;
         var o = new JsonObject();
         o.addProperty("t", "close");

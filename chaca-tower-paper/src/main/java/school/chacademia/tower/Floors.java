@@ -132,6 +132,8 @@ final class Floors {
         var maxHp = le.getAttribute(Attribute.MAX_HEALTH);
         setHealth(le, hp);
         // 이동 속도: 층이 오를수록 빨라짐. 원래 속도를 적어 두고 신속·광폭까지 합쳐 speed-max-total 배를 넘지 않게 한다.
+        var kb = le.getAttribute(Attribute.KNOCKBACK_RESISTANCE);   // 오너 11/12: 탑 몹은 밀리지 않게
+        if (kb != null) kb.setBaseValue(1.0);
         var speed = le.getAttribute(Attribute.MOVEMENT_SPEED);
         if (speed != null) {
             le.getPersistentDataContainer().set(speedKey, PersistentDataType.DOUBLE, speed.getBaseValue());
@@ -217,6 +219,20 @@ final class Floors {
     String kind(Entity mob) {
         String k = mob.getPersistentDataContainer().get(kindKey, PersistentDataType.STRING);
         return k == null ? "normal" : k;
+    }
+
+    // [기능:탑몹스킬] MythicMobs 스킬을 그 몹이 쓰게 (대상은 몹이 노리는 사람)
+    boolean castSkill(Entity mob, String skill) {
+        try { return io.lumine.mythic.bukkit.MythicBukkit.inst().getAPIHelper().castSkill(mob, skill); }
+        catch (RuntimeException | LinkageError e) { log.warning("몹 스킬 실패 " + skill + ": " + e); return false; }
+    }
+
+    /** 이 엔티티의 MythicMobs 이름 (아니면 null). */
+    String mythicId(Entity e) {
+        try {
+            var am = io.lumine.mythic.bukkit.MythicBukkit.inst().getMobManager().getActiveMob(e.getUniqueId());
+            return am.isPresent() ? am.get().getMobType() : null;
+        } catch (RuntimeException | LinkageError ex) { return null; }
     }
 
     Entity spawn(String mob, Location at) {

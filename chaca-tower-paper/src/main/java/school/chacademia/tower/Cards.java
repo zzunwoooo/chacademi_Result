@@ -44,8 +44,8 @@ final class Cards {
         BERSERK("궁지의 힘", Material.REDSTONE, 0, 5, new double[]{0.03, 0.05, 0.07, 0.10}),            // 잃은 체력 10%마다
         MOMENTUM("연쇄 처치", Material.FIRE_CHARGE, 0, 5, new double[]{0.12, 0.18, 0.25, 0.40}),        // 처치 뒤 5초, 3번까지 겹침
         OVERFLOW("넘치는 마력", Material.LAPIS_LAZULI, 0, 5, new double[]{0.15, 0.22, 0.32, 0.50}),      // 마나 80% 이상일 때
-        MANA("마나 샘", Material.PRISMARINE_CRYSTALS, 0, 8, new double[]{20, 30, 45, 70}),              // 최대 마나 (회복도 같이)
-        SIPHON("마력 수확", Material.EXPERIENCE_BOTTLE, 0, 5, new double[]{8, 12, 18, 28}),              // 처치마다 마나
+        MANA("마나 샘", Material.PRISMARINE_CRYSTALS, 0, 9, new double[]{40, 60, 90, 140}),              // 최대 마나 (회복도 같이)
+        SIPHON("마력 수확", Material.EXPERIENCE_BOTTLE, 0, 5, new double[]{12, 18, 28, 45}),              // 처치마다 마나
         HASTE("시간 왜곡", Material.CLOCK, 0, 7, new double[]{15, 25, 40, 60}),                         // 시전 가속 (재사용 대기 감소)
         RELOAD("재장전", Material.CROSSBOW, 1, 4, new double[]{0, 0.25, 0.35, 0.50}),                   // 처치 때 마법 하나 재사용 초기화 확률
         GLASS("유리 대포", Material.GLASS, 1, 4, new double[]{0, 0.35, 0.50, 0.80}),                    // 주는 피해 +, 받는 피해 +25%
@@ -62,7 +62,29 @@ final class Cards {
         INTEREST("복리", Material.GOLD_INGOT, 0, 5, new double[]{0.010, 0.015, 0.020, 0.030}),          // 층을 깰 때마다 피해 + (영구 누적)
         SCHOLAR("학자의 서", Material.WRITABLE_BOOK, 0, 5, new double[]{0.5, 0.8, 1.2, 1.8}),                   // 층을 깰 때마다 지능 +
         OVERKILL("여파", Material.TNT, 1, 4, new double[]{0, 0.60, 0.80, 1.00}),                        // 처치하고 남은 피해가 옆 몹에게
-        LASTSTAND("배수의 진", Material.NETHERITE_SCRAP, 0, 4, new double[]{0.20, 0.30, 0.40, 0.55});   // 체력 30% 이하일 때 받는 피해 -
+        LASTSTAND("배수의 진", Material.NETHERITE_SCRAP, 0, 4, new double[]{0.20, 0.30, 0.40, 0.55}),
+        // ── 11/12 저녁 오너 "증강이 너무 적고 창의적인 게 없다 · 마나 최대치 증강을 늘려" ──
+        MANA_FLOW("마력 순환", Material.HEART_OF_THE_SEA, 0, 6, new double[]{0.15, 0.25, 0.40, 0.60}),   // 마나 회복 +%
+        MANA_HEART("마나 심장", Material.LAPIS_BLOCK, 1, 5, new double[]{0, 60, 100, 160}),               // 최대 마나 + · 최대 마나 100마다 피해 +3%
+        MANA_SHIELD("마나 방패", Material.BLUE_ICE, 1, 4, new double[]{0, 0.20, 0.30, 0.45}),               // 받는 피해 일부를 마나로 (피해 1 = 마나 4)
+        MEDITATE("명상", Material.CANDLE, 0, 5, new double[]{0.5, 0.8, 1.2, 2.0}),                        // 3초 안 맞으면 마나 회복 +배
+        ECHO_CAST("메아리 시전", Material.ECHO_SHARD, 1, 5, new double[]{0, 0.15, 0.22, 0.35}),          // 확률로 0.5초 뒤 같은 피해 60%
+        BURN("화상", Material.BLAZE_ROD, 0, 5, new double[]{0.30, 0.45, 0.65, 1.00}),                    // 준 피해의 % 를 3초에 걸쳐 더
+        VENOM("맹독", Material.SPIDER_EYE, 0, 5, new double[]{0.002, 0.003, 0.004, 0.006}),               // 맞힐 때마다 독 1중첩(최대 10), 중첩마다 초당 몹 최대 체력의 %
+        MARK("사냥 표식", Material.SPYGLASS, 0, 5, new double[]{0.15, 0.22, 0.32, 0.50}),                 // 처음 맞힌 뒤 10초 동안 그 몹이 받는 피해 +
+        PRECISION("저격", Material.BOW, 0, 5, new double[]{0.15, 0.25, 0.35, 0.55}),                      // 8칸 넘게 떨어진 몹에게 피해 +
+        POINT_BLANK("근접 폭발", Material.FIREWORK_STAR, 0, 5, new double[]{0.15, 0.25, 0.35, 0.55}),     // 3칸 안 몹에게 피해 +
+        LONE("고독한 사냥", Material.BONE_BLOCK, 0, 5, new double[]{0.25, 0.40, 0.60, 0.90}),             // 남은 몹이 1마리일 때 피해 +
+        CROWD("군중 학살", Material.ZOMBIE_HEAD, 0, 5, new double[]{0.03, 0.05, 0.07, 0.10}),              // 남은 몹 1마리마다 피해 + (8마리까지)
+        DEATH_BLAST("처형 폭발", Material.MAGMA_CREAM, 1, 4, new double[]{0, 0.10, 0.15, 0.25}),          // 몹이 죽으면 주변 3칸에 그 몹 최대 체력의 %
+        ABSORB("영혼 수확", Material.SOUL_LANTERN, 0, 5, new double[]{1, 1.5, 2, 3}),                     // 처치마다 보호막 + (최대 12)
+        FRENZY("광란", Material.SUGAR, 0, 5, new double[]{0.04, 0.06, 0.08, 0.12}),                       // 처치하면 5초 동안 이동 속도 + (3번까지)
+        MIRROR("거울 방패", Material.GLASS_PANE, 1, 4, new double[]{0, 0.10, 0.15, 0.22}),                // 확률로 피해를 막고 2배로 되돌림
+        STASIS("시간 정지", Material.RECOVERY_COMPASS, 2, 3, new double[]{0, 0, 3, 5}),                   // 체력 30% 아래로 떨어지면 몇 초 무적 (층마다 1번)
+        THUNDER("낙뢰", Material.COPPER_INGOT, 0, 5, new double[]{1.0, 1.4, 2.0, 3.0}),                   // 4초마다 가까운 몹에게 번개 (지능 × 배수)
+        WISP("수호 정령", Material.ALLAY_SPAWN_EGG, 0, 5, new double[]{0.4, 0.6, 0.9, 1.4}),               // 2초마다 가까운 몹에게 빛 구슬 (지능 × 배수)
+        COIN("행운의 동전", Material.RAW_GOLD, 0, 4, new double[]{0.10, 0.15, 0.22, 0.35}),               // 층을 깰 때 확률로 카드 한 번 더
+        FORTUNE("별의 축복", Material.GLOWSTONE_DUST, 0, 4, new double[]{0.06, 0.10, 0.15, 0.22});         // 카드 등급이 한 단계 오를 확률 +   // 체력 30% 이하일 때 받는 피해 -
 
         /** 되갚기 재사용 대기 (초), 등급별. 겹치면 가장 짧은 것에서 한 장마다 5초씩 더 줄어든다 (최소 15초). */
         static final int[] VENGEANCE_COOLDOWN = {60, 45, 35, 25};
@@ -155,6 +177,27 @@ final class Cards {
             case SCHOLAR -> List.of("층을 깰 때마다 지능 +" + num(v));
             case OVERKILL -> List.of("몹을 처치하고 남은 피해의 " + pct(v) + "가", "가까운 다른 몹에게 넘어가요.");
             case LASTSTAND -> List.of("체력이 30% 이하일 때", "받는 피해 -" + pct(v));
+            case MANA_FLOW -> List.of("마나 회복 +" + pct(v));
+            case MANA_HEART -> List.of("최대 마나 +" + (int) v, "최대 마나 100마다 주는 피해 +3%");
+            case MANA_SHIELD -> List.of("받는 피해의 " + pct(v) + "를 마나로 막아요.", "피해 1 = 마나 4 · 마나가 없으면 그대로");
+            case MEDITATE -> List.of("3초 동안 맞지 않으면", "마나 회복 +" + pct(v));
+            case ECHO_CAST -> List.of(pct(v) + " 확률로 0.5초 뒤", "같은 몹에게 피해의 60%가 한 번 더");
+            case BURN -> List.of("맞힌 몹이 불타서", "준 피해의 " + pct(v) + "를 3초에 걸쳐 더 받아요.");
+            case VENOM -> List.of("맞힐 때마다 독 1중첩 (최대 10)", "중첩마다 초당 최대 체력의 " + num(v * 100) + "%");
+            case MARK -> List.of("처음 맞힌 몹은 10초 동안", "받는 피해 +" + pct(v));
+            case PRECISION -> List.of("8칸 넘게 떨어진 몹에게", "피해 +" + pct(v));
+            case POINT_BLANK -> List.of("3칸 안 몹에게", "피해 +" + pct(v));
+            case LONE -> List.of("남은 몹이 1마리일 때", "피해 +" + pct(v));
+            case CROWD -> List.of("남은 몹 1마리마다 피해 +" + pct(v), "(8마리까지)");
+            case DEATH_BLAST -> List.of("몹이 죽으면 주변 3칸 몹에게", "그 몹 최대 체력의 " + pct(v) + " 피해");
+            case ABSORB -> List.of("몹을 처치할 때마다", "보호막 +" + num(v) + " (최대 12)");
+            case FRENZY -> List.of("몹을 처치하면 5초 동안", "이동 속도 +" + pct(v) + " (3번까지)");
+            case MIRROR -> List.of(pct(v) + " 확률로 피해를 막고", "때린 몹에게 2배로 되돌려요.");
+            case STASIS -> List.of("체력이 30% 아래로 떨어지면", num(v) + "초 동안 무적 (층마다 1번)");
+            case THUNDER -> List.of("4초마다 가까운 몹에게 번개", "지능 × " + num(v) + " 피해");
+            case WISP -> List.of("2초마다 가까운 몹에게 빛 구슬", "지능 × " + num(v) + " 피해");
+            case COIN -> List.of("층을 깰 때 " + pct(v) + " 확률로", "카드를 한 번 더 골라요.");
+            case FORTUNE -> List.of("카드 등급이 한 단계 오를 확률 +" + pct(v));
         };
     }
 
@@ -194,6 +237,12 @@ final class Cards {
                 case FINISHER -> describe(card, Math.min(0.25, v));
                 case CHAIN, RELOAD, OVERKILL -> describe(card, Math.min(1, v));
                 case LASTSTAND -> describe(card, Math.min(0.8, v));
+                case MANA_SHIELD -> describe(card, Math.min(0.6, v));
+                case MIRROR -> describe(card, Math.min(0.4, v));
+                case ECHO_CAST -> describe(card, Math.min(1, v));
+                case COIN -> describe(card, Math.min(0.8, v));
+                case FORTUNE -> describe(card, Math.min(0.6, v));
+                case STASIS -> describe(card, Math.min(8, v));
                 case INTEREST -> List.of("층을 깰 때마다 피해 +" + num(v * 100) + "%", "지금까지 +" + pct(run.interestBonus));
                 default -> describe(card, v);
             };
@@ -226,10 +275,10 @@ final class Cards {
 
     static String potionText(int g) {
         return switch (g) {
-            case 0 -> "치유의 투척 물약 2개";
-            case 1 -> "치유 II 투척 물약 2개 + 재생 물약 1개";
-            case 2 -> "치유 II 투척 물약 3개 + 힘 물약 + 저항 물약";
-            default -> "치유 II 투척 물약 4개 + 힘 II 물약 + 저항 물약 + 재생 II 물약";
+            case 0 -> "체력 포션 2개";
+            case 1 -> "체력 포션 2개 + 재생 물약 1개";
+            case 2 -> "상급 체력 포션 2개 + 힘 물약 + 저항 물약";
+            default -> "상급 체력 포션 3개 + 힘 II 물약 + 저항 물약 + 재생 II 물약";
         };
     }
 
@@ -258,6 +307,7 @@ final class Cards {
         }
         for (int i = 0; i < 3; i++) {
             int grade = rollGrade(s, run.floor);
+            if (run.fortune > 0 && grade < 3 && rng.nextDouble() < Math.min(0.6, run.fortune)) grade++;   // 별의 축복
             if (forcedMinGrade >= 0) grade = Math.max(grade, forcedMinGrade);
             if (run.luck > 0) { grade = Math.min(3, grade + 1); }
             Card c = null;
@@ -306,6 +356,24 @@ final class Cards {
             case OVERKILL -> run.overkill >= 1;
             case LASTSTAND -> run.lastStand >= 0.8;
             case PACT -> run.pact;
+            case MANA_SHIELD -> run.manaShield >= 0.6;
+            case MIRROR -> run.mirror >= 0.4;
+            case ECHO_CAST -> run.echoCast >= 1;
+            case COIN -> run.coin >= 0.8;
+            case FORTUNE -> run.fortune >= 0.6;
+            case STASIS -> run.stasis >= 8;
+            case ABSORB -> run.absorb >= 6;
+            case BURN -> run.burn >= 2.0;
+            case VENOM -> run.venom >= 0.012;
+            case MARK -> run.mark >= 1.5;
+            case PRECISION -> run.precision >= 1.5;
+            case POINT_BLANK -> run.pointBlank >= 1.5;
+            case LONE -> run.lone >= 2.5;
+            case CROWD -> run.crowd >= 0.15;
+            case FRENZY -> run.frenzy >= 0.25;
+            case THUNDER -> run.thunder >= 6;
+            case WISP -> run.wisp >= 3;
+            case MEDITATE -> run.meditate >= 4;
             case RETALIATE -> run.retaliate >= 0.35;
             default -> false;
         };

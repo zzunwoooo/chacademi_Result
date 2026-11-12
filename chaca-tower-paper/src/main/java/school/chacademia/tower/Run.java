@@ -54,6 +54,15 @@ final class Run {
     java.util.UUID comboTarget; int comboStacks;
     double manaBonus;           // 최대 마나 +
     long quitAskAt;              // 상자 창 포기 버튼 첫 누름 시각
+    // ── 11/12 저녁 새 증강 ──
+    double manaFlow, manaHeart, manaShield, meditate, echoCast, burn, venom, mark, precision, pointBlank, lone, crowd, deathBlast, absorb, frenzy, mirror, stasis, thunder, wisp, coin, fortune;
+    int frenzyStacks; long frenzyUntil; boolean stasisUsed; long stasisUntil; long thunderAt, wispAt;
+    /** 몹별: 화상 [틱당 피해, 남은 틱] · 독 중첩 · 표식 끝나는 시각. */
+    final java.util.Map<UUID, double[]> burns = new java.util.HashMap<>();
+    final java.util.Map<UUID, Integer> venoms = new java.util.HashMap<>();
+    final java.util.Map<UUID, Long> marks = new java.util.HashMap<>();
+    /** [기능:탑몹스킬] 몹별 다음 큰 스킬 시각. */
+    final java.util.Map<UUID, Long> skillAt = new java.util.HashMap<>();
     double manaNow, manaPrev;   // 최근 두 번(0.5초 간격)의 마나 비율 — 넘치는 마력 판정용
     double siphon;              // 처치마다 마나
     double haste;               // 시전 가속

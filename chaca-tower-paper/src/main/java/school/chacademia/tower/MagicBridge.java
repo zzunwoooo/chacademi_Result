@@ -108,6 +108,9 @@ final class MagicBridge implements Magic {
         var pdc = p.getPersistentDataContainer();
         var key = equippedKey();
         var sb = new StringBuilder("artifact=").append(key == null ? "" : pdc.getOrDefault(key, PersistentDataType.STRING, ""));
+        double haste = baseHaste(p);
+        if (haste >= 0) sb.append(";haste=").append(haste);
+        sb.append(";gm=").append(p.getGameMode().name());   // 탑 안은 서바이벌, 나올 때 되돌림
         for (int i = 0; i < 4; i++) {
             var k = accessoryKey(i);
             byte[] b = k == null ? null : pdc.get(k, PersistentDataType.BYTE_ARRAY);
@@ -118,6 +121,9 @@ final class MagicBridge implements Magic {
 
     @Override public void enterTower(Player p) {
         dropAttachment(p);
+        pauseDiscovery(p, true);
+        setBaseHaste(p, 0);
+        if (p.getGameMode() != org.bukkit.GameMode.SURVIVAL && p.getGameMode() != org.bukkit.GameMode.ADVENTURE) p.setGameMode(org.bukkit.GameMode.SURVIVAL);
         var att = p.addAttachment(plugin);
         for (var sp : spells().values()) att.setPermission(sp.permission(), false);
         attachments.put(p.getUniqueId(), att);
@@ -144,6 +150,7 @@ final class MagicBridge implements Magic {
     @Override public boolean restore(Player p, String state) {
         boolean ok = bridge() != null;   // 브리지가 꺼져 있으면 PDC 열쇠를 못 만들어 장신구·아티팩트를 못 돌려놓는다
         dropAttachment(p);
+        pauseDiscovery(p, false);
         unpinMana(p);
         var pdc = p.getPersistentDataContainer();
         if (state != null && state.startsWith("artifact=")) {
@@ -155,6 +162,10 @@ final class MagicBridge implements Magic {
                     var key = equippedKey();
                     if (key == null) continue;
                     if (value.isBlank()) pdc.remove(key); else pdc.set(key, PersistentDataType.STRING, value);
+                } else if (name.equals("gm")) {
+                    try { if (p.getGameMode() == org.bukkit.GameMode.SURVIVAL) p.setGameMode(org.bukkit.GameMode.valueOf(value)); } catch (IllegalArgumentException ignored) {}
+                } else if (name.equals("haste")) {
+                    try { setBaseHaste(p, Double.parseDouble(value)); } catch (NumberFormatException ignored) {}
                 } else if (name.startsWith("acc")) {
                     var key = accessoryKey(Integer.parseInt(name.substring(3)));
                     if (key == null) continue;
@@ -241,6 +252,57 @@ final class MagicBridge implements Magic {
         } catch (ReflectiveOperationException | RuntimeException e) { return 0; }
     }
 
+    @Override public void forgetLearned(Player p) { learnedAtEntry.remove(p.getUniqueId()); }
+
+    @Override public void holdDiscovery(Player p) { pauseDiscovery(p, true); }
+
+    private java.lang.reflect.Method manaConsume;
+    @Override public boolean consumeMana(Player p, double amount) {
+        var ms = manaExtra();
+        if (ms == null || amount <= 0) return false;
+        try {
+            if (manaConsume == null) manaConsume = ms.getClass().getMethod("tryConsume", UUID.class, double.class);
+            return (boolean) manaConsume.invoke(ms, p.getUniqueId(), amount);
+        } catch (ReflectiveOperationException | RuntimeException e) { return false; }
+    }
+
+    // [기능:탑초기화 시작] 마법가속(기본값)은 탑 안에서 0 — 들어갈 때 맡김 글자에 적어 두고 나올 때 되돌림 (11/12 오너 "마법가속 같은 것도 다 초기화")
+    private double baseHaste(Player p) {
+        var ms = mana();
+        if (ms == null) return -1;
+        try {
+            var acc = ms.getClass().getDeclaredMethod("account", UUID.class);
+            acc.setAccessible(true);
+            Object a = acc.invoke(ms, p.getUniqueId());
+            var fld = a.getClass().getDeclaredField("baseHaste");
+            fld.setAccessible(true);
+            return fld.getDouble(a);
+        } catch (ReflectiveOperationException | RuntimeException e) { plugin.getLogger().warning("마법가속 읽기 실패: " + e); return -1; }
+    }
+
+    private void setBaseHaste(Player p, double v) {
+        var ms = mana();
+        if (ms == null || v < 0) return;
+        try { ms.getClass().getMethod("setBaseHaste", UUID.class, double.class).invoke(ms, p.getUniqueId(), v); }
+        catch (ReflectiveOperationException | RuntimeException e) { plugin.getLogger().warning("마법가속 바꾸기 실패: " + e); }
+    }
+
+    // [기능:탑초기화] 마법 발견(MagicDiscovery) 멈춤: 판 중엔 그 사람의 발견 세션을 "안 불러온 상태" 로 → 몹 처치·시전·습득 수 조건이 전혀 안 셈 (탑에서 배운 마법이 영구 습득되던 것)
+    private void pauseDiscovery(Player p, boolean pause) {
+        var disc = Bukkit.getPluginManager().getPlugin("MagicDiscovery");
+        if (disc == null || !disc.isEnabled()) return;
+        try {
+            var f = disc.getClass().getDeclaredField("sessions");
+            f.setAccessible(true);
+            Object s = ((java.util.Map<?, ?>) f.get(disc)).get(p.getUniqueId());
+            if (s == null) return;
+            var loaded = s.getClass().getDeclaredField("loaded");
+            loaded.setAccessible(true);
+            loaded.setBoolean(s, !pause);
+        } catch (ReflectiveOperationException | RuntimeException e) { plugin.getLogger().warning("마법 발견 " + (pause ? "멈춤" : "다시 켬") + " 실패: " + e); }
+    }
+    // [기능:탑초기화 끝]
+
     @Override public void addMana(Player p, double amount) {
         var ms = manaExtra();
         if (ms == null || manaAdd == null || amount <= 0) return;
@@ -314,7 +376,7 @@ final class MagicBridge implements Magic {
     }
 
     @Override public void unlearnNew(Player p) {
-        var before = learnedAtEntry.remove(p.getUniqueId());
+        var before = learnedAtEntry.get(p.getUniqueId());   // 10초 뒤 한 번 더 보므로 여기선 안 지움 (forgetLearned)
         if (before == null) return;
         var now = learnedNow(p);
         if (now == null) return;
