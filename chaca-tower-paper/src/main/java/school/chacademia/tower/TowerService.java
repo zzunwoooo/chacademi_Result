@@ -107,7 +107,8 @@ final class TowerService {
             p.setItemOnCursor(null);
             for (var left : p.getInventory().addItem(cursor).values()) p.getWorld().dropItem(p.getLocation(), left);
         }
-        if (!takeTicket(p)) return;
+        freeEntry = s.freeFirstPlay && !p.getPersistentDataContainer().has(playedKey);   // [기능:탑퀘스트] 첫 입장 무료
+        if (!freeEntry && !takeTicket(p)) return;
         String snapshot;
         try { snapshot = magic.snapshot(p); }
         catch (RuntimeException e) { refundTicket(p); fail(p, e); return; }
@@ -133,6 +134,7 @@ final class TowerService {
             ChacaLink.notify(p, "error", "tower:enter", "들어가지 못했어요", "마법 상태를 바꾸지 못했어요", 3000);
             return;
         }
+        p.getPersistentDataContainer().set(playedKey, org.bukkit.persistence.PersistentDataType.BYTE, (byte) 1);   // [기능:탑퀘스트] 들어갔으니 다음부터 입장권
         run = new Run(p.getUniqueId());
         runner = p;
         run.rerolls = s.rerolls;
@@ -186,7 +188,12 @@ final class TowerService {
         return true;
     }
 
+    // [기능:탑퀘스트]
+    private final NamespacedKey playedKey = new NamespacedKey("chacatower", "played");
+    private boolean freeEntry;
+
     private void refundTicket(Player p) {
+        if (freeEntry) return;   // 무료로 들어오려다 실패한 경우엔 돌려줄 입장권이 없음
         if (s.ticketAmount <= 0) return;
         var it = items.create(s.ticketItem, s.ticketAmount);
         // 진짜 입장권이므로 탑 물건 표시를 붙이지 않는다
@@ -1003,6 +1010,10 @@ final class TowerService {
         finally { lastEnded = r.player; lastEndedAt = System.currentTimeMillis(); activeRunner = null; }   // 원래 소지품으로 돌아왔으니 이제 HuskSync 저장을 막지 않는다 (직전에 찍힌 것만 3초 더)
         var exit = s.exit != null ? s.exit.location() : s.portal != null ? s.portal.location() : null;
         if (exit != null) p.teleport(exit);
+        if (!reason.equals("admin")) for (String cmd : s.endCommands) {   // [기능:탑퀘스트] 4.5장 「무한의 탑 1회 도전」 신호
+            try { Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("{player}", p.getName())); }
+            catch (RuntimeException ex) { plugin.getLogger().warning("탑 끝 명령 실패 " + cmd + ": " + ex); }
+        }
         clearDrops();
         String head = switch (reason) {
             case "clear" -> "탑의 꼭대기에 올랐어요";

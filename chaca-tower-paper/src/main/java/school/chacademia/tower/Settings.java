@@ -90,6 +90,9 @@ final class Settings {
     final int startPotions;
     /** 시작할 때 고르는 마법 수 (1장으로는 1층이 너무 길고 심심해서 기본 2). */
     final int startSpellPicks;
+    // [기능:탑퀘스트] 판이 끝날 때(어떤 결과든) 콘솔로 실행할 명령 ({player}) · 처음 하는 사람은 입장권 없이
+    final java.util.List<String> endCommands;
+    final boolean freeFirstPlay;
 
     Settings(FileConfiguration c) {
         name = c.getString("name", "무한의 탑");
@@ -130,6 +133,8 @@ final class Settings {
         startMana = Math.max(1, c.getDouble("start-mana", 100));
         startPotions = Math.max(0, c.getInt("start-potions", 3));
         startSpellPicks = Math.clamp(c.getInt("start-spell-picks", 2), 1, 3);
+        endCommands = c.isList("end-commands") ? c.getStringList("end-commands") : java.util.List.of("유저관리 {player} 스토리신호 탑도전");
+        freeFirstPlay = c.getBoolean("ticket.free-first-play", true);
         Cards.LIFESTEAL_FLOOR_HEAL = balance.getDouble("lifesteal-floor-heal", 80);
         double regen = c.getDouble("start-mana-regen", 0);
         startManaRegen = regen > 0 ? regen : startMana * 0.10; // 규칙: 기본 회복 = 최대 마나의 10%
