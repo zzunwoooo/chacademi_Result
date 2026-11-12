@@ -81,7 +81,8 @@ final class Floors {
         double share = eliteShare(s, floor);
         var all = new ArrayList<Pick>();
         if (guardianFloor(s, floor) && !s.eliteMobs.isEmpty()) {
-            all.add(new Pick(s.eliteMobs.get(rng.nextInt(s.eliteMobs.size())), true, true));
+            String boss = s.guardianBosses.get(floor);   // [기능:탑보스]
+            all.add(new Pick(boss != null && !boss.isBlank() ? boss : s.eliteMobs.get(rng.nextInt(s.eliteMobs.size())), true, true));
             total = Math.max(1, total - 3);
         }
         // [기능:탑유도몹] 따라오는 투사체 몹은 homing-from 층부터, 한 층에 1 + (층 / homing-per-floors) 마리까지 (초반부터 몰려나오면 너무 어려움, 오너 11/12)

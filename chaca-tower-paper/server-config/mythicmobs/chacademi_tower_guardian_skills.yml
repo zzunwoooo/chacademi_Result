@@ -1,0 +1,383 @@
+# 탑 수문장 초안 (읽기 전용 조사 결과, 서버 미적용). Mobs 부분과 Skills 부분을 각각 Mobs/ , Skills/ 파일로 나눠 넣을 것.
+# 피해 숫자 = 원본(YAML 또는 Java strike) 값 그대로. 탑은 (탑 공격력 / 이 몹 Damage) 배율을 모든 피해(chatelegraph 포함)에 곱한다
+#   (TowerService.mobHitsPlayer: e.getDamage() * floors.damageMult(mob), damageMult = dmg / ATTACK_DAMAGE 기본값).
+#   그래서 Damage 는 "패턴 대표 피해" 로 맞춰 둠 → 패턴 간 비율 유지.
+# 공통 잠금: caster.busy (모르바스 방식). ~onTimer 로 고르고 패턴 끝에 풀림.
+
+# ============================================================ Mobs
+CHA_TWR_BUSY_ON:
+  Skills:
+  - setvariable{var=caster.busy;value=1;type=INTEGER} @self
+CHA_TWR_BUSY_OFF:
+  Skills:
+  - setvariable{var=caster.busy;value=0;type=INTEGER} @self
+
+# ---- 모르바스: 원본 YAML 스킬 그대로 (소환·변신만 뺌). 원본 스킬이 BEGIN/END 로 busy 를 직접 다룸.
+CHA_TWR_ARCHLICH_AI:
+  Skills:
+  - randomskill{skills=CHA_ARCHLICH_BOLT_P2,CHA_ARCHLICH_BOLT_P2,CHA_ARCHLICH_CURSE_P2,CHA_ARCHLICH_STORM,CHA_ARCHLICH_REAP} @target
+
+# ---- 재의 그림자 (AshShadowBoss.java claw/dash/slam/rain/sink/grasp/veil/ring 안쪽 원 → chatelegraph, 장치 배율 1.0 기준 피해)
+CHA_TWR_ASH_AI:
+  Skills:
+  - randomskill{skills=CHA_TWR_ASH_claw,CHA_TWR_ASH_claw,CHA_TWR_ASH_dash,CHA_TWR_ASH_slam,CHA_TWR_ASH_rain,CHA_TWR_ASH_grasp,CHA_TWR_ASH_veil,CHA_TWR_ASH_ring} @target
+CHA_TWR_ASH_claw:            # 부채꼴 r6·150°, 예고 0.4초, 22
+  Skills:
+  - skill{s=CHA_TWR_BUSY_ON} @self
+  - look{} @target
+  - skill{s=CHA_ASH_a_attack} @self
+  - chatelegraph{shape=cone;at=caster;r=6;angle=150;ticks=8;flat=22;element=dark;vfx=as_clawswipe/swipe;vfxref=6;vfxlead=0} @target
+  - delay 30
+  - skill{s=CHA_TWR_BUSY_OFF} @self
+CHA_TWR_ASH_dash:            # 직선 18·폭4, 예고 0.6초, 28 ×2 (원본의 미끄러짐 이동은 Java 전용 → 판정 뒤 lunge 로 대신)
+  Skills:
+  - skill{s=CHA_TWR_BUSY_ON} @self
+  - skill{s=CHA_ASH_a_skill_dash} @self
+  - chavfx{id=as_ashdash/windup;ticks=20} @self
+  - chatelegraph{shape=line;at=caster;length=18;width=4;ticks=12;flat=28;element=dark;vfx=as_ashdash/dash;vfxref=18;vfxlead=0} @target
+  - delay 12
+  - lunge{velocity=2.2;velocityY=0.1} @target
+  - delay 18
+  - skill{s=CHA_ASH_a_skill_dash} @self
+  - chatelegraph{shape=line;at=caster;length=18;width=4;ticks=12;flat=28;element=dark;vfx=as_ashdash/dash;vfxref=18;vfxlead=0} @target
+  - delay 12
+  - lunge{velocity=2.2;velocityY=0.1} @target
+  - delay 24
+  - skill{s=CHA_TWR_BUSY_OFF} @self
+CHA_TWR_ASH_slam:            # 직선 14·폭4 3연타(매번 재조준), 예고 0.45초, 24
+  Skills:
+  - skill{s=CHA_TWR_BUSY_ON} @self
+  - skill{s=CHA_ASH_a_skill_slam} @self
+  - delay 2
+  - chatelegraph{shape=line;at=caster;length=14;width=4;ticks=9;flat=24;element=dark;vfx=as_handslam/slam;vfxref=14;vfxlead=0} @target
+  - delay 12
+  - chatelegraph{shape=line;at=caster;length=14;width=4;ticks=9;flat=24;element=dark;vfx=as_handslam/slam;vfxref=14;vfxlead=0} @target
+  - delay 12
+  - chatelegraph{shape=line;at=caster;length=14;width=4;ticks=9;flat=24;element=dark;vfx=as_handslam/slam;vfxref=14;vfxlead=0} @target
+  - delay 24
+  - skill{s=CHA_TWR_BUSY_OFF} @self
+CHA_TWR_ASH_rain:            # 대상 위치 원 r4 4번 (0.3초 간격), 예고 0.5초, 18
+  Skills:
+  - skill{s=CHA_TWR_BUSY_ON} @self
+  - skill{s=CHA_ASH_a_skill_ash_rain} @self
+  - chavfx{id=as_ashrain/cast;ticks=50} @self
+  - delay 12
+  - chatelegraph{shape=circle;at=target;r=4;ticks=10;flat=18;element=fire;vfx=as_ashrain/fall;vfxref=4;vfxlead=5} @target
+  - delay 6
+  - chatelegraph{shape=circle;at=target;r=4;ticks=10;flat=18;element=fire;vfx=as_ashrain/fall;vfxref=4;vfxlead=5} @target
+  - delay 6
+  - chatelegraph{shape=circle;at=target;r=4;ticks=10;flat=18;element=fire;vfx=as_ashrain/fall;vfxref=4;vfxlead=5} @target
+  - delay 6
+  - chatelegraph{shape=circle;at=target;r=4;ticks=10;flat=18;element=fire;vfx=as_ashrain/fall;vfxref=4;vfxlead=5} @target
+  - delay 24
+  - skill{s=CHA_TWR_BUSY_OFF} @self
+CHA_TWR_ASH_grasp:           # 대상 발밑 원 r6, 예고 0.5초, 12 + 속박 1초 + 끌어당김
+  Skills:
+  - skill{s=CHA_TWR_BUSY_ON} @self
+  - look{} @target
+  - skill{s=CHA_ASH_a_skill_grasp} @self
+  - chatelegraph{shape=circle;at=target;r=6;ticks=10;flat=12;element=dark;status=root:20;pull=1.4;vfx=as_grasp/grasp;vfxref=6;vfxlead=0} @target
+  - delay 34
+  - skill{s=CHA_TWR_BUSY_OFF} @self
+CHA_TWR_ASH_veil:            # 실명 1.5초 → 발밑 원 r7 두 번, 예고 0.7초, 20
+  Skills:
+  - skill{s=CHA_TWR_BUSY_ON} @self
+  - skill{s=CHA_ASH_a_skill_veil} @self
+  - chavfx{id=as_ashveil/wrap;ticks=30} @self
+  - potion{type=BLINDNESS;duration=30;lvl=0} @target
+  - delay 12
+  - chatelegraph{shape=circle;at=target;r=7;ticks=14;flat=20;element=dark;vfx=as_ashveil/burst;vfxref=7;vfxlead=0} @target
+  - delay 10
+  - chatelegraph{shape=circle;at=target;r=7;ticks=14;flat=20;element=dark;vfx=as_ashveil/burst;vfxref=7;vfxlead=0} @target
+  - delay 30
+  - skill{s=CHA_TWR_BUSY_OFF} @self
+CHA_TWR_ASH_ring:            # 화장의 고리: 안쪽 원 r5 두 번만 (바깥 팔각 고리는 chatelegraph 로 못 그림), 예고 0.6초, 22
+  Skills:
+  - skill{s=CHA_TWR_BUSY_ON} @self
+  - skill{s=CHA_ASH_a_skill_ring} @self
+  - chatelegraph{shape=circle;at=caster;r=5;ticks=12;flat=22;element=fire;vfx=as_cremationring/inner;vfxref=5;vfxlead=0} @self
+  - delay 24
+  - chatelegraph{shape=circle;at=caster;r=5;ticks=12;flat=22;element=fire;vfx=as_cremationring/inner;vfxref=5;vfxlead=0} @self
+  - delay 30
+  - skill{s=CHA_TWR_BUSY_OFF} @self
+
+# ---- 호로겐 (TimeWraithBoss.java attack/second/thrust/sand/pendulum 안쪽/stasis/foresight, 1페이즈 값)
+CHA_TWR_TW_AI:
+  Skills:
+  - randomskill{skills=CHA_TWR_TW_attack,CHA_TWR_TW_attack,CHA_TWR_TW_second,CHA_TWR_TW_thrust,CHA_TWR_TW_sand,CHA_TWR_TW_pendulum,CHA_TWR_TW_stasis,CHA_TWR_TW_foresight} @target
+CHA_TWR_TW_attack:           # 부채꼴 r6·150°, 예고 0.4초, 26
+  Skills:
+  - skill{s=CHA_TWR_BUSY_ON} @self
+  - look{} @target
+  - skill{s=CHA_TW_a_attack} @self
+  - chatelegraph{shape=cone;at=caster;r=6;angle=150;ticks=8;flat=26;element=light;vfx=tw_slash/swipe;vfxref=6;vfxlead=0} @target
+  - delay 28
+  - skill{s=CHA_TWR_BUSY_OFF} @self
+CHA_TWR_TW_second:           # 부채꼴 r8·160° 2연타, 예고 0.45초, 28
+  Skills:
+  - skill{s=CHA_TWR_BUSY_ON} @self
+  - skill{s=CHA_TW_a_skill_second_slash} @self
+  - chatelegraph{shape=cone;at=caster;r=8;angle=160;ticks=9;flat=28;element=light;vfx=tw_slash/second_a;vfxref=8;vfxlead=0} @target
+  - delay 9
+  - chatelegraph{shape=cone;at=caster;r=8;angle=160;ticks=9;flat=28;element=light;vfx=tw_slash/second_b;vfxref=8;vfxlead=0} @target
+  - delay 34
+  - skill{s=CHA_TWR_BUSY_OFF} @self
+CHA_TWR_TW_thrust:           # 직선 16·폭4, 예고 0.6초, 32 (돌진 이동은 lunge 로 대신)
+  Skills:
+  - skill{s=CHA_TWR_BUSY_ON} @self
+  - skill{s=CHA_TW_a_skill_hour_thrust} @self
+  - chavfx{id=tw_thrust/windup;ticks=20} @self
+  - chatelegraph{shape=line;at=caster;length=16;width=4;ticks=12;flat=32;element=earth;vfx=tw_thrust/thrust;vfxref=16;vfxlead=0} @target
+  - delay 12
+  - lunge{velocity=2.0;velocityY=0.1} @target
+  - delay 26
+  - skill{s=CHA_TWR_BUSY_OFF} @self
+CHA_TWR_TW_sand:             # 대상 위치 원 r4 3번 (0.4초 간격), 예고 0.5초, 22
+  Skills:
+  - skill{s=CHA_TWR_BUSY_ON} @self
+  - skill{s=CHA_TW_a_skill_sand_fall} @self
+  - chavfx{id=tw_sand/cast;ticks=40} @self
+  - delay 3
+  - chatelegraph{shape=circle;at=target;r=4;ticks=10;flat=22;element=earth;vfx=tw_sand/fall;vfxref=4;vfxlead=5} @target
+  - delay 8
+  - chatelegraph{shape=circle;at=target;r=4;ticks=10;flat=22;element=earth;vfx=tw_sand/fall;vfxref=4;vfxlead=5} @target
+  - delay 8
+  - chatelegraph{shape=circle;at=target;r=4;ticks=10;flat=22;element=earth;vfx=tw_sand/fall;vfxref=4;vfxlead=5} @target
+  - delay 30
+  - skill{s=CHA_TWR_BUSY_OFF} @self
+CHA_TWR_TW_pendulum:         # 안쪽 원 r6, 예고 0.6초, 26 (바깥 고리 생략)
+  Skills:
+  - skill{s=CHA_TWR_BUSY_ON} @self
+  - skill{s=CHA_TW_a_skill_pendulum} @self
+  - chatelegraph{shape=circle;at=caster;r=6;ticks=12;flat=26;element=water;vfx=tw_pendulum/inner;vfxref=6;vfxlead=0} @self
+  - delay 40
+  - skill{s=CHA_TWR_BUSY_OFF} @self
+CHA_TWR_TW_stasis:           # 대상 발밑 원 r3, 예고 0.7초, 18 + 둔화 1.5초
+  Skills:
+  - skill{s=CHA_TWR_BUSY_ON} @self
+  - look{} @target
+  - skill{s=CHA_TW_a_skill_stasis_orb} @self
+  - chatelegraph{shape=circle;at=target;r=3;ticks=14;flat=18;element=water;status=slow:30:0.3;vfx=tw_stasis/orb;vfxref=3;vfxlead=0} @target
+  - delay 28
+  - skill{s=CHA_TWR_BUSY_OFF} @self
+CHA_TWR_TW_foresight:        # 원 r4.5, 예고 0.6초, 26 (원본은 0.8초 뒤 예상 위치 → 여기선 지금 위치)
+  Skills:
+  - skill{s=CHA_TWR_BUSY_ON} @self
+  - skill{s=CHA_TW_a_skill_foresight} @self
+  - chatelegraph{shape=circle;at=target;r=4.5;ticks=12;flat=26;element=dark;vfx=tw_stasis/foresight;vfxref=4.5;vfxlead=0} @target
+  - delay 30
+  - skill{s=CHA_TWR_BUSY_OFF} @self
+
+# ---- 모르디안 (MordianBoss.java claw/slam/grasp/bolt/rain/spin/dash/ring 안쪽, 원소 dark)
+CHA_TWR_MD_AI:
+  Skills:
+  - randomskill{skills=CHA_TWR_MD_claw,CHA_TWR_MD_claw,CHA_TWR_MD_slam,CHA_TWR_MD_grasp,CHA_TWR_MD_bolt,CHA_TWR_MD_rain,CHA_TWR_MD_spin,CHA_TWR_MD_dash} @target
+CHA_TWR_MD_claw:             # 부채꼴 r7·150° 오른→왼, 예고 0.45초, 26
+  Skills:
+  - skill{s=CHA_TWR_BUSY_ON} @self
+  - skill{s=CHA_MD_a_attack} @self
+  - chatelegraph{shape=cone;at=caster;r=7;angle=150;ticks=9;flat=26;element=dark;vfx=mordianclaw/claw_right;vfxref=7;vfxlead=2} @target
+  - delay 18
+  - skill{s=CHA_MD_a_attack2} @self
+  - chatelegraph{shape=cone;at=caster;r=7;angle=150;ticks=9;flat=26;element=dark;vfx=mordianclaw/claw_left;vfxref=7;vfxlead=2} @target
+  - delay 30
+  - skill{s=CHA_TWR_BUSY_OFF} @self
+CHA_TWR_MD_slam:             # 직선 9·폭6 (0.95초) 30 → 충격파 원 r8 (0.5초) 16
+  Skills:
+  - skill{s=CHA_TWR_BUSY_ON} @self
+  - look{} @target
+  - skill{s=CHA_MD_a_slam} @self
+  - chatelegraph{shape=line;at=caster;length=9;width=6;ticks=19;flat=30;element=dark;vfx=mordianslam/impact;vfxref=9;vfxlead=0} @target
+  - delay 19
+  - chatelegraph{shape=circle;at=target;r=8;ticks=10;flat=16;element=dark} @Forward{f=8}
+  - delay 28
+  - skill{s=CHA_TWR_BUSY_OFF} @self
+CHA_TWR_MD_grasp:            # 발밑 원 r2 3번 (0.8초 간격), 예고 0.8초, 16 + 둔화 1초
+  Skills:
+  - skill{s=CHA_TWR_BUSY_ON} @self
+  - skill{s=CHA_MD_a_cast_short} @self
+  - chatelegraph{shape=circle;at=target;r=2;ticks=16;flat=16;element=dark;status=slow:20:0.3;vfx=mordiangrasphand/grasp;vfxref=2;vfxlead=8} @target
+  - delay 16
+  - chatelegraph{shape=circle;at=target;r=2;ticks=16;flat=16;element=dark;status=slow:20:0.3;vfx=mordiangrasphand/grasp;vfxref=2;vfxlead=8} @target
+  - delay 16
+  - chatelegraph{shape=circle;at=target;r=2;ticks=16;flat=16;element=dark;status=slow:20:0.3;vfx=mordiangrasphand/grasp;vfxref=2;vfxlead=8} @target
+  - delay 30
+  - skill{s=CHA_TWR_BUSY_OFF} @self
+CHA_TWR_MD_bolt:             # 저주 화살: 직선 20·폭1.6, 예고 0.6초, 20 (원본 5갈래 ±40° → 대상 정면 1줄 + 좌우는 생략)
+  Skills:
+  - skill{s=CHA_TWR_BUSY_ON} @self
+  - look{} @target
+  - skill{s=CHA_MD_a_brand} @self
+  - chatelegraph{shape=line;at=caster;length=20;width=1.6;ticks=12;flat=20;element=dark;vfx=mordiancursebolt/impact;vfxref=20;vfxlead=0} @target
+  - delay 34
+  - skill{s=CHA_TWR_BUSY_OFF} @self
+CHA_TWR_MD_rain:             # 어둠의 비: 원 r3, 예고 1초, 22 — 대상 주변 무작위 6곳
+  Skills:
+  - skill{s=CHA_TWR_BUSY_ON} @self
+  - skill{s=CHA_MD_a_cast_short} @self
+  - chatelegraph{shape=circle;at=target;r=3;ticks=20;flat=22;element=dark;vfx=mordiandarkrain/impact;vfxref=3;vfxlead=0} @target
+  - delay 4
+  - chatelegraph{shape=circle;at=target;r=3;ticks=20;flat=22;element=dark;vfx=mordiandarkrain/impact;vfxref=3;vfxlead=0} @RandomLocationsNearTargets{a=5;r=6;minr=2}
+  - delay 40
+  - skill{s=CHA_TWR_BUSY_OFF} @self
+CHA_TWR_MD_spin:             # 사슬 회전: 원 r6 0.6초 → 0.7초 뒤 한 번 더, 20
+  Skills:
+  - skill{s=CHA_TWR_BUSY_ON} @self
+  - skill{s=CHA_MD_a_chain_spin} @self
+  - chatelegraph{shape=circle;at=caster;r=6;ticks=12;flat=20;element=dark} @self
+  - delay 12
+  - chavfx{id=mordianchainspin/spin;ticks=30} @self
+  - chatelegraph{shape=circle;at=caster;r=6;ticks=14;flat=20;element=dark} @self
+  - delay 34
+  - skill{s=CHA_TWR_BUSY_OFF} @self
+CHA_TWR_MD_dash:             # 그림자 돌진: 직선 12·폭3.5, 예고 0.42초, 26 × 3 (이동은 lunge)
+  Skills:
+  - skill{s=CHA_TWR_BUSY_ON} @self
+  - skill{s=CHA_MD_a_dash} @self
+  - chatelegraph{shape=line;at=caster;length=12;width=3.5;ticks=8;flat=26;element=dark} @target
+  - delay 8
+  - lunge{velocity=1.8;velocityY=0.1} @target
+  - delay 14
+  - skill{s=CHA_MD_a_dash} @self
+  - chatelegraph{shape=line;at=caster;length=12;width=3.5;ticks=8;flat=26;element=dark} @target
+  - delay 8
+  - lunge{velocity=1.8;velocityY=0.1} @target
+  - delay 14
+  - skill{s=CHA_MD_a_dash} @self
+  - chatelegraph{shape=line;at=caster;length=12;width=3.5;ticks=8;flat=26;element=dark} @target
+  - delay 8
+  - lunge{velocity=1.8;velocityY=0.1} @target
+  - delay 24
+  - skill{s=CHA_TWR_BUSY_OFF} @self
+
+# ---- 하베스트: 원본 YAML 패턴 스킬 그대로 (chaboss 가 원래 이 스킬을 시전). chabossvfx 는 등록 안 된 이름이라 원본에서도 VFX 만 빠짐.
+CHA_TWR_REAPER_AI:
+  Skills:
+  - randomskill{skills=CHA_TWR_REAPER_p01,CHA_TWR_REAPER_p01,CHA_TWR_REAPER_p02,CHA_TWR_REAPER_p03,CHA_TWR_REAPER_p04,CHA_TWR_REAPER_p06,CHA_TWR_REAPER_p10} @target
+CHA_TWR_REAPER_p01:
+  Skills:
+  - skill{s=CHA_TWR_BUSY_ON} @self
+  - look{} @target
+  - skill{s=CHA_REAPER_p01x2} @target
+  - delay 40
+  - skill{s=CHA_TWR_BUSY_OFF} @self
+CHA_TWR_REAPER_p02:
+  Skills:
+  - skill{s=CHA_TWR_BUSY_ON} @self
+  - skill{s=CHA_REAPER_p02} @target
+  - delay 34
+  - skill{s=CHA_TWR_BUSY_OFF} @self
+CHA_TWR_REAPER_p03:
+  Skills:
+  - skill{s=CHA_TWR_BUSY_ON} @self
+  - look{} @target
+  - skill{s=CHA_REAPER_p03} @target
+  - delay 44
+  - skill{s=CHA_TWR_BUSY_OFF} @self
+CHA_TWR_REAPER_p04:
+  Skills:
+  - skill{s=CHA_TWR_BUSY_ON} @self
+  - skill{s=CHA_REAPER_a_p04_pumpkin_bomb} @self
+  - delay 5
+  - skill{s=CHA_REAPER_p04} @target
+  - delay 46
+  - skill{s=CHA_TWR_BUSY_OFF} @self
+CHA_TWR_REAPER_p06:          # 땅속의 손 5번 (0.35초 간격, 그때 위치)
+  Skills:
+  - skill{s=CHA_TWR_BUSY_ON} @self
+  - skill{s=CHA_REAPER_p06} @self
+  - delay 11
+  - skill{s=CHA_REAPER_p06_hand} @target
+  - delay 7
+  - skill{s=CHA_REAPER_p06_hand} @target
+  - delay 7
+  - skill{s=CHA_REAPER_p06_hand} @target
+  - delay 7
+  - skill{s=CHA_REAPER_p06_hand} @target
+  - delay 7
+  - skill{s=CHA_REAPER_p06_hand} @target
+  - delay 30
+  - skill{s=CHA_TWR_BUSY_OFF} @self
+CHA_TWR_REAPER_p10:
+  Skills:
+  - skill{s=CHA_TWR_BUSY_ON} @self
+  - skill{s=CHA_REAPER_p10} @target
+  - delay 50
+  - skill{s=CHA_TWR_BUSY_OFF} @self
+
+# ---- 아스칼론 (FreedDemonBoss.java claw/combo/slam/cross/comet/ringdonut 안쪽/hands/gust, 원소 fire)
+CHA_TWR_FD_AI:
+  Skills:
+  - randomskill{skills=CHA_TWR_FD_claw,CHA_TWR_FD_combo,CHA_TWR_FD_slam,CHA_TWR_FD_cross,CHA_TWR_FD_comet,CHA_TWR_FD_ring,CHA_TWR_FD_hands,CHA_TWR_FD_gust} @target
+CHA_TWR_FD_claw:             # 부채꼴 r7·150°, 예고 0.45초, 26
+  Skills:
+  - skill{s=CHA_TWR_BUSY_ON} @self
+  - look{} @target
+  - skill{s=CHA_FD_a_attack} @self
+  - chatelegraph{shape=cone;at=caster;r=7;angle=150;ticks=9;flat=26;element=fire;vfx=freeddemon_claws/claw;vfxref=7;vfxlead=1} @target
+  - delay 28
+  - skill{s=CHA_TWR_BUSY_OFF} @self
+CHA_TWR_FD_combo:            # + 0.9초 뒤 반대 손 r7·160°, 예고 0.35초, 26
+  Skills:
+  - skill{s=CHA_TWR_BUSY_ON} @self
+  - look{} @target
+  - skill{s=CHA_FD_a_claw_combo} @self
+  - chatelegraph{shape=cone;at=caster;r=7;angle=150;ticks=8;flat=26;element=fire;vfx=freeddemon_claws/claw;vfxref=7;vfxlead=1} @target
+  - delay 18
+  - chatelegraph{shape=cone;at=caster;r=7;angle=160;ticks=7;flat=26;element=fire;vfx=freeddemon_claws/claw_rev;vfxref=7;vfxlead=1} @target
+  - delay 30
+  - skill{s=CHA_TWR_BUSY_OFF} @self
+CHA_TWR_FD_slam:             # 지연 내려찍기: 앞 3.5 지점 원 r3.5, 예고 1.1초, 32
+  Skills:
+  - skill{s=CHA_TWR_BUSY_ON} @self
+  - look{} @target
+  - skill{s=CHA_FD_a_slam} @self
+  - chatelegraph{shape=circle;at=target;r=3.5;ticks=22;flat=32;element=fire;vfx=freeddemon_slam/slam;vfxref=3.5;vfxlead=0} @Forward{f=3.5}
+  - delay 40
+  - skill{s=CHA_TWR_BUSY_OFF} @self
+CHA_TWR_FD_cross:            # 지옥불 십자/X: 보스 중심 4방향 직선 12·폭2.4, 예고 0.6초 → 45° 돌린 4방향, 30
+  Skills:
+  - skill{s=CHA_TWR_BUSY_ON} @self
+  - skill{s=CHA_FD_a_cast} @self
+  - chatelegraph{shape=line;at=caster;length=12;width=2.4;ticks=12;flat=0;element=fire} @Ring{radius=4;points=4}
+  - delay 12
+  - chatelegraph{shape=line;at=caster;length=12;width=2.4;ticks=8;flat=30;element=fire} @Ring{radius=4;points=4;angle=45}
+  - delay 30
+  - skill{s=CHA_TWR_BUSY_OFF} @self
+CHA_TWR_FD_comet:            # 대상 위치 원 r2.5 두 번 22 → r5 30, 예고 0.8초, 0.7초 간격
+  Skills:
+  - skill{s=CHA_TWR_BUSY_ON} @self
+  - skill{s=CHA_FD_a_cast} @self
+  - chatelegraph{shape=circle;at=target;r=2.5;ticks=16;flat=22;element=fire} @target
+  - delay 14
+  - chatelegraph{shape=circle;at=target;r=2.5;ticks=16;flat=22;element=fire} @target
+  - delay 14
+  - chatelegraph{shape=circle;at=target;r=5;ticks=16;flat=30;element=fire} @target
+  - delay 30
+  - skill{s=CHA_TWR_BUSY_OFF} @self
+CHA_TWR_FD_ring:             # 원 r5, 예고 0.8초, 28 (도넛 바깥 생략)
+  Skills:
+  - skill{s=CHA_TWR_BUSY_ON} @self
+  - skill{s=CHA_FD_a_cast} @self
+  - chatelegraph{shape=circle;at=caster;r=5;ticks=16;flat=28;element=fire;vfx=freeddemon_hellfire/ring;vfxref=5;vfxlead=0} @self
+  - delay 34
+  - skill{s=CHA_TWR_BUSY_OFF} @self
+CHA_TWR_FD_hands:            # 지옥의 손: 대상 주변 5곳 + 발밑 원 r1.8, 예고 0.7초 → 2파, 24
+  Skills:
+  - skill{s=CHA_TWR_BUSY_ON} @self
+  - skill{s=CHA_FD_a_cast} @self
+  - chatelegraph{shape=circle;at=target;r=1.8;ticks=14;flat=24;element=fire;vfx=freeddemon_hellfire/hand;vfxref=1.8;vfxlead=3} @target
+  - chatelegraph{shape=circle;at=target;r=1.8;ticks=14;flat=24;element=fire;vfx=freeddemon_hellfire/hand;vfxref=1.8;vfxlead=3} @RandomLocationsNearTargets{a=5;r=4;minr=2}
+  - delay 14
+  - chatelegraph{shape=circle;at=target;r=1.8;ticks=12;flat=24;element=fire;vfx=freeddemon_hellfire/hand;vfxref=1.8;vfxlead=3} @target
+  - chatelegraph{shape=circle;at=target;r=1.8;ticks=12;flat=24;element=fire;vfx=freeddemon_hellfire/hand;vfxref=1.8;vfxlead=3} @RandomLocationsNearTargets{a=5;r=4;minr=2}
+  - delay 30
+  - skill{s=CHA_TWR_BUSY_OFF} @self
+CHA_TWR_FD_gust:             # 날개 폭풍: 앞 부채꼴 r10·110°, 예고 0.7초, 20 + 밀침 (불벽 % 피해 생략)
+  Skills:
+  - skill{s=CHA_TWR_BUSY_ON} @self
+  - look{} @target
+  - skill{s=CHA_FD_a_wing_gust} @self
+  - chatelegraph{shape=cone;at=caster;r=10;angle=110;ticks=14;flat=20;element=fire;knock=1.4;up=0.3;vfx=freeddemon_slam/gust;vfxref=10;vfxlead=0} @target
+  - delay 34
+  - skill{s=CHA_TWR_BUSY_OFF} @self

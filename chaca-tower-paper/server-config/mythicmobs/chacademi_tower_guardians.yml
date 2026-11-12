@@ -1,0 +1,123 @@
+# 탑 수문장 초안 (읽기 전용 조사 결과, 서버 미적용). Mobs 부분과 Skills 부분을 각각 Mobs/ , Skills/ 파일로 나눠 넣을 것.
+# 피해 숫자 = 원본(YAML 또는 Java strike) 값 그대로. 탑은 (탑 공격력 / 이 몹 Damage) 배율을 모든 피해(chatelegraph 포함)에 곱한다
+#   (TowerService.mobHitsPlayer: e.getDamage() * floors.damageMult(mob), damageMult = dmg / ATTACK_DAMAGE 기본값).
+#   그래서 Damage 는 "패턴 대표 피해" 로 맞춰 둠 → 패턴 간 비율 유지.
+# 공통 잠금: caster.busy (모르바스 방식). ~onTimer 로 고르고 패턴 끝에 풀림.
+
+# ============================================================ Mobs
+CA_Tower_Archlich:
+  Type: ZOMBIE
+  Display: '&5&l무덤의 대현자 &d모르바스'
+  Health: 2700
+  Damage: 12
+  Armor: 12
+  Faction: archlich
+  Options: {MovementSpeed: 0.28, FollowRange: 40, KnockbackResistance: 1, PreventOtherDrops: true, PreventItemPickup: true, PreventSunburn: true, Silent: true, Despawn: false, Collidable: true}
+  AIGoalSelectors: [clear, float, meleeattack, randomstroll]
+  AITargetSelectors: [clear, players, attacker]
+  Variables: {phase: 2, busy: 0}
+  Skills:
+  - addtag{t=chacademia_boss} @self ~onSpawn
+  - model{mid=ca_archlich_p2;hb=true;n=false} @self ~onSpawn      # 2페이즈 모델 고정 (변신 없음). 1페이즈 모양이면 ca_archlich
+  - state{s=spawn;li=0;lo=3} @self ~onSpawn
+  - skill{s=CHA_ARCHLICH_SPAWN_LOCK} @self ~onSpawn
+  - skill{s=CHA_TWR_ARCHLICH_AI} @target ~onTimer:40 ?variableequals{var=caster.busy;value=0} ?targetwithin{d=30}
+  - state{s=death;li=0;lo=0} @self ~onDeath
+  Drops: []
+
+CA_Tower_AshShadow:
+  Type: HUSK
+  Display: '&8&l재의 그림자'
+  Health: 3600
+  Damage: 22
+  Options: {MovementSpeed: 0.23, FollowRange: 40, KnockbackResistance: 1, PreventOtherDrops: true, PreventRandomEquipment: true, PreventSunburn: true, PreventTransformation: true, PreventItemPickup: true, Silent: true, Despawn: false}
+  AIGoalSelectors: [clear, meleeattack, lookatplayers]
+  AITargetSelectors: [clear, players, hurtbytarget]
+  Variables: {busy: 0}
+  Skills:
+  - addtag{t=chacademia_boss} @self ~onSpawn
+  - addtag{t=chacademia_custom} @self ~onSpawn
+  - model{mid=ash_shadow;n=false;drive=true;hb=true} @self ~onSpawn
+  - skill{s=CHA_ASH_a_spawn} @self ~onSpawn
+  - state{s=attack;li=0;lo=2} @self ~onAttack
+  - skill{s=CHA_TWR_ASH_AI} @target ~onTimer:30 ?variableequals{var=caster.busy;value=0} ?targetwithin{d=28}
+  Drops: []
+
+CA_Tower_TimeWraith:
+  Type: HUSK
+  Display: '&3&l시계탑지기 호로겐'
+  Health: 16200
+  Damage: 26
+  Options: {MovementSpeed: 0.32, FollowRange: 44, KnockbackResistance: 1, PreventOtherDrops: true, PreventRandomEquipment: true, PreventSunburn: true, PreventTransformation: true, PreventItemPickup: true, Silent: true, Despawn: false}
+  AIGoalSelectors: [clear, meleeattack, lookatplayers]
+  AITargetSelectors: [clear, players, hurtbytarget]
+  Variables: {busy: 0}
+  Skills:
+  - addtag{t=chacademia_boss} @self ~onSpawn
+  - addtag{t=chacademia_custom} @self ~onSpawn
+  - model{mid=time_wraith;n=false;drive=true;hb=true} @self ~onSpawn
+  - skill{s=CHA_TW_a_spawn} @self ~onSpawn
+  - state{s=attack;li=0;lo=2} @self ~onAttack
+  - skill{s=CHA_TWR_TW_AI} @target ~onTimer:30 ?variableequals{var=caster.busy;value=0} ?targetwithin{d=28}
+  Drops: []
+
+CA_Tower_Mordian:
+  Type: HUSK
+  Display: '&5&l모르디안의 원념'
+  Health: 24000
+  Damage: 26
+  Options: {MovementSpeed: 0.34, FollowRange: 40, KnockbackResistance: 1, PreventOtherDrops: true, PreventRandomEquipment: true, PreventSunburn: true, PreventTransformation: true, PreventItemPickup: true, Silent: true, Despawn: false}
+  AIGoalSelectors: [clear, meleeattack, lookatplayers]
+  AITargetSelectors: [clear, players, hurtbytarget]
+  Variables: {busy: 0}
+  Skills:
+  - addtag{t=chacademia_boss} @self ~onSpawn
+  - addtag{t=chacademia_custom} @self ~onSpawn
+  - model{mid=mordian_wraith;n=false;drive=true;hb=true} @self ~onSpawn
+  - skill{s=CHA_MD_a_spawn} @self ~onSpawn
+  - skill{s=CHA_MD_a_attack} @self ~onAttack
+  - skill{s=CHA_TWR_MD_AI} @target ~onTimer:30 ?variableequals{var=caster.busy;value=0} ?targetwithin{d=28}
+  Drops: []
+
+CA_Tower_Reaper:
+  Type: HUSK
+  Display: '&6&l하베스트'
+  Health: 10800
+  Damage: 9
+  Armor: 10
+  Options: {MovementSpeed: 0.26, FollowRange: 48, KnockbackResistance: 1, PreventOtherDrops: true, PreventRandomEquipment: true, PreventSunburn: true, PreventTransformation: true, PreventItemPickup: true, Silent: true, Despawn: false}
+  AIGoalSelectors: [clear, meleeattack, lookatplayers]
+  AITargetSelectors: [clear, players, hurtbytarget]
+  Variables: {busy: 0}
+  Skills:
+  - addtag{t=chacademia_boss} @self ~onSpawn
+  - addtag{t=chacademia_custom} @self ~onSpawn
+  - model{mid=pumpkin_reaper;n=false;drive=true;hb=true} @self ~onSpawn
+  - sound{s=entity.wither.spawn;v=1.6;p=1.5} @self ~onSpawn
+  - skill{s=CHA_REAPER_snd_hurt} @self ~onDamaged
+  - state{s=attack;li=0;lo=2} @self ~onAttack
+  - skill{s=CHA_TWR_REAPER_AI} @target ~onTimer:30 ?variableequals{var=caster.busy;value=0} ?targetwithin{d=28}
+  Drops: []
+
+CA_Tower_Ascalon:      # 해방된 악마 (아스칼론)
+  Type: HUSK
+  Display: '&4&l재의 군주 아스칼론'
+  Health: 12500
+  Damage: 26
+  Options: {MovementSpeed: 0.25, FollowRange: 40, KnockbackResistance: 1, PreventOtherDrops: true, PreventRandomEquipment: true, PreventSunburn: true, PreventTransformation: true, PreventItemPickup: true, Silent: true, Despawn: false}
+  AIGoalSelectors: [clear, meleeattack, lookatplayers]
+  AITargetSelectors: [clear, players, hurtbytarget]
+  Variables: {busy: 0}
+  Skills:
+  - addtag{t=chacademia_boss} @self ~onSpawn
+  - addtag{t=chacademia_custom} @self ~onSpawn
+  - model{mid=freed_demon;n=false;drive=true;hb=true} @self ~onSpawn
+  - skill{s=CHA_FD_lie_off} @self ~onSpawn
+  - skill{s=CHA_FD_a_attack} @self ~onAttack
+  - skill{s=CHA_TWR_FD_AI} @target ~onTimer:30 ?variableequals{var=caster.busy;value=0} ?targetwithin{d=28}
+  Drops: []
+
+# 룰레타·솜니아·엘리시아(벨자르)도 같은 틀로: model roulette / somnia(실체, veil 말고) / elysia·belzar, onAttack = CHA_RL_a_attack / CHA_SN_a_attack / CHA_EL_a_attack·CHA_EL_b_attack.
+#   쓸 수 있는 짤패턴은 보고서 표 참고 (패턴 → chatelegraph 로 옮기는 방식은 아래와 똑같음).
+
+# ============================================================ Skills

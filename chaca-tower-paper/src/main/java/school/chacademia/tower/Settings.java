@@ -110,6 +110,8 @@ final class Settings {
     /** [기능:탑유도몹] 따라오는 투사체 몹 · 나오기 시작하는 층 · 이 층마다 한 마리 더. */
     final java.util.Set<String> homingMobs;
     final int homingFrom, homingPerFloors;
+    /** [기능:탑보스] 10의 배수 층 수문장 = 우리 보스의 탑 전용판 (기믹 없이 일반 패턴만, MythicMobs CA_Tower_*). 없는 층은 정예 중 하나. */
+    final Map<Integer, String> guardianBosses = new java.util.TreeMap<>();
 
     Settings(FileConfiguration c) {
         name = c.getString("name", "무한의 탑");
@@ -167,6 +169,8 @@ final class Settings {
         skillPulseSeconds = Math.max(3, c.getDouble("skill-pulse-seconds", 8));
         homingMobs = java.util.Set.copyOf(c.getStringList("homing-mobs"));
         homingFrom = c.getInt("homing-from", 8);
+        var gb = c.getConfigurationSection("guardian-bosses");
+        if (gb != null) for (String k : gb.getKeys(false)) { try { guardianBosses.put(Integer.parseInt(k), gb.getString(k)); } catch (NumberFormatException ignored) {} }
         homingPerFloors = c.getInt("homing-per-floors", 15);
         potionBig = c.getString("potion-item-big", "item:health_potion_big");
         Cards.LIFESTEAL_FLOOR_HEAL = balance.getDouble("lifesteal-floor-heal", 80);

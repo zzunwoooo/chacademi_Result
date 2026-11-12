@@ -55,6 +55,14 @@ homing-mobs: [CA_Wild_lostasset_mob2_flowersprite, CA_Wild_lostasset_mob2_lakefa
   CA_Wild_phoenix_darkflame, CA_Wild_phoenix_flame, CA_Wild_phoenix_light, CA_Wild_phoenix_thunder,
   CA_Wild_kitsune_demonic, CA_Wild_kitsune_inferno, CA_Wild_kitsune_normal, CA_Wild_mf_warden_mage]
 homing-from: 8
+# 10의 배수 층 수문장: 우리 보스의 탑 전용판 (기믹은 빼고 일반 패턴만 — MythicMobs Mobs/chacademi_tower_guardians.yml · Skills/chacademi_tower_guardian_skills.yml).
+# 체력·공격력은 탑이 층에 맞춰 정한다 (몹 설정의 Damage = 패턴 피해 기준값). 빈 칸이면 정예 중 하나.
+guardian-bosses:
+  10: CA_Tower_Archlich
+  20: CA_Tower_Reaper
+  30: CA_Tower_AshShadow
+  40: CA_Tower_TimeWraith
+  50: CA_Tower_Ascalon
 homing-per-floors: 15
 
 # 몹별 큰 스킬 (MythicMobs). 탑 안에선 skill-pulse-seconds(±30%) 마다 하나씩 쓴다 — 원래는 약 43초에 한 번이라 한 층 동안 거의 안 나왔음.
