@@ -225,6 +225,7 @@ final class TowerService {
     /** 내 증강 상자 창을 누름: 쪽 넘기기·돌아가기. */
     void buildClick(Player p, BuildMenu menu, int slot) {
         if (!inRun(p)) { p.closeInventory(); return; }
+        if (slot == BuildMenu.QUIT_SLOT) { chestQuit(p); return; }   // [기능:탑포기]
         int page = menu.pageFor(slot);
         if (page >= 0) { new BuildMenu(s, run, page, menu.fromCards).open(p); return; }
         if (slot == BuildMenu.BACK_SLOT) {
@@ -234,7 +235,30 @@ final class TowerService {
     }
     // [기능:탑내증강 끝]
 
+    // [기능:탑포기 시작]
+    /** 모드 화면의 포기 버튼 (확인은 모드가 두 번 눌러서 받음). */
+    void quitButton(Player p) {
+        if (!inRun(p)) return;
+        Bukkit.getScheduler().runTask(plugin, () -> { if (inRun(p)) end(p, "quit"); });
+    }
+
+    /** 상자 창의 포기 버튼: 5초 안에 한 번 더 누르면 포기. 클릭 이벤트 안에서 창을 닫지 않게 다음 틱에 끝낸다. */
+    private void chestQuit(Player p) {
+        if (!inRun(p)) return;
+        long now = System.currentTimeMillis();
+        if (now - run.quitAskAt < 5000) {
+            run.quitAskAt = 0;
+            Bukkit.getScheduler().runTask(plugin, () -> { if (inRun(p)) end(p, "quit"); });
+            return;
+        }
+        run.quitAskAt = now;
+        p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 0.8f, 0.7f);
+        ChacaLink.notify(p, "warning", "tower:quit", "한 번 더 누르면 탑을 포기해요", "5초 안에 포기 버튼을 다시 누르세요", 1000);
+    }
+    // [기능:탑포기 끝]
+
     void menuClick(Player p, int choice) {
+        if (choice == -4) { chestQuit(p); return; }   // [기능:탑포기] 상자 창의 포기 버튼
         if (!inRun(p) || run.phase != Run.Phase.CARD) { p.closeInventory(); client.close(p); return; }
         if (choice == -2) {
             if (run.rerolls <= 0) return;
@@ -472,6 +496,19 @@ final class TowerService {
     // ───────────────────── 층 ─────────────────────
 
     private void startCountdown(Player p) {
+        // [기능:탑층이동 시작] 다음 층 = 같은 방이지만, 시작 자리로 순간이동 + 잠깐 어두워짐 + 차원문 효과로 "올라간" 느낌 (오너 11/12)
+        if (run.floor > 1) {
+            var start = s.start.location();
+            var from = p.getLocation().clone();
+            from.getWorld().spawnParticle(Particle.PORTAL, from.add(0, 1, 0), 70, .4, .9, .4, .7);
+            from.getWorld().playSound(from, Sound.ENTITY_ENDERMAN_TELEPORT, 0.7f, 0.8f);
+            p.teleport(start);
+            p.setFallDistance(0);
+            p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 24, 0, false, false, false));
+            p.getWorld().spawnParticle(Particle.REVERSE_PORTAL, start.clone().add(0, 1, 0), 90, .5, 1, .5, .06);
+            p.playSound(start, Sound.BLOCK_BEACON_POWER_SELECT, 0.6f, 1.5f);
+        }
+        // [기능:탑층이동 끝]
         double shield = (run.relics.contains("AEGIS") ? 6 : 0) + run.barrier;   // 수호성의 방패 + 마력 보호막 증강
         if (shield > 0) {
             var cap = p.getAttribute(Attribute.MAX_ABSORPTION);

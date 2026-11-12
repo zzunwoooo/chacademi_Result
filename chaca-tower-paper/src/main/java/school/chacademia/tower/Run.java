@@ -53,6 +53,7 @@ final class Run {
     int momentumStacks; long momentumUntil;
     java.util.UUID comboTarget; int comboStacks;
     double manaBonus;           // 최대 마나 +
+    long quitAskAt;              // 상자 창 포기 버튼 첫 누름 시각
     double manaNow, manaPrev;   // 최근 두 번(0.5초 간격)의 마나 비율 — 넘치는 마력 판정용
     double siphon;              // 처치마다 마나
     double haste;               // 시전 가속

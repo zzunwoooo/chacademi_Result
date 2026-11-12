@@ -22,6 +22,7 @@ final class CardMenu implements InventoryHolder {
     static final int[] CARD_SLOTS = {11, 13, 15};
     static final int REROLL_SLOT = 22;
     static final int BUILD_SLOT = 26;
+    static final int QUIT_SLOT = 18;   // [기능:탑포기]
 
     private final Inventory inv;
 
@@ -35,6 +36,8 @@ final class CardMenu implements InventoryHolder {
                     List.of(Component.text("카드 3장을 새로 뽑아요. 남은 횟수 " + run.rerolls + "회", NamedTextColor.GRAY))));
         if (!run.firstPick) inv.setItem(BUILD_SLOT, named(new ItemStack(Material.KNOWLEDGE_BOOK), Component.text("내 증강", NamedTextColor.GOLD),
                     List.of(Component.text("지금까지 고른 증강을 모아 봐요.", NamedTextColor.GRAY))));
+        inv.setItem(QUIT_SLOT, named(new ItemStack(Material.SKELETON_SKULL), Component.text("탑 포기", NamedTextColor.RED),
+                List.of(Component.text("두 번 누르면 탑을 포기하고 나가요.", NamedTextColor.GRAY))));   // [기능:탑포기]
         long left = Math.max(0, (run.phaseEndsAt - System.currentTimeMillis()) / 1000);
         inv.setItem(4, named(new ItemStack(Material.CLOCK), Component.text(run.firstPick ? "처음 쓸 마법을 골라요" : (run.floor - 1) + "층을 깼어요", NamedTextColor.WHITE),
                 List.of(Component.text(left + "초 안에 고르지 않으면 첫 번째 카드가 골라져요.", NamedTextColor.GRAY))));
@@ -47,7 +50,7 @@ final class CardMenu implements InventoryHolder {
     /** 누른 칸 → 카드 번호 (0~2), 다시 뽑기 = -2, 내 증강 = -3, 그 밖 = -1. */
     static int slotToChoice(int slot) {
         for (int i = 0; i < CARD_SLOTS.length; i++) if (CARD_SLOTS[i] == slot) return i;
-        return slot == REROLL_SLOT ? -2 : slot == BUILD_SLOT ? -3 : -1;
+        return slot == REROLL_SLOT ? -2 : slot == BUILD_SLOT ? -3 : slot == QUIT_SLOT ? -4 : -1;
     }
 
     static ItemStack icon(Settings s, Cards.Card c) {

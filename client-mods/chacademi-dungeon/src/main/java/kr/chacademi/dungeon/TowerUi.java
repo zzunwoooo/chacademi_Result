@@ -52,7 +52,7 @@ final class TowerUi {
     }
 
     /** grade 0 일반 · 1 희귀 · 2 영웅 · 3 전설. icon = 탑 그림 이름(icon_heal·relic_fang …, 없으면 ""), item = 그림이 없을 때 그릴 아이템 id. */
-    record Card(int grade, String gradeName, int color, String name, List<String> lines, String icon, String item) {}
+    record Card(int grade, String gradeName, int color, String name, List<String> lines, String icon, String item, String spell) {}
     record Offer(int id, String title, String sub, long leftMs, long at, int rerolls, List<Card> cards) {}
 
     static Offer offer;
@@ -110,7 +110,7 @@ final class TowerUi {
         int color;
         try { color = 0xFF000000 | Integer.parseInt(c.get("color").getAsString().replace("#", ""), 16); } catch (Exception ex) { color = 0xFFFFFFFF; }
         return new Card(c.get("grade").getAsInt(), c.get("gradeName").getAsString(), color, c.get("name").getAsString(), lines,
-                c.has("icon") ? c.get("icon").getAsString() : "", c.has("item") ? c.get("item").getAsString() : "");
+                c.has("icon") ? c.get("icon").getAsString() : "", c.has("item") ? c.get("item").getAsString() : "", c.has("spell") ? c.get("spell").getAsString() : "");
     }
 
     // [기능:탑내증강 시작]
@@ -138,7 +138,29 @@ final class TowerUi {
         }
     }
 
-    static void send(int choice) {
+// [기능:탑포기 시작]
+private static long quitArmedAt;
+
+/** 포기 버튼 (두 번 눌러야 포기). 카드 화면·내 증강 창이 같이 쓴다. */
+static void quitButton(UiScreens.Base s, GuiGraphics g, float x, float y, float w, float h) {
+    boolean armed = DungeonClient.now() - quitArmedAt < 3_000, hover = s.over(x, y, w, h);
+    plainButton(g, x, y, w, h, hover ? 0xFFFFFFFF : 0xE6DADADA);
+    Art.textCenter(g, Art.Face.SERIF, armed ? "한 번 더 누르면 포기" : "탑 포기", x + w / 2, y + h / 2 + .5f, armed ? 5.8f : 6.5f, armed ? 0xFFF2A7A7 : hover ? 0xFFFFFFFF : 0xFFE9DDF7);
+    s.hit("quit", x, y, w, h, true);
+}
+
+static void quitClicked() {
+    var mc = Minecraft.getInstance();
+    long now = DungeonClient.now();
+    if (now - quitArmedAt >= 3_000) { quitArmedAt = now; if (mc.player != null) mc.player.playSound(SoundEvents.NOTE_BLOCK_BASS.value(), .7f, .7f); return; }
+    quitArmedAt = 0;
+    if (ClientPlayNetworking.canSend(ToServer.TYPE)) ClientPlayNetworking.send(new ToServer("quit"));
+    offer = null; pending = false;
+    mc.setScreen(null);
+}
+// [기능:탑포기 끝]
+
+static void send(int choice) {
         if (offer == null || !ClientPlayNetworking.canSend(ToServer.TYPE)) return;
         ClientPlayNetworking.send(new ToServer("pick:" + offer.id() + ":" + choice));
     }
@@ -166,7 +188,9 @@ final class TowerUi {
         float artX = x + CW * SIDE, artY = y + CH * ART_TOP, artW = CW * (1 - SIDE * 2), artH = CH * (ART_BOTTOM - ART_TOP);
         if (!mini) Art.textCenter(g, c.gradeName(), x + CW / 2, artY + 9, 7, Art.argb(a, c.color() & 0xFFFFFF));
         float icon = Math.min(artW, artH) * 0.78f, icx = x + CW / 2, icy = artY + artH / 2 + 5;
-        if (!c.icon().isEmpty()) Art.ui(g, "tower/" + c.icon(), icx - icon / 2, icy - icon / 2, icon, icon, tint);
+        // [기능:탑아이콘] 탑 그림 → (마법 카드면) 그 마법의 진짜 아이콘 → 아직 그림이 없는 종류만 아이템 그림
+        if (!c.icon().isEmpty() && Art.ui("tower/" + c.icon()).isPresent()) Art.ui(g, "tower/" + c.icon(), icx - icon / 2, icy - icon / 2, icon, icon, tint);
+        else if (!c.spell().isEmpty() && SpellIcons.draw(g, c.spell(), icx - icon / 2, icy - icon / 2, icon, tint)) { }
         else if (!c.item().isEmpty()) {
             g.flush();
             var item = BuiltInRegistries.ITEM.getOptional(ResourceLocation.tryParse(c.item())).map(ItemStack::new).orElse(ItemStack.EMPTY);
@@ -313,6 +337,7 @@ final class TowerUi {
             plainButton(g, cx, cy, bw, bh, hover ? 0xFFFFFFFF : 0xE6DADADA);
             Art.textCenter(g, Art.Face.SERIF, back ? "카드 고르기로" : "닫기", cx + bw / 2, cy + bh / 2 + .5f, 7f, hover ? 0xFFFFFFFF : 0xFFE9DDF7);
             hit("close", cx, cy, bw, bh, true);
+            quitButton(this, g, X0, 252, 70, 14);   // [기능:탑포기]
             if (back) {
                 long left = Math.max(0, offer.leftMs() - (DungeonClient.now() - offer.at()));
                 Art.textCenter(g, "카드 고르기 " + (left / 1000) + "초 남음", bx + CW / 2, 259, 6.5f, left < 10_000 ? 0xFFF2A7A7 : UiScreens.MUTED);
@@ -320,6 +345,7 @@ final class TowerUi {
         }
 
         @Override void clicked(String id) {
+            if (id.equals("quit")) { quitClicked(); return; }   // [기능:탑포기]
             if (id.equals("prev")) page--;
             else if (id.equals("next")) page++;
             else if (id.startsWith("tile")) { try { focus = Integer.parseInt(id.substring(4)); } catch (NumberFormatException ignored) { } }
@@ -412,6 +438,7 @@ final class TowerUi {
                 hit("build", bx, by2, bw, bh, true);
             }
             // [기능:탑내증강 끝]
+            quitButton(this, g, 22, by + 4.5f, 80, 16);   // [기능:탑포기]
 
             long left = Math.max(0, o.leftMs() - (now - o.at()));
             String hint = sent ? "" : (left / 1000) + "초";
@@ -420,6 +447,7 @@ final class TowerUi {
 
         @Override void clicked(String id) {
             if (id.equals("build")) { if (build.size() > 1) Minecraft.getInstance().setScreen(new BuildScreen(true)); return; }   // [기능:탑내증강]
+            if (id.equals("quit")) { quitClicked(); return; }   // [기능:탑포기]
             if (sent || offer == null) return;
             if (id.equals("reroll")) { choose(-2); return; }
             if (id.startsWith("card")) choose(Integer.parseInt(id.substring(4)));

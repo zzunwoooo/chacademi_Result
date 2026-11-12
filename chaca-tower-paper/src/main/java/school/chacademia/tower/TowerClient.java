@@ -9,7 +9,7 @@ import org.bukkit.plugin.messaging.PluginMessageListener;
 
 /**
  * 차카데미 던전 클라 모드(chacademi-dungeon 0.6+)의 카드 화면. 모드가 있으면 카드 3장을 JSON 으로 보내고, 없으면 상자 창(CardMenu).
- * 채널: chacademi:tower (서버 → 클라) · chacademi:tower_act (클라 → 서버, "pick:<번호>:<카드>" 카드 0~2, 다시 뽑기 -2).
+ * 채널: chacademi:tower (서버 → 클라) · chacademi:tower_act (클라 → 서버, "pick:<번호>:<카드>" 카드 0~2, 다시 뽑기 -2 · "quit" 포기).
  */
 final class TowerClient implements PluginMessageListener {
     static final String S2C = "chacademi:tower", C2S = "chacademi:tower_act";
@@ -52,6 +52,7 @@ final class TowerClient implements PluginMessageListener {
             j.add("lines", lines);
             j.addProperty("icon", icon(c));
             j.addProperty("item", c.type().icon.getKey().toString());
+            if (c.type() == Cards.Type.SPELL) j.addProperty("spell", c.spell());   // [기능:탑아이콘] 클라가 그 마법 아이콘을 그림
             cards.add(j);
         }
         o.add("cards", cards);
@@ -91,6 +92,7 @@ final class TowerClient implements PluginMessageListener {
             j.add("lines", lines);
             j.addProperty("icon", it.icon());
             j.addProperty("item", it.item().getKey().toString());
+            if (!it.spell().isEmpty()) j.addProperty("spell", it.spell());   // [기능:탑아이콘]
             items.add(j);
         }
         o.add("items", items);
@@ -118,7 +120,9 @@ final class TowerClient implements PluginMessageListener {
 
     @Override public void onPluginMessageReceived(String channel, Player p, byte[] data) {
         if (!C2S.equals(channel)) return;
-        String[] parts = new String(data, StandardCharsets.UTF_8).split(":");
+        String text = new String(data, StandardCharsets.UTF_8);
+        if (text.equals("quit")) { plugin.service().quitButton(p); return; }   // [기능:탑포기] 모드 화면의 포기 버튼 (모드 쪽에서 두 번 눌러 확인함)
+        String[] parts = text.split(":");
         if (parts.length != 3 || !parts[0].equals("pick")) return;
         try {
             int id = Integer.parseInt(parts[1]), choice = Integer.parseInt(parts[2]);

@@ -67,6 +67,7 @@ final class Art {
         WORLD_TEXT.clear();
         WORLD_LAYERS.clear();
         FONTS.clear();
+        SpellIcons.reset();   // [기능:탑아이콘]
     }
 
     /** 흰 4×4 그림 (색만 입혀 칠할 때: 문 홀로그램 면). */
@@ -89,6 +90,39 @@ final class Art {
     // [기능:파티던전 시작]
     /** MagicCodex 그림 (예: "textures/gui/kyudichi/ping/ally.png" = 큐디치 핑). 없으면 빈 값. */
     static Optional<Tex> mc(String path) { return IMAGES.computeIfAbsent("mc:" + path, k -> load("magiccodex", path, false)); }
+
+    // [기능:탑아이콘 시작]
+    /** MagicCodex 그림을 긴 변 max 픽셀 이하로 줄여서 (마법 아이콘 원본 1254px — 그대로 올리면 장당 수 MB). */
+    static Optional<Tex> mcSmall(String path, int max) { return IMAGES.computeIfAbsent("mcs" + max + ":" + path, k -> loadSmall("magiccodex", path, max)); }
+
+    private static Optional<Tex> loadSmall(String namespace, String path, int max) {
+        var source = ResourceLocation.fromNamespaceAndPath(namespace, path);
+        try (var stream = Minecraft.getInstance().getResourceManager().getResourceOrThrow(source).open(); var src = NativeImage.read(stream)) {
+            int sw = src.getWidth(), sh = src.getHeight();
+            float k = Math.min(1f, max / (float) Math.max(sw, sh));
+            int dw = Math.max(1, Math.round(sw * k)), dh = Math.max(1, Math.round(sh * k));
+            var dst = new NativeImage(dw, dh, false);
+            // 상자 평균 (투명도 가중) — 크게 줄여도 테두리가 거칠지 않게
+            for (int y = 0; y < dh; y++) {
+                int y0 = y * sh / dh, y1 = Math.max(y0 + 1, (y + 1) * sh / dh);
+                for (int x = 0; x < dw; x++) {
+                    int x0 = x * sw / dw, x1 = Math.max(x0 + 1, (x + 1) * sw / dw);
+                    long a = 0, r = 0, gg = 0, b = 0; int n = 0;
+                    for (int yy = y0; yy < y1; yy++) for (int xx = x0; xx < x1; xx++) {
+                        int c = src.getPixel(xx, yy), ca = c >>> 24;
+                        a += ca; r += (long) ((c >> 16) & 0xFF) * ca; gg += (long) ((c >> 8) & 0xFF) * ca; b += (long) (c & 0xFF) * ca; n++;
+                    }
+                    int oa = (int) (a / n);
+                    dst.setPixel(x, y, a == 0 ? 0 : (oa << 24) | ((int) (r / a) << 16) | ((int) (gg / a) << 8) | (int) (b / a));
+                }
+            }
+            return Optional.of(upload(dst, true));
+        } catch (Exception error) {
+            org.slf4j.LoggerFactory.getLogger("chacademi_dungeon").warn("MagicCodex icon failed: {}", source, error);
+            return Optional.empty();
+        }
+    }
+    // [기능:탑아이콘 끝]
 
     /** 단색 사각형 (실수 좌표). */
     static void rect(GuiGraphics g, float x, float y, float w, float h, int color) { white().ifPresent(t -> quad(g, t, x, y, x + w, y + h, 0, 0, 1, 1, color)); }

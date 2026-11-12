@@ -19,7 +19,7 @@ import org.bukkit.inventory.ItemStack;
  * 위 5줄(45칸)에 얻은 것, 맨 아랫줄에 이전(45) · 돌아가기(49) · 다음(53).
  */
 final class BuildMenu implements InventoryHolder {
-    static final int PER_PAGE = 45, PREV_SLOT = 45, BACK_SLOT = 49, NEXT_SLOT = 53;
+    static final int PER_PAGE = 45, PREV_SLOT = 45, QUIT_SLOT = 47, BACK_SLOT = 49, NEXT_SLOT = 53;
 
     private final Inventory inv;
     private final int page, pages;
@@ -41,6 +41,7 @@ final class BuildMenu implements InventoryHolder {
         for (int i = 45; i < 54; i++) inv.setItem(i, glass);
         if (this.page > 0) inv.setItem(PREV_SLOT, CardMenu.named(new ItemStack(Material.ARROW), Component.text("이전", NamedTextColor.WHITE), List.of()));
         if (this.page < pages - 1) inv.setItem(NEXT_SLOT, CardMenu.named(new ItemStack(Material.ARROW), Component.text("다음", NamedTextColor.WHITE), List.of()));
+        inv.setItem(QUIT_SLOT, CardMenu.named(new ItemStack(Material.SKELETON_SKULL), Component.text("탑 포기", NamedTextColor.RED), List.of(Component.text("두 번 누르면 탑을 포기하고 나가요.", NamedTextColor.GRAY))));   // [기능:탑포기]
         inv.setItem(BACK_SLOT, CardMenu.named(new ItemStack(Material.BARRIER), Component.text(fromCards ? "카드로 돌아가기" : "닫기", NamedTextColor.WHITE), List.of()));
     }
 

@@ -160,7 +160,7 @@ final class Cards {
 
     // [기능:탑내증강 시작]
     /** 내 증강 창의 한 칸: 이름 · 고른 횟수 · 등급 · 그림 · 지금까지 합친 효과. */
-    record Owned(String name, int count, int grade, String icon, Material item, List<String> lines) {}
+    record Owned(String name, int count, int grade, String icon, Material item, List<String> lines, String spell) {}
 
     /** 지금까지 얻은 것 전부: 요약 → 증강(고른 순서, 같은 종류는 한 칸에 합계) → 유물 → 마법. 바로 쓰고 사라지는 카드(회복·방어구·음식·포션 등)는 빠진다. */
     static List<Owned> owned(Settings s, Run run) {
@@ -171,7 +171,7 @@ final class Cards {
         double taken = (1 - run.guard) * (1 + run.glassTaken);
         sum.add(taken <= 1 ? "받는 피해 -" + pct(1 - taken) : "받는 피해 +" + pct(taken - 1));
         if (run.crit > 0) sum.add("치명타 " + pct(run.crit) + " · " + num(2 + run.critDamage) + "배");
-        out.add(new Owned("지금 능력", 1, 3, "", Material.NETHER_STAR, sum));
+        out.add(new Owned("지금 능력", 1, 3, "", Material.NETHER_STAR, sum, ""));
         for (var e : run.taken.entrySet()) {
             Type t;
             try { t = Type.valueOf(e.getKey().toUpperCase(Locale.ROOT)); } catch (IllegalArgumentException ex) { continue; }
@@ -198,24 +198,24 @@ final class Cards {
                 default -> describe(card, v);
             };
             if (lines == null) continue;
-            out.add(new Owned(t.title, e.getValue(), g, iconOf(t), t.icon, lines));
+            out.add(new Owned(t.title, e.getValue(), g, iconOf(t), t.icon, lines, ""));
         }
         for (String id : run.relicOrder) {
             Relic r;
             try { r = Relic.valueOf(id); } catch (IllegalArgumentException ex) { continue; }
-            out.add(new Owned(r.title, 1, run.relicGrades.getOrDefault(id, 2), "relic_" + id.toLowerCase(Locale.ROOT), Type.ARTIFACT.icon, List.of(r.desc)));
+            out.add(new Owned(r.title, 1, run.relicGrades.getOrDefault(id, 2), "relic_" + id.toLowerCase(Locale.ROOT), Type.ARTIFACT.icon, List.of(r.desc), ""));
         }
         for (String id : run.spells)
-            out.add(new Owned(run.spellNames.getOrDefault(id, id), 1, run.spellGrades.getOrDefault(id, 0), "", Type.SPELL.icon, List.of("탑에서 배운 마법")));
+            out.add(new Owned(run.spellNames.getOrDefault(id, id), 1, run.spellGrades.getOrDefault(id, 0), "", Type.SPELL.icon, List.of("탑에서 배운 마법"), id));
         return out;
     }
 
-    /** 탑 그림이 있는 카드 (클라 textures/gui/tower). 없으면 "" → 아이템 그림. */
+    /**
+     * 카드 그림 이름 (클라 textures/gui/tower/icon_<종류>.png). 마법 카드는 "" (클라가 그 마법의 진짜 아이콘을 그림), 유물은 relic_*.
+     * 클라에 그림이 아직 없는 종류는 클라가 알아서 아이템 그림으로 대신한다 → 그림만 추가하면 서버는 안 바꿔도 됨. [기능:탑아이콘]
+     */
     static String iconOf(Type t) {
-        return switch (t) {
-            case INTELLIGENCE, HEALTH, HEAL, POWER, GUARD, FEATHER, CURSED, TRIAL, GAMBLE -> "icon_" + t.key();
-            default -> "";
-        };
+        return t == Type.SPELL || t == Type.ARTIFACT ? "" : "icon_" + t.key();
     }
     // [기능:탑내증강 끝]
 
