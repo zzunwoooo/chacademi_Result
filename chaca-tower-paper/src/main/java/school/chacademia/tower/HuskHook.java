@@ -32,6 +32,7 @@ final class HuskHook {
             Class<? extends Event> save = Class.forName("net.william278.husksync.event.BukkitDataSaveEvent", true, cl).asSubclass(Event.class);
             Class<? extends Event> done = Class.forName("net.william278.husksync.event.BukkitSyncCompleteEvent", true, cl).asSubclass(Event.class);
             var getUserSave = save.getMethod("getUser");
+            var getData = save.getMethod("getData");
             var getUserDone = done.getMethod("getUser");
             var getUuid = Class.forName("net.william278.husksync.user.User", true, cl).getMethod("getUuid");
             Listener holder = new Listener() {};
@@ -39,6 +40,11 @@ final class HuskHook {
                 if (!save.isInstance(e)) return;
                 try {
                     UUID id = (UUID) getUuid.invoke(getUserSave.invoke(e));
+                    // 나가기 저장(DISCONNECT)은 절대 취소하지 않는다: 취소하면 HuskSync 가 그 사람을 "나감 처리 안 됨" 으로 남겨 다음 접속 동기화가 꼬인다.
+                    // 나갈 때는 탑이 먼저 원래 소지품을 돌려놓으므로 그대로 저장돼도 된다.
+                    String cause = "";
+                    try { Object data = getData.invoke(e); cause = String.valueOf(data.getClass().getMethod("getSaveCause").invoke(data)); } catch (ReflectiveOperationException | RuntimeException ignored) {}
+                    if (cause.toUpperCase(java.util.Locale.ROOT).contains("DISCONNECT")) return;
                     if (inRun.test(id)) ((Cancellable) e).setCancelled(true);
                 } catch (ReflectiveOperationException | RuntimeException ex) { plugin.getLogger().warning("HuskSync 저장 검사 실패: " + ex); }
             }, plugin, true);

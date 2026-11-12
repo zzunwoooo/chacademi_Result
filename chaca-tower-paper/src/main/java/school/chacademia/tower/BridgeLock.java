@@ -26,7 +26,7 @@ final class BridgeLock {
     /** 사람이 직접 연 화면만 알림을 띄운다. 나머지(지갑·의뢰·칭호처럼 화면이 알아서 주기적으로 보내는 요청)는 조용히 버린다 — 알림이 계속 뜨지 않게. */
     private static final java.util.Set<String> LOUD = java.util.Set.of("magiccodex:bag_request", "magiccodex:mailbox_request", "magiccodex:shop_request",
             "magiccodex:fish_shop_request", "magiccodex:enhance_request", "magiccodex:alchemy_request", "magiccodex:artifact_request",
-            "magiccodex:equipment_request", "magiccodex:travel_request", "magiccodex:tp_pick_request");
+            "magiccodex:equipment_request", "magiccodex:travel_request", "magiccodex:tp_pick_request", "magiccodex:loot_shop_request", "chacademy:broom_req");
 
     BridgeLock(Plugin plugin) { this.plugin = plugin; }
 

@@ -761,7 +761,7 @@ final class TowerService {
         try { magic.unlearnNew(p); }
         catch (RuntimeException e) { plugin.getLogger().warning("탑 안 영구 습득 되돌리기 실패 " + p.getName() + ": " + e); }
         try { giveBack(p); }
-        finally { activeRunner = null; }   // 원래 소지품으로 돌아왔으니 이제 HuskSync 저장을 막지 않는다
+        finally { lastEnded = r.player; lastEndedAt = System.currentTimeMillis(); activeRunner = null; }   // 원래 소지품으로 돌아왔으니 이제 HuskSync 저장을 막지 않는다 (직전에 찍힌 것만 3초 더)
         var exit = s.exit != null ? s.exit.location() : s.portal != null ? s.portal.location() : null;
         if (exit != null) p.teleport(exit);
         clearDrops();
@@ -918,7 +918,16 @@ final class TowerService {
     private volatile UUID activeRunner;
     boolean huskHooked;
 
-    boolean savingBlocked(UUID id) { return id != null && id.equals(activeRunner); }
+    /**
+     * HuskSync 는 저장할 내용을 먼저 찍고 저장 이벤트는 한 틱 뒤에 낸다 → 판이 끝나기 직전에 찍힌 탑 상태가 판이 끝난 뒤 이벤트로 올 수 있어
+     * 끝난 뒤 3초 동안도 그 사람의 (나가기가 아닌) 저장을 막는다. 나가기 저장은 HuskHook 이 언제나 통과시킨다.
+     */
+    boolean savingBlocked(UUID id) {
+        if (id == null) return false;
+        return id.equals(activeRunner) || (id.equals(lastEnded) && System.currentTimeMillis() - lastEndedAt < 3000);
+    }
+    private volatile UUID lastEnded;
+    private volatile long lastEndedAt;
 
     boolean inTowerWorld(org.bukkit.World w) { return s != null && s.start != null && w.getName().equals(s.start.world()); }
 

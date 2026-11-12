@@ -138,9 +138,9 @@ final class Settings {
     static final List<String> DEFAULT_LOCKED = List.of(
             "magiccodex:bag_request", "magiccodex:mailbox_request", "magiccodex:shop_request", "magiccodex:fish_shop_request", "magiccodex:fish_tank_request",
             "magiccodex:fishing_request", "magiccodex:enhance_request", "magiccodex:alchemy_request", "magiccodex:artifact_request", "magiccodex:equipment_request",
-            "magiccodex:ascend_request", "magiccodex:core_request", "magiccodex:pet_request", "magiccodex:pet_companions", "magiccodex:taming_request",
+            "magiccodex:ascend_request", "magiccodex:core_request", "magiccodex:pet_request", "magiccodex:taming_request", "magiccodex:loot_shop_request",
             "magiccodex:quest_request", "magiccodex:mileage_request", "magiccodex:wallet_request", "magiccodex:title_request", "magiccodex:travel_request",
-            "magiccodex:tp_pick_request", "magiccodex:school_request", "chacademi:housing", "chacademi:kyudichi", "chacademi:chunk_claim_action");
+            "magiccodex:tp_pick_request", "magiccodex:school_request", "chacademi:housing", "chacademi:chunk_claim_action", "chacademy:broom_req");
 
     double bal(String key, double def) { return balance.getDouble(key, def); }
 
