@@ -74,23 +74,23 @@ final class Rewards {
     // 강화 = 마력코어(미감정) + 돈(재화 주머니) + 주문서(복구·강화 초기화·성향 변환). 소모품 = 체력·마나 포션(일반·상급)·차큐빵·던전 입장권.
     static final java.util.Map<String, String[]> DEFAULTS = new java.util.LinkedHashMap<>();
     static {
-        // 11/12 오너 "팍팍 뿌려, 강화 재료 더 좋게": 마력코어 약 3배·재화 주머니 약 2배·주문서 약 2배, 감정 코어는 안 줌 (미감정만 — 감정은 유저가 직접)
+        // 11/12 오너 "10층 단계마다 아티팩트 열쇠 · 매력적인 보상": 열쇠·아티팩트 확정 뽑기권·행운상자·마법의 타로카드·가방 확장권. "팍팍 뿌려, 강화 재료 더 좋게": 마력코어 약 3배·재화 주머니 약 2배·주문서 약 2배, 감정 코어는 안 줌 (미감정만 — 감정은 유저가 직접)
         DEFAULTS.put("tier:5", new String[]{"item:core_unidentified 2", "item:money_pouch 1", "item:health_potion 4", "item:mana_potion 4"});
-        DEFAULTS.put("tier:10", new String[]{"item:core_unidentified 4", "item:money_pouch 2", "item:core_scroll_blue 1", "item:health_potion 5", "item:mana_potion 5"});
+        DEFAULTS.put("tier:10", new String[]{"item:core_unidentified 4", "item:money_pouch 2", "item:core_scroll_blue 1", "item:health_potion 5", "item:mana_potion 5", "item:random_artifact 1"});
         DEFAULTS.put("tier:15", new String[]{"item:core_unidentified 5", "item:money_pouch 3", "item:core_scroll_blue 1", "item:health_potion_big 2", "item:mana_potion_big 2", "item:dungeon_ticket 1"});
-        DEFAULTS.put("tier:20", new String[]{"item:core_unidentified 7", "item:money_pouch 4", "item:core_scroll_blue 2", "item:core_scroll_red 1", "item:health_potion_big 3", "item:mana_potion_big 3"});
-        DEFAULTS.put("tier:25", new String[]{"item:core_unidentified 8", "item:money_pouch 5", "item:core_scroll_blue 2", "item:core_scroll_red 1", "item:core_scroll_purple 1", "item:health_potion_big 4", "item:mana_potion_big 4", "item:dungeon_ticket 1"});
-        DEFAULTS.put("tier:30", new String[]{"item:core_unidentified 10", "item:money_pouch 6", "item:core_scroll_blue 3", "item:core_scroll_red 2", "item:core_scroll_purple 1", "item:health_potion_big 4", "item:mana_potion_big 4"});
-        DEFAULTS.put("tier:35", new String[]{"item:core_unidentified 12", "item:money_pouch 7", "item:core_scroll_blue 4", "item:core_scroll_red 2", "item:core_scroll_purple 2", "item:health_potion_big 5", "item:mana_potion_big 5", "item:dungeon_ticket 2"});
-        DEFAULTS.put("tier:40", new String[]{"item:core_unidentified 14", "item:money_pouch 8", "item:core_scroll_blue 4", "item:core_scroll_red 3", "item:core_scroll_purple 2", "item:health_potion_big 5", "item:mana_potion_big 5"});
-        DEFAULTS.put("tier:45", new String[]{"item:core_unidentified 16", "item:money_pouch 10", "item:core_scroll_blue 5", "item:core_scroll_red 3", "item:core_scroll_purple 3", "item:health_potion_big 6", "item:mana_potion_big 6", "item:dungeon_ticket 2"});
-        DEFAULTS.put("tier:50", new String[]{"item:core_unidentified 20", "item:money_pouch 12", "item:core_scroll_blue 6", "item:core_scroll_red 4", "item:core_scroll_purple 4", "item:health_potion_big 8", "item:mana_potion_big 8", "item:dungeon_ticket 3"});
-        DEFAULTS.put("first:10", new String[]{"item:core_unidentified 6", "item:money_pouch 4", "item:core_scroll_blue 2"});
-        DEFAULTS.put("first:20", new String[]{"item:core_unidentified 10", "item:money_pouch 6", "item:core_scroll_blue 3", "item:core_scroll_red 2"});
-        DEFAULTS.put("first:30", new String[]{"item:core_unidentified 14", "item:money_pouch 8", "item:core_scroll_blue 4", "item:core_scroll_red 2", "item:core_scroll_purple 2"});
-        DEFAULTS.put("first:40", new String[]{"item:core_unidentified 18", "item:money_pouch 10", "item:core_scroll_blue 5", "item:core_scroll_red 3", "item:core_scroll_purple 3"});
-        DEFAULTS.put("first:50", new String[]{"item:core_unidentified 25", "item:money_pouch 15", "item:core_scroll_blue 8", "item:core_scroll_red 5", "item:core_scroll_purple 5"});
-        DEFAULTS.put("guardian", new String[]{"item:core_unidentified 3", "item:money_pouch 2", "item:core_scroll_blue 1", "item:health_potion_big 1"});
+        DEFAULTS.put("tier:20", new String[]{"item:core_unidentified 7", "item:money_pouch 4", "item:core_scroll_blue 2", "item:core_scroll_red 1", "item:health_potion_big 3", "item:mana_potion_big 3", "item:random_artifact 1"});
+        DEFAULTS.put("tier:25", new String[]{"item:core_unidentified 8", "item:money_pouch 5", "item:core_scroll_blue 2", "item:core_scroll_red 1", "item:core_scroll_purple 1", "item:health_potion_big 4", "item:mana_potion_big 4", "item:dungeon_ticket 1", "item:artifact_shard 3"});
+        DEFAULTS.put("tier:30", new String[]{"item:core_unidentified 10", "item:money_pouch 6", "item:core_scroll_blue 3", "item:core_scroll_red 2", "item:core_scroll_purple 1", "item:health_potion_big 4", "item:mana_potion_big 4", "item:random_artifact 2", "item:spell_hint 1"});
+        DEFAULTS.put("tier:35", new String[]{"item:core_unidentified 12", "item:money_pouch 7", "item:core_scroll_blue 4", "item:core_scroll_red 2", "item:core_scroll_purple 2", "item:health_potion_big 5", "item:mana_potion_big 5", "item:dungeon_ticket 2", "item:artifact_shard 5"});
+        DEFAULTS.put("tier:40", new String[]{"item:core_unidentified 14", "item:money_pouch 8", "item:core_scroll_blue 4", "item:core_scroll_red 3", "item:core_scroll_purple 2", "item:health_potion_big 5", "item:mana_potion_big 5", "item:random_artifact 2", "item:spell_hint 1"});
+        DEFAULTS.put("tier:45", new String[]{"item:core_unidentified 16", "item:money_pouch 10", "item:core_scroll_blue 5", "item:core_scroll_red 3", "item:core_scroll_purple 3", "item:health_potion_big 6", "item:mana_potion_big 6", "item:dungeon_ticket 2", "item:artifact_shard 8"});
+        DEFAULTS.put("tier:50", new String[]{"item:core_unidentified 20", "item:money_pouch 12", "item:core_scroll_blue 6", "item:core_scroll_red 4", "item:core_scroll_purple 4", "item:health_potion_big 8", "item:mana_potion_big 8", "item:dungeon_ticket 3", "item:random_artifact 3", "item:spell_hint 2", "item:api_box_premium 1"});
+        DEFAULTS.put("first:10", new String[]{"item:core_unidentified 6", "item:money_pouch 4", "item:core_scroll_blue 2", "item:random_artifact 2", "item:api_box_normal 1"});
+        DEFAULTS.put("first:20", new String[]{"item:core_unidentified 10", "item:money_pouch 6", "item:core_scroll_blue 3", "item:core_scroll_red 2", "item:random_artifact 2", "item:artifact_ticket_rare 1"});
+        DEFAULTS.put("first:30", new String[]{"item:core_unidentified 14", "item:money_pouch 8", "item:core_scroll_blue 4", "item:core_scroll_red 2", "item:core_scroll_purple 2", "item:random_artifact 3", "item:artifact_ticket_rare 1", "item:api_box_premium 1", "item:spell_hint 2"});
+        DEFAULTS.put("first:40", new String[]{"item:core_unidentified 18", "item:money_pouch 10", "item:core_scroll_blue 5", "item:core_scroll_red 3", "item:core_scroll_purple 3", "item:random_artifact 3", "item:artifact_ticket_unique 1", "item:bag_expansion 1", "item:api_box_premium 1"});
+        DEFAULTS.put("first:50", new String[]{"item:core_unidentified 25", "item:money_pouch 15", "item:core_scroll_blue 8", "item:core_scroll_red 5", "item:core_scroll_purple 5", "item:random_artifact 5", "item:artifact_ticket_legendary 1", "item:api_box_premium 2", "item:spell_hint 3"});
+        DEFAULTS.put("guardian", new String[]{"item:core_unidentified 3", "item:money_pouch 2", "item:core_scroll_blue 1", "item:health_potion_big 1", "item:random_artifact 1"});
     }
 
     /** @return 채운 칸 수 · 못 만든 아이템 목록 (아이템애더 이름이 틀렸거나 아직 안 켜짐). */
