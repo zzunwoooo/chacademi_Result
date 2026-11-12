@@ -35,7 +35,7 @@ public final class TowerPlugin extends JavaPlugin {
         service.huskHooked = HuskHook.install(this, service::savingBlocked, service::synced);
         // 탑 안에서 배낭 쪽 넘기기·우편·상점 같은 모드 화면 요청 막기 (다른 사람 요청은 그대로 넘김)
         bridgeLock = new BridgeLock(this);
-        bridgeLock.install(service.s.lockedChannels, p -> service.inRun(p) || service.waitingRestore(p));
+        bridgeLock.install(service.s.lockedChannels, p -> service.playing(p.getUniqueId()) || service.waitingRestore(p));
         getServer().getPluginManager().registerEvents(tool, this);
         var commands = new Commands(this, records);
         var tower = getCommand("탑");
@@ -71,8 +71,34 @@ public final class TowerPlugin extends JavaPlugin {
 
     void reload() {
         reloadConfig();
+        migrateRoom();
         service.apply(new Settings(getConfig()));
     }
+
+    // [기능:탑여러방 시작]
+    /** 예전 방 하나 설정(locations.start · room.corner1/2)을 방 "1" 로 옮긴다 (한 번만). */
+    private void migrateRoom() {
+        var c = getConfig();
+        var sec = c.contains("rooms", true) ? c.getConfigurationSection("rooms") : null;
+        if (sec != null && !sec.getKeys(false).isEmpty()) return;   // 파일에 방이 이미 있으면 (jar 기본값 rooms: {} 는 무시)   // 파일에 방이 이미 있으면 (jar 기본값 rooms: {} 는 무시)
+        String start = c.getString("locations.start", ""), c1 = c.getString("room.corner1", ""), c2 = c.getString("room.corner2", "");
+        if (start.isBlank() && c1.isBlank() && c2.isBlank()) return;
+        c.set("rooms.1.start", start);
+        c.set("rooms.1.corner1", c1);
+        c.set("rooms.1.corner2", c2);
+        c.set("rooms.1.spawns", java.util.List.of());
+        c.set("locations.start", null);
+        c.set("room", null);
+        saveConfig();
+        getLogger().info("예전 방 설정을 방 1 로 옮겼어요");
+    }
+
+    /** 관리자마다 지금 고친 방 (기본 "1"). */
+    private final java.util.Map<java.util.UUID, String> editing = new java.util.HashMap<>();
+    String editing(org.bukkit.entity.Player p) { return editing.getOrDefault(p.getUniqueId(), "1"); }
+    void editing(org.bukkit.entity.Player p, String room) { editing.put(p.getUniqueId(), room); }
+    void forgetEditing(String room) { editing.values().removeIf(room::equals); }
+    // [기능:탑여러방 끝]
 
     /** 인게임 설정 하나를 config.yml 에 저장하고 다시 읽는다. */
     void set(String path, Object value) {

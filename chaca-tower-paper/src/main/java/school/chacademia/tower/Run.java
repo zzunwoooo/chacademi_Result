@@ -87,7 +87,14 @@ final class Run {
     /** 들어올 때의 최고 기록 (-1 = 아직 못 읽음). 서버가 꺼질 때 첫 도달 보상을 바로 주는 데 쓴다. */
     int bestAtStart = -1;
 
-    Run(UUID player) { this.player = player; }
+    // [기능:탑여러방] 이 판이 쓰는 방 · 수문장 보스바 · 카드 상태 (예전엔 서비스에 하나씩)
+    final Settings.Room room;
+    net.kyori.adventure.bossbar.BossBar guardianBar;
+    UUID guardian;
+    int currentMinGrade = -1;
+    long offerShownAt;
+
+    Run(UUID player, Settings.Room room) { this.player = player; this.room = room; }
 
     long elapsedMs() { return System.currentTimeMillis() - startedAt; }
 

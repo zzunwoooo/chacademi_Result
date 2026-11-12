@@ -43,6 +43,7 @@ final class Settings {
             return x >= minX && x < maxX + 1 && y >= minY && y < maxY + 1 && z >= minZ && z < maxZ + 1;
         }
         String text() { return minX + "," + minY + "," + minZ + " ~ " + maxX + "," + maxY + "," + maxZ; }
+        boolean overlaps(Box o) { return minX <= o.maxX && maxX >= o.minX && minY <= o.maxY && maxY >= o.minY && minZ <= o.maxZ && maxZ >= o.minZ; }
     }
 
     static int[] block(String s) {
@@ -70,9 +71,17 @@ final class Settings {
     final int floors;
     final String ticketItem;
     final int ticketAmount;
-    final Loc start, exit, portal;
+    final Loc exit, portal;
     final double portalRadius;
-    final int[] corner1, corner2;
+    // [기능:탑여러방 시작] 방 여러 개 (오너 11/12 "기존 던전처럼 여러 개"): 방마다 한 판씩 동시에, 다 차면 대기열.
+    /** 방 하나: 시작 자리 · 구역 · 몹 소환 자리(비면 구역 안 아무 데나). */
+    record Room(String id, Loc start, Box box, List<Loc> spawns) {
+        boolean ready() { return start != null && box != null && start.location() != null; }
+        String world() { return start == null ? "" : start.world(); }
+        boolean contains(Location l) { return box != null && l != null && l.getWorld() != null && l.getWorld().getName().equals(world()) && box.contains(l); }
+    }
+    final Map<String, Room> rooms = new LinkedHashMap<>();
+    // [기능:탑여러방 끝]
     final int floorStartSeconds, cardDelaySeconds, cardSeconds, leaveGraceSeconds, queueOfferSeconds;
     final List<String> normalMobs, eliteMobs;
     final ConfigurationSection balance;
@@ -99,12 +108,21 @@ final class Settings {
         floors = Math.max(1, c.getInt("floors", 50));
         ticketItem = c.getString("ticket.item", "item:dungeon_ticket");
         ticketAmount = Math.max(0, c.getInt("ticket.amount", 1));
-        start = Loc.parse(c.getString("locations.start"));
         exit = Loc.parse(c.getString("locations.exit"));
         portal = Loc.parse(c.getString("locations.portal"));
         portalRadius = Math.max(0.5, c.getDouble("locations.portal-radius", 2.0));
-        corner1 = block(c.getString("room.corner1"));
-        corner2 = block(c.getString("room.corner2"));
+        var rs = c.getConfigurationSection("rooms");
+        if (rs != null) for (String id : rs.getKeys(false)) {
+            var spawns = new ArrayList<Loc>();
+            var box = Box.of(block(rs.getString(id + ".corner1")), block(rs.getString(id + ".corner2")));
+            for (String t : rs.getStringList(id + ".spawns")) {
+                var l = Loc.parse(t);
+                if (l == null) continue;
+                if (box != null && !box.contains(new Location(null, l.x(), l.y(), l.z()))) continue;   // 구역을 옮긴 뒤 밖에 남은 소환 자리는 안 씀
+                spawns.add(l);
+            }
+            rooms.put(id, new Room(id, Loc.parse(rs.getString(id + ".start")), box, List.copyOf(spawns)));
+        }
         floorStartSeconds = Math.max(1, c.getInt("floor-start-seconds", 3));
         cardDelaySeconds = Math.max(0, c.getInt("card-delay-seconds", 1));
         cardSeconds = Math.max(10, c.getInt("card-seconds", 40));
@@ -142,7 +160,20 @@ final class Settings {
         lockedChannels = c.isList("locked-channels") ? List.copyOf(c.getStringList("locked-channels")) : DEFAULT_LOCKED;
     }
 
-    Box room() { return Box.of(corner1, corner2); }
+    /** 쓸 수 있는 방 (시작 자리·구역이 다 있고 월드가 켜져 있음). */
+    List<Room> readyRooms() { return rooms.values().stream().filter(Room::ready).toList(); }
+
+    /** 이 구역과 겹치는 다른 방 이름 (없으면 null). */
+    String overlapping(String id, Box box) {
+        if (box == null) return null;
+        for (var r : rooms.values()) if (!r.id().equals(id) && r.box() != null && r.box().overlaps(box)) return r.id();
+        return null;
+    }
+
+    /** 이 자리가 들어 있는 방 (없으면 null). */
+    Room roomAt(Location l) { for (var r : rooms.values()) if (r.contains(l)) return r; return null; }
+
+    boolean roomWorld(World w) { for (var r : rooms.values()) if (r.world().equals(w.getName())) return true; return false; }
 
     static final List<String> DEFAULT_LOCKED = List.of(
             "magiccodex:bag_request", "magiccodex:mailbox_request", "magiccodex:shop_request", "magiccodex:fish_shop_request", "magiccodex:fish_tank_request",
@@ -156,8 +187,7 @@ final class Settings {
     /** 설정이 덜 된 부분 (입장 전에 확인). 빈 목록 = 준비됨. */
     List<String> missing() {
         var out = new ArrayList<String>();
-        if (start == null || start.location() == null) out.add("시작 위치");
-        if (room() == null) out.add("방 구역");
+        if (readyRooms().isEmpty()) out.add(rooms.isEmpty() ? "방 (시작 위치·방 구역)" : "시작 위치·방 구역이 다 찍힌 방");
         if (normalMobs.isEmpty()) out.add("몹 목록");
         return out;
     }

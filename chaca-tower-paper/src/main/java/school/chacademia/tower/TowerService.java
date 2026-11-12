@@ -34,7 +34,9 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 
 /**
- * 탑 진행. 방이 하나라 한 번에 한 판 (나머지는 대기열).
+ * 탑 진행. 방마다 한 판씩 동시에 (방이 다 차면 대기열). [기능:탑여러방]
+ * 판 상태는 Run 에 있고, 아래 메서드들은 "지금 다루는 판"(run·runner)을 쓴다 — 바깥에서 들어오는 곳(명령·이벤트·tick·예약 작업)마다
+ * inRun(p) / ctx(r) 로 그 판을 먼저 고른다 (서버 메인 스레드 하나라 겹치지 않음).
  * 입장 → 맡기기 → 시작 카드(기본 공격 마법) → 층 (카운트다운 → 무리 → 다 잡으면 카드) → … → 쓰러지거나 포기하거나 꼭대기.
  * 끝나면 맡긴 것을 돌려주고 탑에서 얻은 건 모두 사라진다.
  */
@@ -50,13 +52,14 @@ final class TowerService {
     final TowerClient client;
 
     Settings s;
+    /** 지금 다루는 판 (ctx/inRun 이 고름). */
     private Run run;
     private Player runner;
-    private BossBar guardianBar;
-    private UUID guardian;
+    /** 진행 중인 판: 플레이어 → 판. */
+    private final Map<UUID, Run> runs = new java.util.concurrent.ConcurrentHashMap<>();   // 모드 채널 잠금(playing)이 다른 스레드에서 읽을 수 있어서
     private final List<UUID> queue = new ArrayList<>();
-    private UUID offered;
-    private long offerUntil;
+    /** 자리가 나서 입장을 권한 사람 → 기한. */
+    private final Map<UUID, Long> offers = new java.util.LinkedHashMap<>();
     private final Map<UUID, Long> portalNotice = new HashMap<>();
     /** 탑 안에서 써도 되는 명령 (그 밖은 전부 막음: 배낭·우편·상점·귀환 등 소지품이 바뀌거나 자리를 옮기는 것). 프록시 명령(파티·귓속말)은 여기까지 오지 않는다. */
     /* "마법" = 마법 시전 명령 (mana-spells.yml 의 command 464개가 전부 /마법 <id>). 빠져 있으면 탑 안에서 마법이 하나도 안 나간다 (11/12 점검).
@@ -76,11 +79,45 @@ final class TowerService {
 
     void apply(Settings next) { s = next; }
 
-    boolean inRun(Player p) { return run != null && run.phase != Run.Phase.ENDED && run.player.equals(p.getUniqueId()); }
+    /** 이 사람이 판 중이면 true + 그 판을 "지금 다루는 판" 으로 고른다. */
+    boolean inRun(Player p) {
+        Run r = runs.get(p.getUniqueId());
+        if (r == null || r.phase == Run.Phase.ENDED) return false;
+        run = r; runner = p;
+        return true;
+    }
+
+    /** 판 중인지만 본다 (다른 스레드에서도 부를 수 있는 쪽: 모드 채널 잠금). */
+    boolean playing(UUID id) { Run r = runs.get(id); return r != null && r.phase != Run.Phase.ENDED; }
+
+    private void ctx(Run r) { run = r; runner = r == null ? null : Bukkit.getPlayer(r.player); }
+
+    boolean anyRun() { return !runs.isEmpty(); }
+
+    boolean roomBusy(String id) { for (var r : runs.values()) if (r.room != null && r.room.id().equals(id)) return true; return false; }
+
+    /** 비어 있는 방 (판도 없고, 입장 권한을 받은 사람 몫으로 잡혀 있지도 않은 것은 freeRooms 에서 따로 센다). */
+    private List<Settings.Room> freeRooms() {
+        var used = new java.util.HashSet<String>();
+        for (var r : runs.values()) if (r.room != null) used.add(r.room.id());
+        return s.readyRooms().stream().filter(r -> !used.contains(r.id())).toList();
+    }
 
     boolean blockedCommand(String cmd) { return !ALLOWED.contains(cmd); }
 
-    Run current() { return run; }
+    /** /탑관리 강제종료 [이름]: 이름이 없으면 판이 하나일 때만. */
+    String forceEnd(String name) {
+        Run target = null;
+        for (var r : runs.values()) {
+            var p = Bukkit.getPlayer(r.player);
+            if (name == null ? runs.size() == 1 : p != null && p.getName().equalsIgnoreCase(name)) { target = r; break; }
+        }
+        if (target == null) return null;
+        var p = Bukkit.getPlayer(target.player);
+        ctx(target);
+        if (p != null) end(p, "admin"); else endOffline();
+        return p == null ? ChacaLink.name(target.player) : p.getName();
+    }
 
     TowerPlugin plugin() { return plugin; }
 
@@ -97,9 +134,13 @@ final class TowerService {
         var missing = s.missing();
         if (!missing.isEmpty()) { ChacaLink.notify(p, "error", "tower:enter", "탑이 아직 준비되지 않았어요", "관리자에게 알려 주세요", 3000); plugin.getLogger().warning("탑 설정 부족: " + missing); return; }
         if (!magic.ready()) { ChacaLink.notify(p, "error", "tower:enter", "지금은 들어갈 수 없어요", "잠시 뒤에 다시 시도해 주세요", 3000); return; }
-        if (run != null && run.phase != Run.Phase.ENDED) { joinQueue(p); return; }
-        if (offered != null && !offered.equals(p.getUniqueId()) && System.currentTimeMillis() < offerUntil) { joinQueue(p); return; }
-        if (!queue.isEmpty() && !queue.getFirst().equals(p.getUniqueId()) && offered == null) { joinQueue(p); return; }
+        // 빈 방: 입장 권한을 받은 사람은 바로, 아니면 (권한 받은 사람 몫을 뺀) 빈 방이 있고 앞에 기다리는 사람이 없을 때만
+        var free = freeRooms();
+        boolean invited = offers.containsKey(p.getUniqueId());
+        int spare = free.size() - (int) offers.keySet().stream().filter(id -> !id.equals(p.getUniqueId())).count();
+        boolean ahead = queue.stream().anyMatch(id -> !id.equals(p.getUniqueId()) && !offers.containsKey(id));
+        if (free.isEmpty() || (!invited && (spare <= 0 || ahead))) { joinQueue(p); return; }
+        Settings.Room room = free.getFirst();
         // 열린 창·커서·제작칸의 물건을 먼저 가방으로 (맡긴 뒤에 닫으면 그 물건은 기록에 없어 사라짐, 11/12 점검)
         p.closeInventory();
         var cursor = p.getItemOnCursor();
@@ -113,9 +154,9 @@ final class TowerService {
         try { snapshot = magic.snapshot(p); }
         catch (RuntimeException e) { refundTicket(p); fail(p, e); return; }
         if (!stash.store(p, snapshot)) { refundTicket(p); ChacaLink.notify(p, "error", "tower:enter", "들어가지 못했어요", "소지품을 맡기지 못했어요", 3000); return; }
-        activeRunner = p.getUniqueId();   // 여기부터 판이 끝날 때까지 HuskSync 저장을 막는다 (탑 소지품이 공용 DB 에 올라가지 않게)
+        activeRunners.add(p.getUniqueId());   // 여기부터 판이 끝날 때까지 HuskSync 저장을 막는다 (탑 소지품이 공용 DB 에 올라가지 않게)
         queue.remove(p.getUniqueId());
-        offered = null;
+        offers.remove(p.getUniqueId());
         // 맡긴 뒤: 소지품 비우고 마법·지능 초기 상태
         p.closeInventory();
         p.getInventory().clear();
@@ -125,7 +166,7 @@ final class TowerService {
         p.setRemainingAir(p.getMaximumAir()); p.setExhaustion(0);
         try { magic.dismissPets(p); magic.rememberLearned(p); magic.enterTower(p); }
         catch (RuntimeException e) {
-            activeRunner = null;
+            activeRunners.remove(p.getUniqueId());
             plugin.getLogger().severe("탑 마법 초기화 실패 " + p.getName() + ": " + e);
             boolean restored = stash.restore(p);
             try { magic.restore(p, snapshot); } catch (RuntimeException ignored) {}
@@ -135,14 +176,14 @@ final class TowerService {
             return;
         }
         p.getPersistentDataContainer().set(playedKey, org.bukkit.persistence.PersistentDataType.BYTE, (byte) 1);   // [기능:탑퀘스트] 들어갔으니 다음부터 입장권
-        run = new Run(p.getUniqueId());
+        run = new Run(p.getUniqueId(), room);
+        runs.put(p.getUniqueId(), run);
         runner = p;
         run.rerolls = s.rerolls;
         // 서버가 꺼지는 순간에도 첫 도달 보상을 바로 줄 수 있게 지금 최고 기록을 미리 읽어 둔다
         Run started = run;
         records.best(p.getUniqueId()).thenAccept(b -> { if (plugin.isEnabled()) Bukkit.getScheduler().runTask(plugin, () -> started.bestAtStart = b.floor()); });
-        var start = s.start.location();
-        p.teleport(start);
+        p.teleport(room.start().location());
         applyAttributes(p);
         pinMana(p);
         fullHeal(p);
@@ -163,7 +204,7 @@ final class TowerService {
 
     void leaveQueue(Player p) {
         boolean was = queue.remove(p.getUniqueId());
-        if (p.getUniqueId().equals(offered)) offered = null;
+        was |= offers.remove(p.getUniqueId()) != null;
         ChacaLink.notify(p, "system", "tower:queue", was ? "대기를 취소했어요" : "대기 중이 아니에요", "", 1000);
     }
 
@@ -204,19 +245,17 @@ final class TowerService {
 
     private void offerCards(Player p, int minGrade) {
         run.offer = Cards.roll(s, magic, run, run.firstPick, minGrade);
-        offerShownAt = System.currentTimeMillis();
+        run.offerShownAt = System.currentTimeMillis();
         if (run.luck > 0 && !run.firstPick) run.luck--;
         if (run.offer.isEmpty()) { if (run.firstPick) { run.firstPick = false; run.startPicksLeft = 0; } afterPicks(p); return; }
         run.phase = Run.Phase.CARD;
         run.phaseEndsAt = System.currentTimeMillis() + s.cardSeconds * 1000L;
-        currentMinGrade = minGrade;
+        run.currentMinGrade = minGrade;
         showCards(p);
         p.playSound(p.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 1, 1.2f);
     }
 
-    private int currentMinGrade = -1;
-    /** 카드가 뜬 시각. 바로 뒤 0.4초 동안의 고르기는 무시한다 (앞 카드를 두 번 눌렀을 때 새 카드까지 골라지는 것 방지). */
-    private long offerShownAt;
+    // 카드가 뜬 시각(run.offerShownAt): 바로 뒤 0.4초 동안의 고르기는 무시한다 (앞 카드를 두 번 눌렀을 때 새 카드까지 골라지는 것 방지).
 
     /** 카드 화면: 모드가 있으면 모드 화면(보유 증강 목록도 같이 보냄), 없으면 상자 창. */
     private void showCards(Player p) { if (!client.cards(p, s, run)) new CardMenu(s, run).open(p); }
@@ -270,14 +309,14 @@ final class TowerService {
         if (choice == -2) {
             if (run.rerolls <= 0) return;
             run.rerolls--;
-            run.offer = Cards.roll(s, magic, run, run.firstPick, currentMinGrade);
+            run.offer = Cards.roll(s, magic, run, run.firstPick, run.currentMinGrade);
             showCards(p);
             p.playSound(p.getLocation(), Sound.ENTITY_ENDER_EYE_DEATH, 1, 1.4f);
             return;
         }
         if (choice == -3) { new BuildMenu(s, run, 0, true).open(p); return; }   // 상자 창의 "내 증강" 버튼
         if (choice < 0 || choice >= run.offer.size()) return;
-        if (System.currentTimeMillis() - offerShownAt < 400) return;
+        if (System.currentTimeMillis() - run.offerShownAt < 400) return;
         pick(p, run.offer.get(choice));
     }
 
@@ -505,7 +544,7 @@ final class TowerService {
     private void startCountdown(Player p) {
         // [기능:탑층이동 시작] 다음 층 = 같은 방이지만, 시작 자리로 순간이동 + 잠깐 어두워짐 + 차원문 효과로 "올라간" 느낌 (오너 11/12)
         if (run.floor > 1) {
-            var start = s.start.location();
+            var start = run.room.start().location();
             var from = p.getLocation().clone();
             from.getWorld().spawnParticle(Particle.PORTAL, from.add(0, 1, 0), 70, .4, .9, .4, .7);
             from.getWorld().playSound(from, Sound.ENTITY_ENDERMAN_TELEPORT, 0.7f, 0.8f);
@@ -547,9 +586,10 @@ final class TowerService {
     private void spawnWave(Player p) {
         if (run.waves.isEmpty()) return;
         var wave = run.waves.removeFirst();
-        var box = s.room();
-        var w = s.start.location().getWorld();
-        var spots = Floors.safeSpots(w, box, wave.size(), p.getLocation());
+        var box = run.room.box();
+        var w = run.room.start().location().getWorld();
+        // [기능:탑소환자리] 찍어 둔 소환 자리가 있으면 그 주변에서만, 없으면 방 구역 안 아무 데나
+        var spots = run.room.spawns().isEmpty() ? Floors.safeSpots(w, box, wave.size(), p.getLocation()) : Floors.spawnSpots(w, run.room.spawns(), wave.size());
         int i = 0;
         for (var pick : wave) {
             if (i >= spots.size()) break;
@@ -586,15 +626,17 @@ final class TowerService {
 
     private void showGuardian(Player p, Entity e) {
         hideGuardian();
-        guardian = e.getUniqueId();
-        guardianBar = BossBar.bossBar(Component.text(run.floor + "층 수문장", NamedTextColor.RED), 1f, BossBar.Color.RED, BossBar.Overlay.NOTCHED_10);
-        p.showBossBar(guardianBar);
+        run.guardian = e.getUniqueId();
+        run.guardianBar = BossBar.bossBar(Component.text(run.floor + "층 수문장", NamedTextColor.RED), 1f, BossBar.Color.RED, BossBar.Overlay.NOTCHED_10);
+        p.showBossBar(run.guardianBar);
     }
 
     private void hideGuardian() {
-        if (guardianBar != null && runner != null) runner.hideBossBar(guardianBar);
-        guardianBar = null;
-        guardian = null;
+        if (run == null) return;
+        var who = Bukkit.getPlayer(run.player);
+        if (run.guardianBar != null && who != null) who.hideBossBar(run.guardianBar);
+        run.guardianBar = null;
+        run.guardian = null;
     }
 
     private void floorCleared(Player p) {
@@ -644,6 +686,15 @@ final class TowerService {
     void tick() {
         tickQueue();
         if (++sweepTick >= 20) { sweepTick = 0; sweepTowerItems(); }
+        for (Run r : new ArrayList<>(runs.values())) {
+            ctx(r);
+            try { tickRun(); }
+            catch (RuntimeException e) { plugin.getLogger().warning("탑 판 진행 오류 " + ChacaLink.name(r.player) + ": " + e); }
+        }
+        run = null; runner = null;
+    }
+
+    private void tickRun() {
         if (run == null || run.phase == Run.Phase.ENDED) return;
         Player p = Bukkit.getPlayer(run.player);
         if (p == null) { endOffline(); return; }
@@ -670,11 +721,11 @@ final class TowerService {
             default -> {}
         }
         if (run == null || run.phase == Run.Phase.ENDED) return;   // 이번 tick 에 판이 끝났으면 (마지막 층 클리어 등) 여기서 멈춤
-        if (guardianBar != null && guardian != null) {
-            var g = Bukkit.getEntity(guardian);
+        if (run.guardianBar != null && run.guardian != null) {
+            var g = Bukkit.getEntity(run.guardian);
             if (g instanceof LivingEntity le && !le.isDead()) {
                 var max = le.getAttribute(Attribute.MAX_HEALTH);
-                guardianBar.progress((float) Math.clamp(le.getHealth() / (max == null ? 1 : max.getValue()), 0, 1));
+                run.guardianBar.progress((float) Math.clamp(le.getHealth() / (max == null ? 1 : max.getValue()), 0, 1));
             } else hideGuardian();
         }
         applyAttributes(p);
@@ -691,8 +742,7 @@ final class TowerService {
         // 배고픔 무한 (자연 회복은 TowerListener 가 막는다)
         p.setFoodLevel(20); p.setSaturation(20); p.setExhaustion(0);
         // 방 밖 검사
-        var box = s.room();
-        if (box != null && !(p.getWorld().getName().equals(s.start.world()) && box.contains(p.getLocation()))) {
+        if (!run.room.contains(p.getLocation())) {
             if (run.outsideSince == 0) run.outsideSince = now;
             else if (now - run.outsideSince > s.leaveGraceSeconds * 1000L) { end(p, "left"); return; }
             ChacaLink.notify(p, "warning", "tower:outside", "방을 벗어났어요", "돌아오지 않으면 탑이 끝나요", 2000);
@@ -703,7 +753,7 @@ final class TowerService {
     /** 10초마다: 탑 밖에 있는 사람의 가방에 탑 표시가 붙은 물건이 있으면 지운다 (어떤 길로든 새어 나온 탑 물건이 남지 않게). */
     private void sweepTowerItems() {
         for (Player p : Bukkit.getOnlinePlayers()) {
-            if (inRun(p)) continue;
+            if (playing(p.getUniqueId())) continue;
             var inv = p.getInventory();
             for (int i = 0; i < inv.getSize(); i++) if (towerItem(inv.getItem(i))) { inv.setItem(i, null); plugin.getLogger().warning("탑 밖에서 탑 물건을 지움: " + p.getName()); }
         }
@@ -727,17 +777,25 @@ final class TowerService {
 
     private void tickQueue() {
         long now = System.currentTimeMillis();
-        if (offered != null && now >= offerUntil) {
-            var p = Bukkit.getPlayer(offered);
-            queue.remove(offered);
+        for (var it = offers.entrySet().iterator(); it.hasNext(); ) {
+            var e = it.next();
+            if (now < e.getValue()) continue;
+            it.remove();
+            if (freeRooms().isEmpty()) continue;   // 그 사이 방이 다 찼으면 (방 삭제 등) 자리를 잃지 않게 대기열에 그대로
+            queue.remove(e.getKey());
+            var p = Bukkit.getPlayer(e.getKey());
             if (p != null) ChacaLink.notify(p, "warning", "tower:queue", "입장 시간이 지나 대기가 취소됐어요", "", 0);
-            offered = null;
         }
         queue.removeIf(id -> Bukkit.getPlayer(id) == null);
-        if (offered == null && (run == null || run.phase == Run.Phase.ENDED) && !queue.isEmpty()) {
-            offered = queue.getFirst();
-            offerUntil = now + s.queueOfferSeconds * 1000L;
-            var p = Bukkit.getPlayer(offered);
+        offers.keySet().removeIf(id -> Bukkit.getPlayer(id) == null);
+        if (s == null) return;
+        int spare = freeRooms().size() - offers.size();
+        for (UUID id : new ArrayList<>(queue)) {
+            if (spare <= 0) break;
+            if (offers.containsKey(id)) continue;
+            offers.put(id, now + s.queueOfferSeconds * 1000L);
+            spare--;
+            var p = Bukkit.getPlayer(id);
             if (p != null) {
                 ChacaLink.notify(p, "system", "tower:queue", "탑에 자리가 났어요", s.queueOfferSeconds + "초 안에 /탑 입장", 0);
                 p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1.5f);
@@ -749,6 +807,7 @@ final class TowerService {
 
     void mobHitsPlayer(EntityDamageByEntityEvent e, Player victim, Entity mob) {
         if (!inRun(victim)) return;
+        if (!run.mobs.contains(mob.getUniqueId()) && ownedByOther(run, mob)) { e.setCancelled(true); return; }   // [기능:탑여러방] 다른 방 판의 몹
         if (e.getDamage() <= 0) return;   // 피해 0 = 다른 플러그인이 "때려도 되는지" 물어보는 신호 → 잔상·되갚기·가시 갑옷이 헛돌지 않게 (11/12 최종 점검)
         Run r = run;
         long now = System.currentTimeMillis();
@@ -787,6 +846,7 @@ final class TowerService {
 
     void playerHitsMob(EntityDamageByEntityEvent e, Player attacker, Entity mob) {
         if (!inRun(attacker)) return;
+        if (!run.mobs.contains(mob.getUniqueId()) && ownedByOther(run, mob)) { e.setCancelled(true); return; }   // [기능:탑여러방] 다른 방 판의 몹
         if (e.getDamage() <= 0) return;   // 피해 0 신호 (마법 보호 검사) 에 되갚기·연타·피의 계약이 소모되지 않게 (11/12 최종 점검)
         // 탑 지능 기준으로: 원래 지능(마법봉·장신구 포함) P 대신 탑 지능 T 로 친 것처럼 (40 + 지능 비례, 전투 스펙 k×(40+지능) 와 같은 꼴)
         // 서버 피해 공식은 base + ratio × 마력 이고 마법 279종 평균 base/ratio ≈ 12 → 피해 ∝ (12 + 지능). 그래서 (power-offset + 탑 지능) / (power-offset + 원래 지능).
@@ -872,6 +932,7 @@ final class TowerService {
     }
 
     void fatal(EntityDamageEvent e, Player p) {
+        if (!inRun(p)) return;
         if (run.feathers > 0) {
             run.feathers--;
             e.setCancelled(true);
@@ -886,7 +947,11 @@ final class TowerService {
     }
 
     void mobDied(Entity e) {
-        if (run == null || !run.mobs.remove(e.getUniqueId())) return;
+        Run owner = null;
+        for (var r : runs.values()) if (r.mobs.contains(e.getUniqueId())) { owner = r; break; }
+        if (owner == null) return;
+        ctx(owner);
+        run.mobs.remove(e.getUniqueId());
         if (floors.kind(e).equals("guardian")) rewards.guardian(run, run.floor);
         Player p = runner;
         if (p != null && run.harvest > 0) heal(p, run.harvest);
@@ -983,8 +1048,10 @@ final class TowerService {
 
     /** reason: death 쓰러짐 · quit 포기 · left 방 이탈 · clear 꼭대기 · offline 접속 끊김 · admin 관리자 · shutdown 서버 꺼짐 */
     void end(Player p, String reason) {
-        if (run == null || run.phase == Run.Phase.ENDED) return;
-        Run r = run;
+        Run r = runs.get(p.getUniqueId());
+        if (r == null || r.phase == Run.Phase.ENDED) return;
+        ctx(r);
+        runner = p;
         r.phase = Run.Phase.ENDED;
         int cleared = reason.equals("clear") ? s.floors : r.floor - 1;
         // 아래 정리 단계 하나가 실패해도 소지품 돌려주기(giveBack)까지는 반드시 간다 (중간에 멈추면 저장 막기가 풀리지 않고 탑 소지품인 채로 남음)
@@ -1007,14 +1074,14 @@ final class TowerService {
         try { magic.unlearnNew(p); }
         catch (RuntimeException e) { plugin.getLogger().warning("탑 안 영구 습득 되돌리기 실패 " + p.getName() + ": " + e); }
         try { giveBack(p); }
-        finally { lastEnded = r.player; lastEndedAt = System.currentTimeMillis(); activeRunner = null; }   // 원래 소지품으로 돌아왔으니 이제 HuskSync 저장을 막지 않는다 (직전에 찍힌 것만 3초 더)
+        finally { lastEnded.put(r.player, System.currentTimeMillis()); activeRunners.remove(r.player); runs.remove(r.player); }   // 원래 소지품으로 돌아왔으니 이제 HuskSync 저장을 막지 않는다 (직전에 찍힌 것만 3초 더)
         var exit = s.exit != null ? s.exit.location() : s.portal != null ? s.portal.location() : null;
         if (exit != null) p.teleport(exit);
         if (!reason.equals("admin")) for (String cmd : s.endCommands) {   // [기능:탑퀘스트] 4.5장 「무한의 탑 1회 도전」 신호
             try { Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("{player}", p.getName())); }
             catch (RuntimeException ex) { plugin.getLogger().warning("탑 끝 명령 실패 " + cmd + ": " + ex); }
         }
-        clearDrops();
+        clearDrops(r);
         String head = switch (reason) {
             case "clear" -> "탑의 꼭대기에 올랐어요";
             case "death" -> "쓰러졌어요";
@@ -1051,10 +1118,11 @@ final class TowerService {
     private void endOffline() {
         Run r = run;
         r.phase = Run.Phase.ENDED;
-        activeRunner = null;
+        activeRunners.remove(r.player);
+        runs.remove(r.player);
         hideGuardian();
         removeMobs(r);
-        clearDrops();
+        clearDrops(r);
         records.finish(r, r.floor - 1, "offline", cardsText(r));
         run = null;
         runner = null;
@@ -1064,36 +1132,51 @@ final class TowerService {
      * 떨어진 아이템 치우기: 방 안의 모든 아이템 + 그 월드 어디에 있든 탑 표시가 붙은 아이템
      * (방 밖으로 던지거나 방을 벗어난 5초 사이에 떨어뜨린 탑 물건을 나중에 줍지 못하게, 11/12 점검).
      */
-    private void clearDrops() {
-        var box = s.room();
-        var start = s.start == null ? null : s.start.location();
-        if (box == null || start == null) return;
-        for (var e : start.getWorld().getEntitiesByClass(org.bukkit.entity.Item.class))
-            if (box.contains(e.getLocation()) || towerItem(e.getItemStack())) e.remove();
+    private void clearDrops(Run r) {
+        var start = r.room == null || r.room.start() == null ? null : r.room.start().location();
+        if (start == null) return;
+        // 방 안 아이템 + (다른 판이 쓰는 방이 아닌 곳의) 탑 표시 아이템
+        for (var e : start.getWorld().getEntitiesByClass(org.bukkit.entity.Item.class)) {
+            if (r.room.contains(e.getLocation())) { e.remove(); continue; }
+            if (towerItem(e.getItemStack()) && !inOtherRoom(r, e.getLocation())) e.remove();
+        }
+    }
+
+    /** 이 몹이 다른 판 것인지. */
+    private boolean ownedByOther(Run me, Entity mob) {
+        for (var o : runs.values()) if (o != me && o.mobs.contains(mob.getUniqueId())) return true;
+        return false;
+    }
+
+    /** 이 자리가 다른 판이 쓰는 방 안인지. */
+    private boolean inOtherRoom(Run me, Location l) {
+        for (var o : runs.values()) if (o != me && o.room != null && o.room.contains(l)) return true;
+        return false;
     }
 
     private void removeMobs(Run r) {
         for (var id : r.mobs) { var e = Bukkit.getEntity(id); if (e != null) e.remove(); }
         r.mobs.clear();
         // 분열·몹이 스스로 부른 졸개(표시 없음)까지: 방 안의 모든 몹 (탑 방은 탑만 쓴다). 표시가 붙은 건 방 밖에 있어도.
-        var box = s.room();
-        var start = s.start == null ? null : s.start.location();
-        if (box != null && start != null)
+        // (표시가 붙은 몹은 다른 판의 것일 수 있으니 이 판 목록·이 방 안 것만)
+        var start = r.room == null || r.room.start() == null ? null : r.room.start().location();
+        if (start != null)
             for (var e : start.getWorld().getEntities()) {
                 if (e instanceof Player) continue;
-                boolean inside = box.contains(e.getLocation());
-                if (e.getScoreboardTags().contains("chaca_tower") || (inside && (e instanceof org.bukkit.entity.Mob || e instanceof org.bukkit.entity.Projectile))) e.remove();
+                if (r.room.contains(e.getLocation()) && (e instanceof org.bukkit.entity.Mob || e instanceof org.bukkit.entity.Projectile)) e.remove();
             }
     }
 
     /** 판 중에 방 안에서 새로 생긴 몹 (탑 몹이 부른 졸개 등): 탑 몹으로 표시하고 이번 층에 넣는다 (전리품 없음, 끝날 때 같이 사라짐). */
     void spawnedInRoom(Entity e) {
-        if (run == null || run.phase == Run.Phase.ENDED || !(e instanceof org.bukkit.entity.Mob) || e.getScoreboardTags().contains("chaca_tower")) return;
+        if (runs.isEmpty() || !(e instanceof org.bukkit.entity.Mob) || e.getScoreboardTags().contains("chaca_tower")) return;
         // 플레이어 쪽 소환물(마법 소환수·펫)·무적 표식은 탑 몹이 아니다 (넣으면 사라질 때까지 층이 안 끝남)
         var tags = e.getScoreboardTags();
         if (tags.contains("chacademia_summon") || tags.contains("chacademia_pet") || tags.contains("magiccodex_npc") || e.isInvulnerable()) return;
-        var box = s.room();
-        if (box == null || !e.getWorld().getName().equals(s.start.world()) || !box.contains(e.getLocation())) return;
+        Run owner = null;
+        for (var r : runs.values()) if (r.phase != Run.Phase.ENDED && r.room != null && r.room.contains(e.getLocation())) { owner = r; break; }
+        if (owner == null) return;
+        ctx(owner);
         e.addScoreboardTag("chaca_tower");
         e.setPersistent(false);
         run.mobs.add(e.getUniqueId());
@@ -1113,7 +1196,7 @@ final class TowerService {
         catch (RuntimeException e) { plugin.getLogger().severe("마법 되돌리기 실패 " + p.getName() + " (맡긴 파일 확인): " + e); }
         if (!magicOk) { stash.keepMagic(p.getUniqueId(), magicState); plugin.getLogger().severe("장신구·아티팩트 되돌리기 미룸 (다음 접속 때 다시): " + p.getName()); }
         if (!stash.restore(p)) plugin.getLogger().severe("소지품 되돌리기 실패 " + p.getName());
-        if (p.getUniqueId().equals(activeRunner)) activeRunner = null;   // 어떤 길로 돌려줬든 저장 막기는 여기서 푼다 (안 풀리면 이 사람 저장이 계속 취소됨)
+        activeRunners.remove(p.getUniqueId());   // 어떤 길로 돌려줬든 저장 막기는 여기서 푼다 (안 풀리면 이 사람 저장이 계속 취소됨)
     }
 
     /** 미뤄 둔 장신구·아티팩트 되돌리기 다시 시도. */
@@ -1150,13 +1233,13 @@ final class TowerService {
         var inv = p.getInventory();
         for (int i = 0; i < inv.getSize(); i++) if (towerItem(inv.getItem(i))) inv.setItem(i, null);
         stash.conflict(p.getUniqueId());
-        if (p.getUniqueId().equals(activeRunner)) activeRunner = null;
+        activeRunners.remove(p.getUniqueId());
         plugin.getLogger().severe("탑 맡김이 남아 있었지만 " + p.getName() + " 의 가방에 이미 진짜 소지품이 있어 그대로 둠 (맡김 파일은 stash/conflict 에 보관 — 물건이 비면 여기서 꺼내 확인)");
     }
 
     void quit(Player p) {
         queue.remove(p.getUniqueId());
-        if (p.getUniqueId().equals(offered)) offered = null;
+        offers.remove(p.getUniqueId());
         pendingRestore.remove(p.getUniqueId());
         if (inRun(p)) end(p, "offline");
     }
@@ -1164,8 +1247,8 @@ final class TowerService {
     /** 남은 맡김이 있어 복구를 기다리는 사람 (그동안 가방을 만지면 복사가 될 수 있어 잠근다). */
     private final Set<UUID> pendingRestore = new java.util.HashSet<>();
     private final Map<UUID, Integer> joinSeq = new HashMap<>();
-    /** HuskSync 저장 이벤트(다른 스레드일 수 있음)가 읽는 "지금 판 중인 사람". */
-    private volatile UUID activeRunner;
+    /** HuskSync 저장 이벤트(다른 스레드일 수 있음)가 읽는 "지금 판 중인 사람들". */
+    private final Set<UUID> activeRunners = java.util.concurrent.ConcurrentHashMap.newKeySet();
     boolean huskHooked;
 
     /**
@@ -1174,12 +1257,12 @@ final class TowerService {
      */
     boolean savingBlocked(UUID id) {
         if (id == null) return false;
-        return id.equals(activeRunner) || (id.equals(lastEnded) && System.currentTimeMillis() - lastEndedAt < 3000);
+        Long ended = lastEnded.get(id);
+        return activeRunners.contains(id) || (ended != null && System.currentTimeMillis() - ended < 3000);
     }
-    private volatile UUID lastEnded;
-    private volatile long lastEndedAt;
+    private final Map<UUID, Long> lastEnded = new java.util.concurrent.ConcurrentHashMap<>();
 
-    boolean inTowerWorld(org.bukkit.World w) { return s != null && s.start != null && w.getName().equals(s.start.world()); }
+    boolean inTowerWorld(org.bukkit.World w) { return s != null && s.roomWorld(w); }
 
     boolean waitingRestore(Player p) { return pendingRestore.contains(p.getUniqueId()); }
 
@@ -1203,13 +1286,12 @@ final class TowerService {
     }
 
     void changedWorld(Player p) {
-        if (inRun(p) && !p.getWorld().getName().equals(s.start.world())) end(p, "left");
+        if (inRun(p) && !p.getWorld().getName().equals(run.room.world())) end(p, "left");
     }
 
     void teleported(Player p, Location to) {
         if (!inRun(p) || to == null) return;
-        var box = s.room();
-        if (box != null && !(to.getWorld().getName().equals(s.start.world()) && box.contains(to)))
+        if (!run.room.contains(to))
             Bukkit.getScheduler().runTask(plugin, () -> { if (inRun(p)) end(p, "left"); });
     }
 
@@ -1231,7 +1313,12 @@ final class TowerService {
     }
 
     void shutdown() {
-        if (run != null && runner != null && runner.isOnline()) end(runner, "shutdown");
+        for (Run r : new ArrayList<>(runs.values())) {
+            ctx(r);
+            var p = Bukkit.getPlayer(r.player);
+            try { if (p != null && p.isOnline()) end(p, "shutdown"); else endOffline(); }
+            catch (RuntimeException e) { plugin.getLogger().severe("서버 끌 때 탑 정리 실패 " + ChacaLink.name(r.player) + ": " + e); }
+        }
     }
 
     private static String cardsText(Run r) {
@@ -1268,12 +1355,14 @@ final class TowerService {
     Object[] entryInfo(Player p) {
         UUID id = p.getUniqueId();
         int button; String lock = "";
-        boolean busy = run != null && run.phase != Run.Phase.ENDED;
-        if (inRun(p)) button = 4;
+        int total = s.readyRooms().size(), free = freeRooms().size();
+        boolean full = free - (int) offers.keySet().stream().filter(o -> !o.equals(id)).count() <= 0;
+        boolean ahead = queue.stream().anyMatch(q -> !q.equals(id) && !offers.containsKey(q));
+        if (playing(id)) button = 4;
         else if (!s.missing().isEmpty() || !magic.ready()) { button = 3; lock = "탑을 준비하고 있어요"; }
-        else if (id.equals(offered)) button = 5;
+        else if (offers.containsKey(id)) button = 5;
         else if (queue.contains(id)) button = 2;
-        else if (busy || (offered != null) || !queue.isEmpty()) button = 1;
+        else if (full || ahead) button = 1;
         else button = 0;
         if (!bestCache.containsKey(id)) { bestCache.put(id, Records.Best.NONE); records.best(id).thenAccept(b -> Bukkit.getScheduler().runTask(plugin, () -> bestCache.put(id, b))); }
         long now = System.currentTimeMillis();
@@ -1282,7 +1371,7 @@ final class TowerService {
         var line = new StringBuilder("내 최고 ").append(mine.floor() > 0 ? mine.floor() + "층" : "기록 없음");
         if (!topCache.isEmpty()) line.append(" · 서버 최고 ").append(topCache.getFirst().floor()).append("층 ").append(ChacaLink.name(topCache.getFirst().player()));
         if (queue.contains(id)) line.append(" · 대기 ").append(queue.indexOf(id) + 1).append("번째");
-        return new Object[]{button, lock, line.toString(), busy ? 1 : 0, 1};
+        return new Object[]{button, lock, line.toString(), total - free, Math.max(1, total)};
     }
 
     // ───────────────────── 관리 ─────────────────────
@@ -1300,8 +1389,15 @@ final class TowerService {
     }
 
     String status() {
-        if (run == null) return "비어 있음 · 대기 " + queue.size() + "명";
-        return ChacaLink.name(run.player) + " " + run.floor + "층 (" + run.phase + ") · 몹 " + run.mobs.size() + " · 대기 " + queue.size() + "명";
+        var sb = new StringBuilder();
+        for (var room : s.rooms.values()) {
+            Run in = null;
+            for (var r : runs.values()) if (r.room != null && r.room.id().equals(room.id())) in = r;
+            sb.append("\n방 ").append(room.id()).append(room.ready() ? "" : " (준비 안 됨: " + (room.start() == null ? "시작 위치 " : "") + (room.box() == null ? "방 구역" : "") + ")")
+              .append(" · 소환 자리 ").append(room.spawns().size()).append(" · ")
+              .append(in == null ? "비어 있음" : ChacaLink.name(in.player) + " " + in.floor + "층 (" + in.phase + ") 몹 " + in.mobs.size());
+        }
+        return "판 " + runs.size() + " / 방 " + s.readyRooms().size() + " · 대기 " + queue.size() + "명" + sb;
     }
 
     Set<String> knownMobs() { return new LinkedHashSet<>(s.normalMobs); }

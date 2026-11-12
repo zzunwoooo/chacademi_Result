@@ -16,7 +16,8 @@ final class TowerClient implements PluginMessageListener {
 
     private final TowerPlugin plugin;
     private int serial;
-    int shown = -1;
+    /** 사람마다 지금 보여 준 카드 번호 (판이 여러 개라 하나로 두면 다른 사람 카드가 덮어씀). */
+    private final java.util.Map<java.util.UUID, Integer> shown = new java.util.concurrent.ConcurrentHashMap<>();
 
     TowerClient(TowerPlugin plugin) {
         this.plugin = plugin;
@@ -32,7 +33,9 @@ final class TowerClient implements PluginMessageListener {
         if (!modded(p)) return false;
         var o = new JsonObject();
         o.addProperty("t", "cards");
-        o.addProperty("id", shown = ++serial);
+        int id = ++serial;
+        shown.put(p.getUniqueId(), id);
+        o.addProperty("id", id);
         String title = run.firstPick ? "시작 마법 선택" + (s.startSpellPicks > 1 ? " " + (s.startSpellPicks - run.startPicksLeft + 1) + "/" + s.startSpellPicks : "") : (run.floor - 1) + "층 증강 선택";
         if (!run.picks.isEmpty()) title += " (" + (run.picks.size() + 1) + "번 남음)";
         o.addProperty("title", title);
@@ -101,8 +104,7 @@ final class TowerClient implements PluginMessageListener {
     // [기능:탑내증강 끝]
 
     void close(Player p) {
-        if (shown < 0 || !modded(p)) return;
-        shown = -1;
+        if (shown.remove(p.getUniqueId()) == null || !modded(p)) return;
         var o = new JsonObject();
         o.addProperty("t", "close");
         send(p, o);
@@ -126,7 +128,8 @@ final class TowerClient implements PluginMessageListener {
         if (parts.length != 3 || !parts[0].equals("pick")) return;
         try {
             int id = Integer.parseInt(parts[1]), choice = Integer.parseInt(parts[2]);
-            if (id != shown) return; // 지난 카드
+            Integer now = shown.get(p.getUniqueId());
+            if (now == null || id != now) return; // 지난 카드
             plugin.service().menuClick(p, choice);
         } catch (NumberFormatException ignored) { }
     }

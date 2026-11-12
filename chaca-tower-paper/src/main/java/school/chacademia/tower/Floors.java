@@ -256,6 +256,36 @@ final class Floors {
         return out;
     }
 
+    // [기능:탑소환자리 시작]
+    /** 찍어 둔 소환 자리에서 count 곳: 자리마다 돌아가며, 같은 자리를 또 쓰면 1~2칸 옆 빈 곳 (몹이 한 칸에 겹쳐 끼지 않게). */
+    static List<Location> spawnSpots(World w, List<Settings.Loc> points, int count) {
+        var out = new ArrayList<Location>();
+        var rng = ThreadLocalRandom.current();
+        var order = new ArrayList<>(points);
+        java.util.Collections.shuffle(order);
+        var used = new HashSet<Long>();
+        for (int i = 0; i < count && !order.isEmpty(); i++) {
+            var base = order.get(i % order.size());
+            var at = base.location();
+            if (at == null || !at.getWorld().equals(w)) continue;
+            Location pick = null;
+            for (int t = 0; t < 12 && pick == null; t++) {
+                int dx = t == 0 ? 0 : rng.nextInt(-2, 3), dz = t == 0 ? 0 : rng.nextInt(-2, 3);
+                int x = at.getBlockX() + dx, y = at.getBlockY(), z = at.getBlockZ() + dz;
+                long k = ((long) x << 40) ^ ((long) y << 20) ^ z;
+                if (used.contains(k)) continue;
+                var feet = w.getBlockAt(x, y, z);
+                if (t > 0 && (!feet.isPassable() || !feet.getRelative(BlockFace.UP).isPassable() || !feet.getRelative(BlockFace.DOWN).getType().isSolid())) continue;
+                used.add(k);
+                pick = new Location(w, x + .5, y, z + .5, rng.nextFloat() * 360, 0);
+            }
+            if (pick == null) pick = at.clone();
+            out.add(pick);
+        }
+        return out;
+    }
+    // [기능:탑소환자리 끝]
+
     private static boolean roomy(World w, int x, int y, int z) {
         for (int dx = -1; dx <= 1; dx++)
             for (int dz = -1; dz <= 1; dz++) {

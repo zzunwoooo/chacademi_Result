@@ -174,7 +174,7 @@ final class TowerListener implements Listener {
     /** 판 중에 방 안에서 생긴 몹 (탑 몹이 스킬로 부른 졸개 등) 을 탑 몹으로 넣는다. 탑이 직접 부른 몹은 다음 틱엔 이미 표시가 붙어 있어 건너뛴다. */
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     void onSpawn(org.bukkit.event.entity.CreatureSpawnEvent e) {
-        if (service.current() == null || !service.inTowerWorld(e.getEntity().getWorld())) return;   // 판 중 + 탑 월드에서 생긴 것만
+        if (!service.anyRun() || !service.inTowerWorld(e.getEntity().getWorld())) return;   // 판 중 + 탑 월드에서 생긴 것만
         Entity spawned = e.getEntity();
         org.bukkit.Bukkit.getScheduler().runTask(service.plugin(), () -> { if (spawned.isValid()) service.spawnedInRoom(spawned); });
     }
