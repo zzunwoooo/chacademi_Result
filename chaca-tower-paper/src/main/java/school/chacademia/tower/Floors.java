@@ -84,12 +84,23 @@ final class Floors {
             all.add(new Pick(s.eliteMobs.get(rng.nextInt(s.eliteMobs.size())), true, true));
             total = Math.max(1, total - 3);
         }
+        // [기능:탑유도몹] 따라오는 투사체 몹은 homing-from 층부터, 한 층에 1 + (층 / homing-per-floors) 마리까지 (초반부터 몰려나오면 너무 어려움, 오너 11/12)
+        int homingLeft = floor < s.homingFrom ? 0 : 1 + floor / Math.max(1, s.homingPerFloors);
         for (int i = 0; i < total; i++) {
             boolean elite = !s.eliteMobs.isEmpty() && rng.nextDouble() < share;
             var list = elite ? s.eliteMobs : s.normalMobs;
             if (list.isEmpty()) list = s.eliteMobs.isEmpty() ? s.normalMobs : s.eliteMobs;
             if (list.isEmpty()) break;
-            all.add(new Pick(list.get(rng.nextInt(list.size())), list == s.eliteMobs, false));
+            String mob = list.get(rng.nextInt(list.size()));
+            if (s.homingMobs.contains(mob)) {
+                if (homingLeft > 0) homingLeft--;
+                else {
+                    var calm = list.stream().filter(m -> !s.homingMobs.contains(m)).toList();
+                    if (calm.isEmpty()) continue;
+                    mob = calm.get(rng.nextInt(calm.size()));
+                }
+            }
+            all.add(new Pick(mob, list == s.eliteMobs, false));
         }
         var waves = new ArrayList<List<Pick>>();
         if (floor >= (int) s.bal("second-wave-from", 15) && all.size() >= 4) {

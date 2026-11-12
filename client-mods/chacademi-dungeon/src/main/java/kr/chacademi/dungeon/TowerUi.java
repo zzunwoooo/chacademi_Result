@@ -275,7 +275,7 @@ static void cardSound(int grade) {
         case 0 -> p.playSound(SoundEvents.BOOK_PAGE_TURN, .8f, 1.25f);
         case 1 -> p.playSound(SoundEvents.AMETHYST_BLOCK_CHIME, 1f, 1.1f);
         case 2 -> { p.playSound(SoundEvents.ENCHANTMENT_TABLE_USE, .9f, 1.15f); p.playSound(SoundEvents.AMETHYST_BLOCK_CHIME, .7f, 1.5f); }
-        default -> { p.playSound(SoundEvents.UI_TOAST_CHALLENGE_COMPLETE, .55f, 1.25f); p.playSound(SoundEvents.BEACON_POWER_SELECT, .7f, 1.7f); }
+        default -> { p.playSound(SoundEvents.END_PORTAL_FRAME_FILL, 1f, 1.1f); p.playSound(SoundEvents.AMETHYST_BLOCK_RESONATE, 1f, 1.3f); p.playSound(SoundEvents.BEACON_POWER_SELECT, .7f, 1.7f); }
     }
 }
 

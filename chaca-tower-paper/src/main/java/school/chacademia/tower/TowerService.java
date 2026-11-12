@@ -270,7 +270,7 @@ final class TowerService {
             case 0 -> p.playSound(p.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 1, 1.2f);
             case 1 -> p.playSound(p.getLocation(), Sound.BLOCK_AMETHYST_BLOCK_CHIME, 1, 1.1f);
             case 2 -> p.playSound(p.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1, 1.0f);
-            default -> { p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 0.6f, 1.2f); p.playSound(p.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 0.7f, 1.6f); }
+            default -> { p.playSound(p.getLocation(), Sound.BLOCK_END_PORTAL_FRAME_FILL, 1f, 1.1f); p.playSound(p.getLocation(), Sound.BLOCK_AMETHYST_BLOCK_RESONATE, 1f, 1.3f); p.playSound(p.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 0.7f, 1.6f); }
         }
     }
     // [기능:탑카드소리 끝]
@@ -354,9 +354,9 @@ final class TowerService {
         catch (RuntimeException e) { plugin.getLogger().warning("카드 적용 실패 " + c + ": " + e); }
         run.took(c.type().key(), c.grade(), c.type().values == null ? 0 : c.value());
         var g = s.grades.get(c.grade());
-        ChacaLink.notify(p, "shop", "tower:card", "[" + g.name() + "] " + (c.type() == Cards.Type.SPELL || c.type() == Cards.Type.ARTIFACT ? c.spellName() : c.type().title),
-                String.join(" ", Cards.describe(c)), 0);
-        p.playSound(p.getLocation(), c.grade() >= 3 ? Sound.UI_TOAST_CHALLENGE_COMPLETE : Sound.ENTITY_PLAYER_LEVELUP, 1, 1.1f);
+        // 고른 카드는 화면 아래 글자로만 (알림창은 고를 때마다 알림 소리가 나서 오너가 싫어함, 11/12)
+        p.sendActionBar(Component.text("[" + g.name() + "] " + (c.type() == Cards.Type.SPELL || c.type() == Cards.Type.ARTIFACT ? c.spellName() : c.type().title), net.kyori.adventure.text.format.TextColor.color(g.color())));
+        p.playSound(p.getLocation(), c.grade() >= 3 ? Sound.BLOCK_BEACON_POWER_SELECT : Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 0.8f, 1.1f);
         if (run.firstPick && --run.startPicksLeft > 0) { offerCards(p, -1); return; }   // 시작 마법을 여러 개 고르는 설정
         run.firstPick = false;
         afterPicks(p);
@@ -499,12 +499,8 @@ final class TowerService {
         var item = new ItemStack(Material.valueOf(mat + part));
         if (g >= 2) item.addUnsafeEnchantment(Enchantment.PROTECTION, g >= 3 ? 3 : 2);
         item.editMeta(m -> m.setUnbreakable(true));
-        tag(item);   // 입는 칸에 바로 넣어도 탑 물건 표시 (없으면 끝날 때 "바깥 물건" 으로 우편에 감, 11/12 점검)
-        var old = inv.getItem(slot);
-        if (old.getType().isAir() || armorTier(old.getType()) <= armorTier(item.getType())) {
-            inv.setItem(slot, item);
-            if (!old.getType().isAir()) give(p, old);
-        } else give(p, item);
+        // 오너 11/12: 바로 입히지 말고 가방으로 (입는 건 본인이). give 가 탑 물건 표시도 붙인다.
+        give(p, item);
     }
 
     private static int armorTier(Material m) {
@@ -692,7 +688,7 @@ final class TowerService {
         if (run.vigor > 0) heal(p, maxHealth(p) * Math.min(s.bal("vigor-cap", 0.5), run.vigor));
         if (run.interestRate > 0) run.interestBonus += run.interestRate;
         if (run.scholar > 0) { run.scholarCarry += run.scholar; int add = (int) Math.floor(run.scholarCarry + 1e-9); if (add > 0) { run.scholarCarry -= add; run.intelligence += add; magic.addIntelligence(p, add); } }
-        p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 0.6f, 1.4f);
+        p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 0.7f, 1.2f); p.playSound(p.getLocation(), Sound.BLOCK_AMETHYST_BLOCK_CHIME, 0.9f, 1.0f);   // 업적 소리는 오너가 싫어함 (11/12)
         if (run.floor >= s.floors) { end(p, "clear"); return; }
         boolean gamble = run.gambleActive;
         run.gambleActive = false;

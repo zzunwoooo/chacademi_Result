@@ -35,20 +35,27 @@ queue-offer-seconds: 30
 # ───── 몹 ─────
 # 몹 목록 (MythicMobs 내부 이름). normal = 일반, elite = 정예. 층이 오르면 정예 비율이 올라간다.
 # 11/12 오너 "스킬 있는 몹 위주": 평타만 있는 11종(멧돼지·아기 설인·개구리 3·눈사람·도마뱀 2·늑대 2·이끼 멧돼지) 빼고, 스킬 있는 야생 몹(요정·늑대매·히포그리프·불사조·유령·천마·유니콘·빙핵) 추가.
+# 11/12 밤 오너 "유도 몹은 적당히 배치": 따라오는 투사체 쓰는 몹(homing-mobs)은 homing-from 층부터, 한 층에 1 + (층 / homing-per-floors) 마리까지만.
 mobs:
   normal: [CA_Wild_bear, CA_Wild_bear_black, CA_Wild_bear_polar, CA_Wild_crocodile, CA_Wild_raptor_red,
     CA_Wild_ncr_archer_skeleton, CA_Wild_ncr_spear_skeleton, CA_Wild_ncr_warrior_skeleton, CA_Wild_ogre_axe, CA_Wild_ogre_club,
     CA_Wild_sabertooth_arctic, CA_Wild_sabertooth_midnight, CA_Wild_sabertooth_savanna, CA_Wild_tusker_dreamlight, CA_Wild_tusker_forest,
-    CA_Wild_lostasset_mob2_flowersprite, CA_Wild_lostasset_mob2_lakefairy, CA_Wild_lostasset_mob2_leaffairy, CA_Wild_lostasset_mob2_mushroomfairy,
-    CA_Wild_wolfhawk_dire, CA_Wild_wolfhawk_fallen, CA_Wild_wolfhawk_fullmoon, CA_Wild_wolfhawk_stormcloud]
+    CA_Wild_wolfhawk_dire, CA_Wild_wolfhawk_fallen, CA_Wild_wolfhawk_fullmoon, CA_Wild_wolfhawk_stormcloud,
+    CA_Wild_lostasset_mob2_flowersprite, CA_Wild_lostasset_mob2_lakefairy, CA_Wild_lostasset_mob2_leaffairy, CA_Wild_lostasset_mob2_mushroomfairy]
   elite: [CA_Wild_basilisk_obsidian, CA_Wild_basilisk_snowstorm, CA_Wild_basilisk_wild, CA_Wild_golem_arcane, CA_Wild_golem_corrupted,
-    CA_Wild_golem_magma, CA_Wild_golem_royal, CA_Wild_ice_knight, CA_Wild_kitsune_demonic, CA_Wild_kitsune_inferno, CA_Wild_kitsune_normal,
+    CA_Wild_golem_magma, CA_Wild_golem_royal, CA_Wild_ice_knight,
     CA_Wild_lostasset_mob3_herbgolem, CA_Wild_manticore_aether, CA_Wild_manticore_dusk, CA_Wild_manticore_soul, CA_Wild_manticore_venom,
-    CA_Wild_mf_warden_archer, CA_Wild_mf_warden_knight, CA_Wild_mf_warden_mage, CA_Wild_mf_warden_tank, CA_Wild_ncr_mage_skeleton, CA_Wild_ogre_hammer,
+    CA_Wild_mf_warden_archer, CA_Wild_mf_warden_knight, CA_Wild_mf_warden_tank, CA_Wild_ncr_mage_skeleton, CA_Wild_ogre_hammer,
     CA_Wild_raptor_nightmare, CA_Wild_raptor_undead, CA_Wild_stag_demonic, CA_Wild_stag_heavenly, CA_Wild_stag_rune, CA_Wild_stag_void, CA_Wild_tusker_demonic,
     CA_Wild_hippogryph_common, CA_Wild_hippogryph_crystal, CA_Wild_hippogryph_fallen, CA_Wild_hippogryph_royal,
+    CA_Wild_phantom_ender, CA_Wild_phantom_ghost, CA_Wild_horse_pegasus, CA_Wild_horse_unicorn, CA_Wild_glacialcore,
     CA_Wild_phoenix_darkflame, CA_Wild_phoenix_flame, CA_Wild_phoenix_light, CA_Wild_phoenix_thunder,
-    CA_Wild_phantom_ender, CA_Wild_phantom_ghost, CA_Wild_horse_pegasus, CA_Wild_horse_unicorn, CA_Wild_glacialcore]
+    CA_Wild_kitsune_demonic, CA_Wild_kitsune_inferno, CA_Wild_kitsune_normal, CA_Wild_mf_warden_mage]
+homing-mobs: [CA_Wild_lostasset_mob2_flowersprite, CA_Wild_lostasset_mob2_lakefairy, CA_Wild_lostasset_mob2_leaffairy, CA_Wild_lostasset_mob2_mushroomfairy,
+  CA_Wild_phoenix_darkflame, CA_Wild_phoenix_flame, CA_Wild_phoenix_light, CA_Wild_phoenix_thunder,
+  CA_Wild_kitsune_demonic, CA_Wild_kitsune_inferno, CA_Wild_kitsune_normal, CA_Wild_mf_warden_mage]
+homing-from: 8
+homing-per-floors: 15
 
 # 몹별 큰 스킬 (MythicMobs). 탑 안에선 skill-pulse-seconds(±30%) 마다 하나씩 쓴다 — 원래는 약 43초에 한 번이라 한 층 동안 거의 안 나왔음.
 skill-pulse-seconds: 8

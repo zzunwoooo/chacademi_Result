@@ -107,6 +107,9 @@ final class Settings {
     /** [기능:탑몹스킬] 몹별 큰 스킬 (MythicMobs 스킬 이름). 탑 안에선 skill-pulse-seconds 마다 하나씩 쓰게 한다 (원래는 약 43초에 한 번). */
     final Map<String, List<String>> mobSkills = new LinkedHashMap<>();
     final double skillPulseSeconds;
+    /** [기능:탑유도몹] 따라오는 투사체 몹 · 나오기 시작하는 층 · 이 층마다 한 마리 더. */
+    final java.util.Set<String> homingMobs;
+    final int homingFrom, homingPerFloors;
 
     Settings(FileConfiguration c) {
         name = c.getString("name", "무한의 탑");
@@ -162,6 +165,9 @@ final class Settings {
         var ms = c.getConfigurationSection("mob-skills");
         if (ms != null) for (String id : ms.getKeys(false)) mobSkills.put(id, List.copyOf(ms.getStringList(id)));
         skillPulseSeconds = Math.max(3, c.getDouble("skill-pulse-seconds", 8));
+        homingMobs = java.util.Set.copyOf(c.getStringList("homing-mobs"));
+        homingFrom = c.getInt("homing-from", 8);
+        homingPerFloors = c.getInt("homing-per-floors", 15);
         potionBig = c.getString("potion-item-big", "item:health_potion_big");
         Cards.LIFESTEAL_FLOOR_HEAL = balance.getDouble("lifesteal-floor-heal", 80);
         double regen = c.getDouble("start-mana-regen", 0);
