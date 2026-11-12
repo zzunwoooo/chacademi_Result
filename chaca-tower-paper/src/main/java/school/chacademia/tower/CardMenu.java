@@ -21,17 +21,20 @@ import org.bukkit.inventory.ItemStack;
 final class CardMenu implements InventoryHolder {
     static final int[] CARD_SLOTS = {11, 13, 15};
     static final int REROLL_SLOT = 22;
+    static final int BUILD_SLOT = 26;
 
     private final Inventory inv;
 
     CardMenu(Settings s, Run run) {
-        inv = Bukkit.createInventory(this, 27, Component.text((run.firstPick ? "시작 마법 선택" : (run.floor - 1) + "층 증강 선택") + (run.picks.size() > 0 ? " (" + (run.picks.size() + 1) + "번 남음)" : "")));
+        inv = Bukkit.createInventory(this, 27, Component.text((run.firstPick ? "시작 마법 선택" + (s.startSpellPicks > 1 ? " " + (s.startSpellPicks - run.startPicksLeft + 1) + "/" + s.startSpellPicks : "") : (run.floor - 1) + "층 증강 선택") + (run.picks.size() > 0 ? " (" + (run.picks.size() + 1) + "번 남음)" : "")));
         var glass = named(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), Component.text(" "), List.of());
         for (int i = 0; i < 27; i++) inv.setItem(i, glass);
         for (int i = 0; i < run.offer.size() && i < 3; i++) inv.setItem(CARD_SLOTS[i], icon(s, run.offer.get(i)));
         if (run.rerolls > 0)
             inv.setItem(REROLL_SLOT, named(new ItemStack(Material.ENDER_EYE), Component.text("다시 뽑기", NamedTextColor.AQUA),
                     List.of(Component.text("카드 3장을 새로 뽑아요. 남은 횟수 " + run.rerolls + "회", NamedTextColor.GRAY))));
+        if (!run.firstPick) inv.setItem(BUILD_SLOT, named(new ItemStack(Material.KNOWLEDGE_BOOK), Component.text("내 증강", NamedTextColor.GOLD),
+                    List.of(Component.text("지금까지 고른 증강을 모아 봐요.", NamedTextColor.GRAY))));
         long left = Math.max(0, (run.phaseEndsAt - System.currentTimeMillis()) / 1000);
         inv.setItem(4, named(new ItemStack(Material.CLOCK), Component.text(run.firstPick ? "처음 쓸 마법을 골라요" : (run.floor - 1) + "층을 깼어요", NamedTextColor.WHITE),
                 List.of(Component.text(left + "초 안에 고르지 않으면 첫 번째 카드가 골라져요.", NamedTextColor.GRAY))));
@@ -41,10 +44,10 @@ final class CardMenu implements InventoryHolder {
 
     void open(Player p) { p.openInventory(inv); }
 
-    /** 누른 칸 → 카드 번호 (0~2), 다시 뽑기 = -2, 그 밖 = -1. */
+    /** 누른 칸 → 카드 번호 (0~2), 다시 뽑기 = -2, 내 증강 = -3, 그 밖 = -1. */
     static int slotToChoice(int slot) {
         for (int i = 0; i < CARD_SLOTS.length; i++) if (CARD_SLOTS[i] == slot) return i;
-        return slot == REROLL_SLOT ? -2 : -1;
+        return slot == REROLL_SLOT ? -2 : slot == BUILD_SLOT ? -3 : -1;
     }
 
     static ItemStack icon(Settings s, Cards.Card c) {

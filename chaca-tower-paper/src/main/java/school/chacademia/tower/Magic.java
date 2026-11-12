@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 
 /** 마법 쪽 연결 (MagicCodexBridge). 탑에 들어갈 때 마법·지능을 맡기고, 층마다 배우고, 나갈 때 되돌린다. */
 interface Magic {
-    record SpellInfo(String id, String name, int circle) {}
+    record SpellInfo(String id, String name, int circle, int cost) {}
 
     boolean ready();
 
@@ -40,6 +40,17 @@ interface Magic {
 
     /** 탑 안 마나 최대치·초당 회복을 이 값으로 고정 (restore 가 푼다). */
     void pinMana(Player p, double max, double regen);
+
+    /** 지금 마나 / 최대 마나 (0~1). */
+    double manaFraction(Player p);
+
+    void addMana(Player p, double amount);
+
+    /** 시전 가속 (재사용 대기 감소 % = 100·h/(100+h)). 0 이면 지운다. restore 가 푼다. */
+    void setHaste(Player p, double haste);
+
+    /** 이 마법들 중 재사용 대기가 가장 많이 남은 하나를 바로 끝낸다. @return 그 마법 이름 (대기 중인 게 없으면 null) */
+    String reload(Player p, List<String> spells);
 
     /** 들어갈 때 진짜로 배운 마법(LuckPerms 권한) 목록을 기억해 두고, 나갈 때 그 사이 새로 붙은 것을 뗀다 (탑 안에서는 영구 습득 없음). */
     void rememberLearned(Player p);

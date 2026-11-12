@@ -77,7 +77,16 @@ final class TowerListener implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true)
-    void onDrag(InventoryDragEvent e) { if (e.getInventory().getHolder() instanceof CardMenu) e.setCancelled(true); }
+    void onDrag(InventoryDragEvent e) { if (e.getInventory().getHolder() instanceof CardMenu || e.getInventory().getHolder() instanceof BuildMenu) e.setCancelled(true); }
+
+    // [기능:탑내증강 시작]
+    @EventHandler
+    void onBuildClick(InventoryClickEvent e) {
+        if (!(e.getInventory().getHolder() instanceof BuildMenu menu)) return;
+        e.setCancelled(true);
+        if (e.getWhoClicked() instanceof Player p && e.getClickedInventory() == e.getInventory()) service.buildClick(p, menu, e.getRawSlot());
+    }
+    // [기능:탑내증강 끝]
 
     /** 보상 설정 창: 고르는 창은 잠그고, 편집 상자는 자유롭게 (닫을 때 저장). */
     @EventHandler(ignoreCancelled = true)
@@ -107,7 +116,8 @@ final class TowerListener implements Listener {
 
     @EventHandler
     void onClose(InventoryCloseEvent e) {
-        if (e.getInventory().getHolder() instanceof CardMenu && e.getPlayer() instanceof Player p) service.menuClosed(p);
+        var holder = e.getInventory().getHolder();
+        if ((holder instanceof CardMenu || holder instanceof BuildMenu) && e.getPlayer() instanceof Player p) service.menuClosed(p);
     }
 
     /** 소지품은 HuskSync 가 저장하기 전에 돌려놓는다 (LOWEST = 가장 먼저). */
@@ -186,7 +196,7 @@ final class TowerListener implements Listener {
     /** 탑 안에서는 카드 창 말고 다른 창(방 안 상자·엔더 상자·다른 플러그인 창)을 열 수 없다. */
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     void onOpen(org.bukkit.event.inventory.InventoryOpenEvent e) {
-        if (e.getPlayer() instanceof Player p && service.inRun(p) && !(e.getInventory().getHolder() instanceof CardMenu)) e.setCancelled(true);
+        if (e.getPlayer() instanceof Player p && service.inRun(p) && !(e.getInventory().getHolder() instanceof CardMenu) && !(e.getInventory().getHolder() instanceof BuildMenu)) e.setCancelled(true);
     }
 
     /** 마시는 물약의 빈 병은 탑 표시가 없어 끝날 때 "바깥 물건" 으로 우편에 가므로, 탑 안에서는 병을 남기지 않는다. */

@@ -42,6 +42,35 @@ final class Run {
     int luck;               // 다음 카드 등급 +1 (한 번 쓰면 줄어듦)
     int rerolls;
 
+    // ── 11/12 새 증강 ──
+    double crit;                // 치명타 확률
+    double critDamage;          // 치명타 배수에 더해지는 값 (기본 2배)
+    double vengeMult;           // 되갚기 배수 (0 = 없음)
+    long vengeCooldownMs;       // 되갚기 재사용 대기
+    boolean vengeArmed;         // 맞아서 준비된 상태
+    long vengeReadyAt;          // 이 시각부터 다시 준비될 수 있음
+    double firstStrike, berserk, momentum, overflow, hunter, combo, diceMax;
+    int momentumStacks; long momentumUntil;
+    java.util.UUID comboTarget; int comboStacks;
+    double manaBonus;           // 최대 마나 +
+    double manaNow, manaPrev;   // 최근 두 번(0.5초 간격)의 마나 비율 — 넘치는 마력 판정용
+    double siphon;              // 처치마다 마나
+    double haste;               // 시전 가속
+    double reload;              // 처치 때 재사용 초기화 확률
+    double glassTaken;          // 받는 피해 + (유리 대포)
+    double retaliate, dodge, secondWind, barrier, chain, finisher, overkill, lastStand;
+    boolean pact; long pactAt;
+    double interestRate, interestBonus;   // 층마다 쌓이는 피해
+    double scholar;             // 층마다 지능 (소수 — 모이면 1씩 오른다)
+    double scholarCarry;
+    double windUsed;            // 이번 층에 숨 고르기로 찬 체력
+    int startPicksLeft;         // 남은 시작 마법 고르기
+    long lastDamagedAt = System.currentTimeMillis();
+    /** 종류별 가장 높은 등급 (내 증강 창 색). */
+    final Map<String, Integer> takenGrade = new LinkedHashMap<>();
+    /** 유물을 얻은 순서. */
+    final List<String> relicOrder = new ArrayList<>();
+
     // ── 시련·도박 ──
     /** 시련: 남은 층 수 (0 = 없음). 이 동안 카드 없음. 다 깨면 trialGrades 의 등급 이상 카드를 하나씩 고른다. */
     int trialLeft;
@@ -62,4 +91,13 @@ final class Run {
     long elapsedMs() { return System.currentTimeMillis() - startedAt; }
 
     void took(String type) { taken.merge(type, 1, Integer::sum); }
+    void took(String type, int grade, double value) { took(type); takenGrade.merge(type, grade, Math::max); takenSum.merge(type, value, Double::sum); }
+    /** 종류별로 고른 수치의 합 (내 증강 창에 "지금까지 합계" 로 보여 준다). */
+    final Map<String, Double> takenSum = new LinkedHashMap<>();
+    /** 배운 마법·유물의 이름과 등급 (내 증강 창). */
+    final Map<String, String> spellNames = new LinkedHashMap<>();
+    final Map<String, Integer> spellGrades = new LinkedHashMap<>();
+    final Map<String, Integer> relicGrades = new LinkedHashMap<>();
+    /** 저주받은 힘으로 잃은 최대 체력. */
+    double cursedLoss;
 }

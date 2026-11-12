@@ -142,13 +142,14 @@ final class TowerService {
         var start = s.start.location();
         p.teleport(start);
         applyAttributes(p);
-        magic.pinMana(p, s.startMana, s.startManaRegen);
+        pinMana(p);
         fullHeal(p);
         p.setFoodLevel(20); p.setSaturation(20);
         if (s.startPotions > 0) give(p, potion(Material.SPLASH_POTION, PotionType.HEALING, s.startPotions));
         p.showTitle(Title.title(Component.text(s.name, NamedTextColor.LIGHT_PURPLE), Component.text("시작 마법을 골라요", NamedTextColor.GRAY)));
         // 시작 카드 (기본 공격 마법)
         run.firstPick = true;
+        run.startPicksLeft = s.startSpellPicks;
         offerCards(p, -1);
     }
 
@@ -196,16 +197,42 @@ final class TowerService {
 
     private void offerCards(Player p, int minGrade) {
         run.offer = Cards.roll(s, magic, run, run.firstPick, minGrade);
+        offerShownAt = System.currentTimeMillis();
         if (run.luck > 0 && !run.firstPick) run.luck--;
-        if (run.offer.isEmpty()) { afterPicks(p); return; }
+        if (run.offer.isEmpty()) { if (run.firstPick) { run.firstPick = false; run.startPicksLeft = 0; } afterPicks(p); return; }
         run.phase = Run.Phase.CARD;
         run.phaseEndsAt = System.currentTimeMillis() + s.cardSeconds * 1000L;
         currentMinGrade = minGrade;
-        if (!client.cards(p, s, run)) new CardMenu(s, run).open(p);
+        showCards(p);
         p.playSound(p.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 1, 1.2f);
     }
 
     private int currentMinGrade = -1;
+    /** 카드가 뜬 시각. 바로 뒤 0.4초 동안의 고르기는 무시한다 (앞 카드를 두 번 눌렀을 때 새 카드까지 골라지는 것 방지). */
+    private long offerShownAt;
+
+    /** 카드 화면: 모드가 있으면 모드 화면(보유 증강 목록도 같이 보냄), 없으면 상자 창. */
+    private void showCards(Player p) { if (!client.cards(p, s, run)) new CardMenu(s, run).open(p); }
+
+    // [기능:탑내증강 시작]
+    /** /탑 증강: 지금까지 고른 증강을 모아 보는 창. 모드가 있으면 카드 그림 그대로, 없으면 상자 창. */
+    void showBuild(Player p) {
+        if (!inRun(p)) { ChacaLink.notify(p, "warning", "tower:build", "탑 안에서만 볼 수 있어요", "", 1000); return; }
+        if (client.build(p, s, run)) return;
+        new BuildMenu(s, run, 0, run.phase == Run.Phase.CARD && !run.offer.isEmpty()).open(p);
+    }
+
+    /** 내 증강 상자 창을 누름: 쪽 넘기기·돌아가기. */
+    void buildClick(Player p, BuildMenu menu, int slot) {
+        if (!inRun(p)) { p.closeInventory(); return; }
+        int page = menu.pageFor(slot);
+        if (page >= 0) { new BuildMenu(s, run, page, menu.fromCards).open(p); return; }
+        if (slot == BuildMenu.BACK_SLOT) {
+            if (run.phase == Run.Phase.CARD && !run.offer.isEmpty()) new CardMenu(s, run).open(p);
+            else p.closeInventory();
+        }
+    }
+    // [기능:탑내증강 끝]
 
     void menuClick(Player p, int choice) {
         if (!inRun(p) || run.phase != Run.Phase.CARD) { p.closeInventory(); client.close(p); return; }
@@ -213,11 +240,13 @@ final class TowerService {
             if (run.rerolls <= 0) return;
             run.rerolls--;
             run.offer = Cards.roll(s, magic, run, run.firstPick, currentMinGrade);
-            if (!client.cards(p, s, run)) new CardMenu(s, run).open(p);
+            showCards(p);
             p.playSound(p.getLocation(), Sound.ENTITY_ENDER_EYE_DEATH, 1, 1.4f);
             return;
         }
+        if (choice == -3) { new BuildMenu(s, run, 0, true).open(p); return; }   // 상자 창의 "내 증강" 버튼
         if (choice < 0 || choice >= run.offer.size()) return;
+        if (System.currentTimeMillis() - offerShownAt < 400) return;
         pick(p, run.offer.get(choice));
     }
 
@@ -225,8 +254,9 @@ final class TowerService {
     void menuClosed(Player p) {
         if (!inRun(p) || run.phase != Run.Phase.CARD) return;
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
-            if (inRun(p) && run.phase == Run.Phase.CARD && !(p.getOpenInventory().getTopInventory().getHolder() instanceof CardMenu))
-                new CardMenu(s, run).open(p);
+            if (!inRun(p) || run.phase != Run.Phase.CARD || run.offer.isEmpty() || TowerClient.modded(p)) return;
+            var holder = p.getOpenInventory().getTopInventory().getHolder();
+            if (!(holder instanceof CardMenu) && !(holder instanceof BuildMenu)) new CardMenu(s, run).open(p);   // 내 증강 창을 보는 중이면 그대로 둔다 (닫으면 다시 카드)
         }, 2L);
     }
 
@@ -237,11 +267,12 @@ final class TowerService {
         client.close(p);
         try { applyCard(p, c); }
         catch (RuntimeException e) { plugin.getLogger().warning("카드 적용 실패 " + c + ": " + e); }
-        run.took(c.type().key());
+        run.took(c.type().key(), c.grade(), c.type().values == null ? 0 : c.value());
         var g = s.grades.get(c.grade());
         ChacaLink.notify(p, "shop", "tower:card", "[" + g.name() + "] " + (c.type() == Cards.Type.SPELL || c.type() == Cards.Type.ARTIFACT ? c.spellName() : c.type().title),
                 String.join(" ", Cards.describe(c)), 0);
         p.playSound(p.getLocation(), c.grade() >= 3 ? Sound.UI_TOAST_CHALLENGE_COMPLETE : Sound.ENTITY_PLAYER_LEVELUP, 1, 1.1f);
+        if (run.firstPick && --run.startPicksLeft > 0) { offerCards(p, -1); return; }   // 시작 마법을 여러 개 고르는 설정
         run.firstPick = false;
         afterPicks(p);
     }
@@ -256,7 +287,7 @@ final class TowerService {
         double v = c.value();
         int g = c.grade();
         switch (c.type()) {
-            case SPELL -> { if (magic.learn(p, c.spell())) run.spells.add(c.spell()); }
+            case SPELL -> { if (magic.learn(p, c.spell())) { run.spells.add(c.spell()); run.spellNames.put(c.spell(), c.spellName()); run.spellGrades.put(c.spell(), g); } }
             case INTELLIGENCE -> { run.intelligence += (int) v; magic.addIntelligence(p, (int) v); }
             case HEALTH -> { run.maxHealthBonus += v; applyAttributes(p); p.setHealth(Math.min(maxHealth(p), p.getHealth() + v)); }
             case HEAL -> heal(p, maxHealth(p) * v);
@@ -264,7 +295,7 @@ final class TowerService {
             case FOOD -> giveFood(p, g);
             case POTION -> givePotions(p, g);
             case ARTIFACT -> {
-                run.relics.add(c.spell());
+                if (run.relics.add(c.spell())) { run.relicOrder.add(c.spell()); run.relicGrades.put(c.spell(), g); }
                 switch (Cards.Relic.valueOf(c.spell())) {
                     case FANG -> run.lifesteal += 0.06;
                     case HEART -> { run.maxHealthBonus += 8; run.guard = Math.min(0.6, run.guard + 0.05); applyAttributes(p); heal(p, 8); }
@@ -281,6 +312,7 @@ final class TowerService {
             case CURSED -> {
                 run.damageBonus += v;
                 run.maxHealthBonus -= g >= 3 ? 6 : 4;
+                run.cursedLoss += g >= 3 ? 6 : 4;
                 applyAttributes(p);
                 if (p.getHealth() > maxHealth(p)) p.setHealth(maxHealth(p));
             }
@@ -300,7 +332,48 @@ final class TowerService {
                 run.gambleHealth = g >= 2 ? 1.8 : 1.5;
                 run.gamblePicks = g >= 3 ? 3 : 2;
             }
+            // ── 11/12 새 증강 ──
+            case CRIT -> run.crit = Math.min(1, run.crit + v);
+            case CRITDMG -> run.critDamage += v;
+            case VENGEANCE -> {
+                long cd = Cards.Type.VENGEANCE_COOLDOWN[Math.clamp(g, 0, 3)] * 1000L;
+                if (run.vengeMult <= 0) { run.vengeMult = v; run.vengeCooldownMs = cd; }
+                else {   // 또 고르면: 더 높은 배수 +0.5, 더 짧은 대기 -5초 (15초 밑으로는 안 내려감)
+                    run.vengeMult = Math.max(run.vengeMult, v) + 0.5;
+                    run.vengeCooldownMs = Math.max(15_000, Math.min(run.vengeCooldownMs, cd) - 5_000);
+                }
+                run.vengeReadyAt = Math.min(run.vengeReadyAt, System.currentTimeMillis() + run.vengeCooldownMs);
+            }
+            case FIRSTSTRIKE -> run.firstStrike += v;
+            case BERSERK -> run.berserk += v;
+            case MOMENTUM -> run.momentum += v;
+            case OVERFLOW -> run.overflow += v;
+            case MANA -> { run.manaBonus += v; pinMana(p); magic.addMana(p, v); }
+            case SIPHON -> run.siphon += v;
+            case HASTE -> { run.haste += v; magic.setHaste(p, run.haste); }
+            case RELOAD -> run.reload = Math.min(1, run.reload + v);
+            case GLASS -> { run.damageBonus += v; run.glassTaken += 0.25; }
+            case RETALIATE -> run.retaliate = Math.min(0.35, run.retaliate + v);
+            case DODGE -> run.dodge = Math.min(0.45, run.dodge + v);
+            case SECONDWIND -> run.secondWind += v;
+            case BARRIER -> run.barrier += v;
+            case CHAIN -> run.chain = Math.min(1, run.chain + v);
+            case FINISHER -> run.finisher = Math.min(0.25, run.finisher + v);
+            case HUNTER -> run.hunter += v;
+            case COMBO -> run.combo += v;
+            case DICE -> run.diceMax = run.diceMax <= 0 ? v : Math.max(run.diceMax, v) + 0.4;   // 또 고르면 윗값 +40%
+            case PACT -> { run.damageBonus += v; run.pact = true; }
+            case INTEREST -> run.interestRate += v;
+            case SCHOLAR -> run.scholar += v;
+            case OVERKILL -> run.overkill = Math.min(1, run.overkill + v);
+            case LASTSTAND -> run.lastStand = Math.min(0.8, run.lastStand + v);
         }
+    }
+
+    /** 탑 안 마나: 시작값 + 마나 샘 증강. 초당 회복은 최대치와 같은 비율로 따라간다. */
+    private void pinMana(Player p) {
+        double max = s.startMana + run.manaBonus;
+        magic.pinMana(p, max, s.startManaRegen * max / s.startMana);
     }
 
     private void giveArmor(Player p, int g) {
@@ -338,9 +411,9 @@ final class TowerService {
 
     private void giveFood(Player p, int g) {
         switch (g) {
-            case 0 -> give(p, new ItemStack(Material.BREAD, 8));
-            case 1 -> give(p, new ItemStack(Material.COOKED_BEEF, 12));
-            case 2 -> give(p, new ItemStack(Material.GOLDEN_CARROT, 16));
+            case 0 -> give(p, new ItemStack(Material.GOLDEN_APPLE, 1));
+            case 1 -> give(p, new ItemStack(Material.GOLDEN_APPLE, 2));
+            case 2 -> give(p, new ItemStack(Material.GOLDEN_APPLE, 3));
             default -> { give(p, new ItemStack(Material.GOLDEN_APPLE, 4)); give(p, new ItemStack(Material.ENCHANTED_GOLDEN_APPLE, 1)); }
         }
     }
@@ -399,11 +472,20 @@ final class TowerService {
     // ───────────────────── 층 ─────────────────────
 
     private void startCountdown(Player p) {
-        if (run.relics.contains("AEGIS")) {
+        double shield = (run.relics.contains("AEGIS") ? 6 : 0) + run.barrier;   // 수호성의 방패 + 마력 보호막 증강
+        if (shield > 0) {
             var cap = p.getAttribute(Attribute.MAX_ABSORPTION);
-            if (cap != null && cap.getModifier(absKey) == null) cap.addTransientModifier(new AttributeModifier(absKey, 6, AttributeModifier.Operation.ADD_NUMBER));   // 기본값을 바꾸면 플레이어 데이터에 남음 → 저장 안 되는 수정치로
-            p.setAbsorptionAmount(Math.max(p.getAbsorptionAmount(), 6));
+            if (cap != null) {
+                var cur = cap.getModifier(absKey);
+                if (cur == null || Math.abs(cur.getAmount() - shield) > 1e-6) {
+                    if (cur != null) cap.removeModifier(absKey);
+                    cap.addTransientModifier(new AttributeModifier(absKey, shield, AttributeModifier.Operation.ADD_NUMBER));   // 기본값을 바꾸면 플레이어 데이터에 남음 → 저장 안 되는 수정치로
+                }
+            }
+            p.setAbsorptionAmount(Math.max(p.getAbsorptionAmount(), shield));
         }
+        run.lastDamagedAt = System.currentTimeMillis();
+        run.momentumStacks = 0; run.momentumUntil = 0; run.comboTarget = null; run.comboStacks = 0; run.windUsed = 0;
         run.phase = Run.Phase.COUNTDOWN;
         run.phaseEndsAt = System.currentTimeMillis() + s.floorStartSeconds * 1000L;
         run.waves.clear();
@@ -474,7 +556,9 @@ final class TowerService {
     private void floorCleared(Player p) {
         hideGuardian();
         removeMobs(run);   // 늦게 불려 나온 졸개가 카드 고르는 동안 남아 있지 않게
-        if (run.vigor > 0) heal(p, maxHealth(p) * run.vigor);
+        if (run.vigor > 0) heal(p, maxHealth(p) * Math.min(s.bal("vigor-cap", 0.5), run.vigor));
+        if (run.interestRate > 0) run.interestBonus += run.interestRate;
+        if (run.scholar > 0) { run.scholarCarry += run.scholar; int add = (int) Math.floor(run.scholarCarry + 1e-9); if (add > 0) { run.scholarCarry -= add; run.intelligence += add; magic.addIntelligence(p, add); } }
         p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 0.6f, 1.4f);
         if (run.floor >= s.floors) { end(p, "clear"); return; }
         boolean gamble = run.gambleActive;
@@ -541,6 +625,7 @@ final class TowerService {
             }
             default -> {}
         }
+        if (run == null || run.phase == Run.Phase.ENDED) return;   // 이번 tick 에 판이 끝났으면 (마지막 층 클리어 등) 여기서 멈춤
         if (guardianBar != null && guardian != null) {
             var g = Bukkit.getEntity(guardian);
             if (g instanceof LivingEntity le && !le.isDead()) {
@@ -550,7 +635,15 @@ final class TowerService {
         }
         applyAttributes(p);
         magic.dismissPets(p);
-        magic.pinMana(p, s.startMana, s.startManaRegen);
+        pinMana(p);
+        magic.setHaste(p, run.haste);
+        if (run.overflow > 0) { run.manaPrev = run.manaNow; run.manaNow = magic.manaFraction(p); }
+        // 숨 고르기: 싸우는 중 3초 동안 안 맞으면 초당 1씩 회복, 층마다 증강 수치만큼까지 (몹 하나 남겨 두고 가득 채우는 걸 막음)
+        if (run.secondWind > 0 && run.phase == Run.Phase.FIGHT && now - run.lastDamagedAt >= 3000 && run.windUsed < run.secondWind && p.getHealth() < maxHealth(p)) {
+            double add = Math.min(0.5, Math.min(run.secondWind - run.windUsed, maxHealth(p) - p.getHealth()));
+            run.windUsed += add;
+            p.setHealth(p.getHealth() + add);
+        }
         // 배고픔 무한 (자연 회복은 TowerListener 가 막는다)
         p.setFoodLevel(20); p.setSaturation(20); p.setExhaustion(0);
         // 방 밖 검사
@@ -612,10 +705,36 @@ final class TowerService {
 
     void mobHitsPlayer(EntityDamageByEntityEvent e, Player victim, Entity mob) {
         if (!inRun(victim)) return;
+        if (e.getDamage() <= 0) return;   // 피해 0 = 다른 플러그인이 "때려도 되는지" 물어보는 신호 → 잔상·되갚기·가시 갑옷이 헛돌지 않게 (11/12 최종 점검)
+        Run r = run;
+        long now = System.currentTimeMillis();
+        // 잔상: 통째로 피함
+        if (r.dodge > 0 && ThreadLocalRandom.current().nextDouble() < Math.min(0.45, r.dodge)) {
+            e.setCancelled(true);
+            victim.getWorld().spawnParticle(Particle.CLOUD, victim.getLocation().add(0, 1, 0), 8, .3, .5, .3, .02);
+            victim.playSound(victim.getLocation(), Sound.ENTITY_PHANTOM_FLAP, 0.7f, 1.6f);
+            victim.sendActionBar(Component.text("피했어요", NamedTextColor.AQUA));
+            return;
+        }
         double dmg = e.getDamage() * floors.damageMult(mob);
         if (mob.getScoreboardTags().contains("tower_frenzied")) dmg *= 1.4;
-        dmg *= 1 - run.guard;
+        dmg *= 1 - r.guard;
+        dmg *= 1 + r.glassTaken;
+        if (r.lastStand > 0 && victim.getHealth() <= maxHealth(victim) * 0.3) dmg *= 1 - Math.min(0.8, r.lastStand);
         e.setDamage(dmg);
+        r.lastDamagedAt = now;
+        // 되갚기: 맞으면 다음 공격이 준비됨 (재사용 대기가 끝났을 때만)
+        if (r.vengeMult > 0 && !r.vengeArmed && now >= r.vengeReadyAt) {
+            r.vengeArmed = true;
+            victim.playSound(victim.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.4f, 1.8f);
+            victim.sendActionBar(Component.text("되갚기 준비 — 다음 공격 " + Cards.num(r.vengeMult) + "배", NamedTextColor.GOLD));
+        }
+        // 가시 갑옷: 때린 몹 최대 체력의 일정 비율 (체력바 기준이라 층이 올라도 같은 몫)
+        if (r.retaliate > 0 && mob instanceof LivingEntity attackerMob && r.mobs.contains(mob.getUniqueId())) {
+            var mx = attackerMob.getAttribute(Attribute.MAX_HEALTH);
+            double back = (mx == null ? 20 : mx.getValue()) * Math.min(0.35, r.retaliate) * (floors.kind(mob).equals("guardian") ? 1 / 3.0 : 1);
+            Bukkit.getScheduler().runTask(plugin, () -> { if (attackerMob.isValid() && !attackerMob.isDead()) pierce(attackerMob, back); });
+        }
         if (floors.has(mob, "vampire") && mob instanceof LivingEntity le) {
             var max = le.getAttribute(Attribute.MAX_HEALTH);
             if (max != null) le.setHealth(Math.min(max.getValue(), le.getHealth() + dmg * 0.5));
@@ -624,20 +743,84 @@ final class TowerService {
 
     void playerHitsMob(EntityDamageByEntityEvent e, Player attacker, Entity mob) {
         if (!inRun(attacker)) return;
+        if (e.getDamage() <= 0) return;   // 피해 0 신호 (마법 보호 검사) 에 되갚기·연타·피의 계약이 소모되지 않게 (11/12 최종 점검)
         // 탑 지능 기준으로: 원래 지능(마법봉·장신구 포함) P 대신 탑 지능 T 로 친 것처럼 (40 + 지능 비례, 전투 스펙 k×(40+지능) 와 같은 꼴)
+        // 서버 피해 공식은 base + ratio × 마력 이고 마법 279종 평균 base/ratio ≈ 12 → 피해 ∝ (12 + 지능). 그래서 (power-offset + 탑 지능) / (power-offset + 원래 지능).
+        // (예전 값 40 은 대인전 공식이라, 원래 지능이 높은 사람이 탑에서도 최대 1.6배 더 세게 나왔음 — 11/12 밸런스 점검)
+        Run r = run;
+        long now = System.currentTimeMillis();
+        var rng = ThreadLocalRandom.current();
         double real = magic.realPower(attacker);
-        double tower = s.startIntelligence + run.intelligence;
-        double dmg = e.getDamage() * (40 + tower) / (40 + Math.max(0, real)) * (1 + run.damageBonus);
-        if (mob instanceof LivingEntity le) {
-            var max = le.getAttribute(Attribute.MAX_HEALTH);
-            if (run.relics.contains("SCYTHE") && max != null && le.getHealth() < max.getValue() * 0.3) dmg *= 1.5;
-            if (run.relics.contains("FROST")) le.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 40, 1, false, false));
-            if (run.relics.contains("EMBER")) le.setFireTicks(Math.max(le.getFireTicks(), 60));
+        double tower = s.startIntelligence + r.intelligence;
+        double off = s.bal("power-offset", 12);
+        double dmg = e.getDamage() * (off + tower) / (off + Math.max(0, real));
+        dmg *= 1 + r.damageBonus + r.interestBonus;   // 더하기 묶음: 마력 증폭·저주받은 힘·유리 대포·피의 계약·복리
+        LivingEntity le = mob instanceof LivingEntity l ? l : null;
+        var max = le == null ? null : le.getAttribute(Attribute.MAX_HEALTH);
+        double mobMax = max == null ? 20 : max.getValue();
+        String kind = floors.kind(mob);
+        // 조건부 증강: 종류가 다르면 서로 곱해진다 (여러 종류를 모을수록 크게 세짐)
+        if (r.firstStrike > 0 && le != null && le.getHealth() >= mobMax - 0.01) dmg *= 1 + r.firstStrike;
+        if (r.berserk > 0) dmg *= 1 + r.berserk * Math.floor((1 - attacker.getHealth() / maxHealth(attacker)) * 10 + 1e-9);
+        if (r.momentum > 0 && now < r.momentumUntil) dmg *= 1 + r.momentum * r.momentumStacks;
+        if (r.overflow > 0 && Math.max(magic.manaFraction(attacker), Math.max(r.manaNow, r.manaPrev)) >= 0.8) dmg *= 1 + r.overflow;   // 시전으로 마나를 쓴 뒤에 맞으므로 최근 1초 안의 가장 높은 값
+        if (r.hunter > 0 && !kind.equals("normal")) dmg *= 1 + r.hunter;
+        if (r.combo > 0) {
+            if (mob.getUniqueId().equals(r.comboTarget)) r.comboStacks = Math.min(5, r.comboStacks + 1);
+            else { r.comboTarget = mob.getUniqueId(); r.comboStacks = 0; }
+            dmg *= 1 + r.combo * r.comboStacks;
         }
-        if (run.relics.contains("MASK") && attacker.getHealth() < maxHealth(attacker) * 0.5) dmg *= 1.35;
-        dmg /= floors.tough(mob);   // 상한을 넘는 체력 몫 (Floors.setHealth)
-        e.setDamage(dmg);
-        if (run.lifesteal > 0) heal(attacker, dmg * run.lifesteal);
+        if (r.diceMax > 0.5) dmg *= rng.nextDouble(0.5, r.diceMax);
+        if (le != null) {
+            if (r.relics.contains("SCYTHE") && le.getHealth() < mobMax * 0.3) dmg *= 1.5;
+            if (r.relics.contains("FROST")) le.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 40, 1, false, false));
+            if (r.relics.contains("EMBER")) le.setFireTicks(Math.max(le.getFireTicks(), 60));
+        }
+        if (r.relics.contains("MASK") && attacker.getHealth() < maxHealth(attacker) * 0.5) dmg *= 1.35;
+        // 되갚기 (맞은 뒤 첫 공격)
+        if (r.vengeMult > 0 && r.vengeArmed) {
+            dmg *= r.vengeMult;
+            r.vengeArmed = false;
+            r.vengeReadyAt = now + r.vengeCooldownMs;
+            mob.getWorld().spawnParticle(Particle.SWEEP_ATTACK, mob.getLocation().add(0, 1, 0), 3, .4, .4, .4);
+            attacker.playSound(attacker.getLocation(), Sound.ENTITY_PLAYER_ATTACK_CRIT, 1, 0.6f);
+            attacker.sendActionBar(Component.text("되갚기! " + Cards.num(r.vengeMult) + "배", NamedTextColor.GOLD));
+        }
+        // 치명타
+        if (r.crit > 0 && rng.nextDouble() < Math.min(1, r.crit)) {
+            dmg *= 2 + r.critDamage;
+            mob.getWorld().spawnParticle(Particle.CRIT, mob.getLocation().add(0, mob.getHeight() * 0.6, 0), 14, .3, .4, .3, .3);
+            attacker.playSound(attacker.getLocation(), Sound.ENTITY_PLAYER_ATTACK_CRIT, 0.8f, 1.2f);
+        }
+        double real2 = dmg;                 // 몹의 실제 체력 기준 피해 (단단함 나누기 전)
+        dmg /= floors.tough(mob);           // 상한을 넘는 체력 몫 (Floors.setHealth)
+        // 마무리: 이 공격으로 체력이 기준 아래로 내려가면 바로 처치 (수문장은 기준 절반)
+        boolean executed = r.finisher > 0 && le != null && le.getHealth() + le.getAbsorptionAmount() - dmg <= mobMax * (kind.equals("guardian") ? r.finisher / 2 : r.finisher);
+        e.setDamage(executed ? (le.getHealth() + le.getAbsorptionAmount() + mobMax) * 10 : dmg);   // 아래 여파·가시 계산은 부풀리기 전 피해(dmg)로 한다
+        // 생명 흡수: "준 피해의 %" 그대로면 층이 오를수록 (몹 체력·마릿수가 커져) 끝없이 불어나 위층에서 안 죽게 된다 (11/12 밸런스 점검).
+        // → 그 층 몹 체력 합계로 나눠, 어느 층이든 "한 층을 다 잡으면 생명 흡수 × lifesteal-floor-heal" 만큼 차게 한다. 합계 상한 lifesteal-cap.
+        if (r.lifesteal > 0) {
+            double dealt = le == null ? real2 : Math.min(real2, le.getHealth() * floors.tough(mob));
+            heal(attacker, dealt / Math.max(1, Floors.expectedTotal(s, r.floor) * r.gambleHealth) * Math.min(s.bal("lifesteal-cap", 0.15), r.lifesteal) * s.bal("lifesteal-floor-heal", 80));
+        }
+        // 피의 계약: 맞힐 때마다 체력 1 (0.25초에 한 번, 최대 체력의 30% 아래로는 안 내려감 — 낮은 체력에서 세지는 증강들과 짝)
+        if (r.pact && now - r.pactAt >= 250) { r.pactAt = now; double low = maxHealth(attacker) * 0.3; if (attacker.getHealth() > low) attacker.setHealth(Math.max(low, attacker.getHealth() - 1)); }
+        // 연쇄 번개·여파: 가까운 다른 탑 몹에게 (공격자 없는 피해로 넣어 이 계산을 다시 타지 않게)
+        if (le != null && (r.chain > 0 || r.overkill > 0)) {
+            double spill = 0;
+            if (r.chain > 0 && rng.nextDouble() < Math.min(1, r.chain)) spill += real2 * 0.5;
+            if (r.overkill > 0 && dmg > le.getHealth()) spill += (dmg - le.getHealth()) * floors.tough(mob) * Math.min(1, r.overkill);
+            if (spill > 0) {
+                LivingEntity other = null; double best = 36;
+                for (var near : mob.getNearbyEntities(6, 3, 6))
+                    if (near instanceof LivingEntity n && !near.equals(mob) && r.mobs.contains(near.getUniqueId()) && !n.isDead()) { double d2 = near.getLocation().distanceSquared(mob.getLocation()); if (d2 < best) { best = d2; other = n; } }
+                if (other != null) {
+                    LivingEntity target = other; double amount = spill / floors.tough(other);
+                    mob.getWorld().spawnParticle(Particle.ELECTRIC_SPARK, other.getLocation().add(0, 1, 0), 10, .3, .5, .3, .1);
+                    Bukkit.getScheduler().runTask(plugin, () -> { if (target.isValid() && !target.isDead()) pierce(target, amount); });
+                }
+            }
+        }
         if (floors.has(mob, "thorns")) {
             double back = dmg * 0.12;
             Bukkit.getScheduler().runTask(plugin, () -> { if (inRun(attacker) && attacker.getHealth() > back + 0.5) attacker.setHealth(attacker.getHealth() - back); });
@@ -663,11 +846,21 @@ final class TowerService {
         if (floors.kind(e).equals("guardian")) rewards.guardian(run, run.floor);
         Player p = runner;
         if (p != null && run.harvest > 0) heal(p, run.harvest);
+        if (p != null && run.siphon > 0) magic.addMana(p, run.siphon);
+        if (run.momentum > 0) {
+            long now = System.currentTimeMillis();
+            run.momentumStacks = Math.min(3, (now < run.momentumUntil ? run.momentumStacks : 0) + 1);
+            run.momentumUntil = now + 5000;
+        }
+        if (p != null && run.reload > 0 && !run.spells.isEmpty() && ThreadLocalRandom.current().nextDouble() < run.reload) {
+            String name = magic.reload(p, run.spells);
+            if (name != null) { p.sendActionBar(Component.text("재장전 — " + name, NamedTextColor.AQUA)); p.playSound(p.getLocation(), Sound.ITEM_CROSSBOW_LOADING_END, 0.8f, 1.4f); }
+        }
         if (run.relics.contains("ECHO") && e instanceof LivingEntity dead) {
             var max = dead.getAttribute(Attribute.MAX_HEALTH);
             double total = floors.effectiveHealth(dead) * 0.15;   // 죽은 몹 실제 체력의 15%
             for (var near : e.getNearbyEntities(4, 2, 4))
-                if (near instanceof LivingEntity le && run.mobs.contains(near.getUniqueId())) le.damage(total / floors.tough(le));   // 맞는 몹의 단단함만큼 나눔 (플레이어 피해와 같은 규칙)
+                if (near instanceof LivingEntity le && run.mobs.contains(near.getUniqueId())) pierce(le, total / floors.tough(le));   // 맞는 몹의 단단함만큼 나눔 (플레이어 피해와 같은 규칙)
             e.getWorld().spawnParticle(Particle.SONIC_BOOM, e.getLocation().add(0, 1, 0), 1);
         }
         if (floors.has(e, "split") && !e.getScoreboardTags().contains("tower_split_child")) {
@@ -697,6 +890,15 @@ final class TowerService {
 
     // ───────────────────── 체력·속도 ─────────────────────
 
+    /** 공격자 없는 추가 피해 (연쇄 번개·여파·가시 갑옷·메아리). 방금 맞은 몹은 0.5초 동안 더 약한 피해를 무시하므로 잠깐 풀고 넣은 뒤 되돌린다. */
+    private static void pierce(LivingEntity target, double amount) {
+        if (amount <= 0) return;
+        int was = target.getNoDamageTicks();
+        target.setNoDamageTicks(0);
+        target.damage(amount);
+        target.setNoDamageTicks(was);
+    }
+
     private double maxHealth(Player p) { var a = p.getAttribute(Attribute.MAX_HEALTH); return a == null ? 20 : a.getValue(); }
 
     private void heal(Player p, double amount) { if (amount > 0 && !p.isDead()) p.setHealth(Math.min(maxHealth(p), p.getHealth() + amount)); }
@@ -705,7 +907,7 @@ final class TowerService {
 
     /** 탑 안 최종 능력치 = 기본값 + 탑 보너스. 다른 플러그인 보정(장신구 PDC·펫 도감 체력·아티팩트)이 붙어 있어도 결과를 이 값으로 맞춘다 (tick 마다 다시). */
     private void applyAttributes(Player p) {
-        pin(p.getAttribute(Attribute.MAX_HEALTH), hpKey, 20 + run.maxHealthBonus);
+        pin(p.getAttribute(Attribute.MAX_HEALTH), hpKey, Math.max(4, 20 + run.maxHealthBonus));   // 저주받은 힘을 여러 번 골라도 하트 2칸 밑으로는 안 내려감
         pin(p.getAttribute(Attribute.MOVEMENT_SPEED), speedKey, 0.1 * (1 + run.speedBonus));
         if (p.getHealth() > maxHealth(p)) p.setHealth(maxHealth(p));
     }

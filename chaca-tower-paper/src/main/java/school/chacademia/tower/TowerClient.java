@@ -33,7 +33,7 @@ final class TowerClient implements PluginMessageListener {
         var o = new JsonObject();
         o.addProperty("t", "cards");
         o.addProperty("id", shown = ++serial);
-        String title = run.firstPick ? "시작 마법 선택" : (run.floor - 1) + "층 증강 선택";
+        String title = run.firstPick ? "시작 마법 선택" + (s.startSpellPicks > 1 ? " " + (s.startSpellPicks - run.startPicksLeft + 1) + "/" + s.startSpellPicks : "") : (run.floor - 1) + "층 증강 선택";
         if (!run.picks.isEmpty()) title += " (" + (run.picks.size() + 1) + "번 남음)";
         o.addProperty("title", title);
         o.addProperty("sub", "");
@@ -55,9 +55,48 @@ final class TowerClient implements PluginMessageListener {
             cards.add(j);
         }
         o.add("cards", cards);
+        try { o.add("build", buildJson(s, run)); }   // 카드 화면의 "내 증강" 버튼이 바로 열 수 있게 같이 보낸다
+        catch (RuntimeException e) { plugin.getLogger().warning("내 증강 목록 만들기 실패 (카드는 그대로 보냄): " + e); }
         send(p, o);
         return true;
     }
+
+    // [기능:탑내증강 시작]
+    /** 내 증강 창을 연다. 모드가 없으면 false (상자 창을 쓴다). */
+    boolean build(Player p, Settings s, Run run) {
+        if (!modded(p)) return false;
+        var o = buildJson(s, run);
+        o.addProperty("t", "build");
+        send(p, o);
+        return true;
+    }
+
+    private static JsonObject buildJson(Settings s, Run run) {
+        var o = new JsonObject();
+        var list = Cards.owned(s, run);
+        int total = 0;
+        for (int i = 1; i < list.size(); i++) total += list.get(i).count();
+        o.addProperty("sub", run.floor + "층 · 얻은 것 " + total + "개");
+        var items = new JsonArray();
+        for (var it : list) {
+            var g = s.grades.get(Math.clamp(it.grade(), 0, s.grades.size() - 1));
+            var j = new JsonObject();
+            j.addProperty("grade", Math.clamp(it.grade(), 0, 3));
+            j.addProperty("gradeName", g.name());
+            j.addProperty("color", String.format("#%06X", g.color() & 0xFFFFFF));
+            j.addProperty("name", it.name());
+            j.addProperty("count", it.count());
+            var lines = new JsonArray();
+            it.lines().forEach(lines::add);
+            j.add("lines", lines);
+            j.addProperty("icon", it.icon());
+            j.addProperty("item", it.item().getKey().toString());
+            items.add(j);
+        }
+        o.add("items", items);
+        return o;
+    }
+    // [기능:탑내증강 끝]
 
     void close(Player p) {
         if (shown < 0 || !modded(p)) return;
@@ -70,9 +109,8 @@ final class TowerClient implements PluginMessageListener {
     /** 탑 그림이 있는 카드 (클라 textures/gui/tower). 없으면 "" → 아이템 그림. */
     private static String icon(Cards.Card c) {
         return switch (c.type()) {
-            case INTELLIGENCE, HEALTH, HEAL, POWER, GUARD, FEATHER, CURSED, TRIAL, GAMBLE -> "icon_" + c.type().key();
             case ARTIFACT -> "relic_" + c.spell().toLowerCase(Locale.ROOT);
-            default -> "";
+            default -> Cards.iconOf(c.type());
         };
     }
 

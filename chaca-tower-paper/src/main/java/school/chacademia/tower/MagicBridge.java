@@ -23,7 +23,7 @@ import org.bukkit.plugin.Plugin;
  * 탑 안 피해를 "탑 지능" 기준으로 다시 맞춘다 ({@link #realPower}).
  */
 final class MagicBridge implements Magic {
-    private record Spell(String id, String name, String permission, int circle, boolean combat) {}
+    private record Spell(String id, String name, String permission, int circle, boolean combat, int cost) {}
 
     private final TowerPlugin plugin;
     private final Map<UUID, PermissionAttachment> attachments = new HashMap<>();
@@ -52,7 +52,7 @@ final class MagicBridge implements Magic {
             int cost = mana.getInt(id + ".mana-cost", 0);
             boolean combat = runtime != null && runtime.contains(id) && !runtime.getBoolean(id + ".utility", false)
                     && (runtime.getDouble(id + ".base-damage", 0) > 0 || runtime.getDouble(id + ".power-ratio", 0) > 0);
-            out.put(id, new Spell(id, mana.getString(id + ".name", id), perm, circleOf(cost), combat));
+            out.put(id, new Spell(id, mana.getString(id + ".name", id), perm, circleOf(cost), combat, cost));
         }
         spells = out;
         loadedAt = System.currentTimeMillis();
@@ -71,7 +71,7 @@ final class MagicBridge implements Magic {
     @Override public List<SpellInfo> combatSpells(Settings s) {
         var out = new ArrayList<SpellInfo>();
         for (var sp : spells().values())
-            if (sp.combat() && !s.excludedSpells.contains(sp.id())) out.add(new SpellInfo(sp.id(), sp.name(), sp.circle()));
+            if (sp.combat() && !s.excludedSpells.contains(sp.id())) out.add(new SpellInfo(sp.id(), sp.name(), sp.circle(), sp.cost()));
         return out;
     }
 
@@ -79,11 +79,11 @@ final class MagicBridge implements Magic {
         var out = new ArrayList<SpellInfo>();
         var all = spells();
         if (!s.basicSpells.isEmpty()) {
-            for (String id : s.basicSpells) { var sp = all.get(id); if (sp != null) out.add(new SpellInfo(sp.id(), sp.name(), sp.circle())); }
+            for (String id : s.basicSpells) { var sp = all.get(id); if (sp != null) out.add(new SpellInfo(sp.id(), sp.name(), sp.circle(), sp.cost())); }
             return out;
         }
         for (var sp : all.values())
-            if (sp.combat() && sp.circle() == 1 && !s.excludedSpells.contains(sp.id())) out.add(new SpellInfo(sp.id(), sp.name(), sp.circle()));
+            if (sp.combat() && sp.circle() == 1 && !s.excludedSpells.contains(sp.id())) out.add(new SpellInfo(sp.id(), sp.name(), sp.circle(), sp.cost()));
         return out;
     }
 
@@ -211,12 +211,79 @@ final class MagicBridge implements Magic {
         } catch (ReflectiveOperationException | RuntimeException e) { plugin.getLogger().warning("마나 고정 실패: " + e); }
     }
 
+    // ── 11/12 새 증강용: 마나 비율·마나 더하기·시전 가속·재사용 초기화 (ManaService 의 public 메서드. 없으면 그 증강만 조용히 안 됨)
+    private static final String HASTE_KEY = "chacatower:haste";
+    private final Map<UUID, Double> hasteOurs = new HashMap<>();
+    private java.lang.reflect.Method manaAdd, manaHaste, manaClearCd, manaCdLeft;
+    private boolean extraLooked;
+
+    private Object manaExtra() {
+        var ms = mana();
+        if (ms == null || extraLooked) return ms;
+        extraLooked = true;
+        var c = ms.getClass();
+        try { manaAdd = c.getMethod("add", UUID.class, double.class); } catch (ReflectiveOperationException e) { plugin.getLogger().warning("마나 더하기 연결 실패 (마력 수확 증강 안 됨): " + e); }
+        try { manaHaste = c.getMethod("setHasteModifier", UUID.class, String.class, double.class); } catch (ReflectiveOperationException e) { plugin.getLogger().warning("시전 가속 연결 실패 (시간 왜곡 증강 안 됨): " + e); }
+        try { manaClearCd = c.getMethod("clearCooldown", UUID.class, String.class); } catch (ReflectiveOperationException e) { plugin.getLogger().warning("재사용 초기화 연결 실패 (재장전 증강 안 됨): " + e); }
+        try { manaCdLeft = c.getMethod("cooldownRemaining", UUID.class, String.class); } catch (ReflectiveOperationException e) { manaCdLeft = null; }
+        return ms;
+    }
+
+    @Override public double manaFraction(Player p) {
+        var ms = mana();
+        if (ms == null) return 0;
+        try {
+            var snap = ((java.util.Optional<?>) manaSnapshot.invoke(ms, p.getUniqueId())).orElse(null);
+            if (snap == null) return 0;
+            double cur = ((Number) snap.getClass().getMethod("current").invoke(snap)).doubleValue();
+            double max = ((Number) snap.getClass().getMethod("maximum").invoke(snap)).doubleValue();
+            return max <= 0 ? 0 : cur / max;
+        } catch (ReflectiveOperationException | RuntimeException e) { return 0; }
+    }
+
+    @Override public void addMana(Player p, double amount) {
+        var ms = manaExtra();
+        if (ms == null || manaAdd == null || amount <= 0) return;
+        try { manaAdd.invoke(ms, p.getUniqueId(), amount); } catch (ReflectiveOperationException | RuntimeException e) { plugin.getLogger().warning("마나 더하기 실패: " + e); }
+    }
+
+    @Override public void setHaste(Player p, double haste) {
+        var ms = manaExtra();
+        if (ms == null || manaHaste == null) return;
+        Double had = hasteOurs.get(p.getUniqueId());
+        if (had != null && Math.abs(had - haste) < 1e-6) return;
+        if (had == null && haste <= 0) return;
+        try {
+            manaHaste.invoke(ms, p.getUniqueId(), HASTE_KEY, Math.max(0, haste));   // 0 = 지움
+            if (haste > 0) hasteOurs.put(p.getUniqueId(), haste); else hasteOurs.remove(p.getUniqueId());
+        } catch (ReflectiveOperationException | RuntimeException e) { plugin.getLogger().warning("시전 가속 실패: " + e); }
+    }
+
+    @Override public String reload(Player p, List<String> spells) {
+        var ms = manaExtra();
+        if (ms == null || manaClearCd == null || spells.isEmpty()) return null;
+        try {
+            String pick = null; long longest = 0;
+            if (manaCdLeft != null) for (String id : spells) {
+                long left = ((Number) manaCdLeft.invoke(ms, p.getUniqueId(), id)).longValue();
+                if (left > longest) { longest = left; pick = id; }
+            }
+            if (pick == null) return null;   // 대기 중인 마법이 없음
+            manaClearCd.invoke(ms, p.getUniqueId(), pick);
+            var sp = spells().get(pick);
+            return sp == null ? pick : sp.name();
+        } catch (ReflectiveOperationException | RuntimeException e) { plugin.getLogger().warning("재사용 초기화 실패: " + e); return null; }
+    }
+
     private void unpinMana(Player p) {
         manaOurs.remove(p.getUniqueId());
-        var ms = mana();
+        hasteOurs.remove(p.getUniqueId());
+        var ms = manaExtra();
         if (ms == null) return;
         try { manaRemove.invoke(ms, p.getUniqueId(), MANA_KEY); }
         catch (ReflectiveOperationException | RuntimeException e) { plugin.getLogger().warning("마나 되돌리기 실패: " + e); }
+        if (manaHaste != null) try { manaHaste.invoke(ms, p.getUniqueId(), HASTE_KEY, 0.0); }
+        catch (ReflectiveOperationException | RuntimeException e) { plugin.getLogger().warning("시전 가속 되돌리기 실패: " + e); }
     }
 
     // ── 탑 안 영구 습득 막기: 들어갈 때 LuckPerms 에 있는 magic.learned.* true 노드를 기억, 나갈 때 새로 생긴 것을 뗀다 (콘솔 lp 명령)

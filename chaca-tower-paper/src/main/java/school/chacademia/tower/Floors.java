@@ -37,12 +37,27 @@ final class Floors {
         speedKey = new NamespacedKey(plugin, "tower_speed0");
     }
 
-    /** 체력: (기본 + 층당 더하기) × 층당 곱하기^(층-1) — 오를수록 점점 더 가파르게 (11/12 오너). 1·10·25·50층 = 1.0·2.2·5.1·14.3배. */
-    static double healthMult(Settings s, int floor) { return (s.bal("health-base", 1) + s.bal("health-per-floor", 0.09) * (floor - 1)) * Math.pow(s.bal("health-growth", 1.02), floor - 1); }
-    /** 공격력: 1·10·25·50층 = 1.0·1.6·2.8·5.7배. */
-    static double damageMult(Settings s, int floor) { return (s.bal("damage-base", 1) + s.bal("damage-per-floor", 0.045) * (floor - 1)) * Math.pow(s.bal("damage-growth", 1.012), floor - 1); }
+    /** 체력: (기본 + 층당 더하기) × 층당 곱하기^(층-1) — 오를수록 점점 더 가파르게 (11/12 오너). 1·10·25·50층 = 1.0·2.3·5.7·18.1배. */
+    static double healthMult(Settings s, int floor) { return (s.bal("health-base", 1) + s.bal("health-per-floor", 0.09) * (floor - 1)) * Math.pow(s.bal("health-growth", 1.025), floor - 1); }
+    /** 공격력: 1·10·25·50층 = 1.0·1.4·2.2·4.0배. */
+    static double damageMult(Settings s, int floor) { return (s.bal("damage-base", 1) + s.bal("damage-per-floor", 0.03) * (floor - 1)) * Math.pow(s.bal("damage-growth", 1.01), floor - 1); }
     /** 이동 속도: 층당 speed-per-floor 씩, 최대 speed-max 배 (피하기 어려워지되 못 피할 정도는 아니게). 1·10·25·46층~ = 1.0·1.09·1.24·1.45배. */
     static double speedMult(Settings s, int floor) { return Math.min(s.bal("speed-max", 1.45), 1 + s.bal("speed-per-floor", 0.01) * (floor - 1)); }
+
+    /** 수문장 체력 배수: 첫 수문장(10층)은 guardian-health, 뒤로 갈수록 guardian-health-per-tier 씩 더 (10·20·30·40·50층 = 2.0·2.5·3.0·3.5·4.0). */
+    static double guardianHealth(Settings s, int floor) {
+        int every = Math.max(1, (int) s.bal("guardian-every", 10));
+        return s.bal("guardian-health", 2.0) + s.bal("guardian-health-per-tier", 0.5) * Math.max(0, floor / every - 1);
+    }
+
+    /** 이 층 몹 체력의 기대 합계 (특성·도박 배율 제외). 생명 흡수가 "한 층을 다 잡으면 얼마" 로 고르게 차도록 나누는 값. */
+    static double expectedTotal(Settings s, int floor) {
+        int n = Math.max(1, count(s, floor));
+        double share = s.eliteMobs.isEmpty() ? 0 : eliteShare(s, floor), hm = healthMult(s, floor);
+        double normal = s.bal("normal-health", 26) * hm, elite = s.bal("elite-health", 100) * hm, total = 0;
+        if (guardianFloor(s, floor) && !s.eliteMobs.isEmpty()) { total += elite * guardianHealth(s, floor); n = Math.max(1, n - 3); }
+        return total + n * (share * elite + (1 - share) * normal);
+    }
 
     static int count(Settings s, int floor) {
         return (int) Math.min(s.bal("count-max", 11), Math.floor(s.bal("count-base", 3) + floor * s.bal("count-per-floor", 0.18)));
@@ -111,9 +126,9 @@ final class Floors {
         e.addScoreboardTag("chaca_tower");
         if (!(e instanceof LivingEntity le)) return;
         le.setRemoveWhenFarAway(false);
-        double hp = (pick.elite() ? s.bal("elite-health", 150) : s.bal("normal-health", 40)) * healthMult(s, floor);
+        double hp = (pick.elite() ? s.bal("elite-health", 100) : s.bal("normal-health", 26)) * healthMult(s, floor);
         double dmg = (pick.elite() ? s.bal("elite-damage", 9) : s.bal("normal-damage", 4)) * damageMult(s, floor);
-        if (pick.guardian()) { hp *= s.bal("guardian-health", 5); dmg *= s.bal("guardian-damage", 1.5); }
+        if (pick.guardian()) { hp *= guardianHealth(s, floor); dmg *= s.bal("guardian-damage", 1.5); }
         var maxHp = le.getAttribute(Attribute.MAX_HEALTH);
         setHealth(le, hp);
         // 이동 속도: 층이 오를수록 빨라짐. 원래 속도를 적어 두고 신속·광폭까지 합쳐 speed-max-total 배를 넘지 않게 한다.

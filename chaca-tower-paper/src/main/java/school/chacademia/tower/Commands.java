@@ -28,15 +28,16 @@ final class Commands {
                         else ChacaLink.fail(p, "탑에 있지 않아요");
                     }
                     case "대기취소" -> service().leaveQueue(p);
+                    case "증강" -> service().showBuild(p);   // [기능:탑내증강]
                     case "기록" -> records.best(p.getUniqueId()).thenAccept(b -> plugin.getServer().getScheduler().runTask(plugin, () ->
                             ChacaLink.ok(p, b.floor() > 0 ? "내 최고 기록: " + b.floor() + "층 · " + TowerService.time(b.ms()) + " · 도전 " + b.runs() + "번" : "아직 기록이 없어요")));
-                    default -> ChacaLink.ok(p, "/탑 입장 · /탑 포기 · /탑 대기취소 · /탑 랭킹 · /탑 기록");
+                    default -> ChacaLink.ok(p, "/탑 입장 · /탑 증강 · /탑 포기 · /탑 대기취소 · /탑 랭킹 · /탑 기록");
                 }
                 return true;
             }
 
             @Override public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-                return args.length == 1 ? starts(List.of("입장", "포기", "대기취소", "랭킹", "기록"), args[0]) : List.of();
+                return args.length == 1 ? starts(List.of("입장", "증강", "포기", "대기취소", "랭킹", "기록"), args[0]) : List.of();
             }
         };
     }
