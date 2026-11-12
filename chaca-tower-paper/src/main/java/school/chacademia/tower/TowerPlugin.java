@@ -12,6 +12,7 @@ public final class TowerPlugin extends JavaPlugin {
     private TowerService service;
     private Records records;
     private SetupTool tool;
+    private BridgeLock bridgeLock;
 
     TowerService service() { return service; }
     SetupTool tool() { return tool; }
@@ -30,6 +31,11 @@ public final class TowerPlugin extends JavaPlugin {
         tool = new SetupTool(this);
         getServer().getPluginManager().registerEvents(new TowerListener(service), this);
         quitFirst();
+        // HuskSync: 판 중 저장 취소 + 불러오기 끝난 뒤 남은 맡김 복구 (11/12 점검)
+        service.huskHooked = HuskHook.install(this, service::savingBlocked, service::synced);
+        // 탑 안에서 배낭 쪽 넘기기·우편·상점 같은 모드 화면 요청 막기 (다른 사람 요청은 그대로 넘김)
+        bridgeLock = new BridgeLock(this);
+        bridgeLock.install(service.s.lockedChannels, p -> service.inRun(p) || service.waitingRestore(p));
         getServer().getPluginManager().registerEvents(tool, this);
         var commands = new Commands(this, records);
         var tower = getCommand("탑");
@@ -58,6 +64,7 @@ public final class TowerPlugin extends JavaPlugin {
 
     @Override public void onDisable() {
         TowerApi.service = null;
+        if (bridgeLock != null) bridgeLock.uninstall();   // 다른 플러그인의 채널 처리기를 원래대로 (안 하면 그 채널이 죽은 채로 남음)
         if (service != null) service.shutdown();
         if (records != null) records.close();
     }

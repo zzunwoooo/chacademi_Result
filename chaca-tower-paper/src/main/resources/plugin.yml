@@ -3,7 +3,7 @@ version: '${version}'
 main: school.chacademia.tower.TowerPlugin
 api-version: '1.21.4'
 description: 1인 로그라이크 탑 (마법·소지품을 맡기고 층마다 증강 카드)
-softdepend: [MagicCodexBridge, MythicMobs, ItemsAdder, HuskSync, Multiverse-Core]
+softdepend: [MagicCodexBridge, MagicDiscovery, MythicMobs, ItemsAdder, HuskSync, LuckPerms, Multiverse-Core]
 commands:
   탑:
     description: 무한의 탑 (입장 · 포기 · 대기취소 · 랭킹 · 기록)

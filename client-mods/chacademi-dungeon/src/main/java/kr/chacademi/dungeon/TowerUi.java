@@ -69,8 +69,11 @@ final class TowerUi {
     private static void receive(String json) {
         var mc = Minecraft.getInstance();
         JsonObject o;
-        try { o = JsonParser.parseString(json).getAsJsonObject(); }
-        catch (Exception e) { org.slf4j.LoggerFactory.getLogger("chacademi_dungeon").warn("탑 메시지 무시: {}", e.toString()); return; }
+        try { o = JsonParser.parseString(json).getAsJsonObject(); apply(mc, o); }
+        catch (Exception e) { org.slf4j.LoggerFactory.getLogger("chacademi_dungeon").warn("탑 메시지 무시: {}", e.toString()); }   // 빠진 칸·모양이 다른 값도 여기서 잡는다
+    }
+
+    private static void apply(Minecraft mc, JsonObject o) {
         String t = o.has("t") ? o.get("t").getAsString() : "";
         if (t.equals("close")) {
             offer = null; pending = false;
@@ -96,9 +99,11 @@ final class TowerUi {
 
     /** 다른 창이 비면 연다. 카드가 남아 있는데 창이 닫혀 있으면 다시 연다 (고르기 전에는 진행 안 됨). */
     static void tick(Minecraft mc) {
-        if (mc.player == null || offer == null) return;
-        if (DungeonClient.now() - offer.at() > offer.leftMs() + 5_000) { offer = null; pending = false; return; }
-        if (mc.screen instanceof CardScreen) return;
+        if (mc.player == null) return;
+        // 카드가 없는데 카드 화면이 떠 있으면 닫는다 (ESC 도 막힌 화면이라 서버 신호가 한 번 빠지면 갇혔음, 11/12 점검)
+        if (offer == null) { if (mc.screen instanceof CardScreen) mc.setScreen(null); return; }
+        if (DungeonClient.now() - offer.at() > offer.leftMs() + 5_000) { offer = null; pending = false; if (mc.screen instanceof CardScreen) mc.setScreen(null); return; }
+        if (mc.screen instanceof CardScreen cs) { cs.unstick(); return; }
         var s = mc.screen;
         if (pending || s == null) {
             if (s == null || DungeonClient.hudScreen(s) || s instanceof UiScreens.Base) { DungeonClient.open(new CardScreen()); pending = false; }
@@ -121,16 +126,20 @@ final class TowerUi {
         private final float[] lift = new float[3];
         private long openedAt = DungeonClient.now();
         private boolean sent;
+        private long sentAt;
 
         CardScreen() { super("탑 카드"); }
 
         void reset() { openedAt = DungeonClient.now(); sent = false; }
 
+        /** 고른 뒤 4초가 지나도 서버 답(닫기·새 카드)이 없으면 다시 고를 수 있게 푼다. */
+        void unstick() { if (sent && DungeonClient.now() - sentAt > 4_000) sent = false; }
+
         @Override float designW() { return W; }
         @Override float designH() { return H; }
         @Override float fill() { return 1f; }
         @Override float maxScale() { return 6f; }
-        @Override public boolean shouldCloseOnEsc() { return false; }
+        @Override public boolean shouldCloseOnEsc() { return offer == null; }   // 고를 카드가 있는 동안만 ESC 를 막는다
 
         @Override public void renderBackground(GuiGraphics g, int mouseX, int mouseY, float delta) {
             Art.cover(g, "tower/card_bg", 0, 0, width, height, 0xFFFFFFFF);
@@ -210,11 +219,21 @@ final class TowerUi {
             float tx = x + CW * SIDE + 3, tw = CW * (1 - SIDE * 2) - 6, ty = y + CH * TEXT_TOP, th = CH * (TEXT_BOTTOM - TEXT_TOP);
             float nameSize = Art.shrink(g, Art.Face.SERIF, c.name(), 8.5f, tw, 6);
             Art.textCenter(g, Art.Face.SERIF, c.name(), x + CW / 2, ty + 6, nameSize, Art.argb(a, c.color() & 0xFFFFFF));
-            var lines = wrap(g, c.lines(), 5.6f, tw);
-            float lineH = 7.2f, start = ty + 15;
+            // 설명이 글 창(3줄)에 안 들어가면 글자를 줄여서 다 보이게 한다 (예전엔 넘치는 줄이 말없이 잘림, 11/12 점검)
+            float size = 5.6f, start = ty + 15;
+            List<String> lines = wrap(g, c.lines(), size, tw);
+            for (float tryFont : new float[]{5.0f, 4.5f, 4.0f}) {
+                if (lines.size() * size * 1.28f <= th - 15) break;
+                size = tryFont;
+                lines = wrap(g, c.lines(), size, tw);
+            }
+            float lineH = size * 1.28f;
             int max = Math.max(1, (int) ((th - 15) / lineH));
-            for (int i = 0; i < lines.size() && i < max; i++)
-                Art.textCenter(g, Art.Face.MEDIUM, lines.get(i), x + CW / 2, start + i * lineH, 5.6f, Art.argb(a, 0xEDEFF3));
+            for (int i = 0; i < lines.size() && i < max; i++) {
+                String line = lines.get(i);
+                if (i == max - 1 && lines.size() > max) line = line + "…";
+                Art.textCenter(g, Art.Face.MEDIUM, line, x + CW / 2, start + i * lineH, size, Art.argb(a, 0xEDEFF3));
+            }
         }
 
         /** 설명 줄을 카드 폭에 맞게 자른다 (띄어쓰기 기준, 긴 단어는 글자 단위). */
@@ -248,7 +267,7 @@ final class TowerUi {
             if (choice == -2 && offer.rerolls() <= 0) return;
             send(choice);
             Minecraft.getInstance().player.playSound(SoundEvents.UI_BUTTON_CLICK.value(), .6f, 1.2f);
-            if (choice >= 0) sent = true; // 다시 뽑기는 새 카드가 오면 reset
+            if (choice >= 0) { sent = true; sentAt = DungeonClient.now(); } // 다시 뽑기는 새 카드가 오면 reset
         }
 
         @Override public boolean keyPressed(int key, int scan, int mods) {

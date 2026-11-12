@@ -57,8 +57,17 @@ balance:
   elite-damage: 9
   health-base: 1.0
   health-per-floor: 0.09
+  # 층마다 곱해지는 값 (1.02 = 층마다 2% 더). 체력 배율 = (health-base + health-per-floor × 지난 층) × health-growth^지난 층
+  #   → 1·10·25·50층 = 1.0·2.2·5.1·14.3배. 최대 체력 2000 을 넘는 몫은 "받는 피해 나누기"로 들어간다 (체력바는 2000 까지만 보임).
+  health-growth: 1.02
   damage-base: 1.0
   damage-per-floor: 0.045
+  # 공격력 배율 = (damage-base + damage-per-floor × 지난 층) × damage-growth^지난 층 → 1·10·25·50층 = 1.0·1.6·2.8·5.7배
+  damage-growth: 1.012
+  # 이동 속도: 층마다 speed-per-floor 씩 빨라져 최대 speed-max 배 (46층부터 최대). 신속·광폭 특성까지 합쳐도 원래의 speed-max-total 배를 넘지 않는다.
+  speed-per-floor: 0.01
+  speed-max: 1.45
+  speed-max-total: 1.8
   # 마릿수 = count-base + 층 × count-per-floor (최대 count-max)
   count-base: 3
   count-per-floor: 0.18
@@ -113,3 +122,8 @@ excluded-spells: []
 
 # 기록 DB: MagicCodexBridge 공용 MariaDB 설정 (없거나 sqlite 면 이 폴더의 records.db)
 database-file: ../MagicCodexBridge/player-state-database.properties
+
+# 탑 안에서 막을 모드 화면 채널 (소지품·능력치·위치가 바뀌는 것). 적지 않으면 기본 목록 (배낭 쪽 넘기기·우편·상점·강화·연금·아티팩트·장신구·펫·의뢰·이동 등).
+# 다른 사람의 요청은 그대로 통과한다. 목록을 비우려면 locked-channels: []
+# locked-channels:
+# - magiccodex:bag_request

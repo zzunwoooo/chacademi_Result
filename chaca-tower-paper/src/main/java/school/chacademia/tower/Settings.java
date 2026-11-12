@@ -83,6 +83,8 @@ final class Settings {
     final double firstCardOtherSpellChance;
     final List<String> basicSpells, excludedSpells;
     final String databaseFile;
+    /** 탑 안에서 막을 모드 채널 (소지품·능력치·위치가 바뀌는 화면). */
+    final List<String> lockedChannels;
     final double startIntelligence;
     final double startMana, startManaRegen;
     final int startPotions;
@@ -128,9 +130,17 @@ final class Settings {
         double regen = c.getDouble("start-mana-regen", 0);
         startManaRegen = regen > 0 ? regen : startMana * 0.10; // 규칙: 기본 회복 = 최대 마나의 10%
         databaseFile = c.getString("database-file", "../MagicCodexBridge/player-state-database.properties");
+        lockedChannels = c.isList("locked-channels") ? List.copyOf(c.getStringList("locked-channels")) : DEFAULT_LOCKED;
     }
 
     Box room() { return Box.of(corner1, corner2); }
+
+    static final List<String> DEFAULT_LOCKED = List.of(
+            "magiccodex:bag_request", "magiccodex:mailbox_request", "magiccodex:shop_request", "magiccodex:fish_shop_request", "magiccodex:fish_tank_request",
+            "magiccodex:fishing_request", "magiccodex:enhance_request", "magiccodex:alchemy_request", "magiccodex:artifact_request", "magiccodex:equipment_request",
+            "magiccodex:ascend_request", "magiccodex:core_request", "magiccodex:pet_request", "magiccodex:pet_companions", "magiccodex:taming_request",
+            "magiccodex:quest_request", "magiccodex:mileage_request", "magiccodex:wallet_request", "magiccodex:title_request", "magiccodex:travel_request",
+            "magiccodex:tp_pick_request", "magiccodex:school_request", "chacademi:housing", "chacademi:kyudichi", "chacademi:chunk_claim_action");
 
     double bal(String key, double def) { return balance.getDouble(key, def); }
 

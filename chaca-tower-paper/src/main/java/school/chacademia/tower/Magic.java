@@ -26,7 +26,11 @@ interface Magic {
     void addIntelligence(Player p, int amount);
 
     /** 맡긴 상태로 되돌리기 (탑에서 배운 마법·지능은 사라짐). state 가 null/빈 값이면 탑 것만 지운다. */
-    void restore(Player p, String state);
+    /** @return 장신구·아티팩트까지 제대로 돌려놨으면 true (브리지가 꺼져 있으면 false — 그때는 나중에 다시 해야 한다). */
+    boolean restore(Player p, String state);
+
+    /** 접속 때: 지난번 서버가 갑자기 꺼져 남았을 수 있는 탑 마나 수정치를 지운다. */
+    void clearMana(Player p);
 
     /** 브리지가 계산한 지금 지능 (탑 안 피해를 탑 지능 기준으로 다시 맞출 때). */
     double realPower(Player p);

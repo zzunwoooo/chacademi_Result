@@ -54,6 +54,8 @@ final class Run {
     List<Cards.Card> offer = List.of();
     final java.util.ArrayDeque<Integer> picks = new java.util.ArrayDeque<>();
     boolean firstPick;
+    /** 들어올 때의 최고 기록 (-1 = 아직 못 읽음). 서버가 꺼질 때 첫 도달 보상을 바로 주는 데 쓴다. */
+    int bestAtStart = -1;
 
     Run(UUID player) { this.player = player; }
 

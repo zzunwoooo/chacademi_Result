@@ -45,7 +45,7 @@ final class TowerService {
     private final Stash stash;
     private final Records records;
     private final ItemsAdderItems items;
-    private final NamespacedKey hpKey, speedKey;
+    private final NamespacedKey hpKey, speedKey, absKey;
     final Rewards rewards;
     final TowerClient client;
 
@@ -59,7 +59,9 @@ final class TowerService {
     private long offerUntil;
     private final Map<UUID, Long> portalNotice = new HashMap<>();
     /** 탑 안에서 써도 되는 명령 (그 밖은 전부 막음: 배낭·우편·상점·귀환 등 소지품이 바뀌거나 자리를 옮기는 것). 프록시 명령(파티·귓속말)은 여기까지 오지 않는다. */
-    private static final Set<String> ALLOWED = Set.of("탑", "tower", "친구", "채팅", "대화기록", "의뢰기록", "화면", "자동시전", "서클", "도움말", "help",
+    /* "마법" = 마법 시전 명령 (mana-spells.yml 의 command 464개가 전부 /마법 <id>). 빠져 있으면 탑 안에서 마법이 하나도 안 나간다 (11/12 점검).
+       어떤 마법이 나가는지는 권한 덧붙임이 막는다. /교화 는 일부러 막아 둔다. */
+    private static final Set<String> ALLOWED = Set.of("마법", "탑", "tower", "친구", "채팅", "대화기록", "의뢰기록", "화면", "자동시전", "서클", "도움말", "help",
             "귓속말", "w", "msg", "tell", "r", "reply", "답장", "파티", "p", "전체");
 
     TowerService(TowerPlugin plugin, Magic magic, Stash stash, Records records, ItemsAdderItems items) {
@@ -68,6 +70,7 @@ final class TowerService {
         this.client = new TowerClient(plugin);
         this.hpKey = new NamespacedKey(plugin, "tower_hp");
         this.speedKey = new NamespacedKey(plugin, "tower_speed");
+        this.absKey = new NamespacedKey(plugin, "tower_abs");
         this.rewards = new Rewards(plugin);
     }
 
@@ -86,18 +89,30 @@ final class TowerService {
     /** /탑 입장 (또는 대기열 순서가 와서). */
     void enter(Player p) {
         if (inRun(p)) { ChacaLink.notify(p, "warning", "tower:enter", "이미 탑에 있어요", "", 1000); return; }
-        if (stash.has(p.getUniqueId())) { restoreLeftover(p); }
+        if (stash.has(p.getUniqueId())) {
+            restoreLeftover(p);
+            // 지난번에 맡긴 것을 아직 못 돌려줬으면 들어가지 않는다 (새로 맡기면 그 기록을 덮어써 원래 물건이 영영 사라짐, 11/12 점검)
+            if (stash.has(p.getUniqueId())) { ChacaLink.notify(p, "error", "tower:enter", "지금은 들어갈 수 없어요", "지난번에 맡긴 소지품을 먼저 돌려받아야 해요. 관리자에게 알려 주세요", 4000); return; }
+        }
         var missing = s.missing();
         if (!missing.isEmpty()) { ChacaLink.notify(p, "error", "tower:enter", "탑이 아직 준비되지 않았어요", "관리자에게 알려 주세요", 3000); plugin.getLogger().warning("탑 설정 부족: " + missing); return; }
         if (!magic.ready()) { ChacaLink.notify(p, "error", "tower:enter", "지금은 들어갈 수 없어요", "잠시 뒤에 다시 시도해 주세요", 3000); return; }
         if (run != null && run.phase != Run.Phase.ENDED) { joinQueue(p); return; }
         if (offered != null && !offered.equals(p.getUniqueId()) && System.currentTimeMillis() < offerUntil) { joinQueue(p); return; }
         if (!queue.isEmpty() && !queue.getFirst().equals(p.getUniqueId()) && offered == null) { joinQueue(p); return; }
+        // 열린 창·커서·제작칸의 물건을 먼저 가방으로 (맡긴 뒤에 닫으면 그 물건은 기록에 없어 사라짐, 11/12 점검)
+        p.closeInventory();
+        var cursor = p.getItemOnCursor();
+        if (cursor != null && !cursor.getType().isAir()) {
+            p.setItemOnCursor(null);
+            for (var left : p.getInventory().addItem(cursor).values()) p.getWorld().dropItem(p.getLocation(), left);
+        }
         if (!takeTicket(p)) return;
         String snapshot;
         try { snapshot = magic.snapshot(p); }
         catch (RuntimeException e) { refundTicket(p); fail(p, e); return; }
         if (!stash.store(p, snapshot)) { refundTicket(p); ChacaLink.notify(p, "error", "tower:enter", "들어가지 못했어요", "소지품을 맡기지 못했어요", 3000); return; }
+        activeRunner = p.getUniqueId();   // 여기부터 판이 끝날 때까지 HuskSync 저장을 막는다 (탑 소지품이 공용 DB 에 올라가지 않게)
         queue.remove(p.getUniqueId());
         offered = null;
         // 맡긴 뒤: 소지품 비우고 마법·지능 초기 상태
@@ -111,6 +126,7 @@ final class TowerService {
         magic.rememberLearned(p);
         try { magic.enterTower(p); }
         catch (RuntimeException e) {
+            activeRunner = null;
             plugin.getLogger().severe("탑 마법 초기화 실패 " + p.getName() + ": " + e);
             stash.restore(p);
             try { magic.restore(p, snapshot); } catch (RuntimeException ignored) {}
@@ -121,6 +137,9 @@ final class TowerService {
         run = new Run(p.getUniqueId());
         runner = p;
         run.rerolls = s.rerolls;
+        // 서버가 꺼지는 순간에도 첫 도달 보상을 바로 줄 수 있게 지금 최고 기록을 미리 읽어 둔다
+        Run started = run;
+        records.best(p.getUniqueId()).thenAccept(b -> { if (plugin.isEnabled()) Bukkit.getScheduler().runTask(plugin, () -> started.bestAtStart = b.floor()); });
         var start = s.start.location();
         p.teleport(start);
         applyAttributes(p);
@@ -170,7 +189,8 @@ final class TowerService {
     private void refundTicket(Player p) {
         if (s.ticketAmount <= 0) return;
         var it = items.create(s.ticketItem, s.ticketAmount);
-        if (it != null) give(p, it);
+        // 진짜 입장권이므로 탑 물건 표시를 붙이지 않는다
+        if (it != null) for (var left : p.getInventory().addItem(it).values()) p.getWorld().dropItem(p.getLocation(), left);
     }
 
     // ───────────────────── 카드 ─────────────────────
@@ -299,6 +319,7 @@ final class TowerService {
         var item = new ItemStack(Material.valueOf(mat + part));
         if (g >= 2) item.addUnsafeEnchantment(Enchantment.PROTECTION, g >= 3 ? 3 : 2);
         item.editMeta(m -> m.setUnbreakable(true));
+        tag(item);   // 입는 칸에 바로 넣어도 탑 물건 표시 (없으면 끝날 때 "바깥 물건" 으로 우편에 감, 11/12 점검)
         var old = inv.getItem(slot);
         if (old.getType().isAir() || armorTier(old.getType()) <= armorTier(item.getType())) {
             inv.setItem(slot, item);
@@ -362,9 +383,18 @@ final class TowerService {
     /** 탑이 준 물건 표시 (끝날 때 이 표시가 없는 물건은 바깥에서 들어온 것 → 가방·우편으로). */
     private final NamespacedKey towerItemKey = new NamespacedKey("chacatower", "tower_item");
 
-    private void give(Player p, ItemStack it) {
+    private void tag(ItemStack it) {
         it.editMeta(m -> m.getPersistentDataContainer().set(towerItemKey, org.bukkit.persistence.PersistentDataType.BYTE, (byte) 1));
-        for (var left : p.getInventory().addItem(it).values()) p.getWorld().dropItem(p.getLocation(), left);
+    }
+
+    boolean towerItem(ItemStack it) {
+        return it != null && it.hasItemMeta() && it.getItemMeta().getPersistentDataContainer().has(towerItemKey);
+    }
+
+    private void give(Player p, ItemStack it) {
+        tag(it);
+        // 가방이 꽉 차면 넘치는 건 버린다 (바닥에 떨어뜨리면 탑 물건이 밖으로 샐 수 있음)
+        p.getInventory().addItem(it);
     }
 
     // ───────────────────── 층 ─────────────────────
@@ -372,7 +402,7 @@ final class TowerService {
     private void startCountdown(Player p) {
         if (run.relics.contains("AEGIS")) {
             var cap = p.getAttribute(Attribute.MAX_ABSORPTION);
-            if (cap != null && cap.getBaseValue() < 6) cap.setBaseValue(6);
+            if (cap != null && cap.getModifier(absKey) == null) cap.addTransientModifier(new AttributeModifier(absKey, 6, AttributeModifier.Operation.ADD_NUMBER));   // 기본값을 바꾸면 플레이어 데이터에 남음 → 저장 안 되는 수정치로
             p.setAbsorptionAmount(Math.max(p.getAbsorptionAmount(), 6));
         }
         run.phase = Run.Phase.COUNTDOWN;
@@ -403,6 +433,7 @@ final class TowerService {
             if (e == null) continue;
             var affixes = Floors.rollAffixes(s, run.floor, pick.guardian());
             floors.prepare(s, run.floor, e, pick, affixes);
+            aggro(e, p);
             if (run.gambleActive && e instanceof LivingEntity le) scaleHealth(le, run.gambleHealth);
             if (run.relics.contains("HOURGLASS") && e instanceof LivingEntity hl) hl.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 40, 6, false, false));
             run.mobs.add(e.getUniqueId());
@@ -418,11 +449,14 @@ final class TowerService {
         if (run.mobs.isEmpty()) floorCleared(p);
     }
 
-    private static void scaleHealth(LivingEntity le, double mult) {
-        var a = le.getAttribute(Attribute.MAX_HEALTH);
-        if (a == null) return;
-        a.setBaseValue(Math.min(2048, a.getBaseValue() * mult));
-        le.setHealth(a.getValue());
+    private void scaleHealth(LivingEntity le, double mult) { floors.setHealth(le, floors.effectiveHealth(le) * mult); }
+
+    /**
+     * 탑 몹은 바로 플레이어를 노린다. 야생 몹 55종 중 32종은 AITargetSelectors 가 hurtbytarget 뿐이라 (맞기 전엔 안 덤빔)
+     * 그대로 두면 서 있기만 한다 (11/12 점검). 대상이 없어지면 tick 에서 다시 건다.
+     */
+    private static void aggro(Entity e, Player p) {
+        if (e instanceof org.bukkit.entity.Mob m && (m.getTarget() == null || !m.getTarget().isValid())) m.setTarget(p);
     }
 
     private void showGuardian(Player p, Entity e) {
@@ -481,6 +515,7 @@ final class TowerService {
 
     void tick() {
         tickQueue();
+        if (++sweepTick >= 20) { sweepTick = 0; sweepTowerItems(); }
         if (run == null || run.phase == Run.Phase.ENDED) return;
         Player p = Bukkit.getPlayer(run.player);
         if (p == null) { endOffline(); return; }
@@ -526,17 +561,28 @@ final class TowerService {
             ChacaLink.notify(p, "warning", "tower:outside", "방을 벗어났어요", "돌아오지 않으면 탑이 끝나요", 2000);
         } else run.outsideSince = 0;
     }
+    private int sweepTick;
+
+    /** 10초마다: 탑 밖에 있는 사람의 가방에 탑 표시가 붙은 물건이 있으면 지운다 (어떤 길로든 새어 나온 탑 물건이 남지 않게). */
+    private void sweepTowerItems() {
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            if (inRun(p)) continue;
+            var inv = p.getInventory();
+            for (int i = 0; i < inv.getSize(); i++) if (towerItem(inv.getItem(i))) { inv.setItem(i, null); plugin.getLogger().warning("탑 밖에서 탑 물건을 지움: " + p.getName()); }
+        }
+    }
+
 
     private void tickAffixes() {
         for (var id : run.mobs) {
             if (!(Bukkit.getEntity(id) instanceof LivingEntity le) || le.isDead()) continue;
+            if (runner != null) aggro(le, runner);
             var max = le.getAttribute(Attribute.MAX_HEALTH);
             if (max == null) continue;
             if (floors.has(le, "regen") && le.getHealth() < max.getValue()) le.setHealth(Math.min(max.getValue(), le.getHealth() + max.getValue() * 0.01));
             if (floors.has(le, "frenzy") && !le.getScoreboardTags().contains("tower_frenzied") && le.getHealth() < max.getValue() * 0.35) {
                 le.addScoreboardTag("tower_frenzied");
-                var sp = le.getAttribute(Attribute.MOVEMENT_SPEED);
-                if (sp != null) sp.setBaseValue(sp.getBaseValue() * 1.3);
+                floors.speedUp(s, le, 1.3);
                 le.getWorld().spawnParticle(Particle.ANGRY_VILLAGER, le.getLocation().add(0, le.getHeight(), 0), 6, .4, .3, .4);
             }
         }
@@ -589,6 +635,7 @@ final class TowerService {
             if (run.relics.contains("EMBER")) le.setFireTicks(Math.max(le.getFireTicks(), 60));
         }
         if (run.relics.contains("MASK") && attacker.getHealth() < maxHealth(attacker) * 0.5) dmg *= 1.35;
+        dmg /= floors.tough(mob);   // 상한을 넘는 체력 몫 (Floors.setHealth)
         e.setDamage(dmg);
         if (run.lifesteal > 0) heal(attacker, dmg * run.lifesteal);
         if (floors.has(mob, "thorns")) {
@@ -630,6 +677,7 @@ final class TowerService {
                 var child = floors.spawn(mob, at);
                 if (child == null) continue;
                 floors.prepare(s, run.floor, child, new Floors.Pick(mob, false, false), List.of());
+                if (p != null) aggro(child, p);
                 child.addScoreboardTag("tower_split_child");
                 if (child instanceof LivingEntity le) scaleHealth(le, 0.4);
                 run.mobs.add(child.getUniqueId());
@@ -671,7 +719,7 @@ final class TowerService {
         for (int i = 0; i < 4; i++) {
             ours += target - a.getValue();
             a.removeModifier(key);
-            a.addModifier(new AttributeModifier(key, ours, AttributeModifier.Operation.ADD_NUMBER));
+            a.addTransientModifier(new AttributeModifier(key, ours, AttributeModifier.Operation.ADD_NUMBER));   // 저장 안 되는 수정치: 서버가 갑자기 꺼져도 플레이어 데이터(HuskSync 로 5대 공유)에 안 남음
             if (Math.abs(a.getValue() - target) < 1e-6) break;
         }
     }
@@ -682,7 +730,7 @@ final class TowerService {
         var sp = p.getAttribute(Attribute.MOVEMENT_SPEED);
         if (sp != null) sp.removeModifier(speedKey);
         var ab = p.getAttribute(Attribute.MAX_ABSORPTION);
-        if (ab != null && ab.getBaseValue() == 6) { ab.setBaseValue(0); p.setAbsorptionAmount(0); }
+        if (ab != null && ab.getModifier(absKey) != null) { ab.removeModifier(absKey); p.setAbsorptionAmount(0); }
     }
 
     // ───────────────────── 끝 ─────────────────────
@@ -695,14 +743,18 @@ final class TowerService {
         hideGuardian();
         removeMobs(r);
         client.close(p);
-        if (p.getOpenInventory().getTopInventory().getHolder() instanceof CardMenu) p.closeInventory();
+        p.closeInventory();
         int cleared = reason.equals("clear") ? s.floors : r.floor - 1;
+        // 탑 표시가 없는 물건 = 판 중에 바깥에서 들어온 것 (의뢰 보상 등) → 가방·우편으로. 음식·커서 물건도 포함.
         var outside = new ArrayList<ItemStack>();
         for (var it : p.getInventory().getContents())
-            if (it != null && !it.getType().isAir() && !(it.hasItemMeta() && it.getItemMeta().getPersistentDataContainer().has(towerItemKey)) && !it.getType().isEdible()) outside.add(it.clone());
+            if (it != null && !it.getType().isAir() && !towerItem(it)) outside.add(it.clone());
+        var cursor = p.getItemOnCursor();
+        if (cursor != null && !cursor.getType().isAir()) { if (!towerItem(cursor)) outside.add(cursor.clone()); p.setItemOnCursor(null); }
         if (!outside.isEmpty()) rewards.forward(r.player, outside, String.valueOf(r.runId));
         magic.unlearnNew(p);
         giveBack(p);
+        activeRunner = null;   // 원래 소지품으로 돌아왔으니 이제 HuskSync 저장을 막지 않는다
         var exit = s.exit != null ? s.exit.location() : s.portal != null ? s.portal.location() : null;
         if (exit != null) p.teleport(exit);
         clearDrops();
@@ -714,6 +766,16 @@ final class TowerService {
             default -> "탑이 끝났어요";
         };
         long ms = r.elapsedMs();
+        if (!plugin.isEnabled()) {
+            // 서버가 꺼지는 중: 나중에 돌릴 작업을 예약할 수 없으므로 보상을 지금 바로 준다 (예전엔 조용히 빠짐, 11/12 점검).
+            // 첫 도달 보상은 들어올 때 읽어 둔 최고 기록 기준 (못 읽었으면 이번엔 건너뜀 — 두 번 주는 것보다 안전).
+            records.finish(r, cleared, reason, cardsText(r));
+            rewards.finish(r.player, r, cleared, r.bestAtStart >= 0 ? r.bestAtStart : Integer.MAX_VALUE);
+            rewards.guardianAfter(r.player, null, r);
+            run = null;
+            runner = null;
+            return;
+        }
         records.finish(r, cleared, reason, cardsText(r)).thenAccept(res -> Bukkit.getScheduler().runTask(plugin, () -> {
             bestCache.remove(r.player);
             topAt = 0;
@@ -732,58 +794,137 @@ final class TowerService {
     private void endOffline() {
         Run r = run;
         r.phase = Run.Phase.ENDED;
+        activeRunner = null;
         hideGuardian();
         removeMobs(r);
+        clearDrops();
         records.finish(r, r.floor - 1, "offline", cardsText(r));
         run = null;
         runner = null;
     }
 
-    /** 방 안에 떨어진 아이템(탑에서 받은 빵·방어구 등)은 다음 사람이 줍지 않게 치운다. */
+    /**
+     * 떨어진 아이템 치우기: 방 안의 모든 아이템 + 그 월드 어디에 있든 탑 표시가 붙은 아이템
+     * (방 밖으로 던지거나 방을 벗어난 5초 사이에 떨어뜨린 탑 물건을 나중에 줍지 못하게, 11/12 점검).
+     */
     private void clearDrops() {
         var box = s.room();
         var start = s.start == null ? null : s.start.location();
         if (box == null || start == null) return;
-        for (var e : start.getWorld().getEntitiesByClass(org.bukkit.entity.Item.class)) if (box.contains(e.getLocation())) e.remove();
+        for (var e : start.getWorld().getEntitiesByClass(org.bukkit.entity.Item.class))
+            if (box.contains(e.getLocation()) || towerItem(e.getItemStack())) e.remove();
     }
 
     private void removeMobs(Run r) {
         for (var id : r.mobs) { var e = Bukkit.getEntity(id); if (e != null) e.remove(); }
         r.mobs.clear();
-        // 분열 등으로 놓친 것까지: 방 안의 탑 몹
+        // 분열·몹이 스스로 부른 졸개(표시 없음)까지: 방 안의 모든 몹 (탑 방은 탑만 쓴다). 표시가 붙은 건 방 밖에 있어도.
         var box = s.room();
         var start = s.start == null ? null : s.start.location();
         if (box != null && start != null)
-            for (var e : start.getWorld().getEntities())
-                if (e.getScoreboardTags().contains("chaca_tower") && box.contains(e.getLocation())) e.remove();
+            for (var e : start.getWorld().getEntities()) {
+                if (e instanceof Player) continue;
+                boolean inside = box.contains(e.getLocation());
+                if (e.getScoreboardTags().contains("chaca_tower") || (inside && (e instanceof org.bukkit.entity.Mob || e instanceof org.bukkit.entity.Projectile))) e.remove();
+            }
     }
 
-    /** 맡긴 것 돌려주기 + 탑 능력 지우기. */
+    /** 판 중에 방 안에서 새로 생긴 몹 (탑 몹이 부른 졸개 등): 탑 몹으로 표시하고 이번 층에 넣는다 (전리품 없음, 끝날 때 같이 사라짐). */
+    void spawnedInRoom(Entity e) {
+        if (run == null || run.phase == Run.Phase.ENDED || !(e instanceof org.bukkit.entity.Mob) || e.getScoreboardTags().contains("chaca_tower")) return;
+        var box = s.room();
+        if (box == null || !e.getWorld().getName().equals(s.start.world()) || !box.contains(e.getLocation())) return;
+        e.addScoreboardTag("chaca_tower");
+        e.setPersistent(false);
+        if (run.phase == Run.Phase.FIGHT) run.mobs.add(e.getUniqueId());
+        if (runner != null) aggro(e, runner);
+    }
+
+    /**
+     * 맡긴 것 돌려주기 + 탑 능력 지우기.
+     * 마법 쪽(장신구·아티팩트 PDC)을 못 돌려놨으면 그 글자를 따로 남겨 두고 다음 접속·주기적으로 다시 시도한다 (맡김 파일을 지워 버리면 장신구가 사라짐).
+     */
     private void giveBack(Player p) {
         clearAttributes(p);
         p.closeInventory();
         String magicState = stash.magicState(p.getUniqueId());
-        try { magic.restore(p, magicState); }
+        boolean magicOk = false;
+        try { magicOk = magic.restore(p, magicState); }
         catch (RuntimeException e) { plugin.getLogger().severe("마법 되돌리기 실패 " + p.getName() + " (맡긴 파일 확인): " + e); }
+        if (!magicOk) { stash.keepMagic(p.getUniqueId(), magicState); plugin.getLogger().severe("장신구·아티팩트 되돌리기 미룸 (다음 접속 때 다시): " + p.getName()); }
         if (!stash.restore(p)) plugin.getLogger().severe("소지품 되돌리기 실패 " + p.getName());
     }
 
-    /** 지난번에 못 돌려준 것 (서버가 꺼졌거나 접속이 끊김). */
+    /** 미뤄 둔 장신구·아티팩트 되돌리기 다시 시도. */
+    private void retryMagic(Player p) {
+        String state = stash.keptMagic(p.getUniqueId());
+        if (state == null || inRun(p)) return;
+        try { if (magic.restore(p, state)) { stash.dropMagic(p.getUniqueId()); plugin.getLogger().info("미뤄 둔 장신구·아티팩트 되돌림: " + p.getName()); } }
+        catch (RuntimeException e) { plugin.getLogger().warning("장신구·아티팩트 다시 되돌리기 실패 " + p.getName() + ": " + e); }
+    }
+
+    /**
+     * 지난번에 못 돌려준 것 (서버가 갑자기 꺼졌을 때만 남는다 — 보통 끝·접속 끊김·정상 종료는 그 자리에서 돌려줌).
+     *
+     * <p>지금 가방에 탑 표시 없는 물건이 있으면 = HuskSync 가 공용 DB 의 진짜 소지품을 이미 불러온 것 (판 중 저장은 막아 두므로 들어가기 전 상태,
+     * 또는 그 뒤 다른 서버에서 지낸 상태). 그때 맡긴 것으로 덮으면 그 사이 얻은 건 사라지고 쓴 건 되살아난다(복사) → 가방은 그대로 두고
+     * 맡김 파일은 conflict 폴더에 보관만 한다. 장신구·아티팩트(이 서버에만 있는 기록)는 언제나 돌려놓는다.
+     * 가방이 비었거나 탑 물건뿐이면 = 탑 상태가 남은 것 → 맡긴 것으로 돌려놓는다.
+     */
     private void restoreLeftover(Player p) {
-        if (inRun(p)) return;
-        giveBack(p);
-        ChacaLink.notify(p, "system", "tower:restore", "탑에 맡겼던 소지품을 돌려받았어요", "", 0);
+        if (inRun(p) || !stash.has(p.getUniqueId())) return;
+        boolean real = false;
+        for (var it : p.getInventory().getContents()) if (it != null && !it.getType().isAir() && !towerItem(it)) { real = true; break; }
+        if (!real) {
+            giveBack(p);
+            ChacaLink.notify(p, "system", "tower:restore", "탑에 맡겼던 소지품을 돌려받았어요", "", 0);
+            return;
+        }
+        clearAttributes(p);
+        String magicState = stash.magicState(p.getUniqueId());
+        boolean magicOk = false;
+        try { magicOk = magic.restore(p, magicState); }
+        catch (RuntimeException e) { plugin.getLogger().severe("마법 되돌리기 실패 " + p.getName() + ": " + e); }
+        if (!magicOk) stash.keepMagic(p.getUniqueId(), magicState);
+        var inv = p.getInventory();
+        for (int i = 0; i < inv.getSize(); i++) if (towerItem(inv.getItem(i))) inv.setItem(i, null);
+        stash.conflict(p.getUniqueId());
+        plugin.getLogger().severe("탑 맡김이 남아 있었지만 " + p.getName() + " 의 가방에 이미 진짜 소지품이 있어 그대로 둠 (맡김 파일은 stash/conflict 에 보관 — 물건이 비면 여기서 꺼내 확인)");
     }
 
     void quit(Player p) {
         queue.remove(p.getUniqueId());
         if (p.getUniqueId().equals(offered)) offered = null;
+        pendingRestore.remove(p.getUniqueId());
         if (inRun(p)) end(p, "offline");
     }
 
+    /** 남은 맡김이 있어 복구를 기다리는 사람 (그동안 가방을 만지면 복사가 될 수 있어 잠근다). */
+    private final Set<UUID> pendingRestore = new java.util.HashSet<>();
+    /** HuskSync 저장 이벤트(다른 스레드일 수 있음)가 읽는 "지금 판 중인 사람". */
+    private volatile UUID activeRunner;
+    boolean huskHooked;
+
+    boolean savingBlocked(UUID id) { return id != null && id.equals(activeRunner); }
+
+    boolean waitingRestore(Player p) { return pendingRestore.contains(p.getUniqueId()); }
+
     void join(Player p) {
         clearAttributes(p);
-        if (stash.has(p.getUniqueId()) && !inRun(p)) Bukkit.getScheduler().runTaskLater(plugin, () -> { if (p.isOnline()) restoreLeftover(p); }, 100L);
+        magic.clearMana(p);
+        retryMagic(p);
+        if (!stash.has(p.getUniqueId()) || inRun(p)) return;
+        pendingRestore.add(p.getUniqueId());
+        // HuskSync 가 있으면 "불러오기 끝" 알림(synced)에 맞춰 복구한다. 알림이 안 오는 경우를 대비해 30초 뒤에도 한 번.
+        long wait = huskHooked ? 600L : 60L;
+        Bukkit.getScheduler().runTaskLater(plugin, () -> synced(p.getUniqueId()), wait);
+    }
+
+    /** HuskSync 가 이 사람 데이터를 다 불러온 뒤 (또는 대기 시간이 지난 뒤). */
+    void synced(UUID id) {
+        if (!pendingRestore.remove(id)) return;
+        Player p = Bukkit.getPlayer(id);
+        if (p != null && p.isOnline()) restoreLeftover(p);
     }
 
     void changedWorld(Player p) {

@@ -139,7 +139,10 @@ final class MagicBridge implements Magic {
 
     @Override public void addIntelligence(Player p, int amount) {}
 
-    @Override public void restore(Player p, String state) {
+    @Override public void clearMana(Player p) { unpinMana(p); }
+
+    @Override public boolean restore(Player p, String state) {
+        boolean ok = bridge() != null;   // 브리지가 꺼져 있으면 PDC 열쇠를 못 만들어 장신구·아티팩트를 못 돌려놓는다
         dropAttachment(p);
         unpinMana(p);
         var pdc = p.getPersistentDataContainer();
@@ -161,6 +164,7 @@ final class MagicBridge implements Magic {
         }
         refreshStats(p);
         refresh(p);
+        return ok;
     }
 
     // ── 마나: ManaService(브리지 mana.mana, public 클래스) 의 수정자 하나로 최대치·회복을 탑 값에 맞춘다 (다른 보너스가 남아 있어도 결과 고정)

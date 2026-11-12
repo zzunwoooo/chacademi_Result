@@ -23,7 +23,9 @@ final class Floors {
     /** 한 층에 나올 몹 한 마리. */
     record Pick(String mob, boolean elite, boolean guardian) {}
 
-    final NamespacedKey dmgKey, affixKey, kindKey;
+    final NamespacedKey dmgKey, affixKey, kindKey, toughKey, speedKey;
+    /** 서버 최대 체력 상한(spigot maxHealth 2048) 아래로 두는 값. 넘는 몫은 "단단함"(받는 피해 나누기)으로 돌린다. */
+    static final double HP_CAP = 2000;
     private final Logger log;
 
     Floors(Plugin plugin) {
@@ -31,10 +33,16 @@ final class Floors {
         dmgKey = new NamespacedKey(plugin, "tower_dmg");
         affixKey = new NamespacedKey(plugin, "tower_affix");
         kindKey = new NamespacedKey(plugin, "tower_kind");
+        toughKey = new NamespacedKey(plugin, "tower_tough");
+        speedKey = new NamespacedKey(plugin, "tower_speed0");
     }
 
-    static double healthMult(Settings s, int floor) { return s.bal("health-base", 1) + s.bal("health-per-floor", 0.09) * (floor - 1); }
-    static double damageMult(Settings s, int floor) { return s.bal("damage-base", 1) + s.bal("damage-per-floor", 0.045) * (floor - 1); }
+    /** 체력: (기본 + 층당 더하기) × 층당 곱하기^(층-1) — 오를수록 점점 더 가파르게 (11/12 오너). 1·10·25·50층 = 1.0·2.2·5.1·14.3배. */
+    static double healthMult(Settings s, int floor) { return (s.bal("health-base", 1) + s.bal("health-per-floor", 0.09) * (floor - 1)) * Math.pow(s.bal("health-growth", 1.02), floor - 1); }
+    /** 공격력: 1·10·25·50층 = 1.0·1.6·2.8·5.7배. */
+    static double damageMult(Settings s, int floor) { return (s.bal("damage-base", 1) + s.bal("damage-per-floor", 0.045) * (floor - 1)) * Math.pow(s.bal("damage-growth", 1.012), floor - 1); }
+    /** 이동 속도: 층당 speed-per-floor 씩, 최대 speed-max 배 (피하기 어려워지되 못 피할 정도는 아니게). 1·10·25·46층~ = 1.0·1.09·1.24·1.45배. */
+    static double speedMult(Settings s, int floor) { return Math.min(s.bal("speed-max", 1.45), 1 + s.bal("speed-per-floor", 0.01) * (floor - 1)); }
 
     static int count(Settings s, int floor) {
         return (int) Math.min(s.bal("count-max", 11), Math.floor(s.bal("count-base", 3) + floor * s.bal("count-per-floor", 0.18)));
@@ -107,9 +115,12 @@ final class Floors {
         double dmg = (pick.elite() ? s.bal("elite-damage", 9) : s.bal("normal-damage", 4)) * damageMult(s, floor);
         if (pick.guardian()) { hp *= s.bal("guardian-health", 5); dmg *= s.bal("guardian-damage", 1.5); }
         var maxHp = le.getAttribute(Attribute.MAX_HEALTH);
-        if (maxHp != null) {
-            maxHp.setBaseValue(Math.min(2048, Math.max(1, hp)));
-            le.setHealth(maxHp.getValue());
+        setHealth(le, hp);
+        // 이동 속도: 층이 오를수록 빨라짐. 원래 속도를 적어 두고 신속·광폭까지 합쳐 speed-max-total 배를 넘지 않게 한다.
+        var speed = le.getAttribute(Attribute.MOVEMENT_SPEED);
+        if (speed != null) {
+            le.getPersistentDataContainer().set(speedKey, PersistentDataType.DOUBLE, speed.getBaseValue());
+            speedUp(s, le, speedMult(s, floor));
         }
         // 원래 공격력 대비 배율 (원거리 몹처럼 0 이면 등급 기본값 기준)
         var atk = le.getAttribute(Attribute.ATTACK_DAMAGE);
@@ -122,10 +133,7 @@ final class Floors {
             var ids = new StringBuilder();
             for (var a : affixes) ids.append(ids.isEmpty() ? "" : ",").append(a.id());
             pdc.set(affixKey, PersistentDataType.STRING, ids.toString());
-            if (has(le, "swift")) {
-                var sp = le.getAttribute(Attribute.MOVEMENT_SPEED);
-                if (sp != null) sp.setBaseValue(sp.getBaseValue() * 1.35);
-            }
+            if (has(le, "swift")) speedUp(s, le, 1.35);
             if (has(le, "shield")) {
                 double shield = (maxHp == null ? 20 : maxHp.getValue()) * 0.35;
                 var cap = le.getAttribute(Attribute.MAX_ABSORPTION);
@@ -133,6 +141,42 @@ final class Floors {
             }
         }
         if (pick.guardian()) le.setGlowing(true);
+    }
+
+    /**
+     * 체력 정하기. 서버 상한(2048) 때문에 HP_CAP 을 넘는 몫은 "단단함" 으로: 최대 체력은 HP_CAP, 받는 피해를 hp / HP_CAP 로 나눈다
+     * (수문장 체력이 30층부터 2048 에 막혀 더 안 오르던 것, 11/12 점검).
+     */
+    void setHealth(LivingEntity le, double hp) {
+        var maxHp = le.getAttribute(Attribute.MAX_HEALTH);
+        if (maxHp == null) return;
+        hp = Math.max(1, hp);
+        double shown = Math.min(HP_CAP, hp);
+        maxHp.setBaseValue(shown);
+        le.setHealth(maxHp.getValue());
+        if (hp > HP_CAP) le.getPersistentDataContainer().set(toughKey, PersistentDataType.DOUBLE, hp / HP_CAP);
+        else le.getPersistentDataContainer().remove(toughKey);
+    }
+
+    /** 지금 실제 체력 총량 (최대 체력 × 단단함). */
+    double effectiveHealth(LivingEntity le) {
+        var maxHp = le.getAttribute(Attribute.MAX_HEALTH);
+        return (maxHp == null ? 20 : maxHp.getBaseValue()) * tough(le);
+    }
+
+    /** 플레이어가 준 피해를 이 값으로 나눈다 (1 = 그대로). */
+    double tough(Entity mob) {
+        Double d = mob.getPersistentDataContainer().get(toughKey, PersistentDataType.DOUBLE);
+        return d == null || d < 1 ? 1 : d;
+    }
+
+    /** 이동 속도를 mult 배로, 다만 원래 속도의 speed-max-total 배(기본 1.8)를 넘지 않게. */
+    void speedUp(Settings s, LivingEntity le, double mult) {
+        var sp = le.getAttribute(Attribute.MOVEMENT_SPEED);
+        if (sp == null) return;
+        Double orig = le.getPersistentDataContainer().get(speedKey, PersistentDataType.DOUBLE);
+        double cap = (orig == null ? sp.getBaseValue() : orig) * s.bal("speed-max-total", 1.8);
+        sp.setBaseValue(Math.min(cap, sp.getBaseValue() * mult));
     }
 
     boolean has(Entity e, String affix) {

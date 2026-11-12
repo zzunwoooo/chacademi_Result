@@ -138,5 +138,56 @@ final class TowerListener implements Listener {
         }
     }
 
+
+    // ── 11/12 적용 전 점검에서 더한 것 ──
+
+    /** 탑 안에서는 물건을 버릴 수 없다 (방 밖으로 던져 탑 물건을 가지고 나가는 것 막기). 남은 맡김 복구를 기다리는 동안도 막는다. */
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    void onDrop(org.bukkit.event.player.PlayerDropItemEvent e) {
+        if (service.inRun(e.getPlayer()) || service.waitingRestore(e.getPlayer())) e.setCancelled(true);
+    }
+
+    /** 탑 표시가 붙은 물건은 탑 밖에서 주울 수 없다 (줍는 순간 사라짐). 복구를 기다리는 동안은 아무것도 줍지 않는다. */
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    void onPickup(org.bukkit.event.entity.EntityPickupItemEvent e) {
+        if (!(e.getEntity() instanceof Player p)) return;
+        if (service.waitingRestore(p)) { e.setCancelled(true); return; }
+        if (!service.inRun(p) && service.towerItem(e.getItem().getItemStack())) { e.setCancelled(true); e.getItem().remove(); }
+    }
+
+    /** 남은 맡김 복구를 기다리는 몇 초 동안은 가방을 만질 수 없다 (그 사이 상자에 넣으면 복구 뒤 복사가 됨). */
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    void onPendingClick(InventoryClickEvent e) {
+        if (e.getWhoClicked() instanceof Player p && service.waitingRestore(p)) e.setCancelled(true);
+    }
+
+    /** 판 중에 방 안에서 생긴 몹 (탑 몹이 스킬로 부른 졸개 등) 을 탑 몹으로 넣는다. 탑이 직접 부른 몹은 다음 틱엔 이미 표시가 붙어 있어 건너뛴다. */
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    void onSpawn(org.bukkit.event.entity.CreatureSpawnEvent e) {
+        if (service.current() == null) return;
+        Entity spawned = e.getEntity();
+        org.bukkit.Bukkit.getScheduler().runTask(service.plugin(), () -> { if (spawned.isValid()) service.spawnedInRoom(spawned); });
+    }
+
+    /**
+     * 피해 이벤트를 거치지 않은 죽음 (/kill, 다른 플러그인의 체력 0 만들기): 진짜로 죽으면 탑 물건을 떨어뜨리고 다른 곳에서 되살아나므로
+     * 죽음을 취소하고 판을 끝낸다 (소지품은 그 자리에서 돌려받음).
+     */
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    void onDeath(org.bukkit.event.entity.PlayerDeathEvent e) {
+        Player p = e.getEntity();
+        if (!service.inRun(p)) return;
+        e.setCancelled(true);
+        e.getDrops().clear();
+        e.setKeepInventory(true);
+        p.setHealth(1);
+        service.end(p, "death");
+    }
+    /** 탑 안에서는 카드 창 말고 다른 창(방 안 상자·엔더 상자·다른 플러그인 창)을 열 수 없다. */
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    void onOpen(org.bukkit.event.inventory.InventoryOpenEvent e) {
+        if (e.getPlayer() instanceof Player p && service.inRun(p) && !(e.getInventory().getHolder() instanceof CardMenu)) e.setCancelled(true);
+    }
+
     static boolean living(Entity e) { return e instanceof LivingEntity le && !le.isDead(); }
 }

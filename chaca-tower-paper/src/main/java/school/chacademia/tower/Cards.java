@@ -66,6 +66,8 @@ final class Cards {
     }
 
     static String pct(double v) { return Math.round(v * 100) + "%"; }
+    /** 2.0 → "2", 2.5 → "2.5" */
+    static String num(double v) { return v == Math.rint(v) ? String.valueOf((long) v) : String.format(java.util.Locale.ROOT, "%.1f", v); }
 
     /** 카드 설명 (여러 줄). */
     static List<String> describe(Card c) {
@@ -74,7 +76,7 @@ final class Cards {
         return switch (c.type()) {
             case SPELL -> List.of(c.spellName() + " 마법을 배워요.");
             case INTELLIGENCE -> List.of("탑 안 지능 +" + (int) v);
-            case HEALTH -> List.of("최대 체력 +" + (int) v + " (하트 " + (v / 2) + "칸)");
+            case HEALTH -> List.of("최대 체력 +" + (int) v + " (하트 " + num(v / 2) + "칸)");
             case HEAL -> List.of("체력을 " + pct(v) + " 회복해요.");
             case ARMOR -> List.of(armorName(g) + " 방어구 한 부위를 받아요.", "아직 없는 부위가 먼저 나와요.");
             case FOOD -> List.of(foodText(g));
@@ -85,8 +87,8 @@ final class Cards {
             case LIFESTEAL -> List.of("준 피해의 " + pct(v) + "만큼 체력을 회복해요.");
             case SWIFT -> List.of("이동 속도 +" + pct(v));
             case VIGOR -> List.of("층을 깰 때마다 최대 체력의 " + pct(v) + " 회복");
-            case HARVEST -> List.of("몹을 처치할 때마다 체력 " + v + " 회복");
-            case FEATHER -> List.of("쓰러질 때 한 번 버티고", "체력 " + (g >= 3 ? "100%" : "50%") + "로 일어나요.");
+            case HARVEST -> List.of("몹을 처치할 때마다 체력 " + num(v) + " 회복");
+            case FEATHER -> List.of("쓰러질 때 한 번 버티고", "체력 50%로 일어나요.");
             case CURSED -> List.of("주는 피해 +" + pct(v), "대신 최대 체력 -" + (g >= 3 ? 6 : 4));
             case LUCK -> List.of("다음 카드 " + (int) v + "번은 등급이 한 단계 올라가요.");
             case REROLL -> List.of("다시 뽑기 +" + (int) v + "회");

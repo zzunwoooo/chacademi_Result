@@ -34,6 +34,8 @@ final class Stash {
 
     /** 맡기기. 실패하면 false (그럼 입장하지 않는다). magicState = Magic.snapshot 결과. */
     boolean store(Player p, String magicState) {
+        // 아직 돌려주지 않은 맡김이 있으면 덮어쓰지 않는다 (원래 물건 기록이 사라짐)
+        if (has(p.getUniqueId())) { log.severe("맡기기 거부: 이전 맡김이 남아 있음 " + p.getName()); return false; }
         var y = new YamlConfiguration();
         y.set("name", p.getName());
         y.set("at", System.currentTimeMillis());
@@ -51,7 +53,7 @@ final class Stash {
         try {
             var tmp = new File(dir, p.getUniqueId() + ".yml.tmp");
             y.save(tmp);
-            Files.move(tmp.toPath(), file(p.getUniqueId()).toPath(), StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
+            Files.move(tmp.toPath(), file(p.getUniqueId()).toPath(), StandardCopyOption.ATOMIC_MOVE);
             return true;
         } catch (Exception e) {
             log.severe("맡기기 저장 실패 " + p.getName() + ": " + e);
@@ -99,6 +101,35 @@ final class Stash {
         return true;
     }
 
+
+    // ── 미뤄 둔 장신구·아티팩트 (브리지가 꺼져 있어 못 돌려놓은 경우): stash/magic/<uuid>.txt 에 글자만 남겨 두고 다음 접속 때 다시 시도
+    private File magicFile(UUID id) { return new File(new File(dir, "magic"), id + ".txt"); }
+
+    void keepMagic(UUID id, String state) {
+        if (state == null || state.isEmpty()) return;
+        try {
+            var f = magicFile(id);
+            f.getParentFile().mkdirs();
+            Files.writeString(f.toPath(), state);
+        } catch (Exception e) { log.severe("장신구·아티팩트 기록 남기기 실패 " + id + ": " + e + " — 값: " + state); }
+    }
+
+    String keptMagic(UUID id) {
+        var f = magicFile(id);
+        if (!f.exists()) return null;
+        try { return Files.readString(f.toPath()); } catch (Exception e) { log.warning("장신구·아티팩트 기록 읽기 실패 " + id + ": " + e); return null; }
+    }
+
+    void dropMagic(UUID id) { magicFile(id).delete(); }
+
+    /** 맡김 파일을 쓰지 않고 보관만 (가방에 이미 진짜 소지품이 있을 때). 필요하면 운영자가 stash/conflict 에서 꺼내 본다. */
+    void conflict(UUID id) {
+        var f = file(id);
+        if (!f.exists()) return;
+        var keep = new File(dir, "conflict");
+        keep.mkdirs();
+        if (!f.renameTo(new File(keep, id + "-" + System.currentTimeMillis() + ".yml"))) log.severe("맡김 파일 보관 실패 (그대로 남음): " + f.getName());
+    }
     /** 돌려준 지 3일 지난 사본은 지운다. */
     private static void cleanReturned(File done) {
         var files = done.listFiles();
