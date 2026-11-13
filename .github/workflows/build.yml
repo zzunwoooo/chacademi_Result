@@ -1,8 +1,8 @@
-name: kkaegul-launcher build
+name: ssangyong-launcher build
 
 on:
   push:
-    branches: [ 'claude/kkaegul-launcher' ]
+    branches: [ 'claude/ssangyong-launcher' ]
 
 permissions:
   contents: write
@@ -38,14 +38,14 @@ jobs:
         run: |
           npx --yes @electron/asar extract dist/win-unpacked/resources/app.asar /tmp/app
           grep -n "REMOTE_DISTRO_URL =" /tmp/app/app/assets/js/distromanager.js
-          grep -n "kkaegulland" /tmp/app/app/assets/js/configmanager.js
+          grep -n "ssangyong" /tmp/app/app/assets/js/configmanager.js
           grep -n "title =" /tmp/app/app/assets/lang/_custom.toml
           grep -n "update-not-available" /tmp/app/index.js | head -3
           ls dist/win-unpacked/resources
 
       - uses: actions/upload-artifact@v4
         with:
-          name: kkaegul-launcher-setup
+          name: ssangyong-launcher-setup
           path: dist/*.exe
           retention-days: 30
 
@@ -58,7 +58,7 @@ jobs:
           split -b 90m -d "$exe" "$(basename "$exe").part"
           sha256sum "$exe" | awk '{print $1}' > SHA256.txt
           ls -la
-          git init -q && git checkout -q -b claude/kkaegul-launcher-build
+          git init -q && git checkout -q -b claude/ssangyong-launcher-build
           git config user.name "github-actions" && git config user.email "actions@github.com"
           git add -A && git commit -qm "build ${GITHUB_SHA}"
-          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" claude/kkaegul-launcher-build
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" claude/ssangyong-launcher-build
