@@ -1,0 +1,8 @@
+{
+  "serverId": "ssangyong-1.21.4",
+  "name": "쌍룡상사",
+  "description": "쌍룡상사 주식서버 (Minecraft 1.21.4 Fabric)",
+  "address": "211.53.196.231:25600",
+  "serverListName": "쌍룡상사",
+  "rawBase": "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/ssangyong-launcher-distro/"
+}

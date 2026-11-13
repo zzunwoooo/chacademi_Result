@@ -1,309 +1,309 @@
 {
-  "version": "1.0.0",
-  "servers": [
-    {
-      "id": "kkaegulland-1.21.4",
-      "name": "운빨깨굴랜드",
-      "description": "깨굴이의 위험한 초대 : 운빨깨굴랜드 (Minecraft 1.21.4 Fabric)",
-      "icon": "https://github.com/mchdistro/zzunwoo/raw/main/server-icon.png",
-      "version": "1.0.0",
-      "address": "211.53.196.231:31898",
-      "minecraftVersion": "1.21.4",
-      "mainServer": true,
-      "autoconnect": true,
-      "javaOptions": {
-        "supported": "=>21",
-        "suggestedMajor": 21,
-        "platformOptions": [
-          {
-            "platform": "win32",
-            "architecture": "x64",
-            "distribution": "TEMURIN"
-          }
-        ],
-        "ram": {
-          "minimum": 4096,
-          "recommended": 8192
-        }
-      },
-      "modules": [
-        {
-          "id": "net.fabricmc:fabric-loader:0.18.4",
-          "name": "Fabric (fabric-loader)",
-          "type": "Fabric",
-          "artifact": {
-            "size": 1944518,
-            "MD5": "56c00fa22e0452e8567be1feae73c3b9",
-            "url": "https://github.com/mchdistro/zzunwoo/raw/main/repo/lib/net/fabricmc/fabric-loader/0.18.4/fabric-loader-0.18.4.jar"
-          },
-          "subModules": [
+   "servers" : [
+      {
+         "address" : "211.53.196.231:25600",
+         "autoconnect" : true,
+         "description" : "쌍룡상사 주식서버 (Minecraft 1.21.4 Fabric)",
+         "icon" : "https://github.com/mchdistro/zzunwoo/raw/main/server-icon.png",
+         "id" : "ssangyong-1.21.4",
+         "javaOptions" : {
+            "platformOptions" : [
+               {
+                  "architecture" : "x64",
+                  "distribution" : "TEMURIN",
+                  "platform" : "win32"
+               }
+            ],
+            "ram" : {
+               "minimum" : 4096,
+               "recommended" : 8192
+            },
+            "suggestedMajor" : 21,
+            "supported" : "=>21"
+         },
+         "mainServer" : true,
+         "minecraftVersion" : "1.21.4",
+         "modules" : [
             {
-              "id": "1.21.4-fabric-0.18.4",
-              "name": "Fabric (version.json)",
-              "type": "VersionManifest",
-              "artifact": {
-                "size": 2847,
-                "MD5": "0570f9bf422c12cc7ce1547a6844f783",
-                "url": "https://github.com/mchdistro/zzunwoo/raw/main/repo/versions/1.21.4-fabric-0.18.4/1.21.4-fabric-0.18.4.json"
-              }
+               "artifact" : {
+                  "MD5" : "56c00fa22e0452e8567be1feae73c3b9",
+                  "size" : 1944518,
+                  "url" : "https://github.com/mchdistro/zzunwoo/raw/main/repo/lib/net/fabricmc/fabric-loader/0.18.4/fabric-loader-0.18.4.jar"
+               },
+               "id" : "net.fabricmc:fabric-loader:0.18.4",
+               "name" : "Fabric (fabric-loader)",
+               "subModules" : [
+                  {
+                     "artifact" : {
+                        "MD5" : "0570f9bf422c12cc7ce1547a6844f783",
+                        "size" : 2847,
+                        "url" : "https://github.com/mchdistro/zzunwoo/raw/main/repo/versions/1.21.4-fabric-0.18.4/1.21.4-fabric-0.18.4.json"
+                     },
+                     "id" : "1.21.4-fabric-0.18.4",
+                     "name" : "Fabric (version.json)",
+                     "type" : "VersionManifest"
+                  },
+                  {
+                     "artifact" : {
+                        "MD5" : "6d1dd0482c03a6dc1807d9d004456021",
+                        "size" : 126122,
+                        "url" : "https://github.com/mchdistro/zzunwoo/raw/main/repo/lib/org/ow2/asm/asm/9.9/asm-9.9.jar"
+                     },
+                     "id" : "org.ow2.asm:asm:9.9",
+                     "name" : "Fabric (asm)",
+                     "type" : "Library"
+                  },
+                  {
+                     "artifact" : {
+                        "MD5" : "f07383cfbd50f097558341a03b8871e1",
+                        "size" : 35149,
+                        "url" : "https://github.com/mchdistro/zzunwoo/raw/main/repo/lib/org/ow2/asm/asm-analysis/9.9/asm-analysis-9.9.jar"
+                     },
+                     "id" : "org.ow2.asm:asm-analysis:9.9",
+                     "name" : "Fabric (asm-analysis)",
+                     "type" : "Library"
+                  },
+                  {
+                     "artifact" : {
+                        "MD5" : "8103b3de8f48fb4c7f97efdaa46ce809",
+                        "size" : 74348,
+                        "url" : "https://github.com/mchdistro/zzunwoo/raw/main/repo/lib/org/ow2/asm/asm-commons/9.9/asm-commons-9.9.jar"
+                     },
+                     "id" : "org.ow2.asm:asm-commons:9.9",
+                     "name" : "Fabric (asm-commons)",
+                     "type" : "Library"
+                  },
+                  {
+                     "artifact" : {
+                        "MD5" : "912eeaba1a63d574ffc66c651c7c6725",
+                        "size" : 51947,
+                        "url" : "https://github.com/mchdistro/zzunwoo/raw/main/repo/lib/org/ow2/asm/asm-tree/9.9/asm-tree-9.9.jar"
+                     },
+                     "id" : "org.ow2.asm:asm-tree:9.9",
+                     "name" : "Fabric (asm-tree)",
+                     "type" : "Library"
+                  },
+                  {
+                     "artifact" : {
+                        "MD5" : "ef5e90e736cd09bc407c1d46a3faba0f",
+                        "size" : 94565,
+                        "url" : "https://github.com/mchdistro/zzunwoo/raw/main/repo/lib/org/ow2/asm/asm-util/9.9/asm-util-9.9.jar"
+                     },
+                     "id" : "org.ow2.asm:asm-util:9.9",
+                     "name" : "Fabric (asm-util)",
+                     "type" : "Library"
+                  },
+                  {
+                     "artifact" : {
+                        "MD5" : "d27dcb910788a0bd4bea72942a714093",
+                        "size" : 1505269,
+                        "url" : "https://github.com/mchdistro/zzunwoo/raw/main/repo/lib/net/fabricmc/sponge-mixin/0.17.0+mixin.0.8.7/sponge-mixin-0.17.0+mixin.0.8.7.jar"
+                     },
+                     "id" : "net.fabricmc:sponge-mixin:0.17.0+mixin.0.8.7",
+                     "name" : "Fabric (sponge-mixin)",
+                     "type" : "Library"
+                  },
+                  {
+                     "artifact" : {
+                        "MD5" : "d0f4187a62328d4a95f3428434efbd48",
+                        "size" : 701826,
+                        "url" : "https://github.com/mchdistro/zzunwoo/raw/main/repo/lib/net/fabricmc/intermediary/1.21.4/intermediary-1.21.4.jar"
+                     },
+                     "id" : "net.fabricmc:intermediary:1.21.4",
+                     "name" : "Fabric (intermediary)",
+                     "type" : "Library"
+                  }
+               ],
+               "type" : "Fabric"
             },
             {
-              "id": "org.ow2.asm:asm:9.9",
-              "name": "Fabric (asm)",
-              "type": "Library",
-              "artifact": {
-                "size": 126122,
-                "MD5": "6d1dd0482c03a6dc1807d9d004456021",
-                "url": "https://github.com/mchdistro/zzunwoo/raw/main/repo/lib/org/ow2/asm/asm/9.9/asm-9.9.jar"
-              }
+               "artifact" : {
+                  "MD5" : "3c220399e5c34dae32224818c7acaa6c",
+                  "size" : 376047,
+                  "url" : "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/fabricmods/required/authme-fabric-9.0.1+1.21.4.jar"
+               },
+               "id" : "me.axieum.mcmod.authme.impl:authme:9.0.1+1.21.4@jar",
+               "name" : "Auth Me",
+               "type" : "FabricMod"
             },
             {
-              "id": "org.ow2.asm:asm-analysis:9.9",
-              "name": "Fabric (asm-analysis)",
-              "type": "Library",
-              "artifact": {
-                "size": 35149,
-                "MD5": "f07383cfbd50f097558341a03b8871e1",
-                "url": "https://github.com/mchdistro/zzunwoo/raw/main/repo/lib/org/ow2/asm/asm-analysis/9.9/asm-analysis-9.9.jar"
-              }
+               "artifact" : {
+                  "MD5" : "1294fe12bfc2d2dbe8e4541c27873fd2",
+                  "size" : 11418,
+                  "url" : "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/fabricmods/required/blurserveraddress-fabric-1.2.0+mc1.21.2.jar"
+               },
+               "id" : "kr.shihyeon:blurserveraddress:1.2.0+mc1.21.2@jar",
+               "name" : "BlurServerAddress",
+               "type" : "FabricMod"
             },
             {
-              "id": "org.ow2.asm:asm-commons:9.9",
-              "name": "Fabric (asm-commons)",
-              "type": "Library",
-              "artifact": {
-                "size": 74348,
-                "MD5": "8103b3de8f48fb4c7f97efdaa46ce809",
-                "url": "https://github.com/mchdistro/zzunwoo/raw/main/repo/lib/org/ow2/asm/asm-commons/9.9/asm-commons-9.9.jar"
-              }
+               "artifact" : {
+                  "MD5" : "13e5465b5ed84d6b27082119c12e01fa",
+                  "size" : 832983,
+                  "url" : "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/fabricmods/required/donation-fabric-1.21.4-2.0.2.jar"
+               },
+               "id" : "bot.colla:donation:2.0.2@jar",
+               "name" : "Donation",
+               "type" : "FabricMod"
             },
             {
-              "id": "org.ow2.asm:asm-tree:9.9",
-              "name": "Fabric (asm-tree)",
-              "type": "Library",
-              "artifact": {
-                "size": 51947,
-                "MD5": "912eeaba1a63d574ffc66c651c7c6725",
-                "url": "https://github.com/mchdistro/zzunwoo/raw/main/repo/lib/org/ow2/asm/asm-tree/9.9/asm-tree-9.9.jar"
-              }
+               "artifact" : {
+                  "MD5" : "128a8d042180e7c92567342e21a21a6d",
+                  "size" : 2149128,
+                  "url" : "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/fabricmods/required/fabric-api-0.119.4+1.21.4.jar"
+               },
+               "id" : "generated.fabricmod:fabric-api:0.119.4+1.21.4@jar",
+               "name" : "Fabric API",
+               "type" : "FabricMod"
             },
             {
-              "id": "org.ow2.asm:asm-util:9.9",
-              "name": "Fabric (asm-util)",
-              "type": "Library",
-              "artifact": {
-                "size": 94565,
-                "MD5": "ef5e90e736cd09bc407c1d46a3faba0f",
-                "url": "https://github.com/mchdistro/zzunwoo/raw/main/repo/lib/org/ow2/asm/asm-util/9.9/asm-util-9.9.jar"
-              }
+               "artifact" : {
+                  "MD5" : "59d373e4874efbcb8fb426bdefa588d9",
+                  "size" : 2682702,
+                  "url" : "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/fabricmods/required/iris-fabric-1.8.8+mc1.21.4.jar"
+               },
+               "id" : "generated.fabricmod:iris:1.8.8+mc1.21.4@jar",
+               "name" : "Iris",
+               "type" : "FabricMod"
             },
             {
-              "id": "net.fabricmc:sponge-mixin:0.17.0+mixin.0.8.7",
-              "name": "Fabric (sponge-mixin)",
-              "type": "Library",
-              "artifact": {
-                "size": 1505269,
-                "MD5": "d27dcb910788a0bd4bea72942a714093",
-                "url": "https://github.com/mchdistro/zzunwoo/raw/main/repo/lib/net/fabricmc/sponge-mixin/0.17.0+mixin.0.8.7/sponge-mixin-0.17.0+mixin.0.8.7.jar"
-              }
+               "artifact" : {
+                  "MD5" : "8b092f8cca0a96d80eb8eeea24b5ebfd",
+                  "size" : 3514383,
+                  "url" : "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/fabricmods/required/journeymap-fabric-1.21.4-6.0.0-beta.47.jar"
+               },
+               "id" : "journeymap:journeymap:1.21.4-6.0.0-beta.47@jar",
+               "name" : "Journeymap",
+               "type" : "FabricMod"
             },
             {
-              "id": "net.fabricmc:intermediary:1.21.4",
-              "name": "Fabric (intermediary)",
-              "type": "Library",
-              "artifact": {
-                "size": 701826,
-                "MD5": "d0f4187a62328d4a95f3428434efbd48",
-                "url": "https://github.com/mchdistro/zzunwoo/raw/main/repo/lib/net/fabricmc/intermediary/1.21.4/intermediary-1.21.4.jar"
-              }
+               "artifact" : {
+                  "MD5" : "ff7141b1402454eddab71fa974d47614",
+                  "size" : 5937,
+                  "url" : "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/fabricmods/required/KeyChecker-1.21.4.jar"
+               },
+               "id" : "com.example.keyevent:keyeventmod:1.21.4@jar",
+               "name" : "Key Checker Mod",
+               "type" : "FabricMod"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "fcf0f59c7f45c751af04527080bc4e28",
+                  "size" : 578977,
+                  "url" : "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/fabricmods/required/koreanpatch-fabric-1.8.5+mc1.21.3.jar"
+               },
+               "id" : "com.hyfata.najoan:koreanpatch:1.8.5+mc1.21.3@jar",
+               "name" : "Korean Patch",
+               "type" : "FabricMod"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "47bd3acbbaaf09dae1c5142dc5b3f41c",
+                  "size" : 321286,
+                  "url" : "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/fabricmods/required/NoChatReports-FABRIC-1.21.4-v2.11.0.jar"
+               },
+               "id" : "com.aizistral:nochatreports:1.21.4-v2.11.0@jar",
+               "name" : "No Chat Reports",
+               "type" : "FabricMod"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "dde3cf502defa8513b1fb98afbc2dd11",
+                  "size" : 12191569,
+                  "url" : "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/fabricmods/required/plasmovoice-fabric-1.21.4-2.1.5.jar"
+               },
+               "id" : "su.plo.voice:plasmovoice:2.1.5@jar",
+               "name" : "Plasmo Voice",
+               "type" : "FabricMod"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "28922a78d1876ee062e3265f10abcc46",
+                  "size" : 1306799,
+                  "url" : "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/fabricmods/required/sodium-fabric-0.6.13+mc1.21.4.jar"
+               },
+               "id" : "net.caffeinemc.mods:sodium:0.6.13+mc1.21.4@jar",
+               "name" : "Sodium",
+               "type" : "FabricMod"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "1062016a1608823555c1bf16fafeb6cd",
+                  "size" : 154830,
+                  "url" : "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/fabricmods/required/WI-Zoom-1.6-MC1.21.4.jar"
+               },
+               "id" : "net.wurstclient.zoom:wi_zoom:1.6-MC1.21.4@jar",
+               "name" : "WI Zoom",
+               "type" : "FabricMod"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "576ef06da170458879f3a03e685d487a",
+                  "path" : "shaderpacks/ComplementaryUnbound_r5.5.1.zip",
+                  "size" : 456332,
+                  "url" : "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/files/shaderpacks/ComplementaryUnbound_r5.5.1.zip"
+               },
+               "id" : "ComplementaryUnbound_r5.5.1.zip",
+               "name" : "ComplementaryUnbound_r5.5.1.zip",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "a1a0c006c92d932a9c3ca064811904cf",
+                  "size" : 34358,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/ssangyong-launcher-distro/mods/ssangyong-ui-0.1.0+mc1.21.4.jar"
+               },
+               "id" : "com.ssangyong:ssangyong-ui:0.1.0+mc1.21.4@jar",
+               "name" : "쌍룡상사 UI",
+               "required" : {
+                  "value" : true
+               },
+               "type" : "FabricMod"
+            },
+            {
+               "artifact" : {
+                  "path" : "options.txt",
+                  "size" : 5138,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/ssangyong-launcher-distro/files/options.txt"
+               },
+               "id" : "options.txt",
+               "name" : "options.txt",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "path" : "servers.dat",
+                  "size" : 86,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/ssangyong-launcher-distro/files/servers.dat"
+               },
+               "id" : "servers.dat",
+               "name" : "servers.dat",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "path" : "config/iris.properties",
+                  "size" : 313,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/ssangyong-launcher-distro/files/config/iris.properties"
+               },
+               "id" : "iris.properties",
+               "name" : "iris.properties",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "path" : "shaderpacks/ComplementaryUnbound_r5.5.1.zip.txt",
+                  "size" : 278,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/ssangyong-launcher-distro/files/shaderpacks/ComplementaryUnbound_r5.5.1.zip.txt"
+               },
+               "id" : "ComplementaryUnbound_r5.5.1.zip.txt",
+               "name" : "ComplementaryUnbound_r5.5.1.zip.txt",
+               "type" : "File"
             }
-          ]
-        },
-        {
-          "id": "me.axieum.mcmod.authme.impl:authme:9.0.1+1.21.4@jar",
-          "name": "Auth Me",
-          "type": "FabricMod",
-          "artifact": {
-            "size": 376047,
-            "url": "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/fabricmods/required/authme-fabric-9.0.1+1.21.4.jar",
-            "MD5": "3c220399e5c34dae32224818c7acaa6c"
-          }
-        },
-        {
-          "id": "kr.shihyeon:blurserveraddress:1.2.0+mc1.21.2@jar",
-          "name": "BlurServerAddress",
-          "type": "FabricMod",
-          "artifact": {
-            "size": 11418,
-            "url": "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/fabricmods/required/blurserveraddress-fabric-1.2.0+mc1.21.2.jar",
-            "MD5": "1294fe12bfc2d2dbe8e4541c27873fd2"
-          }
-        },
-        {
-          "id": "bot.colla:donation:2.0.2@jar",
-          "name": "Donation",
-          "type": "FabricMod",
-          "artifact": {
-            "size": 832983,
-            "url": "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/fabricmods/required/donation-fabric-1.21.4-2.0.2.jar",
-            "MD5": "13e5465b5ed84d6b27082119c12e01fa"
-          }
-        },
-        {
-          "id": "generated.fabricmod:fabric-api:0.119.4+1.21.4@jar",
-          "name": "Fabric API",
-          "type": "FabricMod",
-          "artifact": {
-            "size": 2149128,
-            "url": "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/fabricmods/required/fabric-api-0.119.4+1.21.4.jar",
-            "MD5": "128a8d042180e7c92567342e21a21a6d"
-          }
-        },
-        {
-          "id": "generated.fabricmod:iris:1.8.8+mc1.21.4@jar",
-          "name": "Iris",
-          "type": "FabricMod",
-          "artifact": {
-            "size": 2682702,
-            "url": "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/fabricmods/required/iris-fabric-1.8.8+mc1.21.4.jar",
-            "MD5": "59d373e4874efbcb8fb426bdefa588d9"
-          }
-        },
-        {
-          "id": "journeymap:journeymap:1.21.4-6.0.0-beta.47@jar",
-          "name": "Journeymap",
-          "type": "FabricMod",
-          "artifact": {
-            "size": 3514383,
-            "url": "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/fabricmods/required/journeymap-fabric-1.21.4-6.0.0-beta.47.jar",
-            "MD5": "8b092f8cca0a96d80eb8eeea24b5ebfd"
-          }
-        },
-        {
-          "id": "com.example.keyevent:keyeventmod:1.21.4@jar",
-          "name": "Key Checker Mod",
-          "type": "FabricMod",
-          "artifact": {
-            "size": 5937,
-            "url": "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/fabricmods/required/KeyChecker-1.21.4.jar",
-            "MD5": "ff7141b1402454eddab71fa974d47614"
-          }
-        },
-        {
-          "id": "com.hyfata.najoan:koreanpatch:1.8.5+mc1.21.3@jar",
-          "name": "Korean Patch",
-          "type": "FabricMod",
-          "artifact": {
-            "size": 578977,
-            "url": "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/fabricmods/required/koreanpatch-fabric-1.8.5+mc1.21.3.jar",
-            "MD5": "fcf0f59c7f45c751af04527080bc4e28"
-          }
-        },
-        {
-          "id": "com.aizistral:nochatreports:1.21.4-v2.11.0@jar",
-          "name": "No Chat Reports",
-          "type": "FabricMod",
-          "artifact": {
-            "size": 321286,
-            "url": "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/fabricmods/required/NoChatReports-FABRIC-1.21.4-v2.11.0.jar",
-            "MD5": "47bd3acbbaaf09dae1c5142dc5b3f41c"
-          }
-        },
-        {
-          "id": "su.plo.voice:plasmovoice:2.1.5@jar",
-          "name": "Plasmo Voice",
-          "type": "FabricMod",
-          "artifact": {
-            "size": 12191569,
-            "url": "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/fabricmods/required/plasmovoice-fabric-1.21.4-2.1.5.jar",
-            "MD5": "dde3cf502defa8513b1fb98afbc2dd11"
-          }
-        },
-        {
-          "id": "net.caffeinemc.mods:sodium:0.6.13+mc1.21.4@jar",
-          "name": "Sodium",
-          "type": "FabricMod",
-          "artifact": {
-            "size": 1306799,
-            "url": "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/fabricmods/required/sodium-fabric-0.6.13+mc1.21.4.jar",
-            "MD5": "28922a78d1876ee062e3265f10abcc46"
-          }
-        },
-        {
-          "id": "net.wurstclient.zoom:wi_zoom:1.6-MC1.21.4@jar",
-          "name": "WI Zoom",
-          "type": "FabricMod",
-          "artifact": {
-            "size": 154830,
-            "url": "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/fabricmods/required/WI-Zoom-1.6-MC1.21.4.jar",
-            "MD5": "1062016a1608823555c1bf16fafeb6cd"
-          }
-        },
-        {
-          "id": "ComplementaryUnbound_r5.5.1.zip",
-          "name": "ComplementaryUnbound_r5.5.1.zip",
-          "type": "File",
-          "artifact": {
-            "size": 456332,
-            "url": "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/files/shaderpacks/ComplementaryUnbound_r5.5.1.zip",
-            "MD5": "576ef06da170458879f3a03e685d487a",
-            "path": "shaderpacks/ComplementaryUnbound_r5.5.1.zip"
-          }
-        },
-        {
-          "id": "kr.kkaegul:kkaegul-ui:0.1.0+mc1.21.4@jar",
-          "name": "운빨깨굴랜드 UI",
-          "type": "FabricMod",
-          "required": {
-            "value": true
-          },
-          "artifact": {
-            "size": 84624051,
-            "url": "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/kkaegul-launcher-distro/mods/kkaegul-ui-0.1.0+mc1.21.4.jar",
-            "MD5": "a99dce91fc17aff7f784ec1d5f6bd197"
-          }
-        },
-        {
-          "id": "options.txt",
-          "name": "options.txt",
-          "type": "File",
-          "artifact": {
-            "size": 5174,
-            "url": "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/kkaegul-launcher-distro/files/options.txt",
-            "path": "options.txt"
-          }
-        },
-        {
-          "id": "servers.dat",
-          "name": "servers.dat",
-          "type": "File",
-          "artifact": {
-            "size": 92,
-            "url": "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/kkaegul-launcher-distro/files/servers.dat",
-            "path": "servers.dat"
-          }
-        },
-        {
-          "id": "iris.properties",
-          "name": "iris.properties",
-          "type": "File",
-          "artifact": {
-            "size": 313,
-            "url": "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/kkaegul-launcher-distro/files/config/iris.properties",
-            "path": "config/iris.properties"
-          }
-        },
-        {
-          "id": "ComplementaryUnbound_r5.5.1.zip.txt",
-          "name": "ComplementaryUnbound_r5.5.1.zip.txt",
-          "type": "File",
-          "artifact": {
-            "size": 278,
-            "url": "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/kkaegul-launcher-distro/files/shaderpacks/ComplementaryUnbound_r5.5.1.zip.txt",
-            "path": "shaderpacks/ComplementaryUnbound_r5.5.1.zip.txt"
-          }
-        }
-      ]
-    }
-  ]
+         ],
+         "name" : "쌍룡상사",
+         "version" : "1.0.0"
+      }
+   ],
+   "version" : "1.0.0"
 }
