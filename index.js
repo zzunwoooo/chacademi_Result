@@ -59,7 +59,7 @@ ipcMain.on('autoUpdateAction', (event, arg, data) => {
             event.sender.send('autoUpdateNotification', 'ready')
             break
         case 'checkForUpdate':
-            // 운빨깨굴랜드 런처: 자동 업데이트 없음
+            // 쌍룡상사 런처: 자동 업데이트 없음
             event.sender.send('autoUpdateNotification', 'update-not-available')
             break
         case 'allowPrereleaseChange':

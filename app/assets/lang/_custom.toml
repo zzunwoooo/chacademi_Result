@@ -1,7 +1,7 @@
 # Custom Language File for Launcher Customizer
 
 [ejs.app]
-title = "운빨깨굴랜드"
+title = "쌍룡상사"
 
 [ejs.landing]
 mediaGitHubURL = "#"
@@ -18,6 +18,6 @@ sourceGithubLink = "#"
 supportLink = "#"
 
 [ejs.welcome]
-welcomeHeader = "운빨깨굴랜드"
+welcomeHeader = "쌍룡상사"
 welcomeDescription = ""
 welcomeDescCTA = "[계속] 버튼을 눌러 계속 진행하여 주세요."
