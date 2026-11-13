@@ -68,6 +68,7 @@ public final class NpcService {
         builtins.put("lobby", p -> plugin.places().tp(p, "lobby"));
         builtins.put("village", p -> plugin.places().tp(p, "village"));
         builtins.put("gacha-shop", p -> plugin.places().tp(p, "gacha"));
+        builtins.put("hall-of-fame", p -> plugin.places().tp(p, "hall-of-fame"));   // 명예의 전당 (/깨굴 위치 저장 hall-of-fame)
         builtins.put("titles", p -> plugin.titles().open(p));
         builtins.put("card-draw", p -> plugin.minigames().cards().open(p));
         builtins.put("wardrobe", p -> plugin.cosmetics().open(p));   // 옷장 (치장품)

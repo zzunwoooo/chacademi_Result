@@ -178,7 +178,7 @@ public final class Actions {
             plugin.npcs().wild().paidRandomTp(p);
             return;
         }
-        String npc = switch (dest) { case "lobby" -> "lobby"; case "gacha_shop" -> "gacha-shop"; case "wild" -> "wild"; default -> null; };
+        String npc = switch (dest) { case "lobby" -> "lobby"; case "gacha_shop" -> "gacha-shop"; case "wild" -> "wild"; case "hall_of_fame" -> "hall-of-fame"; default -> null; };
         if (npc == null) return;
         moveCool.put(p.getUniqueId(), now);
         plugin.npcs().run(p, npc);

@@ -12,9 +12,9 @@ public final class DropdownPanel implements Panel {
     private static final int TXT = Canvas.BOLD | Canvas.LIGHT;
     private static final String[] ROW_ID = {"profile", "wardrobe", "mailbox", "withdraw", "move", "ranking", "trash", "discord_link"};
     private static final String[] ROW_NAME = {"내 정보", "옷장", "우편함", "인출", "이동", "랭킹", "쓰레기통", "디코 연동"};
-    private static final String[] SUB_ID = {"lobby", "village", "gacha_shop", "wild"};
-    private static final String[] SUB_NAME = {"로비", "마을", "가챠샵", "야생"};
-    private static final float PW = 230, PH = 500, TIPX = 193, TIPY = 2, SUBX = 245, SUBY = 248, SW = 200, SH = 232;
+    private static final String[] SUB_ID = {"lobby", "village", "gacha_shop", "wild", "hall_of_fame"};
+    private static final String[] SUB_NAME = {"로비", "마을", "가챠샵", "야생", "명예의 전당"};
+    private static final float PW = 230, PH = 500, TIPX = 193, TIPY = 2, SUBX = 245, SUBY = 248, SW = 200, SH = 232 + 54;   // 그림은 4줄(232), 셋째 줄 칸을 한 번 더 이어 5줄
     private static final int ROWS = ROW_ID.length;
     /** 이동 줄 (하위 목록이 이 줄 옆에 펼쳐짐: SUBY = 24 + 58 × MOVE - 8) */
     private static final int MOVE = 4;
@@ -24,7 +24,7 @@ public final class DropdownPanel implements Panel {
     private final HudView hud;
     private final long opened;
     private long closing = -1, last;
-    private final float[] hov = new float[ROWS], subHov = new float[4];
+    private final float[] hov = new float[ROWS], subHov = new float[SUB_ID.length];
     private float sub, subPin;      // 하위 목록 펼침 정도
     private float px, py, hs = 1;   // 판 왼쪽 위 (HUD 좌표), HUD 배율
 
@@ -120,8 +120,14 @@ public final class DropdownPanel implements Panel {
             float ox = SUBX - 16 * (1 - se);
             c.push();
             c.translate(ox, SUBY);
-            c.image("dropdown/submenu_panel", 0, 0, SW, SH, Anim.white(sa));
-            for (int j = 0; j < 4; j++) {
+            // 그림(232, 4줄)의 셋째 줄 칸(116~170, 아래 줄선 포함)을 모자란 줄 수만큼 더 넣어 늘림
+            float sg = 232f;
+            int sx2 = SUB_ID.length - 4;
+            c.imagePart("dropdown/submenu_panel", 0, 0, SW, 170, 0, 0, 1, 170 / sg, Anim.white(sa));
+            for (int r = 0; r < sx2; r++)
+                c.imagePart("dropdown/submenu_panel", 0, 170 + 54 * r, SW, 54, 0, 116 / sg, 1, 170 / sg, Anim.white(sa));
+            c.imagePart("dropdown/submenu_panel", 0, 170 + 54 * sx2, SW, SH - 170 - 54 * sx2, 0, 170 / sg, 1, 1, Anim.white(sa));
+            for (int j = 0; j < SUB_ID.length; j++) {
                 float jt = Anim.clamp(sub * 1.6f - j * .15f);
                 float ja = Anim.outCubic(jt) * sa;
                 boolean over = closing < 0 && Anim.in(lx - ox, ly - SUBY, 8, 8 + 54 * j, 184, 54);
@@ -142,7 +148,7 @@ public final class DropdownPanel implements Panel {
         float lx = mx / hs - px, ly = my / hs - py;
         // 하위 목록
         if (sub > .5f) {
-            for (int j = 0; j < 4; j++) {
+            for (int j = 0; j < SUB_ID.length; j++) {
                 if (Anim.in(lx, ly, SUBX + 8, SUBY + 8 + 54 * j, 184, 54)) {
                     host.send("move", "dest", SUB_ID[j]);
                     host.sound("minecraft:ui.button.click", 1.2f, .4f);

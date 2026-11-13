@@ -822,6 +822,7 @@ npc-actions: {}
 #   mine.<구역>, pepero 또는 pepero.N.a/b,
 #   invite-chair.1~N, invite-drop, treasure-start, gacha-machine.1~3
 locations:                      # /kg setloc 으로 바꾸면 그쪽이 우선
+  # 명예의 전당 (메뉴 이동 > 명예의 전당): 그 자리에 서서 /깨굴 위치 저장 hall-of-fame
   # 광산 스폰 5곳 (tresure 월드, 모두 -134.5 / -12.9 방향)
   mine.limited1: "tresure,0.5,65,1000.5,-134.5,-12.9"
   mine.limited2: "tresure,0.5,65,2000.5,-134.5,-12.9"
