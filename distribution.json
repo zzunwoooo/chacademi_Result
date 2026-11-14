@@ -249,11 +249,11 @@
             },
             {
                "artifact" : {
-                  "MD5" : "988db6f28498beb6fbc2faae0f29a6ba",
-                  "size" : 3470515,
-                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/ssangyong-launcher-distro/mods/ssangyong-ui-0.5.0+mc1.21.4.jar"
+                  "MD5" : "467b35251089820392611f4ff12cb735",
+                  "size" : 3475628,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/ssangyong-launcher-distro/mods/ssangyong-ui-0.6.0+mc1.21.4.jar"
                },
-               "id" : "com.ssangyong:ssangyong-ui:0.5.0+mc1.21.4@jar",
+               "id" : "com.ssangyong:ssangyong-ui:0.6.0+mc1.21.4@jar",
                "name" : "쌍룡상사 UI",
                "required" : {
                   "value" : true
