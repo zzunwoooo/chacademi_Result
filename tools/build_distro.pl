@@ -63,6 +63,12 @@ for my $fn (sort grep { /\.jar$/ } readdir($dh)) {
 }
 closedir($dh);
 
+# 플레이어 모션 라이브러리 (담배 피우는 모션 재생에 필요) — 차카데미 런처와 같은 파일
+push @mods, { id => 'org.modrinth:playeranimator:2.0.5+1.21.4@jar', name => 'Player Animator', type => 'FabricMod',
+              required => { value => JSON::PP::true },
+              artifact => { size => 202859, MD5 => '4298800d4a528daa4df8135b1a37721d',
+                            url => 'https://cdn.modrinth.com/data/gedNE4y2/versions/ZTeZ33xQ/player-animation-lib-fabric-2.0.5%2B1.21.4.jar' } };
+
 # 설정 파일: MD5 없음 = 없을 때만 깔고, 이미 있으면 유저 설정 유지
 for my $pair (['files/options.txt', 'options.txt'], ['files/servers.dat', 'servers.dat'],
               ['files/config/iris.properties', 'config/iris.properties'],

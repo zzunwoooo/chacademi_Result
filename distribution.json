@@ -249,12 +249,25 @@
             },
             {
                "artifact" : {
-                  "MD5" : "faefeba7c23d8e7a1652f14187f43252",
-                  "size" : 3464134,
-                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/ssangyong-launcher-distro/mods/ssangyong-ui-0.3.0+mc1.21.4.jar"
+                  "MD5" : "5dae94fed3450a03a9f128f0dd31fbc6",
+                  "size" : 3466858,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/ssangyong-launcher-distro/mods/ssangyong-ui-0.4.0+mc1.21.4.jar"
                },
-               "id" : "com.ssangyong:ssangyong-ui:0.3.0+mc1.21.4@jar",
+               "id" : "com.ssangyong:ssangyong-ui:0.4.0+mc1.21.4@jar",
                "name" : "쌍룡상사 UI",
+               "required" : {
+                  "value" : true
+               },
+               "type" : "FabricMod"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "4298800d4a528daa4df8135b1a37721d",
+                  "size" : 202859,
+                  "url" : "https://cdn.modrinth.com/data/gedNE4y2/versions/ZTeZ33xQ/player-animation-lib-fabric-2.0.5%2B1.21.4.jar"
+               },
+               "id" : "org.modrinth:playeranimator:2.0.5+1.21.4@jar",
+               "name" : "Player Animator",
                "required" : {
                   "value" : true
                },
