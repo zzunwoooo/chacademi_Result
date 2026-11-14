@@ -162,11 +162,13 @@ key_key.journeymap.fullscreen.east:key.keyboard.right
 key_key.journeymap.fullscreen.west:key.keyboard.left
 key_key.journeymap.fullscreen_follow_player:key.keyboard.unknown
 key_key.journeymap.fullscreen.disable_buttons:key.keyboard.unknown
-key_key.journeymap.toggle_entity_names:key.keyboard.g
+key_key.journeymap.toggle_entity_names:key.keyboard.unknown
 key_key.koreanpatch.toggle_langtype:key.keyboard.right.alt
 key_key.koreanpatch.toggle_ime:key.keyboard.i
 key_key.plasmovoice.settings:key.keyboard.v
-key_iris.keybind.reload:key.keyboard.r
+key_iris.keybind.reload:key.keyboard.unknown
 key_iris.keybind.toggleShaders:key.keyboard.k
 key_iris.keybind.shaderPackSelection:key.keyboard.o
 key_iris.keybind.wireframe:key.keyboard.unknown
+key_key.ssangyong.open:key.keyboard.g
+key_key.ssangyong.smoke:key.keyboard.r
