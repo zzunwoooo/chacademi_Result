@@ -294,6 +294,7 @@ public final class CoreListener implements Listener {
         Player attacker = e.getDamager() instanceof Player a ? a
                 : e.getDamager() instanceof org.bukkit.entity.Projectile pr && pr.getShooter() instanceof Player a2 ? a2 : null;
         if (attacker == null || attacker.equals(victim)) return;
+        if (plugin.pvpArea(victim.getLocation()) && plugin.pvpArea(attacker.getLocation())) return;   // PVP장 안끼리는 때릴 수 있음
         if (plugin.safeZone(victim.getLocation()) || plugin.safeZone(attacker.getLocation())) e.setCancelled(true);
     }
 

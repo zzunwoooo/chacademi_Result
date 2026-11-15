@@ -120,6 +120,13 @@ public final class Actions {
         Player t = plugin.data().online(target);
         if (t == null || t.equals(p)) { plugin.ui().error(p, "&c접속 중인 다른 유저 이름을 입력하세요."); return; }
         if (plugin.data().get(p).inJail) { plugin.ui().error(p, "&c감옥에서는 쓸 수 없어요."); return; }
+        java.util.List<String> blocked = plugin.getConfig().isList("items.teleport_ticket.blocked-worlds")
+                ? plugin.getConfig().getStringList("items.teleport_ticket.blocked-worlds") : java.util.List.of("tresure", "kkaegul_invite");
+        if (plugin.mine().isInMine(t) || plugin.minigames().gameOf(t) != null || plugin.data().get(t).inJail
+                || (t.getWorld() != null && blocked.contains(t.getWorld().getName()))) {   // 광산·미니게임·감옥 안으로 따라 들어가기 금지 (텔포권 안 씀)
+            plugin.ui().error(p, "&c지금은 그 유저에게 갈 수 없어요. &7(광산·미니게임·감옥에 있음)");
+            return;
+        }
         if (!ItemUseListener.consumeFromInventory(plugin, p, CustomItem.TELEPORT_TICKET)) { plugin.ui().error(p, "&c유저 텔포권이 없어요."); return; }
         plugin.harass().saveBack(p);
         p.teleport(t.getLocation());

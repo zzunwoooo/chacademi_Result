@@ -312,6 +312,7 @@ gacha:
 # ── 안전 구역 ── PK 금지 · 괴롭히기 몬스터 소환 금지 · 죽어도 아이템 유지
 safe-zones:
   worlds: [lobby]               # 월드 전체가 안전 구역
+  pvp-areas: [lobby-pvp]        # 안전 구역 안 PVP장: 모서리 두 곳에 서서 /깨굴 위치 저장 lobby-pvp.1 · lobby-pvp.2 (그 상자 안끼리만 때림)
   places:                       # 저장한 위치 둘레 반경(블록)
     village: 150
   keep-inventory: true
@@ -619,6 +620,9 @@ titles:
     host_noob:   { name: "<#FF5FA2>[허접섭주]</#9B6BFF>", description: "운영자 전용 칭호" }
     staff_slave: { name: "<#5BC0FF>[운영노예]</#57D98A>", description: "운영자 전용 칭호" }
     donation_king: { name: "<#FFD54A>[기부왕]</#FF8A3D>", description: "운영자 전용 칭호" }
+    builder_king:  { name: "<#FFC24B>[건축왕]</#7BD35A>", description: "운영자 전용 칭호" }
+    fishing_king:  { name: "<#5BE7FF>[낚시왕]</#3D6BFF>", description: "운영자 전용 칭호" }
+    fight_king:    { name: "<#FF4D4D>[싸움왕]</#FFB13B>", description: "운영자 전용 칭호" }
 
 ranking:
   size: 10

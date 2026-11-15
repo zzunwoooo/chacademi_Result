@@ -294,6 +294,21 @@ public final class KkaegulCore extends JavaPlugin {
     public kr.kkaegul.core.command.ChatService chat() { return chat; }
     public kr.kkaegul.core.land.LandService land() { return land; }
 
+    /** PVP 허용 구역 (안전 구역 안이라도 서로 때릴 수 있음): safe-zones.pvp-areas 의 이름마다 위치 <이름>.1 · <이름>.2 두 모서리 상자 */
+    public boolean pvpArea(org.bukkit.Location l) {
+        if (l == null || l.getWorld() == null) return false;
+        java.util.List<String> names = getConfig().isList("safe-zones.pvp-areas") ? getConfig().getStringList("safe-zones.pvp-areas") : java.util.List.of("lobby-pvp");
+        for (String n : names) {
+            org.bukkit.Location a = places().get(n + ".1"), b = places().get(n + ".2");
+            if (a == null || b == null || a.getWorld() == null || !a.getWorld().equals(l.getWorld()) || !a.getWorld().equals(b.getWorld())) continue;
+            double x0 = Math.floor(Math.min(a.getX(), b.getX())), x1 = Math.floor(Math.max(a.getX(), b.getX())) + 1;
+            double z0 = Math.floor(Math.min(a.getZ(), b.getZ())), z1 = Math.floor(Math.max(a.getZ(), b.getZ())) + 1;
+            double y0 = Math.floor(Math.min(a.getY(), b.getY())) - 1, y1 = Math.floor(Math.max(a.getY(), b.getY())) + 3;   // 모서리 찍은 발 높이 기준 위아래 여유
+            if (l.getX() >= x0 && l.getX() < x1 && l.getZ() >= z0 && l.getZ() < z1 && l.getY() >= y0 && l.getY() < y1) return true;
+        }
+        return false;
+    }
+
     /** 안전 구역(로비 월드, 마을 둘레): PK 금지·몬스터 소환 금지·죽어도 아이템 유지 */
     public boolean safeZone(org.bukkit.Location l) {
         if (l == null || l.getWorld() == null) return false;

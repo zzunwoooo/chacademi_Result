@@ -554,11 +554,22 @@ public final class Commands implements CommandExecutor, TabCompleter {
                 if (a.length > 2) plugin.minigames().stop(a[2]); else plugin.minigames().stop();
                 say(s, "&a중지");
             }
+            case "on", "off" -> {
+                // /깨굴 게임 켜기|끄기 <게임> : 정해진 시간마다 여는 것 자체를 켜고 끔 (설정 파일에 저장, 리로드 필요 없음)
+                Map<String, String> label = new LinkedHashMap<>();
+                label.put("invite", "위험한 초대"); label.put("treasure", "보물찾기"); label.put("casino", "카지노"); label.put("rroulette", "러시안 룰렛"); label.put("omok", "오목");
+                if (a.length < 3 || !label.containsKey(a[2])) { say(s, "&e/깨굴 게임 " + (op.equals("on") ? "켜기" : "끄기") + " <위험한초대|보물찾기|카지노|러시안룰렛|오목>"); return; }
+                boolean on = op.equals("on");
+                plugin.getConfig().set("minigame.schedule." + a[2] + ".enabled", on);
+                plugin.saveConfig();
+                if (on) say(s, "&a" + label.get(a[2]) + " 켬 &7— 정해진 시간마다 다시 열려요.");
+                else say(s, "&c" + label.get(a[2]) + " 끔 &7— 다음 판부터 안 열려요. 지금 하는 판까지 끝내려면 /깨굴 게임 중지 " + a[2]);
+            }
             case "schedule" -> {
                 // /깨굴 게임 일정 [invite|treasure|casino 분]
                 if (a.length >= 4) {
                     String k = a[2];
-                    if (!List.of("invite", "treasure", "casino", "rroulette").contains(k)) { say(s, "&c위험한초대 | 보물찾기 | 카지노 | 러시안룰렛"); return; }
+                    if (!List.of("invite", "treasure", "casino", "rroulette", "omok").contains(k)) { say(s, "&c위험한초대 | 보물찾기 | 카지노 | 러시안룰렛 | 오목"); return; }
                     plugin.minigames().setNext(k, Math.max(0, Actions.parse(a[3], 0)));
                 }
                 for (String l : plugin.minigames().scheduleLines()) say(s, l);
@@ -585,7 +596,7 @@ public final class Commands implements CommandExecutor, TabCompleter {
                     say(s, "&f" + g.id + " (" + g.label() + "): " + (r == null ? "&a준비됨" : "&c" + r) + (g.enabled() ? "" : " &8(꺼짐)") + (g.timed() ? " &7· " + fmtMin(g.durationMinutes()) : ""));
                 }
             }
-            default -> say(s, "&e/깨굴 게임 시작 <게임|랜덤> [플레이어...] | 중지 [게임] | 확인 | 시간 <게임> <시간> | 일정");
+            default -> say(s, "&e/깨굴 게임 시작 <게임|랜덤> [플레이어...] | 중지 [게임] | 켜기 <게임> | 끄기 <게임> | 확인 | 시간 <게임> <시간> | 일정");
         }
     }
 
@@ -633,7 +644,7 @@ public final class Commands implements CommandExecutor, TabCompleter {
                 {"재생성", "regen"}, {"보내기", "send"}, {"회수", "revoke"}, {"연결", "bind"}, {"해제", "unbind"},
                 {"열기", "open"}, {"출발", "go"}, {"취소", "cancel"}, {"이월", "carry"}, {"멈춤", "pause"}, {"재개", "resume"},
                 {"켜기", "on"}, {"끄기", "off"}, {"자동", "auto"}, {"일정", "schedule"},
-                {"위험한초대", "invite"}, {"보물찾기", "treasure"}, {"카지노", "casino"}, {"홀덤", "poker"}, {"포커", "poker"}, {"섯다", "seotda"}, {"빼빼로", "pepero"}, {"러시안룰렛", "rroulette"}};
+                {"위험한초대", "invite"}, {"보물찾기", "treasure"}, {"카지노", "casino"}, {"홀덤", "poker"}, {"포커", "poker"}, {"섯다", "seotda"}, {"빼빼로", "pepero"}, {"러시안룰렛", "rroulette"}, {"오목", "omok"}};
         for (String[] x : words) WORD.put(x[0], x[1]);
     }
 
@@ -708,7 +719,7 @@ public final class Commands implements CommandExecutor, TabCompleter {
             case "loc" -> {
                 if (i == 2) out.addAll(List.of("저장", "삭제", "목록", "이동"));
                 else if (i == 3 && (a[1].equals("삭제") || a[1].equals("이동"))) out.addAll(plugin.places().names());
-                else if (i == 3 && a[1].equals("저장")) { out.addAll(List.of("lobby", "start", "village", "gacha", "hall-of-fame", "jail", "wild", "race-start", "race-finish", "frog-jump-machine.1", "gacha-machine.1", "gacha-machine.2", "gacha-machine.3", "gacha-machine.1.a", "gacha-machine.1.b", "treasure-start", "invite-drop", "board.donation", "rroulette.1.1", "rroulette-gun.1")); out.addAll(plugin.places().names()); }
+                else if (i == 3 && a[1].equals("저장")) { out.addAll(List.of("lobby", "start", "village", "gacha", "hall-of-fame", "lobby-pvp.1", "lobby-pvp.2", "jail", "wild", "race-start", "race-finish", "frog-jump-machine.1", "gacha-machine.1", "gacha-machine.2", "gacha-machine.3", "gacha-machine.1.a", "gacha-machine.1.b", "treasure-start", "invite-drop", "board.donation", "rroulette.1.1", "rroulette-gun.1")); out.addAll(plugin.places().names()); }
             }
             case "setloc", "delloc", "tp" -> { if (i == 2) out.addAll(plugin.places().names()); }
             case "npc" -> {
@@ -741,8 +752,8 @@ public final class Commands implements CommandExecutor, TabCompleter {
             case "api" -> { if (i == 2) out.addAll(players()); }
             case "run" -> { if (i == 2) { out.add("*"); out.addAll(players()); } else if (i == 3) out.addAll(List.of("roulette", "box", "coins", "gauge", "item", "jail", "harass", "fever")); }
             case "game" -> {
-                if (i == 2) out.addAll(List.of("시작", "중지", "확인", "시간", "일정"));
-                else if (i == 3 && a[1].equals("일정")) out.addAll(List.of("위험한초대", "보물찾기", "카지노", "러시안룰렛"));
+                if (i == 2) out.addAll(List.of("시작", "중지", "켜기", "끄기", "확인", "시간", "일정"));
+                else if (i == 3 && (a[1].equals("일정") || a[1].equals("켜기") || a[1].equals("끄기"))) out.addAll(List.of("위험한초대", "보물찾기", "카지노", "러시안룰렛", "오목"));
                 else if (i == 4 && a[1].equals("일정")) out.addAll(List.of("1", "5", "30"));
                 else if (i == 3 && a[1].equals("중지")) out.addAll(plugin.minigames().games().keySet());
                 else if (i == 3 && a[1].equals("시작")) { out.add("랜덤"); out.addAll(plugin.minigames().games().keySet()); }
