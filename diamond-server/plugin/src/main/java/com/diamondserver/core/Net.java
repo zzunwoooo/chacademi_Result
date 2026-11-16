@@ -200,6 +200,27 @@ final class Net implements PluginMessageListener {
         send(p, o);
     }
 
+    /** 우편함 목록 (받지 않은 우편). 모드가 없으면 보내지 않는다 */
+    void mail(Player p) {
+        if (!hasMod(p)) return;
+        JsonObject o = new JsonObject();
+        o.addProperty("t", "mail");
+        com.google.gson.JsonArray a = new com.google.gson.JsonArray();
+        for (Mail.Letter l : pl.mail.list(p.getUniqueId())) {
+            String[] icon = pl.mail.icon(l);
+            JsonObject e = new JsonObject();
+            e.addProperty("id", l.id);
+            e.addProperty("title", l.title);
+            e.addProperty("from", l.from);
+            e.addProperty("text", pl.mail.contentName(l));
+            e.addProperty("art", icon[0]);
+            e.addProperty("icon", icon[1]);
+            a.add(e);
+        }
+        o.add("list", a);
+        send(p, o);
+    }
+
     /** 플레이어 모션 재생 (who 가 name 모션을 한다. name 이 "stop" 이면 멈춤). 보는 사람 모두에게 보낸다 */
     void motion(Player viewer, UUID who, String name) {
         if (!hasMod(viewer)) return;
@@ -238,6 +259,7 @@ final class Net implements PluginMessageListener {
         shop(p);
         pl.events.sendQueueTo(p);
         pl.effects.sendListTo(p);
+        mail(p);
         pl.nicks.sendNames();                // 새로 온 사람에게도, 이미 있던 사람들에게도 닉네임 목록을 다시
         if (!greeted.contains(p.getUniqueId())) {     // 닉네임이 없으면 창을 한 번 띄운다
             greeted.add(p.getUniqueId());
@@ -267,6 +289,8 @@ final class Net implements PluginMessageListener {
                 }
                 case "submit" -> pl.cmd.submit(p, o.has("qty") ? o.get("qty").getAsLong() : -1);
                 case "nick" -> pl.nicks.save(p, o.has("name") ? o.get("name").getAsString() : "");
+                case "mail.claim" -> pl.mail.claim(p, o.has("id") ? o.get("id").getAsString() : "");
+                case "mail.claimall" -> pl.mail.claimAll(p);
                 default -> { }
             }
         } catch (RuntimeException e) {

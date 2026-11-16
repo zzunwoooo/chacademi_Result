@@ -209,7 +209,7 @@ final class Events {
             switch (a[0]) {
                 case "food" -> {
                     int n = Integer.parseInt(a[1]);
-                    Items.give(t, pl.items.make(Items.FOOD, n));
+                    pl.mail.giveOrMail(t, pl.items.make(Items.FOOD, n), "후원 선물");
                     toastAll(pl, pl.nick(t) + "님이 " + pl.items.nameOf(Items.FOOD) + " " + n + "개를 받았습니다.", true);
                     return 0;
                 }

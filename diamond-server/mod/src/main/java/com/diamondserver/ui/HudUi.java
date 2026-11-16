@@ -26,15 +26,15 @@ public final class HudUi {
 
     /** 평소 화면 전체 */
     public static void draw(G g) {
-        under(g, false);
+        under(g, "");
         over(g, false);
     }
 
-    /** 창(상점·닉네임) 아래에 깔리는 부분: 왼쪽 위 HUD 묶음 */
-    public static void under(G g, boolean shopOpen) {
+    /** 창(상점·우편함·닉네임) 아래에 깔리는 부분: 왼쪽 위 HUD 묶음. open = 열려 있는 창 ("shop" / "mail" / "") */
+    public static void under(G g, String open) {
         long now = System.currentTimeMillis();
         blackout(g, now);
-        mini(g, shopOpen);
+        mini(g, open);
         double y = slots(g, now);
         queue(g, y);
         gain(g, now);
@@ -73,14 +73,19 @@ public final class HudUi {
     }
 
     // ── 왼쪽 위 한 줄 HUD (받은 layout.json 좌표 그대로) ────────────────────
-    public static void mini(G g, boolean shopOpen) {
+    /** open = 지금 열려 있는 창 ("shop" / "mail" / ""): 그 아이콘 뒤에 선택 표시를 깐다 */
+    public static void mini(G g, String open) {
         g.img("hud/mini_hud", 24, 16, 566, 50, 1);
         g.img("hud/goal_icon", 36, 25, 33, 33, 1);
         g.fit("남은 목표 " + (St.done ? "달성" : G.n(St.goal)), 76, 41, 17, 0, G.TEXT, 130);
         g.img("hud/wallet_icon", 224, 25, 33, 33, 1);
         g.fit("보유 " + G.n(St.held), 264, 41, 18, 0, G.TEXT, 136);
-        if (shopOpen) g.img("hud/nav_selected", 426, 22, 50, 38, 1);
+        if (open.equals("shop")) g.img("hud/nav_selected", 426, 22, 50, 38, 1);
         g.img("hud/shop", 433, 24, 35, 35, 1);
+        if (open.equals("mail")) g.img("hud/nav_selected", 519, 22, 50, 38, 1);
+        g.img("hud/mail", 526, 23, 36, 36, 1);
+        // 받지 않은 우편 수: 우편함 아이콘 오른쪽 위에 겹쳐서 (HUD 틀 안쪽)
+        if (!St.mails.isEmpty()) g.shadow(St.mails.size() > 99 ? "99+" : String.valueOf(St.mails.size()), 567, 29, 16, 1, G.TEXT);
     }
 
     /** 걸려 있는 효과: HUD 아래 한 줄. 칸 72x72 + 아래 남은 시간 막대. 다음 줄이 시작할 y 를 돌려준다 */

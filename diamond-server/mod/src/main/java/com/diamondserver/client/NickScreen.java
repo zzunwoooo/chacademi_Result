@@ -67,7 +67,7 @@ public final class NickScreen extends Screen {
             ui.input = field.getText();
             if (getFocused() != field) setFocused(field);
         }
-        HudUi.under(g, false);
+        HudUi.under(g, "");
         ui.draw(g);
         HudUi.over(g, true);
     }

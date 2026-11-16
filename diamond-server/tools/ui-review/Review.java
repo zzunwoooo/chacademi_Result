@@ -262,22 +262,22 @@ public class Review {
             base(1247, i == 1 ? 25 : 86);
             ShopUi ui = new ShopUi(HOST);
             ui.preset(0, cats[i], sels[i], qtys[i]);
-            save(out, "09_상점_구매_" + cats[i] + ".png", 1920, 1080, g -> { HudUi.under(g, true); ui.draw(g, 0, 0); HudUi.over(g, true); });
+            save(out, "09_상점_구매_" + cats[i] + ".png", 1920, 1080, g -> { HudUi.under(g, "shop"); ui.draw(g, 0, 0); HudUi.over(g, true); });
         }
         base(1247, 86);
         ShopUi none = new ShopUi(HOST);
         none.preset(0, "pickaxe", null, 1);
-        save(out, "10_상점_구매_안고름.png", 1920, 1080, g -> { HudUi.under(g, true); none.draw(g, 900, 380); HudUi.over(g, true); });
+        save(out, "10_상점_구매_안고름.png", 1920, 1080, g -> { HudUi.under(g, "shop"); none.draw(g, 900, 380); HudUi.over(g, true); });
         ShopUi sell = new ShopUi(HOST);
         sell.preset(1, null, null, 1);
-        save(out, "11_상점_판매.png", 1920, 1080, g -> { HudUi.under(g, true); sell.draw(g, 0, 0); HudUi.over(g, true); });
+        save(out, "11_상점_판매.png", 1920, 1080, g -> { HudUi.under(g, "shop"); sell.draw(g, 0, 0); HudUi.over(g, true); });
         ShopUi sub = new ShopUi(HOST);
         sub.preset(2, null, null, 1);
-        save(out, "12_상점_제출.png", 1920, 1080, g -> { HudUi.under(g, true); sub.draw(g, 0, 0); HudUi.over(g, true); });
+        save(out, "12_상점_제출.png", 1920, 1080, g -> { HudUi.under(g, "shop"); sub.draw(g, 0, 0); HudUi.over(g, true); });
         base(1234567, 987654);
         ShopUi big = new ShopUi(HOST);
         big.preset(2, null, null, 1);
-        save(out, "13_상점_제출_큰숫자.png", 1920, 1080, g -> { HudUi.under(g, true); big.draw(g, 0, 0); HudUi.over(g, true); });
+        save(out, "13_상점_제출_큰숫자.png", 1920, 1080, g -> { HudUi.under(g, "shop"); big.draw(g, 0, 0); HudUi.over(g, true); });
 
         // 창이 열려 있을 때 알림은 가장 새것 하나만
         base(1247, 86);
@@ -286,7 +286,24 @@ public class Review {
         age("toasts", 500);
         ShopUi withToast = new ShopUi(HOST);
         withToast.preset(0, "pickaxe", "netherite_pickaxe", 2);
-        save(out, "13b_상점_알림.png", 1920, 1080, g -> { HudUi.under(g, true); withToast.draw(g, 0, 0); HudUi.over(g, true); });
+        save(out, "13b_상점_알림.png", 1920, 1080, g -> { HudUi.under(g, "shop"); withToast.draw(g, 0, 0); HudUi.over(g, true); });
+
+        // 우편함: 6통(긴 제목 포함) / 비어 있음
+        base(1247, 86);
+        St.applyMail(j("{list:[{id:'a',title:'운영자 선물',from:'운영자',text:'다이아 50개',art:'icons/diamond',icon:'minecraft:diamond'},{id:'b',title:'상점에서 산 물건',from:'보관',text:'네더라이트 곡괭이 ×1',art:'',icon:'minecraft:netherite_pickaxe'},{id:'c',title:'후원 선물',from:'보관',text:'밥 ×24',art:'items/food',icon:'minecraft:bread'},{id:'d',title:'오픈 기념 감사 선물입니다',from:'운영자',text:'인벤세이브권 ×3',art:'items/inventory_save_ticket',icon:'minecraft:paper'},{id:'e',title:'선물',from:'운영자',text:'귀환권 ×5',art:'items/return_ticket',icon:'minecraft:paper'},{id:'f',title:'선물',from:'운영자',text:'효율 책 ×1',art:'',icon:'minecraft:enchanted_book'}]}"));
+        com.diamondserver.ui.MailUi.Host mh = new com.diamondserver.ui.MailUi.Host() {
+            @Override public void claim(String id) { }
+            @Override public void claimAll() { }
+            @Override public void close() { }
+            @Override public void clickSound() { }
+        };
+        com.diamondserver.ui.MailUi mail = new com.diamondserver.ui.MailUi(mh);
+        mail.preset("d");
+        save(out, "13c_우편함.png", 1920, 1080, g -> { HudUi.under(g, "mail"); mail.draw(g, 0, 0); HudUi.over(g, true); });
+        save(out, "13d_우편함_평소HUD.png", 1920, 1080, g -> HudUi.draw(g));
+        St.mails.clear();
+        com.diamondserver.ui.MailUi empty = new com.diamondserver.ui.MailUi(mh);
+        save(out, "13e_우편함_비었음.png", 1920, 1080, g -> { HudUi.under(g, "mail"); empty.draw(g, 0, 0); HudUi.over(g, true); });
 
         // 14~ 닉네임 창
         NickUi.Host nh = new NickUi.Host() {
@@ -297,10 +314,10 @@ public class Review {
         base(1247, 86);
         NickUi first = new NickUi(nh, true, "", "한글·숫자 2~8글자", "a");
         first.input = "나니";
-        save(out, "14_닉네임_처음.png", 1920, 1080, g -> { HudUi.under(g, false); first.draw(g); HudUi.over(g, true); });
+        save(out, "14_닉네임_처음.png", 1920, 1080, g -> { HudUi.under(g, ""); first.draw(g); HudUi.over(g, true); });
         NickUi change = new NickUi(nh, false, "다이아왕나니짱짱", "한글·숫자 2~8글자", "a");
         change.showError("이미 다른 사람이 쓰고 있는 이름입니다.");
-        save(out, "15_닉네임_바꾸기_거절.png", 1920, 1080, g -> { HudUi.under(g, false); change.draw(g); HudUi.over(g, true); });
+        save(out, "15_닉네임_바꾸기_거절.png", 1920, 1080, g -> { HudUi.under(g, ""); change.draw(g); HudUi.over(g, true); });
 
         // 16~ 다른 창 크기: 넓은 화면(21:9), 4:3, 작은 창
         base(1247, 86);
@@ -309,8 +326,8 @@ public class Review {
         age("banner", 500);
         ShopUi wide = new ShopUi(HOST);
         wide.preset(0, "pickaxe", "iron_pickaxe", 1);
-        save(out, "16_넓은화면_2560x1080.png", 2560, 1080, g -> { HudUi.under(g, true); wide.draw(g, 0, 0); HudUi.over(g, true); });
-        save(out, "17_4대3_1440x1080.png", 1440, 1080, g -> { HudUi.under(g, true); wide.draw(g, 0, 0); HudUi.over(g, true); });
-        save(out, "18_작은창_1280x720.png", 1280, 720, g -> { HudUi.under(g, true); wide.draw(g, 0, 0); HudUi.over(g, true); });
+        save(out, "16_넓은화면_2560x1080.png", 2560, 1080, g -> { HudUi.under(g, "shop"); wide.draw(g, 0, 0); HudUi.over(g, true); });
+        save(out, "17_4대3_1440x1080.png", 1440, 1080, g -> { HudUi.under(g, "shop"); wide.draw(g, 0, 0); HudUi.over(g, true); });
+        save(out, "18_작은창_1280x720.png", 1280, 720, g -> { HudUi.under(g, "shop"); wide.draw(g, 0, 0); HudUi.over(g, true); });
     }
 }

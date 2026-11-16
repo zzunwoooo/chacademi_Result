@@ -49,6 +49,16 @@ final class Cmd implements CommandExecutor, TabCompleter {
                 if (pl.net.hasMod(p)) pl.net.open(p, "shop");
                 else pl.net.toast(p, "상점 화면은 나니 다이아서버 런처로 접속해야 열립니다.", false);
             }
+            case "우편함" -> {
+                if (a.length > 0 && a[0].equals("받기")) { pl.mail.claimAll(p); return true; }
+                int n = pl.mail.count(p.getUniqueId());
+                if (pl.net.hasMod(p)) { pl.net.mail(p); pl.net.open(p, "mail"); }
+                else if (n == 0) pl.net.toast(p, "받은 우편이 없습니다.", true);
+                else {
+                    for (Mail.Letter l : pl.mail.list(p.getUniqueId())) pl.net.toast(p, l.title + " · " + pl.mail.contentName(l), true);
+                    pl.net.toast(p, "모두 받으려면 /우편함 받기", true);
+                }
+            }
             case "닉네임" -> {
                 if (a.length == 0) pl.nicks.open(p, false);
                 else pl.nicks.save(p, a[0]);
@@ -101,6 +111,32 @@ final class Cmd implements CommandExecutor, TabCompleter {
                 if (t == null) { say(s, a[1] + "님은 접속해 있지 않습니다."); return true; }
                 String err = pl.nicks.adminSet(t, a[2].equals("해제") ? null : a[2]);
                 say(s, err != null ? err : pl.nicks.has(t) ? "닉네임을 " + pl.nick(t) + "(으)로 정했습니다." : "닉네임을 지웠습니다.");
+            }
+            case "우편" -> {
+                // /다이아 우편 <대상|전체> 다이아 <개수> [제목]   또는   /다이아 우편 <대상|전체> 아이템 <전용 아이템 id 또는 게임 아이템> <개수> [제목]
+                if (a.length < 4) { say(s, "/다이아 우편 <대상|전체> 다이아 <개수> [제목]  |  /다이아 우편 <대상|전체> 아이템 <아이템> <개수> [제목]"); return true; }
+                java.util.List<Player> targets = new java.util.ArrayList<>();
+                if (a[1].equals("전체")) targets.addAll(Bukkit.getOnlinePlayers());
+                else { Player t = pl.nicks.find(a[1]); if (t != null) targets.add(t); }
+                if (targets.isEmpty()) { say(s, a[1].equals("전체") ? "지금 접속한 사람이 없습니다." : a[1] + "님은 접속해 있지 않습니다."); return true; }
+                boolean dia = a[2].equals("다이아");
+                if (!dia && !a[2].equals("아이템")) { say(s, "다이아 또는 아이템 중 하나를 적어 주세요."); return true; }
+                int at = dia ? 3 : 4;
+                if (a.length <= at) { say(s, "개수를 적어 주세요."); return true; }
+                int n = (int) num(a[at], -1);
+                if (n <= 0) { say(s, "개수는 1 이상의 숫자로 적어 주세요."); return true; }
+                String title = a.length > at + 1 ? String.join(" ", java.util.Arrays.copyOfRange(a, at + 1, a.length)) : "선물";
+                String kind = "diamonds", key = "";
+                if (!dia) {
+                    if (Items.IDS.contains(a[3])) { kind = "item"; key = a[3]; }
+                    else {
+                        org.bukkit.Material m = org.bukkit.Material.matchMaterial(a[3]);
+                        if (m == null || !m.isItem()) { say(s, "그런 아이템이 없습니다: " + a[3]); return true; }
+                        kind = "material"; key = m.name();
+                    }
+                }
+                for (Player t : targets) pl.mail.send(t.getUniqueId(), title, "운영자", kind, key, n);
+                say(s, targets.size() + "명에게 우편을 보냈습니다.");
             }
             case "연동시험" -> {
                 // 접속한 사람 없이도 모델·NPC 연동이 실제로 되는지 확인: 시작 지점에 잠깐 세웠다가 치운다
@@ -165,7 +201,7 @@ final class Cmd implements CommandExecutor, TabCompleter {
             else if (a.length == 3) for (Player p : Bukkit.getOnlinePlayers()) out.add(pl.nick(p));
         }
         if (!c.getName().equals("다이아")) return filter(out, a);
-        if (a.length == 1) out.addAll(List.of("리로드", "지급", "설정", "아이템", "위치", "정보", "닉", "연동시험"));
+        if (a.length == 1) out.addAll(List.of("리로드", "지급", "설정", "아이템", "위치", "정보", "닉", "우편", "연동시험"));
         else if (a.length == 2 && List.of("지급", "설정", "아이템", "정보", "닉").contains(a[0])) for (Player p : Bukkit.getOnlinePlayers()) out.add(pl.nick(p));
         else if (a.length == 3 && (a[0].equals("지급") || a[0].equals("설정"))) out.addAll(List.of("보유", "목표"));
         else if (a.length == 3 && a[0].equals("아이템")) out.addAll(Items.IDS);

@@ -47,6 +47,12 @@ final class Listeners implements Listener {
         Bukkit.getScheduler().runTaskLater(pl, () -> { if (p.isOnline() && !pl.net.hasMod(p)) pl.nicks.promptIfNeeded(p); }, 100L);
         // 접속해 있지 않을 때 들어온 후원은 3초 뒤(화면이 준비된 뒤) 줄에 넣는다
         Bukkit.getScheduler().runTaskLater(pl, () -> { if (p.isOnline()) pl.events.onJoin(p); }, 60L);
+        // 받지 않은 우편이 있으면 5초 뒤 알려 준다
+        Bukkit.getScheduler().runTaskLater(pl, () -> {
+            if (!p.isOnline()) return;
+            int n = pl.mail.count(p.getUniqueId());
+            if (n > 0) pl.net.toast(p, "받지 않은 우편이 " + n + "통 있습니다. (우편함: H 키 또는 /우편함)", true);
+        }, 100L);
     }
 
     @EventHandler
@@ -54,6 +60,7 @@ final class Listeners implements Listener {
         e.quitMessage(pl.nicks.has(e.getPlayer()) ? Component.text(pl.nick(e.getPlayer()) + "님이 나갔습니다.", NamedTextColor.YELLOW) : null);
         UUID id = e.getPlayer().getUniqueId();
         pl.net.forget(id);
+        pl.mail.unload(id);
         pl.store.unload(id);
     }
 

@@ -43,6 +43,18 @@ public interface G {
         text(s, x, y, p, anchor, argb);
     }
 
+    /** 글자가 길면 크기를 조금(최대 3) 줄이고, 그래도 넘치면 끝을 "…" 로 줄여서 그린다 (전체 글은 다른 곳에서 볼 수 있을 때) */
+    default void fitClip(String s, double x, double y, double px, int anchor, int argb, double maxW) {
+        double p = px;
+        while (p > px - 3 && textW(s, p) > maxW) p -= 1;
+        if (textW(s, p) > maxW) {
+            String t = s;
+            while (t.length() > 1 && textW(t + "…", p) > maxW) t = t.substring(0, t.length() - 1);
+            s = t.stripTrailing() + "…";
+        }
+        text(s, x, y, p, anchor, argb);
+    }
+
     /** 게임 화면 위에 바로 쓰는 글자 (그림자 있음) */
     default void shadow(String s, double x, double y, double px, int anchor, int argb) {
         // 네 방향으로 어두운 테두리를 두르고 그 위에 글자 (한쪽으로만 그림자를 주면 겹쳐 보여서 읽기 어렵다)

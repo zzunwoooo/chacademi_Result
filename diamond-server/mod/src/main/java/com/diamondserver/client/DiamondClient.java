@@ -21,7 +21,7 @@ import org.lwjgl.glfw.GLFW;
  * 화면: 왼쪽 위 HUD · 후원 알림 · 룰렛 · 발표 창 · 즉사 연출 · 상점 · 닉네임 창.  그 밖에 강제 댄스 모션, 조작 반전, 한글 이름표.
  */
 public final class DiamondClient implements ClientModInitializer {
-    public static KeyBinding shopKey;
+    public static KeyBinding shopKey, mailKey;
     private static int helloTick;
     private static final McG HUD_G = new McG();
 
@@ -40,6 +40,7 @@ public final class DiamondClient implements ClientModInitializer {
 
         Motion.init();
         shopKey = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.diamondserver.shop", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_G, "category.diamondserver"));
+        mailKey = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.diamondserver.mail", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_H, "category.diamondserver"));
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             // 서버에서 상태를 받을 때까지 1초마다 "모드 있음"을 알린다 (다이아 서버가 아니면 보낼 수 없어서 아무 일도 없다)
@@ -51,13 +52,15 @@ public final class DiamondClient implements ClientModInitializer {
             St.expire();
             while (shopKey.wasPressed())
                 if (St.has && client.currentScreen == null) client.setScreen(new ShopScreen());
+            while (mailKey.wasPressed())
+                if (St.has && client.currentScreen == null) client.setScreen(new MailScreen());
         });
 
         // 평소 화면. 상점·닉네임 창이 열려 있을 때는 그 창이 HUD 까지 직접 그린다 (알림이 창 위에 오도록)
         HudRenderCallback.EVENT.register((ctx, tick) -> {
             MinecraftClient mc = MinecraftClient.getInstance();
             if (!St.has || mc.player == null) return;
-            if (mc.currentScreen instanceof ShopScreen || mc.currentScreen instanceof NickScreen) return;
+            if (mc.currentScreen instanceof ShopScreen || mc.currentScreen instanceof NickScreen || mc.currentScreen instanceof MailScreen) return;
             McG g = HUD_G.begin(ctx);
             if (mc.options.hudHidden || mc.getDebugHud().shouldShowDebugHud()) { HudUi.blackoutOnly(g); return; }   // 정전은 F1·F3 에서도 가린다
             HudUi.draw(g);
@@ -92,11 +95,13 @@ public final class DiamondClient implements ClientModInitializer {
                 case "announce" -> St.applyAnnounce(o);
                 case "death" -> St.applyDeath(o);
                 case "names" -> St.applyNames(o);
+                case "mail" -> St.applyMail(o);
                 case "toast" -> St.toast(St.str(o, "text", ""), St.bool(o, "ok", true));
                 case "motion" -> playMotion(mc, St.str(o, "player", ""), St.str(o, "name", ""));
                 case "open" -> {
                     String screen = St.str(o, "screen", "");
                     if (screen.equals("shop") && mc.currentScreen == null) mc.setScreen(new ShopScreen());
+                    if (screen.equals("mail") && mc.currentScreen == null) mc.setScreen(new MailScreen());
                     if (screen.equals("nick")) {
                         boolean first = St.bool(o, "first", false);
                         // 처음 정하는 창은 다른 화면이 떠 있어도 띄운다. 바꾸기 창은 아무 화면도 없을 때만

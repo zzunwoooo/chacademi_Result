@@ -144,7 +144,7 @@ final class Shop {
         int left = it.getAmount(), max = Math.max(1, it.getMaxStackSize());
         List<ItemStack> parts = new ArrayList<>();
         while (left > 0) { ItemStack part = it.clone(); part.setAmount(Math.min(max, left)); parts.add(part); left -= part.getAmount(); }
-        for (ItemStack part : parts) Items.give(p, part);
+        for (ItemStack part : parts) pl.mail.giveOrMail(p, part, "상점에서 산 물건");   // 인벤토리에 안 들어가면 우편함으로
         pl.net.toast(p, e.name + (qty > 1 ? " " + qty + "개" : "") + " 구매 완료 (다이아 -" + total + ")", true);
     }
 

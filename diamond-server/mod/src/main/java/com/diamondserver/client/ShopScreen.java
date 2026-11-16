@@ -70,7 +70,7 @@ public final class ShopScreen extends Screen {
     public void render(DrawContext ctx, int mouseX, int mouseY, float delta) {
         g.begin(ctx);
         double[] m = mouse();
-        HudUi.under(g, true);
+        HudUi.under(g, "shop");
         ui.draw(g, m[0], m[1]);
         HudUi.over(g, true);          // 알림·룰렛·즉사는 창보다 위
     }

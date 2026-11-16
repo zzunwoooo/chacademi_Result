@@ -32,6 +32,18 @@ public final class St {
     public record Wheel(String title, List<String> labels, List<String> icons, int winner, long at, long ms) { }
     public record Announce(String icon, String title, String desc, long at) { }
     public record Death(String name, long at) { }
+    /** 우편 한 통. text = 내용물 이름, art = 받은 그림(없으면 icon 의 게임 아이템 그림) */
+    public record Letter(String id, String title, String from, String text, String art, String icon) { }
+    public static final List<Letter> mails = new ArrayList<>();
+
+    public static void applyMail(JsonObject o) {
+        mails.clear();
+        JsonArray a = o.getAsJsonArray("list");
+        if (a != null) for (JsonElement e : a) {
+            JsonObject m = e.getAsJsonObject();
+            mails.add(new Letter(str(m, "id", ""), str(m, "title", ""), str(m, "from", ""), str(m, "text", ""), str(m, "art", ""), str(m, "icon", "minecraft:paper")));
+        }
+    }
 
     public static boolean has;          // 서버에서 상태를 한 번이라도 받았는지
     public static long goal, held;
@@ -57,7 +69,7 @@ public final class St {
 
     public static void clear() {
         has = false; goal = 0; held = 0; done = false; heldChangedAt = 0; heldDelta = 0; goalChangedAt = 0; goalDelta = 0;
-        cats.clear(); items.clear(); sells.clear(); toasts.clear(); queue.clear(); effects.clear(); names.clear();
+        cats.clear(); items.clear(); sells.clear(); toasts.clear(); queue.clear(); effects.clear(); names.clear(); mails.clear();
         banner = null; pick = null; wheel = null; announce = null; death = null;
         reverseUntil = 0; blackoutUntil = 0; blackoutFrom = 0;
     }
