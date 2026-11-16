@@ -623,6 +623,7 @@ titles:
     builder_king:  { name: "<#FFC24B>[건축왕]</#7BD35A>", description: "운영자 전용 칭호" }
     fishing_king:  { name: "<#5BE7FF>[낚시왕]</#3D6BFF>", description: "운영자 전용 칭호" }
     fight_king:    { name: "<#FF4D4D>[싸움왕]</#FFB13B>", description: "운영자 전용 칭호" }
+    diamond_king:  { name: "<#7FF6FF>[다이아왕]</#B98CFF>", description: "운영자 전용 칭호" }
 
 ranking:
   size: 10
