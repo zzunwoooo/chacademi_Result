@@ -1,0 +1,351 @@
+<title>다이아 이벤트 모델</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;600&family=Pixelify+Sans:wght@500;700&display=swap">
+<style>
+/* layout: one stage (canvas) with model tabs above and an operator strip below — scanned, not read */
+:root{
+  --bg:#121417; --stage:#1a1e23; --panel:#20252b; --line:#2f363e;
+  --fg:#e9edf0; --muted:#8e99a4; --accent:#5ee6ee; --accent-ink:#06282b; --gold:#f2c14e;
+  --display:"Pixelify Sans","IBM Plex Sans KR",ui-monospace,monospace;
+  --body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){ :root:not([data-theme="dark"]){
+  --bg:#eef1f3; --stage:#dfe5ea; --panel:#ffffff; --line:#cdd5dc;
+  --fg:#152029; --muted:#5b6873; --accent:#0e8f99; --accent-ink:#ffffff; --gold:#a8720a; color-scheme:light } }
+:root[data-theme="light"]{
+  --bg:#eef1f3; --stage:#dfe5ea; --panel:#ffffff; --line:#cdd5dc;
+  --fg:#152029; --muted:#5b6873; --accent:#0e8f99; --accent-ink:#ffffff; --gold:#a8720a; color-scheme:light }
+html,body{height:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:14px;line-height:1.5}
+.wrap{max-width:1080px;margin:0 auto;padding-block:20px 28px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  display:flex;flex-direction:column;gap:14px}
+header{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 20px}
+h1{font-family:var(--display);font-weight:700;font-size:26px;letter-spacing:.02em;margin:0;text-wrap:balance}
+.sub{color:var(--muted);font-size:13px;margin:0}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tab{font:inherit;cursor:pointer;border:1px solid var(--line);background:var(--panel);color:var(--fg);
+  padding:8px 14px;border-radius:6px;display:flex;flex-direction:column;align-items:flex-start;gap:0;min-width:0}
+.tab b{font-weight:600;font-size:14px}
+.tab code{font-family:var(--display);font-size:11px;color:var(--muted);letter-spacing:.03em}
+.tab[aria-selected="true"]{border-color:var(--accent);box-shadow:inset 0 -3px 0 var(--accent)}
+.tab:focus-visible,.chip:focus-visible,.seg button:focus-visible,.iconbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.stage{position:relative;background:var(--stage);border:1px solid var(--line);border-radius:8px;overflow:hidden;
+  aspect-ratio:16/10;max-width:100%;touch-action:none}
+.stage canvas{display:block;width:100%;height:100%;cursor:grab}
+.stage canvas:active{cursor:grabbing}
+.hint{position:absolute;left:12px;bottom:10px;font-size:12px;color:var(--muted);pointer-events:none}
+.badge{position:absolute;right:12px;top:10px;font-family:var(--display);font-size:12px;letter-spacing:.04em;
+  background:var(--panel);border:1px solid var(--line);padding:3px 8px;border-radius:4px;color:var(--fg)}
+.badge.shiny{color:var(--gold);border-color:var(--gold)}
+.strip{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px 20px;align-items:start;
+  background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px}
+@media (max-width:640px){ .strip{grid-template-columns:minmax(0,1fr)} }
+.label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 6px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:inherit;cursor:pointer;border:1px solid var(--line);background:transparent;color:var(--fg);
+  padding:5px 10px;border-radius:999px;display:flex;gap:6px;align-items:baseline}
+.chip small{font-family:var(--display);color:var(--muted);font-size:11px}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.chip[aria-pressed="true"] small{color:var(--accent-ink);opacity:.75}
+.animdesc{margin:8px 0 0;color:var(--muted);font-size:13px;min-height:1.5em}
+.side{display:flex;flex-direction:column;gap:12px;min-width:0}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.seg button{font:inherit;cursor:pointer;border:0;background:transparent;color:var(--fg);padding:6px 12px}
+.seg button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.iconbtn{font:inherit;cursor:pointer;border:1px solid var(--line);background:transparent;color:var(--fg);padding:6px 12px;border-radius:6px}
+.iconbtn[aria-pressed="true"]{border-color:var(--accent);color:var(--accent)}
+dl{display:grid;grid-template-columns:auto auto;gap:2px 14px;margin:0;font-size:13px}
+dt{color:var(--muted)} dd{margin:0;font-variant-numeric:tabular-nums;font-family:var(--display);letter-spacing:.02em}
+.err{padding:24px;color:var(--fg)}
+@media (prefers-reduced-motion: reduce){ .chip,.tab{transition:none} }
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <h1>다이아 이벤트 모델</h1>
+      <p class="sub">후원 이벤트용 Blockbench 모델 13종 · 드래그로 돌려보고, 애니메이션을 눌러 재생</p>
+    </div>
+  </header>
+
+  <div class="tabs" role="tablist" id="tabs"></div>
+
+  <div class="stage" id="stage">
+    <canvas id="cv" aria-label="3D 모델 미리보기"></canvas>
+    <span class="hint">드래그: 회전 · 휠/핀치: 확대</span>
+  </div>
+
+  <div class="strip">
+    <div style="min-width:0">
+      <p class="label">애니메이션</p>
+      <div class="chips" id="anims"></div>
+      <p class="animdesc" id="animdesc"></p>
+    </div>
+    <div class="side">
+      <div class="row">
+        <button type="button" class="iconbtn" id="play" aria-pressed="true">일시정지</button>
+        <button type="button" class="iconbtn" id="hb" aria-pressed="false">히트박스</button>
+        <button type="button" class="iconbtn" id="spin" aria-pressed="true">자동 회전</button>
+      </div>
+      <dl id="info"></dl>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+const DATA = __DATA__;
+const META = {
+  diamond_crow:{ko:'다이아 도둑 까마귀', ev:'100 장난 · 1명', anims:{spawn:'날아 내려오며 등장', idle:'제자리 날갯짓 (다이아 숨김)', walk:'비행', attack:'급강하해서 다이아 낚아채기', flee:'다이아 물고 도망', death:'뒤집혀 추락, 다이아를 떨굼'}},
+  ride_rocket:{ko:'로켓', ev:'100 로켓 발사 · 1명', anims:{spawn:'땅에서 솟아오름', idle:'발사 전 떨림', launch:'움찔했다가 발사', fly:'회전하며 상승'}},
+  giant_anvil:{ko:'거대 모루', ev:'100 모루 낙하 · 1명', anims:{spawn:'나타남', fall:'흔들리며 낙하', impact:'쾅 찌그러짐', vanish:'땅속으로 가라앉음'}},
+  stun_stars:{ko:'기절 별', ev:'모루 맞았을 때', anims:{spawn:'톡 나타남', idle:'머리 위를 빙빙', leave:'사라짐'}},
+  curse_mark:{ko:'저주 표식', ev:'100 저주받은 곡괭이 · 1명', anims:{spawn:'빙글 나타남', idle:'둥둥, 가끔 턱을 딱딱', leave:'돌며 사라짐'}},
+  disco_ball:{ko:'디스코볼', ev:'100 강제 댄스 · 1명', anims:{spawn:'위에서 내려옴', idle:'빙글빙글', leave:'위로 올라감'}},
+  target_marker:{ko:'타겟 마커', ev:'1명 랜덤 이벤트 공용', anims:{spawn:'떨어지며 등장', idle:'화살표 회전 + 테두리 역회전', pick:'당첨 순간 번쩍', leave:'사라짐'}},
+  diamond_pinata:{ko:'다이아 피냐타', ev:'300 다이아 연출', anims:{spawn:'떨어져 통통 튀며 등장', idle:'천천히 돌며 둥둥', hit:'맞았을 때 출렁', burst:'부풀었다가 펑', escape:'못 터뜨리면 날아감'}},
+  diamond_cloud:{ko:'다이아 구름', ev:'300 다이아 소나기', anims:{spawn:'뭉게뭉게 커짐', idle:'둥실둥실', rain:'흔들리며 다이아 쏟기', vanish:'흩어짐'}},
+  diamond_meteor:{ko:'다이아 운석', ev:'300 운석우', anims:{spawn:'커지며 나타남', idle:'천천히 구름', walk:'빠르게 구르며 낙하', attack:'착탄 찌그러짐', death:'부서지며 사라짐'}},
+  golden_crown:{ko:'황금 왕관', ev:'300 미다스의 손', anims:{spawn:'돌며 내려앉음', idle:'머리 위에서 회전', leave:'돌며 사라짐'}},
+  diamond_fountain:{ko:'다이아 분수대', ev:'300 다이아 분수', anims:{spawn:'땅에서 솟아남', idle:'보석 회전', burst:'분수 터질 때 들썩', vanish:'땅속으로'}},
+  grim_reaper:{ko:'사신', ev:'4444 즉사', anims:{spawn:'하늘에서 내려옴', idle:'둥실, 손짓', attack:'낫 치켜들었다 휘두르기', leave:'위로 사라짐'}}
+};
+const ORDER = ['target_marker','diamond_crow','ride_rocket','giant_anvil','stun_stars','curse_mark','disco_ball',
+               'diamond_pinata','diamond_cloud','diamond_meteor','golden_crown','diamond_fountain','grim_reaper'];
+const LOOPLABEL = {loop:'반복', once:'1회', hold:'유지'};
+
+let cur = ORDER[0], skin = 'base', animName = 'idle', playing = true, showHB = false, autoSpin = true;
+
+const cv = document.getElementById('cv'), stage = document.getElementById('stage');
+if (typeof THREE === 'undefined') {
+  stage.innerHTML = '<p class="err">3D 라이브러리를 불러오지 못했어요. 페이지를 새로고침해 주세요.</p>';
+}
+const renderer = new THREE.WebGLRenderer({canvas:cv, antialias:true, alpha:true});
+renderer.setPixelRatio(Math.min(2, window.devicePixelRatio||1));
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(35, 1.6, 0.05, 200);
+scene.add(new THREE.HemisphereLight(0xffffff, 0x8a8f99, 0.85));
+const sun = new THREE.DirectionalLight(0xffffff, 0.55); sun.position.set(3,6,-4); scene.add(sun);
+const fill = new THREE.DirectionalLight(0xffffff, 0.25); fill.position.set(-4,2,5); scene.add(fill);
+
+// ground grid in blocks
+const grid = new THREE.GridHelper(6, 6, 0x5ee6ee, 0x3a434c);
+grid.material.transparent = true; grid.material.opacity = 0.35; scene.add(grid);
+
+const D2R = Math.PI/180;
+const texCache = {};
+function texture(src){
+  if (texCache[src]) return texCache[src];
+  const t = new THREE.TextureLoader().load(src);
+  t.magFilter = THREE.NearestFilter; t.minFilter = THREE.NearestFilter; t.generateMipmaps = false;
+  return texCache[src] = t;
+}
+
+// three BoxGeometry face order: +x(east) -x(west) +y(up) -y(down) +z(south) -z(north)
+const FACE_ORDER = ['east','west','up','down','south','north'];
+function cubeMesh(e, mat, W, H){
+  const w = e.t[0]-e.f[0], h = e.t[1]-e.f[1], d = e.t[2]-e.f[2];
+  const g = new THREE.BoxGeometry(Math.max(w,0.001), Math.max(h,0.001), Math.max(d,0.001));
+  const uv = g.attributes.uv;
+  FACE_ORDER.forEach((fn, fi) => {
+    const u = e.uv[fn]; const b = fi*4;
+    if (!u || u[0]===u[2] || u[1]===u[3]) { for (let k=0;k<4;k++) uv.setXY(b+k, 0, 0); return; }
+    const [u1,v1,u2,v2] = u;
+    uv.setXY(b+0, u1/W, 1-v1/H); uv.setXY(b+1, u2/W, 1-v1/H);
+    uv.setXY(b+2, u1/W, 1-v2/H); uv.setXY(b+3, u2/W, 1-v2/H);
+  });
+  uv.needsUpdate = true;
+  return new THREE.Mesh(g, mat);
+}
+
+function buildModel(m){
+  const mat = new THREE.MeshLambertMaterial({map:texture(m.tex), alphaTest:0.1, side:THREE.DoubleSide});
+  const els = {}; m.el.forEach(e => els[e.id] = e);
+  const bones = {};
+  function node(g, parentOrigin){
+    const o = new THREE.Group();
+    o.position.set(g.o[0]-parentOrigin[0], g.o[1]-parentOrigin[1], g.o[2]-parentOrigin[2]);
+    o.rotation.order = 'ZYX';
+    o.rotation.set(g.r[0]*D2R, g.r[1]*D2R, g.r[2]*D2R);
+    o.userData.base = {p:o.position.clone(), r:[...g.r]};
+    bones[g.n] = o;
+    g.c.forEach(c => {
+      if (typeof c === 'string') {
+        const e = els[c]; if (!e) return;
+        const piv = new THREE.Group();
+        piv.position.set(e.o[0]-g.o[0], e.o[1]-g.o[1], e.o[2]-g.o[2]);
+        piv.rotation.order = 'ZYX'; piv.rotation.set(e.r[0]*D2R, e.r[1]*D2R, e.r[2]*D2R);
+        const mesh = cubeMesh(e, mat, m.w, m.h);
+        mesh.position.set((e.f[0]+e.t[0])/2-e.o[0], (e.f[1]+e.t[1])/2-e.o[1], (e.f[2]+e.t[2])/2-e.o[2]);
+        piv.add(mesh); o.add(piv);
+      } else o.add(node(c, g.o));
+    });
+    return o;
+  }
+  const root = new THREE.Group();
+  m.out.forEach(g => root.add(node(g, [0,0,0])));
+  root.scale.setScalar(1/16);
+  return {root, bones};
+}
+
+function sample(keys, t){
+  if (!keys || !keys.length) return null;
+  if (t <= keys[0][0]) return keys[0].slice(1);
+  for (let i=0;i<keys.length-1;i++){
+    const a=keys[i], b=keys[i+1];
+    if (t <= b[0]) { const f = (t-a[0])/((b[0]-a[0])||1); return [1,2,3].map(j => a[j]+(b[j]-a[j])*f); }
+  }
+  return keys[keys.length-1].slice(1);
+}
+
+let model = null, hbBox = null, t0 = performance.now(), pausedAt = 0;
+const built = {};
+function getBuilt(id, sk){
+  const k = id+'|'+sk;
+  if (!built[k]) built[k] = buildModel(DATA[id][sk]);
+  return built[k];
+}
+
+function applyPose(t){
+  const m = DATA[cur][skin]; const a = m.an.find(x => x.n===animName);
+  const B = model.bones;
+  for (const name in B){
+    const o = B[name], b = o.userData.base;
+    o.position.copy(b.p); o.rotation.set(b.r[0]*D2R, b.r[1]*D2R, b.r[2]*D2R); o.scale.set(1,1,1);
+  }
+  if (!a) return;
+  const L = a.l; let tt;
+  if (a.loop === 'loop') tt = t % L;
+  else { const cyc = L + 0.9; tt = Math.min(t % cyc, L); }
+  for (const name in a.tr){
+    const o = B[name]; if (!o) continue; const tr = a.tr[name], b = o.userData.base;
+    const r = sample(tr.rotation, tt), p = sample(tr.position, tt), s = sample(tr.scale, tt);
+    if (r) o.rotation.set((b.r[0]-r[0])*D2R, (b.r[1]-r[1])*D2R, (b.r[2]+r[2])*D2R);
+    if (p) o.position.set(b.p.x-p[0], b.p.y+p[1], b.p.z+p[2]);
+    if (s) o.scale.set(Math.max(s[0],0.0001), Math.max(s[1],0.0001), Math.max(s[2],0.0001));
+  }
+}
+
+let yaw = -0.6, pitch = 0.32, dist = 3.2, target = new THREE.Vector3(0,0.6,0);
+function frameModel(){
+  const hb = DATA[cur].base.hb;
+  document.getElementById('hb').hidden = !hb;
+  if (hbBox) { scene.remove(hbBox); hbBox = null; }
+  const box = new THREE.Box3().setFromObject(model.root);
+  const size = box.getSize(new THREE.Vector3()), c = box.getCenter(new THREE.Vector3());
+  target.copy(c);
+  dist = Math.max(size.x, size.y, size.z) * 1.9 + 0.6;
+  // hitbox wireframe (blocks): square base from y=0
+  if (!hb) return;
+  const hg = new THREE.BoxGeometry(hb[0], hb[1], hb[0]);
+  hbBox = new THREE.Group();
+  const lines = new THREE.LineSegments(new THREE.EdgesGeometry(hg), new THREE.LineBasicMaterial({color:0xe5484d}));
+  lines.position.y = hb[1]/2; hbBox.add(lines);
+  const eye = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.PlaneGeometry(hb[0],hb[0])), new THREE.LineBasicMaterial({color:0x4c8dff}));
+  eye.rotation.x = -Math.PI/2; eye.position.y = hb[2]; hbBox.add(eye);
+  hbBox.visible = showHB; scene.add(hbBox);
+}
+
+function setModel(id){
+  cur = id;
+  if (model) scene.remove(model.root);
+  model = getBuilt(cur, skin); scene.add(model.root);
+  const names = DATA[cur].base.an.map(a => a.n);
+  if (!names.includes(animName)) animName = names.includes('idle') ? 'idle' : names[0];
+  applyPose(0);
+  frameModel();
+  renderTabs(); renderAnims(); renderInfo();
+}
+function setSkin(sk){
+  skin = sk;
+  if (model) scene.remove(model.root);
+  model = getBuilt(cur, skin); scene.add(model.root);
+  document.getElementById('skin-base').setAttribute('aria-pressed', sk==='base');
+  document.getElementById('skin-shiny').setAttribute('aria-pressed', sk==='shiny');
+  const bd = document.getElementById('badge'); bd.textContent = sk==='base' ? '기본' : '이로치'; bd.classList.toggle('shiny', sk==='shiny');
+}
+
+function renderTabs(){
+  const el = document.getElementById('tabs'); el.innerHTML='';
+  ORDER.forEach(id => {
+    const b = document.createElement('button');
+    b.type='button'; b.className='tab'; b.role='tab'; b.id='tab-'+id;
+    b.setAttribute('aria-selected', id===cur);
+    b.innerHTML = `<b>${META[id].ko}</b><code>${id}</code>`;
+    b.onclick = () => { setModel(id); t0 = performance.now(); };
+    el.appendChild(b);
+  });
+}
+function renderAnims(){
+  const el = document.getElementById('anims'); el.innerHTML='';
+  DATA[cur].base.an.forEach(a => {
+    const b = document.createElement('button');
+    b.type='button'; b.className='chip'; b.id='anim-'+a.n;
+    b.setAttribute('aria-pressed', a.n===animName);
+    b.innerHTML = `${a.n}<small>${a.l}s · ${LOOPLABEL[a.loop]||a.loop}</small>`;
+    b.onclick = () => { animName = a.n; t0 = performance.now(); pausedAt = 0; if(!playing) togglePlay(); renderAnims(); };
+    el.appendChild(b);
+  });
+  document.getElementById('animdesc').textContent = (META[cur].anims[animName]||'') + `  ·  animation.${cur}.${animName}`;
+}
+function renderInfo(){
+  const m = DATA[cur].base, hb = m.hb;
+  document.getElementById('info').innerHTML =
+    `<dt>이벤트</dt><dd>${META[cur].ev}</dd>`+
+    `<dt>큐브</dt><dd>${m.el.length}</dd>`+
+    `<dt>텍스처</dt><dd>${m.w}×${m.h}</dd>`+
+    (hb ? `<dt>히트박스</dt><dd>${hb[0]} × ${hb[1]} 블럭</dd><dt>눈높이</dt><dd>${hb[2]} 블럭</dd>` : `<dt>크기</dt><dd>${sizeTxt()}</dd>`);
+}
+function sizeTxt(){
+  const b = new THREE.Box3().setFromObject(model.root), s = b.getSize(new THREE.Vector3());
+  return `${s.x.toFixed(1)} × ${s.y.toFixed(1)} × ${s.z.toFixed(1)} 블럭`;
+}
+function togglePlay(){
+  playing = !playing;
+  const b = document.getElementById('play');
+  b.setAttribute('aria-pressed', playing); b.textContent = playing ? '일시정지' : '재생';
+  if (playing) t0 = performance.now() - pausedAt*1000; else pausedAt = (performance.now()-t0)/1000;
+}
+document.getElementById('play').onclick = togglePlay;
+document.getElementById('hb').onclick = e => { showHB = !showHB; e.currentTarget.setAttribute('aria-pressed', showHB); if (hbBox) hbBox.visible = showHB; };
+document.getElementById('spin').onclick = e => { autoSpin = !autoSpin; e.currentTarget.setAttribute('aria-pressed', autoSpin); };
+
+// orbit: drag + wheel + pinch
+const pts = new Map(); let pinch0 = 0, dist0 = 0;
+cv.addEventListener('pointerdown', e => { cv.setPointerCapture(e.pointerId); pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if (pts.size===2){ const [a,b]=[...pts.values()]; pinch0=Math.hypot(a.x-b.x,a.y-b.y); dist0=dist; } });
+cv.addEventListener('pointermove', e => {
+  if (!pts.has(e.pointerId)) return; const p = pts.get(e.pointerId);
+  if (pts.size===1){ yaw -= (e.clientX-p.x)*0.01; pitch = Math.max(-0.2, Math.min(1.3, pitch + (e.clientY-p.y)*0.01)); }
+  p.x=e.clientX; p.y=e.clientY;
+  if (pts.size===2){ const [a,b]=[...pts.values()]; const d=Math.hypot(a.x-b.x,a.y-b.y); if (pinch0) dist = Math.max(0.8, Math.min(14, dist0*pinch0/d)); }
+});
+const up = e => { pts.delete(e.pointerId); if (pts.size<2) pinch0=0; };
+cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up);
+cv.addEventListener('wheel', e => { e.preventDefault(); dist = Math.max(0.8, Math.min(14, dist*(1+Math.sign(e.deltaY)*0.1))); }, {passive:false});
+
+function resize(){
+  const r = stage.getBoundingClientRect();
+  renderer.setSize(r.width, r.height, false); camera.aspect = r.width/Math.max(1,r.height); camera.updateProjectionMatrix();
+}
+new ResizeObserver(resize).observe(stage);
+
+const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (reduced) { autoSpin = false; document.getElementById('spin').setAttribute('aria-pressed', false); }
+let last = performance.now();
+function loop(now){
+  const dt = (now-last)/1000; last = now;
+  if (autoSpin && pts.size===0) yaw += dt*0.35;
+  const t = playing ? (now-t0)/1000 : pausedAt;
+  if (model) applyPose(t);
+  camera.position.set(target.x + dist*Math.cos(pitch)*Math.sin(yaw), target.y + dist*Math.sin(pitch), target.z + dist*Math.cos(pitch)*Math.cos(yaw));
+  camera.lookAt(target);
+  renderer.render(scene, camera);
+  requestAnimationFrame(loop);
+}
+setModel(cur); resize(); requestAnimationFrame(loop);
+</script>
