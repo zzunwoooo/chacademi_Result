@@ -92,12 +92,55 @@ final class Net implements PluginMessageListener {
         send(p, o);
     }
 
+    /** 모드가 직접 그리는 화면 효과 (reverse = 조작 반전, blackout = 정전). ms 가 0 이면 끝 */
+    void fx(Player p, String name, long ms) {
+        JsonObject o = new JsonObject();
+        o.addProperty("t", "fx");
+        o.addProperty("name", name);
+        o.addProperty("ms", ms);
+        send(p, o);
+    }
+
+    /** 지금 걸려 있는 효과 목록 (id · 이름 · 남은 시간 ms) */
+    void effects(Player p, java.util.List<String[]> rows) {
+        JsonObject o = new JsonObject();
+        o.addProperty("t", "effects");
+        com.google.gson.JsonArray a = new com.google.gson.JsonArray();
+        for (String[] r : rows) {
+            JsonObject e = new JsonObject();
+            e.addProperty("id", r[0]);
+            e.addProperty("name", r[1]);
+            e.addProperty("ms", Long.parseLong(r[2]));
+            a.add(e);
+        }
+        o.add("list", a);
+        send(p, o);
+    }
+
+    /** 대상 룰렛: 이름들 사이를 돌다가 winner 에서 멈춘다. 모드가 없으면 채팅으로 결과만 */
+    void pick(Player p, String title, java.util.List<String> names, String winner, long ms) {
+        if (hasMod(p)) {
+            JsonObject o = new JsonObject();
+            o.addProperty("t", "pick");
+            o.addProperty("title", title);
+            com.google.gson.JsonArray a = new com.google.gson.JsonArray();
+            for (String n : names) a.add(n);
+            o.add("names", a);
+            o.addProperty("winner", winner);
+            o.addProperty("ms", ms);
+            send(p, o);
+        } else {
+            p.sendMessage(Component.text(title + " 대상: " + winner, NamedTextColor.AQUA));
+        }
+    }
+
     /** 모드가 준비됐다고 알려 오면 지금 상태와 상점 목록을 보낸다 */
     void greet(Player p) {
         modded.add(p.getUniqueId());
         state(p);
         shop(p);
         pl.events.sendQueueTo(p);
+        pl.effects.sendListTo(p);
     }
 
     @Override

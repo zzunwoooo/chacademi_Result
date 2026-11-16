@@ -1,0 +1,7 @@
+{
+  "required": false,
+  "package": "com.diamondserver.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": ["KeyboardInputMixin"],
+  "injectors": { "defaultRequire": 0 }
+}

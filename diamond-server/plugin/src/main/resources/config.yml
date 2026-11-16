@@ -25,7 +25,7 @@ events:
   "10":   { name: "밥 3개",           kind: good,    actions: ["food 3"] }
   "50":   { name: "목표 증가",        kind: bad,     actions: ["goal 10 50"] }
   "51":   { name: "목표 감소",        kind: good,    actions: ["goal -50 -10"] }
-  "100":  { name: "장난 랜덤",        kind: neutral, actions: ["pending"] }
+  "100":  { name: "장난 랜덤",        kind: neutral, actions: ["pool prank"] }
   "300":  { name: "다이아 연출 랜덤", kind: good,    actions: ["pending"] }
   "500":  { name: "목표 증가 10회",   kind: bad,     actions: ["repeat 10 goal 10 50"] }
   "510":  { name: "목표 감소 10회",   kind: good,    actions: ["repeat 10 goal -50 -10"] }
@@ -33,6 +33,26 @@ events:
   "2000": { name: "후원자 AI 플레이어", kind: good,  actions: ["pending"] }
   "3000": { name: "채팅 투표",        kind: neutral, actions: ["pending"] }
   "4444": { name: "즉사",             kind: bad,     actions: ["death"] }
+
+# ── 랜덤 풀: "pool <이름>" 이벤트가 여기서 하나를 뽑는다 (직전에 나온 것은 다음 한 번 제외) ──
+# scope: one = 접속한 사람 중 룰렛으로 1명 / all = 전원
+# action: ant·curse·creeper·reverse·blackout·lava·bunny <초> | hotbar | swap
+# ★ 시간은 기획서 값. 기획서에 없던 개미화·바닥은 용암은 30초로 임시
+pools:
+  prank:
+    - { id: ant,      name: "개미화",          scope: one, action: "ant 30" }
+    - { id: curse,    name: "저주받은 곡괭이", scope: one, action: "curse 180" }
+    - { id: creeper,  name: "스토커 크리퍼",   scope: one, action: "creeper 60" }
+    - { id: reverse,  name: "거꾸로 세상",     scope: one, action: "reverse 30" }
+    - { id: hotbar,   name: "핫바 셔플",       scope: one, action: "hotbar" }
+    - { id: swap,     name: "자리 셔플",       scope: all, action: "swap" }
+    - { id: blackout, name: "정전",            scope: all, action: "blackout 30" }
+    - { id: lava,     name: "바닥은 용암",     scope: all, action: "lava 30" }
+    - { id: bunny,    name: "강제 바니홉",     scope: all, action: "bunny 30" }
+    # 모델·모션이 필요해서 아직 안 넣은 것: 다이아 도둑 까마귀 · 로켓 발사 · UFO 납치 · 모루 낙하 · 강제 댄스 · 단체 UFO 납치
+
+effects:
+  ant-scale: 0.2              # 개미화 때 몸 크기
 
 # ── 전용 아이템 ────────────────────────────────────────────
 # material = 바탕이 되는 게임 아이템. 그림이 준비되면 model: "diamondserver:<이름>" 을 추가

@@ -48,11 +48,15 @@ public final class DiamondClient implements ClientModInitializer {
 
         HudRenderCallback.EVENT.register((ctx, tick) -> {
             MinecraftClient mc = MinecraftClient.getInstance();
-            if (!St.has || mc.player == null || mc.options.hudHidden) return;
+            if (!St.has || mc.player == null) return;
+            Hud.drawBlackout(ctx, mc);                               // 정전은 화면 숨김(F1)·F3 상태에서도 가린다
+            if (mc.options.hudHidden) return;
             if (mc.getDebugHud().shouldShowDebugHud()) return;
             if (mc.currentScreen instanceof ShopScreen) return;      // 상점 화면이 직접 그린다
             Hud.drawPanel(ctx, mc);
             Hud.drawQueue(ctx, mc);
+            Hud.drawEffects(ctx, mc);
+            Hud.drawPick(ctx, mc);
             Hud.drawToasts(ctx, mc, Hud.drawBanner(ctx, mc));
         });
     }
@@ -69,6 +73,9 @@ public final class DiamondClient implements ClientModInitializer {
                 case "shop" -> St.applyShop(o);
                 case "event" -> St.applyEvent(o);
                 case "queue" -> St.applyQueue(o);
+                case "effects" -> St.applyEffects(o);
+                case "fx" -> St.applyFx(o);
+                case "pick" -> St.applyPick(o);
                 case "toast" -> {
                     com.google.gson.JsonElement ok = o.get("ok");
                     St.toast(St.str(o, "text", ""), ok == null || ok.isJsonNull() || ok.getAsBoolean());

@@ -31,6 +31,18 @@ public final class St {
     /** 줄 서 있는 이벤트 (맨 위가 진행 중) */
     public static final List<String> queue = new ArrayList<>();
 
+    /** 지금 나에게 걸려 있는 효과 (이름 · 끝나는 시각) */
+    public record Effect(String id, String name, long endsAt) { }
+    public static final List<Effect> effects = new ArrayList<>();
+    public static long reverseUntil;    // 이 시각까지 이동 조작 반전
+    public static long blackoutUntil;   // 이 시각까지 화면 암전
+    public static long blackoutFrom;
+
+    /** 대상 룰렛: 이름들 사이를 돌다가 winner 에서 멈춘다 */
+    public record Pick(String title, List<String> names, int winner, long at, long ms) { }
+    public static Pick pick;
+    public static final long PICK_HOLD_MS = 1800;   // 멈춘 뒤 결과를 보여 주는 시간
+
     public static final List<Cat> cats = new ArrayList<>();
     public static final List<Item> items = new ArrayList<>();
     public static final List<Sell> sells = new ArrayList<>();
@@ -41,6 +53,7 @@ public final class St {
     public static void clear() {
         has = false; goal = 0; held = 0; done = false; heldChangedAt = 0; heldDelta = 0; goalChangedAt = 0; goalDelta = 0;
         cats.clear(); items.clear(); sells.clear(); toasts.clear(); queue.clear(); banner = null;
+        effects.clear(); reverseUntil = 0; blackoutUntil = 0; blackoutFrom = 0; pick = null;
     }
 
     static String str(JsonObject o, String k, String def) {
@@ -95,6 +108,36 @@ public final class St {
         queue.clear();
         JsonArray a = o.getAsJsonArray("lines");
         if (a != null) for (JsonElement e : a) queue.add(e.getAsString());
+    }
+
+    static void applyEffects(JsonObject o) {
+        effects.clear();
+        long now = System.currentTimeMillis();
+        JsonArray a = o.getAsJsonArray("list");
+        if (a != null) for (JsonElement e : a) {
+            JsonObject x = e.getAsJsonObject();
+            effects.add(new Effect(str(x, "id", ""), str(x, "name", ""), now + num(x, "ms", 0)));
+        }
+    }
+
+    static void applyFx(JsonObject o) {
+        long now = System.currentTimeMillis(), ms = num(o, "ms", 0);
+        switch (str(o, "name", "")) {
+            case "reverse" -> reverseUntil = ms <= 0 ? 0 : now + ms;
+            case "blackout" -> {
+                if (ms > 0 && now >= blackoutUntil) blackoutFrom = now;
+                blackoutUntil = ms <= 0 ? 0 : now + ms;
+            }
+            default -> { }
+        }
+    }
+
+    static void applyPick(JsonObject o) {
+        List<String> names = new ArrayList<>();
+        JsonArray a = o.getAsJsonArray("names");
+        if (a != null) for (JsonElement e : a) names.add(e.getAsString());
+        int w = Math.max(0, names.indexOf(str(o, "winner", "")));
+        if (!names.isEmpty()) pick = new Pick(str(o, "title", ""), names, w, System.currentTimeMillis(), Math.max(500, num(o, "ms", 3500)));
     }
 
     static void toast(String text, boolean ok) {

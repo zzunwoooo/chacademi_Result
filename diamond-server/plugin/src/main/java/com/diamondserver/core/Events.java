@@ -26,8 +26,17 @@ import java.util.concurrent.ThreadLocalRandom;
  *   pending                    아직 안 만든 이벤트 (알림만)
  */
 final class Events {
-    record Def(String name, String kind, List<String> actions) { }
+    record Def(String name, String kind, List<String> actions) {
+        /** 랜덤 풀 이벤트는 대상이 룰렛으로 정해지므로 알림에 "→ 누구" 를 붙이지 않는다 */
+        boolean pool() { return !actions.isEmpty() && actions.get(0).startsWith("pool "); }
+    }
     record Job(UUID target, String targetName, String donor, int count) { }
+    /** 랜덤 풀 한 칸. scope = one(룰렛으로 뽑힌 1명) / all(접속한 전원) */
+    record Prank(String id, String name, String scope, String action) { }
+
+    private final Map<String, List<Prank>> pools = new HashMap<>();
+    private final Map<String, String> lastPick = new HashMap<>();      // 풀마다 직전에 나온 것 (다음 한 번 제외)
+    static final long PICK_TICKS = 70;                                 // 대상 룰렛이 도는 시간
 
     private final DiamondPlugin pl;
     private final Map<Integer, Def> defs = new HashMap<>();
@@ -48,7 +57,89 @@ final class Events {
                 pl.getLogger().warning("후원 이벤트 설정 오류로 건너뜀: " + k);
             }
         }
-        pl.getLogger().info("후원 이벤트: " + defs.size() + "개 등록");
+        pools.clear();
+        ConfigurationSection ps = pl.getConfig().getConfigurationSection("pools");
+        if (ps != null) for (String pool : ps.getKeys(false)) {
+            List<Prank> list = new ArrayList<>();
+            for (Map<?, ?> raw : ps.getMapList(pool)) {
+                Object id = raw.get("id"), action = raw.get("action");
+                if (id == null || action == null) { pl.getLogger().warning("랜덤 풀 설정 오류로 건너뜀: " + raw); continue; }
+                Object name = raw.get("name"), scope = raw.get("scope");
+                list.add(new Prank(String.valueOf(id), name == null ? String.valueOf(id) : String.valueOf(name),
+                        scope == null ? "one" : String.valueOf(scope), String.valueOf(action)));
+            }
+            pools.put(pool, list);
+        }
+        StringBuilder sb = new StringBuilder();
+        pools.forEach((k, v) -> sb.append(' ').append(k).append('=').append(v.size()));
+        pl.getLogger().info("후원 이벤트: " + defs.size() + "개 등록, 랜덤 풀:" + (sb.length() == 0 ? " 없음" : sb));
+    }
+
+    /** 풀에서 하나 뽑는다 (직전에 나온 것은 한 번 제외) */
+    private Prank pickFrom(String pool) {
+        List<Prank> all = pools.getOrDefault(pool, List.of());
+        if (all.isEmpty()) return null;
+        List<Prank> ok = new ArrayList<>(all);
+        String last = lastPick.get(pool);
+        if (ok.size() > 1 && last != null) ok.removeIf(x -> x.id.equals(last));
+        Prank p = ok.get(ThreadLocalRandom.current().nextInt(ok.size()));
+        lastPick.put(pool, p.id);
+        return p;
+    }
+
+    /** 랜덤 풀 이벤트 실행: 하나 뽑고, 1명 대상이면 룰렛을 돌린 뒤 건다. 줄이 기다릴 시간(틱)을 돌려준다 */
+    private long runPool(String pool) {
+        Prank pr = pickFrom(pool);
+        if (pr == null) { toastAll(pl, "이 이벤트는 아직 준비 중입니다.", true); return 0; }
+        List<Player> online = new ArrayList<>(Bukkit.getOnlinePlayers());
+        if (online.isEmpty()) return 0;
+        if (pr.scope.equals("all")) {
+            toastAll(pl, pr.name + " → 전원", false);
+            for (Player p : online) p.playSound(p.getLocation(), Sound.ENTITY_EVOKER_PREPARE_WOLOLO, 0.6f, 1f);
+            applyPrank(pr, online);
+            return 20;
+        }
+        Player winner = online.get(ThreadLocalRandom.current().nextInt(online.size()));
+        if (online.size() == 1) {                       // 혼자면 룰렛 없이 바로
+            toastAll(pl, pr.name + " → " + winner.getName(), false);
+            applyPrank(pr, List.of(winner));
+            return 20;
+        }
+        List<String> names = new ArrayList<>();
+        for (Player p : online) names.add(p.getName());
+        for (Player p : online) pl.net.pick(p, pr.name, names, winner.getName(), PICK_TICKS * 50);
+        final UUID id = winner.getUniqueId();
+        Bukkit.getScheduler().runTaskLater(pl, () -> {
+            Player w = Bukkit.getPlayer(id);
+            if (w == null) return;
+            toastAll(pl, pr.name + " → " + w.getName(), false);
+            applyPrank(pr, List.of(w));
+        }, PICK_TICKS);
+        return PICK_TICKS + 30;
+    }
+
+    /** 장난 하나를 대상들에게 건다. 동작: ant·curse·creeper·reverse·blackout·lava·bunny <초> | hotbar | swap */
+    private void applyPrank(Prank pr, List<Player> targets) {
+        String[] a = pr.action.trim().split("\\s+");
+        try {
+            int sec = a.length > 1 ? Integer.parseInt(a[1]) : 0;
+            switch (a[0]) {
+                case "ant" -> targets.forEach(p -> pl.effects.apply(p, Effects.ANT, pr.name, sec));
+                case "curse" -> targets.forEach(p -> pl.effects.apply(p, Effects.CURSE, pr.name, sec));
+                case "creeper" -> targets.forEach(p -> pl.effects.apply(p, Effects.CREEPER, pr.name, sec));
+                case "reverse" -> targets.forEach(p -> pl.effects.apply(p, Effects.REVERSE, pr.name, sec));
+                case "blackout" -> targets.forEach(p -> pl.effects.apply(p, Effects.BLACKOUT, pr.name, sec));
+                case "lava" -> targets.forEach(p -> pl.effects.apply(p, Effects.LAVA, pr.name, sec));
+                case "bunny" -> targets.forEach(p -> pl.effects.apply(p, Effects.BUNNY, pr.name, sec));
+                case "hotbar" -> targets.forEach(Effects::shuffleHotbar);
+                case "swap" -> {
+                    if (!Effects.swapPlaces(targets)) toastAll(pl, "자리를 바꿀 사람이 2명 이상 있어야 합니다.", false);
+                }
+                default -> pl.getLogger().warning("모르는 장난 동작: " + pr.action);
+            }
+        } catch (RuntimeException e) {
+            pl.getLogger().warning("장난 실행 실패 '" + pr.action + "': " + e);
+        }
     }
 
     boolean has(int count) { return defs.containsKey(count); }
@@ -86,7 +177,7 @@ final class Events {
         Def def = defs.get(job.count);
         sendQueue();
         for (Player p : Bukkit.getOnlinePlayers()) {
-            pl.net.event(p, job.donor, job.count, def.name, def.kind, target.getName());
+            pl.net.event(p, job.donor, job.count, def.name, def.kind, def.pool() ? "" : target.getName());
             p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 0.7f, def.kind.equals("bad") ? 0.7f : 1.4f);
         }
         long announce = Math.max(1, pl.getConfig().getLong("donation.announce-ticks", 40));
@@ -157,6 +248,9 @@ final class Events {
                     t.setHealth(0);
                     toastAll(pl, t.getName() + "님이 즉사했습니다.", false);
                     return 20;
+                }
+                case "pool" -> {
+                    return runPool(a[1]);
                 }
                 case "pending" -> {
                     toastAll(pl, def.name + " 이벤트는 아직 준비 중입니다.", good);

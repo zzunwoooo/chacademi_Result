@@ -25,6 +25,7 @@ public final class DiamondPlugin extends JavaPlugin {
     Net net;
     Cmd cmd;
     Events events;
+    Effects effects;
     private Location spawn;
 
     @Override
@@ -37,6 +38,8 @@ public final class DiamondPlugin extends JavaPlugin {
         net = new Net(this);
         cmd = new Cmd(this);
         events = new Events(this);
+        effects = new Effects(this);
+        getServer().getPluginManager().registerEvents(effects, this);
         shop.load();
         events.load();
         loadSpawn();
@@ -73,6 +76,7 @@ public final class DiamondPlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        if (effects != null) effects.shutdown();      // 작아진 몸·마그마로 바꾼 블럭을 되돌린다
         if (store != null) store.saveAll();
     }
 

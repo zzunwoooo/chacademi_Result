@@ -100,7 +100,7 @@ public final class Hud {
         String bottom = f.trimToWidth(b.name() + " → " + b.target(), max);
         int w = Math.max(f.getWidth(top), f.getWidth(bottom)) + 32;
         int x = (sw - w) / 2;
-        int y = x < PX + PW + 4 ? Math.max(BANNER_Y, queueBottom() + 4) : BANNER_Y;
+        int y = x < PX + PW + 4 ? Math.max(BANNER_Y, leftBottom() + 4) : BANNER_Y;
         box(ctx, x, y, w, BANNER_H, alpha(0xE60D1424, a), alpha(color, a));
         ctx.fill(x + 1, y + 1, x + w - 1, y + 3, alpha(color, a));
         ctx.drawText(f, top, x + (w - f.getWidth(top)) / 2, y + 8, alpha(GRAY, a), false);
@@ -122,6 +122,80 @@ public final class Hud {
             ctx.drawText(f, s, PX + 13, y + 5 + i * 11, i == 0 ? WHITE : GRAY, false);
         }
         if (more) ctx.drawText(f, "외 " + (St.queue.size() - 4) + "건", PX + 13, y + 5 + lines * 11, 0xFF6B7890, false);
+    }
+
+    /** 왼쪽 위 묶음(패널 · 대기열 · 걸린 효과)의 맨 아래 y */
+    static int leftBottom() {
+        long now = System.currentTimeMillis();
+        int n = 0;
+        for (St.Effect e : St.effects) if (e.endsAt() > now) n++;
+        return n == 0 ? queueBottom() : queueBottom() + 3 + 5 + 11 * n + 2;
+    }
+
+    /** 지금 걸려 있는 효과: 대기열 아래에 "이름 … 12초" */
+    static void drawEffects(DrawContext ctx, MinecraftClient mc) {
+        long now = System.currentTimeMillis();
+        int n = 0;
+        for (St.Effect e : St.effects) if (e.endsAt() > now) n++;
+        if (n == 0) return;
+        TextRenderer f = mc.textRenderer;
+        int y = queueBottom() + 3, h = 5 + 11 * n + 2;
+        box(ctx, PX, y, PW, h, BG, RED);
+        int i = 0;
+        for (St.Effect e : St.effects) {
+            if (e.endsAt() <= now) continue;
+            String left = ((e.endsAt() - now + 999) / 1000) + "초";
+            int ly = y + 5 + i * 11;
+            ctx.drawText(f, left, PX + PW - 7 - f.getWidth(left), ly, WHITE, false);
+            ctx.drawText(f, f.trimToWidth(e.name(), PW - 20 - f.getWidth(left)), PX + 7, ly, RED, false);
+            i++;
+        }
+    }
+
+    /** 정전: 화면 전체를 까맣게 (0.4초에 걸쳐 어두워짐). 다른 화면 요소보다 먼저 그린다 */
+    static void drawBlackout(DrawContext ctx, MinecraftClient mc) {
+        long now = System.currentTimeMillis();
+        if (now >= St.blackoutUntil) return;
+        float in = Math.min(1f, (now - St.blackoutFrom) / 400f);
+        float out = Math.min(1f, (St.blackoutUntil - now) / 400f);
+        int a = Math.round(250 * Math.max(0f, Math.min(in, out)));
+        ctx.fill(0, 0, mc.getWindow().getScaledWidth(), mc.getWindow().getScaledHeight(), a << 24);
+    }
+
+    /** 대상 룰렛: 화면 가운데 위쪽에 이름 칸들이 나오고 불빛이 돌다가 한 명에서 멈춘다 */
+    static void drawPick(DrawContext ctx, MinecraftClient mc) {
+        St.Pick p = St.pick;
+        if (p == null) return;
+        long age = System.currentTimeMillis() - p.at();
+        if (age > p.ms() + St.PICK_HOLD_MS) { St.pick = null; return; }
+        TextRenderer f = mc.textRenderer;
+        int sw = mc.getWindow().getScaledWidth(), sh = mc.getWindow().getScaledHeight();
+        int n = p.names().size();
+        boolean done = age >= p.ms();
+        // 불빛 위치: 처음엔 빠르게, 끝으로 갈수록 느리게 돌아 정해진 사람에서 멈춘다
+        float t = Math.min(1f, age / (float) p.ms());
+        float ease = 1f - (1f - t) * (1f - t) * (1f - t);
+        int steps = n * 4 + p.winner();
+        int lit = done ? p.winner() : (int) Math.floor(ease * steps) % n;
+
+        final int bw = 92, bh = 22, gap = 6;
+        int perRow = Math.max(1, Math.min(n, (sw - 20 + gap) / (bw + gap)));
+        int rows = (n + perRow - 1) / perRow;
+        int top = Math.max(84, sh / 2 - 44 - rows * (bh + gap));
+        String title = f.trimToWidth(p.title(), sw - 60);
+        int tw = f.getWidth(title) + 24;
+        box(ctx, (sw - tw) / 2, top, tw, 18, 0xE60D1424, AQUA);
+        ctx.drawText(f, title, (sw - f.getWidth(title)) / 2, top + 5, WHITE, false);
+        for (int i = 0; i < n; i++) {
+            int row = i / perRow, inRow = Math.min(perRow, n - row * perRow);
+            int rowW = inRow * bw + (inRow - 1) * gap;
+            int x = (sw - rowW) / 2 + (i % perRow) * (bw + gap), y = top + 24 + row * (bh + gap);
+            boolean on = i == lit;
+            boolean blink = done && on && (age / 200) % 2 == 0;
+            box(ctx, x, y, bw, bh, on ? (blink ? 0xFF8A2A2A : 0xFF5A1F1F) : 0xE0101826, on ? RED : BORDER);
+            String name = f.trimToWidth(p.names().get(i), bw - 10);
+            ctx.drawText(f, name, x + (bw - f.getWidth(name)) / 2, y + 7, on ? WHITE : GRAY, false);
+        }
     }
 
     /** bannerBottom = drawBanner 가 돌려준 값 (배너가 떠 있으면 알림은 그 아래부터) */
