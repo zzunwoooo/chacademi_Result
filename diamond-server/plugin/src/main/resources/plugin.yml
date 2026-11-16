@@ -1,5 +1,22 @@
 name: DiamondCore
-version: 0.0.1
+version: 0.1.0
 main: com.diamondserver.core.DiamondPlugin
 api-version: '1.21'
-description: 다이아 서버 후원 이벤트
+description: 나니 다이아서버 (다이아 장부 · 상점 · 전용 아이템)
+commands:
+  다이아:
+    description: 나니 다이아서버 관리 명령
+    permission: diamondserver.admin
+  상점:
+    description: 상점 열기
+  제출:
+    description: 보유 다이아를 제출해 남은 목표 줄이기
+  인출:
+    description: 보유 다이아를 아이템으로 꺼내기
+  입금:
+    description: 인벤토리의 다이아를 보유 다이아로 넣기
+  목표:
+    description: 남은 목표와 보유 다이아 보기
+permissions:
+  diamondserver.admin:
+    default: op

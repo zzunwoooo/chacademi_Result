@@ -1,0 +1,74 @@
+# 나니 다이아서버 설정. 고친 뒤 /다이아 리로드
+# ★ 표시는 값을 임시로 정해 둔 곳 (오너 확인 필요)
+
+# ── 목표 다이아 ───────────────────────────────────────────
+goal:
+  start-min: 500          # ★ 처음 들어올 때 "남은 목표" = min~max 사이 랜덤 (깨굴과 같은 값)
+  start-max: 1500
+
+# ── 보유 다이아: 주운 다이아는 인벤토리 대신 화면 숫자로 ───────────
+wallet:
+  absorb-blocks: true     # 다이아 블록도 흡수 (블록 1개 = 다이아 9개)
+
+# ── 전용 아이템 ────────────────────────────────────────────
+# material = 바탕이 되는 게임 아이템. 그림이 준비되면 model: "diamondserver:<이름>" 을 추가
+items:
+  food:
+    name: "밥"
+    material: BREAD
+    hunger: 8             # 스테이크와 같음
+    saturation: 12.8
+    lore: ["든든한 한 끼"]
+  inven_save_ticket:
+    name: "인벤세이브권"
+    material: PAPER
+    lore: ["가지고 있으면 죽을 때 1장이 자동으로 사용되어", "아이템과 레벨을 잃지 않습니다"]
+  return_ticket:
+    name: "귀환권"
+    material: PAPER
+    lore: ["손에 들고 우클릭하면 시작 지점으로 돌아갑니다"]
+  teleport_ticket:
+    name: "텔레포트권"
+    material: PAPER
+    lore: ["손에 들고 우클릭하면 고른 사람에게 이동합니다"]
+
+# ── 상점: 구매 (가격 = 보유 다이아) ★ 가격 전부 임시 ─────────────
+shop:
+  categories:             # 왼쪽 분류 (위에서부터 순서대로)
+    pickaxe: "곡괭이"
+    enchant: "인챈트북"
+    item: "아이템"
+  items:
+    - { id: wooden_pickaxe,    cat: pickaxe, name: "나무 곡괭이",     material: WOODEN_PICKAXE,    price: 1 }
+    - { id: stone_pickaxe,     cat: pickaxe, name: "돌 곡괭이",       material: STONE_PICKAXE,     price: 3 }
+    - { id: iron_pickaxe,      cat: pickaxe, name: "철 곡괭이",       material: IRON_PICKAXE,      price: 10 }
+    - { id: golden_pickaxe,    cat: pickaxe, name: "금 곡괭이",       material: GOLDEN_PICKAXE,    price: 8 }
+    - { id: diamond_pickaxe,   cat: pickaxe, name: "다이아 곡괭이",   material: DIAMOND_PICKAXE,   price: 40 }
+    - { id: netherite_pickaxe, cat: pickaxe, name: "네더라이트 곡괭이", material: NETHERITE_PICKAXE, price: 150 }
+    - { id: efficiency_3, cat: enchant, name: "효율 III",   enchant: efficiency, level: 3, price: 20 }
+    - { id: efficiency_5, cat: enchant, name: "효율 V",     enchant: efficiency, level: 5, price: 60 }
+    - { id: fortune_1,    cat: enchant, name: "행운 I",     enchant: fortune,    level: 1, price: 30 }
+    - { id: fortune_2,    cat: enchant, name: "행운 II",    enchant: fortune,    level: 2, price: 80 }
+    - { id: fortune_3,    cat: enchant, name: "행운 III",   enchant: fortune,    level: 3, price: 200 }
+    - { id: unbreaking_3, cat: enchant, name: "내구성 III", enchant: unbreaking, level: 3, price: 30 }
+    - { id: mending,      cat: enchant, name: "수선",       enchant: mending,    level: 1, price: 150 }
+    - { id: food,              cat: item, name: "밥",           item: food,              amount: 8, price: 1 }
+    - { id: inven_save_ticket, cat: item, name: "인벤세이브권", item: inven_save_ticket, price: 15 }
+    - { id: return_ticket,     cat: item, name: "귀환권",       item: return_ticket,     price: 5 }
+    - { id: teleport_ticket,   cat: item, name: "텔레포트권",   item: teleport_ticket,   price: 5 }
+
+# ── 상점: 판매 (숫자 = 1개당 다이아. 소수점은 쌓였다가 1 이 넘으면 다이아 1개) ★ 깨굴과 같은 값 ──
+# block = 그 광물 9개로 만든 블록 (블록도 팔리고 값은 9배)
+sell:
+  COAL:           { name: "석탄",        price: 0.015, block: COAL_BLOCK }
+  RAW_IRON:       { name: "철 원석",     price: 0.04,  block: RAW_IRON_BLOCK }
+  IRON_INGOT:     { name: "철 주괴",     price: 0.05,  block: IRON_BLOCK }
+  RAW_COPPER:     { name: "구리 원석",   price: 0.015, block: RAW_COPPER_BLOCK }
+  COPPER_INGOT:   { name: "구리 주괴",   price: 0.02,  block: COPPER_BLOCK }
+  RAW_GOLD:       { name: "금 원석",     price: 0.08,  block: RAW_GOLD_BLOCK }
+  GOLD_INGOT:     { name: "금 주괴",     price: 0.1,   block: GOLD_BLOCK }
+  REDSTONE:       { name: "레드스톤",    price: 0.008, block: REDSTONE_BLOCK }
+  LAPIS_LAZULI:   { name: "청금석",      price: 0.015, block: LAPIS_BLOCK }
+  EMERALD:        { name: "에메랄드",    price: 0.5,   block: EMERALD_BLOCK }
+  QUARTZ:         { name: "네더 석영",   price: 0.02 }
+  AMETHYST_SHARD: { name: "자수정 조각", price: 0.03 }

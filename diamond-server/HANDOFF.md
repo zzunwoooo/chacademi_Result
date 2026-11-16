@@ -131,3 +131,21 @@ python3 build_spec.py && python3 motion_gen.py forced_dance_spec.json <출력폴
 - 들어 있는 모드: 원래 통합런처 기본 모드(Fabric API, 후원 Donation, Plasmo Voice, 한글패치 등) + Player Animator(강제 댄스용) + `diamond-ui`(지금은 빈 뼈대 0.0.1).
 - 아이콘·배경은 임시 그림(보석)이다. 정식 그림이 오면 `app/assets/images/icon.png`·`icon.ico`·`backgrounds/0.jpg`, `build/icon.png` 를 바꾼다.
 - 첫 빌드(b067419) 성공: 설치 파일 98.5MB, 저쪽 `클로드\다이아서버\런처\NaniDiamond-setup-1.0.0.exe` (조각 2개를 이어 붙이고 SHA256 일치 확인). 설치·실행 시험은 안 함. 내려받기 주소: https://github.com/zzunwoooo/chacademi_Result/releases/download/diamond-launcher-1.0.0/NaniDiamond-setup-1.0.0.exe (런처를 다시 빌드하면 gh release upload --clobber 로 교체).
+
+## 1차 개발 (2026-11-16): 다이아 장부 · 화면 숫자 · 상점 · 전용 아이템
+
+오너 결정: **깨굴 코드는 가져오지 않고 새로 만든다. 구조와 경제만 깨굴서버와 같게.** 상점 상품은 곡괭이와 곡괭이용 인챈트북.
+
+- 플러그인 `plugin/` DiamondCore 0.1.0 (패키지 `com.diamondserver.core`)
+  - `Store` 사람별 장부 파일(`plugins/DiamondCore/players/<UUID>.yml`): 남은 목표(goal) · 보유 다이아(held) · 판매 소수점(frac) · 달성(done)
+  - `Ledger` 규칙: 처음 접속 때 남은 목표 = 500~1500 랜덤, 주운 다이아(블록은 9개)는 인벤토리 대신 보유 다이아로, `/제출` 하면 남은 목표가 줄고 0 이면 달성 알림
+  - `Shop` 구매(보유 다이아로) · 판매(광물 → 다이아, 소수점 누적). 상품·가격은 전부 `config.yml`
+  - `Items` 전용 아이템 4종: 밥(food) · 인벤세이브권 · 귀환권 · 텔레포트권 (지금은 빵·종이 모양, 그림이 오면 config 에 `model:` 추가)
+  - `Net` 모드와 통신: 채널 `diamond:main`, JSON. 서버→클라 `state` `shop` `open` `toast`, 클라→서버 `hello` `buy` `sell` `submit`
+  - 명령: `/상점` `/제출 [개수|전부]` `/인출 [개수]` `/입금` `/목표`, 관리자 `/다이아 리로드|지급|설정|아이템|위치|정보`
+  - 모드 없이 접속하면 화면 아래 글자로 남은 목표·보유 다이아만 보인다
+- 모드 `mod/` diamond-ui 0.1.0 (패키지 `com.diamondserver.client`)
+  - `Hud` 왼쪽 위 다이아 패널 + 위쪽 알림, `ShopScreen` 상점 화면(G 키 또는 `/상점`). **전부 색 상자로 그린 임시 디자인**
+- 확인한 것: 둘 다 빌드 성공, 호스팅 서버에 넣고 켜서 플러그인 로드(상품 17개·판매 품목 12개)·콘솔 명령 동작·정상 종료.
+- **확인 못 한 것: 게임 안 동작 전부** (다이아 흡수, 제출, 구매·판매, 아이템 4종, 화면 모양). 접속해서 봐야 한다.
+- 아직 없는 것: 후원 이벤트 전부(`docs/events.md`), 후원 수신 연결, 목표 달성 뒤 처리, 정식 UI 그림.
