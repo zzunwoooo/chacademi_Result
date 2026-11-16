@@ -165,6 +165,7 @@ key_key.journeymap.fullscreen.disable_buttons:key.keyboard.unknown
 key_key.journeymap.toggle_entity_names:key.keyboard.unknown
 key_key.koreanpatch.toggle_langtype:key.keyboard.right.alt
 key_key.koreanpatch.toggle_ime:key.keyboard.i
+key_key.diamondserver.shop:key.keyboard.g
 key_key.plasmovoice.settings:key.keyboard.v
 key_iris.keybind.reload:key.keyboard.unknown
 key_iris.keybind.toggleShaders:key.keyboard.k
