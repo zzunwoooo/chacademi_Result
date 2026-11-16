@@ -304,3 +304,9 @@ python3 build_spec.py && python3 motion_gen.py forced_dance_spec.json <출력폴
 ## 서버 켜 둠 (2026-11-16 19:58, 오너 테스트용)
 - 호스팅에서 `Start.cmd` 를 창 없이 실행 중 (꺼지면 5초 뒤 다시 켜짐). 끄려면 cmd·java 프로세스를 종료해야 한다.
 - 이 뒤로 jar 를 바꾸거나 시험 부팅하기 전에 반드시 포트 25800 을 확인할 것.
+
+## 서버 실행 방식 (2026-11-16 20:13 변경)
+- 호스팅 `C:\Chacademi\diamond\run-console.sh` 로 창 없이 실행 중. `console-in.txt` 에 한 줄을 덧붙이면 서버 콘솔 명령으로 들어간다 (결과는 `logs/latest.log`).
+  예: `echo "다이아 리로드" >> /c/Chacademi/diamond/console-in.txt`
+- 꺼지면 5초 뒤 다시 켜진다. 완전히 끄려면 `stop-loop` 파일을 만든 뒤 `stop` 을 넣는다.
+- 관리자(OP): Zzunwoo, N_an1.
