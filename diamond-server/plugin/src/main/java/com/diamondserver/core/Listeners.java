@@ -41,6 +41,8 @@ final class Listeners implements Listener {
         Player p = e.getPlayer();
         pl.store.get(p);                   // 처음 온 사람은 여기서 목표가 정해진다
         pl.nicks.apply(p);                 // 채팅·탭 목록 이름을 닉네임으로
+        // 접속 글은 한글 닉네임으로. 아직 닉네임이 없으면 접속 글을 내지 않고, 닉네임을 정했을 때 알린다
+        e.joinMessage(pl.nicks.has(p) ? Component.text(pl.nick(p) + "님이 접속했습니다.", NamedTextColor.YELLOW) : null);
         // 모드 없이 들어온 사람은 5초 뒤 닉네임 명령어를 안내한다 (모드가 있으면 창이 뜬다)
         Bukkit.getScheduler().runTaskLater(pl, () -> { if (p.isOnline() && !pl.net.hasMod(p)) pl.nicks.promptIfNeeded(p); }, 100L);
         // 접속해 있지 않을 때 들어온 후원은 3초 뒤(화면이 준비된 뒤) 줄에 넣는다
@@ -49,6 +51,7 @@ final class Listeners implements Listener {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
+        e.quitMessage(pl.nicks.has(e.getPlayer()) ? Component.text(pl.nick(e.getPlayer()) + "님이 나갔습니다.", NamedTextColor.YELLOW) : null);
         UUID id = e.getPlayer().getUniqueId();
         pl.net.forget(id);
         pl.store.unload(id);
@@ -76,6 +79,7 @@ final class Listeners implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onDeath(PlayerDeathEvent e) {
         Player p = e.getEntity();
+        e.deathMessage(Component.text(pl.nick(p) + "님이 사망했습니다.", NamedTextColor.WHITE));     // 사망 글도 한글 닉네임으로
         if (e.getKeepInventory() || !pl.items.takeOne(p, Items.INVEN_SAVE)) return;
         e.setKeepInventory(true);
         e.getDrops().clear();

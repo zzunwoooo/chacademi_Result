@@ -67,7 +67,7 @@ final class Net implements PluginMessageListener {
     }
 
     /** 후원 이벤트 알림 (누가 몇 개 → 어떤 이벤트, 대상). 모드가 없으면 채팅으로 */
-    void event(Player p, String donor, int count, String name, String kind, String target) {
+    void event(Player p, String donor, int count, String name, String kind, String icon, String target) {
         if (hasMod(p)) {
             JsonObject o = new JsonObject();
             o.addProperty("t", "event");
@@ -75,6 +75,7 @@ final class Net implements PluginMessageListener {
             o.addProperty("count", count);
             o.addProperty("name", name);
             o.addProperty("kind", kind);
+            o.addProperty("icon", icon);
             o.addProperty("target", target);
             send(p, o);
         } else {
@@ -83,11 +84,11 @@ final class Net implements PluginMessageListener {
     }
 
     /** 줄 서 있는 이벤트 목록 */
-    void queue(Player p, java.util.List<String> lines) {
+    void queue(Player p, java.util.List<String[]> lines) {
         JsonObject o = new JsonObject();
         o.addProperty("t", "queue");
         com.google.gson.JsonArray a = new com.google.gson.JsonArray();
-        for (String l : lines) a.add(l);
+        for (String[] l : lines) { JsonObject r = new JsonObject(); r.addProperty("icon", l[0]); r.addProperty("text", l[1]); a.add(r); }
         o.add("lines", a);
         send(p, o);
     }
@@ -111,6 +112,8 @@ final class Net implements PluginMessageListener {
             e.addProperty("id", r[0]);
             e.addProperty("name", r[1]);
             e.addProperty("ms", Long.parseLong(r[2]));
+            e.addProperty("icon", r[3]);
+            e.addProperty("total", Long.parseLong(r[4]));
             a.add(e);
         }
         o.add("list", a);
@@ -155,6 +158,48 @@ final class Net implements PluginMessageListener {
         send(p, o);
     }
 
+    /** 1000개 룰렛: 상품 이름·아이콘 8칸과 당첨 번호. 모드가 없으면 채팅으로 결과만 */
+    void wheel(Player p, String title, java.util.List<String> labels, java.util.List<String> icons, int winner, long ms) {
+        if (hasMod(p)) {
+            JsonObject o = new JsonObject();
+            o.addProperty("t", "wheel");
+            o.addProperty("title", title);
+            com.google.gson.JsonArray a = new com.google.gson.JsonArray(), b = new com.google.gson.JsonArray();
+            for (String s : labels) a.add(s);
+            for (String s : icons) b.add(s);
+            o.add("labels", a);
+            o.add("icons", b);
+            o.addProperty("winner", winner);
+            o.addProperty("ms", ms);
+            send(p, o);
+        } else {
+            p.sendMessage(Component.text(title + ": " + labels.get(Math.max(0, Math.min(labels.size() - 1, winner))), NamedTextColor.AQUA));
+        }
+    }
+
+    /** 화면 가운데 발표 창 (아이콘 · 제목 · 설명). 모드가 없으면 채팅으로 */
+    void announce(Player p, String icon, String title, String desc) {
+        if (hasMod(p)) {
+            JsonObject o = new JsonObject();
+            o.addProperty("t", "announce");
+            o.addProperty("icon", icon);
+            o.addProperty("title", title);
+            o.addProperty("desc", desc);
+            send(p, o);
+        } else {
+            p.sendMessage(Component.text(title + " → " + desc, NamedTextColor.AQUA));
+        }
+    }
+
+    /** 즉사 연출 (화면 가장자리 붉은 효과 + 제목 띠) */
+    void death(Player p, String name) {
+        if (!hasMod(p)) return;
+        JsonObject o = new JsonObject();
+        o.addProperty("t", "death");
+        o.addProperty("name", name);
+        send(p, o);
+    }
+
     /** 플레이어 모션 재생 (who 가 name 모션을 한다. name 이 "stop" 이면 멈춤). 보는 사람 모두에게 보낸다 */
     void motion(Player viewer, UUID who, String name) {
         if (!hasMod(viewer)) return;
@@ -166,7 +211,7 @@ final class Net implements PluginMessageListener {
     }
 
     /** 대상 룰렛: 이름들 사이를 돌다가 winner 에서 멈춘다. 모드가 없으면 채팅으로 결과만 */
-    void pick(Player p, String title, java.util.List<String> names, String winner, long ms) {
+    void pick(Player p, String title, String icon, java.util.List<String> names, java.util.List<String> ids, int winner, long ms) {
         if (hasMod(p)) {
             JsonObject o = new JsonObject();
             o.addProperty("t", "pick");
@@ -174,11 +219,15 @@ final class Net implements PluginMessageListener {
             com.google.gson.JsonArray a = new com.google.gson.JsonArray();
             for (String n : names) a.add(n);
             o.add("names", a);
+            com.google.gson.JsonArray b = new com.google.gson.JsonArray();
+            for (String n : ids) b.add(n);
+            o.add("ids", b);
+            o.addProperty("icon", icon);
             o.addProperty("winner", winner);
             o.addProperty("ms", ms);
             send(p, o);
         } else {
-            p.sendMessage(Component.text(title + " 대상: " + winner, NamedTextColor.AQUA));
+            p.sendMessage(Component.text(title + " 대상: " + names.get(Math.max(0, Math.min(names.size() - 1, winner))), NamedTextColor.AQUA));
         }
     }
 

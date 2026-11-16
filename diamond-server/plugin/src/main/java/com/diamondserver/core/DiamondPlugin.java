@@ -78,6 +78,9 @@ public final class DiamondPlugin extends JavaPlugin {
             c.setTabCompleter(cmd);
         }
 
+        // 발전 과제 알림은 계정 이름으로 나오므로 끈다 (화면에는 한글 닉네임만 나오게)
+        for (org.bukkit.World w : Bukkit.getWorlds()) w.setGameRule(org.bukkit.GameRule.ANNOUNCE_ADVANCEMENTS, false);
+
         // 5분마다 저장
         Bukkit.getScheduler().runTaskTimer(this, store::saveAll, 20L * 300, 20L * 300);
         // 모드 없이 들어온 사람에게는 화면 아래 글자로 남은 목표·보유 다이아를 보여 준다

@@ -40,7 +40,7 @@ final class Effects implements Listener {
             BLACKOUT = "blackout", LAVA = "lava", BUNNY = "bunny",
             MIDAS = "midas", GIANT = "giant", DANCE = "dance", STUN = "stun";
 
-    private record Active(String name, long endTick) { }
+    private record Active(String name, String icon, long endTick, long totalTicks) { }
 
     private final DiamondPlugin pl;
     private final Map<UUID, Map<String, Active>> active = new HashMap<>();
@@ -65,11 +65,11 @@ final class Effects implements Listener {
     }
 
     /** 효과를 건다 (이미 걸려 있으면 시간만 새로) */
-    void apply(Player p, String id, String name, int seconds) {
+    void apply(Player p, String id, String name, String icon, int seconds) {
         // 개미화와 거인화는 같이 걸릴 수 없다: 나중에 걸린 것이 앞의 것을 지운다
         if (id.equals(ANT)) drop(p, GIANT); else if (id.equals(GIANT)) drop(p, ANT);
         boolean fresh = !has(p, id);
-        active.computeIfAbsent(p.getUniqueId(), k -> new LinkedHashMap<>()).put(id, new Active(name, tick + seconds * 20L));
+        active.computeIfAbsent(p.getUniqueId(), k -> new LinkedHashMap<>()).put(id, new Active(name, icon, tick + seconds * 20L, seconds * 20L));
         if (fresh) start(p, id);
         switch (id) {       // 모드가 직접 처리하는 화면 효과는 남은 시간을 다시 알려 준다
             case REVERSE, BLACKOUT -> pl.net.fx(p, id, seconds * 1000L);
@@ -317,7 +317,7 @@ final class Effects implements Listener {
         List<String[]> rows = new ArrayList<>();
         Map<String, Active> m = active.get(p.getUniqueId());
         if (m != null) for (Map.Entry<String, Active> e : m.entrySet())
-            rows.add(new String[]{e.getKey(), e.getValue().name, String.valueOf(Math.max(0, (e.getValue().endTick - tick) * 50))});
+            rows.add(new String[]{e.getKey(), e.getValue().name, String.valueOf(Math.max(0, (e.getValue().endTick - tick) * 50)), e.getValue().icon, String.valueOf(e.getValue().totalTicks * 50)});
         pl.net.effects(p, rows);
     }
 

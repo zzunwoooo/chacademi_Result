@@ -1,5 +1,6 @@
 package com.diamondserver.client;
 
+import com.diamondserver.ui.HudUi;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.fabricmc.api.ClientModInitializer;
@@ -14,10 +15,15 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 
-/** 나니 다이아서버 클라이언트 모드: 화면 숫자(남은 목표·보유 다이아) · 알림 · 상점 화면 */
+/**
+ * 나니 다이아서버 클라이언트 모드.
+ * 서버(DiamondCore)가 보내는 신호를 받아 상태(St)에 적고, 화면 코드(ui 패키지)가 그 상태를 그린다.
+ * 화면: 왼쪽 위 HUD · 후원 알림 · 룰렛 · 발표 창 · 즉사 연출 · 상점 · 닉네임 창.  그 밖에 강제 댄스 모션, 조작 반전, 한글 이름표.
+ */
 public final class DiamondClient implements ClientModInitializer {
     public static KeyBinding shopKey;
     private static int helloTick;
+    private static final McG HUD_G = new McG();
 
     @Override
     public void onInitializeClient() {
@@ -42,23 +48,19 @@ public final class DiamondClient implements ClientModInitializer {
                 o.addProperty("t", "hello");
                 send(o);
             }
-            St.expireToasts();
+            St.expire();
             while (shopKey.wasPressed())
                 if (St.has && client.currentScreen == null) client.setScreen(new ShopScreen());
         });
 
+        // 평소 화면. 상점·닉네임 창이 열려 있을 때는 그 창이 HUD 까지 직접 그린다 (알림이 창 위에 오도록)
         HudRenderCallback.EVENT.register((ctx, tick) -> {
             MinecraftClient mc = MinecraftClient.getInstance();
             if (!St.has || mc.player == null) return;
-            Hud.drawBlackout(ctx, mc);                               // 정전은 화면 숨김(F1)·F3 상태에서도 가린다
-            if (mc.options.hudHidden) return;
-            if (mc.getDebugHud().shouldShowDebugHud()) return;
-            if (mc.currentScreen instanceof ShopScreen) return;      // 상점 화면이 직접 그린다
-            Hud.drawPanel(ctx, mc);
-            Hud.drawQueue(ctx, mc);
-            Hud.drawEffects(ctx, mc);
-            Hud.drawPick(ctx, mc);
-            Hud.drawToasts(ctx, mc, Hud.drawBanner(ctx, mc));
+            if (mc.currentScreen instanceof ShopScreen || mc.currentScreen instanceof NickScreen) return;
+            McG g = HUD_G.begin(ctx);
+            if (mc.options.hudHidden || mc.getDebugHud().shouldShowDebugHud()) { HudUi.blackoutOnly(g); return; }   // 정전은 F1·F3 에서도 가린다
+            HudUi.draw(g);
         });
     }
 
@@ -86,19 +88,20 @@ public final class DiamondClient implements ClientModInitializer {
                 case "effects" -> St.applyEffects(o);
                 case "fx" -> St.applyFx(o);
                 case "pick" -> St.applyPick(o);
+                case "wheel" -> St.applyWheel(o);
+                case "announce" -> St.applyAnnounce(o);
+                case "death" -> St.applyDeath(o);
+                case "names" -> St.applyNames(o);
+                case "toast" -> St.toast(St.str(o, "text", ""), St.bool(o, "ok", true));
                 case "motion" -> playMotion(mc, St.str(o, "player", ""), St.str(o, "name", ""));
-                case "toast" -> {
-                    com.google.gson.JsonElement ok = o.get("ok");
-                    St.toast(St.str(o, "text", ""), ok == null || ok.isJsonNull() || ok.getAsBoolean());
-                }
                 case "open" -> {
                     String screen = St.str(o, "screen", "");
                     if (screen.equals("shop") && mc.currentScreen == null) mc.setScreen(new ShopScreen());
                     if (screen.equals("nick")) {
-                        com.google.gson.JsonElement fe = o.get("first");
-                        boolean first = fe != null && !fe.isJsonNull() && fe.getAsBoolean();
+                        boolean first = St.bool(o, "first", false);
                         // 처음 정하는 창은 다른 화면이 떠 있어도 띄운다. 바꾸기 창은 아무 화면도 없을 때만
-                        if (first || mc.currentScreen == null) mc.setScreen(new NickScreen(first, St.str(o, "current", ""), St.str(o, "rule", ""), (int) St.num(o, "max", 8)));
+                        if (first || mc.currentScreen == null)
+                            mc.setScreen(new NickScreen(first, St.str(o, "current", ""), St.str(o, "rule", ""), (int) St.num(o, "max", 8)));
                     }
                 }
                 case "close" -> {
@@ -107,7 +110,6 @@ public final class DiamondClient implements ClientModInitializer {
                 case "nickerr" -> {
                     if (mc.currentScreen instanceof NickScreen ns) ns.showError(St.str(o, "text", ""));
                 }
-                case "names" -> St.applyNames(o);
                 default -> { }
             }
         } catch (RuntimeException e) {

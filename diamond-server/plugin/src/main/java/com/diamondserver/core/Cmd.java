@@ -100,7 +100,7 @@ final class Cmd implements CommandExecutor, TabCompleter {
                 Player t = pl.nicks.find(a[1]);
                 if (t == null) { say(s, a[1] + "님은 접속해 있지 않습니다."); return true; }
                 String err = pl.nicks.adminSet(t, a[2].equals("해제") ? null : a[2]);
-                say(s, err != null ? err : t.getName() + " 계정의 닉네임: " + (pl.nicks.has(t) ? pl.nick(t) : "(없음)"));
+                say(s, err != null ? err : pl.nicks.has(t) ? "닉네임을 " + pl.nick(t) + "(으)로 정했습니다." : "닉네임을 지웠습니다.");
             }
             case "연동시험" -> {
                 // 접속한 사람 없이도 모델·NPC 연동이 실제로 되는지 확인: 시작 지점에 잠깐 세웠다가 치운다

@@ -99,6 +99,9 @@ final class Shop {
             JsonObject i = new JsonObject();
             i.addProperty("id", e.id); i.addProperty("cat", e.cat); i.addProperty("name", e.name); i.addProperty("desc", e.desc);
             i.addProperty("price", e.price); i.addProperty("amount", e.amount); i.addProperty("icon", mcId(iconOf(e)));
+            // 전용 아이템은 받은 그림(모드 안 textures/ui/ 아래)을 쓴다. 없으면 게임 기본 아이템 그림(icon)
+            String art = e.item == null ? "" : pl.getConfig().getString("items." + e.item + ".art", "");
+            if (!art.isEmpty()) i.addProperty("art", art);
             ia.add(i);
         }
         o.add("items", ia);

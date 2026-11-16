@@ -14,8 +14,8 @@ wallet:
 nickname:
   min: 2
   max: 8
-  pattern: "^[가-힣a-zA-Z0-9_]+$"   # 완성형 한글·영문·숫자·_ (자음/모음만은 불가)
-  rule-text: "한글·영문·숫자 {min}~{max}글자"
+  pattern: "^[가-힣0-9]+$"        # 완성형 한글·숫자만 (영문·자음/모음만은 불가). 영문도 허용하려면 "^[가-힣a-zA-Z0-9]+$"
+  rule-text: "한글·숫자 {min}~{max}글자"
   banned: [운영자, 관리자, admin]
   allow-change: true              # /닉네임 으로 다시 바꾸기 허용
   force-on-join: true             # 닉네임이 없으면 접속했을 때 닉네임 창을 띄움 (정할 때까지 닫을 수 없음)
@@ -29,22 +29,23 @@ donation:
   queue-gap-ticks: 20         # 이벤트 하나가 끝나고 다음 것까지 쉬는 시간
 
 # ── 후원 이벤트: 별풍선 개수 → 이벤트 (대상 = 후원 받은 스트리머) ────────────
-# kind: good(도움) / bad(방해) / neutral  — 알림 색에 쓰임
+# kind: good(도움) / bad(방해) / neutral  — 알림 틀 종류에 쓰임
+# icon: 화면에 띄울 그림 (모드 안 textures/ui/ 아래 이름, 확장자 없이)
 # actions: food <개수> | goal <최소> <최대> (음수 = 감소) | goalpm <개수> | repeat <횟수> goal <최소> <최대>
 #          diamonds <개수> | half | death | pool <풀 이름> | poolx <풀 이름> <횟수> | wheel | miner | pending(아직 안 만든 것)
 # 3000 채팅 투표는 방송 채팅을 받는 방법과 "다이아 폭탄" 내용이 정해지지 않아 아직 pending
 events:
-  "10":   { name: "밥 3개",           kind: good,    actions: ["food 3"] }
-  "50":   { name: "목표 증가",        kind: bad,     actions: ["goal 10 50"] }
-  "51":   { name: "목표 감소",        kind: good,    actions: ["goal -50 -10"] }
-  "100":  { name: "장난 랜덤",        kind: neutral, actions: ["pool prank"] }
-  "300":  { name: "다이아 연출 랜덤", kind: good,    actions: ["pool reward"] }
-  "500":  { name: "목표 증가 10회",   kind: bad,     actions: ["repeat 10 goal 10 50"] }
-  "510":  { name: "목표 감소 10회",   kind: good,    actions: ["repeat 10 goal -50 -10"] }
-  "1000": { name: "룰렛",             kind: neutral, actions: ["wheel"] }
-  "2000": { name: "후원자 AI 플레이어", kind: good,  actions: ["miner"] }
-  "3000": { name: "채팅 투표",        kind: neutral, actions: ["pending"] }
-  "4444": { name: "즉사",             kind: bad,     actions: ["death"] }
+  "10":   { name: "밥 3개",           icon: "icons/meal", kind: good,    actions: ["food 3"] }
+  "50":   { name: "목표 증가",        icon: "icons/goal_up", kind: bad,     actions: ["goal 10 50"] }
+  "51":   { name: "목표 감소",        icon: "icons/goal_down", kind: good,    actions: ["goal -50 -10"] }
+  "100":  { name: "장난 랜덤",        icon: "icons/hotbar_shuffle", kind: neutral, actions: ["pool prank"] }
+  "300":  { name: "다이아 연출 랜덤", icon: "icons/diamond_pile", kind: good,    actions: ["pool reward"] }
+  "500":  { name: "목표 증가 10회",   icon: "icons/goal_up", kind: bad,     actions: ["repeat 10 goal 10 50"] }
+  "510":  { name: "목표 감소 10회",   icon: "icons/goal_down", kind: good,    actions: ["repeat 10 goal -50 -10"] }
+  "1000": { name: "룰렛",             icon: "icons/roulette", kind: neutral, actions: ["wheel"] }
+  "2000": { name: "후원자 AI 플레이어", icon: "icons/ai_player", kind: good,  actions: ["miner"] }
+  "3000": { name: "채팅 투표",        icon: "icons/vote", kind: neutral, actions: ["pending"] }
+  "4444": { name: "즉사",             icon: "icons/instant_death", kind: bad,     actions: ["death"] }
 
 # ── 랜덤 풀: "pool <이름>" 이벤트가 여기서 하나를 뽑는다 (직전에 나온 것은 다음 한 번 제외) ──
 # scope: one = 접속한 사람 중 룰렛으로 1명 / all = 전원 / self = 후원 받은 사람
@@ -53,39 +54,39 @@ events:
 # ★ 시간·개수는 기획서 값. 기획서에 없던 개미화·바닥은 용암은 30초로 임시
 pools:
   prank:
-    - { id: ant,      name: "개미화",          scope: one, action: "ant 30" }
-    - { id: curse,    name: "저주받은 곡괭이", scope: one, action: "curse 180" }
-    - { id: creeper,  name: "스토커 크리퍼",   scope: one, action: "creeper 60" }
-    - { id: reverse,  name: "거꾸로 세상",     scope: one, action: "reverse 30" }
-    - { id: hotbar,   name: "핫바 셔플",       scope: one, action: "hotbar" }
-    - { id: swap,     name: "자리 셔플",       scope: all, action: "swap" }
-    - { id: blackout, name: "정전",            scope: all, action: "blackout 30" }
-    - { id: lava,     name: "바닥은 용암",     scope: all, action: "lava 30" }
-    - { id: bunny,    name: "강제 바니홉",     scope: all, action: "bunny 30" }
-    - { id: crow,     name: "다이아 도둑 까마귀", scope: one, action: "crow" }
-    - { id: rocket,   name: "로켓 발사",       scope: one, action: "rocket" }
-    - { id: anvil,    name: "모루 낙하",       scope: one, action: "anvil" }
-    - { id: dance,    name: "강제 댄스",       scope: one, action: "dance 10" }
+    - { id: ant,      name: "개미화",          icon: "icons/ant_size", scope: one, action: "ant 30" }
+    - { id: curse,    name: "저주받은 곡괭이", icon: "icons/cursed_pick", scope: one, action: "curse 180" }
+    - { id: creeper,  name: "스토커 크리퍼",   icon: "icons/creeper", scope: one, action: "creeper 60" }
+    - { id: reverse,  name: "거꾸로 세상",     icon: "icons/upside_down", scope: one, action: "reverse 30" }
+    - { id: hotbar,   name: "핫바 셔플",       icon: "icons/hotbar_shuffle", scope: one, action: "hotbar" }
+    - { id: swap,     name: "자리 셔플",       icon: "icons/position_shuffle", scope: all, action: "swap" }
+    - { id: blackout, name: "정전",            icon: "icons/blackout", scope: all, action: "blackout 30" }
+    - { id: lava,     name: "바닥은 용암",     icon: "icons/lava_floor", scope: all, action: "lava 30" }
+    - { id: bunny,    name: "강제 바니홉",     icon: "icons/bunnyhop", scope: all, action: "bunny 30" }
+    - { id: crow,     name: "다이아 도둑 까마귀", icon: "icons/crow", scope: one, action: "crow" }
+    - { id: rocket,   name: "로켓 발사",       icon: "icons/rocket", scope: one, action: "rocket" }
+    - { id: anvil,    name: "모루 낙하",       icon: "icons/anvil", scope: one, action: "anvil" }
+    - { id: dance,    name: "강제 댄스",       icon: "icons/dance", scope: one, action: "dance 10" }
     # UFO 모델 파일이 없어서 아직 안 넣은 것: UFO 납치 · 단체 UFO 납치
   # 300개 다이아 연출 (후원 받은 사람에게). 기획: 어떤 게 걸려도 다이아 80~120개 근처
   reward:
-    - { id: rain,     name: "다이아 소나기",   scope: self, action: "rain 100" }
-    - { id: midas,    name: "미다스의 손",     scope: self, action: "midas 10" }
-    - { id: pinata,   name: "다이아 피냐타",   scope: self, action: "pinata 150" }
-    - { id: fountain, name: "다이아 분수",     scope: self, action: "fountain 70" }
-    - { id: meteor,   name: "운석우",          scope: self, action: "meteor 3" }
-    - { id: giant,    name: "거인화",          scope: self, action: "giant 30" }
+    - { id: rain,     name: "다이아 소나기",   icon: "icons/diamond_rain", scope: self, action: "rain 100" }
+    - { id: midas,    name: "미다스의 손",     icon: "icons/midas", scope: self, action: "midas 10" }
+    - { id: pinata,   name: "다이아 피냐타",   icon: "icons/pinata", scope: self, action: "pinata 150" }
+    - { id: fountain, name: "다이아 분수",     icon: "icons/diamond_fountain", scope: self, action: "fountain 70" }
+    - { id: meteor,   name: "운석우",          icon: "icons/meteor_shower", scope: self, action: "meteor 3" }
+    - { id: giant,    name: "거인화",          icon: "icons/giant", scope: self, action: "giant 30" }
 
 # ── 1000개 룰렛: weight = 확률(%) ─────────────────────────────
 wheel:
-  - { name: "목표 -300",    weight: 10, action: "goal -300 -300" }
-  - { name: "목표 +300",    weight: 10, action: "goal 300 300" }
-  - { name: "목표 ±100",    weight: 20, action: "goalpm 100" }
-  - { name: "다이아 200개", weight: 10, action: "diamonds 200" }
-  - { name: "연출 3연속",   weight: 15, action: "poolx reward 3" }
-  - { name: "AI 플레이어",  weight: 15, action: "miner" }
-  - { name: "다이아 반토막", weight: 10, action: "half" }
-  - { name: "꽝: 밥 3개",   weight: 10, action: "food 3" }
+  - { name: "목표 -300",    icon: "icons/goal_down", weight: 10, action: "goal -300 -300" }
+  - { name: "목표 +300",    icon: "icons/goal_up", weight: 10, action: "goal 300 300" }
+  - { name: "목표 ±100",    icon: "icons/random_goal", weight: 20, action: "goalpm 100" }
+  - { name: "다이아 200개", icon: "icons/diamond_pile", weight: 10, action: "diamonds 200" }
+  - { name: "연출 3연속",   icon: "icons/triple_effect", weight: 15, action: "poolx reward 3" }
+  - { name: "AI 플레이어",  icon: "icons/ai_player", weight: 15, action: "miner" }
+  - { name: "다이아 반토막", icon: "icons/half_diamond", weight: 10, action: "half" }
+  - { name: "꽝: 밥 3개",   icon: "icons/no_prize", weight: 10, action: "food 3" }
 
 # ── 2000개 후원자 AI 플레이어 ──────────────────────────────────
 miner:
@@ -106,25 +107,33 @@ effects:
   meteor-ore-blocks: 33       # ★ 운석 하나가 다이아 광석으로 바꾸는 블럭 수 (3개 × 33 ≈ 100)
 
 # ── 전용 아이템 ────────────────────────────────────────────
-# material = 바탕이 되는 게임 아이템. 그림이 준비되면 model: "diamondserver:<이름>" 을 추가
+# material = 바탕이 되는 게임 아이템. art = 상점 화면에 쓰는 그림, model = 인벤토리에서 보이는 그림(ItemsAdder 리소스팩)
 items:
   food:
     name: "밥"
     material: BREAD
+    art: "items/food"
+    model: "diamondserver:food"
     hunger: 8             # 스테이크와 같음
     saturation: 12.8
     lore: ["든든한 한 끼"]
   inven_save_ticket:
     name: "인벤세이브권"
     material: PAPER
+    art: "items/inventory_save_ticket"
+    model: "diamondserver:inventory_save_ticket"
     lore: ["가지고 있으면 죽을 때 1장이 자동으로 사용되어", "아이템과 레벨을 잃지 않습니다"]
   return_ticket:
     name: "귀환권"
     material: PAPER
+    art: "items/return_ticket"
+    model: "diamondserver:return_ticket"
     lore: ["손에 들고 우클릭하면 시작 지점으로 돌아갑니다"]
   teleport_ticket:
     name: "텔레포트권"
     material: PAPER
+    art: "items/teleport_ticket"
+    model: "diamondserver:teleport_ticket"
     lore: ["손에 들고 우클릭하면 고른 사람에게 이동합니다"]
 
 # ── 상점: 구매 (가격 = 보유 다이아) ★ 가격 전부 임시 ─────────────

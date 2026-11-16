@@ -337,7 +337,7 @@ final class Pranks implements Listener {
                             && Math.abs(q.getLocation().getY() - spot.getY()) < 3
                             && Math.hypot(q.getLocation().getX() - spot.getX(), q.getLocation().getZ() - spot.getZ()) < 1.8;
                     if (hit) {
-                        pl.effects.apply(q, Effects.STUN, "기절", stun);
+                        pl.effects.apply(q, Effects.STUN, "기절", "icons/anvil", stun);
                         toastAll(pl.nick(q) + "님이 모루에 맞아 " + stun + "초 동안 기절했습니다.", false);
                     } else if (q != null) {
                         toastAll(pl.nick(q) + "님이 모루를 피했습니다.", true);
@@ -371,7 +371,8 @@ final class Pranks implements Listener {
             if (q != null && !q.isDead()) {
                 q.getWorld().strikeLightningEffect(q.getLocation());
                 q.setHealth(0);
-                toastAll(pl.nick(q) + "님이 즉사했습니다.", false);
+                for (Player o : Bukkit.getOnlinePlayers()) pl.net.death(o, pl.nick(q));   // 화면 연출 (모드가 없는 사람은 아래 알림 글)
+                for (Player o : Bukkit.getOnlinePlayers()) if (!pl.net.hasMod(o)) pl.net.toast(o, pl.nick(q) + "님이 즉사했습니다.", false);
             }
         }, 30L + 18L);
         Bukkit.getScheduler().runTaskLater(pl, () -> prop.play("leave"), 30L + 34L);

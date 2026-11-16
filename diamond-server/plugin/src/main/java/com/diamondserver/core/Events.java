@@ -40,15 +40,15 @@ import java.util.concurrent.ThreadLocalRandom;
  *   hotbar | swap | crow | rocket | anvil | rain <개수> | fountain <개수> | pinata <개수> | meteor <개수>
  */
 final class Events {
-    record Def(String name, String kind, List<String> actions) {
+    record Def(String name, String kind, String icon, List<String> actions) {
         /** 랜덤 풀 이벤트는 대상이 룰렛으로 정해질 수 있으므로 알림에 "→ 누구" 를 붙이지 않는다 */
         boolean pool() { return !actions.isEmpty() && actions.get(0).startsWith("pool prank"); }
     }
     record Job(UUID target, String targetName, String donor, int count) { }
     /** 랜덤 풀 한 칸. scope = one(룰렛으로 뽑힌 1명) / all(접속한 전원) / self(후원 받은 사람) */
-    record Prank(String id, String name, String scope, String action) { }
+    record Prank(String id, String name, String scope, String icon, String action) { }
     /** 룰렛 한 칸 */
-    record Prize(String name, int weight, String action) { }
+    record Prize(String name, int weight, String icon, String action) { }
 
     private final DiamondPlugin pl;
     private final Map<Integer, Def> defs = new HashMap<>();
@@ -71,7 +71,7 @@ final class Events {
         if (cs != null) for (String k : cs.getKeys(false)) {
             try {
                 int count = Integer.parseInt(k);
-                defs.put(count, new Def(cs.getString(k + ".name", k + "개 이벤트"), cs.getString(k + ".kind", "neutral"), cs.getStringList(k + ".actions")));
+                defs.put(count, new Def(cs.getString(k + ".name", k + "개 이벤트"), cs.getString(k + ".kind", "neutral"), cs.getString(k + ".icon", "icons/diamond"), cs.getStringList(k + ".actions")));
             } catch (NumberFormatException e) {
                 pl.getLogger().warning("후원 이벤트 설정 오류로 건너뜀: " + k);
             }
@@ -83,9 +83,9 @@ final class Events {
             for (Map<?, ?> raw : ps.getMapList(pool)) {
                 Object id = raw.get("id"), action = raw.get("action");
                 if (id == null || action == null) { pl.getLogger().warning("랜덤 풀 설정 오류로 건너뜀: " + raw); continue; }
-                Object name = raw.get("name"), scope = raw.get("scope");
+                Object name = raw.get("name"), scope = raw.get("scope"), icon = raw.get("icon");
                 list.add(new Prank(String.valueOf(id), name == null ? String.valueOf(id) : String.valueOf(name),
-                        scope == null ? "one" : String.valueOf(scope), String.valueOf(action)));
+                        scope == null ? "one" : String.valueOf(scope), icon == null ? "icons/diamond" : String.valueOf(icon), String.valueOf(action)));
             }
             pools.put(pool, list);
         }
@@ -94,7 +94,7 @@ final class Events {
             Object name = raw.get("name"), action = raw.get("action");
             int weight = raw.get("weight") instanceof Number n ? n.intValue() : 0;
             if (name == null || action == null || weight <= 0) { pl.getLogger().warning("룰렛 설정 오류로 건너뜀: " + raw); continue; }
-            wheel.add(new Prize(String.valueOf(name), weight, String.valueOf(action)));
+            wheel.add(new Prize(String.valueOf(name), weight, raw.get("icon") == null ? "icons/diamond" : String.valueOf(raw.get("icon")), String.valueOf(action)));
         }
         StringBuilder sb = new StringBuilder();
         pools.forEach((k, v) -> sb.append(' ').append(k).append('=').append(v.size()));
@@ -142,7 +142,7 @@ final class Events {
         current = job;
         sendQueue();
         for (Player p : Bukkit.getOnlinePlayers()) {
-            pl.net.event(p, job.donor, job.count, def.name, def.kind, def.pool() ? "" : pl.nick(target));
+            pl.net.event(p, job.donor, job.count, def.name, def.kind, def.icon, def.pool() ? "" : pl.nick(target));
             p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 0.7f, def.kind.equals("bad") ? 0.7f : 1.4f);
         }
         long announce = Math.max(1, pl.getConfig().getLong("donation.announce-ticks", 40));
@@ -304,15 +304,15 @@ final class Events {
         int r = ThreadLocalRandom.current().nextInt(total);
         Prize won = wheel.get(wheel.size() - 1);
         for (Prize z : wheel) { if (r < z.weight) { won = z; break; } r -= z.weight; }
-        List<String> names = new ArrayList<>();
-        for (Prize z : wheel) names.add(z.name);
-        for (Player p : Bukkit.getOnlinePlayers()) pl.net.pick(p, "룰렛 → " + pl.nick(t), names, won.name, PICK_TICKS * 50);
+        List<String> names = new ArrayList<>(), icons = new ArrayList<>();
+        for (Prize z : wheel) { names.add(z.name); icons.add(z.icon); }
+        for (Player p : Bukkit.getOnlinePlayers()) pl.net.wheel(p, "룰렛 → " + pl.nick(t), names, icons, wheel.indexOf(won), PICK_TICKS * 50);
         final Prize prize = won;
         final UUID id = t.getUniqueId();
         Bukkit.getScheduler().runTaskLater(pl, () -> {
             Player p = Bukkit.getPlayer(id);
             if (p == null) return;
-            toastAll(pl, "룰렛 결과: " + prize.name, true);
+            for (Player o : Bukkit.getOnlinePlayers()) pl.net.announce(o, prize.icon, prize.name, "룰렛 결과 · " + pl.nick(p) + "님");
             run(p, def, prize.action, donor);
         }, PICK_TICKS + 20);
         return PICK_TICKS + 60;
@@ -338,34 +338,38 @@ final class Events {
         List<Player> online = new ArrayList<>(Bukkit.getOnlinePlayers());
         if (online.isEmpty()) return 0;
         if (pr.scope.equals("self")) {
-            toastAll(pl, pr.name + " → " + pl.nick(recipient), true);
+            announceAll(pr, pl.nick(recipient) + "님");
             applyPrank(pr, List.of(recipient));
             return 40;
         }
         if (pr.scope.equals("all")) {
-            toastAll(pl, pr.name + " → 전원", false);
+            announceAll(pr, "전원");
             for (Player p : online) p.playSound(p.getLocation(), Sound.ENTITY_EVOKER_PREPARE_WOLOLO, 0.6f, 1f);
             applyPrank(pr, online);
             return 20;
         }
         Player winner = online.get(ThreadLocalRandom.current().nextInt(online.size()));
         if (online.size() == 1) {                       // 혼자면 룰렛 없이 바로
-            toastAll(pl, pr.name + " → " + pl.nick(winner), false);
+            announceAll(pr, pl.nick(winner) + "님");
             applyPrank(pr, List.of(winner));
             return 20;
         }
-        List<String> names = new ArrayList<>();
-        for (Player p : online) names.add(pl.nick(p));
-        for (Player p : online) pl.net.pick(p, pr.name, names, pl.nick(winner), PICK_TICKS * 50);
+        List<String> names = new ArrayList<>(), ids = new ArrayList<>();
+        for (Player p : online) { names.add(pl.nick(p)); ids.add(p.getUniqueId().toString()); }
+        for (Player p : online) pl.net.pick(p, pr.name, pr.icon, names, ids, online.indexOf(winner), PICK_TICKS * 50);
         final UUID id = winner.getUniqueId();
         Bukkit.getScheduler().runTaskLater(pl, () -> {
             Player w = Bukkit.getPlayer(id);
             if (w == null) return;
-            toastAll(pl, pr.name + " → " + pl.nick(w), false);
+            announceAll(pr, pl.nick(w) + "님");
             pl.models.followHead(w, "target_marker", 3, "pick", "leave");       // 뽑힌 사람 머리 위 표시
             applyPrank(pr, List.of(w));
         }, PICK_TICKS);
         return PICK_TICKS + 30;
+    }
+
+    private void announceAll(Prank pr, String who) {
+        for (Player o : Bukkit.getOnlinePlayers()) pl.net.announce(o, pr.icon, pr.name, who);
     }
 
     /** 풀 한 칸의 동작을 대상들에게 건다 */
@@ -374,16 +378,16 @@ final class Events {
         try {
             int n = a.length > 1 ? Integer.parseInt(a[1]) : 0;
             switch (a[0]) {
-                case "ant" -> targets.forEach(p -> pl.effects.apply(p, Effects.ANT, pr.name, n));
-                case "curse" -> targets.forEach(p -> pl.effects.apply(p, Effects.CURSE, pr.name, n));
-                case "creeper" -> targets.forEach(p -> pl.effects.apply(p, Effects.CREEPER, pr.name, n));
-                case "reverse" -> targets.forEach(p -> pl.effects.apply(p, Effects.REVERSE, pr.name, n));
-                case "blackout" -> targets.forEach(p -> pl.effects.apply(p, Effects.BLACKOUT, pr.name, n));
-                case "lava" -> targets.forEach(p -> pl.effects.apply(p, Effects.LAVA, pr.name, n));
-                case "bunny" -> targets.forEach(p -> pl.effects.apply(p, Effects.BUNNY, pr.name, n));
-                case "dance" -> targets.forEach(p -> pl.effects.apply(p, Effects.DANCE, pr.name, n));
-                case "midas" -> targets.forEach(p -> pl.effects.apply(p, Effects.MIDAS, pr.name, n));
-                case "giant" -> targets.forEach(p -> pl.effects.apply(p, Effects.GIANT, pr.name, n));
+                case "ant" -> targets.forEach(p -> pl.effects.apply(p, Effects.ANT, pr.name, pr.icon, n));
+                case "curse" -> targets.forEach(p -> pl.effects.apply(p, Effects.CURSE, pr.name, pr.icon, n));
+                case "creeper" -> targets.forEach(p -> pl.effects.apply(p, Effects.CREEPER, pr.name, pr.icon, n));
+                case "reverse" -> targets.forEach(p -> pl.effects.apply(p, Effects.REVERSE, pr.name, pr.icon, n));
+                case "blackout" -> targets.forEach(p -> pl.effects.apply(p, Effects.BLACKOUT, pr.name, pr.icon, n));
+                case "lava" -> targets.forEach(p -> pl.effects.apply(p, Effects.LAVA, pr.name, pr.icon, n));
+                case "bunny" -> targets.forEach(p -> pl.effects.apply(p, Effects.BUNNY, pr.name, pr.icon, n));
+                case "dance" -> targets.forEach(p -> pl.effects.apply(p, Effects.DANCE, pr.name, pr.icon, n));
+                case "midas" -> targets.forEach(p -> pl.effects.apply(p, Effects.MIDAS, pr.name, pr.icon, n));
+                case "giant" -> targets.forEach(p -> pl.effects.apply(p, Effects.GIANT, pr.name, pr.icon, n));
                 case "hotbar" -> targets.forEach(Effects::shuffleHotbar);
                 case "swap" -> {
                     if (!Effects.swapPlaces(targets)) toastAll(pl, "자리를 바꿀 사람이 2명 이상 있어야 합니다.", false);
@@ -403,21 +407,21 @@ final class Events {
     }
 
     // ── 대기열 화면 ──────────────────────────────────────────
-    private List<String> queueLines() {
-        List<String> lines = new ArrayList<>();
+    private List<String[]> queueLines() {
+        List<String[]> lines = new ArrayList<>();
         if (current != null && defs.containsKey(current.count)) lines.add(line(current));
         for (Job j : queue) if (defs.containsKey(j.count)) lines.add(line(j));
         return lines;
     }
 
-    private String line(Job j) {
+    private String[] line(Job j) {
         Def d = defs.get(j.count);
-        return d.pool() ? d.name : d.name + " → " + j.targetName;
+        return new String[]{d.icon, d.pool() ? d.name : d.name + " → " + j.targetName};
     }
 
     /** 지금 줄 서 있는 이벤트 목록을 모드에 보낸다 (진행 중인 것이 맨 위) */
     private void sendQueue() {
-        List<String> lines = queueLines();
+        List<String[]> lines = queueLines();
         for (Player p : Bukkit.getOnlinePlayers()) if (pl.net.hasMod(p)) pl.net.queue(p, lines);
     }
 

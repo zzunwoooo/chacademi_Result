@@ -15,7 +15,8 @@ import java.util.regex.Pattern;
  * 한글 닉네임.
  *  - 규칙(config nickname): min~max 글자, 완성형 한글·영문·숫자·_ 만, 금칙어, 다른 사람의 닉네임·계정 이름과 중복 불가
  *  - 정하는 법: 닉네임 창(모드) 또는 /닉네임 <이름>. 처음 접속했는데 닉네임이 없으면 창이 자동으로 뜬다.
- *  - 쓰이는 곳: 채팅 이름, 탭 목록, 머리 위 이름표(모드), 모든 알림 글. 계정 이름은 화면에 나오지 않는다.
+ *  - 쓰이는 곳: 채팅 이름, 탭 목록, 머리 위 이름표(모드), 접속·퇴장·사망 글, 모든 알림 글, 명령어 자동완성.
+ *    계정(영문) 이름은 화면에 나오지 않는다.
  */
 final class Nicks {
     private final DiamondPlugin pl;
@@ -26,7 +27,7 @@ final class Nicks {
     private int max() { return pl.getConfig().getInt("nickname.max", 8); }
 
     private String rule() {
-        return pl.getConfig().getString("nickname.rule-text", "한글·영문·숫자 {min}~{max}글자")
+        return pl.getConfig().getString("nickname.rule-text", "한글·숫자 {min}~{max}글자")
                 .replace("{min}", String.valueOf(min())).replace("{max}", String.valueOf(max()));
     }
 
@@ -50,8 +51,8 @@ final class Nicks {
         String n = clean(raw);
         int len = n.codePointCount(0, n.length());
         if (len < min() || len > max()) return min() + "~" + max() + "글자로 정해 주세요.";
-        String regex = pl.getConfig().getString("nickname.pattern", "^[가-힣a-zA-Z0-9_]+$");
-        if (!Pattern.compile(regex).matcher(n).matches()) return "완성된 한글·영문·숫자만 쓸 수 있습니다.";
+        String regex = pl.getConfig().getString("nickname.pattern", "^[가-힣0-9]+$");
+        if (!Pattern.compile(regex).matcher(n).matches()) return "완성된 한글과 숫자만 쓸 수 있습니다.";
         String lower = n.toLowerCase(Locale.ROOT);
         for (String bad : pl.getConfig().getStringList("nickname.banned"))
             if (!bad.isBlank() && lower.contains(bad.toLowerCase(Locale.ROOT))) return "쓸 수 없는 단어가 들어 있습니다.";
@@ -83,12 +84,15 @@ final class Nicks {
         }
         String err = check(p.getUniqueId(), raw);
         if (err != null) { fail(p, err); return false; }
+        boolean firstTime = !has(p);
         d.nick = clean(raw);
         d.dirty = true;
         pl.store.save(d);
         apply(p);
         sendNames();
         pl.net.closeNick(p);
+        // 처음 정한 사람은 이제 접속 글을 낸다 (접속할 때는 닉네임이 없어서 안 냈음)
+        if (firstTime) Bukkit.broadcast(Component.text(d.nick + "님이 접속했습니다.", net.kyori.adventure.text.format.NamedTextColor.YELLOW));
         pl.net.toast(p, "닉네임을 " + d.nick + "(으)로 정했습니다.", true);
         return true;
     }

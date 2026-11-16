@@ -219,3 +219,16 @@ python3 build_spec.py && python3 motion_gen.py forced_dance_spec.json <출력폴
 - 호스팅 `plugins/Essentials/config.yml` 의 `change-displayname` 을 false 로 바꿨다 (Essentials 가 채팅 이름을 계정 이름으로 되돌리지 않게).
 - 닉네임 창 배치 미리보기: `UI배치\13_닉네임_제안.png`, `14_닉네임_거절_제안.png` (상점 창 절반 크기 + 대기열 칸을 입력 칸으로 + 구매 버튼). **오너 승인 대기.**
 - 확인 못 한 것: 게임 안 동작(한글 입력 조합 포함).
+
+## 정식 UI 적용 (2026-11-16 저녁, 오너 지시 "런처에 배포하고 서버에도 올려, 제대로 검수해서 배치")
+
+- **그림은 전부 오너가 준 zip(`nani_diamond_ui_complete.zip`) 원본 그대로.** 모드 안 `mod/src/main/resources/assets/diamondserver/textures/ui/` 92장(hud·toasts·alerts·events·icons·shop·items)은 zip 원본과 검사값이 같다. 자르거나 고치지 않고 화면에서 크기만 맞춘다.
+- 화면 코드는 `mod/.../ui/` 에 한 벌만 있다 (게임 코드 없는 순수 자바): `G`(그리기 도구 약속) · `Paint`(글자·크기 맞춤) · `HudUi` · `ShopUi` · `NickUi`. 좌표는 1920×1080 기준(받은 layout.json 과 같은 단위), 창이 더 넓거나 높으면 HUD 는 왼쪽 위, 창·알림은 가운데.
+  - 게임 안: `client/McG` 가 지금 창 크기에 딱 맞는 픽셀로 그림·글자 조각을 만들어 붙인다. 글꼴은 맑은 고딕 굵게(윈도우 기본 글꼴, AWT 로 그림).
+  - **검수 도구 `tools/ui-review/Review.java`**: 같은 화면 코드를 그림 파일 23장으로 뽑는다(긴 닉네임·큰 숫자·넓은 화면·4:3·작은 창 포함). 화면 코드를 고치면 이걸 돌려서 눈으로 확인한 뒤 배포한다. 실행법은 파일 맨 위 주석. 게임 기본 아이템 그림은 loom 캐시의 minecraft-client.jar 에서 꺼내 한 폴더에 모아 넘긴다.
+- 서버가 보내는 신호에 아이콘 정보 추가: `config.yml` 의 events·pools·wheel 각 항목 `icon:`, 전용 아이템 `art:`(상점 화면)·`model:`(인벤토리). 새 신호 `announce`(발표 창) `wheel`(룰렛) `death`(즉사 연출), `pick` 에 얼굴용 계정 id.
+- 전용 아이템 4종 그림: `itemsadder/diamondserver/` → 호스팅 `plugins/ItemsAdder/contents/diamondserver/`, 콘솔 `iazip` 으로 팩에 들어감(확인함).
+- 내가 정한 것(오너 답이 없던 것): 곡괭이·인챈트북은 게임 기본 아이템 그림, HUD 의 우편함 아이콘은 그리지 않음(기능 없음), 제출은 상점의 세 번째 탭, 일반 알림 글은 후원 알림 틀을 같이 씀(창이 열려 있을 때는 가장 새것 하나만), 투표창 그림은 기능이 없어 아직 안 씀.
+- 닉네임: **한글·숫자만**(영문 불가, `nickname.pattern`), 접속·퇴장·사망 글과 명령어 자동완성도 한글 닉네임, 발전 과제 알림 끔.
+- 런처: 받은 아이콘·배경으로 교체해 다시 빌드(6c003be), 내려받기 주소의 파일 교체함.
+- 플러그인 0.6.0 · 모드 0.6.0. 확인: 빌드, 검수 그림, 서버 부팅·`iazip`·`연동시험`. **게임 안 화면은 확인 못 함.**
