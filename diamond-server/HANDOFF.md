@@ -121,3 +121,4 @@ python3 build_spec.py && python3 motion_gen.py forced_dance_spec.json <출력폴
 - 별풍선 수신: 깨굴·쌍룡에서 쓴 donation 플러그인(Colla-Bot, `DonationEvent` = 받은 플레이어·후원자 닉네임·개수·플랫폼)을 쓰면 된다. `plugins/donation/config.yml` 의 `acceptedDonations` 에 적은 개수만 전달된다. **일반 방송 채팅은 주지 않으므로 3000 채팅 투표는 따로 만들어야 한다.**
 - `tools/` 스크립트는 저쪽에 Python·Node 가 없어 실행할 수 없다. 참고용. 모델 수정은 bbmodel 을 직접 고친다.
 - 모델 13종은 Modded Entity 형식 + `animation.<id>.<name>` 이름이라 ModelEngine 에 넣으려면 변환이 필요하다 (차카데미 때와 같은 작업).
+- 서버 폴더 (호스팅): `C:\Chacademi\diamond` — 2026-11-16 생성. 쌍룡 서버(Purpur 1.21.4)에서 서버 파일·기본 플러그인 25개·설정을 복사하고 월드·기록·쌍룡 전용 파일은 뺌. 포트 **25800**, 생존·보통 난이도, `Start.cmd`(4GB)로 실행. `plugins/donation/config.yml` 에 가격표 11개를 적어 둠. **아직 한 번도 켜 보지 않았고**, 방화벽 25800 은 오너가 열어야 한다. DiamondCore.jar 는 아직 안 넣음(빈 뼈대라서).
