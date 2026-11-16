@@ -88,6 +88,14 @@ public final class HudUi {
         if (!St.mails.isEmpty()) g.shadow(St.mails.size() > 99 ? "99+" : String.valueOf(St.mails.size()), 567, 29, 16, 1, G.TEXT);
     }
 
+    /** 창이 열려 있을 때(마우스가 보일 때) HUD 의 상점·우편함 자리를 눌렀는지: "shop" / "mail" / "" */
+    public static String navAt(double mx, double my) {
+        if (my < 16 || my >= 66) return "";
+        if (mx >= 420 && mx < 482) return "shop";
+        if (mx >= 513 && mx < 590) return "mail";
+        return "";
+    }
+
     /** 걸려 있는 효과: HUD 아래 한 줄. 칸 72x72 + 아래 남은 시간 막대. 다음 줄이 시작할 y 를 돌려준다 */
     private static double slots(G g, long now) {
         double x = 24, y = 78;
@@ -98,7 +106,7 @@ public final class HudUi {
             g.img("hud/event_slot", x, y, 72, 72, 1);
             g.img(e.icon(), x + 12, y + 12, 48, 48, 1);
             g.img("hud/event_time_empty", x, y + 76, 72, 10, 1);
-            g.imgClip("hud/event_time_fill", x, y + 76, 72, 10, 0, Math.max(0, Math.min(1, left / e.total())));
+            g.imgClip("hud/event_time_fill", x, y + 76 + G.TIME_FILL_DY, 72, 10, 0, Math.max(0, Math.min(1, left / e.total())));
             g.shadow((long) Math.ceil(left / 1000.0) + "초", x + 36, y + 99, 15, 1, G.TEXT);
             x += 84;
             shown++;
@@ -208,7 +216,7 @@ public final class HudUi {
             for (int c = 0; c < inRow; c++) {
                 int i = r * perRow + c;
                 String state = i == lit ? (done ? "winner" : "lit") : "normal";
-                g.face(p.ids().get(i), x + 28, fy + 28, 104);
+                g.face(p.ids().get(i), x + 14, fy + 14, 132);   // 틀 안쪽 구멍(15~145)을 꽉 채운다. 모서리는 위에 그리는 틀이 가린다
                 g.img("events/face_" + state, x, fy, 160, 160, 1);
                 g.shadow(p.names().get(i), x + 80, fy + 186, 21, 1, G.TEXT);
                 x += 188;

@@ -305,6 +305,17 @@ public class Review {
         com.diamondserver.ui.MailUi empty = new com.diamondserver.ui.MailUi(mh);
         save(out, "13e_우편함_비었음.png", 1920, 1080, g -> { HudUi.under(g, "mail"); empty.draw(g, 0, 0); HudUi.over(g, true); });
 
+        // 우편이 많을 때: 스크롤 막대(틀·손잡이)와 한 칸 내린 상태
+        StringBuilder many = new StringBuilder("{list:[");
+        for (int i = 0; i < 30; i++) many.append(i == 0 ? "" : ",").append("{id:'m").append(i).append("',title:'선물 ").append(i + 1).append("',from:'운영자',text:'다이아 ").append((i + 1) * 10).append("개',art:'icons/diamond',icon:'minecraft:diamond'}");
+        St.applyMail(j(many.append("]}").toString()));
+        com.diamondserver.ui.MailUi lots = new com.diamondserver.ui.MailUi(mh);
+        lots.preset("m5");
+        save(out, "13f_우편함_많음.png", 1920, 1080, g -> { HudUi.under(g, "mail"); lots.draw(g, 0, 0); HudUi.over(g, true); });
+        lots.scroll(-1); lots.scroll(-1);
+        save(out, "13g_우편함_스크롤내림.png", 1920, 1080, g -> { HudUi.under(g, "mail"); lots.draw(g, 0, 0); HudUi.over(g, true); });
+        St.mails.clear();
+
         // 14~ 닉네임 창
         NickUi.Host nh = new NickUi.Host() {
             @Override public void submit(String name) { }

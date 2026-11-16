@@ -74,7 +74,7 @@ public final class MailUi {
         if (rows > 3) {
             g.img("shop/scroll_track", ox + 1590, oy + 305, 8, 466, 1);
             double h = 466 * 3.0 / rows;
-            g.img("shop/scroll_thumb", ox + 1590, oy + 305 + (466 - h) * scroll / (double) maxScroll(n), 8, h, 1);
+            g.img("shop/scroll_thumb", ox + 1590 + G.THUMB_DX, oy + 305 + (466 - h) * scroll / (double) maxScroll(n), 8, h, 1);
         }
 
         St.Letter s = selected();

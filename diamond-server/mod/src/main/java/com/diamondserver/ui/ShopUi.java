@@ -117,7 +117,7 @@ public final class ShopUi {
         if (rows <= 3) return;
         g.img("shop/scroll_track", ox + 1590, oy + 305, 8, 466, 1);
         double h = 466 * 3.0 / rows;
-        g.img("shop/scroll_thumb", ox + 1590, oy + 305 + (466 - h) * scroll / (double) maxScroll(count), 8, h, 1);
+        g.img("shop/scroll_thumb", ox + 1590 + G.THUMB_DX, oy + 305 + (466 - h) * scroll / (double) maxScroll(count), 8, h, 1);
     }
 
     private void button(G g, String kind, String id, String label, boolean enabled) {
@@ -193,7 +193,8 @@ public final class ShopUi {
         g.text("보유 다이아", ox + 1063, oy + 372, 20, 1, G.DIM);
         g.fit(G.n(St.held), ox + 1063, oy + 410, 30, 1, G.TEXT, 170);
         g.img("hud/goal_progress_empty", ox + 770, oy + 480, 380, 24, 1);
-        g.imgClip("hud/goal_progress_fill", ox + 770, oy + 480, 380, 24, 0, St.goal <= 0 ? 1 : Math.min(1, St.held / (double) St.goal));
+        g.imgClip("hud/goal_progress_fill", ox + 770, oy + 480 + G.GOAL_FILL_DY, 380, 24, 0,
+                (7 + 366 * (St.goal <= 0 ? 1 : Math.min(1, St.held / (double) St.goal))) / 380);   // 채움 그림의 실제 막대는 x7~372
         long max = submitMax();
         String msg = St.goal <= 0 ? "이미 목표를 모두 채웠습니다" : St.held <= 0 ? "제출할 보유 다이아가 없습니다" : "보유 다이아를 내면 남은 목표가 줄어듭니다";
         g.text(msg, ox + 960, oy + 550, 22, 1, G.DIM);

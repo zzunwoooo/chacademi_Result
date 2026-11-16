@@ -100,7 +100,7 @@ final class Cmd implements CommandExecutor, TabCompleter {
 
     private boolean admin(CommandSender s, String[] a) {
         if (a.length == 0) {
-            say(s, "/다이아 리로드 | 지급 <닉> <보유|목표> <±개수> | 설정 <닉> <보유|목표> <개수> | 아이템 <닉> <id> [개수] | 위치 | 정보 <닉> | 연동시험");
+            say(s, "/다이아 리로드 | 지급 <닉> <보유|목표> <±개수> | 설정 <닉> <보유|목표> <개수> | 아이템 <닉> <id> [개수] | 닉 <닉> <새 닉|해제> | 우편 <닉|전체> 다이아 <개수> [제목] | 우편 <닉|전체> 아이템 <아이템> <개수> [제목] | 위치 | 정보 <닉> | 연동시험");
             return true;
         }
         switch (a[0]) {

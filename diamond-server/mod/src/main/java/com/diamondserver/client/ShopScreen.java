@@ -78,6 +78,10 @@ public final class ShopScreen extends Screen {
     @Override
     public boolean mouseClicked(double x, double y, int button) {
         if (button != 0) return false;
+        // 왼쪽 위 HUD 의 우편함 자리를 누르면 우편함으로, 상점 자리를 다시 누르면 닫는다
+        String nav = HudUi.navAt(g.toV(x), g.toV(y));
+        if (nav.equals("mail")) { MinecraftClient.getInstance().setScreen(new MailScreen()); return true; }
+        if (nav.equals("shop")) { close(); return true; }
         ui.mouseDown(g.toV(x), g.toV(y), hasShiftDown());
         return true;
     }
@@ -97,6 +101,7 @@ public final class ShopScreen extends Screen {
     @Override
     public boolean keyPressed(int key, int scan, int mods) {
         if (DiamondClient.shopKey != null && DiamondClient.shopKey.matchesKey(key, scan)) { close(); return true; }
+        if (DiamondClient.mailKey != null && DiamondClient.mailKey.matchesKey(key, scan)) { MinecraftClient.getInstance().setScreen(new MailScreen()); return true; }
         return super.keyPressed(key, scan, mods);
     }
 }
