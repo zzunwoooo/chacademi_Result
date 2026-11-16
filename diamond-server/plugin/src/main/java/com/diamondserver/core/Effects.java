@@ -37,7 +37,8 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 final class Effects implements Listener {
     static final String ANT = "ant", CURSE = "curse", CREEPER = "creeper", REVERSE = "reverse",
-            BLACKOUT = "blackout", LAVA = "lava", BUNNY = "bunny";
+            BLACKOUT = "blackout", LAVA = "lava", BUNNY = "bunny",
+            MIDAS = "midas", GIANT = "giant", DANCE = "dance", STUN = "stun";
 
     private record Active(String name, long endTick) { }
 
@@ -45,6 +46,7 @@ final class Effects implements Listener {
     private final Map<UUID, Map<String, Active>> active = new HashMap<>();
     private final Map<UUID, Long> nextHiss = new HashMap<>();
     private final Map<Location, BlockData> lavaBlocks = new LinkedHashMap<>();   // 마그마로 바꾼 블럭의 원래 모습
+    private final Map<UUID, Map<Location, BlockData>> midasBlocks = new HashMap<>();   // 미다스: 사람별로 광석으로 바꾼 블럭의 원래 모습
     private long tick;
 
     Effects(DiamondPlugin pl) {
@@ -64,6 +66,8 @@ final class Effects implements Listener {
 
     /** 효과를 건다 (이미 걸려 있으면 시간만 새로) */
     void apply(Player p, String id, String name, int seconds) {
+        // 개미화와 거인화는 같이 걸릴 수 없다: 나중에 걸린 것이 앞의 것을 지운다
+        if (id.equals(ANT)) drop(p, GIANT); else if (id.equals(GIANT)) drop(p, ANT);
         boolean fresh = !has(p, id);
         active.computeIfAbsent(p.getUniqueId(), k -> new LinkedHashMap<>()).put(id, new Active(name, tick + seconds * 20L));
         if (fresh) start(p, id);
@@ -75,17 +79,37 @@ final class Effects implements Listener {
             p.addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS, seconds * 20, 0, false, false));
             p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, seconds * 20, 0, false, false));
         }
+        // 머리 위 표시 모델
+        switch (id) {
+            case CURSE -> pl.models.followHead(p, "curse_mark", seconds, "idle", "leave");
+            case MIDAS -> pl.models.followHead(p, "golden_crown", seconds, "idle", "leave");
+            case DANCE -> pl.models.followHead(p, "disco_ball", seconds, "idle", "leave");
+            case STUN -> pl.models.followHead(p, "stun_stars", seconds, "idle", "leave");
+            default -> { }
+        }
+        if (id.equals(DANCE)) for (Player o : Bukkit.getOnlinePlayers()) pl.net.motion(o, p.getUniqueId(), "forced_dance");
         sendList(p);
+    }
+
+    /** 효과 하나를 조용히 지운다 (되돌리기 없이 목록에서만) */
+    private void drop(Player p, String id) {
+        Map<String, Active> m = active.get(p.getUniqueId());
+        if (m != null) m.remove(id);
     }
 
     private void start(Player p, String id) {
         if (id.equals(ANT)) scale(p, pl.getConfig().getDouble("effects.ant-scale", 0.2));
+        if (id.equals(GIANT)) scale(p, pl.getConfig().getDouble("effects.giant-scale", 2.0));
     }
 
     private void stop(Player p, String id) {
         switch (id) {
-            case ANT -> scale(p, 1.0);
+            case ANT, GIANT -> { if (!has(p, ANT) && !has(p, GIANT)) scale(p, 1.0); }
             case REVERSE, BLACKOUT -> pl.net.fx(p, id, 0);
+            case MIDAS -> restoreMidas(p.getUniqueId());
+            case CURSE -> pl.models.clearHead(p, "curse_mark");
+            case DANCE -> { pl.models.clearHead(p, "disco_ball"); for (Player o : Bukkit.getOnlinePlayers()) pl.net.motion(o, p.getUniqueId(), "stop"); }
+            case STUN -> pl.models.clearHead(p, "stun_stars");
             default -> { }
         }
         if (id.equals(LAVA) && !anyone(LAVA)) restoreLava();
@@ -108,6 +132,7 @@ final class Effects implements Listener {
     void shutdown() {
         for (Player p : Bukkit.getOnlinePlayers()) clear(p);
         restoreLava();
+        for (UUID id : new ArrayList<>(midasBlocks.keySet())) restoreMidas(id);
     }
 
     private void onTick() {
@@ -127,6 +152,7 @@ final class Effects implements Listener {
             }
             if (m.containsKey(BUNNY)) bunny(p);
             if (m.containsKey(LAVA) && tick % 4 == 0) lava(p);
+            if (m.containsKey(MIDAS) && tick % 2 == 0) midas(p);
             if (m.containsKey(CREEPER)) hiss(p);
             if (m.containsKey(BLACKOUT) && tick % 30 == 0) p.playSound(p.getLocation(), Sound.ENTITY_WARDEN_HEARTBEAT, 1.5f, 1f);
             if (changed) sendList(p);
@@ -165,6 +191,63 @@ final class Effects implements Listener {
             if (b.getType() == Material.MAGMA_BLOCK) b.setBlockData(e.getValue(), false);   // 캐 간 자리는 그대로 둔다
         }
         lavaBlocks.clear();
+    }
+
+    // ── 미다스의 손: 밟는 블럭이 다이아 광석으로. 끝나면 안 캔 광석 대부분은 원래 블럭으로 ──────
+    @SuppressWarnings("deprecation")
+    private void midas(Player p) {
+        if (!p.isOnGround() || p.isDead()) return;
+        Block b = p.getLocation().subtract(0, 0.2, 0).getBlock();
+        Material t = b.getType();
+        if (t.name().endsWith("_ORE") || t == Material.BEDROCK || !t.isSolid() || !t.isOccluding()) return;
+        if (b.getState() instanceof TileState) return;
+        midasBlocks.computeIfAbsent(p.getUniqueId(), k -> new LinkedHashMap<>()).putIfAbsent(b.getLocation(), b.getBlockData());
+        b.setType(b.getY() < 0 || t.name().contains("DEEPSLATE") ? Material.DEEPSLATE_DIAMOND_ORE : Material.DIAMOND_ORE, false);
+        b.getWorld().playSound(b.getLocation(), Sound.BLOCK_AMETHYST_BLOCK_CHIME, 0.5f, 1.6f);
+    }
+
+    private void restoreMidas(UUID id) {
+        Map<Location, BlockData> m = midasBlocks.remove(id);
+        if (m == null) return;
+        double keep = Math.max(0, Math.min(1, pl.getConfig().getDouble("effects.midas-keep-ratio", 0.15)));
+        for (Map.Entry<Location, BlockData> e : m.entrySet()) {
+            Block b = e.getKey().getBlock();
+            boolean ore = b.getType() == Material.DIAMOND_ORE || b.getType() == Material.DEEPSLATE_DIAMOND_ORE;
+            if (ore && ThreadLocalRandom.current().nextDouble() >= keep) b.setBlockData(e.getValue(), false);
+        }
+    }
+
+    // ── 거인화: 한 번 캘 때 3x3 ─────────────────────────────────
+    @EventHandler(ignoreCancelled = true, priority = org.bukkit.event.EventPriority.MONITOR)
+    public void onGiantBreak(org.bukkit.event.block.BlockBreakEvent e) {
+        Player p = e.getPlayer();
+        if (!has(p, GIANT)) return;
+        Block c = e.getBlock();
+        ItemStack tool = p.getInventory().getItemInMainHand();
+        float pitch = p.getLocation().getPitch();
+        float yaw = ((p.getLocation().getYaw() % 360) + 360) % 360;
+        boolean flat = Math.abs(pitch) > 50;                         // 위·아래를 보고 캐면 바닥 면으로 3x3
+        boolean alongX = (yaw > 45 && yaw < 135) || (yaw > 225 && yaw < 315);   // 동·서를 보고 있음
+        for (int a = -1; a <= 1; a++) for (int b2 = -1; b2 <= 1; b2++) {
+            if (a == 0 && b2 == 0) continue;
+            Block n = flat ? c.getRelative(a, 0, b2) : alongX ? c.getRelative(0, a, b2) : c.getRelative(b2, a, 0);
+            Material t = n.getType();
+            if (t.isAir() || t == Material.BEDROCK || !t.isSolid() || t.getHardness() < 0 || n.getState() instanceof TileState) continue;
+            n.breakNaturally(tool);
+        }
+    }
+
+    // ── 강제 댄스 · 기절: 자리에서 움직일 수 없다 (둘러보기는 됨) ────────────
+    @EventHandler(ignoreCancelled = true)
+    public void onMove(org.bukkit.event.player.PlayerMoveEvent e) {
+        Player p = e.getPlayer();
+        if (!has(p, DANCE) && !has(p, STUN)) return;
+        Location from = e.getFrom(), to = e.getTo();
+        if (from.getX() == to.getX() && from.getZ() == to.getZ() && to.getY() <= from.getY()) return;   // 떨어지는 것은 막지 않는다
+        Location stay = from.clone();
+        stay.setYaw(to.getYaw());
+        stay.setPitch(to.getPitch());
+        e.setTo(stay);
     }
 
     // ── 스토커 크리퍼: 등 뒤에서 "쉬익" 소리만 ────────────────────

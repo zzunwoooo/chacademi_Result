@@ -1,7 +1,7 @@
 plugins { id 'java' }
 
 group = 'com.diamondserver'
-version = '0.3.0'
+version = '0.4.0'
 
 repositories {
     mavenCentral()
@@ -11,6 +11,9 @@ repositories {
 dependencies {
     compileOnly 'io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT'
     compileOnly files('libs/donation-bukkit-2.0.2.jar')     // 후원 플러그인 (이벤트만 참조, jar 에 넣지 않음)
+    // 아래 둘은 저장소에 올리지 않는다. 서버 plugins 폴더의 jar 를 libs/ 에 복사해서 빌드
+    compileOnly files('libs/ModelEngine-4.0.8.jar')
+    compileOnly files('libs/Citizens-2.0.37-b3725.jar')
 }
 
 java { toolchain.languageVersion = JavaLanguageVersion.of(21) }

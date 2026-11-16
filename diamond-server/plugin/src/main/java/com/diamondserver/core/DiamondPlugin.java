@@ -15,7 +15,9 @@ import java.io.IOException;
 /**
  * 나니 다이아서버 플러그인.
  * 1차: 다이아 장부(남은 목표·보유 다이아) · 캔 다이아 흡수 · 제출 · 상점(구매·판매) · 전용 아이템 4종.
- * 2차: 후원 이벤트 공통 틀(후원 받기 → 대기열 → 실행)과 고정 이벤트(밥·목표 증감·즉사). 랜덤 풀·룰렛·AI·투표는 아직 없다.
+ * 2차: 후원 이벤트 공통 틀(후원 받기 → 대기열 → 실행)과 고정 이벤트(밥·목표 증감·즉사).
+ * 3~4차: 100개 장난 풀 · 300개 다이아 연출 풀 · 1000개 룰렛 · 2000개 AI 플레이어 · 모델 연출.
+ * 아직 없는 것: UFO 납치 2종(모델 파일 대기) · 3000개 채팅 투표 · 목표 달성 뒤 처리.
  */
 public final class DiamondPlugin extends JavaPlugin {
     Store store;
@@ -26,6 +28,10 @@ public final class DiamondPlugin extends JavaPlugin {
     Cmd cmd;
     Events events;
     Effects effects;
+    Models models;
+    Pranks pranks;
+    Rewards rewards;
+    Miner miner;
     private Location spawn;
 
     @Override
@@ -38,8 +44,14 @@ public final class DiamondPlugin extends JavaPlugin {
         net = new Net(this);
         cmd = new Cmd(this);
         events = new Events(this);
+        models = new Models(this);
         effects = new Effects(this);
+        pranks = new Pranks(this);
+        rewards = new Rewards(this);
+        miner = new Miner(this);
         getServer().getPluginManager().registerEvents(effects, this);
+        getServer().getPluginManager().registerEvents(pranks, this);
+        getServer().getPluginManager().registerEvents(rewards, this);
         shop.load();
         events.load();
         loadSpawn();
@@ -77,6 +89,10 @@ public final class DiamondPlugin extends JavaPlugin {
     @Override
     public void onDisable() {
         if (effects != null) effects.shutdown();      // 작아진 몸·마그마로 바꾼 블럭을 되돌린다
+        if (pranks != null) pranks.shutdown();        // 까마귀가 훔친 다이아·겉날개를 되돌린다
+        if (rewards != null) rewards.shutdown();
+        if (miner != null) miner.shutdown();
+        if (models != null) models.shutdown();        // 세워 둔 모델을 치운다
         if (store != null) store.saveAll();
     }
 

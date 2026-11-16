@@ -2,7 +2,7 @@ plugins {
     id 'fabric-loom' version '1.10.5'
 }
 
-version = '0.3.1+mc1.21.4'
+version = '0.4.0+mc1.21.4'
 group = 'com.diamondserver'
 
 base { archivesName = 'diamond-ui' }
@@ -12,6 +12,8 @@ dependencies {
     mappings 'net.fabricmc:yarn:1.21.4+build.8:v2'
     modImplementation 'net.fabricmc:fabric-loader:0.16.14'
     modImplementation 'net.fabricmc.fabric-api:fabric-api:0.119.4+1.21.4'
+    // 플레이어 모션 라이브러리 (런처가 따로 설치하므로 jar 에 넣지 않음)
+    modImplementation files('libs/player-animation-lib-fabric-2.0.5+1.21.4.jar')
 }
 
 processResources {

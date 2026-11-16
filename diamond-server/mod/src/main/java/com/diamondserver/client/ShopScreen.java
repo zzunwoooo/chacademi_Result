@@ -56,6 +56,7 @@ public final class ShopScreen extends Screen {
     private int[] plusRect() { return new int[]{x0 + 188, y0 + 186, 22, 16}; }
     private int[] actionRect() { return new int[]{x0 + W - 8 - 58, y0 + 185, 58, 18}; }
     private int[] sellAllRect() { return new int[]{x0 + W - 8 - 72, y0 + 185, 72, 18}; }
+    private int[] submitRect() { return new int[]{x0 + 36, y0 + 4, 54, 16}; }
 
     private static boolean in(int[] r, double mx, double my) { return mx >= r[0] && mx < r[0] + r[2] && my >= r[1] && my < r[1] + r[3]; }
 
@@ -109,6 +110,10 @@ public final class ShopScreen extends Screen {
         t(ctx, "상점", x0 + 10, y0 + 8, WHITE);
         String held = "보유 다이아 " + Hud.n(St.held);
         t(ctx, held, x0 + W - 10 - f.getWidth(held), y0 + 8, WHITE);
+        // 제출: 보유 다이아를 내서 남은 목표를 줄인다 (낼 수 있는 만큼 전부)
+        boolean canSubmit = St.held > 0 && St.goal > 0;
+        centered(ctx, "[전부 제출]", submitRect(), canSubmit ? WHITE : GRAY);
+        t(ctx, "남은 목표 " + (St.done ? "달성" : Hud.n(St.goal)), x0 + 96, y0 + 8, GRAY);
 
         String[] tabs = {"구매", "판매"};
         for (int i = 0; i < 2; i++) {
@@ -193,6 +198,14 @@ public final class ShopScreen extends Screen {
     @Override
     public boolean mouseClicked(double mx, double my, int button) {
         if (button != 0) return false;
+        if (in(submitRect(), mx, my)) {
+            JsonObject o = new JsonObject();
+            o.addProperty("t", "submit");
+            o.addProperty("qty", -1);
+            DiamondClient.send(o);
+            click();
+            return true;
+        }
         for (int i = 0; i < 2; i++) if (in(tabRect(i), mx, my)) {
             sellTab = i == 1; scroll = 0; click();
             return true;

@@ -86,11 +86,27 @@ final class Cmd implements CommandExecutor, TabCompleter {
 
     private boolean admin(CommandSender s, String[] a) {
         if (a.length == 0) {
-            say(s, "/다이아 리로드 | 지급 <닉> <보유|목표> <±개수> | 설정 <닉> <보유|목표> <개수> | 아이템 <닉> <id> [개수] | 위치 | 정보 <닉>");
+            say(s, "/다이아 리로드 | 지급 <닉> <보유|목표> <±개수> | 설정 <닉> <보유|목표> <개수> | 아이템 <닉> <id> [개수] | 위치 | 정보 <닉> | 연동시험");
             return true;
         }
         switch (a[0]) {
             case "리로드" -> { pl.reload(); say(s, "설정을 다시 읽었습니다."); }
+            case "연동시험" -> {
+                // 접속한 사람 없이도 모델·NPC 연동이 실제로 되는지 확인: 시작 지점에 잠깐 세웠다가 치운다
+                org.bukkit.Location at = pl.spawn();
+                at.getChunk().load();
+                StringBuilder okList = new StringBuilder(), bad = new StringBuilder();
+                for (String id : new String[]{"target_marker", "diamond_crow", "ride_rocket", "giant_anvil", "stun_stars", "curse_mark", "disco_ball",
+                        "diamond_pinata", "diamond_cloud", "diamond_meteor", "golden_crown", "diamond_fountain", "grim_reaper"}) {
+                    Models.Prop p = pl.models.spawn(at, id, "idle");
+                    (p.hasModel() ? okList : bad).append(' ').append(id);
+                    p.play("spawn");
+                    p.removeLater(20);
+                }
+                say(s, "모델 성공:" + (okList.length() == 0 ? " 없음" : okList));
+                say(s, "모델 실패:" + (bad.length() == 0 ? " 없음" : bad));
+                say(s, "AI 플레이어: " + pl.miner.selfTest(at));
+            }
             case "지급", "설정" -> {
                 if (a.length < 4) { say(s, "/다이아 " + a[0] + " <닉> <보유|목표> <개수>"); return true; }
                 Player t = Bukkit.getPlayerExact(a[1]);
@@ -138,7 +154,7 @@ final class Cmd implements CommandExecutor, TabCompleter {
             else if (a.length == 3) for (Player p : Bukkit.getOnlinePlayers()) out.add(p.getName());
         }
         if (!c.getName().equals("다이아")) return filter(out, a);
-        if (a.length == 1) out.addAll(List.of("리로드", "지급", "설정", "아이템", "위치", "정보"));
+        if (a.length == 1) out.addAll(List.of("리로드", "지급", "설정", "아이템", "위치", "정보", "연동시험"));
         else if (a.length == 2 && List.of("지급", "설정", "아이템", "정보").contains(a[0])) for (Player p : Bukkit.getOnlinePlayers()) out.add(p.getName());
         else if (a.length == 3 && (a[0].equals("지급") || a[0].equals("설정"))) out.addAll(List.of("보유", "목표"));
         else if (a.length == 3 && a[0].equals("아이템")) out.addAll(Items.IDS);

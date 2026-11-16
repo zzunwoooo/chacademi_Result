@@ -2,3 +2,5 @@ __pycache__/
 *.pyc
 build/
 .gradle/
+plugin/libs/ModelEngine-*.jar
+plugin/libs/Citizens-*.jar

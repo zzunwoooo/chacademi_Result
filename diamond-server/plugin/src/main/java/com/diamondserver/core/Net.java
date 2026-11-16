@@ -117,6 +117,16 @@ final class Net implements PluginMessageListener {
         send(p, o);
     }
 
+    /** 플레이어 모션 재생 (who 가 name 모션을 한다. name 이 "stop" 이면 멈춤). 보는 사람 모두에게 보낸다 */
+    void motion(Player viewer, UUID who, String name) {
+        if (!hasMod(viewer)) return;
+        JsonObject o = new JsonObject();
+        o.addProperty("t", "motion");
+        o.addProperty("player", who.toString());
+        o.addProperty("name", name);
+        send(viewer, o);
+    }
+
     /** 대상 룰렛: 이름들 사이를 돌다가 winner 에서 멈춘다. 모드가 없으면 채팅으로 결과만 */
     void pick(Player p, String title, java.util.List<String> names, String winner, long ms) {
         if (hasMod(p)) {

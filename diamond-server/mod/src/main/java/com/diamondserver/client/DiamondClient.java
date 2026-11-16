@@ -32,6 +32,7 @@ public final class DiamondClient implements ClientModInitializer {
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> { St.clear(); helloTick = 0; });
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> St.clear());
 
+        Motion.init();
         shopKey = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.diamondserver.shop", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_G, "category.diamondserver"));
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
@@ -61,6 +62,15 @@ public final class DiamondClient implements ClientModInitializer {
         });
     }
 
+    /** 서버가 알려 준 사람에게 모션을 재생 (내 캐릭터 포함, 화면에 보이는 사람만) */
+    private static void playMotion(MinecraftClient client, String uuid, String name) {
+        if (client.world == null) return;
+        try {
+            if (client.world.getPlayerByUuid(java.util.UUID.fromString(uuid)) instanceof net.minecraft.client.network.AbstractClientPlayerEntity p)
+                Motion.play(p, name);
+        } catch (IllegalArgumentException ignored) { }
+    }
+
     static void send(JsonObject o) {
         if (ClientPlayNetworking.canSend(JsonPayload.ID)) ClientPlayNetworking.send(new JsonPayload(o.toString()));
     }
@@ -76,6 +86,7 @@ public final class DiamondClient implements ClientModInitializer {
                 case "effects" -> St.applyEffects(o);
                 case "fx" -> St.applyFx(o);
                 case "pick" -> St.applyPick(o);
+                case "motion" -> playMotion(mc, St.str(o, "player", ""), St.str(o, "name", ""));
                 case "toast" -> {
                     com.google.gson.JsonElement ok = o.get("ok");
                     St.toast(St.str(o, "text", ""), ok == null || ok.isJsonNull() || ok.getAsBoolean());
