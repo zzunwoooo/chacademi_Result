@@ -31,7 +31,18 @@ final class Net implements PluginMessageListener {
     void forget(UUID id) { modded.remove(id); greeted.remove(id); }
 
     private void send(Player p, JsonObject o) {
+        if (!pl.isEnabled() || !p.isOnline()) return;      // 서버가 꺼지는 중에는 보낼 수 없다 (보내면 오류가 나서 뒤의 저장이 끊긴다)
         p.sendPluginMessage(pl, CH, o.toString().getBytes(StandardCharsets.UTF_8));
+    }
+
+    private static final java.util.regex.Pattern ITEM_TOKEN = java.util.regex.Pattern.compile("\\{item:(?:[a-z0-9_.-]+:)?([a-z0-9_./-]+)\\}");
+
+    /** 글 안의 아이템 이름 표시 {item:minecraft:xxx} 는 모드가 한글 이름으로 바꾼다. 모드가 없는 사람에게는 영어 이름으로 풀어 준다 */
+    static String plain(String s) {
+        java.util.regex.Matcher m = ITEM_TOKEN.matcher(s);
+        StringBuilder out = new StringBuilder();
+        while (m.find()) m.appendReplacement(out, java.util.regex.Matcher.quoteReplacement(m.group(1).replace('_', ' ')));
+        return m.appendTail(out).toString();
     }
 
     void state(Player p) {
@@ -62,7 +73,7 @@ final class Net implements PluginMessageListener {
             o.addProperty("ok", ok);
             send(p, o);
         } else {
-            p.sendMessage(Component.text(text, ok ? NamedTextColor.WHITE : NamedTextColor.RED));
+            p.sendMessage(Component.text(plain(text), ok ? NamedTextColor.WHITE : NamedTextColor.RED));
         }
     }
 

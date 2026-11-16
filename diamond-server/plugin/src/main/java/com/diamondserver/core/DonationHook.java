@@ -21,8 +21,10 @@ final class DonationHook implements Listener {
         if (!pl.getConfig().getBoolean("donation.enabled", true)) return;
         e.setCancelled(true);                        // donation 플러그인의 기본 동작(콘솔 명령 실행)은 막는다
         if (e.isTestDonation() && !pl.getConfig().getBoolean("donation.allow-test", true)) return;
-        int won = Math.max(1, pl.getConfig().getInt("donation.chzzk-won-per-unit", 100));
-        int count = e.getType().getPlatform() == DonationEvent.Platform.CHZZK ? e.getAmount() / won : e.getAmount();
+        // getAmount() 는 별풍선·치즈 모두 "100원 단위 개수"다
+        // (donation 플러그인: SOOP 단가 100, 치지직 단가 1, getCount() = amount × 100 ÷ 단가 / 설정 주석 "받을 후원 개수 (별풍선 100원 단위)").
+        // 그래서 치즈도 나누지 않고 그대로 쓴다: 치즈 1,000 = 10개, 별풍선 10개 = 10개.
+        int count = e.getAmount();
         Player target = e.getPlayer();
         if (!pl.events.enqueue(target.getUniqueId(), pl.nick(target), e.getNickname(), count))
             pl.getLogger().info("등록되지 않은 후원 개수라 넘김: " + count + "개 (" + e.getNickname() + " → " + pl.nick(target) + ")");

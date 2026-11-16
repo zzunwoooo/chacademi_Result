@@ -217,6 +217,13 @@ final class Effects implements Listener {
         }
     }
 
+    // ── 거인화: 몸이 커져 머리가 천장 블럭에 끼어도 질식 피해는 받지 않는다 (좋은 이벤트가 갱도에서 사망으로 이어지지 않게) ──
+    @EventHandler(ignoreCancelled = true)
+    public void onGiantSuffocate(org.bukkit.event.entity.EntityDamageEvent e) {
+        if (e.getCause() == org.bukkit.event.entity.EntityDamageEvent.DamageCause.SUFFOCATION
+                && e.getEntity() instanceof Player p && has(p, GIANT)) e.setCancelled(true);
+    }
+
     // ── 거인화: 한 번 캘 때 3x3 ─────────────────────────────────
     @EventHandler(ignoreCancelled = true, priority = org.bukkit.event.EventPriority.MONITOR)
     public void onGiantBreak(org.bukkit.event.block.BlockBreakEvent e) {

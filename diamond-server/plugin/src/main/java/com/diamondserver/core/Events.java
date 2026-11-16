@@ -44,7 +44,11 @@ final class Events {
         /** 랜덤 풀 이벤트는 대상이 룰렛으로 정해질 수 있으므로 알림에 "→ 누구" 를 붙이지 않는다 */
         boolean pool() { return !actions.isEmpty() && actions.get(0).startsWith("pool prank"); }
     }
-    record Job(UUID target, String targetName, String donor, int count) { }
+    /** rest = 연출 도중 대상이 나가서 남은 동작 (비어 있으면 그 개수의 이벤트를 처음부터) */
+    record Job(UUID target, String targetName, String donor, int count, String rest) {
+        Job(UUID target, String targetName, String donor, int count) { this(target, targetName, donor, count, ""); }
+        Job withRest(String action) { return new Job(target, targetName, donor, count, action); }
+    }
     /** 랜덤 풀 한 칸. scope = one(룰렛으로 뽑힌 1명) / all(접속한 전원) / self(후원 받은 사람) */
     record Prank(String id, String name, String scope, String icon, String action) { }
     /** 룰렛 한 칸 */
@@ -150,7 +154,7 @@ final class Events {
             long busy = 0;
             Player t = Bukkit.getPlayer(job.target);
             if (t == null) hold(job);
-            else for (String action : def.actions) busy = Math.max(busy, run(t, def, action, job.donor));
+            else for (String action : (job.rest.isEmpty() ? def.actions : List.of(job.rest))) busy = Math.max(busy, run(t, def, action, job));
             long gap = Math.max(1, pl.getConfig().getLong("donation.queue-gap-ticks", 20));
             Bukkit.getScheduler().runTaskLater(pl, this::next, busy + gap);
         }, announce);
@@ -168,6 +172,7 @@ final class Events {
             m.put("name", j.targetName);
             m.put("donor", j.donor);
             m.put("count", j.count);
+            m.put("rest", j.rest);
             rows.add(m);
         }
         y.set("pending", rows);
@@ -182,7 +187,8 @@ final class Events {
             try {
                 UUID id = UUID.fromString(String.valueOf(m.get("target")));
                 int count = m.get("count") instanceof Number c ? c.intValue() : 0;
-                waiting.computeIfAbsent(id, k -> new ArrayList<>()).add(new Job(id, String.valueOf(m.get("name")), String.valueOf(m.get("donor")), count));
+                String rest = m.get("rest") == null ? "" : String.valueOf(m.get("rest"));
+                waiting.computeIfAbsent(id, k -> new ArrayList<>()).add(new Job(id, String.valueOf(m.get("name")), String.valueOf(m.get("donor")), count, rest));
                 n++;
             } catch (RuntimeException ignored) { }
         }
@@ -202,7 +208,8 @@ final class Events {
     }
 
     /** 동작 하나를 실행하고, 줄이 기다려야 하는 시간(틱)을 돌려준다 */
-    private long run(Player t, Def def, String action, String donor) {
+    private long run(Player t, Def def, String action, Job job) {
+        final String donor = job.donor;
         String[] a = action.trim().split("\\s+");
         boolean good = def.kind.equals("good");
         try {
@@ -233,16 +240,22 @@ final class Events {
                     final long[] sum = {0};
                     final UUID id = t.getUniqueId();
                     final String name = pl.nick(t);
+                    final boolean[] gone = {false};
                     for (int i = 0; i < times; i++) {
                         final boolean last = i == times - 1;
+                        final int roundsLeft = times - i;
                         Bukkit.getScheduler().runTaskLater(pl, () -> {
+                            if (gone[0]) return;
                             Player p = Bukkit.getPlayer(id);
-                            if (p != null) {
-                                long d = roll(lo, hi);
-                                sum[0] += d;
-                                pl.ledger.addGoal(p, d);
-                                p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_HAT, 0.6f, 1f);
+                            if (p == null) {                    // 도중에 나갔다 → 남은 횟수는 다시 접속하면 이어서 한다
+                                gone[0] = true;
+                                hold(job.withRest("repeat " + roundsLeft + " goal " + lo + " " + hi));
+                                return;
                             }
+                            long d = roll(lo, hi);
+                            sum[0] += d;
+                            pl.ledger.addGoal(p, d);
+                            p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_HAT, 0.6f, 1f);
                             if (last) toastAll(pl, name + "님의 남은 목표 " + signed(sum[0]) + " (" + times + "회)", sum[0] <= 0);
                         }, i * step);
                     }
@@ -261,7 +274,7 @@ final class Events {
                     return 0;
                 }
                 case "death" -> {
-                    return pl.pranks.reaper(t);
+                    return pl.pranks.reaper(t, () -> hold(job.withRest("death")));     // 낫이 닿기 전에 나가면 다시 접속했을 때 이어서
                 }
                 case "pool" -> {
                     return runPool(a[1], t);
@@ -271,14 +284,24 @@ final class Events {
                     final long each = 180;                      // 연출 하나가 끝날 만한 시간(9초)을 두고 다음 것
                     final UUID id = t.getUniqueId();
                     final String pool = a[1];
-                    for (int i = 0; i < times; i++) Bukkit.getScheduler().runTaskLater(pl, () -> {
-                        Player p = Bukkit.getPlayer(id);
-                        if (p != null) runPool(pool, p);
-                    }, i * each);
+                    final boolean[] gone = {false};
+                    for (int i = 0; i < times; i++) {
+                        final int roundsLeft = times - i;
+                        Bukkit.getScheduler().runTaskLater(pl, () -> {
+                            if (gone[0]) return;
+                            Player p = Bukkit.getPlayer(id);
+                            if (p == null) {                    // 도중에 나갔다 → 남은 횟수는 다시 접속하면 이어서 한다
+                                gone[0] = true;
+                                hold(job.withRest("poolx " + pool + " " + roundsLeft));
+                                return;
+                            }
+                            runPool(pool, p);
+                        }, i * each);
+                    }
                     return times * each;
                 }
                 case "wheel" -> {
-                    return runWheel(t, def, donor);
+                    return runWheel(t, def, job);
                 }
                 case "miner" -> {
                     pl.miner.summon(t, donor);
@@ -297,7 +320,24 @@ final class Events {
     }
 
     // ── 룰렛 (1000개) ────────────────────────────────────────
-    private long runWheel(Player t, Def def, String donor) {
+    /** 동작이 끝날 때까지 걸릴 시간(틱)을 미리 어림한다 (룰렛 상품처럼 나중에 실행되는 동작도 줄이 기다려 주게) */
+    private long estimate(String action) {
+        String[] a = action.trim().split("\\s+");
+        try {
+            return switch (a[0]) {
+                case "repeat" -> Math.max(1, Math.min(50, Integer.parseInt(a[1]))) * 8L;
+                case "poolx" -> Math.max(1, Math.min(10, Integer.parseInt(a[2]))) * 180L;
+                case "pool" -> PICK_TICKS + 30;
+                case "death" -> 90L;
+                case "miner" -> 20L;
+                default -> 0L;
+            };
+        } catch (RuntimeException e) {
+            return 0;
+        }
+    }
+
+    private long runWheel(Player t, Def def, Job job) {
         if (wheel.isEmpty()) { toastAll(pl, "룰렛 상품이 설정되어 있지 않습니다.", false); return 0; }
         int total = 0;
         for (Prize z : wheel) total += z.weight;
@@ -311,11 +351,11 @@ final class Events {
         final UUID id = t.getUniqueId();
         Bukkit.getScheduler().runTaskLater(pl, () -> {
             Player p = Bukkit.getPlayer(id);
-            if (p == null) return;
+            if (p == null) { hold(job.withRest("wheel")); return; }      // 도는 동안 나갔다 → 다시 접속하면 룰렛을 다시 돌린다
             for (Player o : Bukkit.getOnlinePlayers()) pl.net.announce(o, prize.icon, prize.name, "룰렛 결과 · " + pl.nick(p) + "님");
-            run(p, def, prize.action, donor);
+            run(p, def, prize.action, job);
         }, PICK_TICKS + 20);
-        return PICK_TICKS + 60;
+        return PICK_TICKS + 60 + estimate(prize.action);                 // 당첨 상품이 끝날 때까지 다음 후원이 기다린다
     }
 
     // ── 랜덤 풀 (100개 장난 · 300개 다이아 연출) ───────────────────────
@@ -360,7 +400,11 @@ final class Events {
         final UUID id = winner.getUniqueId();
         Bukkit.getScheduler().runTaskLater(pl, () -> {
             Player w = Bukkit.getPlayer(id);
-            if (w == null) return;
+            if (w == null) {                                    // 뽑힌 사람이 그사이 나갔다 → 남은 사람 중에서 바로 다시 뽑는다
+                List<Player> remain = new ArrayList<>(Bukkit.getOnlinePlayers());
+                if (remain.isEmpty()) return;
+                w = remain.get(ThreadLocalRandom.current().nextInt(remain.size()));
+            }
             announceAll(pr, pl.nick(w) + "님");
             pl.models.followHead(w, "target_marker", 3, "pick", "leave");       // 뽑힌 사람 머리 위 표시
             applyPrank(pr, List.of(w));

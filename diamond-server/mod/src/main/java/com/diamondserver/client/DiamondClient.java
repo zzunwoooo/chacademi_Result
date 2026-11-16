@@ -23,6 +23,8 @@ import org.lwjgl.glfw.GLFW;
 public final class DiamondClient implements ClientModInitializer {
     public static KeyBinding shopKey, mailKey;
     private static int helloTick;
+    /** 처음 닉네임을 아직 못 정했을 때의 창 정보 {지금 이름, 규칙 글, 최대 글자 수}. 사망·로딩 화면에 덮여 창이 사라져도 다시 띄운다 */
+    private static String[] firstNick;
     private static final McG HUD_G = new McG();
 
     @Override
@@ -35,8 +37,8 @@ public final class DiamondClient implements ClientModInitializer {
             context.client().execute(() -> handle(context.client(), json));
         });
 
-        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> { St.clear(); helloTick = 0; });
-        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> St.clear());
+        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> { St.clear(); helloTick = 0; firstNick = null; });
+        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> { St.clear(); firstNick = null; });
 
         Motion.init();
         shopKey = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.diamondserver.shop", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_G, "category.diamondserver"));
@@ -50,6 +52,8 @@ public final class DiamondClient implements ClientModInitializer {
                 send(o);
             }
             St.expire();
+            if (firstNick != null && client.player != null && client.currentScreen == null)
+                client.setScreen(new NickScreen(true, firstNick[0], firstNick[1], Integer.parseInt(firstNick[2])));
             while (shopKey.wasPressed())
                 if (St.has && client.currentScreen == null) client.setScreen(new ShopScreen());
             while (mailKey.wasPressed())
@@ -80,9 +84,28 @@ public final class DiamondClient implements ClientModInitializer {
         if (ClientPlayNetworking.canSend(JsonPayload.ID)) ClientPlayNetworking.send(new JsonPayload(o.toString()));
     }
 
+    private static final java.util.regex.Pattern ITEM_TOKEN = java.util.regex.Pattern.compile("\\{item:([a-z0-9_.-]+:[a-z0-9_./-]+)\\}");
+
+    /** 서버가 {item:minecraft:xxx} 로 적어 보낸 아이템 이름을 게임의 아이템 이름(한글 설정이면 한글)으로 바꾼다 */
+    private static String itemNames(String json) {
+        if (json.indexOf("{item:") < 0) return json;
+        java.util.regex.Matcher m = ITEM_TOKEN.matcher(json);
+        StringBuilder out = new StringBuilder();
+        while (m.find()) {
+            String name;
+            try {
+                name = net.minecraft.registry.Registries.ITEM.get(net.minecraft.util.Identifier.of(m.group(1))).getName().getString();
+            } catch (RuntimeException e) {
+                name = m.group(1);
+            }
+            m.appendReplacement(out, java.util.regex.Matcher.quoteReplacement(name.replace("\\", "").replace("\"", "")));
+        }
+        return m.appendTail(out).toString();
+    }
+
     private static void handle(MinecraftClient mc, String json) {
         try {
-            JsonObject o = JsonParser.parseString(json).getAsJsonObject();
+            JsonObject o = JsonParser.parseString(itemNames(json)).getAsJsonObject();
             switch (St.str(o, "t", "")) {
                 case "state" -> St.applyState(o);
                 case "shop" -> St.applyShop(o);
@@ -105,12 +128,16 @@ public final class DiamondClient implements ClientModInitializer {
                     if (screen.equals("nick")) {
                         boolean first = St.bool(o, "first", false);
                         // 처음 정하는 창은 다른 화면이 떠 있어도 띄운다. 바꾸기 창은 아무 화면도 없을 때만
+                        if (first) firstNick = new String[]{St.str(o, "current", ""), St.str(o, "rule", ""), String.valueOf((int) St.num(o, "max", 8))};
                         if (first || mc.currentScreen == null)
                             mc.setScreen(new NickScreen(first, St.str(o, "current", ""), St.str(o, "rule", ""), (int) St.num(o, "max", 8)));
                     }
                 }
                 case "close" -> {
-                    if (St.str(o, "screen", "").equals("nick") && mc.currentScreen instanceof NickScreen) mc.setScreen(null);
+                    if (St.str(o, "screen", "").equals("nick")) {
+                        firstNick = null;                       // 닉네임이 정해졌다
+                        if (mc.currentScreen instanceof NickScreen) mc.setScreen(null);
+                    }
                 }
                 case "nickerr" -> {
                     if (mc.currentScreen instanceof NickScreen ns) ns.showError(St.str(o, "text", ""));

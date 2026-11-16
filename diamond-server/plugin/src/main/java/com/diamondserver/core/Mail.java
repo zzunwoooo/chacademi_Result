@@ -21,9 +21,13 @@ import java.util.UUID;
  * 파일: plugins/DiamondCore/mail/<UUID>.yml
  */
 final class Mail {
-    /** 우편 한 통. kind = diamonds(보유 다이아) / item(전용 아이템 id) / material(게임 아이템) */
+    /**
+     * 우편 한 통. kind = diamonds(보유 다이아) / item(전용 아이템 id) / material(게임 아이템 종류)
+     *  / stack(인챈트 등이 붙은 게임 아이템: key 에 아이템 1개를 통째로 적어 둔다 → 꺼낼 때 그대로 나온다)
+     * label = 화면에 쓸 한글 이름 (상점 상품 이름). 비어 있으면 모드가 게임의 아이템 이름으로 보여 준다.
+     */
     static final class Letter {
-        String id, title, from, kind, key;
+        String id, title, from, kind, key, label = "";
         int amount;
         long time;
     }
@@ -50,6 +54,7 @@ final class Mail {
                     l.from = String.valueOf(m.get("from"));
                     l.kind = String.valueOf(m.get("kind"));
                     l.key = String.valueOf(m.get("key"));
+                    l.label = m.get("label") == null ? "" : String.valueOf(m.get("label"));
                     l.amount = m.get("amount") instanceof Number n ? n.intValue() : 1;
                     l.time = m.get("time") instanceof Number n ? n.longValue() : 0;
                     out.add(l);
@@ -64,7 +69,7 @@ final class Mail {
         for (Letter l : box(id)) {
             Map<String, Object> m = new HashMap<>();
             m.put("id", l.id); m.put("title", l.title); m.put("from", l.from); m.put("kind", l.kind);
-            m.put("key", l.key); m.put("amount", l.amount); m.put("time", l.time);
+            m.put("key", l.key); m.put("label", l.label == null ? "" : l.label); m.put("amount", l.amount); m.put("time", l.time);
             rows.add(m);
         }
         YamlConfiguration y = new YamlConfiguration();
@@ -80,11 +85,13 @@ final class Mail {
     int count(UUID id) { return box(id).size(); }
 
     /** 우편을 보낸다. 받는 사람이 접속해 있으면 화면도 바로 고친다 */
-    void send(UUID to, String title, String from, String kind, String key, int amount) {
+    void send(UUID to, String title, String from, String kind, String key, int amount) { send(to, title, from, kind, key, amount, ""); }
+
+    void send(UUID to, String title, String from, String kind, String key, int amount, String label) {
         if (amount <= 0) return;
         Letter l = new Letter();
         l.id = Long.toString(System.currentTimeMillis(), 36) + Integer.toString((int) (Math.random() * 1296), 36);
-        l.title = title; l.from = from; l.kind = kind; l.key = key; l.amount = amount;
+        l.title = title; l.from = from; l.kind = kind; l.key = key; l.amount = amount; l.label = label == null ? "" : label;
         l.time = System.currentTimeMillis();
         box(to).add(l);
         save(to);
@@ -99,33 +106,45 @@ final class Mail {
     void sendDiamonds(UUID to, String title, String from, int amount) { send(to, title, from, "diamonds", "", amount); }
 
     /** 아이템 한 묶음을 우편으로 (전용 아이템이면 그 id 로, 아니면 게임 아이템 종류로) */
-    void sendStack(UUID to, String title, String from, ItemStack it) {
+    void sendStack(UUID to, String title, String from, ItemStack it) { sendStack(to, title, from, it, ""); }
+
+    /** label = 화면에 쓸 한글 이름 (모르면 빈 글자) */
+    void sendStack(UUID to, String title, String from, ItemStack it, String label) {
         if (it == null || it.getType().isAir()) return;
         String custom = pl.items.idOf(it);
-        if (custom != null) send(to, title, from, "item", custom, it.getAmount());
-        else send(to, title, from, "material", it.getType().name(), it.getAmount());
+        if (custom != null) { send(to, title, from, "item", custom, it.getAmount()); return; }
+        ItemStack one = it.clone();
+        one.setAmount(1);
+        if (one.equals(new ItemStack(it.getType()))) send(to, title, from, "material", it.getType().name(), it.getAmount(), label);
+        else send(to, title, from, "stack", java.util.Base64.getEncoder().encodeToString(one.serializeAsBytes()), it.getAmount(), label);   // 인챈트북 등: 통째로 보관
     }
 
-    /** 화면에 쓸 내용물 이름 */
+    /** 우편에 든 게임 아이템 1개 (material·stack 종류만). 읽을 수 없으면 null */
+    private ItemStack stackOf(Letter l) {
+        try {
+            if (l.kind.equals("stack")) return ItemStack.deserializeBytes(java.util.Base64.getDecoder().decode(l.key));
+            Material m = Material.matchMaterial(l.key);
+            return m == null || !m.isItem() ? null : new ItemStack(m);
+        } catch (RuntimeException e) {
+            return null;
+        }
+    }
+
+    /** 화면에 쓸 내용물 이름. 한글 이름을 모르는 게임 아이템은 {item:아이디} 로 적어 보내고, 모드가 게임의 아이템 이름으로 바꾼다 */
     String contentName(Letter l) {
         return switch (l.kind) {
             case "diamonds" -> "다이아 " + l.amount + "개";
             case "item" -> pl.items.nameOf(l.key) + " ×" + l.amount;
-            default -> materialName(l.key) + " ×" + l.amount;
+            default -> (l.label != null && !l.label.isEmpty() ? l.label : "{item:" + icon(l)[1] + "}") + " ×" + l.amount;
         };
-    }
-
-    private String materialName(String key) {
-        String n = pl.getConfig().getString("mail.names." + key);
-        return n != null ? n : key.toLowerCase().replace('_', ' ');
     }
 
     /** 화면에 쓸 그림: {받은 그림 이름(없으면 빈 글자), 게임 아이템 id} */
     String[] icon(Letter l) {
         if (l.kind.equals("diamonds")) return new String[]{"icons/diamond", "minecraft:diamond"};
         if (l.kind.equals("item")) return new String[]{pl.getConfig().getString("items." + l.key + ".art", ""), pl.items.materialOf(l.key).getKey().toString()};
-        Material m = Material.matchMaterial(l.key);
-        return new String[]{"", (m == null ? Material.PAPER : m).getKey().toString()};
+        ItemStack it = stackOf(l);
+        return new String[]{"", (it == null ? Material.PAPER : it.getType()).getKey().toString()};
     }
 
     /** 우편 한 통을 꺼낸다. 다 꺼냈으면 true (인벤토리가 모자라면 들어간 만큼만 꺼내고 나머지는 남는다) */
@@ -139,9 +158,8 @@ final class Mail {
             if (!Items.IDS.contains(l.key)) return true;                     // 없어진 아이템이면 그냥 지운다
             it = pl.items.make(l.key, 1);
         } else {
-            Material m = Material.matchMaterial(l.key);
-            if (m == null) return true;
-            it = new ItemStack(m);
+            it = stackOf(l);
+            if (it == null) return true;
         }
         int left = l.amount, max = Math.max(1, it.getMaxStackSize());
         while (left > 0) {
@@ -185,14 +203,16 @@ final class Mail {
     }
 
     /** 물건을 준다. 인벤토리에 안 들어간 것은 우편함으로 보낸다 (바닥에 떨어뜨리지 않는다) */
-    void giveOrMail(Player p, ItemStack it, String title) {
+    void giveOrMail(Player p, ItemStack it, String title) { giveOrMail(p, it, title, ""); }
+
+    void giveOrMail(Player p, ItemStack it, String title, String label) {
         int left = 0;
         ItemStack sample = null;
         for (ItemStack r : p.getInventory().addItem(it).values()) { left += r.getAmount(); sample = r; }
         if (left > 0 && sample != null) {
             ItemStack rest = sample.clone();
             rest.setAmount(left);
-            sendStack(p.getUniqueId(), title, "보관", rest);
+            sendStack(p.getUniqueId(), title, "보관", rest, label);
         }
     }
 }

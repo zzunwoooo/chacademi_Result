@@ -114,6 +114,7 @@ final class Nicks {
         pl.store.save(d);
         apply(t);
         sendNames();
+        if (raw != null) pl.net.closeNick(t);       // 처음 닉네임 창이 떠 있었다면 닫는다
         return null;
     }
 

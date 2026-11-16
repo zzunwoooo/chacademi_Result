@@ -12,7 +12,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
@@ -72,12 +71,18 @@ final class Listeners implements Listener {
 
     // ── 캔 다이아는 인벤토리 대신 보유 다이아로 ──────────────────
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-    public void onPickup(EntityPickupItemEvent e) {
-        if (!(e.getEntity() instanceof Player p)) return;
-        long v = pl.ledger.diamondValue(e.getItem().getItemStack());
+    public void onPickup(org.bukkit.event.player.PlayerAttemptPickupItemEvent e) {
+        // 이 이벤트는 인벤토리에 빈 칸이 없어도 불린다 (가득 찬 채로 광질해도 다이아는 보유 다이아로 들어와야 한다)
+        Player p = e.getPlayer();
+        org.bukkit.entity.Item item = e.getItem();
+        if (item.isDead()) return;
+        UUID owner = item.getOwner();
+        if (owner != null && !owner.equals(p.getUniqueId())) return;
+        long v = pl.ledger.diamondValue(item.getItemStack());
         if (v <= 0) return;
         e.setCancelled(true);
-        e.getItem().remove();
+        e.setFlyAtPlayer(false);
+        item.remove();
         pl.ledger.addHeld(p, v);
         p.playSound(p.getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.3f, 1.6f);
     }

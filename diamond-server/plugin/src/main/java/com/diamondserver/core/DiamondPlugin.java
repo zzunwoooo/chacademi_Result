@@ -98,12 +98,18 @@ public final class DiamondPlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        if (effects != null) effects.shutdown();      // 작아진 몸·마그마로 바꾼 블럭을 되돌린다
-        if (pranks != null) pranks.shutdown();        // 까마귀가 훔친 다이아·겉날개를 되돌린다
-        if (rewards != null) rewards.shutdown();
-        if (miner != null) miner.shutdown();
-        if (models != null) models.shutdown();        // 세워 둔 모델을 치운다
-        if (store != null) store.saveAll();
+        // 장부 저장을 가장 먼저 한다 (뒤의 정리 중 하나가 실패해도 다이아 기록은 남게). 정리는 하나씩 따로 감싼다.
+        safe("장부 저장", () -> { if (store != null) store.saveAll(); });
+        safe("효과 정리", () -> { if (effects != null) effects.shutdown(); });      // 작아진 몸·마그마로 바꾼 블럭을 되돌린다
+        safe("장난 정리", () -> { if (pranks != null) pranks.shutdown(); });        // 까마귀가 훔친 다이아·겉날개를 되돌린다
+        safe("연출 정리", () -> { if (rewards != null) rewards.shutdown(); });
+        safe("AI 플레이어 정리", () -> { if (miner != null) miner.shutdown(); });
+        safe("모델 정리", () -> { if (models != null) models.shutdown(); });        // 세워 둔 모델을 치운다
+        safe("장부 저장", () -> { if (store != null) store.saveAll(); });          // 정리하면서 돌려준 다이아까지
+    }
+
+    private void safe(String what, Runnable r) {
+        try { r.run(); } catch (Throwable t) { getLogger().warning(what + " 중 오류: " + t); }
     }
 
     void reload() {

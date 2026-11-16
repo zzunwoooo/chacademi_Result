@@ -36,7 +36,7 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 final class Pranks implements Listener {
     private final DiamondPlugin pl;
-    private final NamespacedKey rocketKey;
+    private final NamespacedKey rocketKey, chestKey;
 
     /** 날아다니는 까마귀 */
     private static final class Crow {
@@ -48,6 +48,7 @@ final class Pranks implements Listener {
     Pranks(DiamondPlugin pl) {
         this.pl = pl;
         this.rocketKey = new NamespacedKey(pl, "rocket_elytra");
+        this.chestKey = new NamespacedKey(pl, "rocket_saved_chest");
     }
 
     private static ThreadLocalRandom rnd() { return ThreadLocalRandom.current(); }
@@ -84,8 +85,8 @@ final class Pranks implements Listener {
             Vector dir = new Vector(1, 0, 0);
             @Override public void run() {
                 Player v = Bukkit.getPlayer(crow.victim);
-                if (crow.done || !crow.prop.alive()) { end(); return; }
-                if (v == null) { finish(crow, mobId, false); end(); return; }
+                if (crow.done) { end(); return; }
+                if (v == null || !crow.prop.alive()) { giveBack(crow, mobId); end(); return; }   // 주인이 나갔거나 까마귀가 있던 곳이 내려갔다 → 쫓을 수 없으니 돌려준다
                 Location at = crow.prop.loc();
                 if (!crow.fleeing) {
                     // 1) 대상 머리 쪽으로 날아온다
@@ -159,6 +160,25 @@ final class Pranks implements Listener {
         l.setPitch(0);
     }
 
+    /** 까마귀가 잡히지 않은 채 사라져야 할 때: 훔친 다이아를 주인에게 돌려준다 (주인이 접속해 있지 않으면 장부에 바로) */
+    private void giveBack(Crow crow, UUID mobId) {
+        if (crow.done) return;
+        crow.done = true;
+        crows.remove(mobId);
+        crow.prop.remove();
+        if (crow.stolen <= 0) return;
+        Player v = Bukkit.getPlayer(crow.victim);
+        if (v != null) {
+            pl.ledger.addHeld(v, crow.stolen);
+            pl.net.toast(v, "까마귀가 사라져 다이아 " + crow.stolen + "개가 돌아왔습니다.", true);
+        } else {
+            Store.PData pd = pl.store.get(crow.victim);
+            pd.held += crow.stolen;
+            pd.dirty = true;
+            pl.store.save(pd);
+        }
+    }
+
     /** 까마귀가 끝난다. caught = 잡혔는지 (잡히면 다이아를 돌려준다) */
     private void finish(Crow crow, UUID mobId, boolean caught) {
         if (crow.done) return;
@@ -205,7 +225,7 @@ final class Pranks implements Listener {
         World w = p.getWorld();
         Location from = p.getLocation();
         int top = w.getHighestBlockYAt(from);
-        if (top > from.getBlockY() + 1) {                       // 하늘이 막혀 있음 → 지표면으로
+        if (top > from.getBlockY() + 1 && !w.hasCeiling()) {    // 하늘이 막혀 있음 → 지표면으로 (네더처럼 천장이 있는 세계에서는 옮기지 않고 그 자리에서 쏜다)
             from = new Location(w, from.getX(), top + 1.0, from.getZ(), from.getYaw(), from.getPitch());
             p.teleport(from);
         }
@@ -250,6 +270,9 @@ final class Pranks implements Listener {
     private void giveElytra(Player p) {
         final UUID id = p.getUniqueId();
         if (!savedChest.containsKey(id)) savedChest.put(id, p.getInventory().getChestplate());
+        // 서버가 갑자기 꺼져도 원래 가슴 칸 아이템을 잃지 않게 플레이어 자료에도 적어 둔다 (접속할 때 onJoin 이 되돌린다)
+        ItemStack keep = savedChest.get(id);
+        p.getPersistentDataContainer().set(chestKey, PersistentDataType.BYTE_ARRAY, keep == null || keep.getType().isAir() ? new byte[0] : keep.serializeAsBytes());
         ItemStack el = new ItemStack(Material.ELYTRA);
         ItemMeta m = el.getItemMeta();
         m.setUnbreakable(true);
@@ -276,6 +299,7 @@ final class Pranks implements Listener {
     private void takeElytra(Player p) {
         if (!savedChest.containsKey(p.getUniqueId())) return;
         ItemStack saved = savedChest.remove(p.getUniqueId());
+        p.getPersistentDataContainer().remove(chestKey);
         ItemStack[] c = p.getInventory().getContents();
         for (int i = 0; i < c.length; i++) if (isRocketElytra(c[i])) p.getInventory().setItem(i, null);
         if (isRocketElytra(p.getInventory().getChestplate())) p.getInventory().setChestplate(null);
@@ -308,6 +332,25 @@ final class Pranks implements Listener {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent e) { takeElytra(e.getPlayer()); }
+
+    /** 서버가 갑자기 꺼져서 남은 로켓 겉날개를 접속할 때 거두고, 적어 둔 원래 가슴 칸 아이템을 돌려준다 */
+    @EventHandler
+    public void onJoin(org.bukkit.event.player.PlayerJoinEvent e) {
+        Player p = e.getPlayer();
+        ItemStack[] c = p.getInventory().getContents();
+        for (int i = 0; i < c.length; i++) if (isRocketElytra(c[i])) p.getInventory().setItem(i, null);
+        byte[] raw = p.getPersistentDataContainer().get(chestKey, PersistentDataType.BYTE_ARRAY);
+        if (raw == null) return;
+        p.getPersistentDataContainer().remove(chestKey);
+        if (raw.length == 0) return;
+        try {
+            ItemStack saved = ItemStack.deserializeBytes(raw);
+            if (p.getInventory().getChestplate() == null) p.getInventory().setChestplate(saved);
+            else Items.give(p, saved);
+        } catch (RuntimeException ex) {
+            pl.getLogger().warning("로켓 전 가슴 칸 아이템을 되돌리지 못함 (" + p.getName() + "): " + ex);
+        }
+    }
 
     // ── 모루 낙하 ────────────────────────────────────────────
     // 3초 뒤 지금 서 있는 자리에 큰 모루가 떨어진다. 그때 그 자리에 있으면 5초 기절.
@@ -355,7 +398,10 @@ final class Pranks implements Listener {
 
     // ── 사신 (4444 즉사) ──────────────────────────────────────
     /** 사신이 앞에 나타나 낫을 휘두르고, 그 순간 즉사한다. 끝날 때까지 걸리는 시간(틱)을 돌려준다 */
-    long reaper(Player p) {
+    long reaper(Player p) { return reaper(p, null); }
+
+    /** onGone = 낫이 닿기 전에 대상이 나갔을 때 할 일 (후원을 다시 미뤄 두기) */
+    long reaper(Player p, Runnable onGone) {
         final UUID id = p.getUniqueId();
         Vector dir = p.getLocation().getDirection().setY(0);
         if (dir.lengthSquared() < 1e-4) dir = new Vector(0, 0, 1);
@@ -368,7 +414,8 @@ final class Pranks implements Listener {
         Bukkit.getScheduler().runTaskLater(pl, () -> prop.play("attack"), 30L);
         Bukkit.getScheduler().runTaskLater(pl, () -> {
             Player q = Bukkit.getPlayer(id);
-            if (q != null && !q.isDead()) {
+            if (q == null) { if (onGone != null) onGone.run(); return; }
+            if (!q.isDead()) {
                 q.getWorld().strikeLightningEffect(q.getLocation());
                 q.setHealth(0);
                 for (Player o : Bukkit.getOnlinePlayers()) pl.net.death(o, pl.nick(q));   // 화면 연출 (모드가 없는 사람은 아래 알림 글)

@@ -2,7 +2,7 @@ plugins {
     id 'fabric-loom' version '1.10.5'
 }
 
-version = '0.8.1+mc1.21.4'
+version = '0.8.2+mc1.21.4'
 group = 'com.diamondserver'
 
 base { archivesName = 'diamond-ui' }

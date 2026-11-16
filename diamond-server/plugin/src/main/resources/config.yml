@@ -24,7 +24,6 @@ nickname:
 donation:
   enabled: true
   allow-test: true            # 후원 플러그인의 시험 후원도 받을지
-  chzzk-won-per-unit: 100     # 치지직 치즈는 이 금액(원)을 1개로 셈
   announce-ticks: 40          # 알림이 뜨고 나서 이벤트가 실행되기까지 (20 = 1초)
   queue-gap-ticks: 20         # 이벤트 하나가 끝나고 다음 것까지 쉬는 시간
 
