@@ -249,11 +249,11 @@
             },
             {
                "artifact" : {
-                  "MD5" : "f8a3d1a6f12ea2358bd2b488c0e917a5",
-                  "size" : 42406,
-                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/diamond-launcher-distro/mods/diamond-ui-0.5.0+mc1.21.4.jar"
+                  "MD5" : "1eaf6feba9ec4e2da7d668d58ced07c1",
+                  "size" : 750855,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/diamond-launcher-distro/mods/diamond-ui-0.6.0+mc1.21.4.jar"
                },
-               "id" : "com.diamondserver:diamond-ui:0.5.0+mc1.21.4@jar",
+               "id" : "com.diamondserver:diamond-ui:0.6.0+mc1.21.4@jar",
                "name" : "나니 다이아서버 UI",
                "required" : {
                   "value" : true
