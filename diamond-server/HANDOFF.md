@@ -130,4 +130,4 @@ python3 build_spec.py && python3 motion_gen.py forced_dance_spec.json <출력폴
 - 배포 목록: `claude/diamond-launcher-distro` 브랜치 (저쪽 `C:\ddd`). 서버 주소(211.53.196.231:25800)는 `tools/diamond.json`, 모드는 `mods/` 에 jar 를 넣고 `perl tools/build_distro.pl` → 커밋·푸시. 런처를 다시 빌드할 필요 없이 유저가 켤 때 새로 받는다.
 - 들어 있는 모드: 원래 통합런처 기본 모드(Fabric API, 후원 Donation, Plasmo Voice, 한글패치 등) + Player Animator(강제 댄스용) + `diamond-ui`(지금은 빈 뼈대 0.0.1).
 - 아이콘·배경은 임시 그림(보석)이다. 정식 그림이 오면 `app/assets/images/icon.png`·`icon.ico`·`backgrounds/0.jpg`, `build/icon.png` 를 바꾼다.
-- 첫 빌드(b067419) 성공: 설치 파일 98.5MB, 저쪽 `클로드\다이아서버\런처\NaniDiamond-setup-1.0.0.exe` (조각 2개를 이어 붙이고 SHA256 일치 확인). 설치·실행 시험은 안 함. 내려받기 주소(깃허브 릴리스)는 아직 안 만듦.
+- 첫 빌드(b067419) 성공: 설치 파일 98.5MB, 저쪽 `클로드\다이아서버\런처\NaniDiamond-setup-1.0.0.exe` (조각 2개를 이어 붙이고 SHA256 일치 확인). 설치·실행 시험은 안 함. 내려받기 주소: https://github.com/zzunwoooo/chacademi_Result/releases/download/diamond-launcher-1.0.0/NaniDiamond-setup-1.0.0.exe (런처를 다시 빌드하면 gh release upload --clobber 로 교체).
