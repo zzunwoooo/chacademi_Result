@@ -122,3 +122,12 @@ python3 build_spec.py && python3 motion_gen.py forced_dance_spec.json <출력폴
 - `tools/` 스크립트는 저쪽에 Python·Node 가 없어 실행할 수 없다. 참고용. 모델 수정은 bbmodel 을 직접 고친다.
 - 모델 13종은 Modded Entity 형식 + `animation.<id>.<name>` 이름이라 ModelEngine 에 넣으려면 변환이 필요하다 (차카데미 때와 같은 작업).
 - 서버 폴더 (호스팅): `C:\Chacademi\diamond` — 2026-11-16 생성. 쌍룡 서버(Purpur 1.21.4)에서 서버 파일·기본 플러그인 25개·설정을 복사하고 월드·기록·쌍룡 전용 파일은 뺌. 포트 **25800**, 생존·보통 난이도, `Start.cmd`(4GB)로 실행. `plugins/donation/config.yml` 에 가격표 11개를 적어 둠. **아직 한 번도 켜 보지 않았고**, 방화벽 25800 은 오너가 열어야 한다. DiamondCore.jar 는 아직 안 넣음(빈 뼈대라서).
+
+## 런처 (2026-11-16, 쌍룡상사 런처와 같은 방식)
+
+- 이름 "나니 다이아서버", 설치 파일 `NaniDiamond-setup-1.0.0.exe`, 유저 PC 저장 폴더 `.nanidiamond`.
+- 런처 소스: `claude/diamond-launcher` 브랜치 (저쪽 `C:\ddl`). 푸시하면 깃허브가 자동으로 빌드해서 `claude/diamond-launcher-build` 브랜치에 설치 파일을 90MB 조각으로 올린다.
+- 배포 목록: `claude/diamond-launcher-distro` 브랜치 (저쪽 `C:\ddd`). 서버 주소(211.53.196.231:25800)는 `tools/diamond.json`, 모드는 `mods/` 에 jar 를 넣고 `perl tools/build_distro.pl` → 커밋·푸시. 런처를 다시 빌드할 필요 없이 유저가 켤 때 새로 받는다.
+- 들어 있는 모드: 원래 통합런처 기본 모드(Fabric API, 후원 Donation, Plasmo Voice, 한글패치 등) + Player Animator(강제 댄스용) + `diamond-ui`(지금은 빈 뼈대 0.0.1).
+- 아이콘·배경은 임시 그림(보석)이다. 정식 그림이 오면 `app/assets/images/icon.png`·`icon.ico`·`backgrounds/0.jpg`, `build/icon.png` 를 바꾼다.
+- 첫 빌드(b067419) 성공: 설치 파일 98.5MB, 저쪽 `클로드\다이아서버\런처\NaniDiamond-setup-1.0.0.exe` (조각 2개를 이어 붙이고 SHA256 일치 확인). 설치·실행 시험은 안 함. 내려받기 주소(깃허브 릴리스)는 아직 안 만듦.
