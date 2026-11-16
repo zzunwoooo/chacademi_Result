@@ -13,9 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 명령어.
- * 플레이어: /상점 · /제출 [개수|전부] · /인출 [개수] · /입금 · /목표
- * 관리자: /다이아 리로드 | 지급 <닉> <보유|목표> <±개수> | 설정 <닉> <보유|목표> <개수> | 아이템 <닉> <id> [개수] | 위치 | 정보 <닉>
+ * 명령어 (전부 한글. 사용법은 게임 안에서 /명령어 · /다이아 도움말).
+ * 플레이어: /명령어 · /상점 · /우편함 [받기] · /제출 [개수|전부] · /인출 [개수] · /입금 · /목표 · /닉네임 [새 닉네임]
+ * 관리자: /다이아 도움말|정보|지급|설정|아이템|우편|닉|연출|위치|리로드|연동시험 · /후원테스트 <개수> [후원자] [닉]
+ * 아이템 이름은 한글(밥·인벤세이브권·귀환권·텔레포트권)로 적는다. 자동완성은 맨 아래 onTabComplete.
  */
 final class Cmd implements CommandExecutor, TabCompleter {
     private final DiamondPlugin pl;
@@ -43,6 +44,7 @@ final class Cmd implements CommandExecutor, TabCompleter {
         String name = c.getName();
         if (name.equals("다이아")) return admin(s, a);
         if (name.equals("후원테스트")) return donateTest(s, a);
+        if (name.equals("명령어")) { playerHelp(s); return true; }
         if (!(s instanceof Player p)) { say(s, "게임 안에서만 쓸 수 있는 명령입니다."); return true; }
         switch (name) {
             case "상점" -> {
@@ -99,12 +101,18 @@ final class Cmd implements CommandExecutor, TabCompleter {
     }
 
     private boolean admin(CommandSender s, String[] a) {
-        if (a.length == 0) {
-            say(s, "/다이아 리로드 | 지급 <닉> <보유|목표> <±개수> | 설정 <닉> <보유|목표> <개수> | 아이템 <닉> <id> [개수] | 닉 <닉> <새 닉|해제> | 우편 <닉|전체> 다이아 <개수> [제목] | 우편 <닉|전체> 아이템 <아이템> <개수> [제목] | 위치 | 정보 <닉> | 연동시험");
-            return true;
-        }
+        if (a.length == 0) { adminHelp(s); return true; }
         switch (a[0]) {
+            case "도움말" -> adminHelp(s);
             case "리로드" -> { pl.reload(); say(s, "설정을 다시 읽었습니다."); }
+            case "연출" -> {
+                // /다이아 연출 <이름> [닉] — 장난·다이아 연출 하나를 바로 실행 (시험용). 이름의 빈칸은 _ 로 적는다
+                if (a.length < 2) { say(s, "/다이아 연출 <이름> [닉]   이름: " + String.join(", ", pl.events.testNames())); return true; }
+                Player t = a.length > 2 ? pl.nicks.find(a[2]) : (s instanceof Player p ? p : null);
+                if (t == null) { say(s, a.length > 2 ? a[2] + "님은 접속해 있지 않습니다." : "콘솔에서는 대상 닉을 적어 주세요. 예: /다이아 연출 UFO_납치 닉네임"); return true; }
+                String key = a[1].replace('_', ' ');
+                say(s, pl.events.test(key, t) ? key + " → " + pl.nick(t) : "그런 연출이 없습니다: " + key + "  (있는 것: " + String.join(", ", pl.events.testNames()) + ")");
+            }
             case "닉" -> {
                 if (a.length < 3) { say(s, "/다이아 닉 <닉 또는 계정> <새 닉네임|해제>"); return true; }
                 Player t = pl.nicks.find(a[1]);
@@ -128,7 +136,8 @@ final class Cmd implements CommandExecutor, TabCompleter {
                 String title = a.length > at + 1 ? String.join(" ", java.util.Arrays.copyOfRange(a, at + 1, a.length)) : "선물";
                 String kind = "diamonds", key = "";
                 if (!dia) {
-                    if (Items.IDS.contains(a[3])) { kind = "item"; key = a[3]; }
+                    String custom = itemId(a[3]);
+                    if (custom != null) { kind = "item"; key = custom; }
                     else {
                         org.bukkit.Material m = org.bukkit.Material.matchMaterial(a[3]);
                         if (m == null || !m.isItem()) { say(s, "그런 아이템이 없습니다: " + a[3]); return true; }
@@ -144,7 +153,7 @@ final class Cmd implements CommandExecutor, TabCompleter {
                 at.getChunk().load();
                 StringBuilder okList = new StringBuilder(), bad = new StringBuilder();
                 for (String id : new String[]{"target_marker", "diamond_crow", "ride_rocket", "giant_anvil", "stun_stars", "curse_mark", "disco_ball",
-                        "diamond_pinata", "diamond_cloud", "diamond_meteor", "golden_crown", "diamond_fountain", "grim_reaper"}) {
+                        "diamond_pinata", "diamond_cloud", "diamond_meteor", "golden_crown", "diamond_fountain", "grim_reaper", "farm_ufo_beam"}) {
                     Models.Prop p = pl.models.spawn(at, id, "idle");
                     (p.hasModel() ? okList : bad).append(' ').append(id);
                     p.play("spawn");
@@ -169,12 +178,13 @@ final class Cmd implements CommandExecutor, TabCompleter {
                 say(s, pl.nick(t) + ": 남은 목표 " + d.goal + " · 보유 " + d.held);
             }
             case "아이템" -> {
-                if (a.length < 3 || !Items.IDS.contains(a[2])) { say(s, "/다이아 아이템 <닉> <" + String.join("|", Items.IDS) + "> [개수]"); return true; }
+                String item = a.length < 3 ? null : itemId(a[2]);
+                if (item == null) { say(s, "/다이아 아이템 <닉> <" + String.join("|", itemNames()) + "> [개수]"); return true; }
                 Player t = pl.nicks.find(a[1]);
                 if (t == null) { say(s, a[1] + "님은 접속해 있지 않습니다."); return true; }
                 int n = (int) Math.max(1, Math.min(64, a.length > 3 ? num(a[3], 1) : 1));
-                Items.give(t, pl.items.make(a[2], n));
-                say(s, pl.nick(t) + "님에게 " + pl.items.nameOf(a[2]) + " " + n + "개 지급");
+                Items.give(t, pl.items.make(item, n));
+                say(s, pl.nick(t) + "님에게 " + pl.items.nameOf(item) + " " + n + "개 지급");
             }
             case "위치" -> {
                 if (!(s instanceof Player p)) { say(s, "게임 안에서만 쓸 수 있는 명령입니다."); return true; }
@@ -187,24 +197,124 @@ final class Cmd implements CommandExecutor, TabCompleter {
                 Store.PData d = pl.store.get(t);
                 say(s, pl.nick(t) + ": 남은 목표 " + d.goal + " · 보유 " + d.held + " · 달성 " + (d.done ? "예" : "아니오") + " · 모드 " + (pl.net.hasMod(t) ? "있음" : "없음"));
             }
-            default -> say(s, "모르는 명령입니다. /다이아 만 입력하면 사용법이 나옵니다.");
+            default -> say(s, "모르는 명령입니다. /다이아 도움말 을 입력하면 사용법이 나옵니다.");
         }
         return true;
     }
 
+    // ── 도움말 ────────────────────────────────────────────────
+    private static void line(CommandSender s, String cmd, String desc) {
+        s.sendMessage(Component.text(cmd, NamedTextColor.AQUA).append(Component.text("  " + desc, NamedTextColor.GRAY)));
+    }
+
+    private static void head(CommandSender s, String title) {
+        s.sendMessage(Component.text("── " + title + " ──", NamedTextColor.YELLOW));
+    }
+
+    /** 플레이어용: /명령어 */
+    private void playerHelp(CommandSender s) {
+        head(s, "나니 다이아서버 명령어");
+        line(s, "/상점", "상점 열기 (G 키)");
+        line(s, "/우편함", "우편함 열기 (H 키)");
+        line(s, "/우편함 받기", "우편 모두 받기");
+        line(s, "/제출 [개수|전부]", "보유 다이아를 내서 남은 목표 줄이기");
+        line(s, "/인출 [개수]", "보유 다이아를 아이템으로 꺼내기 (안 적으면 64개)");
+        line(s, "/입금", "인벤토리의 다이아를 보유 다이아로 넣기");
+        line(s, "/목표", "남은 목표와 보유 다이아 보기");
+        line(s, "/닉네임 [새 닉네임]", "한글 닉네임 정하기");
+        if (s.hasPermission("diamondserver.admin")) line(s, "/다이아 도움말", "관리 명령 보기");
+    }
+
+    /** 관리자용: /다이아 도움말 */
+    private void adminHelp(CommandSender s) {
+        head(s, "나니 다이아서버 관리 명령");
+        line(s, "/다이아 정보 <닉>", "남은 목표·보유 다이아 보기");
+        line(s, "/다이아 지급 <닉> <보유|목표> <±개수>", "더하거나 빼기");
+        line(s, "/다이아 설정 <닉> <보유|목표> <개수>", "값을 그대로 정하기");
+        line(s, "/다이아 아이템 <닉> <아이템> [개수]", "전용 아이템 주기 (" + String.join("·", itemNames()) + ")");
+        line(s, "/다이아 우편 <닉|전체> 다이아 <개수> [제목]", "다이아를 우편으로");
+        line(s, "/다이아 우편 <닉|전체> 아이템 <아이템> <개수> [제목]", "아이템을 우편으로");
+        line(s, "/다이아 닉 <닉> <새 닉네임|해제>", "닉네임 정해 주기·지우기");
+        line(s, "/다이아 연출 <이름> [닉]", "장난·다이아 연출 하나를 바로 실행 (시험용)");
+        line(s, "/후원테스트 <개수> [후원자] [닉]", "후원이 온 것처럼 이벤트 실행");
+        line(s, "/다이아 위치", "귀환권이 돌아올 시작 지점을 지금 자리로");
+        line(s, "/다이아 리로드", "설정 다시 읽기");
+        line(s, "/다이아 연동시험", "모델·AI 플레이어 연동 확인");
+    }
+
+    // ── 아이템 이름: 한글 이름으로 적어도 되고 내부 이름으로 적어도 된다 ────────
+    private List<String> itemNames() {
+        List<String> out = new ArrayList<>();
+        for (String id : List.of(Items.FOOD, Items.INVEN_SAVE, Items.RETURN, Items.TELEPORT)) out.add(pl.items.nameOf(id).replace(' ', '_'));
+        return out;
+    }
+
+    private String itemId(String arg) {
+        if (Items.IDS.contains(arg)) return arg;
+        String want = arg.replace('_', ' ');
+        for (String id : Items.IDS) if (pl.items.nameOf(id).equals(want)) return id;
+        return null;
+    }
+
+    private List<String> nicks() {
+        List<String> out = new ArrayList<>();
+        for (Player p : Bukkit.getOnlinePlayers()) out.add(pl.nick(p));
+        return out;
+    }
+
+    // ── 자동완성 ──────────────────────────────────────────────
     @Override
     public List<String> onTabComplete(CommandSender s, Command c, String label, String[] a) {
         List<String> out = new ArrayList<>();
-        if (c.getName().equals("제출") && a.length == 1) out.add("전부");
-        if (c.getName().equals("후원테스트")) {
-            if (a.length == 1) out.addAll(List.of("10", "50", "51", "100", "300", "500", "510", "1000", "2000", "3000", "4444"));
-            else if (a.length == 3) for (Player p : Bukkit.getOnlinePlayers()) out.add(pl.nick(p));
+        int n = a.length;
+        switch (c.getName()) {
+            case "제출" -> { if (n == 1) out.addAll(List.of("전부", "10", "50", "100")); }
+            case "인출" -> { if (n == 1) out.addAll(List.of("1", "16", "32", "64")); }
+            case "우편함" -> { if (n == 1) out.add("받기"); }
+            case "닉네임" -> { if (n == 1) out.add("<새_닉네임>"); }
+            case "후원테스트" -> {
+                if (n == 1) out.addAll(pl.events.counts());
+                else if (n == 2) out.add("시험후원");
+                else if (n == 3) out.addAll(nicks());
+            }
+            case "다이아" -> {
+                if (n == 1) out.addAll(List.of("도움말", "정보", "지급", "설정", "아이템", "우편", "닉", "연출", "위치", "리로드", "연동시험"));
+                else switch (a[0]) {
+                    case "정보" -> { if (n == 2) out.addAll(nicks()); }
+                    case "지급", "설정" -> {
+                        if (n == 2) out.addAll(nicks());
+                        else if (n == 3) out.addAll(List.of("보유", "목표"));
+                        else if (n == 4) out.addAll(a[0].equals("지급") ? List.of("10", "100", "-10", "-100") : List.of("0", "100", "1000"));
+                    }
+                    case "아이템" -> {
+                        if (n == 2) out.addAll(nicks());
+                        else if (n == 3) out.addAll(itemNames());
+                        else if (n == 4) out.addAll(List.of("1", "8", "64"));
+                    }
+                    case "우편" -> {
+                        if (n == 2) { out.add("전체"); out.addAll(nicks()); }
+                        else if (n == 3) out.addAll(List.of("다이아", "아이템"));
+                        else if (n == 4 && a[2].equals("아이템")) {
+                            out.addAll(itemNames());
+                            if (a[3].length() >= 2) for (org.bukkit.Material m : org.bukkit.Material.values()) if (m.isItem() && !m.isLegacy()) out.add(m.getKey().getKey());
+                        }
+                        else if (n == 4) out.addAll(List.of("10", "50", "100"));
+                        else if (n == 5 && a[2].equals("아이템")) out.addAll(List.of("1", "8", "64"));
+                        else if ((n == 5 && a[2].equals("다이아")) || (n == 6 && a[2].equals("아이템"))) out.add("선물");
+                    }
+                    case "닉" -> {
+                        if (n == 2) out.addAll(nicks());
+                        else if (n == 3) out.addAll(List.of("해제", "<새_닉네임>"));
+                    }
+                    case "연출" -> {
+                        if (n == 2) out.addAll(pl.events.testNames());
+                        else if (n == 3) out.addAll(nicks());
+                    }
+                    default -> { }
+                }
+            }
+            default -> { }
         }
-        if (!c.getName().equals("다이아")) return filter(out, a);
-        if (a.length == 1) out.addAll(List.of("리로드", "지급", "설정", "아이템", "위치", "정보", "닉", "우편", "연동시험"));
-        else if (a.length == 2 && List.of("지급", "설정", "아이템", "정보", "닉").contains(a[0])) for (Player p : Bukkit.getOnlinePlayers()) out.add(pl.nick(p));
-        else if (a.length == 3 && (a[0].equals("지급") || a[0].equals("설정"))) out.addAll(List.of("보유", "목표"));
-        else if (a.length == 3 && a[0].equals("아이템")) out.addAll(Items.IDS);
         return filter(out, a);
     }
 

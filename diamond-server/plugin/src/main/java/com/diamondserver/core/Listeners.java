@@ -63,6 +63,19 @@ final class Listeners implements Listener {
         pl.store.unload(id);
     }
 
+    /**
+     * 일반 플레이어가 / 를 쳤을 때 뜨는 명령어 목록에는 이 서버의 한글 명령만 보이게 한다.
+     * (다른 플러그인의 영어 명령은 목록에서만 숨긴다. 쓰는 것을 막지는 않는다. 관리자에게는 전부 보인다.)
+     */
+    @EventHandler
+    public void onCommandList(org.bukkit.event.player.PlayerCommandSendEvent e) {
+        if (!pl.getConfig().getBoolean("commands.hide-others", true)) return;
+        if (e.getPlayer().hasPermission("diamondserver.admin")) return;
+        java.util.Set<String> keep = new java.util.HashSet<>(pl.getConfig().getStringList("commands.visible"));
+        if (keep.isEmpty()) keep.addAll(List.of("명령어", "도움말", "상점", "우편함", "제출", "인출", "입금", "목표", "닉네임"));
+        e.getCommands().removeIf(c -> !keep.contains(c));
+    }
+
     /** 모드가 채널을 등록하면 바로 상태를 보낸다 (모드의 hello 가 늦거나 빠져도 화면이 채워지게) */
     @EventHandler
     public void onRegister(PlayerRegisterChannelEvent e) {

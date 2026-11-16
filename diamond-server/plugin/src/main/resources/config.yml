@@ -1,16 +1,16 @@
 # 나니 다이아서버 설정. 고친 뒤 /다이아 리로드
-# ★ 표시는 값을 임시로 정해 둔 곳 (오너 확인 필요)
+# 기준: 처음 목표 1000개 (11/16 오너). 아래 수치는 전부 이 기준에 맞춘 값이다.
 
 # ── 목표 다이아 ───────────────────────────────────────────
 goal:
-  start-min: 500          # ★ 처음 들어올 때 "남은 목표" = min~max 사이 랜덤 (깨굴과 같은 값)
-  start-max: 1500
+  start-min: 1000         # 처음 들어올 때 "남은 목표". min 과 max 가 같으면 모두 같은 값 (다르면 그 사이 랜덤)
+  start-max: 1000
 
 # ── 보유 다이아: 주운 다이아는 인벤토리 대신 화면 숫자로 ───────────
 wallet:
   absorb-blocks: true     # 다이아 블록도 흡수 (블록 1개 = 다이아 9개)
 
-# ── 한글 닉네임 (깨굴과 같은 규칙) ────────────────────────────────
+# ── 한글 닉네임 ────────────────────────────────
 nickname:
   min: 2
   max: 8
@@ -32,7 +32,8 @@ donation:
 # icon: 화면에 띄울 그림 (모드 안 textures/ui/ 아래 이름, 확장자 없이)
 # actions: food <개수> | goal <최소> <최대> (음수 = 감소) | goalpm <개수> | repeat <횟수> goal <최소> <최대>
 #          diamonds <개수> | half | death | pool <풀 이름> | poolx <풀 이름> <횟수> | wheel | miner | pending(아직 안 만든 것)
-# 3000 채팅 투표는 방송 채팅을 받는 방법과 "다이아 폭탄" 내용이 정해지지 않아 아직 pending
+#          bomb <개수> (다이아 폭탄: 펑 터지며 다이아가 사방으로)
+# 3000 채팅 투표는 방송 채팅을 받는 방법이 정해지지 않아 아직 pending (투표 결과 중 "다이아 폭탄"은 effects.bomb-diamonds 개)
 events:
   "10":   { name: "밥 3개",           icon: "icons/meal", kind: good,    actions: ["food 3"] }
   "50":   { name: "목표 증가",        icon: "icons/goal_up", kind: bad,     actions: ["goal 10 50"] }
@@ -49,8 +50,8 @@ events:
 # ── 랜덤 풀: "pool <이름>" 이벤트가 여기서 하나를 뽑는다 (직전에 나온 것은 다음 한 번 제외) ──
 # scope: one = 접속한 사람 중 룰렛으로 1명 / all = 전원 / self = 후원 받은 사람
 # action: ant·curse·creeper·reverse·blackout·lava·bunny·dance·midas·giant <초>
-#         hotbar | swap | crow | rocket | anvil | rain <개수> | fountain <개수> | pinata <개수> | meteor <운석 수>
-# ★ 시간·개수는 기획서 값. 기획서에 없던 개미화·바닥은 용암은 30초로 임시
+#         hotbar | swap | crow | rocket | anvil | ufo | rain <개수> | fountain <개수> | pinata <개수> | meteor <운석 수>
+# 시간·개수는 기획서 값. 기획서에 시간이 없던 개미화·바닥은 용암은 30초
 pools:
   prank:
     - { id: ant,      name: "개미화",          icon: "icons/ant_size", scope: one, action: "ant 30" }
@@ -66,7 +67,8 @@ pools:
     - { id: rocket,   name: "로켓 발사",       icon: "icons/rocket", scope: one, action: "rocket" }
     - { id: anvil,    name: "모루 낙하",       icon: "icons/anvil", scope: one, action: "anvil" }
     - { id: dance,    name: "강제 댄스",       icon: "icons/dance", scope: one, action: "dance 10" }
-    # UFO 모델 파일이 없어서 아직 안 넣은 것: UFO 납치 · 단체 UFO 납치
+    - { id: ufo,      name: "UFO 납치",        icon: "icons/ufo", scope: one, action: "ufo" }
+    - { id: ufo_all,  name: "단체 UFO 납치",   icon: "icons/group_ufo", scope: all, action: "ufo" }
   # 300개 다이아 연출 (후원 받은 사람에게). 기획: 어떤 게 걸려도 다이아 80~120개 근처
   reward:
     - { id: rain,     name: "다이아 소나기",   icon: "icons/diamond_rain", scope: self, action: "rain 100" }
@@ -97,13 +99,16 @@ effects:
   ant-scale: 0.2              # 개미화 때 몸 크기
   giant-scale: 2.0            # 거인화 때 몸 크기
   crow-steal: 64              # 까마귀가 훔치는 보유 다이아 (모자라면 전부)
-  crow-flee-seconds: 20       # ★ 까마귀가 도망 다니는 시간 (그 안에 때리면 되찾음)
+  crow-flee-seconds: 20       # 까마귀가 도망 다니는 시간 (그 안에 때리면 되찾음)
   rocket-height: 100          # 로켓이 올라가는 높이
   anvil-stun-seconds: 5       # 모루에 맞았을 때 기절 시간
   pinata-hits: 50             # 피냐타를 터뜨리려면 때려야 하는 횟수
   pinata-seconds: 30
-  midas-keep-ratio: 0.15      # ★ 미다스가 끝났을 때 안 캔 광석 중 남겨 두는 비율 (나머지는 원래 블럭으로)
-  meteor-ore-blocks: 33       # ★ 운석 하나가 다이아 광석으로 바꾸는 블럭 수 (3개 × 33 ≈ 100)
+  midas-keep-ratio: 0.15      # 미다스가 끝났을 때 안 캔 광석 중 남겨 두는 비율 (나머지는 원래 블럭으로)
+  meteor-ore-blocks: 33       # 운석 하나가 다이아 광석으로 바꾸는 블럭 수 (3개 × 33 ≈ 100)
+  ufo-hold-seconds: 10        # UFO 에 갇혀 있는 시간
+  ufo-radius: 300             # UFO 가 내려놓는 곳: 원래 자리에서 이 칸 수 안의 아무 곳
+  bomb-diamonds: 500          # 다이아 폭탄 1개에서 나오는 다이아 (목표의 절반)
 
 # ── 전용 아이템 ────────────────────────────────────────────
 # material = 바탕이 되는 게임 아이템. art = 상점 화면에 쓰는 그림, model = 인벤토리에서 보이는 그림(ItemsAdder 리소스팩)
@@ -135,7 +140,13 @@ items:
     model: "diamondserver:teleport_ticket"
     lore: ["손에 들고 우클릭하면 고른 사람에게 이동합니다"]
 
-# ── 상점: 구매 (가격 = 보유 다이아) ★ 가격 전부 임시 ─────────────
+# ── 상점: 구매 (가격 = 보유 다이아) ─────────────────────────────
+# 가격 기준 (목표 1000개, 행운 없이 캐면 1시간에 다이아 30~50개쯤으로 잡음):
+#  - 곡괭이: 싸게. 캔 다이아는 화면 숫자로 들어가 제작에 못 쓰므로 상점이 기본 공급처다 (다이아 곡괭이 = 재료값 3개 + 조금)
+#  - 행운: 가장 큰 투자. 광석 1개당 다이아가 I 약 1.3배 · II 약 1.75배 · III 약 2.2배 → 광석 60~90개쯤 캐면 본전
+#          행운 III = 100 (목표의 10%). 1시간 반~2시간쯤 캐면 살 수 있고, 그 뒤 속도가 두 배가 된다
+#  - 효율·내구성·수선: 편의. 10~50
+#  - 인벤세이브권 10 (죽어도 보유 다이아는 안 잃으므로 비싸지 않게) · 귀환권/텔레포트권 3 · 밥 8개에 1
 shop:
   categories:             # 왼쪽 분류 (위에서부터 순서대로)
     pickaxe: "곡괭이"
@@ -143,24 +154,25 @@ shop:
     item: "아이템"
   items:
     - { id: wooden_pickaxe,    cat: pickaxe, name: "나무 곡괭이",     material: WOODEN_PICKAXE,    price: 1 }
-    - { id: stone_pickaxe,     cat: pickaxe, name: "돌 곡괭이",       material: STONE_PICKAXE,     price: 3 }
-    - { id: iron_pickaxe,      cat: pickaxe, name: "철 곡괭이",       material: IRON_PICKAXE,      price: 10 }
-    - { id: golden_pickaxe,    cat: pickaxe, name: "금 곡괭이",       material: GOLDEN_PICKAXE,    price: 8 }
-    - { id: diamond_pickaxe,   cat: pickaxe, name: "다이아 곡괭이",   material: DIAMOND_PICKAXE,   price: 40 }
-    - { id: netherite_pickaxe, cat: pickaxe, name: "네더라이트 곡괭이", material: NETHERITE_PICKAXE, price: 150 }
-    - { id: efficiency_3, cat: enchant, name: "효율 III",   enchant: efficiency, level: 3, price: 20 }
-    - { id: efficiency_5, cat: enchant, name: "효율 V",     enchant: efficiency, level: 5, price: 60 }
-    - { id: fortune_1,    cat: enchant, name: "행운 I",     enchant: fortune,    level: 1, price: 30 }
-    - { id: fortune_2,    cat: enchant, name: "행운 II",    enchant: fortune,    level: 2, price: 80 }
-    - { id: fortune_3,    cat: enchant, name: "행운 III",   enchant: fortune,    level: 3, price: 200 }
-    - { id: unbreaking_3, cat: enchant, name: "내구성 III", enchant: unbreaking, level: 3, price: 30 }
-    - { id: mending,      cat: enchant, name: "수선",       enchant: mending,    level: 1, price: 150 }
+    - { id: stone_pickaxe,     cat: pickaxe, name: "돌 곡괭이",       material: STONE_PICKAXE,     price: 2 }
+    - { id: iron_pickaxe,      cat: pickaxe, name: "철 곡괭이",       material: IRON_PICKAXE,      price: 5 }
+    - { id: golden_pickaxe,    cat: pickaxe, name: "금 곡괭이",       material: GOLDEN_PICKAXE,    price: 3 }
+    - { id: diamond_pickaxe,   cat: pickaxe, name: "다이아 곡괭이",   material: DIAMOND_PICKAXE,   price: 5 }
+    - { id: netherite_pickaxe, cat: pickaxe, name: "네더라이트 곡괭이", material: NETHERITE_PICKAXE, price: 30 }
+    - { id: efficiency_3, cat: enchant, name: "효율 III",   enchant: efficiency, level: 3, price: 10 }
+    - { id: efficiency_5, cat: enchant, name: "효율 V",     enchant: efficiency, level: 5, price: 30 }
+    - { id: fortune_1,    cat: enchant, name: "행운 I",     enchant: fortune,    level: 1, price: 20 }
+    - { id: fortune_2,    cat: enchant, name: "행운 II",    enchant: fortune,    level: 2, price: 50 }
+    - { id: fortune_3,    cat: enchant, name: "행운 III",   enchant: fortune,    level: 3, price: 100 }
+    - { id: unbreaking_3, cat: enchant, name: "내구성 III", enchant: unbreaking, level: 3, price: 15 }
+    - { id: mending,      cat: enchant, name: "수선",       enchant: mending,    level: 1, price: 50 }
     - { id: food,              cat: item, name: "밥",           item: food,              amount: 8, price: 1 }
-    - { id: inven_save_ticket, cat: item, name: "인벤세이브권", item: inven_save_ticket, price: 15 }
-    - { id: return_ticket,     cat: item, name: "귀환권",       item: return_ticket,     price: 5 }
-    - { id: teleport_ticket,   cat: item, name: "텔레포트권",   item: teleport_ticket,   price: 5 }
+    - { id: inven_save_ticket, cat: item, name: "인벤세이브권", item: inven_save_ticket, price: 10 }
+    - { id: return_ticket,     cat: item, name: "귀환권",       item: return_ticket,     price: 3 }
+    - { id: teleport_ticket,   cat: item, name: "텔레포트권",   item: teleport_ticket,   price: 3 }
 
-# ── 상점: 판매 (숫자 = 1개당 다이아. 소수점은 쌓였다가 1 이 넘으면 다이아 1개) ★ 깨굴과 같은 값 ──
+# ── 상점: 판매 (숫자 = 1개당 다이아. 소수점은 쌓였다가 1 이 넘으면 다이아 1개) ──
+# 기준: 광질하다 나오는 부산물을 다 팔면 1시간에 다이아 8~10개쯤 (캐는 양의 2할 안팎). 주 수입이 되지 않게 낮게 둔다.
 # block = 그 광물 9개로 만든 블록 (블록도 팔리고 값은 9배)
 sell:
   COAL:           { name: "석탄",        price: 0.015, block: COAL_BLOCK }
@@ -175,3 +187,8 @@ sell:
   EMERALD:        { name: "에메랄드",    price: 0.5,   block: EMERALD_BLOCK }
   QUARTZ:         { name: "네더 석영",   price: 0.02 }
   AMETHYST_SHARD: { name: "자수정 조각", price: 0.03 }
+
+# ── 명령어 자동완성 ─────────────────────────────────────────
+commands:
+  hide-others: true       # 일반 플레이어가 / 를 쳤을 때 아래 명령만 보이게 한다 (관리자는 전부 보임). 숨길 뿐, 사용을 막지는 않는다
+  visible: [명령어, 도움말, 상점, 우편함, 제출, 인출, 입금, 목표, 닉네임]

@@ -64,9 +64,14 @@ final class Ledger {
     private void complete(Player p, Store.PData d) {
         d.done = true;
         d.dirty = true;
-        Bukkit.broadcast(Component.text(pl.nick(p) + "님이 목표 다이아를 모두 채웠습니다!", NamedTextColor.AQUA));
-        p.showTitle(Title.title(Component.text("목표 달성", NamedTextColor.AQUA), Component.text("목표 다이아를 모두 채웠습니다", NamedTextColor.WHITE)));
-        p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1f, 1f);
+        // 졸업: 알림만 띄운다 (모두에게 발표 창 + 알림 한 줄 + 소리). 그 뒤로 달라지는 것은 없다.
+        String name = pl.nick(p);
+        for (Player o : Bukkit.getOnlinePlayers()) {
+            pl.net.announce(o, "icons/diamond_pile", "졸업", name + "님");
+            pl.net.toast(o, name + "님이 목표 다이아를 모두 채워 졸업했습니다!", true);
+            o.playSound(o.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1f, 1f);
+        }
+        if (!pl.net.hasMod(p)) p.showTitle(Title.title(Component.text("졸업", NamedTextColor.AQUA), Component.text("목표 다이아를 모두 채웠습니다", NamedTextColor.WHITE)));
     }
 
     /** 인벤토리의 다이아·다이아 블록을 전부 보유 다이아로 넣는다 */

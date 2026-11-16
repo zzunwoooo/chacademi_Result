@@ -21,6 +21,8 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -352,6 +354,146 @@ final class Pranks implements Listener {
         }
     }
 
+    // ── UFO 납치 ─────────────────────────────────────────────
+    // 머리 위에 UFO 가 나타나 빔으로 끌어올리고, 10초 동안 가둔 뒤(화면 암전) 반경 300칸 안의 아무 곳에 내려놓는다.
+    // 단체 납치는 사람마다 이 함수를 한 번씩 부른다 (내려놓는 곳이 각자 다르다).
+    private static final class Ufo { Location origin; boolean held; }
+    private final Map<UUID, Ufo> ufos = new HashMap<>();
+
+    void ufo(Player p) {
+        final UUID id = p.getUniqueId();
+        if (ufos.containsKey(id)) return;                       // 이미 납치 중
+        final int hold = Math.max(3, pl.getConfig().getInt("effects.ufo-hold-seconds", 10));
+        final int radius = Math.max(20, pl.getConfig().getInt("effects.ufo-radius", 300));
+        final Ufo st = new Ufo();
+        st.origin = p.getLocation();
+        ufos.put(id, st);
+        final Location at = st.origin.clone().add(0, hoverHeight(st.origin), 0);
+        at.setPitch(0);
+        final Models.Prop prop = pl.models.spawn(at, "farm_ufo_beam", "spawn");
+        final World w = at.getWorld();
+        w.playSound(at, Sound.BLOCK_BEACON_ACTIVATE, 1.5f, 1.4f);
+        final int liftStart = 20, liftEnd = 70, holdEnd = liftEnd + hold * 20;
+        new BukkitRunnable() {
+            int t = 0;
+            @Override public void run() {
+                Player q = Bukkit.getPlayer(id);
+                if (q == null || q.isDead() || !ufos.containsKey(id)) { prop.remove(); ufos.remove(id); cancel(); return; }
+                if (t == liftStart) {
+                    prop.play("beam");
+                    q.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, liftEnd - liftStart, 2, false, false, false));
+                    w.playSound(at, Sound.BLOCK_BEACON_AMBIENT, 2f, 1.6f);
+                }
+                if (t >= liftStart && t < liftEnd) {
+                    // 빔 가운데로 끌어당기며 올린다
+                    Location l = q.getLocation();
+                    Vector pull = new Vector(at.getX() - l.getX(), 0, at.getZ() - l.getZ());
+                    if (pull.lengthSquared() > 0.04) q.setVelocity(q.getVelocity().setX(pull.getX() * 0.15).setZ(pull.getZ() * 0.15));
+                    q.setFallDistance(0);
+                    w.spawnParticle(Particle.END_ROD, l.clone().add(0, 1, 0), 3, 0.3, 0.5, 0.3, 0.01);
+                    if (t % 10 == 0) w.playSound(l, Sound.BLOCK_AMETHYST_BLOCK_RESONATE, 1f, 1.8f);
+                }
+                if (t == liftEnd) {
+                    // 빨려 들어갔다: 가둔다 (제자리에 뜬 채 화면 암전, 다른 사람 눈에는 안 보임)
+                    st.held = true;
+                    q.removePotionEffect(PotionEffectType.LEVITATION);
+                    q.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, hold * 20 + 40, 255, false, false, false));   // 255 = 오르지도 내리지도 않고 떠 있음
+                    q.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, hold * 20 + 40, 0, false, false, false));
+                    pl.effects.apply(q, Effects.BLACKOUT, "UFO 납치", "icons/ufo", hold);
+                    w.playSound(at, Sound.ENTITY_ENDERMAN_TELEPORT, 1.2f, 0.6f);
+                    prop.play("leave");
+                    prop.removeLater(22);
+                }
+                if (t > liftEnd && t < holdEnd) {
+                    q.setFallDistance(0);
+                    if (t % 2 == 0) q.setVelocity(new Vector(0, 0, 0));          // 갇혀 있는 동안은 제자리
+                    if (t % 40 == 0) q.playSound(q.getLocation(), Sound.BLOCK_BEACON_AMBIENT, 1f, 0.6f);
+                }
+                if (t >= holdEnd) { cancel(); release(q, st, radius, 0); return; }
+                t++;
+            }
+        }.runTaskTimer(pl, 0L, 1L);
+    }
+
+    /** UFO 를 세울 높이: 빔 길이(5칸)에 맞추되, 머리 위가 막혀 있으면 낮춘다 */
+    private static double hoverHeight(Location feet) {
+        int free = 0;
+        for (int i = 1; i <= 6; i++) {
+            if (!feet.clone().add(0, i, 0).getBlock().isPassable()) break;
+            free = i;
+        }
+        return Math.max(2.5, Math.min(5.2, free + 0.2));
+    }
+
+    /** 내려놓을 땅을 찾는다 (발을 디딜 자리). 용암 위거나 찾지 못하면 null */
+    private static Location landing(World w, int x, int z, int nearY) {
+        if (!w.getWorldBorder().isInside(new Location(w, x + 0.5, nearY, z + 0.5))) return null;
+        if (!w.hasCeiling()) {
+            int y = w.getHighestBlockYAt(x, z);
+            if (y <= w.getMinHeight() || w.getBlockAt(x, y, z).getType() == Material.LAVA) return null;
+            return new Location(w, x + 0.5, y + 1, z + 0.5);
+        }
+        // 천장이 있는 세계(네더): 원래 높이 근처에서 서 있을 수 있는 빈 자리를 찾는다
+        for (int y = Math.min(nearY + 30, 120); y > 32; y--) {
+            if (w.getBlockAt(x, y - 1, z).getType().isSolid() && w.getBlockAt(x, y, z).isPassable() && !w.getBlockAt(x, y, z).isLiquid()
+                    && w.getBlockAt(x, y + 1, z).isPassable()) return new Location(w, x + 0.5, y, z + 0.5);
+        }
+        return null;
+    }
+
+    /** 가둬 둔 사람을 반경 안의 아무 곳에 내려놓는다 (그 자리의 지형을 불러온 뒤) */
+    private void release(Player q, Ufo st, int radius, int attempt) {
+        final UUID id = q.getUniqueId();
+        final World w = st.origin.getWorld();
+        double ang = rnd().nextDouble(Math.PI * 2), dist = radius * Math.sqrt(rnd().nextDouble(0.04, 1.0));   // 반경 안에 고르게, 너무 가까운 곳(반경의 20% 안)은 뺀다
+        final int x = (int) Math.floor(st.origin.getX() + Math.cos(ang) * dist), z = (int) Math.floor(st.origin.getZ() + Math.sin(ang) * dist);
+        w.getChunkAtAsync(x >> 4, z >> 4).thenAccept(chunk -> {
+            Player p = Bukkit.getPlayer(id);
+            if (p == null || p.isDead() || !ufos.containsKey(id)) { ufos.remove(id); return; }
+            Location ground = landing(w, x, z, st.origin.getBlockY());
+            if (ground == null && attempt < 8) { release(p, st, radius, attempt + 1); return; }
+            if (ground == null) ground = st.origin.clone();            // 내려놓을 곳을 끝내 못 찾으면 원래 자리
+            double up = hoverHeight(ground);
+            Location drop = ground.clone().add(0, Math.max(0, up - 1.8), 0);
+            drop.setYaw(p.getLocation().getYaw());
+            drop.setPitch(0);
+            p.removePotionEffect(PotionEffectType.LEVITATION);
+            p.removePotionEffect(PotionEffectType.INVISIBILITY);
+            p.teleport(drop);
+            p.setFallDistance(0);
+            p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 100, 0, false, false, false));
+            Location over = ground.clone().add(0, up, 0);
+            over.setPitch(0);
+            final Models.Prop ship = pl.models.spawn(over, "farm_ufo_beam", "beam");
+            w.playSound(over, Sound.BLOCK_BEACON_DEACTIVATE, 1.5f, 1.4f);
+            Bukkit.getScheduler().runTaskLater(pl, () -> { ship.play("leave"); ship.removeLater(22); }, 40L);
+            Bukkit.getScheduler().runTaskLater(pl, () -> ufos.remove(id), 60L);      // 내려오는 동안까지는 피해를 받지 않는다
+            long far = Math.round(Math.hypot(ground.getX() - st.origin.getX(), ground.getZ() - st.origin.getZ()));
+            toastAll(pl.nick(p) + "님이 UFO에 납치되어 " + far + "칸 떨어진 곳에 내려졌습니다.", false);
+        });
+    }
+
+    /** 납치를 그만둔다 (나감·서버 종료): 걸어 둔 것을 풀고, 가둬 둔 상태였으면 원래 자리로 돌려놓는다 */
+    private void cancelUfo(Player p) {
+        Ufo st = ufos.remove(p.getUniqueId());
+        if (st == null) return;
+        p.removePotionEffect(PotionEffectType.LEVITATION);
+        p.removePotionEffect(PotionEffectType.INVISIBILITY);
+        if (st.held) p.teleport(st.origin);
+    }
+
+    @EventHandler
+    public void onUfoQuit(PlayerQuitEvent e) { cancelUfo(e.getPlayer()); }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onUfoDeath(PlayerDeathEvent e) { ufos.remove(e.getEntity().getUniqueId()); }
+
+    /** 납치되는 동안(끌려 올라감 · 갇힘 · 내려옴)에는 피해를 받지 않는다 */
+    @EventHandler(ignoreCancelled = true)
+    public void onUfoDamage(EntityDamageEvent e) {
+        if (e.getEntity() instanceof Player p && ufos.containsKey(p.getUniqueId())) e.setCancelled(true);
+    }
+
     // ── 모루 낙하 ────────────────────────────────────────────
     // 3초 뒤 지금 서 있는 자리에 큰 모루가 떨어진다. 그때 그 자리에 있으면 5초 기절.
     void anvil(Player p) {
@@ -437,6 +579,6 @@ final class Pranks implements Listener {
             c.prop.remove();
         }
         crows.clear();
-        for (Player p : Bukkit.getOnlinePlayers()) takeElytra(p);
+        for (Player p : Bukkit.getOnlinePlayers()) { takeElytra(p); cancelUfo(p); }
     }
 }

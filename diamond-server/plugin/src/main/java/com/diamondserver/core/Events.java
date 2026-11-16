@@ -107,6 +107,38 @@ final class Events {
 
     boolean has(int count) { return defs.containsKey(count); }
 
+    /** 등록된 후원 개수 (자동완성용, 작은 것부터) */
+    List<String> counts() {
+        List<Integer> keys = new ArrayList<>(defs.keySet());
+        java.util.Collections.sort(keys);
+        List<String> out = new ArrayList<>();
+        for (int k : keys) out.add(String.valueOf(k));
+        return out;
+    }
+
+    /** 바로 실행해 볼 수 있는 연출 이름 (빈칸은 _ 로): 랜덤 풀의 모든 칸 + 다이아 폭탄 + 즉사 */
+    List<String> testNames() {
+        List<String> out = new ArrayList<>();
+        for (List<Prank> list : pools.values()) for (Prank pr : list) out.add(pr.name.replace(' ', '_'));
+        out.add("다이아_폭탄");
+        out.add("즉사");
+        return out;
+    }
+
+    /** 시험용: 이름으로 연출 하나를 대상에게 바로 건다 (전원 대상인 것은 전원에게). 그런 이름이 없으면 false */
+    boolean test(String name, Player target) {
+        if (name.equals("다이아 폭탄")) { pl.rewards.bomb(target, Math.max(1, pl.getConfig().getInt("effects.bomb-diamonds", 500))); return true; }
+        if (name.equals("즉사")) { pl.pranks.reaper(target); return true; }
+        for (List<Prank> list : pools.values()) for (Prank pr : list) {
+            if (!pr.name.equals(name) && !pr.id.equalsIgnoreCase(name)) continue;
+            boolean all = pr.scope.equals("all");
+            announceAll(pr, all ? "전원" : pl.nick(target) + "님");
+            applyPrank(pr, all ? new ArrayList<>(Bukkit.getOnlinePlayers()) : List.of(target));
+            return true;
+        }
+        return false;
+    }
+
     // ── 대기열 ─────────────────────────────────────────────
     /** 후원 1건을 줄에 세운다. 등록 안 된 개수면 false */
     boolean enqueue(UUID target, String targetName, String donor, int count) {
@@ -266,6 +298,12 @@ final class Events {
                     pl.ledger.addHeld(t, n);
                     toastAll(pl, pl.nick(t) + "님이 다이아 " + n + "개를 받았습니다.", true);
                     return 0;
+                }
+                case "bomb" -> {
+                    int n = Integer.parseInt(a[1]);
+                    pl.rewards.bomb(t, n);
+                    toastAll(pl, pl.nick(t) + "님 앞에 다이아 폭탄이 떨어졌습니다! (다이아 " + n + "개)", true);
+                    return 80;
                 }
                 case "half" -> {
                     long lost = pl.store.get(t).held / 2;
@@ -439,6 +477,7 @@ final class Events {
                 case "crow" -> targets.forEach(pl.pranks::crow);
                 case "rocket" -> targets.forEach(pl.pranks::rocket);
                 case "anvil" -> targets.forEach(pl.pranks::anvil);
+                case "ufo" -> targets.forEach(pl.pranks::ufo);
                 case "rain" -> targets.forEach(p -> pl.rewards.rain(p, n));
                 case "fountain" -> targets.forEach(p -> pl.rewards.fountain(p, n));
                 case "pinata" -> targets.forEach(p -> pl.rewards.pinata(p, n));

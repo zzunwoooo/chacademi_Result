@@ -101,6 +101,53 @@ final class Rewards implements Listener {
         }.runTaskTimer(pl, 0L, 1L);
     }
 
+    // ── 다이아 폭탄: 눈앞에 폭탄이 떨어져 2초 뒤 펑 터지며 total 개가 사방으로 쏟아진다 (블럭·사람 피해 없음) ──
+    void bomb(Player p, int total) {
+        final UUID id = p.getUniqueId();
+        Vector dir = p.getLocation().getDirection().setY(0);
+        if (dir.lengthSquared() < 1e-4) dir = new Vector(0, 0, 1);
+        Location at = p.getLocation().add(dir.normalize().multiply(2.5)).add(0, 1.5, 0);
+        if (!at.getBlock().isPassable()) at = p.getLocation().add(0, 1.5, 0);
+        final Location start = at;
+        final World w = at.getWorld();
+        final int fuse = 40;
+        // 불붙은 TNT 모습만 빌린다: 위력 0 이라 블럭도 사람도 다치지 않는다
+        final org.bukkit.entity.TNTPrimed tnt = w.spawn(at, org.bukkit.entity.TNTPrimed.class, t -> {
+            t.setFuseTicks(fuse + 5);
+            t.setYield(0f);
+            t.setIsIncendiary(false);
+        });
+        w.playSound(at, Sound.ENTITY_TNT_PRIMED, 1.5f, 1f);
+        new BukkitRunnable() {
+            int t = 0;
+            @Override public void run() {
+                Location c = tnt.isValid() ? tnt.getLocation().add(0, 0.5, 0) : start;
+                if (t < fuse) {
+                    if (t % 10 == 0) w.playSound(c, Sound.BLOCK_NOTE_BLOCK_HAT, 1.2f, 0.8f + t / (float) fuse);     // 점점 높아지는 째깍 소리
+                    w.spawnParticle(Particle.SMOKE, c.clone().add(0, 0.6, 0), 2, 0.05, 0.05, 0.05, 0.01);
+                    t++;
+                    return;
+                }
+                if (tnt.isValid()) tnt.remove();
+                // 펑: 큰 폭발 모습과 소리 + 다이아가 사방으로
+                w.spawnParticle(Particle.EXPLOSION_EMITTER, c, 2, 0.4, 0.4, 0.4, 0);
+                w.spawnParticle(Particle.FLASH, c, 1);
+                w.spawnParticle(Particle.FIREWORK, c, 120, 0.3, 0.3, 0.3, 0.35);
+                w.playSound(c, Sound.ENTITY_GENERIC_EXPLODE, 2.5f, 0.9f);
+                w.playSound(c, Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST, 2f, 1f);
+                w.playSound(c, Sound.BLOCK_AMETHYST_BLOCK_BREAK, 2f, 0.7f);
+                int piles = Math.max(1, Math.min(48, total / 8)), given = 0;
+                for (int i = 0; i < piles; i++) {
+                    int amt = i == piles - 1 ? total - given : total / piles;
+                    given += amt;
+                    double ang = rnd().nextDouble(Math.PI * 2), out = rnd().nextDouble(0.15, 0.5);
+                    drop(c, amt, new Vector(Math.cos(ang) * out, rnd().nextDouble(0.35, 0.8), Math.sin(ang) * out), id);
+                }
+                cancel();
+            }
+        }.runTaskTimer(pl, 0L, 1L);
+    }
+
     // ── 다이아 분수: 발밑 분수대에서 total 개가 솟구친다 ─────────────────
     void fountain(Player p, int total) {
         final UUID id = p.getUniqueId();
