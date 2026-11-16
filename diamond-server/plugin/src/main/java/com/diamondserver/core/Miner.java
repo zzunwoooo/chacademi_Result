@@ -95,7 +95,7 @@ final class Miner {
             b.npc.spawn(beside(owner));
             b.endTick = tick + Math.max(10, pl.getConfig().getInt("miner.seconds", 180)) * 4L;      // 5틱마다 1씩 센다
             bots.add(b);
-            for (Player p : Bukkit.getOnlinePlayers()) pl.net.toast(p, donor + " AI 플레이어가 " + owner.getName() + "님을 도우러 왔습니다.", true);
+            for (Player p : Bukkit.getOnlinePlayers()) pl.net.toast(p, donor + " AI 플레이어가 " + pl.nick(owner) + "님을 도우러 왔습니다.", true);
         } catch (Throwable t) {
             pl.getLogger().warning("AI 플레이어 소환 실패: " + t);
         }

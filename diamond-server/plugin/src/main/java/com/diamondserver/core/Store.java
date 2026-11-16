@@ -16,6 +16,7 @@ final class Store {
     static final class PData {
         final UUID id;
         String name = "";
+        String nick = "";       // 한글 닉네임 (없으면 빈 글자)
         long goal;          // 남은 목표 다이아 (0 이 되면 달성)
         long held;          // 보유 다이아 (캔 다이아가 여기로 들어옴, 상점 화폐)
         double frac;        // 판매 소수점 누적 (1 이 넘으면 다이아 1개)
@@ -51,6 +52,7 @@ final class Store {
         if (f.isFile()) {
             YamlConfiguration y = YamlConfiguration.loadConfiguration(f);
             d.name = y.getString("name", "");
+            d.nick = y.getString("nick", "");
             d.goal = Math.max(0, y.getLong("goal"));
             d.held = Math.max(0, y.getLong("held"));
             d.frac = Math.max(0, y.getDouble("frac"));
@@ -68,6 +70,7 @@ final class Store {
         if (!d.dirty) return;
         YamlConfiguration y = new YamlConfiguration();
         y.set("name", d.name);
+        y.set("nick", d.nick);
         y.set("goal", d.goal);
         y.set("held", d.held);
         y.set("frac", d.frac);

@@ -64,7 +64,7 @@ final class Ledger {
     private void complete(Player p, Store.PData d) {
         d.done = true;
         d.dirty = true;
-        Bukkit.broadcast(Component.text(p.getName() + "님이 목표 다이아를 모두 채웠습니다!", NamedTextColor.AQUA));
+        Bukkit.broadcast(Component.text(pl.nick(p) + "님이 목표 다이아를 모두 채웠습니다!", NamedTextColor.AQUA));
         p.showTitle(Title.title(Component.text("목표 달성", NamedTextColor.AQUA), Component.text("목표 다이아를 모두 채웠습니다", NamedTextColor.WHITE)));
         p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1f, 1f);
     }

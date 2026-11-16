@@ -28,7 +28,7 @@ final class Net implements PluginMessageListener {
 
     boolean hasMod(Player p) { return modded.contains(p.getUniqueId()); }
 
-    void forget(UUID id) { modded.remove(id); }
+    void forget(UUID id) { modded.remove(id); greeted.remove(id); }
 
     private void send(Player p, JsonObject o) {
         p.sendPluginMessage(pl, CH, o.toString().getBytes(StandardCharsets.UTF_8));
@@ -117,6 +117,44 @@ final class Net implements PluginMessageListener {
         send(p, o);
     }
 
+    /** 접속한 사람들의 닉네임 (머리 위 이름표용). 계정 UUID → 닉네임 */
+    void names(Player viewer) {
+        JsonObject o = new JsonObject();
+        o.addProperty("t", "names");
+        JsonObject map = new JsonObject();
+        for (Player x : org.bukkit.Bukkit.getOnlinePlayers()) if (pl.nicks.has(x)) map.addProperty(x.getUniqueId().toString(), pl.nicks.of(x));
+        o.add("map", map);
+        send(viewer, o);
+    }
+
+    /** 닉네임 창 열기. first = 처음 정하는 것(닫을 수 없음) */
+    void openNick(Player p, boolean first, String current, String rule, int max) {
+        JsonObject o = new JsonObject();
+        o.addProperty("t", "open");
+        o.addProperty("screen", "nick");
+        o.addProperty("first", first);
+        o.addProperty("current", current == null ? "" : current);
+        o.addProperty("rule", rule);
+        o.addProperty("max", max);
+        send(p, o);
+    }
+
+    /** 닉네임 창에 거절 이유를 띄운다 */
+    void nickError(Player p, String reason) {
+        JsonObject o = new JsonObject();
+        o.addProperty("t", "nickerr");
+        o.addProperty("text", reason);
+        send(p, o);
+    }
+
+    void closeNick(Player p) {
+        if (!hasMod(p)) return;
+        JsonObject o = new JsonObject();
+        o.addProperty("t", "close");
+        o.addProperty("screen", "nick");
+        send(p, o);
+    }
+
     /** 플레이어 모션 재생 (who 가 name 모션을 한다. name 이 "stop" 이면 멈춤). 보는 사람 모두에게 보낸다 */
     void motion(Player viewer, UUID who, String name) {
         if (!hasMod(viewer)) return;
@@ -151,7 +189,14 @@ final class Net implements PluginMessageListener {
         shop(p);
         pl.events.sendQueueTo(p);
         pl.effects.sendListTo(p);
+        pl.nicks.sendNames();                // 새로 온 사람에게도, 이미 있던 사람들에게도 닉네임 목록을 다시
+        if (!greeted.contains(p.getUniqueId())) {     // 닉네임이 없으면 창을 한 번 띄운다
+            greeted.add(p.getUniqueId());
+            pl.nicks.promptIfNeeded(p);
+        }
     }
+
+    private final Set<UUID> greeted = new HashSet<>();
 
     @Override
     public void onPluginMessageReceived(String channel, Player p, byte[] message) {
@@ -172,6 +217,7 @@ final class Net implements PluginMessageListener {
                     }
                 }
                 case "submit" -> pl.cmd.submit(p, o.has("qty") ? o.get("qty").getAsLong() : -1);
+                case "nick" -> pl.nicks.save(p, o.has("name") ? o.get("name").getAsString() : "");
                 default -> { }
             }
         } catch (RuntimeException e) {

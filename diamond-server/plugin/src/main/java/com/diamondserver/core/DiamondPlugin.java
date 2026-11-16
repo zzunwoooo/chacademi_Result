@@ -32,12 +32,17 @@ public final class DiamondPlugin extends JavaPlugin {
     Pranks pranks;
     Rewards rewards;
     Miner miner;
+    Nicks nicks;
     private Location spawn;
+
+    /** 화면에 쓸 이름 (닉네임이 있으면 닉네임, 없으면 계정 이름). 알림 글에는 항상 이것을 쓴다 */
+    String nick(Player p) { return nicks.of(p); }
 
     @Override
     public void onEnable() {
         saveDefaultConfig();
         store = new Store(this);
+        nicks = new Nicks(this);
         items = new Items(this);
         ledger = new Ledger(this);
         shop = new Shop(this);
@@ -66,7 +71,7 @@ public final class DiamondPlugin extends JavaPlugin {
         } else {
             getLogger().info("donation 플러그인이 없어 후원 연동은 꺼짐 (/후원테스트 는 사용 가능)");
         }
-        for (String name : new String[]{"다이아", "상점", "제출", "인출", "입금", "목표", "후원테스트"}) {
+        for (String name : new String[]{"다이아", "상점", "제출", "인출", "입금", "목표", "후원테스트", "닉네임"}) {
             PluginCommand c = getCommand(name);
             if (c == null) { getLogger().warning("명령어 등록 실패: " + name); continue; }
             c.setExecutor(cmd);

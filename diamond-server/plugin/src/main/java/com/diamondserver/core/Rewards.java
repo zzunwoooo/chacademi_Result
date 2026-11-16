@@ -200,7 +200,7 @@ final class Rewards implements Listener {
         }
         pn.prop.removeLater(8);
         Player owner = Bukkit.getPlayer(pn.owner);
-        String name = owner == null ? hitter.getName() : owner.getName();
+        String name = owner == null ? pl.nick(hitter) : pl.nick(owner);
         for (Player o : Bukkit.getOnlinePlayers()) pl.net.toast(o, name + "님의 피냐타가 터졌습니다! 다이아 " + pn.reward + "개", true);
     }
 

@@ -43,6 +43,15 @@ public final class St {
     public static Pick pick;
     public static final long PICK_HOLD_MS = 1800;   // 멈춘 뒤 결과를 보여 주는 시간
 
+    /** 접속한 사람들의 한글 닉네임 (계정 UUID → 닉네임). 머리 위 이름표에 쓴다 */
+    public static final java.util.Map<String, String> names = new java.util.HashMap<>();
+
+    static void applyNames(JsonObject o) {
+        names.clear();
+        JsonObject m = o.getAsJsonObject("map");
+        if (m != null) for (String k : m.keySet()) names.put(k, m.get(k).getAsString());
+    }
+
     public static final List<Cat> cats = new ArrayList<>();
     public static final List<Item> items = new ArrayList<>();
     public static final List<Sell> sells = new ArrayList<>();
@@ -53,7 +62,7 @@ public final class St {
     public static void clear() {
         has = false; goal = 0; held = 0; done = false; heldChangedAt = 0; heldDelta = 0; goalChangedAt = 0; goalDelta = 0;
         cats.clear(); items.clear(); sells.clear(); toasts.clear(); queue.clear(); banner = null;
-        effects.clear(); reverseUntil = 0; blackoutUntil = 0; blackoutFrom = 0; pick = null;
+        effects.clear(); reverseUntil = 0; blackoutUntil = 0; blackoutFrom = 0; pick = null; names.clear();
     }
 
     static String str(JsonObject o, String k, String def) {

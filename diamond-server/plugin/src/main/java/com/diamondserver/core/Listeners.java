@@ -40,6 +40,9 @@ final class Listeners implements Listener {
     public void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
         pl.store.get(p);                   // 처음 온 사람은 여기서 목표가 정해진다
+        pl.nicks.apply(p);                 // 채팅·탭 목록 이름을 닉네임으로
+        // 모드 없이 들어온 사람은 5초 뒤 닉네임 명령어를 안내한다 (모드가 있으면 창이 뜬다)
+        Bukkit.getScheduler().runTaskLater(pl, () -> { if (p.isOnline() && !pl.net.hasMod(p)) pl.nicks.promptIfNeeded(p); }, 100L);
         // 접속해 있지 않을 때 들어온 후원은 3초 뒤(화면이 준비된 뒤) 줄에 넣는다
         Bukkit.getScheduler().runTaskLater(pl, () -> { if (p.isOnline()) pl.events.onJoin(p); }, 60L);
     }
@@ -123,7 +126,7 @@ final class Listeners implements Listener {
             ItemStack head = new ItemStack(Material.PLAYER_HEAD);
             SkullMeta m = (SkullMeta) head.getItemMeta();
             m.setOwningPlayer(o);
-            m.displayName(Component.text(o.getName(), NamedTextColor.AQUA).decoration(TextDecoration.ITALIC, false));
+            m.displayName(Component.text(pl.nick(o), NamedTextColor.AQUA).decoration(TextDecoration.ITALIC, false));
             head.setItemMeta(m);
             h.inv.setItem(i, head);
         }
@@ -143,8 +146,8 @@ final class Listeners implements Listener {
         if (!pl.items.takeOne(p, Items.TELEPORT)) { pl.net.toast(p, pl.items.nameOf(Items.TELEPORT) + "이 없습니다.", false); return; }
         p.teleport(to.getLocation());
         p.playSound(p.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 0.8f, 1f);
-        pl.net.toast(p, to.getName() + "님에게 이동했습니다.", true);
-        pl.net.toast(to, p.getName() + "님이 텔레포트권으로 이동해 왔습니다.", true);
+        pl.net.toast(p, pl.nick(to) + "님에게 이동했습니다.", true);
+        pl.net.toast(to, pl.nick(p) + "님이 텔레포트권으로 이동해 왔습니다.", true);
     }
 
     @EventHandler

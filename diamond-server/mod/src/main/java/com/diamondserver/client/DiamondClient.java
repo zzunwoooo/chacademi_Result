@@ -92,8 +92,22 @@ public final class DiamondClient implements ClientModInitializer {
                     St.toast(St.str(o, "text", ""), ok == null || ok.isJsonNull() || ok.getAsBoolean());
                 }
                 case "open" -> {
-                    if (St.str(o, "screen", "").equals("shop") && mc.currentScreen == null) mc.setScreen(new ShopScreen());
+                    String screen = St.str(o, "screen", "");
+                    if (screen.equals("shop") && mc.currentScreen == null) mc.setScreen(new ShopScreen());
+                    if (screen.equals("nick")) {
+                        com.google.gson.JsonElement fe = o.get("first");
+                        boolean first = fe != null && !fe.isJsonNull() && fe.getAsBoolean();
+                        // 처음 정하는 창은 다른 화면이 떠 있어도 띄운다. 바꾸기 창은 아무 화면도 없을 때만
+                        if (first || mc.currentScreen == null) mc.setScreen(new NickScreen(first, St.str(o, "current", ""), St.str(o, "rule", ""), (int) St.num(o, "max", 8)));
+                    }
                 }
+                case "close" -> {
+                    if (St.str(o, "screen", "").equals("nick") && mc.currentScreen instanceof NickScreen) mc.setScreen(null);
+                }
+                case "nickerr" -> {
+                    if (mc.currentScreen instanceof NickScreen ns) ns.showError(St.str(o, "text", ""));
+                }
+                case "names" -> St.applyNames(o);
                 default -> { }
             }
         } catch (RuntimeException e) {

@@ -142,7 +142,7 @@ final class Events {
         current = job;
         sendQueue();
         for (Player p : Bukkit.getOnlinePlayers()) {
-            pl.net.event(p, job.donor, job.count, def.name, def.kind, def.pool() ? "" : target.getName());
+            pl.net.event(p, job.donor, job.count, def.name, def.kind, def.pool() ? "" : pl.nick(target));
             p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 0.7f, def.kind.equals("bad") ? 0.7f : 1.4f);
         }
         long announce = Math.max(1, pl.getConfig().getLong("donation.announce-ticks", 40));
@@ -210,19 +210,19 @@ final class Events {
                 case "food" -> {
                     int n = Integer.parseInt(a[1]);
                     Items.give(t, pl.items.make(Items.FOOD, n));
-                    toastAll(pl, t.getName() + "님이 " + pl.items.nameOf(Items.FOOD) + " " + n + "개를 받았습니다.", true);
+                    toastAll(pl, pl.nick(t) + "님이 " + pl.items.nameOf(Items.FOOD) + " " + n + "개를 받았습니다.", true);
                     return 0;
                 }
                 case "goal" -> {
                     long d = roll(Long.parseLong(a[1]), Long.parseLong(a[2]));
                     pl.ledger.addGoal(t, d);
-                    toastAll(pl, t.getName() + "님의 남은 목표 " + signed(d), d <= 0);
+                    toastAll(pl, pl.nick(t) + "님의 남은 목표 " + signed(d), d <= 0);
                     return 0;
                 }
                 case "goalpm" -> {
                     long d = Long.parseLong(a[1]) * (ThreadLocalRandom.current().nextBoolean() ? 1 : -1);
                     pl.ledger.addGoal(t, d);
-                    toastAll(pl, t.getName() + "님의 남은 목표 " + signed(d), d <= 0);
+                    toastAll(pl, pl.nick(t) + "님의 남은 목표 " + signed(d), d <= 0);
                     return 0;
                 }
                 case "repeat" -> {
@@ -232,7 +232,7 @@ final class Events {
                     final long step = 8;
                     final long[] sum = {0};
                     final UUID id = t.getUniqueId();
-                    final String name = t.getName();
+                    final String name = pl.nick(t);
                     for (int i = 0; i < times; i++) {
                         final boolean last = i == times - 1;
                         Bukkit.getScheduler().runTaskLater(pl, () -> {
@@ -251,13 +251,13 @@ final class Events {
                 case "diamonds" -> {
                     long n = Long.parseLong(a[1]);
                     pl.ledger.addHeld(t, n);
-                    toastAll(pl, t.getName() + "님이 다이아 " + n + "개를 받았습니다.", true);
+                    toastAll(pl, pl.nick(t) + "님이 다이아 " + n + "개를 받았습니다.", true);
                     return 0;
                 }
                 case "half" -> {
                     long lost = pl.store.get(t).held / 2;
                     pl.ledger.takeHeld(t, lost);
-                    toastAll(pl, t.getName() + "님의 보유 다이아가 반토막 났습니다. (-" + lost + ")", false);
+                    toastAll(pl, pl.nick(t) + "님의 보유 다이아가 반토막 났습니다. (-" + lost + ")", false);
                     return 0;
                 }
                 case "death" -> {
@@ -306,7 +306,7 @@ final class Events {
         for (Prize z : wheel) { if (r < z.weight) { won = z; break; } r -= z.weight; }
         List<String> names = new ArrayList<>();
         for (Prize z : wheel) names.add(z.name);
-        for (Player p : Bukkit.getOnlinePlayers()) pl.net.pick(p, "룰렛 → " + t.getName(), names, won.name, PICK_TICKS * 50);
+        for (Player p : Bukkit.getOnlinePlayers()) pl.net.pick(p, "룰렛 → " + pl.nick(t), names, won.name, PICK_TICKS * 50);
         final Prize prize = won;
         final UUID id = t.getUniqueId();
         Bukkit.getScheduler().runTaskLater(pl, () -> {
@@ -338,7 +338,7 @@ final class Events {
         List<Player> online = new ArrayList<>(Bukkit.getOnlinePlayers());
         if (online.isEmpty()) return 0;
         if (pr.scope.equals("self")) {
-            toastAll(pl, pr.name + " → " + recipient.getName(), true);
+            toastAll(pl, pr.name + " → " + pl.nick(recipient), true);
             applyPrank(pr, List.of(recipient));
             return 40;
         }
@@ -350,18 +350,18 @@ final class Events {
         }
         Player winner = online.get(ThreadLocalRandom.current().nextInt(online.size()));
         if (online.size() == 1) {                       // 혼자면 룰렛 없이 바로
-            toastAll(pl, pr.name + " → " + winner.getName(), false);
+            toastAll(pl, pr.name + " → " + pl.nick(winner), false);
             applyPrank(pr, List.of(winner));
             return 20;
         }
         List<String> names = new ArrayList<>();
-        for (Player p : online) names.add(p.getName());
-        for (Player p : online) pl.net.pick(p, pr.name, names, winner.getName(), PICK_TICKS * 50);
+        for (Player p : online) names.add(pl.nick(p));
+        for (Player p : online) pl.net.pick(p, pr.name, names, pl.nick(winner), PICK_TICKS * 50);
         final UUID id = winner.getUniqueId();
         Bukkit.getScheduler().runTaskLater(pl, () -> {
             Player w = Bukkit.getPlayer(id);
             if (w == null) return;
-            toastAll(pl, pr.name + " → " + w.getName(), false);
+            toastAll(pl, pr.name + " → " + pl.nick(w), false);
             pl.models.followHead(w, "target_marker", 3, "pick", "leave");       // 뽑힌 사람 머리 위 표시
             applyPrank(pr, List.of(w));
         }, PICK_TICKS);

@@ -1,5 +1,5 @@
 name: DiamondCore
-version: 0.4.0
+version: 0.5.0
 main: com.diamondserver.core.DiamondPlugin
 api-version: '1.21'
 description: 나니 다이아서버 (다이아 장부 · 상점 · 전용 아이템 · 후원 이벤트)
@@ -11,6 +11,8 @@ commands:
   다이아:
     description: 나니 다이아서버 관리 명령
     permission: diamondserver.admin
+  닉네임:
+    description: 한글 닉네임 정하기
   상점:
     description: 상점 열기
   제출:

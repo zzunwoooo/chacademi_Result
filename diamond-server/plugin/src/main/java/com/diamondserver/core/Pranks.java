@@ -102,7 +102,7 @@ final class Pranks implements Listener {
                         Store.PData pd = pl.store.get(v);
                         crow.stolen = Math.min(want, pd.held);
                         if (crow.stolen <= 0) {
-                            toastAll("까마귀가 " + v.getName() + "님에게 왔지만 훔칠 다이아가 없었습니다.", true);
+                            toastAll("까마귀가 " + pl.nick(v) + "님에게 왔지만 훔칠 다이아가 없었습니다.", true);
                             crow.done = true;
                             crows.remove(mobId);
                             crow.prop.removeLater(20);
@@ -111,7 +111,7 @@ final class Pranks implements Listener {
                         }
                         pl.ledger.takeHeld(v, crow.stolen);
                         v.playSound(v.getLocation(), Sound.ENTITY_ITEM_BREAK, 1f, 1.4f);
-                        toastAll("까마귀가 " + v.getName() + "님의 다이아 " + crow.stolen + "개를 물고 달아납니다. 때려서 되찾으세요!", false);
+                        toastAll("까마귀가 " + pl.nick(v) + "님의 다이아 " + crow.stolen + "개를 물고 달아납니다. 때려서 되찾으세요!", false);
                         crow.fleeing = true;
                         t = 0;
                         Vector away = at.toVector().subtract(v.getLocation().toVector()).setY(0);
@@ -165,7 +165,7 @@ final class Pranks implements Listener {
         crow.done = true;
         crows.remove(mobId);
         Player v = Bukkit.getPlayer(crow.victim);
-        String name = v == null ? "주인" : v.getName();
+        String name = v == null ? "주인" : pl.nick(v);
         if (caught) {
             crow.prop.play("death");
             crow.prop.removeLater(24);
@@ -338,9 +338,9 @@ final class Pranks implements Listener {
                             && Math.hypot(q.getLocation().getX() - spot.getX(), q.getLocation().getZ() - spot.getZ()) < 1.8;
                     if (hit) {
                         pl.effects.apply(q, Effects.STUN, "기절", stun);
-                        toastAll(q.getName() + "님이 모루에 맞아 " + stun + "초 동안 기절했습니다.", false);
+                        toastAll(pl.nick(q) + "님이 모루에 맞아 " + stun + "초 동안 기절했습니다.", false);
                     } else if (q != null) {
-                        toastAll(q.getName() + "님이 모루를 피했습니다.", true);
+                        toastAll(pl.nick(q) + "님이 모루를 피했습니다.", true);
                     }
                 } else if (t == ticks + 14) {
                     prop.play("vanish");
@@ -371,7 +371,7 @@ final class Pranks implements Listener {
             if (q != null && !q.isDead()) {
                 q.getWorld().strikeLightningEffect(q.getLocation());
                 q.setHealth(0);
-                toastAll(q.getName() + "님이 즉사했습니다.", false);
+                toastAll(pl.nick(q) + "님이 즉사했습니다.", false);
             }
         }, 30L + 18L);
         Bukkit.getScheduler().runTaskLater(pl, () -> prop.play("leave"), 30L + 34L);

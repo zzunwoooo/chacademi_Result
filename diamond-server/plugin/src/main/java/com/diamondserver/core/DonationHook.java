@@ -24,7 +24,7 @@ final class DonationHook implements Listener {
         int won = Math.max(1, pl.getConfig().getInt("donation.chzzk-won-per-unit", 100));
         int count = e.getType().getPlatform() == DonationEvent.Platform.CHZZK ? e.getAmount() / won : e.getAmount();
         Player target = e.getPlayer();
-        if (!pl.events.enqueue(target.getUniqueId(), target.getName(), e.getNickname(), count))
-            pl.getLogger().info("등록되지 않은 후원 개수라 넘김: " + count + "개 (" + e.getNickname() + " → " + target.getName() + ")");
+        if (!pl.events.enqueue(target.getUniqueId(), pl.nick(target), e.getNickname(), count))
+            pl.getLogger().info("등록되지 않은 후원 개수라 넘김: " + count + "개 (" + e.getNickname() + " → " + pl.nick(target) + ")");
     }
 }
