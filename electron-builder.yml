@@ -1,5 +1,5 @@
-appId: 'ssangyong.launcher'
-productName: 'Ssangyong'
+appId: 'nanidiamond.launcher'
+productName: 'NaniDiamond'
 artifactName: '${productName}-setup-${version}.${ext}'
 
 copyright: 'Copyright © 2025-2026 gotiger (original author: © 2018-2026 Daniel Scalzi)'
@@ -25,8 +25,8 @@ nsis:
   perMachine: false
   allowElevation: true
   allowToChangeInstallationDirectory: true
-  shortcutName: '쌍룡상사'
-  uninstallDisplayName: '쌍룡상사 런처'
+  shortcutName: '나니 다이아서버'
+  uninstallDisplayName: '나니 다이아서버 런처'
 
 # macOS Configuration
 mac:
