@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "diamondserver",
+  "version": "${version}",
+  "name": "다이아 서버 UI",
+  "description": "다이아 서버 전용 화면 (후원 이벤트 알림, 룰렛, 투표 등)",
+  "authors": ["Chacademi"],
+  "license": "All-Rights-Reserved",
+  "environment": "client",
+  "entrypoints": {
+    "client": ["com.diamondserver.client.DiamondClient"]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": "~1.21.4",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}

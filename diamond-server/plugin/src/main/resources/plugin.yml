@@ -1,0 +1,5 @@
+name: DiamondCore
+version: 0.0.1
+main: com.diamondserver.core.DiamondPlugin
+api-version: '1.21'
+description: 다이아 서버 후원 이벤트

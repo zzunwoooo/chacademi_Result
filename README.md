@@ -1,9 +1,6 @@
-# inbox — 다른 세션·GPT 작업 받는 곳
+# 다이아 서버 (나니 다이아서버) — 작업 브랜치
 
-여기서 새 브랜치를 만든다: `git switch -c inbox/<주제>-<YYYYMMDD> origin/inbox`
+차카데미와 별개 프로젝트. 방송 후원(별풍선) 이벤트가 붙는 4인 다이아 채굴 서버.
 
-- 작업은 그 브랜치에만 커밋·푸시한다.
-- 맨 위에 `NOTE.md` 로 무엇을·왜·어디에 영향이 가는지 적는다.
-- 빌드·서버 반영·런처 배포는 하지 않는다. Claude 가 대조 후 반영하고, 반영이 끝난 브랜치는 정리한다.
-
-규칙: `rules` 브랜치 `RULES.md`, `AGENTS.md`.
+- 전부 `diamond-server/` 안에 있다. 먼저 `diamond-server/HANDOFF.md` 를 읽는다.
+- 처음 받은 자료 원본은 `inbox-diamond-server-20261116` 브랜치 (이 브랜치는 거기서 갈라져 나옴).

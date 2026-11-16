@@ -4,8 +4,9 @@
 
 ## 저장 위치
 
-GitHub `zzunwoooo/chacademi_result` 저장소의 **`inbox-diamond-server-20261116` 브랜치**, `diamond-server/` 폴더.
-(그 저장소는 차카데미 기준 저장소라 다른 세션 작업은 inbox 계열 브랜치에만 올리는 규칙이 있음. `inbox/<주제>` 형식은 기존 `inbox` 브랜치와 이름이 충돌해 푸시가 거부돼서 `inbox-` 접두어를 씀.)
+GitHub `zzunwoooo/chacademi_Result` 저장소.
+- **작업 브랜치: `claude/diamond-server`** (2026-11-16 생성, 여기서 개발). 저쪽 작업 폴더는 `C:ddm`.
+- 처음 받은 자료 원본: `inbox-diamond-server-20261116` 브랜치 (그대로 둠).
 
 ## 한 줄 요약
 
@@ -47,6 +48,9 @@ GitHub `zzunwoooo/chacademi_result` 저장소의 **`inbox-diamond-server-2026111
 | `tools/models/` | 모델 생성 스크립트 (`models.py` = 처음 3종, `models2.py` = 나머지 10종) |
 | `tools/motion/` | 모션 생성 스크립트 (`build_spec.py` → `motion_gen.py`) |
 | `docs/events.md` | 이벤트 기획 확정본 + 디스코드 공지문 |
+| `docs/open-questions.md` | 기획에서 아직 비어 있는 것 (2026-11-16 검토) |
+| `plugin/` | 서버 플러그인 DiamondCore (Paper 1.21.4). **빈 뼈대** |
+| `mod/` | 클라 모드 diamond-ui (Fabric 1.21.4, 모드 id `diamondserver`). **빈 뼈대** |
 
 ## 모델 13종
 
@@ -108,3 +112,12 @@ python3 build_spec.py && python3 motion_gen.py forced_dance_spec.json <출력폴
 
 - 리소스 정리 문서: https://claude.ai/artifact/RLBML2JYL7o7k8pzLGeBgG — **초기 기획 기준이라 이벤트 목록이 옛날 것.** 최신은 `docs/events.md`
 - 모델 13종 3D 미리보기: https://claude.ai/artifact/HxxpagX9BkPJgfbPECVt2S
+
+## 2026-11-16 검토·준비 (Claude)
+
+- 기획 빈칸 목록: [`docs/open-questions.md`](docs/open-questions.md). 서버 기본 규칙(목표 시작값·세는 법·달성 시 결과·맵)과 이벤트 대상이 정해져야 기능 개발을 시작할 수 있다.
+- `plugin/`, `mod/` 는 빌드만 되는 빈 뼈대다. 기능 코드는 없다.
+- 빌드 (저쪽): `C:\ddm\diamond-server\plugin`, `...\mod` 에서 설치된 gradle 8.14.3 의 `gradle.bat build --offline`. 결과는 `build/libs/DiamondCore.jar`, `build/libs/diamond-ui-<버전>.jar`.
+- 별풍선 수신: 깨굴·쌍룡에서 쓴 donation 플러그인(Colla-Bot, `DonationEvent` = 받은 플레이어·후원자 닉네임·개수·플랫폼)을 쓰면 된다. `plugins/donation/config.yml` 의 `acceptedDonations` 에 적은 개수만 전달된다. **일반 방송 채팅은 주지 않으므로 3000 채팅 투표는 따로 만들어야 한다.**
+- `tools/` 스크립트는 저쪽에 Python·Node 가 없어 실행할 수 없다. 참고용. 모델 수정은 bbmodel 을 직접 고친다.
+- 모델 13종은 Modded Entity 형식 + `animation.<id>.<name>` 이름이라 ModelEngine 에 넣으려면 변환이 필요하다 (차카데미 때와 같은 작업).
