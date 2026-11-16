@@ -1,11 +1,11 @@
 {
    "servers" : [
       {
-         "address" : "211.53.196.231:25600",
+         "address" : "211.53.196.231:25800",
          "autoconnect" : true,
-         "description" : "쌍룡상사 주식서버 (Minecraft 1.21.4 Fabric)",
+         "description" : "나니 다이아서버 (Minecraft 1.21.4 Fabric)",
          "icon" : "https://github.com/mchdistro/zzunwoo/raw/main/server-icon.png",
-         "id" : "ssangyong-1.21.4",
+         "id" : "nani-diamond-1.21.4",
          "javaOptions" : {
             "platformOptions" : [
                {
@@ -249,12 +249,12 @@
             },
             {
                "artifact" : {
-                  "MD5" : "467b35251089820392611f4ff12cb735",
-                  "size" : 3475628,
-                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/ssangyong-launcher-distro/mods/ssangyong-ui-0.6.0+mc1.21.4.jar"
+                  "MD5" : "30d98efffb719ac5240ecb7f39331a50",
+                  "size" : 1761,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/diamond-launcher-distro/mods/diamond-ui-0.0.1+mc1.21.4.jar"
                },
-               "id" : "com.ssangyong:ssangyong-ui:0.6.0+mc1.21.4@jar",
-               "name" : "쌍룡상사 UI",
+               "id" : "com.diamondserver:diamond-ui:0.0.1+mc1.21.4@jar",
+               "name" : "나니 다이아서버 UI",
                "required" : {
                   "value" : true
                },
@@ -276,8 +276,8 @@
             {
                "artifact" : {
                   "path" : "options.txt",
-                  "size" : 5227,
-                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/ssangyong-launcher-distro/files/options.txt"
+                  "size" : 5150,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/diamond-launcher-distro/files/options.txt"
                },
                "id" : "options.txt",
                "name" : "options.txt",
@@ -286,8 +286,8 @@
             {
                "artifact" : {
                   "path" : "servers.dat",
-                  "size" : 86,
-                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/ssangyong-launcher-distro/files/servers.dat"
+                  "size" : 96,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/diamond-launcher-distro/files/servers.dat"
                },
                "id" : "servers.dat",
                "name" : "servers.dat",
@@ -297,7 +297,7 @@
                "artifact" : {
                   "path" : "config/iris.properties",
                   "size" : 313,
-                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/ssangyong-launcher-distro/files/config/iris.properties"
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/diamond-launcher-distro/files/config/iris.properties"
                },
                "id" : "iris.properties",
                "name" : "iris.properties",
@@ -307,14 +307,14 @@
                "artifact" : {
                   "path" : "shaderpacks/ComplementaryUnbound_r5.5.1.zip.txt",
                   "size" : 278,
-                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/ssangyong-launcher-distro/files/shaderpacks/ComplementaryUnbound_r5.5.1.zip.txt"
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/diamond-launcher-distro/files/shaderpacks/ComplementaryUnbound_r5.5.1.zip.txt"
                },
                "id" : "ComplementaryUnbound_r5.5.1.zip.txt",
                "name" : "ComplementaryUnbound_r5.5.1.zip.txt",
                "type" : "File"
             }
          ],
-         "name" : "쌍룡상사",
+         "name" : "나니 다이아서버",
          "version" : "1.0.0"
       }
    ],

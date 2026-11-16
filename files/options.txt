@@ -170,5 +170,3 @@ key_iris.keybind.reload:key.keyboard.unknown
 key_iris.keybind.toggleShaders:key.keyboard.k
 key_iris.keybind.shaderPackSelection:key.keyboard.o
 key_iris.keybind.wireframe:key.keyboard.unknown
-key_key.ssangyong.open:key.keyboard.g
-key_key.ssangyong.smoke:key.keyboard.r

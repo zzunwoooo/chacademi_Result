@@ -1,9 +1,9 @@
 #!/usr/bin/env perl
-# 쌍룡상사 런처용 distribution.json 만들기.
+# 나니 다이아서버 런처용 distribution.json 만들기.
 # - 기본은 원래 통합런처 배포 정보(tools/base-distribution.json)를 그대로 쓰고
-# - 서버 id/이름/주소만 바꾸고, 쌍룡상사 UI 모드를 추가하고,
+# - 서버 id/이름/주소만 바꾸고, 다이아 서버 UI 모드를 추가하고,
 # - options.txt / servers.dat 는 우리 것으로 바꾼다 (MD5 를 비워서 처음 한 번만 깔림 → 유저가 바꾼 설정을 덮어쓰지 않음)
-# 사용: perl tools/build_distro.pl   (주소 바꿀 땐 tools/ssangyong.json 의 address 만 고치고 다시 실행)
+# 사용: perl tools/build_distro.pl   (주소 바꿀 땐 tools/diamond.json 의 address 만 고치고 다시 실행)
 use strict; use warnings;
 use JSON::PP; use Digest::MD5; use File::Basename; use File::Spec; use Cwd 'abs_path';
 
@@ -12,7 +12,7 @@ my $json = JSON::PP->new->utf8->canonical->pretty;
 sub slurp { my $p = shift; open(my $h, '<:raw', $p) or die "$p: $!"; local $/; my $s = <$h>; close $h; return $s; }
 sub md5 { my $p = shift; open(my $h, '<:raw', $p) or die "$p: $!"; my $d = Digest::MD5->new->addfile($h)->hexdigest; close $h; return $d; }
 
-my $cfg  = $json->decode(slurp("$ROOT/tools/ssangyong.json"));
+my $cfg  = $json->decode(slurp("$ROOT/tools/diamond.json"));
 my $base = $json->decode(slurp("$ROOT/tools/base-distribution.json"));
 my $RAW  = $cfg->{rawBase};
 
@@ -54,16 +54,16 @@ $s->{autoconnect} = JSON::PP::true;
 my %replace = map { $_ => 1 } ('options.txt', 'servers.dat', 'iris.properties', 'ComplementaryUnbound_r5.5.1.zip.txt');
 my @mods = grep { !($_->{type} eq 'File' && $replace{$_->{id}}) } @{ $s->{modules} };
 
-# 쌍룡상사 UI 모드
+# 다이아 서버 UI 모드
 opendir(my $dh, "$ROOT/mods") or die $!;
 for my $fn (sort grep { /\.jar$/ } readdir($dh)) {
-    (my $ver = $fn) =~ s/^ssangyong-ui-//; $ver =~ s/\.jar$//;
-    push @mods, { id => "com.ssangyong:ssangyong-ui:$ver\@jar", name => "\x{c30d}\x{b8e1}\x{c0c1}\x{c0ac} UI", type => 'FabricMod',
+    (my $ver = $fn) =~ s/^diamond-ui-//; $ver =~ s/\.jar$//;
+    push @mods, { id => "com.diamondserver:diamond-ui:$ver\@jar", name => "\x{b098}\x{b2c8} \x{b2e4}\x{c774}\x{c544}\x{c11c}\x{bc84} UI", type => 'FabricMod',
                   required => { value => JSON::PP::true }, artifact => artifact("mods/$fn", 1) };
 }
 closedir($dh);
 
-# 플레이어 모션 라이브러리 (담배 피우는 모션 재생에 필요) — 차카데미 런처와 같은 파일
+# 플레이어 모션 라이브러리 (강제 댄스 모션 재생에 필요) — 차카데미 런처와 같은 파일
 push @mods, { id => 'org.modrinth:playeranimator:2.0.5+1.21.4@jar', name => 'Player Animator', type => 'FabricMod',
               required => { value => JSON::PP::true },
               artifact => { size => 202859, MD5 => '4298800d4a528daa4df8135b1a37721d',

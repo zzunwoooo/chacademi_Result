@@ -1,0 +1,8 @@
+{
+  "serverId": "nani-diamond-1.21.4",
+  "name": "나니 다이아서버",
+  "description": "나니 다이아서버 (Minecraft 1.21.4 Fabric)",
+  "address": "211.53.196.231:25800",
+  "serverListName": "나니 다이아서버",
+  "rawBase": "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/diamond-launcher-distro/"
+}
