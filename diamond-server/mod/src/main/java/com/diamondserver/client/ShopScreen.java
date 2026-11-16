@@ -133,7 +133,7 @@ public final class ShopScreen extends Screen {
 
         if (sellTab) renderSell(ctx, f, mx, my); else renderBuy(ctx, f, mx, my);
 
-        Hud.drawToasts(ctx, mc);
+        Hud.drawToasts(ctx, mc, Hud.drawBanner(ctx, mc));
     }
 
     private void card(DrawContext ctx, TextRenderer f, int[] r, boolean hover, boolean on, ItemStack icon, String name, String sub, int subColor) {

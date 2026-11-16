@@ -52,7 +52,8 @@ public final class DiamondClient implements ClientModInitializer {
             if (mc.getDebugHud().shouldShowDebugHud()) return;
             if (mc.currentScreen instanceof ShopScreen) return;      // 상점 화면이 직접 그린다
             Hud.drawPanel(ctx, mc);
-            Hud.drawToasts(ctx, mc);
+            Hud.drawQueue(ctx, mc);
+            Hud.drawToasts(ctx, mc, Hud.drawBanner(ctx, mc));
         });
     }
 
@@ -66,6 +67,8 @@ public final class DiamondClient implements ClientModInitializer {
             switch (St.str(o, "t", "")) {
                 case "state" -> St.applyState(o);
                 case "shop" -> St.applyShop(o);
+                case "event" -> St.applyEvent(o);
+                case "queue" -> St.applyQueue(o);
                 case "toast" -> {
                     com.google.gson.JsonElement ok = o.get("ok");
                     St.toast(St.str(o, "text", ""), ok == null || ok.isJsonNull() || ok.getAsBoolean());

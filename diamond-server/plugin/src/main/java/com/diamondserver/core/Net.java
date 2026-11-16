@@ -66,11 +66,38 @@ final class Net implements PluginMessageListener {
         }
     }
 
+    /** 후원 이벤트 알림 (누가 몇 개 → 어떤 이벤트, 대상). 모드가 없으면 채팅으로 */
+    void event(Player p, String donor, int count, String name, String kind, String target) {
+        if (hasMod(p)) {
+            JsonObject o = new JsonObject();
+            o.addProperty("t", "event");
+            o.addProperty("donor", donor);
+            o.addProperty("count", count);
+            o.addProperty("name", name);
+            o.addProperty("kind", kind);
+            o.addProperty("target", target);
+            send(p, o);
+        } else {
+            p.sendMessage(Component.text(donor + "님 별풍선 " + count + "개 → " + name + " (" + target + ")", NamedTextColor.AQUA));
+        }
+    }
+
+    /** 줄 서 있는 이벤트 목록 */
+    void queue(Player p, java.util.List<String> lines) {
+        JsonObject o = new JsonObject();
+        o.addProperty("t", "queue");
+        com.google.gson.JsonArray a = new com.google.gson.JsonArray();
+        for (String l : lines) a.add(l);
+        o.add("lines", a);
+        send(p, o);
+    }
+
     /** 모드가 준비됐다고 알려 오면 지금 상태와 상점 목록을 보낸다 */
     void greet(Player p) {
         modded.add(p.getUniqueId());
         state(p);
         shop(p);
+        pl.events.sendQueueTo(p);
     }
 
     @Override

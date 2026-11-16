@@ -10,6 +10,30 @@ goal:
 wallet:
   absorb-blocks: true     # 다이아 블록도 흡수 (블록 1개 = 다이아 9개)
 
+# ── 후원 받기 (donation 플러그인 연동) ───────────────────────────
+donation:
+  enabled: true
+  allow-test: true            # 후원 플러그인의 시험 후원도 받을지
+  chzzk-won-per-unit: 100     # 치지직 치즈는 이 금액(원)을 1개로 셈
+  announce-ticks: 40          # 알림이 뜨고 나서 이벤트가 실행되기까지 (20 = 1초)
+  queue-gap-ticks: 20         # 이벤트 하나가 끝나고 다음 것까지 쉬는 시간
+
+# ── 후원 이벤트: 별풍선 개수 → 이벤트 (대상 = 후원 받은 스트리머) ────────────
+# kind: good(도움) / bad(방해) / neutral  — 알림 색에 쓰임
+# actions: food <개수> | goal <최소> <최대> (음수 = 감소) | repeat <횟수> goal <최소> <최대> | death | pending(아직 안 만든 것)
+events:
+  "10":   { name: "밥 3개",           kind: good,    actions: ["food 3"] }
+  "50":   { name: "목표 증가",        kind: bad,     actions: ["goal 10 50"] }
+  "51":   { name: "목표 감소",        kind: good,    actions: ["goal -50 -10"] }
+  "100":  { name: "장난 랜덤",        kind: neutral, actions: ["pending"] }
+  "300":  { name: "다이아 연출 랜덤", kind: good,    actions: ["pending"] }
+  "500":  { name: "목표 증가 10회",   kind: bad,     actions: ["repeat 10 goal 10 50"] }
+  "510":  { name: "목표 감소 10회",   kind: good,    actions: ["repeat 10 goal -50 -10"] }
+  "1000": { name: "룰렛",             kind: neutral, actions: ["pending"] }
+  "2000": { name: "후원자 AI 플레이어", kind: good,  actions: ["pending"] }
+  "3000": { name: "채팅 투표",        kind: neutral, actions: ["pending"] }
+  "4444": { name: "즉사",             kind: bad,     actions: ["death"] }
+
 # ── 전용 아이템 ────────────────────────────────────────────
 # material = 바탕이 되는 게임 아이템. 그림이 준비되면 model: "diamondserver:<이름>" 을 추가
 items:

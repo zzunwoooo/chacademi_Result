@@ -1,7 +1,7 @@
 plugins { id 'java' }
 
 group = 'com.diamondserver'
-version = '0.1.0'
+version = '0.2.0'
 
 repositories {
     mavenCentral()
@@ -10,6 +10,7 @@ repositories {
 
 dependencies {
     compileOnly 'io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT'
+    compileOnly files('libs/donation-bukkit-2.0.2.jar')     // 후원 플러그인 (이벤트만 참조, jar 에 넣지 않음)
 }
 
 java { toolchain.languageVersion = JavaLanguageVersion.of(21) }

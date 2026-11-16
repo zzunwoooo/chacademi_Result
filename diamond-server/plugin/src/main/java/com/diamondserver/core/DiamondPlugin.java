@@ -15,7 +15,7 @@ import java.io.IOException;
 /**
  * 나니 다이아서버 플러그인.
  * 1차: 다이아 장부(남은 목표·보유 다이아) · 캔 다이아 흡수 · 제출 · 상점(구매·판매) · 전용 아이템 4종.
- * 후원 이벤트는 아직 없다.
+ * 2차: 후원 이벤트 공통 틀(후원 받기 → 대기열 → 실행)과 고정 이벤트(밥·목표 증감·즉사). 랜덤 풀·룰렛·AI·투표는 아직 없다.
  */
 public final class DiamondPlugin extends JavaPlugin {
     Store store;
@@ -24,6 +24,7 @@ public final class DiamondPlugin extends JavaPlugin {
     Shop shop;
     Net net;
     Cmd cmd;
+    Events events;
     private Location spawn;
 
     @Override
@@ -35,13 +36,22 @@ public final class DiamondPlugin extends JavaPlugin {
         shop = new Shop(this);
         net = new Net(this);
         cmd = new Cmd(this);
+        events = new Events(this);
         shop.load();
+        events.load();
         loadSpawn();
 
         getServer().getMessenger().registerOutgoingPluginChannel(this, Net.CH);
         getServer().getMessenger().registerIncomingPluginChannel(this, Net.CH, net);
         getServer().getPluginManager().registerEvents(new Listeners(this), this);
-        for (String name : new String[]{"다이아", "상점", "제출", "인출", "입금", "목표"}) {
+        // 후원 받기: donation 플러그인이 있을 때만 연결
+        if (getServer().getPluginManager().getPlugin("donation") != null) {
+            getServer().getPluginManager().registerEvents(new DonationHook(this), this);
+            getLogger().info("후원 연동(donation 플러그인) 켜짐");
+        } else {
+            getLogger().info("donation 플러그인이 없어 후원 연동은 꺼짐 (/후원테스트 는 사용 가능)");
+        }
+        for (String name : new String[]{"다이아", "상점", "제출", "인출", "입금", "목표", "후원테스트"}) {
             PluginCommand c = getCommand(name);
             if (c == null) { getLogger().warning("명령어 등록 실패: " + name); continue; }
             c.setExecutor(cmd);
@@ -69,6 +79,7 @@ public final class DiamondPlugin extends JavaPlugin {
     void reload() {
         reloadConfig();
         shop.load();
+        events.load();
         for (Player p : Bukkit.getOnlinePlayers()) if (net.hasMod(p)) net.shop(p);
     }
 

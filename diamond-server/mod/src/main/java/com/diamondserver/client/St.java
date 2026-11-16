@@ -21,6 +21,15 @@ public final class St {
     public static boolean done;
     public static long heldChangedAt;   // 보유 다이아가 바뀐 시각 (숫자 강조용)
     public static long heldDelta;
+    public static long goalChangedAt;   // 남은 목표가 바뀐 시각
+    public static long goalDelta;
+
+    /** 후원 이벤트 알림 (화면 위쪽 가운데에 크게) */
+    public record Banner(String donor, int count, String name, String kind, String target, long at) { }
+    public static Banner banner;
+    public static final long BANNER_MS = 3500;
+    /** 줄 서 있는 이벤트 (맨 위가 진행 중) */
+    public static final List<String> queue = new ArrayList<>();
 
     public static final List<Cat> cats = new ArrayList<>();
     public static final List<Item> items = new ArrayList<>();
@@ -30,8 +39,8 @@ public final class St {
     public static final long TOAST_MS = 3500;
 
     public static void clear() {
-        has = false; goal = 0; held = 0; done = false; heldChangedAt = 0; heldDelta = 0;
-        cats.clear(); items.clear(); sells.clear(); toasts.clear();
+        has = false; goal = 0; held = 0; done = false; heldChangedAt = 0; heldDelta = 0; goalChangedAt = 0; goalDelta = 0;
+        cats.clear(); items.clear(); sells.clear(); toasts.clear(); queue.clear(); banner = null;
     }
 
     static String str(JsonObject o, String k, String def) {
@@ -47,7 +56,9 @@ public final class St {
     static void applyState(JsonObject o) {
         long newHeld = num(o, "held", 0);
         if (has && newHeld != held) { heldDelta = newHeld - held; heldChangedAt = System.currentTimeMillis(); }
-        goal = num(o, "goal", 0);
+        long newGoal = num(o, "goal", 0);
+        if (has && newGoal != goal) { goalDelta = newGoal - goal; goalChangedAt = System.currentTimeMillis(); }
+        goal = newGoal;
         held = newHeld;
         JsonElement d = o.get("done");
         done = d != null && !d.isJsonNull() && d.getAsBoolean();
@@ -73,6 +84,17 @@ public final class St {
             double price = s.has("price") ? s.get("price").getAsDouble() : 0;
             sells.add(new Sell(str(s, "mat", ""), str(s, "block", ""), str(s, "name", ""), price));
         }
+    }
+
+    static void applyEvent(JsonObject o) {
+        banner = new Banner(str(o, "donor", "익명"), (int) num(o, "count", 0), str(o, "name", ""), str(o, "kind", "neutral"),
+                str(o, "target", ""), System.currentTimeMillis());
+    }
+
+    static void applyQueue(JsonObject o) {
+        queue.clear();
+        JsonArray a = o.getAsJsonArray("lines");
+        if (a != null) for (JsonElement e : a) queue.add(e.getAsString());
     }
 
     static void toast(String text, boolean ok) {

@@ -42,6 +42,7 @@ final class Cmd implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender s, Command c, String label, String[] a) {
         String name = c.getName();
         if (name.equals("다이아")) return admin(s, a);
+        if (name.equals("후원테스트")) return donateTest(s, a);
         if (!(s instanceof Player p)) { say(s, "게임 안에서만 쓸 수 있는 명령입니다."); return true; }
         switch (name) {
             case "상점" -> {
@@ -67,6 +68,19 @@ final class Cmd implements CommandExecutor, TabCompleter {
             }
             default -> { }
         }
+        return true;
+    }
+
+    /** /후원테스트 <개수> [후원자 이름] [대상 닉] — 진짜 후원이 온 것처럼 이벤트 줄에 세운다 */
+    private boolean donateTest(CommandSender s, String[] a) {
+        if (a.length == 0) { say(s, "/후원테스트 <개수> [후원자 이름] [대상 닉]  (대상을 안 적으면 자기 자신)"); return true; }
+        int count = (int) num(a[0], -1);
+        if (count <= 0) { say(s, "개수는 숫자로 적어 주세요. 예: /후원테스트 50"); return true; }
+        String donor = a.length > 1 ? a[1] : "시험후원";
+        Player t = a.length > 2 ? Bukkit.getPlayerExact(a[2]) : (s instanceof Player p ? p : null);
+        if (t == null) { say(s, a.length > 2 ? a[2] + "님은 접속해 있지 않습니다." : "콘솔에서는 대상 닉을 적어 주세요. 예: /후원테스트 50 시험후원 닉네임"); return true; }
+        if (!pl.events.enqueue(t.getUniqueId(), t.getName(), donor, count)) { say(s, count + "개에 등록된 이벤트가 없습니다. (config.yml 의 events)"); return true; }
+        say(s, "후원 " + count + "개 → " + t.getName() + " (대기 " + pl.events.size() + "건)");
         return true;
     }
 
@@ -119,6 +133,10 @@ final class Cmd implements CommandExecutor, TabCompleter {
     public List<String> onTabComplete(CommandSender s, Command c, String label, String[] a) {
         List<String> out = new ArrayList<>();
         if (c.getName().equals("제출") && a.length == 1) out.add("전부");
+        if (c.getName().equals("후원테스트")) {
+            if (a.length == 1) out.addAll(List.of("10", "50", "51", "100", "300", "500", "510", "1000", "2000", "3000", "4444"));
+            else if (a.length == 3) for (Player p : Bukkit.getOnlinePlayers()) out.add(p.getName());
+        }
         if (!c.getName().equals("다이아")) return filter(out, a);
         if (a.length == 1) out.addAll(List.of("리로드", "지급", "설정", "아이템", "위치", "정보"));
         else if (a.length == 2 && List.of("지급", "설정", "아이템", "정보").contains(a[0])) for (Player p : Bukkit.getOnlinePlayers()) out.add(p.getName());

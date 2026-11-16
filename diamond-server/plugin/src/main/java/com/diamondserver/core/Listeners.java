@@ -38,7 +38,10 @@ final class Listeners implements Listener {
     // ── 접속·퇴장 ────────────────────────────────────────────
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
-        pl.store.get(e.getPlayer());       // 처음 온 사람은 여기서 목표가 정해진다
+        Player p = e.getPlayer();
+        pl.store.get(p);                   // 처음 온 사람은 여기서 목표가 정해진다
+        // 접속해 있지 않을 때 들어온 후원은 3초 뒤(화면이 준비된 뒤) 줄에 넣는다
+        Bukkit.getScheduler().runTaskLater(pl, () -> { if (p.isOnline()) pl.events.onJoin(p); }, 60L);
     }
 
     @EventHandler
