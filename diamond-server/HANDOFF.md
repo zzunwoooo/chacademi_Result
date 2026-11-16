@@ -5,7 +5,7 @@
 ## 저장 위치
 
 GitHub `zzunwoooo/chacademi_Result` 저장소.
-- **작업 브랜치: `claude/diamond-server`** (2026-11-16 생성, 여기서 개발). 저쪽 작업 폴더는 `C:ddm`.
+- **작업 브랜치: `claude/diamond-server`** (2026-11-16 생성, 여기서 개발). 저쪽 작업 폴더는 `C:\ddm`.
 - 처음 받은 자료 원본: `inbox-diamond-server-20261116` 브랜치 (그대로 둠).
 
 ## 한 줄 요약
