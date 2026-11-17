@@ -13,3 +13,9 @@
 3. 커밋·푸시하면 런처가 다음 실행 때 받아 간다.
 
 서버 주소·자동 접속은 넣지 않는다 (`address` 는 빈 글자, `autoconnect` 는 false). 유저가 게임 안에서 서버를 직접 고른다.
+
+## 리소스팩을 새로 올릴 때 (몹 모델 · 폰트 · 소리 · 이모트)
+1. 서버 콘솔에서 `iazip` → `plugins/ItemsAdder/output/generated.zip`
+2. 그 파일을 이 브랜치의 `pack/generated.zip` 으로 복사
+3. `perl tools/build_distro.pl <차카데미 distribution.json>` → 커밋·푸시
+런처가 이 파일을 받아 게임 설정에 자동으로 켠다 (서버에서 따로 보내 주지 않는다).
