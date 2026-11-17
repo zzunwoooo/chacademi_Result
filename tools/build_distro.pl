@@ -58,6 +58,14 @@ for my $f (sort grep { -f } glob('files/* files/*/* files/*/*/*')) {
                    artifact => { sums($f), path => $rel, url => "$RAW/files/$rel" } };
 }
 
+# 리소스팩 (pack/generated.zip = 서버의 ItemsAdder 가 iazip 으로 만든 파일: 몹 모델 · 폰트 · 커스텀 소리 · 이모트)
+# 런처가 받아서 게임 설정에 자동으로 켠다. 게임 폴더 안 이름은 런처에 고정돼 있어 그대로 따른다.
+if (-f 'pack/generated.zip') {
+    my $p = 'resourcepacks/chacademia-integrated-20261023.zip';
+    push @files, { id => 'chacademia-integrated-20261023.zip', name => $p, type => 'File',
+                   artifact => { sums('pack/generated.zip'), path => $p, url => "$RAW/pack/generated.zip" } };
+}
+
 my $server = {
     id => 'infinitetower-1.21.4', name => '무한의 탑', description => 'Minecraft 1.21.4 (Fabric)',
     icon => "$RAW/server-icon.png", version => '1.0.0', address => $ADDRESS, minecraftVersion => '1.21.4',
