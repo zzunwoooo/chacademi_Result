@@ -352,6 +352,7 @@ class ProcessBuilder {
     }
 
     _processAutoConnectArg(args){
+        return // 무한의 탑: 자동 접속 없음 (유저가 게임 안에서 서버를 직접 고른다)
         if((ServerPolicy.isChacademi(this.server.rawServer) || ConfigManager.getAutoConnect()) && this.server.rawServer.autoconnect){
             if(mcVersionAtLeast('1.20', this.server.rawServer.minecraftVersion)){
                 args.push('--quickPlayMultiplayer')
