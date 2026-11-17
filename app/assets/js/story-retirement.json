@@ -1,0 +1,560 @@
+{
+  "retired": [
+    {
+      "path": "config/chaca_dialogue/ch1-1/dialogue.yml",
+      "sha256": "e4c68182b9fffce54b6944601aa7b989aea122999ac45a7538c0ca5ca7a68d9f",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-1/dialogue.yml"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-10/dialogue.yml",
+      "sha256": "3dd87d1145d3a009c7ebf89e2d914b460a76d4e5df95ca184ca8926c02982ce1",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-10/dialogue.yml"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-10/pipi-neutral.png",
+      "sha256": "df6348b3cecdb6c4a1018daf32738be81d69f9eff95a316308f19f76a25c448d",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-10/pipi-neutral.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-11/dialogue.yml",
+      "sha256": "05785cd7235b8668d316d9cff0c9ccff210835c7f70a7c15121eb1ade677b032",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-11/dialogue.yml"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-11/vl_ole-neutral.png",
+      "sha256": "d366e936f7887c40dcbf1449e9d9b5d5f3d6ad043077a91bf1b412874ceefba1",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-11/vl_ole-neutral.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-12/dialogue.yml",
+      "sha256": "62ccfc1452269808702c56bc9eace491ad7addbd758ca62de4183337e0e11fd8",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-12/dialogue.yml"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-12/pipi-neutral.png",
+      "sha256": "df6348b3cecdb6c4a1018daf32738be81d69f9eff95a316308f19f76a25c448d",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-12/pipi-neutral.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-13/dialogue.yml",
+      "sha256": "b331e4dc254d7c6bbf4521ef0d2025611083593dc004184b9ddc7e0483fb58be",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-13/dialogue.yml"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-13/vl_gustav-neutral.png",
+      "sha256": "70657769db38760230d87b2ba54363df7701ff8af8fe01c5c1f37fdecdc066e1",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-13/vl_gustav-neutral.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-14/dialogue.yml",
+      "sha256": "69bac72ca6290a079a2f38178449bee3af25e7f8ec9d0bca994ea066c23ae7c2",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-14/dialogue.yml"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-14/luka-neutral.png",
+      "sha256": "4d1b4acd2827f2589872b6a7aa4dfb11044ddca9bc196f1fc00b27d64e1435ea",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-14/luka-neutral.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-14/vice_gregor-neutral.png",
+      "sha256": "be228515d26496f3857714bf8a5112e79f1e43e713f0916a498e6135f488645a",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-14/vice_gregor-neutral.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-15/dialogue.yml",
+      "sha256": "955013de550b2676d90b4e96ff05e2dc24bd8522af48eae2c70ee0e51a0db839",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-15/dialogue.yml"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-15/vice_gregor-neutral.png",
+      "sha256": "be228515d26496f3857714bf8a5112e79f1e43e713f0916a498e6135f488645a",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-15/vice_gregor-neutral.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-15f-arkeon/dialogue.yml",
+      "sha256": "03931a7bf57da6dd83f5bf32eb796d736ed1d1b82f7a998a25735bb4a2101ce8",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-15f-arkeon/dialogue.yml"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-15f-arkeon/vice_gregor-neutral.png",
+      "sha256": "be228515d26496f3857714bf8a5112e79f1e43e713f0916a498e6135f488645a",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-15f-arkeon/vice_gregor-neutral.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-15f-bestiaz/dialogue.yml",
+      "sha256": "38b2e2ebbf8d82ca923009dc69cfd0dac008618ffa5143b2ac8d3842f395c510",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-15f-bestiaz/dialogue.yml"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-15f-bestiaz/vice_gregor-neutral.png",
+      "sha256": "be228515d26496f3857714bf8a5112e79f1e43e713f0916a498e6135f488645a",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-15f-bestiaz/vice_gregor-neutral.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-15f-lumina/dialogue.yml",
+      "sha256": "13feadd2f65608dfd3b1a2b065659a0e9549131614f653ca49175e72497625f3",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-15f-lumina/dialogue.yml"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-15f-lumina/vice_gregor-neutral.png",
+      "sha256": "be228515d26496f3857714bf8a5112e79f1e43e713f0916a498e6135f488645a",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-15f-lumina/vice_gregor-neutral.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-15f-noxer/dialogue.yml",
+      "sha256": "dc03fca67c79392cb62bfd84f6e39cb98fbd56c530ab2461f522477e20931dc0",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-15f-noxer/dialogue.yml"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-15f-noxer/luka-neutral.png",
+      "sha256": "4d1b4acd2827f2589872b6a7aa4dfb11044ddca9bc196f1fc00b27d64e1435ea",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-15f-noxer/luka-neutral.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-15f-noxer/vice_gregor-neutral.png",
+      "sha256": "be228515d26496f3857714bf8a5112e79f1e43e713f0916a498e6135f488645a",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-15f-noxer/vice_gregor-neutral.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-15m-arkeon/dialogue.yml",
+      "sha256": "d2a376f48386a07c604a48dc559bb3e611129ab41d432f445cd31eb9813cddc7",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-15m-arkeon/dialogue.yml"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-15m-arkeon/vice_gregor-neutral.png",
+      "sha256": "be228515d26496f3857714bf8a5112e79f1e43e713f0916a498e6135f488645a",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-15m-arkeon/vice_gregor-neutral.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-15m-bestiaz/dialogue.yml",
+      "sha256": "55e5eec2151e47dbb93aee29ac1bec2201dc342dc785128eef4db43fa32b6bd3",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-15m-bestiaz/dialogue.yml"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-15m-bestiaz/vice_gregor-neutral.png",
+      "sha256": "be228515d26496f3857714bf8a5112e79f1e43e713f0916a498e6135f488645a",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-15m-bestiaz/vice_gregor-neutral.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-15m-lumina/dialogue.yml",
+      "sha256": "fc4a873c2216b556a834d3b3b35447afd9da2c36ea4d78023043116f7596f606",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-15m-lumina/dialogue.yml"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-15m-lumina/vice_gregor-neutral.png",
+      "sha256": "be228515d26496f3857714bf8a5112e79f1e43e713f0916a498e6135f488645a",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-15m-lumina/vice_gregor-neutral.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-15m-noxer/dialogue.yml",
+      "sha256": "aa57017fc88875cda48f96185ac52c655c641c80ed64ab1396992003950a0fae",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-15m-noxer/dialogue.yml"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-15m-noxer/luka-neutral.png",
+      "sha256": "4d1b4acd2827f2589872b6a7aa4dfb11044ddca9bc196f1fc00b27d64e1435ea",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-15m-noxer/luka-neutral.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-15m-noxer/vice_gregor-neutral.png",
+      "sha256": "be228515d26496f3857714bf8a5112e79f1e43e713f0916a498e6135f488645a",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-15m-noxer/vice_gregor-neutral.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-15r-arkeon/dialogue.yml",
+      "sha256": "a0a2040a806d284ef7d1dc63e6a83f65f43c641d631416473ed9edfed60d28bf",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-15r-arkeon/dialogue.yml"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-15r-arkeon/vice_gregor-neutral.png",
+      "sha256": "be228515d26496f3857714bf8a5112e79f1e43e713f0916a498e6135f488645a",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-15r-arkeon/vice_gregor-neutral.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-15r-bestiaz/dialogue.yml",
+      "sha256": "e39b0a64f437b7921007f748fe5af9aac519c1e830a688f0ae8d379cec051d40",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-15r-bestiaz/dialogue.yml"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-15r-bestiaz/vice_gregor-neutral.png",
+      "sha256": "be228515d26496f3857714bf8a5112e79f1e43e713f0916a498e6135f488645a",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-15r-bestiaz/vice_gregor-neutral.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-15r-lumina/dialogue.yml",
+      "sha256": "6e89b0a13f3b7ae2e120e296eb77ef49ce95a8888824786b696c28f2cd7f011a",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-15r-lumina/dialogue.yml"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-15r-lumina/vice_gregor-neutral.png",
+      "sha256": "be228515d26496f3857714bf8a5112e79f1e43e713f0916a498e6135f488645a",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-15r-lumina/vice_gregor-neutral.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-15r-noxer/dialogue.yml",
+      "sha256": "a553b49ad0ba3b5b4391dd920f9ed48c87a9e50e49a80510eaf1b99c715af322",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-15r-noxer/dialogue.yml"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-15r-noxer/luka-neutral.png",
+      "sha256": "4d1b4acd2827f2589872b6a7aa4dfb11044ddca9bc196f1fc00b27d64e1435ea",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-15r-noxer/luka-neutral.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-15r-noxer/vice_gregor-neutral.png",
+      "sha256": "be228515d26496f3857714bf8a5112e79f1e43e713f0916a498e6135f488645a",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-15r-noxer/vice_gregor-neutral.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-16/dialogue.yml",
+      "sha256": "51b354dbc83446df52157e0768ab8a573c0c203cbb51033b2edfa1ae32cdb68d",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-16/dialogue.yml"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-16/dorm_lowell-neutral.png",
+      "sha256": "079fb710f94b998eafbb0f74a81cd62c70cd93a1988fd03c6c98dfca81506abd",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-16/dorm_lowell-neutral.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-17/dialogue.yml",
+      "sha256": "09dad51a81f0c6467a12fa919a64708f627d8da43d1b40fbabd2f66e896ea8b0",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-17/dialogue.yml"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-17/tc_berna-neutral.png",
+      "sha256": "0df810a6a70902ffffb0dd6b37ee1e1171ea073e2685ecdf8d9cacabf5b0186a",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-17/tc_berna-neutral.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-18/dialogue.yml",
+      "sha256": "b0cea61f5deb2856b014a8b1a4a840811e6d4b62e7c34a35a0d9620016a8a2a6",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-18/dialogue.yml"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-18/elena-angry.png",
+      "sha256": "5d972ff578d3f7d2a0cc26b95816974fadc993d60cc46770cfc4c53087b08dbe",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-18/elena-angry.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-18/elena-excited.png",
+      "sha256": "1cef5188e18ee4ff1a46cce884c5100510585a8d1fbe51acb0cba4af3686ad69",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-18/elena-excited.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-18/elena-flustered.png",
+      "sha256": "6da3bfdce4c27ceb112accd1250e12df1df476edf8d11fa8f604aee2319eda99",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-18/elena-flustered.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-18/elena-happy.png",
+      "sha256": "8880ed8341a7784f2e817e150f8006421917dcb6a0629093f0246dd488c03b3e",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-18/elena-happy.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-18/elena-neutral.png",
+      "sha256": "a6959502f0ede93cfe8eb323b928a45cf172b051af4d3cd5682699e71ea4e28d",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-18/elena-neutral.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-18/elena-sad.png",
+      "sha256": "9ee34018075ec36a11f5ea9b62db061f99a6047f3f957d998462456eb3b2b519",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-18/elena-sad.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-18/luka-neutral.png",
+      "sha256": "4d1b4acd2827f2589872b6a7aa4dfb11044ddca9bc196f1fc00b27d64e1435ea",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-18/luka-neutral.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-19/dialogue.yml",
+      "sha256": "7be0e0f05c09c7e0cb9165f8327d101b57f9d5509ffb2b67d1fc7e15ad305b12",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-19/dialogue.yml"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-19/librarian_isolde-neutral.png",
+      "sha256": "605b05a423f79629d91e74999516d5fade817d2baff71e4a0623b7ef1dcbdb2b",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-19/librarian_isolde-neutral.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-2/dialogue.yml",
+      "sha256": "2d48042ff73e9ab5e070e1a6d080c66b66c3f83305f5f56bb360fc04ba8c73da",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-2/dialogue.yml"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-2/p8_1.png",
+      "sha256": "6f48bd626b7980a9192c0ec94686d99d0aa3c29733e5a8ec7f3bc0cd362903c9",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-2/p8_1.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-2/p8_2.png",
+      "sha256": "ec409558b01d9094c0248f52c84573d16ce31df33c6797f165384338758c7ead",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-2/p8_2.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-2/p8_3.png",
+      "sha256": "84f46142309002dcfdafd0bbe0768143e5d26b3f9b8842f038beb04ed6359c49",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-2/p8_3.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-2/p8_4.png",
+      "sha256": "cb53a3e5cf8c11c704249e9dd550371394502a6721c6429a9633221397470dd2",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-2/p8_4.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-2/p8_5.png",
+      "sha256": "39d81361c6f8b2696d7d59ec0ac6400b865000fe9f0d373dfb01ef92d6f84c05",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-2/p8_5.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-2/p8_6.png",
+      "sha256": "4c3aa64bc460062c79d99fd9734ec45296d2dcb596b98fb9cc0ebc98e3806986",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-2/p8_6.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-20/dialogue.yml",
+      "sha256": "32450099a59e29701c13c642687b7e6fb74401b0d8e2ad0d1a97d7b44d34c5da",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-20/dialogue.yml"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-20/librarian_isolde-neutral.png",
+      "sha256": "605b05a423f79629d91e74999516d5fade817d2baff71e4a0623b7ef1dcbdb2b",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-20/librarian_isolde-neutral.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-20/luka-neutral.png",
+      "sha256": "4d1b4acd2827f2589872b6a7aa4dfb11044ddca9bc196f1fc00b27d64e1435ea",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-20/luka-neutral.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-21/dialogue.yml",
+      "sha256": "8e80260668afe440693e31462bb94eeb0f2b4f4a2f0340c151558b1ccccd7430",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-21/dialogue.yml"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-21/librarian_isolde-neutral.png",
+      "sha256": "605b05a423f79629d91e74999516d5fade817d2baff71e4a0623b7ef1dcbdb2b",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-21/librarian_isolde-neutral.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-3/dialogue.yml",
+      "sha256": "cf0df7bb92c8ccd454053e7c375ac7b69376c3c535254c180c107dadd7c04c25",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-3/dialogue.yml"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-3/p8_1.png",
+      "sha256": "6f48bd626b7980a9192c0ec94686d99d0aa3c29733e5a8ec7f3bc0cd362903c9",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-3/p8_1.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-3/p8_2.png",
+      "sha256": "ec409558b01d9094c0248f52c84573d16ce31df33c6797f165384338758c7ead",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-3/p8_2.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-3/p8_3.png",
+      "sha256": "84f46142309002dcfdafd0bbe0768143e5d26b3f9b8842f038beb04ed6359c49",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-3/p8_3.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-3/p8_4.png",
+      "sha256": "cb53a3e5cf8c11c704249e9dd550371394502a6721c6429a9633221397470dd2",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-3/p8_4.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-3/p8_5.png",
+      "sha256": "39d81361c6f8b2696d7d59ec0ac6400b865000fe9f0d373dfb01ef92d6f84c05",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-3/p8_5.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-3/p8_6.png",
+      "sha256": "4c3aa64bc460062c79d99fd9734ec45296d2dcb596b98fb9cc0ebc98e3806986",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-3/p8_6.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-4/dialogue.yml",
+      "sha256": "7cf6866a65383a8a7fdda8177e24ef2680e4c30ffa96939b5a4a618b788d3485",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-4/dialogue.yml"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-4/p8_1.png",
+      "sha256": "6f48bd626b7980a9192c0ec94686d99d0aa3c29733e5a8ec7f3bc0cd362903c9",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-4/p8_1.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-4/p8_2.png",
+      "sha256": "ec409558b01d9094c0248f52c84573d16ce31df33c6797f165384338758c7ead",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-4/p8_2.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-4/p8_3.png",
+      "sha256": "84f46142309002dcfdafd0bbe0768143e5d26b3f9b8842f038beb04ed6359c49",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-4/p8_3.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-4/p8_4.png",
+      "sha256": "cb53a3e5cf8c11c704249e9dd550371394502a6721c6429a9633221397470dd2",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-4/p8_4.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-4/p8_5.png",
+      "sha256": "39d81361c6f8b2696d7d59ec0ac6400b865000fe9f0d373dfb01ef92d6f84c05",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-4/p8_5.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-4/p8_6.png",
+      "sha256": "4c3aa64bc460062c79d99fd9734ec45296d2dcb596b98fb9cc0ebc98e3806986",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-4/p8_6.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-5/dialogue.yml",
+      "sha256": "fd8f7919bac955f4e3013ba3d0c543b680bbeb1a0f139936af15a441e9c2b6de",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-5/dialogue.yml"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-5/p8_1.png",
+      "sha256": "6f48bd626b7980a9192c0ec94686d99d0aa3c29733e5a8ec7f3bc0cd362903c9",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-5/p8_1.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-5/p8_2.png",
+      "sha256": "ec409558b01d9094c0248f52c84573d16ce31df33c6797f165384338758c7ead",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-5/p8_2.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-5/p8_3.png",
+      "sha256": "84f46142309002dcfdafd0bbe0768143e5d26b3f9b8842f038beb04ed6359c49",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-5/p8_3.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-5/p8_4.png",
+      "sha256": "cb53a3e5cf8c11c704249e9dd550371394502a6721c6429a9633221397470dd2",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-5/p8_4.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-5/p8_5.png",
+      "sha256": "39d81361c6f8b2696d7d59ec0ac6400b865000fe9f0d373dfb01ef92d6f84c05",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-5/p8_5.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-5/p8_6.png",
+      "sha256": "4c3aa64bc460062c79d99fd9734ec45296d2dcb596b98fb9cc0ebc98e3806986",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-5/p8_6.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-6/dialogue.yml",
+      "sha256": "00b5a61f6d9a7a1c6a401d5ff578ebccd102785d62ecc6b7c76dc1352451cf49",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-6/dialogue.yml"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-6/p8_1.png",
+      "sha256": "6f48bd626b7980a9192c0ec94686d99d0aa3c29733e5a8ec7f3bc0cd362903c9",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-6/p8_1.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-6/p8_2.png",
+      "sha256": "ec409558b01d9094c0248f52c84573d16ce31df33c6797f165384338758c7ead",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-6/p8_2.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-6/p8_3.png",
+      "sha256": "84f46142309002dcfdafd0bbe0768143e5d26b3f9b8842f038beb04ed6359c49",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-6/p8_3.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-6/p8_4.png",
+      "sha256": "cb53a3e5cf8c11c704249e9dd550371394502a6721c6429a9633221397470dd2",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-6/p8_4.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-6/p8_5.png",
+      "sha256": "39d81361c6f8b2696d7d59ec0ac6400b865000fe9f0d373dfb01ef92d6f84c05",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-6/p8_5.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-6/p8_6.png",
+      "sha256": "4c3aa64bc460062c79d99fd9734ec45296d2dcb596b98fb9cc0ebc98e3806986",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-6/p8_6.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-7/bram-angry.png",
+      "sha256": "7613e847163713f97264aada72bde3af656faa6bf67085feeeada1b2f4fe7257",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-7/bram-angry.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-7/bram-excited.png",
+      "sha256": "1f96ac3386bc2cd122877adf0e18aef7806a696382dcbb00bddadc518d73348e",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-7/bram-excited.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-7/bram-flustered.png",
+      "sha256": "c8ebd5db4f6d6f91f7a70476c8411db9601e92d36f5f1bf7d2583713d6f41b17",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-7/bram-flustered.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-7/bram-happy.png",
+      "sha256": "8666eee84562a219ee40531a5ad1d0e602bea075c0f5d774e546a8bdf9e910c7",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-7/bram-happy.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-7/bram-neutral.png",
+      "sha256": "192c5dc7156b88a9a0afa682187b58da57338932332ee5b8652c134ad751761a",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-7/bram-neutral.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-7/bram-sad.png",
+      "sha256": "df53ea34f6fd7bc4fda796b82cb82b9a5369ea675756f280b5e5a72dd884b0fc",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-7/bram-sad.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-7/dialogue.yml",
+      "sha256": "6b8d5e0df9cbe79c430789df28da43997936c8e735acc26f39827b19e0d05e47",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-7/dialogue.yml"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-8/bram-angry.png",
+      "sha256": "7613e847163713f97264aada72bde3af656faa6bf67085feeeada1b2f4fe7257",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-8/bram-angry.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-8/bram-excited.png",
+      "sha256": "1f96ac3386bc2cd122877adf0e18aef7806a696382dcbb00bddadc518d73348e",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-8/bram-excited.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-8/bram-flustered.png",
+      "sha256": "c8ebd5db4f6d6f91f7a70476c8411db9601e92d36f5f1bf7d2583713d6f41b17",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-8/bram-flustered.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-8/bram-happy.png",
+      "sha256": "8666eee84562a219ee40531a5ad1d0e602bea075c0f5d774e546a8bdf9e910c7",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-8/bram-happy.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-8/bram-neutral.png",
+      "sha256": "192c5dc7156b88a9a0afa682187b58da57338932332ee5b8652c134ad751761a",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-8/bram-neutral.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-8/bram-sad.png",
+      "sha256": "df53ea34f6fd7bc4fda796b82cb82b9a5369ea675756f280b5e5a72dd884b0fc",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-8/bram-sad.png"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-8/dialogue.yml",
+      "sha256": "a44b5346d2bd3bdab287cc6149b0246b2df8993a156edfefd910f712869b4d9d",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-8/dialogue.yml"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-9/dialogue.yml",
+      "sha256": "1795a35acb906272dbcc8eb0c867c16d05e13d00abd721b7036743b0460dc57d",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-9/dialogue.yml"
+    },
+    {
+      "path": "config/chaca_dialogue/ch1-9/pipi-neutral.png",
+      "sha256": "df6348b3cecdb6c4a1018daf32738be81d69f9eff95a316308f19f76a25c448d",
+      "sourceRef": "6e2c2c801ca681a3cc686ea3c43c954fd5ec0145^:story/ch1/chaca_dialogue/ch1-9/pipi-neutral.png"
+    }
+  ],
+  "policy": "Only remove existing files whose SHA256 matches; preserve _progress and all unknown/modified user files; retain Git source for rollback"
+}

@@ -1,0 +1,3 @@
+# Immutable published payload inputs must retain exact manifest bytes.
+distribution-assets/shader-defaults-20261020/* -text
+tools/fixtures/keydefaults-v0.1.24-options.txt -text
