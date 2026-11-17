@@ -183,9 +183,9 @@
             },
             {
                "artifact" : {
-                  "MD5" : "c96668bc7cd4dc0b74d8006a552fc39d",
-                  "SHA256" : "7c09739da4952967aac0f49add2694084898f9bb2dc34409efff27294845ec97",
-                  "size" : 36031527,
+                  "MD5" : "11c8cb1121de59fdadeb64d1c26b16d9",
+                  "SHA256" : "b7730d51475e35715491769b679022809990713d7a4e5264a7293b5ea32e4bd7",
+                  "size" : 36038121,
                   "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/tower-launcher-distro/mods/infinitetower-ui-0.1.0.jar"
                },
                "id" : "kr.infinitetower:infinitetower-ui:0.1.0@jar",
