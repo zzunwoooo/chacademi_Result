@@ -70,7 +70,10 @@ async function showMainUI(data){
     refreshServerStatus()
     setTimeout(() => {
         document.getElementById('frameBar').style.backgroundColor = 'rgba(0, 0, 0, 0.5)'
-        document.body.style.backgroundImage = 'radial-gradient(ellipse at 50% 18%, #2c1c58 0%, #10132b 52%, #070914 100%)'
+        // 배경: 차카데미 던전 창의 무한의 탑 그림 (원본 그대로, 창 크기에 맞춰 채움)
+        document.body.style.backgroundImage = "url('assets/images/backgrounds/tower.jpg')"
+        document.body.style.backgroundSize = 'cover'
+        document.body.style.backgroundPosition = 'center'
         $('#main').show()
 
         const isLoggedIn = Object.keys(ConfigManager.getAuthAccounts()).length > 0
