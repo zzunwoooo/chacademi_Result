@@ -75479,10 +75479,10 @@
             },
             {
                "artifact" : {
-                  "MD5" : "104990fe72dc46da5fc75a38d4555469",
-                  "SHA256" : "5e754e6c0e0aafc0a5733c18c3f371d7279d127e3743f30dd555e1245f81541d",
+                  "MD5" : "6e274135bdb8a0a84f7a38df376ab055",
+                  "SHA256" : "f66962e02c3fcc0811c7ff46ef26d90b6799949e17f3347f015f5e5d16ef7ecd",
                   "path" : "resourcepacks/chacademia-integrated-20261023.zip",
-                  "size" : 16678812,
+                  "size" : 12563273,
                   "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/tower-launcher-distro/pack/generated.zip"
                },
                "id" : "chacademia-integrated-20261023.zip",
