@@ -1,11 +1,11 @@
 {
-  "name": "infinitetower-launcher",
-  "version": "1.0.1",
-  "productName": "무한의 탑",
-  "description": "무한의 탑 마인크래프트 1.21.4 런처",
+  "name": "rinko-launcher",
+  "version": "1.0.0",
+  "productName": "린코 빚갚기",
+  "description": "린코 빚갚기 마인크래프트 1.21.4 런처",
   "author": "Daniel Scalzi (https://github.com/dscalzi/)",
   "license": "UNLICENSED",
-  "homepage": "https://github.com/zzunwoooo/chacademi_Result/tree/claude/tower-launcher",
+  "homepage": "https://github.com/zzunwoooo/chacademi_Result/tree/claude/rinko-launcher",
   "bugs": {
     "url": "https://github.com/zzunwoooo/chacademi_Result/issues"
   },

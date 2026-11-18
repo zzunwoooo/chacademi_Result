@@ -352,7 +352,7 @@ class ProcessBuilder {
     }
 
     _processAutoConnectArg(args){
-        return // 무한의 탑: 자동 접속 없음 (유저가 게임 안에서 서버를 직접 고른다)
+        return // 린코 빚갚기: 자동 접속 없음 (유저가 게임 안에서 서버를 직접 고른다)
         if((ServerPolicy.isChacademi(this.server.rawServer) || ConfigManager.getAutoConnect()) && this.server.rawServer.autoconnect){
             if(mcVersionAtLeast('1.20', this.server.rawServer.minecraftVersion)){
                 args.push('--quickPlayMultiplayer')
@@ -399,8 +399,8 @@ class ProcessBuilder {
 
         // Java Arguments
         if(process.platform === 'darwin'){
-            args.push('-Xdock:name=무한의 탑')
-            args.push('-Xdock:icon=' + path.join(__dirname, '..', 'images', 'tower-icon.icns'))
+            args.push('-Xdock:name=린코 빚갚기')
+            args.push('-Xdock:icon=' + path.join(__dirname, '..', 'images', 'rinko-icon.icns'))
         }
         args.push('-Xmx' + ConfigManager.getMaxRAM(this.server.rawServer.id))
         args.push('-Xms' + ConfigManager.getMinRAM(this.server.rawServer.id))
@@ -450,8 +450,8 @@ class ProcessBuilder {
 
         // Java Arguments
         if(process.platform === 'darwin'){
-            args.push('-Xdock:name=무한의 탑')
-            args.push('-Xdock:icon=' + path.join(__dirname, '..', 'images', 'tower-icon.icns'))
+            args.push('-Xdock:name=린코 빚갚기')
+            args.push('-Xdock:icon=' + path.join(__dirname, '..', 'images', 'rinko-icon.icns'))
         }
         args.push('-Xmx' + ConfigManager.getMaxRAM(this.server.rawServer.id))
         args.push('-Xms' + ConfigManager.getMinRAM(this.server.rawServer.id))

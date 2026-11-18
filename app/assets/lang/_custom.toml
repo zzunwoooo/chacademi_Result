@@ -1,5 +1,5 @@
 [ejs.app]
-title = "무한의 탑"
+title = "린코 빚갚기"
 [ejs.landing]
 mediaGitHubURL = "#"
 mediaXURL = "#"
@@ -7,9 +7,9 @@ mediaInstagramURL = "#"
 mediaYouTubeURL = "#"
 mediaDiscordURL = "#"
 [ejs.settings]
-sourceGithubLink = "https://github.com/zzunwoooo/chacademi_Result/tree/claude/tower-launcher"
+sourceGithubLink = "https://github.com/zzunwoooo/chacademi_Result/tree/claude/rinko-launcher"
 supportLink = "#"
 [ejs.welcome]
-welcomeHeader = "무한의 탑"
+welcomeHeader = "린코 빚갚기"
 welcomeDescription = ""
 welcomeDescCTA = ""

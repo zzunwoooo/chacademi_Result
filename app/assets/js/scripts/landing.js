@@ -259,7 +259,7 @@ const refreshMojangStatuses = async function(){
 }
 
 const refreshServerStatus = async (fade = false) => {
-    // 무한의 탑: 런처는 서버 주소를 갖고 있지 않다 (서버 상태 표시·자동 접속 없음)
+    // 린코 빚갚기: 런처는 서버 주소를 갖고 있지 않다 (서버 상태 표시·자동 접속 없음)
     const wrapper = document.getElementById('server_status_wrapper')
     if(wrapper){ wrapper.style.display = 'none' }
     if(wrapper && wrapper.nextElementSibling && wrapper.nextElementSibling.classList.contains('bot_divider')){ wrapper.nextElementSibling.style.display = 'none' }
@@ -511,7 +511,7 @@ async function dlAsync(login = true) {
     setLaunchPercentage(0, 100)
 
     const keyDefaultsRoot = path.join(ConfigManager.getInstanceDirectory(), ConfigManager.getSelectedServer())
-    const keyDefaultsState = null // 무한의 탑: 차카데미 전용 키 배치는 적용하지 않음
+    const keyDefaultsState = null // 린코 빚갚기: 차카데미 전용 키 배치는 적용하지 않음
     const fullRepairModule = new FullRepair(
         ConfigManager.getCommonDirectory(),
         ConfigManager.getInstanceDirectory(),

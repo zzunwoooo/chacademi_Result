@@ -70,10 +70,8 @@ async function showMainUI(data){
     refreshServerStatus()
     setTimeout(() => {
         document.getElementById('frameBar').style.backgroundColor = 'rgba(0, 0, 0, 0.5)'
-        // 배경: 차카데미 던전 창의 무한의 탑 그림 (원본 그대로, 창 크기에 맞춰 채움)
-        document.body.style.backgroundImage = "url('assets/images/backgrounds/tower.jpg')"
-        document.body.style.backgroundSize = 'cover'
-        document.body.style.backgroundPosition = 'center'
+        // 배경: 임시 (그림 없이 청록 그러데이션, 정식 그림이 나오면 교체)
+        document.body.style.backgroundImage = 'radial-gradient(ellipse at 50% 18%, #2f6f68 0%, #173d3c 55%, #0b1d1f 100%)'
         $('#main').show()
 
         const isLoggedIn = Object.keys(ConfigManager.getAuthAccounts()).length > 0
