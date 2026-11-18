@@ -183,9 +183,9 @@
             },
             {
                "artifact" : {
-                  "MD5" : "bcfee879d0a7a9ca8e770a8687d05f16",
-                  "SHA256" : "bdef7043df6fb62438f23792a16191b6bde632ea6306c62ecab27207115172e1",
-                  "size" : 25481537,
+                  "MD5" : "b937ecf18117bc8a0e70aae0cf1a9e76",
+                  "SHA256" : "8e68fd808bb5b5afb978d80b64da1010fa010ebfa7a3b17148391f3d27b744d0",
+                  "size" : 25502161,
                   "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/tower-launcher-distro/mods/infinitetower-ui-0.1.0.jar"
                },
                "id" : "kr.infinitetower:infinitetower-ui:0.1.0@jar",
@@ -75479,10 +75479,10 @@
             },
             {
                "artifact" : {
-                  "MD5" : "6e274135bdb8a0a84f7a38df376ab055",
-                  "SHA256" : "f66962e02c3fcc0811c7ff46ef26d90b6799949e17f3347f015f5e5d16ef7ecd",
+                  "MD5" : "6ac83e5ec7c9418267503ed1feb999f7",
+                  "SHA256" : "2a87e2d2f409ca2a4200718b5799d0d929d351cc3598da66fa5ce073bea770dc",
                   "path" : "resourcepacks/chacademia-integrated-20261023.zip",
-                  "size" : 12563273,
+                  "size" : 9373499,
                   "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/tower-launcher-distro/pack/generated.zip"
                },
                "id" : "chacademia-integrated-20261023.zip",
