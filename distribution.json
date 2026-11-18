@@ -286,10 +286,10 @@
             },
             {
                "artifact" : {
-                  "MD5" : "4726b93333b5189d6e2421253addc400",
-                  "SHA256" : "b37ff5e54508dde059a4cd486d1c794ff8bfd4a52aceca0df47f1f2779d49631",
+                  "MD5" : "eae7e530cadad04a199103b99be39c35",
+                  "SHA256" : "fcd75ae70f6efc9d505fbbfe55b62684524856486a9b6ba0b57dcd5d66be3a18",
                   "path" : "resourcepacks/chacademia-integrated-20261023.zip",
-                  "size" : 575671,
+                  "size" : 2275632,
                   "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/rinko-launcher-distro/pack/generated.zip"
                },
                "id" : "chacademia-integrated-20261023.zip",
