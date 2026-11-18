@@ -1,3 +1,4 @@
 # 무한의 탑 사용 허가 목록 (한 줄 = 허가된 서버 하나, tools/add.sh 로 추가)
 74ff015584afafef3247a0cd87cac92a19a5039e4c088c5e7e1cd75eda6760a8  # 오너 시험 서버
 b9d980d4088f6096a8d8120436b82e6a:39e754a7e708b79f  # 오너 시험 서버 (보호 빌드 owner-test)
+e0531a609110ea4855429dfb59c56eb0:970badb60bde028f  # buyer01
