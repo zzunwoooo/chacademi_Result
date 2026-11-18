@@ -1,0 +1,305 @@
+{
+   "rss" : "",
+   "servers" : [
+      {
+         "address" : "",
+         "autoconnect" : false,
+         "description" : "Minecraft 1.21.4 (Fabric)",
+         "icon" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/rinko-launcher-distro/server-icon.png",
+         "id" : "rinko-1.21.4",
+         "javaOptions" : {
+            "platformOptions" : [
+               {
+                  "architecture" : "x64",
+                  "distribution" : "TEMURIN",
+                  "platform" : "win32"
+               }
+            ],
+            "ram" : {
+               "minimum" : 4096,
+               "recommended" : 8192
+            },
+            "suggestedMajor" : 21,
+            "supported" : "=>21"
+         },
+         "mainServer" : true,
+         "minecraftVersion" : "1.21.4",
+         "modules" : [
+            {
+               "artifact" : {
+                  "MD5" : "56c00fa22e0452e8567be1feae73c3b9",
+                  "SHA256" : "ea300b841949a290641db8c137e3da205462a089a7472d8f1657179fd23bcf4a",
+                  "size" : 1944518,
+                  "url" : "https://maven.fabricmc.net/net/fabricmc/fabric-loader/0.18.4/fabric-loader-0.18.4.jar"
+               },
+               "id" : "net.fabricmc:fabric-loader:0.18.4",
+               "name" : "Fabric Loader",
+               "subModules" : [
+                  {
+                     "artifact" : {
+                        "MD5" : "791082c6894fc413cd49d8ee987d4bab",
+                        "SHA256" : "977110a9c838e3062845d29a68dba9ef0623ae730d5640cdb05e0ee4a7b49426",
+                        "size" : 2847,
+                        "url" : "https://meta.fabricmc.net/v2/versions/loader/1.21.4/0.18.4/profile/json"
+                     },
+                     "id" : "fabric-loader-0.18.4-1.21.4",
+                     "name" : "Official Fabric profile",
+                     "type" : "VersionManifest"
+                  },
+                  {
+                     "artifact" : {
+                        "MD5" : "6d1dd0482c03a6dc1807d9d004456021",
+                        "SHA256" : "03d99a74ad1ee5c71334ef67437f4ef4fe3488caa7c96d8645abc73c8e2017d4",
+                        "size" : 126122,
+                        "url" : "https://maven.fabricmc.net/org/ow2/asm/asm/9.9/asm-9.9.jar"
+                     },
+                     "id" : "org.ow2.asm:asm:9.9",
+                     "name" : "asm",
+                     "type" : "Library"
+                  },
+                  {
+                     "artifact" : {
+                        "MD5" : "f07383cfbd50f097558341a03b8871e1",
+                        "SHA256" : "6a15d28e8bd29ba4fd5bca4baf9b50e8fba2d7b51fbf78cfa0c875a7214c678b",
+                        "size" : 35149,
+                        "url" : "https://maven.fabricmc.net/org/ow2/asm/asm-analysis/9.9/asm-analysis-9.9.jar"
+                     },
+                     "id" : "org.ow2.asm:asm-analysis:9.9",
+                     "name" : "asm-analysis",
+                     "type" : "Library"
+                  },
+                  {
+                     "artifact" : {
+                        "MD5" : "8103b3de8f48fb4c7f97efdaa46ce809",
+                        "SHA256" : "db2f6f26150bbe7c126606b4a1151836bcc22a1e05a423b3585698bece995ff8",
+                        "size" : 74348,
+                        "url" : "https://maven.fabricmc.net/org/ow2/asm/asm-commons/9.9/asm-commons-9.9.jar"
+                     },
+                     "id" : "org.ow2.asm:asm-commons:9.9",
+                     "name" : "asm-commons",
+                     "type" : "Library"
+                  },
+                  {
+                     "artifact" : {
+                        "MD5" : "912eeaba1a63d574ffc66c651c7c6725",
+                        "SHA256" : "42178f3775c9c63f9e5e1446747d29b4eca4d91bd6e75e5c43cfa372a47d38c6",
+                        "size" : 51947,
+                        "url" : "https://maven.fabricmc.net/org/ow2/asm/asm-tree/9.9/asm-tree-9.9.jar"
+                     },
+                     "id" : "org.ow2.asm:asm-tree:9.9",
+                     "name" : "asm-tree",
+                     "type" : "Library"
+                  },
+                  {
+                     "artifact" : {
+                        "MD5" : "ef5e90e736cd09bc407c1d46a3faba0f",
+                        "SHA256" : "3842e13cfe324ee9ab7cdc4914be9943541ead397c17e26daf0b8a755bede717",
+                        "size" : 94565,
+                        "url" : "https://maven.fabricmc.net/org/ow2/asm/asm-util/9.9/asm-util-9.9.jar"
+                     },
+                     "id" : "org.ow2.asm:asm-util:9.9",
+                     "name" : "asm-util",
+                     "type" : "Library"
+                  },
+                  {
+                     "artifact" : {
+                        "MD5" : "d27dcb910788a0bd4bea72942a714093",
+                        "SHA256" : "e7889fcd185e4199052dcbcf0fe2128581cbf8630aea7feb37429667b1ba49a9",
+                        "size" : 1505269,
+                        "url" : "https://maven.fabricmc.net/net/fabricmc/sponge-mixin/0.17.0+mixin.0.8.7/sponge-mixin-0.17.0+mixin.0.8.7.jar"
+                     },
+                     "id" : "net.fabricmc:sponge-mixin:0.17.0+mixin.0.8.7",
+                     "name" : "sponge-mixin",
+                     "type" : "Library"
+                  },
+                  {
+                     "artifact" : {
+                        "MD5" : "d0f4187a62328d4a95f3428434efbd48",
+                        "SHA256" : "6aea9971d72e14f03f2c167ee2c24edd5eb0a59fc3eaedcbdf5c2ad0f0c36786",
+                        "size" : 701826,
+                        "url" : "https://maven.fabricmc.net/net/fabricmc/intermediary/1.21.4/intermediary-1.21.4.jar"
+                     },
+                     "id" : "net.fabricmc:intermediary:1.21.4",
+                     "name" : "intermediary",
+                     "type" : "Library"
+                  }
+               ],
+               "type" : "Fabric"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "fcf0f59c7f45c751af04527080bc4e28",
+                  "SHA256" : "f9a68b4f43d7ec9ba26cd9e0219b43d36b5e2265f9f850e844d3decd708c8e03",
+                  "size" : 578977,
+                  "url" : "https://cdn.modrinth.com/data/qyulnpBL/versions/Bch8tAuW/koreanpatch-fabric-1.8.5%2Bmc1.21.3.jar"
+               },
+               "id" : "org.modrinth:koreanpatch:1.8.5+mc1.21.3@jar",
+               "name" : "mods/koreanpatch-1.8.5+mc1.21.3.jar",
+               "type" : "FabricMod"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "128a8d042180e7c92567342e21a21a6d",
+                  "SHA256" : "d183bacb845167f09264c2f90322b7ecffe8826debda6f60e597889264bef4af",
+                  "size" : 2149128,
+                  "url" : "https://cdn.modrinth.com/data/P7dR8mSH/versions/p96k10UR/fabric-api-0.119.4%2B1.21.4.jar"
+               },
+               "id" : "org.modrinth:fabric-api:0.119.4+1.21.4@jar",
+               "name" : "mods/fabric-api-0.119.4+1.21.4.jar",
+               "type" : "FabricMod"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "59d373e4874efbcb8fb426bdefa588d9",
+                  "SHA256" : "70571b23d4de17ae380515fb4c9dadd82d96f7ec1b573553858a07bb80445da9",
+                  "size" : 2682702,
+                  "url" : "https://cdn.modrinth.com/data/YL57xq9U/versions/Ca054sTe/iris-fabric-1.8.8%2Bmc1.21.4.jar"
+               },
+               "id" : "org.modrinth:iris:1.8.8+mc1.21.4@jar",
+               "name" : "mods/iris-1.8.8+mc1.21.4.jar",
+               "type" : "FabricMod"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "28922a78d1876ee062e3265f10abcc46",
+                  "SHA256" : "92b79623fc00f0f948005a0ae416cb42a51646f2423b4036e27e867e4001a47e",
+                  "size" : 1306799,
+                  "url" : "https://cdn.modrinth.com/data/AANobbMI/versions/c3YkZvne/sodium-fabric-0.6.13%2Bmc1.21.4.jar"
+               },
+               "id" : "org.modrinth:sodium:0.6.13+mc1.21.4@jar",
+               "name" : "mods/sodium-0.6.13+mc1.21.4.jar",
+               "type" : "FabricMod"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "e6a66616cb5274560f266bcb1b3fc35c",
+                  "SHA256" : "727db4bddf27b040d0c804de888b19831e9f3b1878e8d9ff0c7c3bb5cfe9d2f1",
+                  "size" : 25232,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/rinko-launcher-distro/mods/rinko-build-0.1.0.jar"
+               },
+               "id" : "kr.rinko:rinko-build:0.1.0@jar",
+               "name" : "mods/rinko-build-0.1.0.jar",
+               "type" : "FabricMod"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "576ef06da170458879f3a03e685d487a",
+                  "SHA256" : "61d133b24b6a92e46a3d7df791bb2ff163bbba10eed59df979b9bd727c24fbaf",
+                  "path" : "shaderpacks/ComplementaryUnbound_r5.5.1.zip",
+                  "size" : 456332,
+                  "url" : "https://github.com/zzunwoooo/chacademi-launcher/releases/download/v0.1.0/ComplementaryUnbound_r5.5.1.zip"
+               },
+               "id" : "shaderpacks/ComplementaryUnbound_r5.5.1.zip",
+               "name" : "shaderpacks/ComplementaryUnbound_r5.5.1.zip",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "670592b1394f12ab96d8432f14ac8dd9",
+                  "SHA256" : "4d3264b58c502afaeca3f44e8d2db0843c54b8ba957afd21a2d450fe10dafefb",
+                  "path" : "config/iris-excluded.json",
+                  "size" : 31,
+                  "url" : "https://github.com/zzunwoooo/chacademi-launcher/releases/download/v0.1.0/iris-excluded.json"
+               },
+               "id" : "config/iris-excluded.json",
+               "name" : "config/iris-excluded.json",
+               "type" : "File",
+               "updatePolicy" : "seed"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "6b0a86937c994275598923efaece6077",
+                  "SHA256" : "d1b0050b3955f6823a7a42d88896dc71d1935260789b4b39334dab19be2da584",
+                  "path" : "config/iris.properties",
+                  "size" : 312,
+                  "url" : "https://github.com/zzunwoooo/chacademi-launcher/releases/download/v0.1.22/iris.properties"
+               },
+               "id" : "config/iris.properties",
+               "name" : "config/iris.properties",
+               "type" : "File",
+               "updatePolicy" : "seed"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "db57d63145cae2aa9d67e8b160151008",
+                  "SHA256" : "0b9f2cbe0343ff078bc1966257f6e30d5ef1a13b77e1ef4e19762d1dd4671dcc",
+                  "path" : "config/koreanpatch.json5",
+                  "size" : 1513,
+                  "url" : "https://github.com/zzunwoooo/chacademi-launcher/releases/download/v0.1.0/koreanpatch.json5"
+               },
+               "id" : "config/koreanpatch.json5",
+               "name" : "config/koreanpatch.json5",
+               "type" : "File",
+               "updatePolicy" : "seed"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "a5b6a84e034d60be869ae33f2dba4e2b",
+                  "SHA256" : "b627c4456e6fa0bc4b5f85e2f1cd949faedae3cb9afdaf2a5f52e6f3b6ae1f01",
+                  "path" : "config/sodium-mixins.properties",
+                  "size" : 258,
+                  "url" : "https://github.com/zzunwoooo/chacademi-launcher/releases/download/v0.1.0/sodium-mixins.properties"
+               },
+               "id" : "config/sodium-mixins.properties",
+               "name" : "config/sodium-mixins.properties",
+               "type" : "File",
+               "updatePolicy" : "seed"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "aa01ef19d7217fbb88ed03f737384c66",
+                  "SHA256" : "00c7dd465e12693baeb0f9844848eb087f627d98827df51111b080af462d7d73",
+                  "path" : "config/sodium-options.json",
+                  "size" : 685,
+                  "url" : "https://github.com/zzunwoooo/chacademi-launcher/releases/download/v0.1.0/sodium-options.json"
+               },
+               "id" : "config/sodium-options.json",
+               "name" : "config/sodium-options.json",
+               "type" : "File",
+               "updatePolicy" : "seed"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "9a18f55864f0e88a09d197e48ffb218e",
+                  "SHA256" : "d48253a868f706fe43ffbc32a7f6ffbf1716810fbc42c06ac628d31a650cc36c",
+                  "path" : "shaderpacks/ComplementaryUnbound_r5.5.1.zip.txt",
+                  "size" : 278,
+                  "url" : "https://github.com/zzunwoooo/chacademi-launcher/releases/download/content-shader-rain-light-20261028/ComplementaryUnbound_r5.5.1.zip.txt"
+               },
+               "id" : "shaderpacks/ComplementaryUnbound_r5.5.1.zip.txt",
+               "name" : "shaderpacks/ComplementaryUnbound_r5.5.1.zip.txt",
+               "type" : "File",
+               "updatePolicy" : "seed"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "b37769b9aabf51b22c6855d76832272b",
+                  "SHA256" : "04a374aacf2c49267c3f82132a74f2593a17bb1142d00241b6c726e8a34f072f",
+                  "path" : "options.txt",
+                  "size" : 11,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/rinko-launcher-distro/files/options.txt"
+               },
+               "id" : "options.txt",
+               "name" : "options.txt",
+               "type" : "File",
+               "updatePolicy" : "seed"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "4726b93333b5189d6e2421253addc400",
+                  "SHA256" : "b37ff5e54508dde059a4cd486d1c794ff8bfd4a52aceca0df47f1f2779d49631",
+                  "path" : "resourcepacks/chacademia-integrated-20261023.zip",
+                  "size" : 575671,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/rinko-launcher-distro/pack/generated.zip"
+               },
+               "id" : "chacademia-integrated-20261023.zip",
+               "name" : "resourcepacks/chacademia-integrated-20261023.zip",
+               "type" : "File"
+            }
+         ],
+         "name" : "ë¦°ì½ ë¹ê°ê¸°",
+         "version" : "1.0.0"
+      }
+   ],
+   "version" : "1.0.0"
+}
