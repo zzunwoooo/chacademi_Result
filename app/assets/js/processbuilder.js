@@ -1,5 +1,4 @@
-        // 돈갚아요: 게임이 켜지면 바로 서버로 접속
-        if(this.server.rawServer.autoconnect && this.server.hostname){const AdmZip                = require('adm-zip')
+const AdmZip                = require('adm-zip')
 const child_process         = require('child_process')
 const crypto                = require('crypto')
 const fs                    = require('fs-extra')
