@@ -265,9 +265,9 @@
             },
             {
                "artifact" : {
-                  "MD5" : "c6a0cc0786ebdbfc474f2fe38965bf31",
-                  "SHA256" : "a8caab45e310056be47a0fab558fc9cf47d70386b4e9717b285a185368bec0fd",
-                  "size" : 15427668,
+                  "MD5" : "3a5444aafe6d736829fc71f6ec6bab5d",
+                  "SHA256" : "7fa6c25b693a2d4833711078c27461492e4c403254d994f1646b267a5330c831",
+                  "size" : 15433578,
                   "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/rinko-launcher-distro/mods/linco-ui-0.1.0.jar"
                },
                "id" : "kr.rinko:linco-ui:0.1.0@jar",
@@ -276,13 +276,13 @@
             },
             {
                "artifact" : {
-                  "MD5" : "e6a66616cb5274560f266bcb1b3fc35c",
-                  "SHA256" : "727db4bddf27b040d0c804de888b19831e9f3b1878e8d9ff0c7c3bb5cfe9d2f1",
-                  "size" : 25232,
-                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/rinko-launcher-distro/mods/rinko-build-0.1.0.jar"
+                  "MD5" : "339455fa5220b3fba6404822fa7db4a2",
+                  "SHA256" : "24f9327e18fe6f38ca204fe6161dc6bf20b1d40cdb9f800c862472f7b4bae5e3",
+                  "size" : 28657,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/rinko-launcher-distro/mods/rinko-build-0.2.0.jar"
                },
-               "id" : "kr.rinko:rinko-build:0.1.0@jar",
-               "name" : "mods/rinko-build-0.1.0.jar",
+               "id" : "kr.rinko:rinko-build:0.2.0@jar",
+               "name" : "mods/rinko-build-0.2.0.jar",
                "type" : "FabricMod"
             },
             {
