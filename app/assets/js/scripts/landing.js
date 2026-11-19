@@ -259,11 +259,6 @@ const refreshMojangStatuses = async function(){
 }
 
 const refreshServerStatus = async (fade = false) => {
-    // 린코 빚갚기: 런처는 서버 주소를 갖고 있지 않다 (서버 상태 표시·자동 접속 없음)
-    const wrapper = document.getElementById('server_status_wrapper')
-    if(wrapper){ wrapper.style.display = 'none' }
-    if(wrapper && wrapper.nextElementSibling && wrapper.nextElementSibling.classList.contains('bot_divider')){ wrapper.nextElementSibling.style.display = 'none' }
-    return
     loggerLanding.info('Refreshing Server Status')
     const serv = (await DistroAPI.getDistribution()).getServerById(ConfigManager.getSelectedServer())
 

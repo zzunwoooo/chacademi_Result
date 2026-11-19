@@ -70,8 +70,8 @@ async function showMainUI(data){
     refreshServerStatus()
     setTimeout(() => {
         document.getElementById('frameBar').style.backgroundColor = 'rgba(0, 0, 0, 0.5)'
-        // 배경: 임시 (그림 없이 청록 그러데이션, 정식 그림이 나오면 교체)
-        document.body.style.backgroundImage = 'radial-gradient(ellipse at 50% 18%, #2f6f68 0%, #173d3c 55%, #0b1d1f 100%)'
+        // 배경: 파스텔 섬 마을 (11/19 코덱스 그림)
+        document.body.style.backgroundImage = "url('assets/images/backgrounds/bg.jpg')"
         $('#main').show()
 
         const isLoggedIn = Object.keys(ConfigManager.getAuthAccounts()).length > 0

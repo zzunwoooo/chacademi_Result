@@ -1,5 +1,5 @@
 [ejs.app]
-title = "린코 빚갚기"
+title = "돈갚아요:내코가석자"
 [ejs.landing]
 mediaGitHubURL = "#"
 mediaXURL = "#"
@@ -10,6 +10,6 @@ mediaDiscordURL = "#"
 sourceGithubLink = "https://github.com/zzunwoooo/chacademi_Result/tree/claude/rinko-launcher"
 supportLink = "#"
 [ejs.welcome]
-welcomeHeader = "린코 빚갚기"
+welcomeHeader = "돈갚아요:내코가석자"
 welcomeDescription = ""
 welcomeDescCTA = ""

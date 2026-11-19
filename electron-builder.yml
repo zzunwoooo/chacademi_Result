@@ -1,5 +1,5 @@
 appId: kr.rinko.launcher
-productName: '린코 빚갚기'
+productName: '돈갚아요 내코가석자'
 executableName: 'Rinko Launcher'
 artifactName: 'Rinko-Launcher-setup-${version}.${ext}'
 
@@ -37,8 +37,8 @@ win:
 
 # Windows Installer Configuration
 nsis:
-  uninstallDisplayName: '린코 빚갚기'
-  shortcutName: '린코 빚갚기'
+  uninstallDisplayName: '돈갚아요 내코가석자'
+  shortcutName: '돈갚아요 내코가석자'
   oneClick: false
   perMachine: false
   allowElevation: true
@@ -63,8 +63,8 @@ linux:
   target: 'AppImage'
   maintainer: 'Daniel Scalzi'
   vendor: 'Daniel Scalzi'
-  synopsis: '린코 빚갚기 마인크래프트 런처'
-  description: '린코 빚갚기 서버 접속에 필요한 모드와 설정을 자동으로 준비하는 런처입니다.'
+  synopsis: '돈갚아요:내코가석자 마인크래프트 런처'
+  description: '돈갚아요:내코가석자 서버 접속에 필요한 모드와 설정을 자동으로 준비하는 런처입니다.'
   category: 'Game'
 
 

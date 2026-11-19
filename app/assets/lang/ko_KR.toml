@@ -191,14 +191,14 @@ errorDuringFileDownloadTitle = "파일 다운로드 오류"
 preparingToLaunch = "실행 준비 중..."
 launchingGame = "게임 실행 중..."
 launchWrapperNotDownloaded = '필수 실행 파일 LaunchWrapper를 정상적으로 다운로드하지 못해 게임을 실행할 수 없습니다.<br><br>네트워크 연결과 보안 프로그램의 차단 기록을 확인한 뒤 다시 시도해 주세요. 문제가 계속되면 <a href="https://github.com/zzunwoooo/chacademi_Result/issues">문제를 신고</a>해 주세요.'
-doneEnjoyServer = "준비 완료. 린코 빚갚기에서 만나요!"
+doneEnjoyServer = "준비 완료. 돈갚아요:내코가석자에서 만나요!"
 checkConsoleForDetails = "자세한 내용은 콘솔(Ctrl + Shift + I)에서 확인해 주세요."
 [js.landing.news]
 checking = "소식 확인 중"
 [js.landing.discord]
 loading = "게임 불러오는 중..."
-joining = "린코 빚갚기에 접속하는 중"
-joined = "린코 빚갚기 플레이 중"
+joining = "돈갚아요:내코가석자에 접속하는 중"
+joined = "돈갚아요:내코가석자 플레이 중"
 [js.overlay]
 dismiss = "닫기"
 [js.settings.fileSelectors]
