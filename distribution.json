@@ -265,9 +265,9 @@
             },
             {
                "artifact" : {
-                  "MD5" : "3a5444aafe6d736829fc71f6ec6bab5d",
-                  "SHA256" : "7fa6c25b693a2d4833711078c27461492e4c403254d994f1646b267a5330c831",
-                  "size" : 15433578,
+                  "MD5" : "bba5273a00518b1bc66fbb4f2dacaf1f",
+                  "SHA256" : "24652e671a49532c2c2ae22af464fe9b86fbf702024ed681c66dca84a452ca66",
+                  "size" : 16335005,
                   "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/rinko-launcher-distro/mods/linco-ui-0.1.0.jar"
                },
                "id" : "kr.rinko:linco-ui:0.1.0@jar",
@@ -390,10 +390,10 @@
             },
             {
                "artifact" : {
-                  "MD5" : "eae7e530cadad04a199103b99be39c35",
-                  "SHA256" : "fcd75ae70f6efc9d505fbbfe55b62684524856486a9b6ba0b57dcd5d66be3a18",
+                  "MD5" : "8ff8598d082373ff94025d6d2e50b325",
+                  "SHA256" : "4e4caa58666f9f02c9137d77c1d6bc37df94bd7cd9b3f02d00273a4a7b43f714",
                   "path" : "resourcepacks/chacademia-integrated-20261023.zip",
-                  "size" : 2275632,
+                  "size" : 564536,
                   "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/rinko-launcher-distro/pack/generated.zip"
                },
                "id" : "chacademia-integrated-20261023.zip",
