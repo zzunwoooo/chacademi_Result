@@ -2,8 +2,8 @@
    "rss" : "",
    "servers" : [
       {
-         "address" : "",
-         "autoconnect" : false,
+         "address" : "211.53.196.231:25700",
+         "autoconnect" : true,
          "description" : "Minecraft 1.21.4 (Fabric)",
          "icon" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/rinko-launcher-distro/server-icon.png",
          "id" : "rinko-1.21.4",
@@ -401,7 +401,7 @@
                "type" : "File"
             }
          ],
-         "name" : "ë¦°ì½ ë¹ê°ê¸°",
+         "name" : "ëê°ìì:ë´ì½ê°ìì",
          "version" : "1.0.0"
       }
    ],

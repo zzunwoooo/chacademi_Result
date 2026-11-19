@@ -9,7 +9,7 @@ use JSON::PP; use Digest::MD5; use Digest::SHA;
 
 my $src = shift or die "usage: perl tools/build_distro.pl <base distribution.json>\n";
 my $RAW = 'https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/rinko-launcher-distro';
-my $ADDRESS = '';   # 런처에는 서버 주소를 넣지 않는다 (빈 글자여야 함: 런처가 글자로 읽는다). 자동 접속도 없음
+my $ADDRESS = '211.53.196.231:25700';   # 11/19 오너 "서버주소도 연결해둬": 런처가 게임을 켜면 바로 접속
 
 open my $fh, '<', $src or die "$src: $!"; local $/; my $base = decode_json(<$fh>); close $fh;
 my $from = $base->{servers}[0];
@@ -80,9 +80,9 @@ if (-f 'pack/generated.zip') {
 }
 
 my $server = {
-    id => 'rinko-1.21.4', name => '린코 빚갚기', description => 'Minecraft 1.21.4 (Fabric)',
+    id => 'rinko-1.21.4', name => '돈갚아요:내코가석자', description => 'Minecraft 1.21.4 (Fabric)',
     icon => "$RAW/server-icon.png", version => '1.0.0', address => $ADDRESS, minecraftVersion => '1.21.4',
-    mainServer => JSON::PP::true, autoconnect => JSON::PP::false,
+    mainServer => JSON::PP::true, autoconnect => JSON::PP::true,
     javaOptions => $from->{javaOptions}, modules => [@mods, @files],
 };
 my $out = { version => '1.0.0', rss => '', servers => [$server] };
