@@ -8,8 +8,8 @@ use strict; use warnings;
 use JSON::PP; use Digest::MD5; use Digest::SHA;
 
 my $src = shift or die "usage: perl tools/build_distro.pl <base distribution.json>\n";
-my $RAW = 'https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/rinko-launcher-distro';
-my $ADDRESS = '';   # 런처에는 서버 주소를 넣지 않는다 (빈 글자여야 함: 런처가 글자로 읽는다). 자동 접속도 없음
+my $RAW = 'https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/build-launcher-distro';
+my $ADDRESS = q(211.53.196.235:25690);   # 건축 서버, 자동 접속
 
 open my $fh, '<', $src or die "$src: $!"; local $/; my $base = decode_json(<$fh>); close $fh;
 my $from = $base->{servers}[0];
@@ -47,9 +47,13 @@ for ('fabric', @KEEP_MODS, @KEEP_FILES) { die "바탕 목록에 없음: $_\n" un
 for my $jar (sort glob('mods/*.jar')) {
     my ($base) = $jar =~ m{mods/(.+)\.jar$};
     my ($art, $ver) = $base =~ /^(.+?)-(\d[\w.\-]*)$/ or die "모드 파일 이름은 <이름>-<버전>.jar: $jar\n";
-    push @mods, { id => "kr.rinko:$art:$ver\@jar", name => "mods/$base.jar", type => 'FabricMod',
+    push @mods, { id => "kr.chacademi.build:$art:$ver\@jar", name => "mods/$base.jar", type => 'FabricMod',
                   artifact => { sums($jar), url => "$RAW/mods/$base.jar" } };
 }
+# Axiom 본체 (Modrinth 원본 주소 그대로)
+push @mods, { id => q(com.moulberry:axiom:5.4.2@jar), name => q(mods/Axiom-5.4.2-for-MC1.21.4.jar), type => q(FabricMod),
+              artifact => { MD5 => q(6f33952b92125e98999537e5a5628e0f), size => 47072174,
+                            url => q(https://cdn.modrinth.com/data/N6n5dqoA/versions/ItmR0IzD/Axiom-5.4.2-for-MC1.21.4.jar) } };
 # 린코 전용 설정 (files/ 아래 경로 그대로 게임 폴더에. 처음 한 번만 넣고 그 뒤로는 유저 것을 지킨다)
 for my $f (sort grep { -f } glob('files/* files/*/* files/*/*/*')) {
     (my $rel = $f) =~ s{^files/}{};
@@ -66,9 +70,9 @@ if (-f 'pack/generated.zip') {
 }
 
 my $server = {
-    id => 'rinko-1.21.4', name => '린코 빚갚기', description => 'Minecraft 1.21.4 (Fabric)',
+    id => q(build-1.21.4), name => q(건축용 임시 런처), description => 'Minecraft 1.21.4 (Fabric)',
     icon => "$RAW/server-icon.png", version => '1.0.0', address => $ADDRESS, minecraftVersion => '1.21.4',
-    mainServer => JSON::PP::true, autoconnect => JSON::PP::false,
+    mainServer => JSON::PP::true, autoconnect => JSON::PP::true,
     javaOptions => $from->{javaOptions}, modules => [@mods, @files],
 };
 my $out = { version => '1.0.0', rss => '', servers => [$server] };

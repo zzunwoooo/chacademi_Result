@@ -2,11 +2,11 @@
    "rss" : "",
    "servers" : [
       {
-         "address" : "",
-         "autoconnect" : false,
+         "address" : "211.53.196.235:25690",
+         "autoconnect" : true,
          "description" : "Minecraft 1.21.4 (Fabric)",
-         "icon" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/rinko-launcher-distro/server-icon.png",
-         "id" : "rinko-1.21.4",
+         "icon" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/build-launcher-distro/server-icon.png",
+         "id" : "build-1.21.4",
          "javaOptions" : {
             "platformOptions" : [
                {
@@ -172,13 +172,23 @@
             },
             {
                "artifact" : {
-                  "MD5" : "e6a66616cb5274560f266bcb1b3fc35c",
-                  "SHA256" : "727db4bddf27b040d0c804de888b19831e9f3b1878e8d9ff0c7c3bb5cfe9d2f1",
-                  "size" : 25232,
-                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/rinko-launcher-distro/mods/rinko-build-0.1.0.jar"
+                  "MD5" : "298751ed179b5342b5125d0dbbf5cc0d",
+                  "SHA256" : "b2fa4c9b435427ebc121f12df361c89c270b16dcebb937d6b81b2875ec8d3b89",
+                  "size" : 5363,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/build-launcher-distro/mods/chacademi-axiom-me-dye-compat-1.0.0.jar"
                },
-               "id" : "kr.rinko:rinko-build:0.1.0@jar",
-               "name" : "mods/rinko-build-0.1.0.jar",
+               "id" : "kr.chacademi.build:chacademi-axiom-me-dye-compat:1.0.0@jar",
+               "name" : "mods/chacademi-axiom-me-dye-compat-1.0.0.jar",
+               "type" : "FabricMod"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "6f33952b92125e98999537e5a5628e0f",
+                  "size" : 47072174,
+                  "url" : "https://cdn.modrinth.com/data/N6n5dqoA/versions/ItmR0IzD/Axiom-5.4.2-for-MC1.21.4.jar"
+               },
+               "id" : "com.moulberry:axiom:5.4.2@jar",
+               "name" : "mods/Axiom-5.4.2-for-MC1.21.4.jar",
                "type" : "FabricMod"
             },
             {
@@ -277,27 +287,15 @@
                   "SHA256" : "04a374aacf2c49267c3f82132a74f2593a17bb1142d00241b6c726e8a34f072f",
                   "path" : "options.txt",
                   "size" : 11,
-                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/rinko-launcher-distro/files/options.txt"
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/build-launcher-distro/files/options.txt"
                },
                "id" : "options.txt",
                "name" : "options.txt",
                "type" : "File",
                "updatePolicy" : "seed"
-            },
-            {
-               "artifact" : {
-                  "MD5" : "eae7e530cadad04a199103b99be39c35",
-                  "SHA256" : "fcd75ae70f6efc9d505fbbfe55b62684524856486a9b6ba0b57dcd5d66be3a18",
-                  "path" : "resourcepacks/chacademia-integrated-20261023.zip",
-                  "size" : 2275632,
-                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/rinko-launcher-distro/pack/generated.zip"
-               },
-               "id" : "chacademia-integrated-20261023.zip",
-               "name" : "resourcepacks/chacademia-integrated-20261023.zip",
-               "type" : "File"
             }
          ],
-         "name" : "ë¦°ì½ ë¹ê°ê¸°",
+         "name" : "ê±´ì¶ì© ìì ë°ì²",
          "version" : "1.0.0"
       }
    ],
