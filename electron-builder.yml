@@ -1,7 +1,7 @@
-appId: kr.rinko.launcher
-productName: '린코 빚갚기'
-executableName: 'Rinko Launcher'
-artifactName: 'Rinko-Launcher-setup-${version}.${ext}'
+appId: kr.chacademi.buildtemp
+productName: '건축용 임시 런처'
+executableName: 'Build Temp Launcher'
+artifactName: 'Build-Temp-Launcher-setup-${version}.${ext}'
 
 copyright: 'Copyright © 2018-2026 Daniel Scalzi'
 
@@ -37,8 +37,8 @@ win:
 
 # Windows Installer Configuration
 nsis:
-  uninstallDisplayName: '린코 빚갚기'
-  shortcutName: '린코 빚갚기'
+  uninstallDisplayName: '건축용 임시 런처'
+  shortcutName: '건축용 임시 런처'
   oneClick: false
   perMachine: false
   allowElevation: true
@@ -54,7 +54,7 @@ mac:
       arch:
         - 'x64'
         - 'arm64'
-  artifactName: 'Rinko-Launcher-setup-${version}-${arch}.${ext}'
+  artifactName: 'Build-Temp-Launcher-setup-${version}-${arch}.${ext}'
   category: 'public.app-category.games'
 
 # Linux Configuration
@@ -63,8 +63,8 @@ linux:
   target: 'AppImage'
   maintainer: 'Daniel Scalzi'
   vendor: 'Daniel Scalzi'
-  synopsis: '린코 빚갚기 마인크래프트 런처'
-  description: '린코 빚갚기 서버 접속에 필요한 모드와 설정을 자동으로 준비하는 런처입니다.'
+  synopsis: '건축용 임시 런처 마인크래프트 런처'
+  description: '건축용 임시 런처 서버 접속에 필요한 모드와 설정을 자동으로 준비하는 런처입니다.'
   category: 'Game'
 
 
