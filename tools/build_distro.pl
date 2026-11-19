@@ -43,6 +43,20 @@ for my $m (@{ $from->{modules} }) {
 }
 for ('fabric', @KEEP_MODS, @KEEP_FILES) { die "바탕 목록에 없음: $_\n" unless $seen{$_}; }
 
+# 차카데미 런처의 필수 부가 모드 (차카데미 전용 PortableVFX 는 뺌) — 다이아·쌍룡 런처와 같은 목록에서 가져옴
+my @EXTRA = qw(authme blurserveraddress donation journeymap keyeventmod nochatreports plasmovoice wi_zoom playeranimator);
+{
+    open my $xf, '<', '/c/ddd/distribution.json' or die "다이아 배포 목록: $!"; local $/; my $x = decode_json(<$xf>); close $xf;
+    my %got;
+    for my $m (@{ $x->{servers}[0]{modules} }) {
+        next unless $m->{type} eq 'FabricMod';
+        my ($name) = $m->{id} =~ /^[^:]+:([^:]+):/;
+        next unless grep { $_ eq $name } @EXTRA;
+        $got{$name} = 1; delete $m->{subModules}; push @mods, $m;
+    }
+    for (@EXTRA) { die "부가 모드 없음: $_\n" unless $got{$_}; }
+}
+
 # 린코 전용 모드 (mods/*.jar)
 for my $jar (sort glob('mods/*.jar')) {
     my ($base) = $jar =~ m{mods/(.+)\.jar$};

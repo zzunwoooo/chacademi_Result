@@ -172,6 +172,110 @@
             },
             {
                "artifact" : {
+                  "MD5" : "3c220399e5c34dae32224818c7acaa6c",
+                  "size" : 376047,
+                  "url" : "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/fabricmods/required/authme-fabric-9.0.1+1.21.4.jar"
+               },
+               "id" : "me.axieum.mcmod.authme.impl:authme:9.0.1+1.21.4@jar",
+               "name" : "Auth Me",
+               "type" : "FabricMod"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "1294fe12bfc2d2dbe8e4541c27873fd2",
+                  "size" : 11418,
+                  "url" : "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/fabricmods/required/blurserveraddress-fabric-1.2.0+mc1.21.2.jar"
+               },
+               "id" : "kr.shihyeon:blurserveraddress:1.2.0+mc1.21.2@jar",
+               "name" : "BlurServerAddress",
+               "type" : "FabricMod"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "13e5465b5ed84d6b27082119c12e01fa",
+                  "size" : 832983,
+                  "url" : "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/fabricmods/required/donation-fabric-1.21.4-2.0.2.jar"
+               },
+               "id" : "bot.colla:donation:2.0.2@jar",
+               "name" : "Donation",
+               "type" : "FabricMod"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "8b092f8cca0a96d80eb8eeea24b5ebfd",
+                  "size" : 3514383,
+                  "url" : "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/fabricmods/required/journeymap-fabric-1.21.4-6.0.0-beta.47.jar"
+               },
+               "id" : "journeymap:journeymap:1.21.4-6.0.0-beta.47@jar",
+               "name" : "Journeymap",
+               "type" : "FabricMod"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "ff7141b1402454eddab71fa974d47614",
+                  "size" : 5937,
+                  "url" : "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/fabricmods/required/KeyChecker-1.21.4.jar"
+               },
+               "id" : "com.example.keyevent:keyeventmod:1.21.4@jar",
+               "name" : "Key Checker Mod",
+               "type" : "FabricMod"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "47bd3acbbaaf09dae1c5142dc5b3f41c",
+                  "size" : 321286,
+                  "url" : "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/fabricmods/required/NoChatReports-FABRIC-1.21.4-v2.11.0.jar"
+               },
+               "id" : "com.aizistral:nochatreports:1.21.4-v2.11.0@jar",
+               "name" : "No Chat Reports",
+               "type" : "FabricMod"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "dde3cf502defa8513b1fb98afbc2dd11",
+                  "size" : 12191569,
+                  "url" : "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/fabricmods/required/plasmovoice-fabric-1.21.4-2.1.5.jar"
+               },
+               "id" : "su.plo.voice:plasmovoice:2.1.5@jar",
+               "name" : "Plasmo Voice",
+               "type" : "FabricMod"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "1062016a1608823555c1bf16fafeb6cd",
+                  "size" : 154830,
+                  "url" : "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/fabricmods/required/WI-Zoom-1.6-MC1.21.4.jar"
+               },
+               "id" : "net.wurstclient.zoom:wi_zoom:1.6-MC1.21.4@jar",
+               "name" : "WI Zoom",
+               "type" : "FabricMod"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "4298800d4a528daa4df8135b1a37721d",
+                  "size" : 202859,
+                  "url" : "https://cdn.modrinth.com/data/gedNE4y2/versions/ZTeZ33xQ/player-animation-lib-fabric-2.0.5%2B1.21.4.jar"
+               },
+               "id" : "org.modrinth:playeranimator:2.0.5+1.21.4@jar",
+               "name" : "Player Animator",
+               "required" : {
+                  "value" : true
+               },
+               "type" : "FabricMod"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "c6a0cc0786ebdbfc474f2fe38965bf31",
+                  "SHA256" : "a8caab45e310056be47a0fab558fc9cf47d70386b4e9717b285a185368bec0fd",
+                  "size" : 15427668,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/rinko-launcher-distro/mods/linco-ui-0.1.0.jar"
+               },
+               "id" : "kr.rinko:linco-ui:0.1.0@jar",
+               "name" : "mods/linco-ui-0.1.0.jar",
+               "type" : "FabricMod"
+            },
+            {
+               "artifact" : {
                   "MD5" : "e6a66616cb5274560f266bcb1b3fc35c",
                   "SHA256" : "727db4bddf27b040d0c804de888b19831e9f3b1878e8d9ff0c7c3bb5cfe9d2f1",
                   "size" : 25232,
