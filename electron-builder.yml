@@ -15,7 +15,6 @@ files:
   - '!release-files.json'
   - '!*.log'
   - '!dist*/**'
-  - '!app/assets/images/backgrounds/**'
   - '!tools/**'
   - '!release-input*'
   - '!payload/**'
