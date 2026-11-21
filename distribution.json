@@ -192,11 +192,12 @@
             },
             {
                "artifact" : {
-                  "MD5" : "13e5465b5ed84d6b27082119c12e01fa",
-                  "size" : 832983,
-                  "url" : "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/fabricmods/required/donation-fabric-1.21.4-2.0.2.jar"
+                  "MD5" : "4783b76846c7514a2ba3fdb12bde0318",
+                  "SHA256" : "efbf32f50e87dd8ca553d359767d8c939c1b58e79213f3705c7383de27ab7670",
+                  "size" : 843933,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/rinko-launcher-distro/mods/donation-fabric-1.21.4-2.0.2-allcounts.1.jar"
                },
-               "id" : "bot.colla:donation:2.0.2@jar",
+               "id" : "bot.colla:donation:2.0.2-allcounts.1@jar",
                "name" : "Donation",
                "type" : "FabricMod"
             },
@@ -265,9 +266,9 @@
             },
             {
                "artifact" : {
-                  "MD5" : "c2e388aa8d703f5900546c22cd099759",
-                  "SHA256" : "7e9a4b1efbbbe34642ad568ec6d047bb915a993caaecd66418033fe7d37326de",
-                  "size" : 65526766,
+                  "MD5" : "30b96c167dc5d57f4349695fdb8c68ce",
+                  "SHA256" : "1647309fe11ea643566c7ee9e1fb564c830a7a0a6a702611935d5ebcf38deb4d",
+                  "size" : 65848817,
                   "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/rinko-launcher-distro/mods/linco-ui-0.2.0.jar"
                },
                "id" : "kr.rinko:linco-ui:0.2.0@jar",
