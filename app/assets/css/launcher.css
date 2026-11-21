@@ -3459,6 +3459,11 @@ input:checked + .toggleSwitchSlider:before {
     line-height: 24px;
     padding: 0px;
     transition: 0.25s ease;
+    /* 서버 이름이 길어도 줄바꿈되어 시작 버튼 옆에서 깨져 보이지 않게 한 줄로 */
+    white-space: nowrap;
+    max-width: 240px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 #server_selection_button:hover,
 #server_selection_button:focus {

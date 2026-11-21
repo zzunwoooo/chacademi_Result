@@ -72,10 +72,9 @@ directories:
   output: 'dist'
 
 publish:
-  provider: github
-  owner: zzunwoooo
-  repo: chacademi_Result
-  releaseType: release
+  # 런처 전용 업데이트 목록 (같은 저장소의 다른 런처와 "최신 릴리스"가 겹치지 않게 1.0.3부터 따로 둠)
+  provider: generic
+  url: https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/rinko-launcher-distro/launcher
 
 forceCodeSigning: false
 
