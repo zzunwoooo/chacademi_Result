@@ -265,9 +265,9 @@
             },
             {
                "artifact" : {
-                  "MD5" : "90e88ea97ae77821ec27296c970fd687",
-                  "SHA256" : "3a6d0b5d80eaad34d88eeb34d93d1be33f99d402802edd8eba0217dffcb4f713",
-                  "size" : 65474635,
+                  "MD5" : "c2e388aa8d703f5900546c22cd099759",
+                  "SHA256" : "7e9a4b1efbbbe34642ad568ec6d047bb915a993caaecd66418033fe7d37326de",
+                  "size" : 65526766,
                   "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/rinko-launcher-distro/mods/linco-ui-0.2.0.jar"
                },
                "id" : "kr.rinko:linco-ui:0.2.0@jar",
@@ -276,9 +276,9 @@
             },
             {
                "artifact" : {
-                  "MD5" : "24ed54a215e48389eef1db33c3eaf5f0",
-                  "SHA256" : "26aed091d9618a17d5083051910ce14e466e4aadf5acf6ae9028c2ae745604b2",
-                  "size" : 788377,
+                  "MD5" : "8df8a6c17cbad1e2a428cbbd3e6c6e98",
+                  "SHA256" : "1538783c8ce9245212a0f109bd28b50ee984596a730c14ad09d33b7b6741f644",
+                  "size" : 788409,
                   "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/rinko-launcher-distro/mods/rinko-build-0.3.0.jar"
                },
                "id" : "kr.rinko:rinko-build:0.3.0@jar",
