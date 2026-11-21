@@ -277,9 +277,9 @@
             },
             {
                "artifact" : {
-                  "MD5" : "8df8a6c17cbad1e2a428cbbd3e6c6e98",
-                  "SHA256" : "1538783c8ce9245212a0f109bd28b50ee984596a730c14ad09d33b7b6741f644",
-                  "size" : 788409,
+                  "MD5" : "c37182da27e37968dcae11bf9f0d9916",
+                  "SHA256" : "fb46ee0606b0ba7248f9f86b049659a60c4987a1ee007d209740721b3d77dc43",
+                  "size" : 788961,
                   "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/rinko-launcher-distro/mods/rinko-build-0.3.0.jar"
                },
                "id" : "kr.rinko:rinko-build:0.3.0@jar",
