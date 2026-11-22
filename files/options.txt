@@ -51,7 +51,7 @@ damageTiltStrength:1.0
 highContrast:false
 highContrastBlockOutline:false
 narratorHotkey:true
-resourcePacks:["vanilla","fabric"]
+resourcePacks:["vanilla","fabric","file/ginko_fantasy_gui.zip"]
 incompatibleResourcePacks:["authme","koreanpatch"]
 lastServer:
 lang:ko_kr

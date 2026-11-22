@@ -249,11 +249,11 @@
             },
             {
                "artifact" : {
-                  "MD5" : "21be8b83939b9ede9bd0141259faac3a",
-                  "size" : 7020284,
-                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/diamond-launcher-distro/mods/diamond-ui-0.10.1+mc1.21.4.jar"
+                  "MD5" : "5c0197b56bb73e3e330fc94f3fa72adf",
+                  "size" : 7167292,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/diamond-launcher-distro/mods/diamond-ui-0.10.2+mc1.21.4.jar"
                },
-               "id" : "com.diamondserver:diamond-ui:0.10.1+mc1.21.4@jar",
+               "id" : "com.diamondserver:diamond-ui:0.10.2+mc1.21.4@jar",
                "name" : "나니 다이아서버 UI",
                "required" : {
                   "value" : true
@@ -276,7 +276,7 @@
             {
                "artifact" : {
                   "path" : "options.txt",
-                  "size" : 5234,
+                  "size" : 5263,
                   "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/diamond-launcher-distro/files/options.txt"
                },
                "id" : "options.txt",
@@ -311,6 +311,17 @@
                },
                "id" : "ComplementaryUnbound_r5.5.1.zip.txt",
                "name" : "ComplementaryUnbound_r5.5.1.zip.txt",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "be31415fc8364ec77dda6d413b821677",
+                  "path" : "resourcepacks/ginko_fantasy_gui.zip",
+                  "size" : 1015334,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/diamond-launcher-distro/files/resourcepacks/ginko_fantasy_gui.zip"
+               },
+               "id" : "ginko_fantasy_gui.zip",
+               "name" : "Ginko Fantasy GUI",
                "type" : "File"
             }
          ],

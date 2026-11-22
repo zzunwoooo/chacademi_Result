@@ -77,6 +77,11 @@ for my $pair (['files/options.txt', 'options.txt'], ['files/servers.dat', 'serve
     my $a = artifact($rel, 0); $a->{path} = $path;
     push @mods, { id => basename($path), name => basename($path), type => 'File', artifact => $a };
 }
+# 기본 리소스팩 (오너 11/23: Ginko 판타지 바닐라 GUI). MD5 있음 = 바뀌면 다시 받음. 켜 두는 것은 options.txt(새 설치) / 모드 DefaultSettings 2판(기존 설치)
+{
+    my $a = artifact('files/resourcepacks/ginko_fantasy_gui.zip', 1); $a->{path} = 'resourcepacks/ginko_fantasy_gui.zip';
+    push @mods, { id => 'ginko_fantasy_gui.zip', name => 'Ginko Fantasy GUI', type => 'File', artifact => $a };
+}
 $s->{modules} = \@mods;
 open(my $o, '>:raw', "$ROOT/distribution.json") or die $!; print $o $json->encode($d); close $o;
 print "ok $s->{address} ", scalar(@mods), " modules\n";
