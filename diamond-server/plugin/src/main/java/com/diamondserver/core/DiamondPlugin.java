@@ -69,6 +69,7 @@ public final class DiamondPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(seal, this);
         getServer().getPluginManager().registerEvents(monsters, this);
         getServer().getPluginManager().registerEvents(mlg, this);
+        getServer().getPluginManager().registerEvents(portal, this);
         getServer().getPluginManager().registerEvents(rewards, this);
         shop.load();
         events.load();

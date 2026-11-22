@@ -21,7 +21,7 @@ import org.joml.Vector3f;
  * 로비 광장에 빛 고리(파티클) + 떠 있는 글씨(TextDisplay). 고리 안으로 들어가면 야생 월드의 시작 지점(땅 위)으로 보낸다.
  * 자리·대상 월드는 config.yml lobby-portal. 글씨는 서버가 켜질 때 세우고 꺼질 때 치운다(저장 안 함).
  */
-final class WildPortal {
+final class WildPortal implements org.bukkit.event.Listener {
     private static final double HALF_W = 1.2, HALF_H = 1.6;         // 고리 가로 반지름 · 세로 반지름
 
     private final DiamondPlugin pl;
@@ -29,9 +29,11 @@ final class WildPortal {
     private String toWorld;
     private TextDisplay title, sub;
     private long tick;
+    private final org.bukkit.NamespacedKey doneKey;
 
     WildPortal(DiamondPlugin pl) {
         this.pl = pl;
+        this.doneKey = new org.bukkit.NamespacedKey(pl, "went_wild");
         Bukkit.getScheduler().runTaskTimer(pl, this::onTick, 40L, 1L);
     }
 
@@ -114,10 +116,21 @@ final class WildPortal {
         Location to = new Location(w, s.getBlockX() + 0.5, w.getHighestBlockYAt(s) + 1.0, s.getBlockZ() + 0.5, p.getLocation().getYaw(), 0);
         p.getWorld().spawnParticle(Particle.END_ROD, p.getLocation().add(0, 1, 0), 30, 0.3, 0.6, 0.3, 0.05);
         p.teleport(to);
+        p.getPersistentDataContainer().set(doneKey, org.bukkit.persistence.PersistentDataType.BYTE, (byte) 1);
         p.setFallDistance(0);
         p.playSound(to, Sound.ENTITY_ENDERMAN_TELEPORT, 0.8f, 1.2f);
         p.playSound(to, Sound.BLOCK_BEACON_ACTIVATE, 0.8f, 1.4f);
         pl.net.toast(p, "야생으로 이동했습니다.", true);
+    }
+
+    /** 아직 포탈로 야생에 나간 적 없는 사람은 접속하면 로비 시작 자리에서 시작한다 (처음 한 번만 로비를 거침) */
+    @org.bukkit.event.EventHandler(priority = org.bukkit.event.EventPriority.MONITOR)
+    public void onJoin(org.bukkit.event.player.PlayerJoinEvent e) {
+        Player p = e.getPlayer();
+        if (p.getPersistentDataContainer().has(doneKey) || !ready()) return;
+        Location s = new Location(center.getWorld(), pl.getConfig().getDouble("lobby-portal.spawn-x", 37.5), pl.getConfig().getDouble("lobby-portal.spawn-y", 48),
+                pl.getConfig().getDouble("lobby-portal.spawn-z", 43.5), (float) pl.getConfig().getDouble("lobby-portal.spawn-yaw", 180), 0);
+        Bukkit.getScheduler().runTaskLater(pl, () -> { if (p.isOnline() && !p.getWorld().equals(s.getWorld())) p.teleport(s); }, 5L);
     }
 
     void shutdown() { removeText(); }

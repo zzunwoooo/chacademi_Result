@@ -221,3 +221,8 @@ lobby-portal:
   y: 47.0          # 발 높이
   z: 32.5
   to-world: world
+  # 포탈로 야생에 나간 적 없는 사람은 접속하면 여기(로비 섬 가운데)서 시작 (yaw 180 = 포탈 쪽을 봄)
+  spawn-x: 37.5
+  spawn-y: 48.0
+  spawn-z: 43.5
+  spawn-yaw: 180
