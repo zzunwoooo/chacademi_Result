@@ -165,16 +165,10 @@ shop:
     pickaxe: "곡괭이"
     item: "아이템"
   items:
-    - { id: wooden_pickaxe,    cat: pickaxe, name: "나무 곡괭이",     material: WOODEN_PICKAXE,    price: 1 }
-    - { id: stone_pickaxe,     cat: pickaxe, name: "돌 곡괭이",       material: STONE_PICKAXE,     price: 2 }
-    - { id: iron_pickaxe,      cat: pickaxe, name: "철 곡괭이",       material: IRON_PICKAXE,      price: 4 }
-    - { id: golden_pickaxe,    cat: pickaxe, name: "금 곡괭이",       material: GOLDEN_PICKAXE,    price: 3 }
-    - { id: diamond_pickaxe,   cat: pickaxe, name: "다이아 곡괭이",   material: DIAMOND_PICKAXE,   price: 8 }
-    - { id: netherite_pickaxe, cat: pickaxe, name: "네더라이트 곡괭이", material: NETHERITE_PICKAXE, price: 40 }
-    # 11/23 오너: 종결곡 3종 추가 (인챈트 미리 들어감 · 행운 없음 · 손에 들면 캐는 속도 n배로 바로바로 깨짐). 가격은 오너 값 그대로
-    - { id: iron_final,      cat: pickaxe, name: "철 종결곡",     material: IRON_PICKAXE,      price: 20,  enchants: { efficiency: 5, unbreaking: 3, mending: 1 }, mine-speed: 2 }
-    - { id: diamond_final,   cat: pickaxe, name: "다이아 종결곡", material: DIAMOND_PICKAXE,   price: 10,  enchants: { efficiency: 5, unbreaking: 3, mending: 1 }, mine-speed: 3 }
-    - { id: netherite_final, cat: pickaxe, name: "네더 종결곡",   material: NETHERITE_PICKAXE, price: 200, enchants: { efficiency: 5, unbreaking: 3, mending: 1 }, mine-speed: 4 }
+    # 11/23 오너: 곡괭이는 종결곡 3종만 (기본 곡괭이 뺌 · 효율 V·행운 III·내구성 III·수선 · 손에 들면 캐는 속도 n배로 바로바로 깨짐). 가격은 오너 값 그대로
+    - { id: iron_final,      cat: pickaxe, name: "철 종결곡",     material: IRON_PICKAXE,      price: 20,  enchants: { efficiency: 5, fortune: 3, unbreaking: 3, mending: 1 }, mine-speed: 2 }
+    - { id: diamond_final,   cat: pickaxe, name: "다이아 종결곡", material: DIAMOND_PICKAXE,   price: 10,  enchants: { efficiency: 5, fortune: 3, unbreaking: 3, mending: 1 }, mine-speed: 3 }
+    - { id: netherite_final, cat: pickaxe, name: "네더 종결곡",   material: NETHERITE_PICKAXE, price: 200, enchants: { efficiency: 5, fortune: 3, unbreaking: 3, mending: 1 }, mine-speed: 4 }
     - { id: food,              cat: item, name: "밥",           item: food,              amount: 8, price: 1 }
     - { id: inven_save_ticket, cat: item, name: "인벤세이브권", item: inven_save_ticket, price: 10 }
     - { id: return_ticket,     cat: item, name: "귀환권",       item: return_ticket,     price: 3 }

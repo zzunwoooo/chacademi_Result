@@ -368,3 +368,8 @@ python3 build_spec.py && python3 motion_gen.py forced_dance_spec.json <출력폴
 - 실행기 기본 리소스팩: Ginko Fantasy Vanilla GUIs(오너 제공, Nexo 판 assets + pack_format 46) → distro `files/resourcepacks/ginko_fantasy_gui.zip`(MD5 있음),
   새 설치는 options.txt 에서 켜짐, 기존 설치는 모드 DefaultSettings 2판이 resourcePacks 끝에 한 번 넣음.
 - 월드: 넓은 생물 군계(level-type large_biomes)로 새로, 기존 월드는 보관 없이 지움(오너). 오프닝 장소는 오너가 직접 함.
+- (11/23 추가) 상점 곡괭이는 종결곡 3종만 — 기본 곡괭이 뺌, 종결곡에 행운 III 추가(오너). 호스팅은 설정만 바꾸고 `다이아 리로드`.
+- (11/23) 로비: 오너가 준 "Lobby - Tiny Town"(1.21+ 완성 월드)을 `lobby` 월드로 붙임 — `mv import lobby normal --generator VoidGen`(둘레는 빈 공간).
+  처음 접속한 사람 = Essentials newbies 스폰 `plugins/Essentials/spawn.yml` (lobby 37.5 48 43.5, 섬 가운데 땅). 로비 규칙: 모험 모드·평화·PvP 끔·배고픔 끔·낮 고정,
+  WorldGuard __global__(lobby): build·pvp·mob-spawning·fall-damage·item-drop·fire-spread·tnt·leaf-decay deny, invincible allow.
+  **로비에서 야생으로 나가는 길은 아직 없음** (오너가 맵 작업 중).
