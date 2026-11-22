@@ -32,6 +32,30 @@ public final class St {
     public record Wheel(String title, List<String> labels, List<String> icons, int winner, long at, long ms) { }
     public record Announce(String icon, String title, String desc, long at) { }
     public record Death(String name, long at) { }
+    /** 3000 채팅 투표. endsAt = 끝나는 시각, winner = 0 이면 진행 중 (1·2 = 결과), shownAt = 결과가 나온 시각 */
+    public record Vote(String target, String label1, String label2, String icon1, String icon2, int a, int b, long endsAt, long total, int winner, String result, long shownAt) { }
+    public static Vote vote;
+    /** 투표가 시작·끝날 때 방송 채팅 세기를 켜고 끄는 곳 (게임 안에서만 DiamondClient 가 넣는다. 검수 도구에서는 비어 있음) */
+    public static Runnable onVoteStart, onVoteStop;
+    public static final long VOTE_RESULT_MS = 3000;
+
+    public static void applyVote(JsonObject o) {
+        long now = System.currentTimeMillis();
+        String st = str(o, "state", "");
+        int a = (int) num(o, "a", 0), b = (int) num(o, "b", 0);
+        long ms = num(o, "ms", 0);
+        if (st.equals("start")) {
+            vote = new Vote(str(o, "target", ""), str(o, "label1", "1"), str(o, "label2", "2"), str(o, "icon1", "icons/vote"), str(o, "icon2", "icons/vote"), 0, 0, now + ms, ms, 0, "", 0);
+            pick = null; wheel = null; announce = null;
+            if (onVoteStart != null) onVoteStart.run();
+        } else if (vote != null && st.equals("tally")) {
+            vote = new Vote(vote.target(), vote.label1(), vote.label2(), vote.icon1(), vote.icon2(), a, b, now + ms, vote.total(), 0, "", 0);
+        } else if (vote != null && st.equals("end")) {
+            vote = new Vote(vote.target(), vote.label1(), vote.label2(), vote.icon1(), vote.icon2(), a, b, now, vote.total(), (int) num(o, "winner", 0), str(o, "result", ""), now);
+            if (onVoteStop != null) onVoteStop.run();
+        }
+        if (st.equals("end")) if (onVoteStop != null) onVoteStop.run();
+    }
     /** 우편 한 통. text = 내용물 이름, art = 받은 그림(없으면 icon 의 게임 아이템 그림) */
     public record Letter(String id, String title, String from, String text, String art, String icon) { }
     public static final List<Letter> mails = new ArrayList<>();
@@ -70,7 +94,8 @@ public final class St {
     public static void clear() {
         has = false; goal = 0; held = 0; done = false; heldChangedAt = 0; heldDelta = 0; goalChangedAt = 0; goalDelta = 0;
         cats.clear(); items.clear(); sells.clear(); toasts.clear(); queue.clear(); effects.clear(); names.clear(); mails.clear();
-        banner = null; pick = null; wheel = null; announce = null; death = null;
+        banner = null; pick = null; wheel = null; announce = null; death = null; vote = null;
+        if (onVoteStop != null) onVoteStop.run();
         reverseUntil = 0; blackoutUntil = 0; blackoutFrom = 0;
     }
 
@@ -215,5 +240,7 @@ public final class St {
         if (death != null && now - death.at() > DEATH_MS) death = null;
         if (pick != null && now - pick.at() > pick.ms() + HOLD_MS) pick = null;
         if (wheel != null && now - wheel.at() > wheel.ms() + HOLD_MS) wheel = null;
+        if (vote != null && vote.winner() != 0 && now - vote.shownAt() > VOTE_RESULT_MS) vote = null;
+        if (vote != null && vote.winner() == 0 && now > vote.endsAt() + 10000) { vote = null; if (onVoteStop != null) onVoteStop.run(); }   // 결과 신호를 못 받았을 때
     }
 }

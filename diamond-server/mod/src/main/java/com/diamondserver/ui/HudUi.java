@@ -59,7 +59,8 @@ public final class HudUi {
             top = banner(g, ox, top, now);
             top = toasts(g, ox, top, now, St.wheel != null ? 2 : 3);
         }
-        if (St.pick != null) pick(g, ox, top, now);
+        if (St.vote != null) vote(g, ox, Math.max(150, top + 8), now);
+        else if (St.pick != null) pick(g, ox, top, now);
         else if (St.wheel != null) wheel(g, ox, top, now);
         else if (St.announce != null) announce(g, ox, Math.max(150, top + 8), now);
         death(g, now);
@@ -260,6 +261,42 @@ public final class HudUi {
         g.img(an.icon(), x + 402 * k, y + 31 * k, 96 * k, 96 * k, al);
         g.fit(an.title(), x + 450 * k, y + 175 * k, 25, 1, a(G.TEXT, al), 760 * k);
         g.fit(an.desc(), x + 450 * k, y + 246 * k, 16, 1, a(G.DIM, al), 760 * k);
+    }
+
+    // ── 3000 채팅 투표: 받은 그림(투표 창 900x360 · 막대 800x40)을 비율 그대로 줄여서 ─────────────
+    // 창 안 칸 위치는 그림을 재서 맞춤: 제목 칸 x352~548 y17~61, 왼쪽 칸 x23~439 y81~338, 오른쪽 칸 x461~877 y81~338.
+    // 막대: 빈 틀의 안쪽 구멍 x10~788 y7~32. 채움 그림 1(왼쪽부터)은 파일 아래쪽 y20~38, 2(오른쪽부터)는 y1~38 에 그려져 있어서 구멍에 맞게 늘려 그린다.
+    private static void vote(G g, double ox, double y, long now) {
+        St.Vote v = St.vote;
+        final double k = 0.72;
+        double w = 900 * k, h = 360 * k, x = ox + 960 - w / 2;
+        g.img("events/vote_window", x, y, w, h, 1);
+        long left = Math.max(0, v.endsAt() - now);
+        String title = v.winner() == 0 ? "채팅 투표 · " + (left + 999) / 1000 + "초" : (v.winner() == 1 ? v.label1() : v.label2()) + " 당첨";
+        g.fit(title, x + 450 * k, y + 39 * k, 19, 1, G.TEXT, 180 * k);
+        int total = v.a() + v.b();
+        votePanel(g, x + 23 * k, y + 81 * k, 416 * k, 257 * k, "1", v.label1(), v.icon1(), v.a(), total, v.winner() == 2);
+        votePanel(g, x + 461 * k, y + 81 * k, 416 * k, 257 * k, "2", v.label2(), v.icon2(), v.b(), total, v.winner() == 1);
+        double bw = 800 * k, bh = 40 * k, bx = ox + 960 - bw / 2, by = y + h + 6, fx = bw / 800, fy = bh / 40;
+        g.img("events/vote_progress_empty", bx, by, bw, bh, 1);
+        if (total > 0) {
+            double sx = 779.0 / 798;
+            double s1 = 26.0 / 19, s2 = 26.0 / 38;
+            double ix = bx + (10 - 1 * sx) * fx, iw = 800 * sx * fx;
+            if (v.a() > 0) g.imgClip("events/vote_progress_one", ix, by + (7 - 20 * s1) * fy, iw, 40 * s1 * fy, 0, v.a() / (double) total);
+            if (v.b() > 0) g.imgClip("events/vote_progress_two", ix, by + (7 - 1 * s2) * fy, iw, 40 * s2 * fy, 1 - v.b() / (double) total, 1);
+        }
+        String guide = v.winner() == 0 ? "방송 채팅에 1 또는 2 를 입력하세요 · " + v.target() + "님" : v.result();
+        g.shadow(guide, ox + 960, by + bh + 18, 17, 1, G.TEXT);
+    }
+
+    private static void votePanel(G g, double x, double y, double w, double h, String num, String label, String icon, int count, int total, boolean lost) {
+        double cx = x + w / 2, s = h * 0.38;
+        g.img(icon, cx - s / 2, y + h * 0.1, s, s, 1);
+        g.fit(num + "   " + label, cx, y + h * 0.64, 22, 1, G.TEXT, w - 24);
+        int pct = total == 0 ? 0 : (int) Math.round(count * 100.0 / total);
+        g.fit(count + "표 · " + pct + "%", cx, y + h * 0.85, 18, 1, G.TEXT, w - 24);
+        if (lost) g.rect(x + 3, y + 3, w - 6, h - 6, 0x99000000);           // 진 쪽은 어둡게
     }
 
     // ── 즉사: 화면 가장자리 붉은 효과 → 제목 띠 → 글자 ─────────────────────────

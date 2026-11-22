@@ -121,6 +121,7 @@ final class Events {
         List<String> out = new ArrayList<>();
         for (List<Prank> list : pools.values()) for (Prank pr : list) out.add(pr.name.replace(' ', '_'));
         out.add("다이아_폭탄");
+        out.add("채팅_투표");
         out.add("즉사");
         return out;
     }
@@ -129,6 +130,7 @@ final class Events {
     boolean test(String name, Player target) {
         if (name.equals("다이아 폭탄")) { pl.rewards.bomb(target, Math.max(1, pl.getConfig().getInt("effects.bomb-diamonds", 500))); return true; }
         if (name.equals("즉사")) { pl.pranks.reaper(target); return true; }
+        if (name.equals("채팅 투표")) { runVote(target, new Job(target.getUniqueId(), pl.nick(target), "시험", 3000)); return true; }
         for (List<Prank> list : pools.values()) for (Prank pr : list) {
             if (!pr.name.equals(name) && !pr.id.equalsIgnoreCase(name)) continue;
             boolean all = pr.scope.equals("all");
@@ -345,6 +347,9 @@ final class Events {
                     pl.miner.summon(t, donor);
                     return 20;
                 }
+                case "vote" -> {
+                    return runVote(t, job);
+                }
                 case "pending" -> {
                     toastAll(pl, def.name + " 이벤트는 아직 준비 중입니다.", good);
                     return 0;
@@ -355,6 +360,90 @@ final class Events {
             pl.getLogger().warning("이벤트 동작 실행 실패 '" + action + "': " + e);
         }
         return 0;
+    }
+
+    // ── 3000개 채팅 투표 ────────────────────────────────────
+    // 모드(방송 화면을 켠 스트리머 게임)가 후원 모드의 방송 연결로 방송 채팅의 1·2 를 세어 1초마다 보내 준다.
+    // 서버는 사람마다 마지막으로 받은 수를 더해 (= 접속한 스트리머 방송 전부 합산) 화면에 보여 주고, 끝나면 많은 쪽을 실행한다.
+    // 1 = 다이아 폭탄, 2 = 즉사. 동점·표 없음은 무작위.
+    private final Map<UUID, int[]> voteReports = new HashMap<>();
+    private boolean voting;
+
+    /** 모드가 보낸 지금까지의 표 수 (투표 중일 때만 받는다) */
+    void voteTally(Player p, int a, int b) {
+        if (!voting) return;
+        voteReports.put(p.getUniqueId(), new int[]{Math.max(0, Math.min(100000, a)), Math.max(0, Math.min(100000, b))});
+    }
+
+    private int[] voteSum() {
+        int a = 0, b = 0;
+        for (Map.Entry<UUID, int[]> e : voteReports.entrySet()) if (Bukkit.getPlayer(e.getKey()) != null) { a += e.getValue()[0]; b += e.getValue()[1]; }
+        return new int[]{a, b};
+    }
+
+    private com.google.gson.JsonObject voteMsg(String state, int[] sum, long leftMs) {
+        com.google.gson.JsonObject o = new com.google.gson.JsonObject();
+        o.addProperty("state", state);
+        o.addProperty("a", sum[0]);
+        o.addProperty("b", sum[1]);
+        o.addProperty("ms", leftMs);
+        return o;
+    }
+
+    private long runVote(Player t, Job job) {
+        if (voting) { hold(job.withRest("vote")); return 0; }              // 이미 투표 중이면(시험 명령 등) 다음 기회로
+        final int secs = Math.max(5, pl.getConfig().getInt("vote.seconds", 30));
+        final int bombs = Math.max(1, pl.getConfig().getInt("effects.bomb-diamonds", 500));
+        final String aName = pl.getConfig().getString("vote.option-1", "다이아 폭탄"), bName = pl.getConfig().getString("vote.option-2", "즉사");
+        final UUID id = t.getUniqueId();
+        final String who = pl.nick(t);
+        voting = true;
+        voteReports.clear();
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            com.google.gson.JsonObject o = voteMsg("start", new int[]{0, 0}, secs * 1000L);
+            o.addProperty("target", who);
+            o.addProperty("label1", aName);
+            o.addProperty("label2", bName);
+            o.addProperty("icon1", "icons/diamond_pile");
+            o.addProperty("icon2", "icons/instant_death");
+            pl.net.vote(p, o);
+            p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 0.8f, 1.2f);
+        }
+        new org.bukkit.scheduler.BukkitRunnable() {
+            int left = secs;
+            @Override public void run() {
+                left--;
+                int[] sum = voteSum();
+                if (left > 0) {
+                    for (Player p : Bukkit.getOnlinePlayers()) pl.net.vote(p, voteMsg("tally", sum, left * 1000L));
+                    return;
+                }
+                cancel();
+                voting = false;
+                int win;
+                String why;
+                if (sum[0] == sum[1]) { win = ThreadLocalRandom.current().nextBoolean() ? 1 : 2; why = sum[0] == 0 ? "표 없음 · 무작위" : "동점 · 무작위"; }
+                else { win = sum[0] > sum[1] ? 1 : 2; why = sum[0] + " : " + sum[1]; }
+                String winName = win == 1 ? aName : bName;
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    com.google.gson.JsonObject o = voteMsg("end", sum, 0);
+                    o.addProperty("winner", win);
+                    o.addProperty("result", winName + " (" + why + ")");
+                    pl.net.vote(p, o);
+                }
+                voteReports.clear();
+                Player target = Bukkit.getPlayer(id);
+                String action = win == 1 ? "bomb " + bombs : "death";
+                Bukkit.getScheduler().runTaskLater(pl, () -> {
+                    Player tt = Bukkit.getPlayer(id);
+                    if (tt == null) { hold(job.withRest(action)); return; }      // 그사이 나갔으면 다시 접속했을 때 결과를 실행
+                    for (Player o : Bukkit.getOnlinePlayers()) pl.net.announce(o, win == 1 ? "icons/diamond_pile" : "icons/instant_death", winName, "채팅 투표 결과 · " + pl.nick(tt) + "님");
+                    Events.this.run(tt, defs.getOrDefault(job.count, new Def("채팅 투표", "neutral", "icons/vote", List.of())), action, job);
+                }, 50L);
+                if (target == null) pl.getLogger().info("채팅 투표 대상이 나가 있어 결과(" + winName + ")를 미뤄 둠: " + who);
+            }
+        }.runTaskTimer(pl, 20L, 20L);
+        return secs * 20L + 50L + 100L;                                    // 투표 + 결과 발표 + 폭탄·즉사 연출이 끝날 때까지 다음 후원은 기다린다
     }
 
     // ── 룰렛 (1000개) ────────────────────────────────────────

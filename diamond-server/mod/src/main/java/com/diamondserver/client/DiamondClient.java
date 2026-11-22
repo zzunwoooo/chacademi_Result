@@ -40,6 +40,8 @@ public final class DiamondClient implements ClientModInitializer {
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> { St.clear(); helloTick = 0; firstNick = null; });
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> { St.clear(); firstNick = null; });
 
+        St.onVoteStart = BroadcastVote::start;
+        St.onVoteStop = BroadcastVote::stop;
         Motion.init();
         shopKey = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.diamondserver.shop", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_G, "category.diamondserver"));
         mailKey = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.diamondserver.mail", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_H, "category.diamondserver"));
@@ -52,6 +54,7 @@ public final class DiamondClient implements ClientModInitializer {
                 send(o);
             }
             St.expire();
+            BroadcastVote.tick();
             if (firstNick != null && client.player != null && client.currentScreen == null)
                 client.setScreen(new NickScreen(true, firstNick[0], firstNick[1], Integer.parseInt(firstNick[2])));
             while (shopKey.wasPressed())
@@ -119,6 +122,7 @@ public final class DiamondClient implements ClientModInitializer {
                 case "death" -> St.applyDeath(o);
                 case "names" -> St.applyNames(o);
                 case "mail" -> St.applyMail(o);
+                case "vote" -> St.applyVote(o);
                 case "toast" -> St.toast(St.str(o, "text", ""), St.bool(o, "ok", true));
                 case "motion" -> playMotion(mc, St.str(o, "player", ""), St.str(o, "name", ""));
                 case "open" -> {

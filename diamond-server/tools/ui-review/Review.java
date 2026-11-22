@@ -316,6 +316,16 @@ public class Review {
         save(out, "13g_우편함_스크롤내림.png", 1920, 1080, g -> { HudUi.under(g, "mail"); lots.draw(g, 0, 0); HudUi.over(g, true); });
         St.mails.clear();
 
+        // 3000 채팅 투표: 진행 중 / 결과 / 표 없음
+        base(1247, 86);
+        St.applyVote(j("{state:'start',ms:30000,target:'다이아왕나니',label1:'다이아 폭탄',label2:'즉사',icon1:'icons/diamond_pile',icon2:'icons/instant_death'}"));
+        save(out, "19_채팅투표_시작.png", 1920, 1080, g -> { HudUi.draw(g); });
+        St.applyVote(j("{state:'tally',a:137,b:62,ms:18000}"));
+        save(out, "19b_채팅투표_진행.png", 1920, 1080, g -> { HudUi.draw(g); });
+        St.applyVote(j("{state:'end',a:137,b:62,ms:0,winner:1,result:'다이아 폭탄 (137 : 62)'}"));
+        save(out, "19c_채팅투표_결과.png", 1920, 1080, g -> { HudUi.draw(g); });
+        St.vote = null;
+
         // 14~ 닉네임 창
         NickUi.Host nh = new NickUi.Host() {
             @Override public void submit(String name) { }

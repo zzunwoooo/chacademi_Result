@@ -33,7 +33,7 @@ donation:
 # actions: food <개수> | goal <최소> <최대> (음수 = 감소) | goalpm <개수> | repeat <횟수> goal <최소> <최대>
 #          diamonds <개수> | half | death | pool <풀 이름> | poolx <풀 이름> <횟수> | wheel | miner | pending(아직 안 만든 것)
 #          bomb <개수> (다이아 폭탄: 펑 터지며 다이아가 사방으로)
-# 3000 채팅 투표는 방송 채팅을 받는 방법이 정해지지 않아 아직 pending (투표 결과 중 "다이아 폭탄"은 effects.bomb-diamonds 개)
+#          vote (3000 채팅 투표: 방송 채팅 1·2 를 30초 동안 세어 많은 쪽 실행 — 1 다이아 폭탄 / 2 즉사)
 events:
   "10":   { name: "밥 3개",           icon: "icons/meal", kind: good,    actions: ["food 3"] }
   "50":   { name: "목표 증가",        icon: "icons/goal_up", kind: bad,     actions: ["goal 10 50"] }
@@ -44,7 +44,7 @@ events:
   "510":  { name: "목표 감소 10회",   icon: "icons/goal_down", kind: good,    actions: ["repeat 10 goal -50 -10"] }
   "1000": { name: "룰렛",             icon: "icons/roulette", kind: neutral, actions: ["wheel"] }
   "2000": { name: "후원자 AI 플레이어", icon: "icons/ai_player", kind: good,  actions: ["miner"] }
-  "3000": { name: "채팅 투표",        icon: "icons/vote", kind: neutral, actions: ["pending"] }
+  "3000": { name: "채팅 투표",        icon: "icons/vote", kind: neutral, actions: ["vote"] }
   "4444": { name: "즉사",             icon: "icons/instant_death", kind: bad,     actions: ["death"] }
 
 # ── 랜덤 풀: "pool <이름>" 이벤트가 여기서 하나를 뽑는다 (직전에 나온 것은 다음 한 번 제외) ──
@@ -208,3 +208,11 @@ commands:
 death:
   goal-penalty: 30        # 죽으면 남은 목표가 이만큼 늘어난다 (11/22 오너 "죽으면 목표 증가", 수치는 Claude: 목표 1000 의 3%). 0 이면 끔
                           # 4444 즉사로 죽은 것과 이미 졸업한 사람은 늘지 않는다
+
+# ── 3000개 채팅 투표 ────────────────────────────────────────
+# 방송 채팅에 1 또는 2 를 친 수를 센다. 세는 것은 스트리머 게임의 모드가 후원 모드(Donation)의 방송 연결로 하고,
+# 서버는 접속한 스트리머 방송 4개를 합산한다 (같은 시청자가 여러 번 쳐도 마지막 것 1표). 동점·표 없음은 무작위.
+vote:
+  seconds: 30
+  option-1: "다이아 폭탄"   # 1 이 이기면: 다이아 폭탄 (effects.bomb-diamonds 개)
+  option-2: "즉사"          # 2 가 이기면: 즉사 (사망 벌칙은 붙지 않음)

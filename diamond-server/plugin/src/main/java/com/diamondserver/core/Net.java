@@ -161,6 +161,14 @@ final class Net implements PluginMessageListener {
         send(p, o);
     }
 
+    /** 3000 채팅 투표 화면·집계 신호 (state = start · tally · end). 모드가 없으면 채팅으로 */
+    void vote(Player p, JsonObject o) {
+        if (hasMod(p)) { o.addProperty("t", "vote"); send(p, o); return; }
+        String st = o.has("state") ? o.get("state").getAsString() : "";
+        if (st.equals("start")) p.sendMessage(Component.text("채팅 투표 시작! 방송 채팅에 1(다이아 폭탄) 또는 2(즉사)를 입력하세요.", NamedTextColor.AQUA));
+        if (st.equals("end")) p.sendMessage(Component.text("채팅 투표 결과: " + (o.has("result") ? o.get("result").getAsString() : ""), NamedTextColor.AQUA));
+    }
+
     void closeNick(Player p) {
         if (!hasMod(p)) return;
         JsonObject o = new JsonObject();
@@ -302,6 +310,7 @@ final class Net implements PluginMessageListener {
                 case "nick" -> pl.nicks.save(p, o.has("name") ? o.get("name").getAsString() : "");
                 case "mail.claim" -> pl.mail.claim(p, o.has("id") ? o.get("id").getAsString() : "");
                 case "mail.claimall" -> pl.mail.claimAll(p);
+                case "vote.tally" -> pl.events.voteTally(p, o.has("a") ? o.get("a").getAsInt() : 0, o.has("b") ? o.get("b").getAsInt() : 0);
                 default -> { }
             }
         } catch (RuntimeException e) {

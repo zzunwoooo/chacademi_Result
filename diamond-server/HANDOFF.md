@@ -326,3 +326,18 @@ python3 build_spec.py && python3 motion_gen.py forced_dance_spec.json <출력폴
   나감·서버 종료는 풀어 주고, 죽으면 떨어지는 표시를 원래 물건으로 바꾸고, 서버가 갑자기 꺼지면 접속 때 되돌린다.
   아이콘은 받은 묶음에 맞는 그림이 없어 핫바 셔플 그림을 같이 씀 (전용 그림이 필요하면 GPT 목록에 추가).
 - 호스팅: 0.10.0 로드·연출 명령·연동시험 오류 0건. 서버는 꺼 둠. 게임 안 확인 안 함.
+
+## 3000개 채팅 투표 (2026-11-22) — 플러그인 0.11.0 · 모드 0.10.0
+- 흐름: 3000 후원 → 서버가 투표 시작(30초, `vote.seconds`) → 각 스트리머 게임의 모드가 자기 방송 채팅에서 1·2 를 세어 1초마다 서버로 보냄(`vote.tally`)
+  → 서버가 접속한 사람 것을 합산해 모두에게 화면 갱신 → 끝나면 많은 쪽 실행 (1 다이아 폭탄 500개 / 2 즉사, 동점·표 없음은 무작위). 결과 실행 전에 대상이 나가면 결과를 미뤄 둠.
+- 같은 시청자가 여러 번 치면 마지막 것 1표 ("1번"·전각 숫자도 인정).
+- 방송 연결: 실행기의 후원 모드(Donation 2.0.2, bot.colla, 소스 없음)에 붙는다 (`client/BroadcastVote.java`).
+  - SOOP: 후원 모드의 netty 채팅 연결(`Platform.SOOP.getService().client.socket.channel`)에 "[INPUT] Packet decoder" 앞에 "diamond-vote" 처리기를 끼워 엿보고 그대로 넘긴다.
+    신호 형식 = A5 · 종류 shortLE · 길이 shortLE · 결과 shortLE · 값들(A1 글자/0 끝, A9 intLE, A8 shortLE). 후원 모드가 쓰는 종류(0,1,2,9,14,22,25~28,34~36)는 건너뛴다.
+    **채팅 신호의 종류 번호와 칸 순서는 문서가 없어서 모른다** → 글자 칸 중 정확히 "1"/"2" 인 칸을 표로, 첫 글자 칸을 보낸 사람으로 본다. 투표 중 처음 보는 신호 종류를 게임 로그에 "SOOP 신호 종류 N" 으로 남긴다.
+    (공식 SOOP Chat SDK 는 다른 서버(wss chat-…)·다른 번호 체계라 그대로 쓸 수 없었다. SDK 문서의 MESSAGE 필드: userId·userNickname·message.)
+  - 치지직: `mixin/ChzzkClientMixin`(@Pseudo)이 후원 모드의 `ChzzkClient.handleSystemMessage` 앞에서 connected 신호의 sessionKey 를 받아,
+    같은 소켓에 "CHAT" 듣기를 붙이고 `POST /open/v1/sessions/events/subscribe/chat?sessionKey=…` 를 후원 모드의 `sendRequest` 로 보낸다 (공식 문서 기준, 필드 senderChannelId·content).
+    **후원 모드 앱에 "채팅 메시지 조회" 권한이 없으면 구독이 실패**하고 치지직 표는 0 이 된다 (게임 로그에 "치지직 채팅 구독 실패").
+- 화면: 받은 그림 `events/vote_window`(0.72배)·`vote_progress_empty/one/two`. 채움 그림이 틀과 안 맞아 구멍에 맞게 늘려 그림. 진 쪽 칸은 어둡게. 검수 그림 19·19b·19c.
+- 시험: `/다이아 연출 채팅_투표 [닉]` 또는 `/후원테스트 3000`. **실제 방송 채팅으로는 확인하지 못함** — 방송을 켜고 투표를 돌린 뒤 게임 로그(`logs/latest.log`)의 "[나니 다이아서버 채팅 투표]" 줄을 보면 어디서 막혔는지 알 수 있다.
