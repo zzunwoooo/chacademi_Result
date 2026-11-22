@@ -106,7 +106,8 @@ final class Listeners implements Listener {
         Player p = e.getEntity();
         e.deathMessage(Component.text(pl.nick(p) + "님이 사망했습니다.", NamedTextColor.WHITE));     // 사망 글도 한글 닉네임으로
         // 죽으면 남은 목표가 늘어난다 (11/22 오너). 4444 즉사는 이미 벌칙이라 빼고, 졸업한 사람도 뺀다
-        long penalty = pl.getConfig().getLong("death.goal-penalty", 30);
+        long pmin = Math.max(0, pl.getConfig().getLong("death.goal-penalty-min", 100)), pmax = Math.max(pmin, pl.getConfig().getLong("death.goal-penalty-max", 300));
+        long penalty = pmin <= 0 ? 0 : java.util.concurrent.ThreadLocalRandom.current().nextLong(pmin, pmax + 1);
         boolean reaped = pl.pranks.consumeReaped(p.getUniqueId());
         if (penalty > 0 && !reaped && !pl.store.get(p).done) {
             pl.ledger.addGoal(p, penalty);

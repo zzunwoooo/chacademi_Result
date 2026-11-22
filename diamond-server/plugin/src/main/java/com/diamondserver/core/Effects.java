@@ -103,6 +103,8 @@ final class Effects implements Listener {
         if (id.equals(GIANT)) scale(p, pl.getConfig().getDouble("effects.giant-scale", 2.0));
         if (id.equals(SEAL)) pl.seal.seal(p, pl.getConfig().getInt("effects.seal-slots", 9));
         if (id.equals(MONSTERS)) pl.monsters.summon(p);
+        // 강제 댄스 음악 (11/23 오너가 준 곡 앞 14초, 모드 안 sounds/forced_dance.ogg). 춤이 끝나도 곡은 끝까지 흐른다
+        if (id.equals(DANCE)) p.getWorld().playSound(p.getLocation(), "diamondserver:forced_dance", org.bukkit.SoundCategory.MASTER, 1.5f, 1f);
     }
 
     private void stop(Player p, String id) {

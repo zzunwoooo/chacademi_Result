@@ -1,0 +1,6 @@
+{
+  "forced_dance": {
+    "subtitle": "강제 댄스 음악",
+    "sounds": [ { "name": "diamondserver:forced_dance", "stream": true } ]
+  }
+}

@@ -19,7 +19,8 @@ import java.util.Map;
 final class Shop {
     /** 구매 상품 한 칸 */
     record Entry(String id, String cat, String name, String desc, long price, int amount,
-                 Material material, Enchantment ench, int level, String item) { }
+                 Material material, Enchantment ench, int level, String item,
+                 Map<Enchantment, Integer> enchants, double mineSpeed) { }
 
     /** 판매 품목 한 줄 */
     record Sell(Material material, Material block, String name, double price) { }
@@ -62,9 +63,15 @@ final class Shop {
             Enchantment en = ench(raw.get("enchant") == null ? null : String.valueOf(raw.get("enchant")));
             int level = raw.get("level") instanceof Number n ? n.intValue() : 1;
             String item = raw.get("item") == null ? null : String.valueOf(raw.get("item"));
+            Map<Enchantment, Integer> enchants = new LinkedHashMap<>();
+            if (raw.get("enchants") instanceof Map<?, ?> em) for (Map.Entry<?, ?> x : em.entrySet()) {
+                Enchantment xe = ench(String.valueOf(x.getKey()));
+                if (xe != null && x.getValue() instanceof Number lv) enchants.put(xe, lv.intValue());
+            }
+            double mineSpeed = raw.get("mine-speed") instanceof Number ms ? ms.doubleValue() : 0;
             boolean ok = price >= 0 && cats.containsKey(cat) && (mat != null || en != null || (item != null && Items.IDS.contains(item)));
             if (!ok) { pl.getLogger().warning("상점 상품 설정 오류로 건너뜀: " + raw); continue; }
-            entries.put(id, new Entry(id, cat, name, desc, price, amount, mat, en, level, item));
+            entries.put(id, new Entry(id, cat, name, desc, price, amount, mat, en, level, item, enchants, mineSpeed));
         }
 
         ConfigurationSection ss = pl.getConfig().getConfigurationSection("sell");
@@ -127,7 +134,33 @@ final class Shop {
             book.setItemMeta(m);
             return book;
         }
+        if (!e.enchants.isEmpty() || e.mineSpeed > 0) return finalTool(e, qty);
         return new ItemStack(e.material, e.amount * qty);
+    }
+
+    /**
+     * 종결곡 (11/23 오너): 이름 붙은 곡괭이에 인챈트를 미리 넣고, 손에 들면 캐는 속도가 몇 배가 된다 (블럭이 녹듯이 바로바로 깨짐).
+     * 속성을 하나라도 넣으면 곡괭이 기본 공격력이 사라지므로 기본 속성을 먼저 옮겨 담는다.
+     */
+    private ItemStack finalTool(Entry e, int qty) {
+        ItemStack it = new ItemStack(e.material, Math.max(1, e.amount * qty));
+        org.bukkit.inventory.meta.ItemMeta m = it.getItemMeta();
+        m.displayName(net.kyori.adventure.text.Component.text(e.name, net.kyori.adventure.text.format.NamedTextColor.AQUA)
+                .decoration(net.kyori.adventure.text.format.TextDecoration.ITALIC, false)
+                .decoration(net.kyori.adventure.text.format.TextDecoration.BOLD, true));
+        e.enchants.forEach((en, lv) -> m.addEnchant(en, lv, true));
+        if (e.mineSpeed > 0) {
+            try {
+                m.setAttributeModifiers(e.material.getDefaultAttributeModifiers(org.bukkit.inventory.EquipmentSlot.HAND));
+            } catch (Throwable ignored) { }
+            m.addAttributeModifier(org.bukkit.attribute.Attribute.BLOCK_BREAK_SPEED, new org.bukkit.attribute.AttributeModifier(
+                    new org.bukkit.NamespacedKey(pl, "final_tool_speed"), e.mineSpeed, org.bukkit.attribute.AttributeModifier.Operation.ADD_NUMBER,
+                    org.bukkit.inventory.EquipmentSlotGroup.MAINHAND));
+            m.lore(List.of(net.kyori.adventure.text.Component.text("손에 들면 캐는 속도 " + (int) Math.round(1 + e.mineSpeed) + "배", net.kyori.adventure.text.format.NamedTextColor.GRAY)
+                    .decoration(net.kyori.adventure.text.format.TextDecoration.ITALIC, false)));
+        }
+        it.setItemMeta(m);
+        return it;
     }
 
     void buy(Player p, String id, int qty) {

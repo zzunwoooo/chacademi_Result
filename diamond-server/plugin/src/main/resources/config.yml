@@ -35,15 +35,15 @@ donation:
 #          bomb <개수> (다이아 폭탄: 펑 터지며 다이아가 사방으로)
 #          vote (3000 채팅 투표: 방송 채팅 1·2 를 30초 동안 세어 많은 쪽 실행 — 1 다이아 폭탄 / 2 즉사)
 events:
-  "10":   { name: "밥 3개",           icon: "icons/meal", kind: good,    actions: ["food 3"] }
-  "50":   { name: "목표 증가",        icon: "icons/goal_up", kind: bad,     actions: ["goal 10 50"] }
-  "51":   { name: "목표 감소",        icon: "icons/goal_down", kind: good,    actions: ["goal -50 -10"] }
-  "100":  { name: "장난 랜덤",        icon: "icons/hotbar_shuffle", kind: neutral, actions: ["pool prank"] }
-  "300":  { name: "다이아 연출 랜덤", icon: "icons/diamond_pile", kind: good,    actions: ["pool reward"] }
-  "500":  { name: "목표 증가 10회",   icon: "icons/goal_up", kind: bad,     actions: ["repeat 10 goal 10 50"] }
-  "510":  { name: "목표 감소 10회",   icon: "icons/goal_down", kind: good,    actions: ["repeat 10 goal -50 -10"] }
-  "1000": { name: "룰렛",             icon: "icons/roulette", kind: neutral, actions: ["wheel"] }
-  "2000": { name: "후원자 AI 플레이어", icon: "icons/ai_player", kind: good,  actions: ["miner"] }
+# 11/23 오너(클라이언트) 표: 10 나니죽빵 · 50/51 ±10~40 · 222 괴롭히기 · 300 다이아 도움 · 500/510 ±50~300 한 번에 · 2000 후원자 도우미 (100·1000 룰렛 없앰)
+  "10":   { name: "나니죽빵",         icon: "icons/meal", kind: good,    actions: ["food 3"] }
+  "50":   { name: "다이아 추가",      icon: "icons/goal_up", kind: bad,     actions: ["goal 10 40"] }
+  "51":   { name: "다이아 감소",      icon: "icons/goal_down", kind: good,    actions: ["goal -40 -10"] }
+  "222":  { name: "괴롭히기",         icon: "icons/hotbar_shuffle", kind: neutral, actions: ["pool prank"] }
+  "300":  { name: "다이아 도움",      icon: "icons/diamond_pile", kind: good,    actions: ["pool reward"] }
+  "500":  { name: "다이아 추가",      icon: "icons/goal_up", kind: bad,     actions: ["goal 50 300"] }
+  "510":  { name: "다이아 감소",      icon: "icons/goal_down", kind: good,    actions: ["goal -300 -50"] }
+  "2000": { name: "후원자 도우미",    icon: "icons/ai_player", kind: good,  actions: ["miner"] }
   "3000": { name: "채팅 투표",        icon: "icons/vote", kind: neutral, actions: ["vote"] }
   "4444": { name: "즉사",             icon: "icons/instant_death", kind: bad,     actions: ["death"] }
 
@@ -163,7 +163,6 @@ items:
 shop:
   categories:             # 왼쪽 분류 (위에서부터 순서대로)
     pickaxe: "곡괭이"
-    enchant: "인챈트북"
     item: "아이템"
   items:
     - { id: wooden_pickaxe,    cat: pickaxe, name: "나무 곡괭이",     material: WOODEN_PICKAXE,    price: 1 }
@@ -172,13 +171,10 @@ shop:
     - { id: golden_pickaxe,    cat: pickaxe, name: "금 곡괭이",       material: GOLDEN_PICKAXE,    price: 3 }
     - { id: diamond_pickaxe,   cat: pickaxe, name: "다이아 곡괭이",   material: DIAMOND_PICKAXE,   price: 8 }
     - { id: netherite_pickaxe, cat: pickaxe, name: "네더라이트 곡괭이", material: NETHERITE_PICKAXE, price: 40 }
-    - { id: efficiency_3, cat: enchant, name: "효율 III",   enchant: efficiency, level: 3, price: 10 }
-    - { id: efficiency_5, cat: enchant, name: "효율 V",     enchant: efficiency, level: 5, price: 30 }
-    - { id: fortune_1,    cat: enchant, name: "행운 I",     enchant: fortune,    level: 1, price: 15 }
-    - { id: fortune_2,    cat: enchant, name: "행운 II",    enchant: fortune,    level: 2, price: 40 }
-    - { id: fortune_3,    cat: enchant, name: "행운 III",   enchant: fortune,    level: 3, price: 100 }
-    - { id: unbreaking_3, cat: enchant, name: "내구성 III", enchant: unbreaking, level: 3, price: 15 }
-    - { id: mending,      cat: enchant, name: "수선",       enchant: mending,    level: 1, price: 40 }
+    # 11/23 오너: 종결곡 3종 추가 (인챈트 미리 들어감 · 행운 없음 · 손에 들면 캐는 속도 n배로 바로바로 깨짐). 가격은 오너 값 그대로
+    - { id: iron_final,      cat: pickaxe, name: "철 종결곡",     material: IRON_PICKAXE,      price: 20,  enchants: { efficiency: 5, unbreaking: 3, mending: 1 }, mine-speed: 2 }
+    - { id: diamond_final,   cat: pickaxe, name: "다이아 종결곡", material: DIAMOND_PICKAXE,   price: 10,  enchants: { efficiency: 5, unbreaking: 3, mending: 1 }, mine-speed: 3 }
+    - { id: netherite_final, cat: pickaxe, name: "네더 종결곡",   material: NETHERITE_PICKAXE, price: 200, enchants: { efficiency: 5, unbreaking: 3, mending: 1 }, mine-speed: 4 }
     - { id: food,              cat: item, name: "밥",           item: food,              amount: 8, price: 1 }
     - { id: inven_save_ticket, cat: item, name: "인벤세이브권", item: inven_save_ticket, price: 10 }
     - { id: return_ticket,     cat: item, name: "귀환권",       item: return_ticket,     price: 3 }
@@ -210,7 +206,8 @@ commands:
 
 # ── 사망 벌칙 ─────────────────────────────────────────────
 death:
-  goal-penalty: 30        # 죽으면 남은 목표가 이만큼 늘어난다 (11/22 오너 "죽으면 목표 증가", 수치는 Claude: 목표 1000 의 3%). 0 이면 끔
+  goal-penalty-min: 100   # 죽으면 남은 목표가 min~max 사이 무작위로 늘어난다 (11/23 오너 100~300). 0 이면 끔
+  goal-penalty-max: 300
                           # 4444 즉사로 죽은 것과 이미 졸업한 사람은 늘지 않는다
 
 # ── 3000개 채팅 투표 ────────────────────────────────────────

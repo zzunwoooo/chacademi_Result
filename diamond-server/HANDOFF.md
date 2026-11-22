@@ -357,3 +357,14 @@ python3 build_spec.py && python3 motion_gen.py forced_dance_spec.json <출력폴
   - 아이콘 `icons/monster_raid` (모드 0.10.1): 내가 코덱스로 뽑음 — `클로드\다이아서버\아이콘생성\gen.sh <이름> "<설명>"` (기존 아이콘 3장을 참고로 그림체 맞춤, 1254px → Down 으로 256). **할로윈 이벤트가 아님** (호박 시안은 오너가 거절).
 - 시험: `/다이아 연출 몬스터_습격 [닉]`, 한 종류씩 `/다이아 몬스터 <종류|무작위> [닉]` (자동완성 있음). `/다이아 연동시험` 에 dmob 20종 포함.
 - 호스팅: 0.12.0 로드, 모델 34종 전부 성공, ItemsAdder 팩(generated.zip)에 dmob 포함 확인, ERROR 0. 서버는 꺼 둠. **게임 안 확인 안 함** (움직임·스킬 연출·피해량 체감 전부 미확인).
+
+## 11/23 오너(클라이언트) 요청 — 플러그인 0.13.0 · 모드 0.10.2
+- 후원 개수표 변경: 10 나니죽빵(밥 3개) · 50 다이아 추가 10~40 · 51 다이아 감소 10~40 · 222 괴롭히기(장난 풀) · 300 다이아 도움(연출 풀) · 500 다이아 추가 50~300 · 510 다이아 감소 50~300(둘 다 한 번에) · 2000 후원자 도우미 · 3000 채팅 투표 · 4444 즉사. 100·1000(룰렛) 없앰.
+  호스팅 donation `acceptedDonations` 도 같은 개수로.
+- 사망 벌칙: 목표 +100~300 무작위 (`death.goal-penalty-min/max`).
+- 상점: 인챈트북 분류 통째로 없앰(오너). 곡괭이 6종은 그대로 + 종결곡 3종 추가 — 철 20 · 다이아 10 · 네더 200 (오너 값 그대로),
+  효율 V·내구성 III·수선(행운 없음) + 손에 들면 캐는 속도 3·4·5배(속성 block_break_speed, 기본 공격력 속성은 옮겨 담음). 상품 설정 `enchants`·`mine-speed` (Shop.finalTool).
+- 강제 댄스 음악: 오너가 준 곡(AI 곡) 앞 14초 → 모드 `sounds/forced_dance.ogg`(모노, 끝 1초 줄어듦), 춤 시작 때 그 자리에서 재생(춤 10초, 곡은 끝까지).
+- 실행기 기본 리소스팩: Ginko Fantasy Vanilla GUIs(오너 제공, Nexo 판 assets + pack_format 46) → distro `files/resourcepacks/ginko_fantasy_gui.zip`(MD5 있음),
+  새 설치는 options.txt 에서 켜짐, 기존 설치는 모드 DefaultSettings 2판이 resourcePacks 끝에 한 번 넣음.
+- 월드: 넓은 생물 군계(level-type large_biomes)로 새로, 기존 월드는 보관 없이 지움(오너). 오프닝 장소는 오너가 직접 함.
