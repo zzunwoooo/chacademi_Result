@@ -118,7 +118,7 @@ final class Cmd implements CommandExecutor, TabCompleter {
                 if (a.length < 2) { say(s, "/다이아 몬스터 <종류|무작위> [닉]   종류: " + String.join(", ", Monsters.typeNames())); return true; }
                 Player t = a.length > 2 ? pl.nicks.find(a[2]) : (s instanceof Player p ? p : null);
                 if (t == null) { say(s, a.length > 2 ? a[2] + "님은 접속해 있지 않습니다." : "콘솔에서는 대상 닉을 적어 주세요."); return true; }
-                if (a[1].equals("무작위")) { pl.effects.apply(t, Effects.MONSTERS, "몬스터 습격", "icons/creeper", 45); say(s, "몬스터 습격 → " + pl.nick(t)); return true; }
+                if (a[1].equals("무작위")) { pl.effects.apply(t, Effects.MONSTERS, "몬스터 습격", "icons/monster_raid", 45); say(s, "몬스터 습격 → " + pl.nick(t)); return true; }
                 Monsters.Type mt = Monsters.type(a[1]);
                 if (mt == null) { say(s, "그런 몬스터가 없습니다: " + a[1]); return true; }
                 pl.monsters.spawn(t, mt);
