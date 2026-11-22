@@ -60,7 +60,7 @@ pools:
     - { id: reverse,  name: "조작 반전",       icon: "icons/upside_down", scope: one, action: "reverse 30" }
     - { id: hotbar,   name: "핫바 셔플",       icon: "icons/hotbar_shuffle", scope: one, action: "hotbar" }
     - { id: swap,     name: "자리 셔플",       icon: "icons/position_shuffle", scope: all, action: "swap" }
-    - { id: blackout, name: "정전",            icon: "icons/blackout", scope: all, action: "blackout 30" }
+    - { id: blackout, name: "정전",            icon: "icons/blackout", scope: all, action: "blackout 10" }
     - { id: lava,     name: "바닥은 마그마 블럭", icon: "icons/lava_floor", scope: all, action: "lava 30" }
     - { id: bunny,    name: "강제 바니홉",     icon: "icons/bunnyhop", scope: all, action: "bunny 30" }
     - { id: crow,     name: "다이아 도둑 까마귀", icon: "icons/crow", scope: one, action: "crow" }
@@ -211,3 +211,13 @@ vote:
   seconds: 30
   option-1: "다이아 폭탄"   # 1 이 이기면: 다이아 폭탄 (effects.bomb-diamonds 개)
   option-2: "즉사"          # 2 가 이기면: 즉사 (사망 벌칙은 붙지 않음)
+
+# ── 로비 → 야생 이동 포탈 (11/23 오너: 홀로그램 느낌) ────────────────
+# 로비 광장(나무에 안 가린 평평한 곳)에 빛 고리 + 떠 있는 글씨. 들어가면 to-world 의 시작 지점 땅 위로 보낸다.
+lobby-portal:
+  enabled: true
+  world: lobby
+  x: 34.5
+  y: 47.0          # 발 높이
+  z: 32.5
+  to-world: world

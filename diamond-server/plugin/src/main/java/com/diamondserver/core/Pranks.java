@@ -253,7 +253,7 @@ final class Pranks implements Listener {
                 boolean blocked = t > 20 && !q.getLocation().add(0, 2.2, 0).getBlock().isPassable();
                 if (q.getLocation().getY() >= goalY || t > 160 || blocked) {
                     prop.remove();
-                    giveElytra(q);
+                    pl.mlg.give(q);                     // 11/23 오너: 겉날개 대신 물 양동이 물낙하
                     cancel();
                     return;
                 }

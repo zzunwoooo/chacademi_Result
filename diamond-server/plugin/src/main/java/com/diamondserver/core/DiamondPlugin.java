@@ -32,6 +32,8 @@ public final class DiamondPlugin extends JavaPlugin {
     Pranks pranks;
     Seal seal;
     Monsters monsters;
+    Mlg mlg;
+    WildPortal portal;
     Rewards rewards;
     Miner miner;
     Nicks nicks;
@@ -58,12 +60,15 @@ public final class DiamondPlugin extends JavaPlugin {
         pranks = new Pranks(this);
         seal = new Seal(this);
         monsters = new Monsters(this);
+        mlg = new Mlg(this);
+        portal = new WildPortal(this);
         rewards = new Rewards(this);
         miner = new Miner(this);
         getServer().getPluginManager().registerEvents(effects, this);
         getServer().getPluginManager().registerEvents(pranks, this);
         getServer().getPluginManager().registerEvents(seal, this);
         getServer().getPluginManager().registerEvents(monsters, this);
+        getServer().getPluginManager().registerEvents(mlg, this);
         getServer().getPluginManager().registerEvents(rewards, this);
         shop.load();
         events.load();
@@ -109,6 +114,8 @@ public final class DiamondPlugin extends JavaPlugin {
         safe("효과 정리", () -> { if (effects != null) effects.shutdown(); });      // 작아진 몸·마그마로 바꾼 블럭을 되돌린다
         safe("장난 정리", () -> { if (pranks != null) pranks.shutdown(); });        // 까마귀가 훔친 다이아·겉날개를 되돌린다
         safe("몬스터 정리", () -> { if (monsters != null) monsters.shutdown(); });
+        safe("물낙하 정리", () -> { if (mlg != null) mlg.shutdown(); });
+        safe("로비 포탈 정리", () -> { if (portal != null) portal.shutdown(); });
         safe("연출 정리", () -> { if (rewards != null) rewards.shutdown(); });
         safe("AI 플레이어 정리", () -> { if (miner != null) miner.shutdown(); });
         safe("모델 정리", () -> { if (models != null) models.shutdown(); });        // 세워 둔 모델을 치운다

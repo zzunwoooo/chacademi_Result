@@ -373,3 +373,8 @@ python3 build_spec.py && python3 motion_gen.py forced_dance_spec.json <출력폴
   처음 접속한 사람 = Essentials newbies 스폰 `plugins/Essentials/spawn.yml` (lobby 37.5 48 43.5, 섬 가운데 땅). 로비 규칙: 모험 모드·평화·PvP 끔·배고픔 끔·낮 고정,
   WorldGuard __global__(lobby): build·pvp·mob-spawning·fall-damage·item-drop·fire-spread·tnt·leaf-decay deny, invincible allow.
   **로비에서 야생으로 나가는 길은 아직 없음** (오너가 맵 작업 중).
+- (11/23, 플러그인 0.14.0) 로켓 발사: 꼭대기에서 겉날개 대신 "착지용 물 양동이"를 들고 있던 칸에 쥐여 줌(`Mlg.java`) → 물낙하. 착지 0.5초 뒤 양동이 회수·원래 물건 그 칸에 돌려줌, 부은 물은 2초 뒤 치움, 실패하면 낙하 피해 그대로.
+  죽음(인벤세이브권 포함)·나감·서버 갑자기 꺼짐(접속 때 되돌림)도 처리. 겉날개 코드는 예전 기록 되돌리기용으로 남겨 둠.
+- (11/23) 정전 30초 → 10초 (설정만, 다이아 리로드로 반영).
+- (11/23) 로비→야생 포탈 `WildPortal.java` + config `lobby-portal`: 로비 광장(34.5, 47, 32.5, 나무에 안 가린 평평한 곳)에 세로 빛 고리(파티클) + 떠 있는 글씨 "야생으로 이동"(TextDisplay, 저장 안 함).
+  들어가면 world 시작 지점 땅 위로. 처음 접속 스폰 시선은 포탈 쪽(yaw 180). 재시작 반영 03:20, 글씨 2개 확인.
