@@ -46,6 +46,10 @@ final class Pranks implements Listener {
     }
     private final Map<UUID, Crow> crows = new HashMap<>();            // 받침 몹 UUID → 까마귀
     private final Map<UUID, ItemStack> savedChest = new HashMap<>();  // 로켓: 겉날개를 입히기 전 가슴 칸 아이템
+    private final java.util.Set<UUID> reaped = new java.util.HashSet<>();   // 방금 4444 즉사로 죽인 사람
+
+    /** 이 사람이 방금 즉사 연출로 죽었는지 (한 번 묻고 나면 지운다) */
+    boolean consumeReaped(UUID id) { return reaped.remove(id); }
 
     Pranks(DiamondPlugin pl) {
         this.pl = pl;
@@ -559,7 +563,9 @@ final class Pranks implements Listener {
             if (q == null) { if (onGone != null) onGone.run(); return; }
             if (!q.isDead()) {
                 q.getWorld().strikeLightningEffect(q.getLocation());
+                reaped.add(q.getUniqueId());                    // 즉사로 죽은 것은 사망 벌칙(목표 증가)에서 뺀다
                 q.setHealth(0);
+                Bukkit.getScheduler().runTaskLater(pl, () -> reaped.remove(id), 20L);   // 죽지 않았으면(무적 등) 표시를 지운다
                 for (Player o : Bukkit.getOnlinePlayers()) pl.net.death(o, pl.nick(q));   // 화면 연출 (모드가 없는 사람은 아래 알림 글)
                 for (Player o : Bukkit.getOnlinePlayers()) if (!pl.net.hasMod(o)) pl.net.toast(o, pl.nick(q) + "님이 즉사했습니다.", false);
             }

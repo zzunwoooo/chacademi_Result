@@ -253,11 +253,13 @@ public final class HudUi {
         St.Announce an = St.announce;
         double al = fade(now - an.at(), St.ANNOUNCE_MS);
         if (al <= 0) return;
-        double x = ox + 510;
-        g.img("alerts/announcement", x, y, 900, 300, al);
-        g.img(an.icon(), x + 402, y + 31, 96, 96, al);
-        g.fit(an.title(), x + 450, y + 175, 36, 1, a(G.TEXT, al), 760);
-        g.fit(an.desc(), x + 450, y + 246, 22, 1, a(G.DIM, al), 760);
+        // 11/22 오너 "크고 너무 길어" → 받은 그림(900x300)을 비율 그대로 0.6배로 줄이고, 띄우는 시간도 줄임(St.ANNOUNCE_MS)
+        final double k = 0.6;
+        double x = ox + 960 - 450 * k;
+        g.img("alerts/announcement", x, y, 900 * k, 300 * k, al);
+        g.img(an.icon(), x + 402 * k, y + 31 * k, 96 * k, 96 * k, al);
+        g.fit(an.title(), x + 450 * k, y + 175 * k, 25, 1, a(G.TEXT, al), 760 * k);
+        g.fit(an.desc(), x + 450 * k, y + 246 * k, 16, 1, a(G.DIM, al), 760 * k);
     }
 
     // ── 즉사: 화면 가장자리 붉은 효과 → 제목 띠 → 글자 ─────────────────────────

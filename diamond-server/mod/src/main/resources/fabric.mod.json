@@ -8,7 +8,8 @@
   "license": "All-Rights-Reserved",
   "environment": "client",
   "entrypoints": {
-    "client": ["com.diamondserver.client.DiamondClient"]
+    "client": ["com.diamondserver.client.DiamondClient"],
+    "preLaunch": ["com.diamondserver.client.DefaultSettings"]
   },
   "mixins": ["diamondserver.mixins.json"],
   "depends": {

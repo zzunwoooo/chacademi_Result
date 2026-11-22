@@ -65,7 +65,7 @@ public final class St {
     public static Death death;
     public static long reverseUntil, blackoutUntil, blackoutFrom;
 
-    public static final long TOAST_MS = 3500, BANNER_MS = 4000, ANNOUNCE_MS = 3500, DEATH_MS = 3500, GAIN_MS = 1500, HOLD_MS = 1800;
+    public static final long TOAST_MS = 3500, BANNER_MS = 4000, ANNOUNCE_MS = 2200, DEATH_MS = 3500, GAIN_MS = 1500, HOLD_MS = 1800;
 
     public static void clear() {
         has = false; goal = 0; held = 0; done = false; heldChangedAt = 0; heldDelta = 0; goalChangedAt = 0; goalDelta = 0;

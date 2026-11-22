@@ -51,17 +51,17 @@ events:
 # scope: one = 접속한 사람 중 룰렛으로 1명 / all = 전원 / self = 후원 받은 사람
 # action: ant·curse·creeper·reverse·blackout·lava·bunny·dance·midas·giant <초>
 #         hotbar | swap | crow | rocket | anvil | ufo | rain <개수> | fountain <개수> | pinata <개수> | meteor <운석 수>
-# 시간·개수는 기획서 값. 기획서에 시간이 없던 개미화·바닥은 용암은 30초
+# 시간·개수는 기획서 값. 기획서에 시간이 없던 개미화·바닥은 마그마 블럭은 30초. 11/22 오너: 스토커 크리퍼 15초, 저주받은 곡괭이 1분, UFO 가림 3초
 pools:
   prank:
     - { id: ant,      name: "개미화",          icon: "icons/ant_size", scope: one, action: "ant 30" }
-    - { id: curse,    name: "저주받은 곡괭이", icon: "icons/cursed_pick", scope: one, action: "curse 180" }
-    - { id: creeper,  name: "스토커 크리퍼",   icon: "icons/creeper", scope: one, action: "creeper 60" }
-    - { id: reverse,  name: "거꾸로 세상",     icon: "icons/upside_down", scope: one, action: "reverse 30" }
+    - { id: curse,    name: "저주받은 곡괭이", icon: "icons/cursed_pick", scope: one, action: "curse 60" }
+    - { id: creeper,  name: "스토커 크리퍼",   icon: "icons/creeper", scope: one, action: "creeper 15" }
+    - { id: reverse,  name: "조작 반전",       icon: "icons/upside_down", scope: one, action: "reverse 30" }
     - { id: hotbar,   name: "핫바 셔플",       icon: "icons/hotbar_shuffle", scope: one, action: "hotbar" }
     - { id: swap,     name: "자리 셔플",       icon: "icons/position_shuffle", scope: all, action: "swap" }
     - { id: blackout, name: "정전",            icon: "icons/blackout", scope: all, action: "blackout 30" }
-    - { id: lava,     name: "바닥은 용암",     icon: "icons/lava_floor", scope: all, action: "lava 30" }
+    - { id: lava,     name: "바닥은 마그마 블럭", icon: "icons/lava_floor", scope: all, action: "lava 30" }
     - { id: bunny,    name: "강제 바니홉",     icon: "icons/bunnyhop", scope: all, action: "bunny 30" }
     - { id: crow,     name: "다이아 도둑 까마귀", icon: "icons/crow", scope: one, action: "crow" }
     - { id: rocket,   name: "로켓 발사",       icon: "icons/rocket", scope: one, action: "rocket" }
@@ -69,6 +69,7 @@ pools:
     - { id: dance,    name: "강제 댄스",       icon: "icons/dance", scope: one, action: "dance 10" }
     - { id: ufo,      name: "UFO 납치",        icon: "icons/ufo", scope: one, action: "ufo" }
     - { id: ufo_all,  name: "단체 UFO 납치",   icon: "icons/group_ufo", scope: all, action: "ufo" }
+    - { id: seal,     name: "인벤토리 칸 봉인", icon: "icons/hotbar_shuffle", scope: one, action: "seal 30" }
   # 300개 다이아 연출 (후원 받은 사람에게). 기획: 어떤 게 걸려도 다이아 80~120개 근처
   reward:
     - { id: rain,     name: "다이아 소나기",   icon: "icons/diamond_rain", scope: self, action: "rain 100" }
@@ -106,9 +107,10 @@ effects:
   pinata-seconds: 30
   midas-keep-ratio: 0.15      # 미다스가 끝났을 때 안 캔 광석 중 남겨 두는 비율 (나머지는 원래 블럭으로)
   meteor-ore-blocks: 33       # 운석 하나가 다이아 광석으로 바꾸는 블럭 수 (3개 × 33 ≈ 100)
-  ufo-hold-seconds: 10        # UFO 에 갇혀 있는 시간
+  ufo-hold-seconds: 3         # UFO 에 갇혀 있는 시간 (화면이 가려지는 시간). 11/22 오너 "너무 긺" → 10초에서 줄임
   ufo-radius: 300             # UFO 가 내려놓는 곳: 원래 자리에서 이 칸 수 안의 아무 곳
   bomb-diamonds: 500          # 다이아 폭탄 1개에서 나오는 다이아 (목표의 절반)
+  seal-slots: 9               # 인벤토리 칸 봉인 때 잠기는 칸 수 (가방 36칸 중, 11/22 오너 요청 · 수치는 Claude)
 
 # ── 전용 아이템 ────────────────────────────────────────────
 # material = 바탕이 되는 게임 아이템. art = 상점 화면에 쓰는 그림, model = 인벤토리에서 보이는 그림(ItemsAdder 리소스팩)
@@ -146,7 +148,14 @@ items:
 #  - 행운: 가장 큰 투자. 광석 1개당 다이아가 I 약 1.3배 · II 약 1.75배 · III 약 2.2배 → 광석 60~90개쯤 캐면 본전
 #          행운 III = 100 (목표의 10%). 1시간 반~2시간쯤 캐면 살 수 있고, 그 뒤 속도가 두 배가 된다
 #  - 효율·내구성·수선: 편의. 10~50
-#  - 인벤세이브권 10 (죽어도 보유 다이아는 안 잃으므로 비싸지 않게) · 귀환권/텔레포트권 3 · 밥 8개에 1
+#  - 인벤세이브권 10 (죽어도 보유 다이아는 안 잃으므로 비싸지 않게) · 귀환권 3 · 텔레포트권 5 · 밥 8개에 1
+#  - 보관함: 엔더 상자 15 · 셜커 상자 30 (광질하다 가방이 차는 것을 덜어 주는 편의. 셜커 상자는 들고 다니는 27칸이라 더 비쌈)
+# 11/22 조정 (오너 "상점 밸런스 알아서 손 봐"):
+#  - 곡괭이 순서를 성능대로: 철 5→4, 다이아 5→8 (다이아 곡괭이가 철과 같은 값이던 것), 네더라이트 30→40
+#    (다이아 곡괭이는 보유 다이아 3개를 꺼내 직접 만들 수도 있으니 상점 값은 편의값)
+#  - 행운 I 20→15 · II 50→40 (첫 행운을 일찍 사서 손맛을 보게), III 는 100 그대로 (가장 큰 투자)
+#  - 수선 50→40, 텔레포트권 3→5 (UFO·로켓으로 멀리 날아갔을 때 동료에게 돌아가는 값이라 귀환권보다 조금 비싸게)
+#  - 판매가는 그대로 (광질 부산물이 주 수입이 되지 않게)
 shop:
   categories:             # 왼쪽 분류 (위에서부터 순서대로)
     pickaxe: "곡괭이"
@@ -155,21 +164,23 @@ shop:
   items:
     - { id: wooden_pickaxe,    cat: pickaxe, name: "나무 곡괭이",     material: WOODEN_PICKAXE,    price: 1 }
     - { id: stone_pickaxe,     cat: pickaxe, name: "돌 곡괭이",       material: STONE_PICKAXE,     price: 2 }
-    - { id: iron_pickaxe,      cat: pickaxe, name: "철 곡괭이",       material: IRON_PICKAXE,      price: 5 }
+    - { id: iron_pickaxe,      cat: pickaxe, name: "철 곡괭이",       material: IRON_PICKAXE,      price: 4 }
     - { id: golden_pickaxe,    cat: pickaxe, name: "금 곡괭이",       material: GOLDEN_PICKAXE,    price: 3 }
-    - { id: diamond_pickaxe,   cat: pickaxe, name: "다이아 곡괭이",   material: DIAMOND_PICKAXE,   price: 5 }
-    - { id: netherite_pickaxe, cat: pickaxe, name: "네더라이트 곡괭이", material: NETHERITE_PICKAXE, price: 30 }
+    - { id: diamond_pickaxe,   cat: pickaxe, name: "다이아 곡괭이",   material: DIAMOND_PICKAXE,   price: 8 }
+    - { id: netherite_pickaxe, cat: pickaxe, name: "네더라이트 곡괭이", material: NETHERITE_PICKAXE, price: 40 }
     - { id: efficiency_3, cat: enchant, name: "효율 III",   enchant: efficiency, level: 3, price: 10 }
     - { id: efficiency_5, cat: enchant, name: "효율 V",     enchant: efficiency, level: 5, price: 30 }
-    - { id: fortune_1,    cat: enchant, name: "행운 I",     enchant: fortune,    level: 1, price: 20 }
-    - { id: fortune_2,    cat: enchant, name: "행운 II",    enchant: fortune,    level: 2, price: 50 }
+    - { id: fortune_1,    cat: enchant, name: "행운 I",     enchant: fortune,    level: 1, price: 15 }
+    - { id: fortune_2,    cat: enchant, name: "행운 II",    enchant: fortune,    level: 2, price: 40 }
     - { id: fortune_3,    cat: enchant, name: "행운 III",   enchant: fortune,    level: 3, price: 100 }
     - { id: unbreaking_3, cat: enchant, name: "내구성 III", enchant: unbreaking, level: 3, price: 15 }
-    - { id: mending,      cat: enchant, name: "수선",       enchant: mending,    level: 1, price: 50 }
+    - { id: mending,      cat: enchant, name: "수선",       enchant: mending,    level: 1, price: 40 }
     - { id: food,              cat: item, name: "밥",           item: food,              amount: 8, price: 1 }
     - { id: inven_save_ticket, cat: item, name: "인벤세이브권", item: inven_save_ticket, price: 10 }
     - { id: return_ticket,     cat: item, name: "귀환권",       item: return_ticket,     price: 3 }
-    - { id: teleport_ticket,   cat: item, name: "텔레포트권",   item: teleport_ticket,   price: 3 }
+    - { id: teleport_ticket,   cat: item, name: "텔레포트권",   item: teleport_ticket,   price: 5 }
+    - { id: ender_chest,       cat: item, name: "엔더 상자",    material: ENDER_CHEST,       price: 15 }
+    - { id: shulker_box,       cat: item, name: "셜커 상자",    material: SHULKER_BOX,       price: 30 }
 
 # ── 상점: 판매 (숫자 = 1개당 다이아. 소수점은 쌓였다가 1 이 넘으면 다이아 1개) ──
 # 기준: 광질하다 나오는 부산물을 다 팔면 1시간에 다이아 8~10개쯤 (캐는 양의 2할 안팎). 주 수입이 되지 않게 낮게 둔다.
@@ -192,3 +203,8 @@ sell:
 commands:
   hide-others: true       # 일반 플레이어가 / 를 쳤을 때 아래 명령만 보이게 한다 (관리자는 전부 보임). 숨길 뿐, 사용을 막지는 않는다
   visible: [명령어, 도움말, 상점, 우편함, 제출, 인출, 입금, 목표, 닉네임]
+
+# ── 사망 벌칙 ─────────────────────────────────────────────
+death:
+  goal-penalty: 30        # 죽으면 남은 목표가 이만큼 늘어난다 (11/22 오너 "죽으면 목표 증가", 수치는 Claude: 목표 1000 의 3%). 0 이면 끔
+                          # 4444 즉사로 죽은 것과 이미 졸업한 사람은 늘지 않는다

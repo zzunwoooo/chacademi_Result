@@ -38,7 +38,7 @@ import java.util.concurrent.ThreadLocalRandom;
 final class Effects implements Listener {
     static final String ANT = "ant", CURSE = "curse", CREEPER = "creeper", REVERSE = "reverse",
             BLACKOUT = "blackout", LAVA = "lava", BUNNY = "bunny",
-            MIDAS = "midas", GIANT = "giant", DANCE = "dance", STUN = "stun";
+            MIDAS = "midas", GIANT = "giant", DANCE = "dance", STUN = "stun", SEAL = "seal";
 
     private record Active(String name, String icon, long endTick, long totalTicks) { }
 
@@ -100,6 +100,7 @@ final class Effects implements Listener {
     private void start(Player p, String id) {
         if (id.equals(ANT)) scale(p, pl.getConfig().getDouble("effects.ant-scale", 0.2));
         if (id.equals(GIANT)) scale(p, pl.getConfig().getDouble("effects.giant-scale", 2.0));
+        if (id.equals(SEAL)) pl.seal.seal(p, pl.getConfig().getInt("effects.seal-slots", 9));
     }
 
     private void stop(Player p, String id) {
@@ -110,6 +111,7 @@ final class Effects implements Listener {
             case CURSE -> pl.models.clearHead(p, "curse_mark");
             case DANCE -> { pl.models.clearHead(p, "disco_ball"); for (Player o : Bukkit.getOnlinePlayers()) pl.net.motion(o, p.getUniqueId(), "stop"); }
             case STUN -> pl.models.clearHead(p, "stun_stars");
+            case SEAL -> pl.seal.unseal(p);
             default -> { }
         }
         if (id.equals(LAVA) && !anyone(LAVA)) restoreLava();
@@ -118,6 +120,14 @@ final class Effects implements Listener {
     private static void scale(Player p, double v) {
         AttributeInstance a = p.getAttribute(Attribute.SCALE);
         if (a != null) a.setBaseValue(v);
+    }
+
+    /** 효과 하나를 바로 끝낸다 (되돌리기 포함) */
+    void end(Player p, String id) {
+        Map<String, Active> m = active.get(p.getUniqueId());
+        if (m == null || m.remove(id) == null) return;
+        stop(p, id);
+        sendList(p);
     }
 
     /** 그 사람의 효과를 전부 끝낸다 */
@@ -173,7 +183,7 @@ final class Effects implements Listener {
         p.setVelocity(new Vector(v.getX(), 0.42, v.getZ()));
     }
 
-    // ── 바닥은 용암: 밟고 선 블럭이 마그마로 ──────────────────────
+    // ── 바닥은 마그마 블럭: 밟고 선 블럭이 마그마로 ──────────────────────
     @SuppressWarnings("deprecation")
     private void lava(Player p) {
         if (!p.isOnGround() || p.isDead()) return;

@@ -105,6 +105,13 @@ final class Listeners implements Listener {
     public void onDeath(PlayerDeathEvent e) {
         Player p = e.getEntity();
         e.deathMessage(Component.text(pl.nick(p) + "님이 사망했습니다.", NamedTextColor.WHITE));     // 사망 글도 한글 닉네임으로
+        // 죽으면 남은 목표가 늘어난다 (11/22 오너). 4444 즉사는 이미 벌칙이라 빼고, 졸업한 사람도 뺀다
+        long penalty = pl.getConfig().getLong("death.goal-penalty", 30);
+        boolean reaped = pl.pranks.consumeReaped(p.getUniqueId());
+        if (penalty > 0 && !reaped && !pl.store.get(p).done) {
+            pl.ledger.addGoal(p, penalty);
+            for (Player o : Bukkit.getOnlinePlayers()) pl.net.toast(o, pl.nick(p) + "님이 사망해 남은 목표가 " + penalty + "개 늘었습니다.", false);
+        }
         if (e.getKeepInventory() || !pl.items.takeOne(p, Items.INVEN_SAVE)) return;
         e.setKeepInventory(true);
         e.getDrops().clear();

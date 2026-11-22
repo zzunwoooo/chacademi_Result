@@ -30,6 +30,7 @@ public final class DiamondPlugin extends JavaPlugin {
     Effects effects;
     Models models;
     Pranks pranks;
+    Seal seal;
     Rewards rewards;
     Miner miner;
     Nicks nicks;
@@ -54,10 +55,12 @@ public final class DiamondPlugin extends JavaPlugin {
         models = new Models(this);
         effects = new Effects(this);
         pranks = new Pranks(this);
+        seal = new Seal(this);
         rewards = new Rewards(this);
         miner = new Miner(this);
         getServer().getPluginManager().registerEvents(effects, this);
         getServer().getPluginManager().registerEvents(pranks, this);
+        getServer().getPluginManager().registerEvents(seal, this);
         getServer().getPluginManager().registerEvents(rewards, this);
         shop.load();
         events.load();
