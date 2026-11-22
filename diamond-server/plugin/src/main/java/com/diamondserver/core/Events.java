@@ -560,6 +560,7 @@ final class Events {
                 case "midas" -> targets.forEach(p -> pl.effects.apply(p, Effects.MIDAS, pr.name, pr.icon, n));
                 case "giant" -> targets.forEach(p -> pl.effects.apply(p, Effects.GIANT, pr.name, pr.icon, n));
                 case "seal" -> targets.forEach(p -> pl.effects.apply(p, Effects.SEAL, pr.name, pr.icon, n));
+                case "monsters" -> targets.forEach(p -> pl.effects.apply(p, Effects.MONSTERS, pr.name, pr.icon, n));
                 case "hotbar" -> targets.forEach(Effects::shuffleHotbar);
                 case "swap" -> {
                     if (!Effects.swapPlaces(targets)) toastAll(pl, "자리를 바꿀 사람이 2명 이상 있어야 합니다.", false);

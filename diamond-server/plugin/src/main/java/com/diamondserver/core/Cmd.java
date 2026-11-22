@@ -113,6 +113,17 @@ final class Cmd implements CommandExecutor, TabCompleter {
                 String key = a[1].replace('_', ' ');
                 say(s, pl.events.test(key, t) ? key + " → " + pl.nick(t) : "그런 연출이 없습니다: " + key + "  (있는 것: " + String.join(", ", pl.events.testNames()) + ")");
             }
+            case "몬스터" -> {
+                // /다이아 몬스터 <종류|무작위> [닉] — 몬스터 습격의 몬스터를 하나씩 불러 보기 (시험용)
+                if (a.length < 2) { say(s, "/다이아 몬스터 <종류|무작위> [닉]   종류: " + String.join(", ", Monsters.typeNames())); return true; }
+                Player t = a.length > 2 ? pl.nicks.find(a[2]) : (s instanceof Player p ? p : null);
+                if (t == null) { say(s, a.length > 2 ? a[2] + "님은 접속해 있지 않습니다." : "콘솔에서는 대상 닉을 적어 주세요."); return true; }
+                if (a[1].equals("무작위")) { pl.effects.apply(t, Effects.MONSTERS, "몬스터 습격", "icons/creeper", 45); say(s, "몬스터 습격 → " + pl.nick(t)); return true; }
+                Monsters.Type mt = Monsters.type(a[1]);
+                if (mt == null) { say(s, "그런 몬스터가 없습니다: " + a[1]); return true; }
+                pl.monsters.spawn(t, mt);
+                say(s, mt.name() + " → " + pl.nick(t));
+            }
             case "닉" -> {
                 if (a.length < 3) { say(s, "/다이아 닉 <닉 또는 계정> <새 닉네임|해제>"); return true; }
                 Player t = pl.nicks.find(a[1]);
@@ -153,7 +164,7 @@ final class Cmd implements CommandExecutor, TabCompleter {
                 at.getChunk().load();
                 StringBuilder okList = new StringBuilder(), bad = new StringBuilder();
                 for (String id : new String[]{"target_marker", "diamond_crow", "ride_rocket", "giant_anvil", "stun_stars", "curse_mark", "disco_ball",
-                        "diamond_pinata", "diamond_cloud", "diamond_meteor", "golden_crown", "diamond_fountain", "grim_reaper", "farm_ufo_beam"}) {
+                        "diamond_pinata", "diamond_cloud", "diamond_meteor", "golden_crown", "diamond_fountain", "grim_reaper", "farm_ufo_beam", "dmob_pumpkin", "dmob_apple", "dmob_candle", "dmob_mushroom", "dmob_raven", "dmob_corn", "dmob_scarecrow", "dmob_leashy", "dmob_beatle", "dmob_nut", "dmob_fire", "dmob_statue", "dmob_slime", "dmob_zombie", "dmob_frog", "dmob_mummy", "dmob_cat", "dmob_rabbit", "dmob_clown", "dmob_fox"}) {
                     Models.Prop p = pl.models.spawn(at, id, "idle");
                     (p.hasModel() ? okList : bad).append(' ').append(id);
                     p.play("spawn");
@@ -236,6 +247,7 @@ final class Cmd implements CommandExecutor, TabCompleter {
         line(s, "/다이아 우편 <닉|전체> 아이템 <아이템> <개수> [제목]", "아이템을 우편으로");
         line(s, "/다이아 닉 <닉> <새 닉네임|해제>", "닉네임 정해 주기·지우기");
         line(s, "/다이아 연출 <이름> [닉]", "장난·다이아 연출 하나를 바로 실행 (시험용)");
+        line(s, "/다이아 몬스터 <종류|무작위> [닉]", "몬스터 하나씩 불러 보기 (시험용)");
         line(s, "/후원테스트 <개수> [후원자] [닉]", "후원이 온 것처럼 이벤트 실행");
         line(s, "/다이아 위치", "귀환권이 돌아올 시작 지점을 지금 자리로");
         line(s, "/다이아 리로드", "설정 다시 읽기");
@@ -278,7 +290,7 @@ final class Cmd implements CommandExecutor, TabCompleter {
                 else if (n == 3) out.addAll(nicks());
             }
             case "다이아" -> {
-                if (n == 1) out.addAll(List.of("도움말", "정보", "지급", "설정", "아이템", "우편", "닉", "연출", "위치", "리로드", "연동시험"));
+                if (n == 1) out.addAll(List.of("도움말", "정보", "지급", "설정", "아이템", "우편", "닉", "연출", "몬스터", "위치", "리로드", "연동시험"));
                 else switch (a[0]) {
                     case "정보" -> { if (n == 2) out.addAll(nicks()); }
                     case "지급", "설정" -> {
@@ -308,6 +320,10 @@ final class Cmd implements CommandExecutor, TabCompleter {
                     }
                     case "연출" -> {
                         if (n == 2) out.addAll(pl.events.testNames());
+                        else if (n == 3) out.addAll(nicks());
+                    }
+                    case "몬스터" -> {
+                        if (n == 2) { out.add("무작위"); out.addAll(Monsters.typeNames()); }
                         else if (n == 3) out.addAll(nicks());
                     }
                     default -> { }

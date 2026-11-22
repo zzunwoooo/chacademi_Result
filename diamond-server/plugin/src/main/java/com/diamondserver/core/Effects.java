@@ -38,7 +38,7 @@ import java.util.concurrent.ThreadLocalRandom;
 final class Effects implements Listener {
     static final String ANT = "ant", CURSE = "curse", CREEPER = "creeper", REVERSE = "reverse",
             BLACKOUT = "blackout", LAVA = "lava", BUNNY = "bunny",
-            MIDAS = "midas", GIANT = "giant", DANCE = "dance", STUN = "stun", SEAL = "seal";
+            MIDAS = "midas", GIANT = "giant", DANCE = "dance", STUN = "stun", SEAL = "seal", MONSTERS = "monsters";
 
     private record Active(String name, String icon, long endTick, long totalTicks) { }
 
@@ -71,6 +71,7 @@ final class Effects implements Listener {
         boolean fresh = !has(p, id);
         active.computeIfAbsent(p.getUniqueId(), k -> new LinkedHashMap<>()).put(id, new Active(name, icon, tick + seconds * 20L, seconds * 20L));
         if (fresh) start(p, id);
+        else if (id.equals(MONSTERS)) pl.monsters.summon(p);         // 습격 중에 또 걸리면 몇 마리 더
         switch (id) {       // 모드가 직접 처리하는 화면 효과는 남은 시간을 다시 알려 준다
             case REVERSE, BLACKOUT -> pl.net.fx(p, id, seconds * 1000L);
             default -> { }
@@ -101,6 +102,7 @@ final class Effects implements Listener {
         if (id.equals(ANT)) scale(p, pl.getConfig().getDouble("effects.ant-scale", 0.2));
         if (id.equals(GIANT)) scale(p, pl.getConfig().getDouble("effects.giant-scale", 2.0));
         if (id.equals(SEAL)) pl.seal.seal(p, pl.getConfig().getInt("effects.seal-slots", 9));
+        if (id.equals(MONSTERS)) pl.monsters.summon(p);
     }
 
     private void stop(Player p, String id) {
@@ -112,6 +114,7 @@ final class Effects implements Listener {
             case DANCE -> { pl.models.clearHead(p, "disco_ball"); for (Player o : Bukkit.getOnlinePlayers()) pl.net.motion(o, p.getUniqueId(), "stop"); }
             case STUN -> pl.models.clearHead(p, "stun_stars");
             case SEAL -> pl.seal.unseal(p);
+            case MONSTERS -> pl.monsters.clear(p);
             default -> { }
         }
         if (id.equals(LAVA) && !anyone(LAVA)) restoreLava();

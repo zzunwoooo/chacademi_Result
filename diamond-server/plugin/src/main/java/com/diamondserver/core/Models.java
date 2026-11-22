@@ -42,6 +42,20 @@ final class Models {
             h.playAnimation(anim, 0.1, 0.1, 1, true);
         }
 
+        /** 지금 도는 애니메이션은 두고 하나를 겹쳐 튼다 (몬스터 공격 동작) */
+        static void once(Object am, String anim) {
+            AnimationHandler h = ((ActiveModel) am).getAnimationHandler();
+            h.forceStopAnimation(anim);
+            h.playAnimation(anim, 0.05, 0.1, 1, true);
+        }
+
+        static void stop(Object am, String anim) { ((ActiveModel) am).getAnimationHandler().stopAnimation(anim); }
+
+        static void scale(Object am, double s) {
+            ((ActiveModel) am).setScale(s);
+            ((ActiveModel) am).setHitboxScale(s);
+        }
+
         static void remove(Entity base) {
             ModeledEntity me = ModelEngineAPI.removeModeledEntity(base);
             if (me != null) me.destroy();
@@ -63,6 +77,20 @@ final class Models {
         void play(String anim) {
             if (model == null) return;
             try { Me.play(model, anim); } catch (Throwable t) { pl.getLogger().warning("모델 애니메이션 실패 " + anim + ": " + t); }
+        }
+
+        /** 다른 애니메이션은 그대로 두고 하나를 겹쳐 튼다 */
+        void once(String anim) {
+            if (model == null) return;
+            try { Me.once(model, anim); } catch (Throwable t) { pl.getLogger().warning("모델 애니메이션 실패 " + anim + ": " + t); }
+        }
+
+        void stopAnim(String anim) {
+            if (model != null) try { Me.stop(model, anim); } catch (Throwable ignored) { }
+        }
+
+        void scale(double s) {
+            if (model != null) try { Me.scale(model, s); } catch (Throwable ignored) { }
         }
 
         /** 모델이 실제로 입혀졌는지 (ModelEngine 이 그 모델을 알고 있고 오류가 없었는지) */

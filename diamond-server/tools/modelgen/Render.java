@@ -35,7 +35,7 @@ public class Render {
         return mul(rz, mul(ry, rx));
     }
 
-    static double[] vec(JsonArray a) { return new double[]{a.get(0).getAsDouble(), a.get(1).getAsDouble(), a.get(2).getAsDouble()}; }
+    static double[] vec(JsonArray a) { if (a == null) return new double[]{0, 0, 0}; return new double[]{a.get(0).getAsDouble(), a.get(1).getAsDouble(), a.get(2).getAsDouble()}; }
 
     static double[] sample(JsonArray kfs, String ch, double t, double[] def) {
         List<JsonObject> k = new ArrayList<>();
@@ -93,16 +93,18 @@ public class Render {
             for (JsonElement c : g.getAsJsonArray("children")) {
                 if (c.isJsonObject()) { stack.push(new Object[]{c.getAsJsonObject(), M2}); continue; }
                 JsonObject e = el.get(c.getAsString());
-                if (e == null) continue;
+                if (e == null || e.get("name").getAsString().contains("me_outline")) continue;
                 final double[] eo = vec(e.getAsJsonArray("origin"));
                 final double[][] ER = rotm(vec(e.getAsJsonArray("rotation")));
                 Xf Mc = q -> { double[] r = mv(ER, new double[]{q[0] - eo[0], q[1] - eo[1], q[2] - eo[2]}); return M2.ap(new double[]{eo[0] + r[0], eo[1] + r[1], eo[2] + r[2]}); };
                 double[] f = vec(e.getAsJsonArray("from")), to = vec(e.getAsJsonArray("to"));
                 double X0 = f[0], Y0 = f[1], Z0 = f[2], X1 = to[0], Y1 = to[1], Z1 = to[2];
                 for (Map.Entry<String, JsonElement> fe : e.getAsJsonObject("faces").entrySet()) {
+                    if (!fe.getValue().getAsJsonObject().has("texture") || fe.getValue().getAsJsonObject().get("texture").isJsonNull()) continue;
                     JsonArray uv = fe.getValue().getAsJsonObject().getAsJsonArray("uv");
-                    int x1 = (int) Math.min(uv.get(0).getAsDouble(), uv.get(2).getAsDouble()), x2 = (int) Math.max(uv.get(0).getAsDouble(), uv.get(2).getAsDouble());
-                    int y1 = (int) Math.min(uv.get(1).getAsDouble(), uv.get(3).getAsDouble()), y2 = (int) Math.max(uv.get(1).getAsDouble(), uv.get(3).getAsDouble());
+                    double us = tex.getWidth() / (m.has("resolution") ? m.getAsJsonObject("resolution").get("width").getAsDouble() : tex.getWidth()), vs = tex.getHeight() / (m.has("resolution") ? m.getAsJsonObject("resolution").get("height").getAsDouble() : tex.getHeight());
+                    int x1 = (int) Math.round(us * Math.min(uv.get(0).getAsDouble(), uv.get(2).getAsDouble())), x2 = (int) Math.round(us * Math.max(uv.get(0).getAsDouble(), uv.get(2).getAsDouble()));
+                    int y1 = (int) Math.round(vs * Math.min(uv.get(1).getAsDouble(), uv.get(3).getAsDouble())), y2 = (int) Math.round(vs * Math.max(uv.get(1).getAsDouble(), uv.get(3).getAsDouble()));
                     if (x2 <= x1 || y2 <= y1) continue;
                     double[][] P = switch (fe.getKey()) {
                         case "north" -> new double[][]{{X1, Y1, Z0}, {X0, Y1, Z0}, {X1, Y0, Z0}};
@@ -170,7 +172,7 @@ public class Render {
             JsonObject an = anims.get(r).getAsJsonObject();
             String full = an.get("name").getAsString(), sh = full.substring(full.lastIndexOf('.') + 1);
             double len = an.get("length").getAsDouble();
-            for (int i = 0; i < frames; i++) g.drawImage(render(m, tex, sh, len * i / (frames - 1), -35, fw, fh, scale * fh / H, base * fh / H), i * fw, r * fh, null);
+            for (int i = 0; i < frames; i++) g.drawImage(render(m, tex, sh, len * i / (frames - 1), Double.parseDouble(System.getProperty("yaw", "-35")), fw, fh, scale * fh / H, base * fh / H), i * fw, r * fh, null);
             g.setColor(Color.WHITE);
             g.drawString(sh + " (" + an.get("loop").getAsString() + ", " + len + "s)", 6, r * fh + 14);
         }

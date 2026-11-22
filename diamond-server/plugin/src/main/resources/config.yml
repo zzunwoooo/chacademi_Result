@@ -70,6 +70,7 @@ pools:
     - { id: ufo,      name: "UFO 납치",        icon: "icons/ufo", scope: one, action: "ufo" }
     - { id: ufo_all,  name: "단체 UFO 납치",   icon: "icons/group_ufo", scope: all, action: "ufo" }
     - { id: seal,     name: "인벤토리 칸 봉인", icon: "icons/hotbar_shuffle", scope: one, action: "seal 30" }
+    - { id: monsters, name: "몬스터 습격",     icon: "icons/creeper", scope: one, action: "monsters 45" }
   # 300개 다이아 연출 (후원 받은 사람에게). 기획: 어떤 게 걸려도 다이아 80~120개 근처
   reward:
     - { id: rain,     name: "다이아 소나기",   icon: "icons/diamond_rain", scope: self, action: "rain 100" }
@@ -111,6 +112,9 @@ effects:
   ufo-radius: 300             # UFO 가 내려놓는 곳: 원래 자리에서 이 칸 수 안의 아무 곳
   bomb-diamonds: 500          # 다이아 폭탄 1개에서 나오는 다이아 (목표의 절반)
   seal-slots: 9               # 인벤토리 칸 봉인 때 잠기는 칸 수 (가방 36칸 중, 11/22 오너 요청 · 수치는 Claude)
+  # 몬스터 습격: 한 번에 부르는 수 (종류는 20종 중 겹치지 않게 무작위)
+  monster-min: 3
+  monster-max: 5
 
 # ── 전용 아이템 ────────────────────────────────────────────
 # material = 바탕이 되는 게임 아이템. art = 상점 화면에 쓰는 그림, model = 인벤토리에서 보이는 그림(ItemsAdder 리소스팩)
