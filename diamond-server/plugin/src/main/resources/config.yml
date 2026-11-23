@@ -214,7 +214,7 @@ vote:
   option-1: "다이아 폭탄"   # 1 이 이기면: 다이아 폭탄 (effects.bomb-diamonds 개)
   option-2: "즉사"          # 2 가 이기면: 즉사 (사망 벌칙은 붙지 않음)
   # SOOP 방송국 아이디 (play.sooplive.com/<아이디>). 투표 동안 서버가 이 방송들 채팅의 1·2 를 직접 셈 (같은 시청자 아이디는 1표)
-  soop-ids: []
+  soop-ids: [cctvno, nmangoquince, yeveee, sksgml16]   # 유연서 · 망구랑 · 유설아 · 킴나니
 
 # ── 로비 → 야생 이동 포탈 (11/23 오너: 홀로그램 느낌) ────────────────
 # 로비 광장(나무에 안 가린 평평한 곳)에 빛 고리 + 떠 있는 글씨. 들어가면 to-world 의 시작 지점 땅 위로 보낸다.
