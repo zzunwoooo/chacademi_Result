@@ -30,10 +30,49 @@ final class Store {
     private final File dir;
     private final Map<UUID, PData> map = new HashMap<>();
 
+    // [기능:공동 목표 시작]
+    // 남은 목표 다이아는 모두 함께 쓰는 하나 (11/23 오너: "다이아 목표는 통일, 후원·사망으로 늘어도 다 같이 보여야 해").
+    // 보유 다이아는 그대로 사람마다 따로. 파일: plugins/DiamondCore/shared.yml
+    long goal;
+    boolean done;
+    boolean sharedDirty;
+    private final File sharedFile;
+
+    private void loadShared() {
+        if (sharedFile.isFile()) {
+            YamlConfiguration y = YamlConfiguration.loadConfiguration(sharedFile);
+            goal = Math.max(0, y.getLong("goal"));
+            done = y.getBoolean("done");
+        } else {
+            long min = Math.max(0, pl.getConfig().getLong("goal.start-min", 1000));
+            long max = Math.max(min, pl.getConfig().getLong("goal.start-max", 1000));
+            goal = ThreadLocalRandom.current().nextLong(min, max + 1);
+            done = false;
+            sharedDirty = true;
+            saveShared();
+        }
+    }
+
+    void saveShared() {
+        if (!sharedDirty) return;
+        YamlConfiguration y = new YamlConfiguration();
+        y.set("goal", goal);
+        y.set("done", done);
+        try {
+            y.save(sharedFile);
+            sharedDirty = false;
+        } catch (IOException e) {
+            pl.getLogger().warning("공동 목표 저장 실패: " + e.getMessage());
+        }
+    }
+    // [기능:공동 목표 끝]
+
     Store(DiamondPlugin pl) {
         this.pl = pl;
         this.dir = new File(pl.getDataFolder(), "players");
         dir.mkdirs();
+        this.sharedFile = new File(pl.getDataFolder(), "shared.yml");
+        loadShared();
     }
 
     PData get(Player p) {
@@ -43,7 +82,10 @@ final class Store {
     }
 
     PData get(UUID id) {
-        return map.computeIfAbsent(id, this::load);
+        PData d = map.computeIfAbsent(id, this::load);
+        d.goal = goal;          // 공동 목표를 그대로 비춰 줌 (사람마다 따로 두지 않음)
+        d.done = done;
+        return d;
     }
 
     private PData load(UUID id) {
@@ -53,14 +95,9 @@ final class Store {
             YamlConfiguration y = YamlConfiguration.loadConfiguration(f);
             d.name = y.getString("name", "");
             d.nick = y.getString("nick", "");
-            d.goal = Math.max(0, y.getLong("goal"));
             d.held = Math.max(0, y.getLong("held"));
             d.frac = Math.max(0, y.getDouble("frac"));
-            d.done = y.getBoolean("done");
         } else {
-            long min = Math.max(0, pl.getConfig().getLong("goal.start-min", 500));
-            long max = Math.max(min, pl.getConfig().getLong("goal.start-max", 1500));
-            d.goal = ThreadLocalRandom.current().nextLong(min, max + 1);
             d.dirty = true;
         }
         return d;
@@ -84,6 +121,7 @@ final class Store {
     }
 
     void saveAll() {
+        saveShared();
         for (PData d : map.values()) save(d);
     }
 

@@ -40,14 +40,17 @@ final class Ledger {
         return true;
     }
 
-    /** 남은 목표를 delta 만큼 바꾼다 (0 아래로는 안 내려감). 0 이 되면 달성 처리 */
+    /** 남은 목표(모두 함께 쓰는 하나)를 delta 만큼 바꾼다 (0 아래로는 안 내려감). 0 이 되면 달성 처리. 접속한 모두의 화면 숫자를 같이 바꿈 */
     void addGoal(Player p, long delta) {
-        Store.PData d = pl.store.get(p);
-        d.goal = Math.max(0, d.goal + delta);
-        d.dirty = true;
-        if (d.goal > 0) d.done = false;
-        else if (!d.done) complete(p, d);
-        pl.net.state(p);
+        Store st = pl.store;
+        st.goal = Math.max(0, st.goal + delta);
+        st.sharedDirty = true;
+        boolean justDone = false;
+        if (st.goal > 0) st.done = false;
+        else if (!st.done) { st.done = true; justDone = true; }
+        st.saveShared();
+        for (Player o : Bukkit.getOnlinePlayers()) pl.net.state(o);
+        if (justDone) complete(p);
     }
 
     /** 보유 다이아 n 개를 제출해 남은 목표를 줄인다. 실제로 제출한 개수를 돌려준다 */
@@ -61,17 +64,15 @@ final class Ledger {
         return real;
     }
 
-    private void complete(Player p, Store.PData d) {
-        d.done = true;
-        d.dirty = true;
-        // 졸업: 알림만 띄운다 (모두에게 발표 창 + 알림 한 줄 + 소리). 그 뒤로 달라지는 것은 없다.
-        String name = pl.nick(p);
+    private void complete(Player p) {
+        // 졸업(모두 함께): 알림만 띄운다 (모두에게 발표 창 + 알림 한 줄 + 소리). 그 뒤로 달라지는 것은 없다.
+        String last = p != null ? pl.nick(p) : "";
         for (Player o : Bukkit.getOnlinePlayers()) {
-            pl.net.announce(o, "icons/diamond_pile", "졸업", name + "님");
-            pl.net.toast(o, name + "님이 목표 다이아를 모두 채워 졸업했습니다!", true);
+            pl.net.announce(o, "icons/diamond_pile", "졸업", "목표 다이아 달성");
+            pl.net.toast(o, "목표 다이아를 모두 채워 졸업했습니다!" + (last.isEmpty() ? "" : " (마지막: " + last + "님)"), true);
             o.playSound(o.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1f, 1f);
+            if (!pl.net.hasMod(o)) o.showTitle(Title.title(Component.text("졸업", NamedTextColor.AQUA), Component.text("목표 다이아를 모두 채웠습니다", NamedTextColor.WHITE)));
         }
-        if (!pl.net.hasMod(p)) p.showTitle(Title.title(Component.text("졸업", NamedTextColor.AQUA), Component.text("목표 다이아를 모두 채웠습니다", NamedTextColor.WHITE)));
     }
 
     /** 인벤토리의 다이아·다이아 블록을 전부 보유 다이아로 넣는다 */

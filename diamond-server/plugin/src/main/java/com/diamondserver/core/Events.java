@@ -257,13 +257,13 @@ final class Events {
                 case "goal" -> {
                     long d = roll(Long.parseLong(a[1]), Long.parseLong(a[2]));
                     pl.ledger.addGoal(t, d);
-                    toastAll(pl, pl.nick(t) + "님의 남은 목표 " + signed(d), d <= 0);
+                    toastAll(pl, "남은 목표 " + signed(d) + " (" + pl.nick(t) + "님)", d <= 0);
                     return 0;
                 }
                 case "goalpm" -> {
                     long d = Long.parseLong(a[1]) * (ThreadLocalRandom.current().nextBoolean() ? 1 : -1);
                     pl.ledger.addGoal(t, d);
-                    toastAll(pl, pl.nick(t) + "님의 남은 목표 " + signed(d), d <= 0);
+                    toastAll(pl, "남은 목표 " + signed(d) + " (" + pl.nick(t) + "님)", d <= 0);
                     return 0;
                 }
                 case "repeat" -> {
@@ -290,7 +290,7 @@ final class Events {
                             sum[0] += d;
                             pl.ledger.addGoal(p, d);
                             p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_HAT, 0.6f, 1f);
-                            if (last) toastAll(pl, name + "님의 남은 목표 " + signed(sum[0]) + " (" + times + "회)", sum[0] <= 0);
+                            if (last) toastAll(pl, "남은 목표 " + signed(sum[0]) + " (" + name + "님, " + times + "회)", sum[0] <= 0);
                         }, i * step);
                     }
                     return times * step;
