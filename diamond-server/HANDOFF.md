@@ -347,7 +347,7 @@ python3 build_spec.py && python3 motion_gen.py forced_dance_spec.json <출력폴
 - 변환: `tools/modelgen/NwMobs.java <nw_pets_vol2 폴더> <출력>` — Blockbench 5 형식 → 4.10, 이름 nw_ → dmob_, move→walk, hitbox 뼈 추가,
   공격 애니메이션 6개 추가(attack 근접 · cast 원거리 · ready 돌진 준비(끝 자세 유지) · slam 내려찍기 · vanish 사라지기(유지) · appear 나타나기). 앞쪽 = -Z, x 회전 + = 앞으로 숙임 (Render 로 확인).
   `Render.java` 는 이 형식(면별 UV 배율·빈 텍스처 면·외곽선 큐브)도 그리게 고침, `-Dyaw=` 로 애니메이션 보는 각도 지정.
-- 100개 장난 "몬스터 습격"(`Monsters.java`, 효과 id monsters, 45초): 대상 주변에 3~5마리(`effects.monster-min/max`, 종류 겹치지 않게) → 그 사람만 노림.
+- 100개 장난 "몬스터 습격"(`Monsters.java`, 효과 id monsters, 25초): 대상 주변에 3~5마리(`effects.monster-min/max`, 종류 겹치지 않게) → 그 사람만 노림.
   시간 끝·전부 잡음·대상 사망/나감이면 연기와 함께 사라짐. 잡아도 떨어뜨리는 것 없음. 습격 중 또 걸리면 몇 마리 더.
   받침 = 보이지 않는 허스크(원래 AI 전부 지움, 불·낙하·질식 피해 없음, 변신 막음). 움직임·근접·스킬은 플러그인이 직접.
   - 원거리(6~11칸 유지하며 옆으로 돔): 호박 폭탄병(호박 포물선 폭탄 5) · 독사과(독구름 투척) · 촛불 유령(불꽃탄 3연사) · 포자 버섯(포자탄+독구름) · 보랏빛 까마귀(깃털 5개 부채꼴) · 팝콘 옥수수(팝콘 6알 흩뿌림) · 저주 허수아비(발밑 표식 → 1초 뒤 영혼 폭발, 어둠·느림) · 숲의 정령(발밑 장판 → 뿌리 묶기, 강한 느림)
