@@ -37,10 +37,10 @@
                "subModules" : [
                   {
                      "artifact" : {
-                        "MD5" : "791082c6894fc413cd49d8ee987d4bab",
-                        "SHA256" : "977110a9c838e3062845d29a68dba9ef0623ae730d5640cdb05e0ee4a7b49426",
-                        "size" : 2847,
-                        "url" : "https://meta.fabricmc.net/v2/versions/loader/1.21.4/0.18.4/profile/json"
+                        "MD5" : "852f5b478330dc82a4cf1b5643ddcbbb",
+                        "SHA256" : "ae1a6099a0eabeca79f16ac784346d9a4fa0051055004e47140a0950fc4bdd87",
+                        "size" : 2907,
+                        "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/build-launcher-distro/fabric/fabric-loader-0.18.4-1.21.4.json"
                      },
                      "id" : "fabric-loader-0.18.4-1.21.4",
                      "name" : "Official Fabric profile",
