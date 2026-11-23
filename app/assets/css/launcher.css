@@ -3987,3 +3987,14 @@ input:checked + .toggleSwitchSlider:before {
 button, input, .settingsTabHeaderText, .settingsFieldTitle {
     letter-spacing: normal;
 }
+
+/* ───────── 레뮤의 썰매 레이스: 게임 레이스 화면(어두운 남색 유리 + 전기 하늘색 포인트)과 맞춘 색 ───────── */
+#launch_button { color: #ffffff; }
+#launch_button:hover,
+#launch_button:focus { color: #e9fbff; text-shadow: 0px 0px 16px #3fdcff, 0px 0px 28px #3fdcff; }
+#launch_button:active { color: #9feaff; text-shadow: 0px 0px 16px #1fb8e0; }
+#launch_progress[value]::-webkit-progress-value { background-color: #3fdcff; box-shadow: 0 0 6px #3fdcff; }
+#server_selection_button:hover,
+#server_selection_button:focus { text-shadow: 0px 0px 12px #3fdcff; }
+input:checked + .toggleSwitchSlider { background-color: #1fb8e0; border: 1px solid #1fb8e0; }
+#settingsAboutCurrentVersionCheck { background: #1fb8e0; }

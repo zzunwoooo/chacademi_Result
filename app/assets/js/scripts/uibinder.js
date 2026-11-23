@@ -70,7 +70,7 @@ async function showMainUI(data){
     refreshServerStatus()
     setTimeout(() => {
         document.getElementById('frameBar').style.backgroundColor = 'rgba(0, 0, 0, 0.5)'
-        // 배경: 파스텔 섬 마을 (11/19 코덱스 그림)
+        // 배경: 오로라 밤 썰매 레이스 + 제목 (11/23 코덱스 그림)
         document.body.style.backgroundImage = "url('assets/images/backgrounds/bg.jpg')"
         $('#main').show()
 
