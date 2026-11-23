@@ -266,9 +266,9 @@
             },
             {
                "artifact" : {
-                  "MD5" : "05449a91be06a70a11ade24a0e41f3b5",
-                  "SHA256" : "c48549f583b055169208377c978852c176664abbcb4caba64f898895be1efda8",
-                  "size" : 68837392,
+                  "MD5" : "8e4024d6c91d52b35c234e52bb2523d6",
+                  "SHA256" : "bcf18a75982351d40aab79145651a44b0560576ff1d70a268793944edf5d8940",
+                  "size" : 68837585,
                   "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/rinko-launcher-distro/mods/linco-ui-0.2.0.jar"
                },
                "id" : "kr.rinko:linco-ui:0.2.0@jar",
