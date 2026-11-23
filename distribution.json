@@ -38,7 +38,7 @@
                   {
                      "artifact" : {
                         "MD5" : "852f5b478330dc82a4cf1b5643ddcbbb",
-                        "SHA256" : "977110a9c838e3062845d29a68dba9ef0623ae730d5640cdb05e0ee4a7b49426",
+                        "SHA256" : "ae1a6099a0eabeca79f16ac784346d9a4fa0051055004e47140a0950fc4bdd87",
                         "size" : 2907,
                         "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/rinko-launcher-distro/fabric/fabric-loader-0.18.4-1.21.4.json"
                      },
