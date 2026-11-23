@@ -40,7 +40,7 @@
                         "MD5" : "852f5b478330dc82a4cf1b5643ddcbbb",
                         "SHA256" : "ae1a6099a0eabeca79f16ac784346d9a4fa0051055004e47140a0950fc4bdd87",
                         "size" : 2907,
-                        "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/remyu-launcher-distro/fabric/fabric-loader-0.18.4-1.21.4.json"
+                        "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/tower-launcher-distro/fabric/fabric-loader-0.18.4-1.21.4.json"
                      },
                      "id" : "fabric-loader-0.18.4-1.21.4",
                      "name" : "Official Fabric profile",
@@ -367,7 +367,7 @@
                "type" : "File"
             }
          ],
-         "name" : "레뮤의 썰매 레이스",
+         "name" : "레뮤의 썰매라이더",
          "version" : "1.0.0"
       }
    ],

@@ -1,4 +1,4 @@
-# 레뮤의 썰매 레이스 런처 배포 목록
+# 레뮤의 썰매라이더 런처 배포 목록
 
 런처(`claude/remyu-launcher`)가 읽는 `distribution.json` 과 레뮤 전용 파일.
 

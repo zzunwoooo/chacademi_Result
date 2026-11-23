@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# 레뮤의 썰매 레이스 런처 배포 목록(distribution.json) 만들기.
+# 레뮤의 썰매라이더 런처 배포 목록(distribution.json) 만들기.
 #   perl tools/build_distro.pl <바탕 distribution.json>
 # 바탕 = 차카데미(또는 무한의 탑) 런처의 distribution.json. 거기서 레뮤 썰매에 필요한 것만 그대로 가져오고
 # (Fabric, Fabric API·Sodium·Iris·한글 패치, 쉐이더와 그 설정), 이 브랜치의 mods/ · files/ · pack/ 을 더한다.
@@ -80,7 +80,7 @@ if (-f 'pack/generated.zip') {
 }
 
 my $server = {
-    id => 'remyu-1.21.4', name => '레뮤의 썰매 레이스', description => 'Minecraft 1.21.4 (Fabric)',
+    id => 'remyu-1.21.4', name => '레뮤의 썰매라이더', description => 'Minecraft 1.21.4 (Fabric)',
     icon => "$RAW/server-icon.png", version => '1.0.0', address => $ADDRESS, minecraftVersion => '1.21.4',
     mainServer => JSON::PP::true, autoconnect => JSON::PP::true,
     javaOptions => $from->{javaOptions}, modules => [@mods, @files],
