@@ -1,3 +1,2 @@
-owner: zzunwoooo
-repo: chacademi_Result
-provider: github
+provider: generic
+url: https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/build-launcher-distro/launcher

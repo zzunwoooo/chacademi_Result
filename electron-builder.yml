@@ -1,7 +1,7 @@
 appId: kr.chacademi.buildtemp
-productName: '건축용 임시 런처'
+productName: '사이렌 세상의 마지막 경고'
 executableName: 'Build Temp Launcher'
-artifactName: 'Build-Temp-Launcher-setup-${version}.${ext}'
+artifactName: 'Siren-Launcher-setup-${version}.${ext}'
 
 copyright: 'Copyright © 2018-2026 Daniel Scalzi'
 
@@ -37,8 +37,8 @@ win:
 
 # Windows Installer Configuration
 nsis:
-  uninstallDisplayName: '건축용 임시 런처'
-  shortcutName: '건축용 임시 런처'
+  uninstallDisplayName: '사이렌 세상의 마지막 경고'
+  shortcutName: '사이렌 세상의 마지막 경고'
   oneClick: false
   perMachine: false
   allowElevation: true
@@ -54,7 +54,7 @@ mac:
       arch:
         - 'x64'
         - 'arm64'
-  artifactName: 'Build-Temp-Launcher-setup-${version}-${arch}.${ext}'
+  artifactName: 'Siren-Launcher-setup-${version}-${arch}.${ext}'
   category: 'public.app-category.games'
 
 # Linux Configuration
@@ -63,8 +63,8 @@ linux:
   target: 'AppImage'
   maintainer: 'Daniel Scalzi'
   vendor: 'Daniel Scalzi'
-  synopsis: '건축용 임시 런처 마인크래프트 런처'
-  description: '건축용 임시 런처 서버 접속에 필요한 모드와 설정을 자동으로 준비하는 런처입니다.'
+  synopsis: '사이렌 : 세상의 마지막 경고 마인크래프트 런처'
+  description: '사이렌 : 세상의 마지막 경고 서버 접속에 필요한 모드와 설정을 자동으로 준비하는 런처입니다.'
   category: 'Game'
 
 
@@ -73,10 +73,9 @@ directories:
   output: 'dist'
 
 publish:
-  provider: github
-  owner: zzunwoooo
-  repo: chacademi_Result
-  releaseType: release
+  # 런처 전용 업데이트 목록 (같은 저장소의 다른 런처와 겹치지 않게 따로 둠)
+  provider: generic
+  url: https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/build-launcher-distro/launcher
 
 forceCodeSigning: false
 

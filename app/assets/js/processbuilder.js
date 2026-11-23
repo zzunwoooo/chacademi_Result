@@ -352,7 +352,7 @@ class ProcessBuilder {
     }
 
     _processAutoConnectArg(args){
-        // 건축용 임시 런처: 항상 건축 서버로 자동 접속
+        // 사이렌 런처: 항상 건축 서버로 자동 접속
         if(this.server.rawServer.autoconnect){
             if(mcVersionAtLeast('1.20', this.server.rawServer.minecraftVersion)){
                 args.push('--quickPlayMultiplayer')
@@ -399,7 +399,7 @@ class ProcessBuilder {
 
         // Java Arguments
         if(process.platform === 'darwin'){
-            args.push('-Xdock:name=건축용 임시 런처')
+            args.push('-Xdock:name=사이렌 세상의 마지막 경고')
             args.push('-Xdock:icon=' + path.join(__dirname, '..', 'images', 'rinko-icon.icns'))
         }
         args.push('-Xmx' + ConfigManager.getMaxRAM(this.server.rawServer.id))
@@ -450,7 +450,7 @@ class ProcessBuilder {
 
         // Java Arguments
         if(process.platform === 'darwin'){
-            args.push('-Xdock:name=건축용 임시 런처')
+            args.push('-Xdock:name=사이렌 세상의 마지막 경고')
             args.push('-Xdock:icon=' + path.join(__dirname, '..', 'images', 'rinko-icon.icns'))
         }
         args.push('-Xmx' + ConfigManager.getMaxRAM(this.server.rawServer.id))

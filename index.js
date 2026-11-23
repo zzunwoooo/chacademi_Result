@@ -66,8 +66,10 @@ ipcMain.on('autoUpdateAction', (event, arg, data) => {
             event.sender.send('autoUpdateNotification', 'ready')
             break
         case 'checkForUpdate':
-            // 린코 빚갚기: 런처 자동 업데이트 꺼 둠 (전용 배포 주소가 정해지면 다시 켠다)
-            event.sender.send('autoUpdateNotification', 'update-not-available', { version: app.getVersion() })
+            // 런처 전용 업데이트 목록(배포 브랜치 launcher/latest.yml)을 확인한다
+            autoUpdater.checkForUpdates().catch(err => {
+                event.sender.send('autoUpdateNotification', 'realerror', err)
+            })
             break
         case 'allowPrereleaseChange':
             if(!data){
