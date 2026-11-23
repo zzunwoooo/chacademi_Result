@@ -1,8 +1,8 @@
 version: 1.0.0
 files:
   - url: https://github.com/zzunwoooo/chacademi_Result/releases/download/remyu-launcher-1.0.0/Remyu-Launcher-setup-1.0.0.exe
-    sha512: Y4EI68nnyHIPYfr0lfhBWTVNGUKhlfkCc3Sqbx6881ZBI0dLwTagbvFV9/qLBheTZ4mSg5hQtJEqlvCNREjZzA==
-    size: 101968979
+    sha512: sN0AzZmxzHglYYsC+voUaW5AwHzmpRPrB6DCPGOYb+2QRxkkeDr5gqBiPHOFNhFY0vPavuZUOW3Wt4fmh7ottQ==
+    size: 101465838
 path: https://github.com/zzunwoooo/chacademi_Result/releases/download/remyu-launcher-1.0.0/Remyu-Launcher-setup-1.0.0.exe
-sha512: Y4EI68nnyHIPYfr0lfhBWTVNGUKhlfkCc3Sqbx6881ZBI0dLwTagbvFV9/qLBheTZ4mSg5hQtJEqlvCNREjZzA==
-releaseDate: '2026-11-23T04:44:17.179Z'
+sha512: sN0AzZmxzHglYYsC+voUaW5AwHzmpRPrB6DCPGOYb+2QRxkkeDr5gqBiPHOFNhFY0vPavuZUOW3Wt4fmh7ottQ==
+releaseDate: '2026-11-23T04:51:18.205Z'
