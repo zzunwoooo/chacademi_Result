@@ -343,10 +343,10 @@
             },
             {
                "artifact" : {
-                  "MD5" : "229cb4419240d6a62db027c05942e932",
-                  "SHA256" : "1b5156654a6ddff2d87473ed1fa74b779b3f276032d7c91478539072218017bf",
+                  "MD5" : "bfc749827ec502b3f68ce0c9eb9114e7",
+                  "SHA256" : "f9c9ceb3e5ca251fbef83a73f0580ae225b3db7a707d5d9dcbc56138ff1dc71e",
                   "path" : "options.txt",
-                  "size" : 290,
+                  "size" : 3967,
                   "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/remyu-launcher-distro/files/options.txt"
                },
                "id" : "options.txt",
