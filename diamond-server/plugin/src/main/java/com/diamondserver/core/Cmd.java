@@ -158,6 +158,11 @@ final class Cmd implements CommandExecutor, TabCompleter {
                 for (Player t : targets) pl.mail.send(t.getUniqueId(), title, "운영자", kind, key, n);
                 say(s, targets.size() + "명에게 우편을 보냈습니다.");
             }
+            case "채팅시험" -> {   // [기능:서버 채팅 투표] SOOP 방송 채팅이 서버에서 읽히는지 15초 확인
+                if (a.length < 2) { say(s, "/다이아 채팅시험 <숲 방송국 아이디>"); return true; }
+                say(s, "SOOP " + a[1] + " 채팅을 15초 동안 읽어 봅니다.");
+                pl.soop.test(a[1], 15, m -> Bukkit.getScheduler().runTask(pl, () -> say(s, m)));
+            }
             case "연동시험" -> {
                 // 접속한 사람 없이도 모델·NPC 연동이 실제로 되는지 확인: 시작 지점에 잠깐 세웠다가 치운다
                 org.bukkit.Location at = pl.spawn();
@@ -290,7 +295,7 @@ final class Cmd implements CommandExecutor, TabCompleter {
                 else if (n == 3) out.addAll(nicks());
             }
             case "다이아" -> {
-                if (n == 1) out.addAll(List.of("도움말", "정보", "지급", "설정", "아이템", "우편", "닉", "연출", "몬스터", "위치", "리로드", "연동시험"));
+                if (n == 1) out.addAll(List.of("도움말", "정보", "지급", "설정", "아이템", "우편", "닉", "연출", "몬스터", "위치", "리로드", "연동시험", "채팅시험"));
                 else switch (a[0]) {
                     case "정보" -> { if (n == 2) out.addAll(nicks()); }
                     case "지급", "설정" -> {

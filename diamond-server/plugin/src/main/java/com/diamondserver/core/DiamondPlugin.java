@@ -32,6 +32,7 @@ public final class DiamondPlugin extends JavaPlugin {
     Pranks pranks;
     Seal seal;
     Monsters monsters;
+    SoopChat soop;      // [기능:서버 채팅 투표] SOOP 방송 채팅 직접 읽기
     Mlg mlg;
     WildPortal portal;
     Rewards rewards;
@@ -60,6 +61,7 @@ public final class DiamondPlugin extends JavaPlugin {
         pranks = new Pranks(this);
         seal = new Seal(this);
         monsters = new Monsters(this);
+        soop = new SoopChat(this);
         mlg = new Mlg(this);
         portal = new WildPortal(this);
         rewards = new Rewards(this);
@@ -114,6 +116,7 @@ public final class DiamondPlugin extends JavaPlugin {
         safe("효과 정리", () -> { if (effects != null) effects.shutdown(); });      // 작아진 몸·마그마로 바꾼 블럭을 되돌린다
         safe("장난 정리", () -> { if (pranks != null) pranks.shutdown(); });        // 까마귀가 훔친 다이아·겉날개를 되돌린다
         safe("몬스터 정리", () -> { if (monsters != null) monsters.shutdown(); });
+        safe("채팅 투표 정리", () -> { if (soop != null) soop.shutdown(); });
         safe("물낙하 정리", () -> { if (mlg != null) mlg.shutdown(); });
         safe("로비 포탈 정리", () -> { if (portal != null) portal.shutdown(); });
         safe("연출 정리", () -> { if (rewards != null) rewards.shutdown(); });

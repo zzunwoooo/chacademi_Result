@@ -378,6 +378,7 @@ final class Events {
     private int[] voteSum() {
         int a = 0, b = 0;
         for (Map.Entry<UUID, int[]> e : voteReports.entrySet()) if (Bukkit.getPlayer(e.getKey()) != null) { a += e.getValue()[0]; b += e.getValue()[1]; }
+        a += pl.soop.count(1); b += pl.soop.count(2);      // [기능:서버 채팅 투표] 서버가 직접 읽은 SOOP 채팅 표
         return new int[]{a, b};
     }
 
@@ -399,6 +400,7 @@ final class Events {
         final String who = pl.nick(t);
         voting = true;
         voteReports.clear();
+        pl.soop.start();                                                    // [기능:서버 채팅 투표] SOOP 방송 채팅에 붙기
         for (Player p : Bukkit.getOnlinePlayers()) {
             com.google.gson.JsonObject o = voteMsg("start", new int[]{0, 0}, secs * 1000L);
             o.addProperty("target", who);
@@ -420,6 +422,8 @@ final class Events {
                 }
                 cancel();
                 voting = false;
+                pl.soop.stop();                                             // [기능:서버 채팅 투표]
+                pl.getLogger().info("[채팅 투표] 결과 1=" + sum[0] + " 2=" + sum[1]);
                 int win;
                 String why;
                 if (sum[0] == sum[1]) { win = ThreadLocalRandom.current().nextBoolean() ? 1 : 2; why = sum[0] == 0 ? "표 없음 · 무작위" : "동점 · 무작위"; }
