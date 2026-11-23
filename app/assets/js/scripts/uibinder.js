@@ -70,7 +70,7 @@ async function showMainUI(data){
     refreshServerStatus()
     setTimeout(() => {
         document.getElementById('frameBar').style.backgroundColor = 'rgba(0, 0, 0, 0.5)'
-        // 배경: 오로라 밤 썰매 레이스 + 제목 (11/23 코덱스 그림)
+        // 배경: 게임 화면풍 밤 썰매 레이스 + 평면 제목 글씨 (11/23 코덱스 그림 다시 뽑음)
         document.body.style.backgroundImage = "url('assets/images/backgrounds/bg.jpg')"
         $('#main').show()
 
