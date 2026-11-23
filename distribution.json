@@ -183,6 +183,17 @@
             },
             {
                "artifact" : {
+                  "MD5" : "ab87f7f6ca9e7b8b14fbd70063834911",
+                  "SHA256" : "4ab5663ce69ea81de7e465ed1fd2c7acd8e38b1e9b572040b97fe0f330144dcb",
+                  "size" : 18041,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/build-launcher-distro/mods/linring-opt-0.1.0.jar"
+               },
+               "id" : "kr.chacademi.build:linring-opt:0.1.0@jar",
+               "name" : "mods/linring-opt-0.1.0.jar",
+               "type" : "FabricMod"
+            },
+            {
+               "artifact" : {
                   "MD5" : "6f33952b92125e98999537e5a5628e0f",
                   "size" : 47072174,
                   "url" : "https://cdn.modrinth.com/data/N6n5dqoA/versions/ItmR0IzD/Axiom-5.4.2-for-MC1.21.4.jar"
