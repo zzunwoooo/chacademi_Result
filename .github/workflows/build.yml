@@ -42,6 +42,8 @@ jobs:
           grep -n "title =" /tmp/app/app/assets/lang/_custom.toml
           grep -n "update-not-available" /tmp/app/index.js | head -3
           ls dist/win-unpacked/resources
+          cat dist/win-unpacked/resources/app-update.yml
+          grep -n "checkForUpdates()" /tmp/app/index.js
 
       - uses: actions/upload-artifact@v4
         with:

@@ -59,8 +59,11 @@ ipcMain.on('autoUpdateAction', (event, arg, data) => {
             event.sender.send('autoUpdateNotification', 'ready')
             break
         case 'checkForUpdate':
-            // 나니 다이아서버 런처: 자동 업데이트 없음
-            event.sender.send('autoUpdateNotification', 'update-not-available')
+            // 나니 다이아서버 런처 전용 업데이트 목록 (electron-builder.yml publish, distro 브랜치 launcher/latest.yml)
+            autoUpdater.checkForUpdates()
+                .catch(err => {
+                    event.sender.send('autoUpdateNotification', 'realerror', err)
+                })
             break
         case 'allowPrereleaseChange':
             if(!data){

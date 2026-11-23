@@ -52,5 +52,7 @@ directories:
   buildResources: 'build'
   output: 'dist'
 
-# 원래 통합런처 저장소로 업데이트하지 않도록 배포(업데이트) 주소 없음
-publish: null
+# 나니 다이아서버 런처 전용 업데이트 목록 (같은 저장소의 다른 런처와 겹치지 않게 따로 둠, 1.0.1부터)
+publish:
+  provider: generic
+  url: https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/diamond-launcher-distro/launcher
