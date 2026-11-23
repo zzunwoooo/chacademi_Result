@@ -1,15 +1,15 @@
 #!/usr/bin/perl
-# 린코 빚갚기 런처 배포 목록(distribution.json) 만들기.
+# 레뮤의 썰매 레이스 런처 배포 목록(distribution.json) 만들기.
 #   perl tools/build_distro.pl <바탕 distribution.json>
-# 바탕 = 차카데미(또는 무한의 탑) 런처의 distribution.json. 거기서 린코에 필요한 것만 그대로 가져오고
+# 바탕 = 차카데미(또는 무한의 탑) 런처의 distribution.json. 거기서 레뮤 썰매에 필요한 것만 그대로 가져오고
 # (Fabric, Fabric API·Sodium·Iris·한글 패치, 쉐이더와 그 설정), 이 브랜치의 mods/ · files/ · pack/ 을 더한다.
 # 가져온 파일 주소는 원래 배포 주소를 그대로 쓴다.
-use strict; use warnings;
+use strict; use warnings; use utf8;   # 스크립트 안 한글(서버 이름)을 글자로 읽게 — 없으면 이중 인코딩되어 런처에서 깨짐
 use JSON::PP; use Digest::MD5; use Digest::SHA;
 
 my $src = shift or die "usage: perl tools/build_distro.pl <base distribution.json>\n";
-my $RAW = 'https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/rinko-launcher-distro';
-my $ADDRESS = '211.53.196.231:25700';   # 11/19 오너 "서버주소도 연결해둬": 런처가 게임을 켜면 바로 접속
+my $RAW = 'https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/remyu-launcher-distro';
+my $ADDRESS = '211.53.196.231:26000';   # 레뮤 썰매 시험 서버: 런처가 게임을 켜면 바로 접속
 
 open my $fh, '<', $src or die "$src: $!"; local $/; my $base = decode_json(<$fh>); close $fh;
 my $from = $base->{servers}[0];
@@ -44,7 +44,7 @@ for my $m (@{ $from->{modules} }) {
 for ('fabric', @KEEP_MODS, @KEEP_FILES) { die "바탕 목록에 없음: $_\n" unless $seen{$_}; }
 
 # 차카데미 런처의 필수 부가 모드 (차카데미 전용 PortableVFX 는 뺌) — 다이아·쌍룡 런처와 같은 목록에서 가져옴
-my @EXTRA = qw(authme blurserveraddress donation journeymap keyeventmod nochatreports plasmovoice wi_zoom playeranimator);
+my @EXTRA = qw(authme blurserveraddress donation keyeventmod nochatreports plasmovoice wi_zoom);   # 저니맵은 뺌 (레이스 화면 미니맵과 겹침)
 {
     open my $xf, '<', '/c/ddd/distribution.json' or die "다이아 배포 목록: $!"; local $/; my $x = decode_json(<$xf>); close $xf;
     my %got;
@@ -57,14 +57,14 @@ my @EXTRA = qw(authme blurserveraddress donation journeymap keyeventmod nochatre
     for (@EXTRA) { die "부가 모드 없음: $_\n" unless $got{$_}; }
 }
 
-# 린코 전용 모드 (mods/*.jar)
+# 레뮤 전용 모드 (mods/*.jar)
 for my $jar (sort glob('mods/*.jar')) {
     my ($base) = $jar =~ m{mods/(.+)\.jar$};
     my ($art, $ver) = $base =~ /^(.+?)-(\d[\w.\-]*)$/ or die "모드 파일 이름은 <이름>-<버전>.jar: $jar\n";
-    push @mods, { id => "kr.rinko:$art:$ver\@jar", name => "mods/$base.jar", type => 'FabricMod',
+    push @mods, { id => "kr.remyu:$art:$ver\@jar", name => "mods/$base.jar", type => 'FabricMod',
                   artifact => { sums($jar), url => "$RAW/mods/$base.jar" } };
 }
-# 린코 전용 설정 (files/ 아래 경로 그대로 게임 폴더에. 처음 한 번만 넣고 그 뒤로는 유저 것을 지킨다)
+# 레뮤 전용 설정 (files/ 아래 경로 그대로 게임 폴더에. 처음 한 번만 넣고 그 뒤로는 유저 것을 지킨다)
 for my $f (sort grep { -f } glob('files/* files/*/* files/*/*/*')) {
     (my $rel = $f) =~ s{^files/}{};
     push @files, { id => $rel, name => $rel, type => 'File', updatePolicy => 'seed',
@@ -80,7 +80,7 @@ if (-f 'pack/generated.zip') {
 }
 
 my $server = {
-    id => 'rinko-1.21.4', name => '돈갚아요:내코가석자', description => 'Minecraft 1.21.4 (Fabric)',
+    id => 'remyu-1.21.4', name => '레뮤의 썰매 레이스', description => 'Minecraft 1.21.4 (Fabric)',
     icon => "$RAW/server-icon.png", version => '1.0.0', address => $ADDRESS, minecraftVersion => '1.21.4',
     mainServer => JSON::PP::true, autoconnect => JSON::PP::true,
     javaOptions => $from->{javaOptions}, modules => [@mods, @files],

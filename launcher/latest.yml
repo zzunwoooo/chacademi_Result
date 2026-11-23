@@ -1,8 +1,8 @@
-version: 1.0.3
+version: 1.0.0
 files:
-  - url: https://github.com/zzunwoooo/chacademi_Result/releases/download/rinko-launcher-1.0.3/Rinko-Launcher-setup-1.0.3.exe
-    sha512: t4lXE4pnN5YuEbRfbYjCpt6fHczdikGfXwso7Cg1LBvnoJhXr3v1rhTvqGO7AUU8JowtP6ng44m9B53vY6yfkg==
-    size: 101479534
-path: https://github.com/zzunwoooo/chacademi_Result/releases/download/rinko-launcher-1.0.3/Rinko-Launcher-setup-1.0.3.exe
-sha512: t4lXE4pnN5YuEbRfbYjCpt6fHczdikGfXwso7Cg1LBvnoJhXr3v1rhTvqGO7AUU8JowtP6ng44m9B53vY6yfkg==
-releaseDate: '2026-11-21T10:06:07.435Z'
+  - url: https://github.com/zzunwoooo/chacademi_Result/releases/download/remyu-launcher-1.0.0/Remyu-Launcher-setup-1.0.0.exe
+    sha512: Y4EI68nnyHIPYfr0lfhBWTVNGUKhlfkCc3Sqbx6881ZBI0dLwTagbvFV9/qLBheTZ4mSg5hQtJEqlvCNREjZzA==
+    size: 101968979
+path: https://github.com/zzunwoooo/chacademi_Result/releases/download/remyu-launcher-1.0.0/Remyu-Launcher-setup-1.0.0.exe
+sha512: Y4EI68nnyHIPYfr0lfhBWTVNGUKhlfkCc3Sqbx6881ZBI0dLwTagbvFV9/qLBheTZ4mSg5hQtJEqlvCNREjZzA==
+releaseDate: '2026-11-23T04:44:17.179Z'

@@ -2,11 +2,11 @@
    "rss" : "",
    "servers" : [
       {
-         "address" : "211.53.196.231:25700",
+         "address" : "211.53.196.231:26000",
          "autoconnect" : true,
          "description" : "Minecraft 1.21.4 (Fabric)",
-         "icon" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/rinko-launcher-distro/server-icon.png",
-         "id" : "rinko-1.21.4",
+         "icon" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/remyu-launcher-distro/server-icon.png",
+         "id" : "remyu-1.21.4",
          "javaOptions" : {
             "platformOptions" : [
                {
@@ -192,23 +192,12 @@
             },
             {
                "artifact" : {
-                  "MD5" : "4783b76846c7514a2ba3fdb12bde0318",
-                  "SHA256" : "efbf32f50e87dd8ca553d359767d8c939c1b58e79213f3705c7383de27ab7670",
-                  "size" : 843933,
-                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/rinko-launcher-distro/mods/donation-fabric-1.21.4-2.0.2-allcounts.1.jar"
+                  "MD5" : "13e5465b5ed84d6b27082119c12e01fa",
+                  "size" : 832983,
+                  "url" : "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/fabricmods/required/donation-fabric-1.21.4-2.0.2.jar"
                },
-               "id" : "bot.colla:donation:2.0.2-allcounts.1@jar",
+               "id" : "bot.colla:donation:2.0.2@jar",
                "name" : "Donation",
-               "type" : "FabricMod"
-            },
-            {
-               "artifact" : {
-                  "MD5" : "8b092f8cca0a96d80eb8eeea24b5ebfd",
-                  "size" : 3514383,
-                  "url" : "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/fabricmods/required/journeymap-fabric-1.21.4-6.0.0-beta.47.jar"
-               },
-               "id" : "journeymap:journeymap:1.21.4-6.0.0-beta.47@jar",
-               "name" : "Journeymap",
                "type" : "FabricMod"
             },
             {
@@ -253,37 +242,13 @@
             },
             {
                "artifact" : {
-                  "MD5" : "4298800d4a528daa4df8135b1a37721d",
-                  "size" : 202859,
-                  "url" : "https://cdn.modrinth.com/data/gedNE4y2/versions/ZTeZ33xQ/player-animation-lib-fabric-2.0.5%2B1.21.4.jar"
+                  "MD5" : "c92790a788a380a26150da4f74c87159",
+                  "SHA256" : "9470bf797b839e4c78fa66dc970d37210dec7b067ef0f0426e78dda16b825b37",
+                  "size" : 2584413,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/remyu-launcher-distro/mods/remyu-sled-0.10.1.jar"
                },
-               "id" : "org.modrinth:playeranimator:2.0.5+1.21.4@jar",
-               "name" : "Player Animator",
-               "required" : {
-                  "value" : true
-               },
-               "type" : "FabricMod"
-            },
-            {
-               "artifact" : {
-                  "MD5" : "d6c6ac30a80283e860418da60dbd1c9c",
-                  "SHA256" : "956fd98430e8cb7449ffe80b8b3764601fa1a071aec9c0148539e0821ad2e6ab",
-                  "size" : 68836626,
-                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/rinko-launcher-distro/mods/linco-ui-0.2.0.jar"
-               },
-               "id" : "kr.rinko:linco-ui:0.2.0@jar",
-               "name" : "mods/linco-ui-0.2.0.jar",
-               "type" : "FabricMod"
-            },
-            {
-               "artifact" : {
-                  "MD5" : "c37182da27e37968dcae11bf9f0d9916",
-                  "SHA256" : "fb46ee0606b0ba7248f9f86b049659a60c4987a1ee007d209740721b3d77dc43",
-                  "size" : 788961,
-                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/rinko-launcher-distro/mods/rinko-build-0.3.0.jar"
-               },
-               "id" : "kr.rinko:rinko-build:0.3.0@jar",
-               "name" : "mods/rinko-build-0.3.0.jar",
+               "id" : "kr.remyu:remyu-sled:0.10.1@jar",
+               "name" : "mods/remyu-sled-0.10.1.jar",
                "type" : "FabricMod"
             },
             {
@@ -382,7 +347,7 @@
                   "SHA256" : "1b5156654a6ddff2d87473ed1fa74b779b3f276032d7c91478539072218017bf",
                   "path" : "options.txt",
                   "size" : 290,
-                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/rinko-launcher-distro/files/options.txt"
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/remyu-launcher-distro/files/options.txt"
                },
                "id" : "options.txt",
                "name" : "options.txt",
@@ -391,18 +356,18 @@
             },
             {
                "artifact" : {
-                  "MD5" : "0e472c34b64ebafd9fb8c9ff1e91fa04",
-                  "SHA256" : "be2da29fed7fdc5e64d4355b69591c568c83c77d8e84063bc2e26e408cc3267b",
+                  "MD5" : "897292af1c9d53132480569b2f1bd560",
+                  "SHA256" : "d8857fd0590c05a1c9b12f2aefe4c5cf1db43d92c3ef6dac033a4af951aaa620",
                   "path" : "resourcepacks/chacademia-integrated-20261023.zip",
-                  "size" : 2367595,
-                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/rinko-launcher-distro/pack/generated.zip"
+                  "size" : 1089177,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/remyu-launcher-distro/pack/generated.zip"
                },
                "id" : "chacademia-integrated-20261023.zip",
                "name" : "resourcepacks/chacademia-integrated-20261023.zip",
                "type" : "File"
             }
          ],
-         "name" : "돈갚아요:내코가석자",
+         "name" : "레뮤의 썰매 레이스",
          "version" : "1.0.0"
       }
    ],
