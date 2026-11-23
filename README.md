@@ -6,7 +6,7 @@
 - 배포 목록: `claude/remyu-launcher-distro` 브랜치의 `distribution.json` (주소는 `app/assets/js/distromanager.js`). 서버 주소·자동 접속도 거기서 정함.
 - 저장 폴더: `%APPDATA%\.remyu-launcher` (다른 런처와 따로).
 - 런처 업데이트 목록: 배포 브랜치의 `launcher/latest.yml` (generic, `electron-builder.yml` 의 publish).
-- 그림: 배경 `app/assets/images/backgrounds/bg.jpg` (게임 화면풍 밤 썰매 레이스 + 평면 제목), 아이콘 `app/assets/images/remyu-icon.png`·`build/icon.png` (썰매 탄 선수 얼굴, 고글에 오로라·링 비침) — 코덱스로 뽑음 (레뮤썰매런처gen: parts2.txt·parts3.txt·Art.java).
+- 그림(코덱스, 레뮤썰매런처gen: parts4.txt·Art.java, 캐릭터 참고 raw/ref_remyu.png): 배경 `app/assets/images/backgrounds/bg.jpg` = 블록 캐릭터 레뮤가 썰매 타는 밤 장면 + 평면 제목(왼쪽 위), 아이콘 `app/assets/images/remyu-icon.png`·`build/icon.png` = 블록 레뮤 썰매 근접.
 - 색: `app/assets/css/launcher.css` 끝의 "레뮤의 썰매 레이스" 묶음 (게임 레이스 화면과 같은 하늘색 포인트).
 
 ## 빌드 (호스팅)

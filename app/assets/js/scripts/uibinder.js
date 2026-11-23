@@ -70,7 +70,7 @@ async function showMainUI(data){
     refreshServerStatus()
     setTimeout(() => {
         document.getElementById('frameBar').style.backgroundColor = 'rgba(0, 0, 0, 0.5)'
-        // 배경: 게임 화면풍 밤 썰매 레이스 + 평면 제목 글씨 (11/23 코덱스 그림 다시 뽑음)
+        // 배경: 블록 캐릭터 레뮤가 썰매 타는 게임 화면풍 밤 장면 + 평면 제목 글씨 (11/23 코덱스, 클라이언트 캐릭터 반영)
         document.body.style.backgroundImage = "url('assets/images/backgrounds/bg.jpg')"
         $('#main').show()
 
