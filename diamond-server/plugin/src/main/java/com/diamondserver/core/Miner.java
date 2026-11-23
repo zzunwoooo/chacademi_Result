@@ -44,7 +44,8 @@ final class Miner {
         long endTick, modeSince, lastScan;
         int mined;
         Block dig;                                  // 지금 파는 블럭
-        int digLeft, tries, run;                    // 남은 파기 횟수 · 목표까지 시도 · 같은 방향으로 판 칸
+        int digLeft, tries, run, stuck;             // 남은 파기 횟수 · 목표까지 시도 · 같은 방향으로 판 칸 · 제자리 횟수
+        Block lastBlock;
         org.bukkit.block.BlockFace heading;         // 굴 파는 방향
 
         Bot(UUID owner, String donor) { this.owner = owner; this.donor = donor; }
@@ -168,19 +169,13 @@ final class Miner {
     // 11/23 오너: "따라다니기만 해서 가치가 없어 → 주변 블럭 알아서 캐면서 다이아 찾아서 캐게".
     // 스트리머를 따라다니지 않고 스스로 굴을 판다: 주변(miner.radius)에 다이아 광석이 보이면 그쪽으로 파고 들어가 캐고,
     // 없으면 다이아가 많은 깊이(miner.dig-to-y)까지 계단식으로 내려간 뒤 옆으로 굴을 파며 계속 찾는다.
-    // 파는 것은 돌·흙 같은 자연 블럭만 (상자·건축물·기반암은 안 건드림), 파낸 돌은 떨어뜨리지 않음, 용암·물은 조약돌로 막고 지나감.
-    private static final Set<Material> DIGGABLE = java.util.EnumSet.of(
-            Material.STONE, Material.DEEPSLATE, Material.COBBLED_DEEPSLATE, Material.TUFF, Material.GRANITE, Material.DIORITE, Material.ANDESITE,
-            Material.CALCITE, Material.DRIPSTONE_BLOCK, Material.POINTED_DRIPSTONE, Material.SMOOTH_BASALT, Material.COBBLESTONE, Material.MOSSY_COBBLESTONE,
-            Material.DIRT, Material.COARSE_DIRT, Material.ROOTED_DIRT, Material.GRASS_BLOCK, Material.PODZOL, Material.MYCELIUM, Material.MUD, Material.CLAY,
-            Material.MOSS_BLOCK, Material.GRAVEL, Material.SAND, Material.RED_SAND, Material.SANDSTONE, Material.RED_SANDSTONE,
-            Material.TERRACOTTA, Material.SNOW_BLOCK, Material.ICE, Material.PACKED_ICE, Material.NETHERRACK, Material.BASALT, Material.BLACKSTONE,
-            Material.SOUL_SAND, Material.SOUL_SOIL, Material.END_STONE, Material.AMETHYST_BLOCK, Material.BUDDING_AMETHYST, Material.MAGMA_BLOCK);
+    // 기반암·상자류만 빼고 뭐든 한 번에 부수며 나아감(오너 "파파박"), 파낸 블럭은 떨어뜨리지 않음, 용암·물은 조약돌로 막고 지나감.
 
+    /** 11/23 오너 "뭐든 상관없으니 계속 파파박": 기반암처럼 못 부수는 것과 상자류(안에 물건)만 빼고 다 판다 */
     private boolean diggable(Block bl) {
         Material m = bl.getType();
-        if (m == Material.BEDROCK || bl.getState() instanceof org.bukkit.block.TileState) return false;
-        return DIGGABLE.contains(m) || isOre(m) || m.name().endsWith("_TERRACOTTA") || m.name().endsWith("_LEAVES") || m.name().endsWith("_LOG");
+        if (m.isAir() || bl.isLiquid() || m.getHardness() < 0 || m == Material.BEDROCK) return false;
+        return !(bl.getState() instanceof org.bukkit.block.Container);
     }
 
     private static boolean clear(Block bl) { return bl.isPassable() && !bl.isLiquid(); }
@@ -191,7 +186,7 @@ final class Miner {
     private void dig(Bot b, Block bl) {
         b.dig = bl;
         Material m = bl.getType();
-        b.digLeft = isDiamond(m) ? 4 : isOre(m) || m == Material.DEEPSLATE || m == Material.COBBLED_DEEPSLATE ? 2 : 1;
+        b.digLeft = isDiamond(m) ? 2 : 1;
     }
 
     private void breakBlock(Bot b, Player owner, Block bl) {
@@ -204,6 +199,15 @@ final class Miner {
             b.mined++;
             pl.net.toast(owner, b.donor + " AI 플레이어가 다이아를 캤습니다! (+1, 지금까지 " + b.mined + "개)", true);
             owner.playSound(owner.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 0.8f, 1.2f);
+        }
+    }
+
+    /** 굴 칸 둘레(위·아래·옆)의 용암·물을 조약돌로 막는다 (칸 자신은 뒤에서 비움) */
+    private static void plugAround(Block cell) {
+        for (org.bukkit.block.BlockFace f : new org.bukkit.block.BlockFace[]{org.bukkit.block.BlockFace.UP, org.bukkit.block.BlockFace.DOWN,
+                org.bukkit.block.BlockFace.NORTH, org.bukkit.block.BlockFace.SOUTH, org.bukkit.block.BlockFace.EAST, org.bukkit.block.BlockFace.WEST}) {
+            Block n = cell.getRelative(f);
+            if (n.isLiquid()) n.setType(Material.COBBLESTONE, false);
         }
     }
 
@@ -221,16 +225,20 @@ final class Miner {
      * 팔 수 없는 블럭(기반암·건축물)에 막히면 false.
      */
     private boolean advance(Bot b, Block feet, Block next) {
-        if (next.getY() > feet.getY()) {                                // 올라갈 땐 머리 위도 뚫어야 함
-            Block above = feet.getRelative(0, 2, 0);
-            if (!clear(above)) { if (above.isLiquid()) { plug(above); return true; } if (!diggable(above)) return false; dig(b, above); return true; }
-        }
+        Player owner = Bukkit.getPlayer(b.owner);
+        if (owner == null) return false;
+        // 막는 블럭은 기다리지 않고 한 번에 부숨 (머리·발 두 칸 + 올라갈 땐 머리 위)
+        List<Block> cells = new ArrayList<>();
+        if (next.getY() > feet.getY()) cells.add(feet.getRelative(0, 2, 0));
         Block nh = next.getRelative(0, 1, 0);
-        for (Block c : new Block[]{nh, next}) {
-            if (c.isLiquid()) { plug(c); return true; }
-            if (!clear(c)) { if (!diggable(c)) return false; dig(b, c); return true; }
+        cells.add(nh); cells.add(next);
+        for (Block c : cells) {
+            if (clear(c) || c.isLiquid()) continue;
+            if (!diggable(c)) return false;
         }
-        plug(next); plug(nh);
+        for (Block c : cells) { plugAround(c); if (!clear(c) && !c.isLiquid()) breakBlock(b, owner, c); else if (c.isLiquid()) c.setType(Material.AIR, false); }
+        if (b.npc.getEntity() instanceof LivingEntity le) le.swingMainHand();
+        next.getWorld().playSound(next.getLocation(), Sound.BLOCK_STONE_BREAK, 0.7f, 1f);
         Block under = next.getRelative(0, -1, 0);
         if (under.getType() == Material.LAVA) under.setType(Material.COBBLESTONE, false);
         Location to = next.getLocation().add(0.5, 0, 0.5);
@@ -342,11 +350,24 @@ final class Miner {
         }
 
         // 안 보이면: 다이아 깊이까지 계단식으로 내려가고, 거기선 옆으로 굴을 판다
-        if (b.heading == null || ++b.run > 40) { b.heading = randomFace(); b.run = 0; }
+        // 한 번에 두 칸씩 쉬지 않고 판다 (파파박). 같은 자리에 오래 있으면 바로 아래로 뚫고 방향을 바꿈
+        if (b.heading == null || b.run > 40) { b.heading = randomFace(); b.run = 0; }
         int targetY = pl.getConfig().getInt("miner.dig-to-y", -54);
-        boolean down = owner.getWorld().getEnvironment() == org.bukkit.World.Environment.NORMAL && feet.getY() > targetY;
-        Block next = feet.getRelative(b.heading.getModX(), down ? -1 : 0, b.heading.getModZ());
-        if (!advance(b, feet, next)) { b.heading = randomFace(); b.run = 0; }
+        for (int k = 0; k < 2; k++) {
+            Block cur = b.npc.getEntity().getLocation().getBlock();
+            boolean down = owner.getWorld().getEnvironment() == org.bukkit.World.Environment.NORMAL && cur.getY() > targetY;
+            Block next = cur.getRelative(b.heading.getModX(), down ? -1 : 0, b.heading.getModZ());
+            if (!advance(b, cur, next)) { b.heading = randomFace(); b.run = 0; break; }
+            b.run++;
+        }
+        Block now = b.npc.getEntity().getLocation().getBlock();
+        if (now.equals(b.lastBlock)) {
+            if (++b.stuck >= 4) {                                       // 1초 넘게 그대로면: 발밑을 뚫고 떨어진 뒤 다른 방향
+                Block under = now.getRelative(0, -1, 0);
+                if (diggable(under)) breakBlock(b, owner, under);
+                b.heading = randomFace(); b.run = 0; b.stuck = 0;
+            }
+        } else { b.stuck = 0; b.lastBlock = now; }
     }
 
     private static org.bukkit.block.BlockFace randomFace() {
