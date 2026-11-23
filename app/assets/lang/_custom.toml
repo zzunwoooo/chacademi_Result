@@ -1,5 +1,5 @@
 [ejs.app]
-title = "레뮤의 썰매 레이스"
+title = "레뮤의 썰매라이더"
 [ejs.landing]
 mediaGitHubURL = "#"
 mediaXURL = "#"
@@ -10,6 +10,6 @@ mediaDiscordURL = "#"
 sourceGithubLink = "https://github.com/zzunwoooo/chacademi_Result/tree/claude/remyu-launcher"
 supportLink = "#"
 [ejs.welcome]
-welcomeHeader = "레뮤의 썰매 레이스"
+welcomeHeader = "레뮤의 썰매라이더"
 welcomeDescription = ""
 welcomeDescCTA = ""

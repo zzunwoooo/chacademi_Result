@@ -1,4 +1,4 @@
-# 레뮤의 썰매 레이스 런처
+# 레뮤의 썰매라이더 런처
 
 레뮤 썰매 서버(마인크래프트 1.21.4, Fabric) 전용 실행기. 모드·리소스팩·쉐이더를 자동으로 받아 주고, 게임이 켜지면 서버로 바로 접속한다.
 바탕: 돈갚아요(린코) 런처 1.0.3 (`claude/rinko-launcher` 6c018e9) ← 무한의 탑 런처 ← 차카데미 런처(Helios 기반).
@@ -7,7 +7,7 @@
 - 저장 폴더: `%APPDATA%\.remyu-launcher` (다른 런처와 따로).
 - 런처 업데이트 목록: 배포 브랜치의 `launcher/latest.yml` (generic, `electron-builder.yml` 의 publish).
 - 그림(코덱스, 레뮤썰매런처gen: parts4.txt·Art.java, 캐릭터 참고 raw/ref_remyu.png): 배경 `app/assets/images/backgrounds/bg.jpg` = 블록 캐릭터 레뮤가 썰매 타는 밤 장면 + 평면 제목(왼쪽 위), 아이콘 `app/assets/images/remyu-icon.png`·`build/icon.png` = 블록 레뮤 썰매 근접.
-- 색: `app/assets/css/launcher.css` 끝의 "레뮤의 썰매 레이스" 묶음 (게임 레이스 화면과 같은 하늘색 포인트).
+- 색: `app/assets/css/launcher.css` 끝의 "레뮤의 썰매라이더" 묶음 (게임 레이스 화면과 같은 하늘색 포인트).
 
 ## 빌드 (호스팅)
 1. 소스를 호스팅 staging 의 새 폴더에 풀고 `launcher-0.1.33-retry-20261109/node_modules` 복사

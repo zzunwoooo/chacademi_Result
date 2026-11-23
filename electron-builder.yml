@@ -1,5 +1,5 @@
 appId: kr.remyu.launcher
-productName: '레뮤의 썰매 레이스'
+productName: '레뮤의 썰매라이더'
 executableName: 'Remyu Launcher'
 artifactName: 'Remyu-Launcher-setup-${version}.${ext}'
 
@@ -36,8 +36,8 @@ win:
 
 # Windows Installer Configuration
 nsis:
-  uninstallDisplayName: '레뮤의 썰매 레이스'
-  shortcutName: '레뮤의 썰매 레이스'
+  uninstallDisplayName: '레뮤의 썰매라이더'
+  shortcutName: '레뮤의 썰매라이더'
   oneClick: false
   perMachine: false
   allowElevation: true
@@ -62,8 +62,8 @@ linux:
   target: 'AppImage'
   maintainer: 'Daniel Scalzi'
   vendor: 'Daniel Scalzi'
-  synopsis: '레뮤의 썰매 레이스 마인크래프트 런처'
-  description: '레뮤의 썰매 레이스 서버 접속에 필요한 모드와 설정을 자동으로 준비하는 런처입니다.'
+  synopsis: '레뮤의 썰매라이더 마인크래프트 런처'
+  description: '레뮤의 썰매라이더 서버 접속에 필요한 모드와 설정을 자동으로 준비하는 런처입니다.'
   category: 'Game'
 
 

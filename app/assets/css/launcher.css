@@ -3988,7 +3988,7 @@ button, input, .settingsTabHeaderText, .settingsFieldTitle {
     letter-spacing: normal;
 }
 
-/* ───────── 레뮤의 썰매 레이스: 게임 레이스 화면(어두운 남색 유리 + 전기 하늘색 포인트)과 맞춘 색 ───────── */
+/* ───────── 레뮤의 썰매라이더: 게임 레이스 화면(어두운 남색 유리 + 전기 하늘색 포인트)과 맞춘 색 ───────── */
 #launch_button { color: #ffffff; }
 #launch_button:hover,
 #launch_button:focus { color: #e9fbff; text-shadow: 0px 0px 16px #3fdcff, 0px 0px 28px #3fdcff; }

@@ -399,7 +399,7 @@ class ProcessBuilder {
 
         // Java Arguments
         if(process.platform === 'darwin'){
-            args.push('-Xdock:name=레뮤의 썰매 레이스')
+            args.push('-Xdock:name=레뮤의 썰매라이더')
             args.push('-Xdock:icon=' + path.join(__dirname, '..', 'images', 'remyu-icon.icns'))
         }
         args.push('-Xmx' + ConfigManager.getMaxRAM(this.server.rawServer.id))
@@ -450,7 +450,7 @@ class ProcessBuilder {
 
         // Java Arguments
         if(process.platform === 'darwin'){
-            args.push('-Xdock:name=레뮤의 썰매 레이스')
+            args.push('-Xdock:name=레뮤의 썰매라이더')
             args.push('-Xdock:icon=' + path.join(__dirname, '..', 'images', 'remyu-icon.icns'))
         }
         args.push('-Xmx' + ConfigManager.getMaxRAM(this.server.rawServer.id))
