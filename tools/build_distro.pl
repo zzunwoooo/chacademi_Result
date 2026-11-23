@@ -65,9 +65,12 @@ for my $jar (sort glob('mods/*.jar')) {
                   artifact => { sums($jar), url => "$RAW/mods/$base.jar" } };
 }
 # 레뮤 전용 설정 (files/ 아래 경로 그대로 게임 폴더에. 처음 한 번만 넣고 그 뒤로는 유저 것을 지킨다)
+# options.txt 기본값을 고쳐서 이미 설치한 사람에게도 한 번 다시 넣으려면 이 판 이름을 바꾼다 (런처 1.0.1 부터)
+my $OPTIONS_SEED = '20261123b';
 for my $f (sort grep { -f } glob('files/* files/*/* files/*/*/*')) {
     (my $rel = $f) =~ s{^files/}{};
     push @files, { id => $rel, name => $rel, type => 'File', updatePolicy => 'seed',
+                   ($rel eq 'options.txt' ? (seedVersion => $OPTIONS_SEED) : ()),
                    artifact => { sums($f), path => $rel, url => "$RAW/files/$rel" } };
 }
 
