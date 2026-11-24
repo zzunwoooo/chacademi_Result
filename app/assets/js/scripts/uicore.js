@@ -48,7 +48,7 @@ if(!isDev){
                 loggerAutoUpdater.info('New update available', info.version)
                 
                 if(process.platform === 'darwin'){
-                    info.darwindownload = `https://github.com/zzunwoooo/chacademi_Result/releases/download/remyu-launcher-${info.version}/Remyu-Launcher-setup-${info.version}-${process.arch === 'arm64' ? 'arm64' : 'x64'}.dmg`
+                    info.darwindownload = `https://github.com/zzunwoooo/chacademi_Result/releases/download/wuxia-launcher-${info.version}/Wuxia-Launcher-setup-${info.version}-${process.arch === 'arm64' ? 'arm64' : 'x64'}.dmg`
                     showUpdateUI(info)
                 }
                 

@@ -1,7 +1,7 @@
-appId: kr.remyu.launcher
-productName: '레뮤의 썰매라이더'
-executableName: 'Remyu Launcher'
-artifactName: 'Remyu-Launcher-setup-${version}.${ext}'
+appId: kr.wuxia.launcher
+productName: '무협 RPG 개발'
+executableName: 'Wuxia Launcher'
+artifactName: 'Wuxia-Launcher-setup-${version}.${ext}'
 
 copyright: 'Copyright © 2018-2026 Daniel Scalzi'
 
@@ -36,8 +36,8 @@ win:
 
 # Windows Installer Configuration
 nsis:
-  uninstallDisplayName: '레뮤의 썰매라이더'
-  shortcutName: '레뮤의 썰매라이더'
+  uninstallDisplayName: '무협 RPG 개발'
+  shortcutName: '무협 RPG 개발'
   oneClick: false
   perMachine: false
   allowElevation: true
@@ -53,7 +53,7 @@ mac:
       arch:
         - 'x64'
         - 'arm64'
-  artifactName: 'Remyu-Launcher-setup-${version}-${arch}.${ext}'
+  artifactName: 'Wuxia-Launcher-setup-${version}-${arch}.${ext}'
   category: 'public.app-category.games'
 
 # Linux Configuration
@@ -62,8 +62,8 @@ linux:
   target: 'AppImage'
   maintainer: 'Daniel Scalzi'
   vendor: 'Daniel Scalzi'
-  synopsis: '레뮤의 썰매라이더 마인크래프트 런처'
-  description: '레뮤의 썰매라이더 서버 접속에 필요한 모드와 설정을 자동으로 준비하는 런처입니다.'
+  synopsis: '무협 RPG 개발 마인크래프트 런처'
+  description: '무협 RPG 개발 서버 접속에 필요한 모드와 설정을 자동으로 준비하는 런처입니다.'
   category: 'Game'
 
 
@@ -74,7 +74,7 @@ directories:
 publish:
   # 런처 전용 업데이트 목록 (같은 저장소의 다른 런처와 "최신 릴리스"가 겹치지 않게 1.0.3부터 따로 둠)
   provider: generic
-  url: https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/remyu-launcher-distro/launcher
+  url: https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/launcher
 
 forceCodeSigning: false
 

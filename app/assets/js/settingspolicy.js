@@ -20,7 +20,7 @@ exports.prepare = async function(distribution, instanceDirectory){
                     }
                     module.seedOriginalMD5 ??= module.artifact.MD5
                     module.artifact.MD5 = module.seedOriginalMD5
-                    // 레뮤: 기본 설정 판(seedVersion)이 바뀌면 이미 있는 파일도 한 번만 새 기본 설정으로 바꾼다 (옛 파일은 .bak 으로 남김)
+                    // 무협 RPG: 기본 설정 판(seedVersion)이 바뀌면 이미 있는 파일도 한 번만 새 기본 설정으로 바꾼다 (옛 파일은 .bak 으로 남김)
                     if(typeof module.seedVersion === 'string' && /^[\w.-]+$/.test(module.seedVersion)){
                         const mark = target + '.seed-version'
                         const done = await fs.pathExists(mark) ? (await fs.readFile(mark, 'utf8')).trim() : ''

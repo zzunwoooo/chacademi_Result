@@ -13,7 +13,7 @@ const { AZURE_CLIENT_ID, MSFT_OPCODE, MSFT_REPLY_TYPE, MSFT_ERROR, SHELL_OPCODE 
 const LangLoader                        = require('./app/assets/js/langloader')
 
 // Preserve the original Electron userData and updater cache identity.
-app.setPath('userData', path.join(app.getPath('appData'), 'Remyu Launcher'))
+app.setPath('userData', path.join(app.getPath('appData'), 'Wuxia Launcher'))
 const ownsInstance = app.requestSingleInstanceLock()
 if(!ownsInstance){ app.quit() }
 app.on('second-instance', () => {
@@ -66,8 +66,10 @@ ipcMain.on('autoUpdateAction', (event, arg, data) => {
             event.sender.send('autoUpdateNotification', 'ready')
             break
         case 'checkForUpdate':
-            // 레뮤 썰매: 런처 자동 업데이트 꺼 둠 (전용 배포 주소가 정해지면 다시 켠다)
-            event.sender.send('autoUpdateNotification', 'update-not-available', { version: app.getVersion() })
+            // 런처 전용 업데이트 목록(배포 브랜치 launcher/latest.yml)을 확인한다 (사이렌 1.0.1 과 같은 방식)
+            autoUpdater.checkForUpdates().catch(err => {
+                event.sender.send('autoUpdateNotification', 'realerror', err)
+            })
             break
         case 'allowPrereleaseChange':
             if(!data){
@@ -135,7 +137,7 @@ ipcMain.on(MSFT_OPCODE.OPEN_LOGIN, (ipcEvent, ...arguments_) => {
         width: 520,
         height: 600,
         frame: true,
-        icon: getPlatformIcon('remyu-icon')
+        icon: getPlatformIcon('wuxia-icon')
     })
 
     msftAuthWindow.on('closed', () => {
@@ -186,7 +188,7 @@ ipcMain.on(MSFT_OPCODE.OPEN_LOGOUT, (ipcEvent, uuid, isLastAccount) => {
         width: 520,
         height: 600,
         frame: true,
-        icon: getPlatformIcon('remyu-icon')
+        icon: getPlatformIcon('wuxia-icon')
     })
 
     msftLogoutWindow.on('closed', () => {
@@ -232,7 +234,7 @@ function createWindow() {
     win = new BrowserWindow({
         width: 980,
         height: 552,
-        icon: getPlatformIcon('remyu-icon'),
+        icon: getPlatformIcon('wuxia-icon'),
         frame: false,
         webPreferences: {
             preload: path.join(__dirname, 'app', 'assets', 'js', 'preloader.js'),

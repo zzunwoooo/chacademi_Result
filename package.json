@@ -1,11 +1,11 @@
 {
-  "name": "remyu-launcher",
-  "version": "1.0.1",
-  "productName": "레뮤의 썰매라이더",
-  "description": "레뮤의 썰매라이더 마인크래프트 1.21.4 런처",
+  "name": "wuxia-launcher",
+  "version": "1.0.0",
+  "productName": "무협 RPG 개발",
+  "description": "무협 RPG 개발 마인크래프트 1.21.4 런처",
   "author": "Daniel Scalzi (https://github.com/dscalzi/)",
   "license": "UNLICENSED",
-  "homepage": "https://github.com/zzunwoooo/chacademi_Result/tree/claude/remyu-launcher",
+  "homepage": "https://github.com/zzunwoooo/chacademi_Result/tree/claude/wuxia-launcher",
   "bugs": {
     "url": "https://github.com/zzunwoooo/chacademi_Result/issues"
   },

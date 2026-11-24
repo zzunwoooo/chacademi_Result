@@ -506,7 +506,7 @@ async function dlAsync(login = true) {
     setLaunchPercentage(0, 100)
 
     const keyDefaultsRoot = path.join(ConfigManager.getInstanceDirectory(), ConfigManager.getSelectedServer())
-    const keyDefaultsState = null // 레뮤 썰매: 차카데미 전용 키 배치는 적용하지 않음
+    const keyDefaultsState = null // 무협 RPG: 차카데미 전용 키 배치는 적용하지 않음
     const fullRepairModule = new FullRepair(
         ConfigManager.getCommonDirectory(),
         ConfigManager.getInstanceDirectory(),

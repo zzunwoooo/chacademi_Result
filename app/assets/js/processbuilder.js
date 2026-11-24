@@ -352,7 +352,7 @@ class ProcessBuilder {
     }
 
     _processAutoConnectArg(args){
-        // 레뮤 썰매: 게임이 켜지면 바로 서버로 접속
+        // 무협 RPG: 게임이 켜지면 바로 서버로 접속
         if(this.server.rawServer.autoconnect && this.server.hostname){
             if(mcVersionAtLeast('1.20', this.server.rawServer.minecraftVersion)){
                 args.push('--quickPlayMultiplayer')
@@ -399,8 +399,8 @@ class ProcessBuilder {
 
         // Java Arguments
         if(process.platform === 'darwin'){
-            args.push('-Xdock:name=레뮤의 썰매라이더')
-            args.push('-Xdock:icon=' + path.join(__dirname, '..', 'images', 'remyu-icon.icns'))
+            args.push('-Xdock:name=무협 RPG 개발')
+            args.push('-Xdock:icon=' + path.join(__dirname, '..', 'images', 'wuxia-icon.icns'))
         }
         args.push('-Xmx' + ConfigManager.getMaxRAM(this.server.rawServer.id))
         args.push('-Xms' + ConfigManager.getMinRAM(this.server.rawServer.id))
@@ -450,8 +450,8 @@ class ProcessBuilder {
 
         // Java Arguments
         if(process.platform === 'darwin'){
-            args.push('-Xdock:name=레뮤의 썰매라이더')
-            args.push('-Xdock:icon=' + path.join(__dirname, '..', 'images', 'remyu-icon.icns'))
+            args.push('-Xdock:name=무협 RPG 개발')
+            args.push('-Xdock:icon=' + path.join(__dirname, '..', 'images', 'wuxia-icon.icns'))
         }
         args.push('-Xmx' + ConfigManager.getMaxRAM(this.server.rawServer.id))
         args.push('-Xms' + ConfigManager.getMinRAM(this.server.rawServer.id))

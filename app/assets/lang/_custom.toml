@@ -1,5 +1,5 @@
 [ejs.app]
-title = "레뮤의 썰매라이더"
+title = "무협 RPG 개발"
 [ejs.landing]
 mediaGitHubURL = "#"
 mediaXURL = "#"
@@ -7,9 +7,9 @@ mediaInstagramURL = "#"
 mediaYouTubeURL = "#"
 mediaDiscordURL = "#"
 [ejs.settings]
-sourceGithubLink = "https://github.com/zzunwoooo/chacademi_Result/tree/claude/remyu-launcher"
+sourceGithubLink = "https://github.com/zzunwoooo/chacademi_Result/tree/claude/wuxia-launcher"
 supportLink = "#"
 [ejs.welcome]
-welcomeHeader = "레뮤의 썰매라이더"
+welcomeHeader = "무협 RPG 개발"
 welcomeDescription = ""
 welcomeDescCTA = ""
