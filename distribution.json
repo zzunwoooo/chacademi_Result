@@ -2,11 +2,11 @@
    "rss" : "",
    "servers" : [
       {
-         "address" : "211.53.196.231:26000",
+         "address" : "211.53.196.231:25820",
          "autoconnect" : true,
          "description" : "Minecraft 1.21.4 (Fabric)",
-         "icon" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/remyu-launcher-distro/server-icon.png",
-         "id" : "remyu-1.21.4",
+         "icon" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/server-icon.png",
+         "id" : "wuxia-1.21.4",
          "javaOptions" : {
             "platformOptions" : [
                {
@@ -172,6 +172,17 @@
             },
             {
                "artifact" : {
+                  "MD5" : "d7eac5f3e58728460290a598fb304ede",
+                  "SHA256" : "8e2a6db4d54f948f7a40fc8959a656f4d23f02b084e16b1da5fcba2ac63c9da4",
+                  "size" : 435299,
+                  "url" : "https://github.com/zzunwoooo/chacademi-launcher/releases/download/content-siege-20261113/portable-vfx-preserved-245d836c-rgba2048-bossfx3.jar"
+               },
+               "id" : "kr.chacademi:portablevfx:3.2.2-integrated-20261020.1-readychunks.1@jar",
+               "name" : "mods/portable-vfx-preserved-245d836c.jar",
+               "type" : "FabricMod"
+            },
+            {
+               "artifact" : {
                   "MD5" : "3c220399e5c34dae32224818c7acaa6c",
                   "size" : 376047,
                   "url" : "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/fabricmods/required/authme-fabric-9.0.1+1.21.4.jar"
@@ -198,6 +209,16 @@
                },
                "id" : "bot.colla:donation:2.0.2@jar",
                "name" : "Donation",
+               "type" : "FabricMod"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "8b092f8cca0a96d80eb8eeea24b5ebfd",
+                  "size" : 3514383,
+                  "url" : "https://github.com/mchdistro/zzunwoo/raw/main/servers/launcher_v2-1.21.4/fabricmods/required/journeymap-fabric-1.21.4-6.0.0-beta.47.jar"
+               },
+               "id" : "journeymap:journeymap:1.21.4-6.0.0-beta.47@jar",
+               "name" : "Journeymap",
                "type" : "FabricMod"
             },
             {
@@ -242,13 +263,26 @@
             },
             {
                "artifact" : {
-                  "MD5" : "354be879f9b1cd3e77c06504e78fbfce",
-                  "SHA256" : "d4e3a96c1734c8300925dbf63460a28124a936e38b3de1faf9db4b756afb2962",
-                  "size" : 2587714,
-                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/remyu-launcher-distro/mods/remyu-sled-0.10.3.jar"
+                  "MD5" : "4298800d4a528daa4df8135b1a37721d",
+                  "size" : 202859,
+                  "url" : "https://cdn.modrinth.com/data/gedNE4y2/versions/ZTeZ33xQ/player-animation-lib-fabric-2.0.5%2B1.21.4.jar"
                },
-               "id" : "kr.remyu:remyu-sled:0.10.3@jar",
-               "name" : "mods/remyu-sled-0.10.3.jar",
+               "id" : "org.modrinth:playeranimator:2.0.5+1.21.4@jar",
+               "name" : "Player Animator",
+               "required" : {
+                  "value" : true
+               },
+               "type" : "FabricMod"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "6ae39eb8fb978a45ce3f3b61712c11cb",
+                  "SHA256" : "c354aa345472d6a134fb30e54718afefcb72ca1b370b76a41dd591f32da16e14",
+                  "size" : 58616,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/mods/wuxia-motion-0.1.0.jar"
+               },
+               "id" : "kr.wuxia:wuxia-motion:0.1.0@jar",
+               "name" : "mods/wuxia-motion-0.1.0.jar",
                "type" : "FabricMod"
             },
             {
@@ -304,6 +338,31 @@
             },
             {
                "artifact" : {
+                  "MD5" : "ea90cd1ea7cd290130a1fa5093824840",
+                  "SHA256" : "f1994fa57a188a84db9462e851e75752bcb2d72bd065cbdff648e835c8011a71",
+                  "path" : "config/portablevfx/bloom.properties",
+                  "size" : 113,
+                  "url" : "https://github.com/zzunwoooo/chacademi-launcher/releases/download/v0.1.0/bloom.properties"
+               },
+               "id" : "config/portablevfx/bloom.properties",
+               "name" : "config/portablevfx/bloom.properties",
+               "type" : "File",
+               "updatePolicy" : "seed"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "63eb0f8834e565027e59af8cefc6ed52",
+                  "SHA256" : "91e3bf58aa375a5f04025205a4f359f092311fc95a096af64ed4e13cd1783076",
+                  "path" : "config/portablevfx/load-limits.properties",
+                  "size" : 752,
+                  "url" : "https://github.com/zzunwoooo/chacademi-launcher/releases/download/content-ch4-bossvfx-20261109/load-limits-rgba2048.properties"
+               },
+               "id" : "config/portablevfx/load-limits.properties",
+               "name" : "config/portablevfx/load-limits.properties",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
                   "MD5" : "a5b6a84e034d60be869ae33f2dba4e2b",
                   "SHA256" : "b627c4456e6fa0bc4b5f85e2f1cd949faedae3cb9afdaf2a5f52e6f3b6ae1f01",
                   "path" : "config/sodium-mixins.properties",
@@ -343,32 +402,2156 @@
             },
             {
                "artifact" : {
-                  "MD5" : "a68f723d71192a353f0bb51f6b5c18e4",
-                  "SHA256" : "900138c07797a820aaeae603e5c5e52a9da1326f7254816011f9c69750e3dfea",
-                  "path" : "options.txt",
-                  "size" : 4001,
-                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/remyu-launcher-distro/files/options.txt"
+                  "MD5" : "f282e2b849d7880ad36b3a3ea8ddc92b",
+                  "SHA256" : "20c49137777cfc2b11604bfabee8976c92da1f9c742a668f17089cf4243ead36",
+                  "path" : "config/portablevfx/effects/AttackDao/textures/T_Dust_Sheet.png",
+                  "size" : 112473,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/AttackDao/textures/T_Dust_Sheet.png"
                },
-               "id" : "options.txt",
-               "name" : "options.txt",
-               "seedVersion" : "20261123b",
-               "type" : "File",
-               "updatePolicy" : "seed"
+               "id" : "config/portablevfx/effects/AttackDao/textures/T_Dust_Sheet.png",
+               "name" : "config/portablevfx/effects/AttackDao/textures/T_Dust_Sheet.png",
+               "type" : "File"
             },
             {
                "artifact" : {
-                  "MD5" : "897292af1c9d53132480569b2f1bd560",
-                  "SHA256" : "d8857fd0590c05a1c9b12f2aefe4c5cf1db43d92c3ef6dac033a4af951aaa620",
-                  "path" : "resourcepacks/chacademia-integrated-20261023.zip",
-                  "size" : 1089177,
-                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/remyu-launcher-distro/pack/generated.zip"
+                  "MD5" : "42902aff07b65ec606de48411db52fa2",
+                  "SHA256" : "09b01591b8611ca87c55ea503848fbca9c4755b755899d79973d353921be1e6d",
+                  "path" : "config/portablevfx/effects/AttackDao/textures/T_Star4.png",
+                  "size" : 6081,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/AttackDao/textures/T_Star4.png"
                },
-               "id" : "chacademia-integrated-20261023.zip",
-               "name" : "resourcepacks/chacademia-integrated-20261023.zip",
+               "id" : "config/portablevfx/effects/AttackDao/textures/T_Star4.png",
+               "name" : "config/portablevfx/effects/AttackDao/textures/T_Star4.png",
                "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "d096b8357a60e23a36bbfb50cc0421de",
+                  "SHA256" : "115522c3d96ebc108173b165c43592e30305095508e57eb8e05a991a02267e49",
+                  "path" : "config/portablevfx/effects/AttackDao/textures/T_Streak.png",
+                  "size" : 3310,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/AttackDao/textures/T_Streak.png"
+               },
+               "id" : "config/portablevfx/effects/AttackDao/textures/T_Streak.png",
+               "name" : "config/portablevfx/effects/AttackDao/textures/T_Streak.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "6cf32f28267008be3e984f1169e14199",
+                  "SHA256" : "5af6172e83360be69abc5f8227be4c68f16f3afd656ba5cce2e6a156ebc403fc",
+                  "path" : "config/portablevfx/effects/AttackDao/textures/T_Stroke_Sheet.png",
+                  "size" : 66409,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/AttackDao/textures/T_Stroke_Sheet.png"
+               },
+               "id" : "config/portablevfx/effects/AttackDao/textures/T_Stroke_Sheet.png",
+               "name" : "config/portablevfx/effects/AttackDao/textures/T_Stroke_Sheet.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "fb13afb06835b04ace8cec38b848976f",
+                  "SHA256" : "1e82f8cf0feca9c06025e249c4ba6c5c707442ea2038ab6af6ef9821e0ae042f",
+                  "path" : "config/portablevfx/effects/AttackDao/vfx.json",
+                  "size" : 84087,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/AttackDao/vfx.json"
+               },
+               "id" : "config/portablevfx/effects/AttackDao/vfx.json",
+               "name" : "config/portablevfx/effects/AttackDao/vfx.json",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "c079faad27050fdeec3fd886927fa8bb",
+                  "SHA256" : "bbf3256ee9016f5508ba02bcd2ad56e3d1036c94944558e04b8e3cb6d3acd20f",
+                  "path" : "config/portablevfx/effects/AttackFan/textures/T_Gust_Sheet.png",
+                  "size" : 82853,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/AttackFan/textures/T_Gust_Sheet.png"
+               },
+               "id" : "config/portablevfx/effects/AttackFan/textures/T_Gust_Sheet.png",
+               "name" : "config/portablevfx/effects/AttackFan/textures/T_Gust_Sheet.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "c2bb2d1ddc1e1d0aa4ba66ddf8ff5f3d",
+                  "SHA256" : "bad8b3fbb780fceb8b3346bf757131d0c7a0270d401baed5d7be87ed9e482bab",
+                  "path" : "config/portablevfx/effects/AttackFan/textures/T_InkDot.png",
+                  "size" : 2060,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/AttackFan/textures/T_InkDot.png"
+               },
+               "id" : "config/portablevfx/effects/AttackFan/textures/T_InkDot.png",
+               "name" : "config/portablevfx/effects/AttackFan/textures/T_InkDot.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "cf66a3279bff245ac83dd4e93d3134a4",
+                  "SHA256" : "49cead1588742868a9d782f419fc04e53dc65d93e78a03a5f96b547adfb1f0ac",
+                  "path" : "config/portablevfx/effects/AttackFan/textures/T_Streak.png",
+                  "size" : 3310,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/AttackFan/textures/T_Streak.png"
+               },
+               "id" : "config/portablevfx/effects/AttackFan/textures/T_Streak.png",
+               "name" : "config/portablevfx/effects/AttackFan/textures/T_Streak.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "c486edb383dcdc6cfb8f0a5726677b42",
+                  "SHA256" : "8e21e556225ef9250ef4482718b9c2372e56fbadedbbcdedd5800aeb7374cc54",
+                  "path" : "config/portablevfx/effects/AttackFan/textures/T_Stroke_Sheet.png",
+                  "size" : 54891,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/AttackFan/textures/T_Stroke_Sheet.png"
+               },
+               "id" : "config/portablevfx/effects/AttackFan/textures/T_Stroke_Sheet.png",
+               "name" : "config/portablevfx/effects/AttackFan/textures/T_Stroke_Sheet.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "2bfd56a5a36ce32662ac9d60c1ecfb63",
+                  "SHA256" : "b8f8020c2d90da9e91eed2a3ac45428a75839263fb1ec3c00bddf92c7a787958",
+                  "path" : "config/portablevfx/effects/AttackFan/vfx.json",
+                  "size" : 75676,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/AttackFan/vfx.json"
+               },
+               "id" : "config/portablevfx/effects/AttackFan/vfx.json",
+               "name" : "config/portablevfx/effects/AttackFan/vfx.json",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "223f1337a43963c9dafa447db2dcb99f",
+                  "SHA256" : "2e75e1871c990b3546dcdc0e93269d13bc7e2b7ce96293442847f9e611a12745",
+                  "path" : "config/portablevfx/effects/AttackGauntlet/textures/T_Glow.png",
+                  "size" : 11117,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/AttackGauntlet/textures/T_Glow.png"
+               },
+               "id" : "config/portablevfx/effects/AttackGauntlet/textures/T_Glow.png",
+               "name" : "config/portablevfx/effects/AttackGauntlet/textures/T_Glow.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "cacd6e458564fef6115a4d3419e9126d",
+                  "SHA256" : "35c8c52fe3091613c7e70de6c138024ec4d6492dcc7d84c75cc5c5835f5796ee",
+                  "path" : "config/portablevfx/effects/AttackGauntlet/textures/T_Line.png",
+                  "size" : 295,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/AttackGauntlet/textures/T_Line.png"
+               },
+               "id" : "config/portablevfx/effects/AttackGauntlet/textures/T_Line.png",
+               "name" : "config/portablevfx/effects/AttackGauntlet/textures/T_Line.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "d4fe7e84d81b2d7dcad59d6c5ab28587",
+                  "SHA256" : "31f6535901fd3d64820d026f550d2e94f0575d7bc601ded1e7db3981dfba12c9",
+                  "path" : "config/portablevfx/effects/AttackGauntlet/textures/T_Ring.png",
+                  "size" : 41390,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/AttackGauntlet/textures/T_Ring.png"
+               },
+               "id" : "config/portablevfx/effects/AttackGauntlet/textures/T_Ring.png",
+               "name" : "config/portablevfx/effects/AttackGauntlet/textures/T_Ring.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "62c176543aa9f618030f29667a8f0585",
+                  "SHA256" : "e355a7e7aa33d9abdede685839098d4443852c0dcc90883857fc9536231370ec",
+                  "path" : "config/portablevfx/effects/AttackGauntlet/textures/T_Star4.png",
+                  "size" : 6521,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/AttackGauntlet/textures/T_Star4.png"
+               },
+               "id" : "config/portablevfx/effects/AttackGauntlet/textures/T_Star4.png",
+               "name" : "config/portablevfx/effects/AttackGauntlet/textures/T_Star4.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "1243ae9cd9e006ac29f0901c297f109d",
+                  "SHA256" : "5631e9b6aee7c0f4fdf47cdd28703c8ef07a0f735ff771af33b81f8e9b069624",
+                  "path" : "config/portablevfx/effects/AttackGauntlet/textures/T_Streak.png",
+                  "size" : 3165,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/AttackGauntlet/textures/T_Streak.png"
+               },
+               "id" : "config/portablevfx/effects/AttackGauntlet/textures/T_Streak.png",
+               "name" : "config/portablevfx/effects/AttackGauntlet/textures/T_Streak.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "d1451ebe3f6450a67a82d2531b58e7b9",
+                  "SHA256" : "ef3b17bccdc37a8e2ffaece4eac5c1195c13b77b1b0bf61d9a9eb07f7b442c2d",
+                  "path" : "config/portablevfx/effects/AttackGauntlet/vfx.json",
+                  "size" : 69677,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/AttackGauntlet/vfx.json"
+               },
+               "id" : "config/portablevfx/effects/AttackGauntlet/vfx.json",
+               "name" : "config/portablevfx/effects/AttackGauntlet/vfx.json",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "8bfddf890a363fb01634b6136d190d5c",
+                  "SHA256" : "08ddb5506e6facccb13b0d368d1b5e41fdc171d2913ae665a37bb755602e8275",
+                  "path" : "config/portablevfx/effects/AttackNeedle/textures/T_Line.png",
+                  "size" : 313,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/AttackNeedle/textures/T_Line.png"
+               },
+               "id" : "config/portablevfx/effects/AttackNeedle/textures/T_Line.png",
+               "name" : "config/portablevfx/effects/AttackNeedle/textures/T_Line.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "ddd58b9ab5d3bc5d437f13b6d7cb3aac",
+                  "SHA256" : "8d4a70dbb6c5fce8c67b520590a4c17e70329e2dedc8ac356511c67026981779",
+                  "path" : "config/portablevfx/effects/AttackNeedle/textures/T_Needle.png",
+                  "size" : 1142,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/AttackNeedle/textures/T_Needle.png"
+               },
+               "id" : "config/portablevfx/effects/AttackNeedle/textures/T_Needle.png",
+               "name" : "config/portablevfx/effects/AttackNeedle/textures/T_Needle.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "bdf4b7f21b6b3adc45b6267edfeb3686",
+                  "SHA256" : "4689458cc890c774700d9c00e0dba11bf12f9b12d238466bab7f6e80f6c2ab2a",
+                  "path" : "config/portablevfx/effects/AttackNeedle/textures/T_Star4.png",
+                  "size" : 7011,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/AttackNeedle/textures/T_Star4.png"
+               },
+               "id" : "config/portablevfx/effects/AttackNeedle/textures/T_Star4.png",
+               "name" : "config/portablevfx/effects/AttackNeedle/textures/T_Star4.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "a6f4acd805d065cb7bfd98f83d65380f",
+                  "SHA256" : "b059efcfa051ba50f5ff32b3bc854569382a78f7af9bedb0106cfe1cf5b95578",
+                  "path" : "config/portablevfx/effects/AttackNeedle/textures/T_Streak.png",
+                  "size" : 3376,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/AttackNeedle/textures/T_Streak.png"
+               },
+               "id" : "config/portablevfx/effects/AttackNeedle/textures/T_Streak.png",
+               "name" : "config/portablevfx/effects/AttackNeedle/textures/T_Streak.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "5bea5ace1d2345a0a933f2a1984ff523",
+                  "SHA256" : "ae63735351d6c20a33531ce19b7e2da66fa36c7130022113c8c9db92bb6f8077",
+                  "path" : "config/portablevfx/effects/AttackNeedle/textures/T_Stroke_Sheet.png",
+                  "size" : 42346,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/AttackNeedle/textures/T_Stroke_Sheet.png"
+               },
+               "id" : "config/portablevfx/effects/AttackNeedle/textures/T_Stroke_Sheet.png",
+               "name" : "config/portablevfx/effects/AttackNeedle/textures/T_Stroke_Sheet.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "021d244f54160d3258273d8f4b24bb3d",
+                  "SHA256" : "b909ea0c48e663f5569422909d80e8db30319077a6743415debe65be7c693067",
+                  "path" : "config/portablevfx/effects/AttackNeedle/vfx.json",
+                  "size" : 84148,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/AttackNeedle/vfx.json"
+               },
+               "id" : "config/portablevfx/effects/AttackNeedle/vfx.json",
+               "name" : "config/portablevfx/effects/AttackNeedle/vfx.json",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "358a8ffa8818d1b0c2dbe53247cddad6",
+                  "SHA256" : "3b114348293de810727ed0a604191abac68a86c1d428b24b42583e82afa3f2c9",
+                  "path" : "config/portablevfx/effects/AttackSword/textures/T_Petal.png",
+                  "size" : 2648,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/AttackSword/textures/T_Petal.png"
+               },
+               "id" : "config/portablevfx/effects/AttackSword/textures/T_Petal.png",
+               "name" : "config/portablevfx/effects/AttackSword/textures/T_Petal.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "41591b6a92a231cd03feaefffcf2418b",
+                  "SHA256" : "f8da78d320e9bf85644d1d139116c1bdc12e6a2ca74d00bd8736c02715282369",
+                  "path" : "config/portablevfx/effects/AttackSword/textures/T_Star4.png",
+                  "size" : 6248,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/AttackSword/textures/T_Star4.png"
+               },
+               "id" : "config/portablevfx/effects/AttackSword/textures/T_Star4.png",
+               "name" : "config/portablevfx/effects/AttackSword/textures/T_Star4.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "1f972df57feb1440fcabee598fb226e8",
+                  "SHA256" : "8fbb8c5ef04b2c23014aa35609fc5d8d1dbd33f4e5d487d81efac8ea5ad8d7ac",
+                  "path" : "config/portablevfx/effects/AttackSword/textures/T_Streak.png",
+                  "size" : 3447,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/AttackSword/textures/T_Streak.png"
+               },
+               "id" : "config/portablevfx/effects/AttackSword/textures/T_Streak.png",
+               "name" : "config/portablevfx/effects/AttackSword/textures/T_Streak.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "87fccdd0b778c8888bae6b07c512345b",
+                  "SHA256" : "b808ca4946332442aabfa98a5677e7b49afe115d5bdd02e5e456b503a0279993",
+                  "path" : "config/portablevfx/effects/AttackSword/textures/T_Stroke_Sheet.png",
+                  "size" : 54887,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/AttackSword/textures/T_Stroke_Sheet.png"
+               },
+               "id" : "config/portablevfx/effects/AttackSword/textures/T_Stroke_Sheet.png",
+               "name" : "config/portablevfx/effects/AttackSword/textures/T_Stroke_Sheet.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "4c7c6155277ffaf7b57a12e62777b20d",
+                  "SHA256" : "828ee9468c5c3da92a463e4cab9dbf51ccef231dc49638793395c8ae830297dd",
+                  "path" : "config/portablevfx/effects/AttackSword/vfx.json",
+                  "size" : 81367,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/AttackSword/vfx.json"
+               },
+               "id" : "config/portablevfx/effects/AttackSword/vfx.json",
+               "name" : "config/portablevfx/effects/AttackSword/vfx.json",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "66e724ecd25db95ab04112bf1e17a3bd",
+                  "SHA256" : "b5127bef568b56cf8cf574870ba0c734a604cb8a9e500bc35cc06c58aa41a391",
+                  "path" : "config/portablevfx/effects/DodgeDao/textures/T_Crack.png",
+                  "size" : 28675,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeDao/textures/T_Crack.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeDao/textures/T_Crack.png",
+               "name" : "config/portablevfx/effects/DodgeDao/textures/T_Crack.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "7e1c3efd31006c268fd58a69788a86a1",
+                  "SHA256" : "59425a85dccbc56f6cd9fdf9c6c70fa2a9f9065bd0134bd225a4e76ebc04387e",
+                  "path" : "config/portablevfx/effects/DodgeDao/textures/T_Debris.png",
+                  "size" : 2010,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeDao/textures/T_Debris.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeDao/textures/T_Debris.png",
+               "name" : "config/portablevfx/effects/DodgeDao/textures/T_Debris.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "56077ee0319c3f4494d038cc728b6e10",
+                  "SHA256" : "70718db4b9ee4321397d5ed3b76bc2f79b1cb5140dd775ccbaf87d23fdc51c44",
+                  "path" : "config/portablevfx/effects/DodgeDao/textures/T_Dot.png",
+                  "size" : 2484,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeDao/textures/T_Dot.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeDao/textures/T_Dot.png",
+               "name" : "config/portablevfx/effects/DodgeDao/textures/T_Dot.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "f282e2b849d7880ad36b3a3ea8ddc92b",
+                  "SHA256" : "20c49137777cfc2b11604bfabee8976c92da1f9c742a668f17089cf4243ead36",
+                  "path" : "config/portablevfx/effects/DodgeDao/textures/T_Dust_Sheet.png",
+                  "size" : 112473,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeDao/textures/T_Dust_Sheet.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeDao/textures/T_Dust_Sheet.png",
+               "name" : "config/portablevfx/effects/DodgeDao/textures/T_Dust_Sheet.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "45edfe7d4b9f3b66f31e41fe188f5eaf",
+                  "SHA256" : "5d8606df1e2164894c8b7405c6a10070278b0c85d90e0c39d4687c3c19e0acaa",
+                  "path" : "config/portablevfx/effects/DodgeDao/textures/T_Glow.png",
+                  "size" : 10194,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeDao/textures/T_Glow.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeDao/textures/T_Glow.png",
+               "name" : "config/portablevfx/effects/DodgeDao/textures/T_Glow.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "46a32f1e14ffbcadc4a7934ea7da6c76",
+                  "SHA256" : "512b11b866f147cae90406837a33b6d406fe1274d7387077a79711058e7b4cb3",
+                  "path" : "config/portablevfx/effects/DodgeDao/textures/T_Line.png",
+                  "size" : 304,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeDao/textures/T_Line.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeDao/textures/T_Line.png",
+               "name" : "config/portablevfx/effects/DodgeDao/textures/T_Line.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "d096b8357a60e23a36bbfb50cc0421de",
+                  "SHA256" : "115522c3d96ebc108173b165c43592e30305095508e57eb8e05a991a02267e49",
+                  "path" : "config/portablevfx/effects/DodgeDao/textures/T_Streak.png",
+                  "size" : 3310,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeDao/textures/T_Streak.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeDao/textures/T_Streak.png",
+               "name" : "config/portablevfx/effects/DodgeDao/textures/T_Streak.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "6cf32f28267008be3e984f1169e14199",
+                  "SHA256" : "5af6172e83360be69abc5f8227be4c68f16f3afd656ba5cce2e6a156ebc403fc",
+                  "path" : "config/portablevfx/effects/DodgeDao/textures/T_Stroke_Sheet.png",
+                  "size" : 66409,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeDao/textures/T_Stroke_Sheet.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeDao/textures/T_Stroke_Sheet.png",
+               "name" : "config/portablevfx/effects/DodgeDao/textures/T_Stroke_Sheet.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "471945a03cfca803ef5537d3365845a4",
+                  "SHA256" : "a000a88418f689561fb3e0de552b1c8d11c10627c3556eafe3e5621d42d352ee",
+                  "path" : "config/portablevfx/effects/DodgeDao/vfx.json",
+                  "size" : 100966,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeDao/vfx.json"
+               },
+               "id" : "config/portablevfx/effects/DodgeDao/vfx.json",
+               "name" : "config/portablevfx/effects/DodgeDao/vfx.json",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "2c2179b15c400e7d56016cc9bb3051fc",
+                  "SHA256" : "aa423c61d709ded018d5fb4d33a1bf576cc9deb62cb964d73ac0a61249bb3263",
+                  "path" : "config/portablevfx/effects/DodgeFan/textures/T_Dot.png",
+                  "size" : 2496,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeFan/textures/T_Dot.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeFan/textures/T_Dot.png",
+               "name" : "config/portablevfx/effects/DodgeFan/textures/T_Dot.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "c079faad27050fdeec3fd886927fa8bb",
+                  "SHA256" : "bbf3256ee9016f5508ba02bcd2ad56e3d1036c94944558e04b8e3cb6d3acd20f",
+                  "path" : "config/portablevfx/effects/DodgeFan/textures/T_Gust_Sheet.png",
+                  "size" : 82853,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeFan/textures/T_Gust_Sheet.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeFan/textures/T_Gust_Sheet.png",
+               "name" : "config/portablevfx/effects/DodgeFan/textures/T_Gust_Sheet.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "c2bb2d1ddc1e1d0aa4ba66ddf8ff5f3d",
+                  "SHA256" : "bad8b3fbb780fceb8b3346bf757131d0c7a0270d401baed5d7be87ed9e482bab",
+                  "path" : "config/portablevfx/effects/DodgeFan/textures/T_InkDot.png",
+                  "size" : 2060,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeFan/textures/T_InkDot.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeFan/textures/T_InkDot.png",
+               "name" : "config/portablevfx/effects/DodgeFan/textures/T_InkDot.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "bce5a8a3bb0c2e761c9b201ed0369146",
+                  "SHA256" : "4332b1e9aebc440df4c16f2064a620ec881ce0ff9d3ed402572214880fd1bd3e",
+                  "path" : "config/portablevfx/effects/DodgeFan/textures/T_Line.png",
+                  "size" : 311,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeFan/textures/T_Line.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeFan/textures/T_Line.png",
+               "name" : "config/portablevfx/effects/DodgeFan/textures/T_Line.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "cf66a3279bff245ac83dd4e93d3134a4",
+                  "SHA256" : "49cead1588742868a9d782f419fc04e53dc65d93e78a03a5f96b547adfb1f0ac",
+                  "path" : "config/portablevfx/effects/DodgeFan/textures/T_Streak.png",
+                  "size" : 3310,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeFan/textures/T_Streak.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeFan/textures/T_Streak.png",
+               "name" : "config/portablevfx/effects/DodgeFan/textures/T_Streak.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "c486edb383dcdc6cfb8f0a5726677b42",
+                  "SHA256" : "8e21e556225ef9250ef4482718b9c2372e56fbadedbbcdedd5800aeb7374cc54",
+                  "path" : "config/portablevfx/effects/DodgeFan/textures/T_Stroke_Sheet.png",
+                  "size" : 54891,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeFan/textures/T_Stroke_Sheet.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeFan/textures/T_Stroke_Sheet.png",
+               "name" : "config/portablevfx/effects/DodgeFan/textures/T_Stroke_Sheet.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "242c47218f8584d99db16d0f5bf67ff5",
+                  "SHA256" : "35c39b105f5abbb13ab4d4037d394237c1d13a72781cc84077cf5bfcb6569023",
+                  "path" : "config/portablevfx/effects/DodgeFan/textures/T_TaijiInk.png",
+                  "size" : 44625,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeFan/textures/T_TaijiInk.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeFan/textures/T_TaijiInk.png",
+               "name" : "config/portablevfx/effects/DodgeFan/textures/T_TaijiInk.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "bddb1aeceba871b1ac16c9dfdf0cd5af",
+                  "SHA256" : "231fe0bbc3aae7781528bea4384388a283243b12deabf328eee6c2ddeb490787",
+                  "path" : "config/portablevfx/effects/DodgeFan/textures/T_TaijiLight.png",
+                  "size" : 80667,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeFan/textures/T_TaijiLight.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeFan/textures/T_TaijiLight.png",
+               "name" : "config/portablevfx/effects/DodgeFan/textures/T_TaijiLight.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "0b31b4bdde2e2d3dde6a05c16916e683",
+                  "SHA256" : "41bb2037b66817022679bad6c120ac33500b57e6e3b948e5779083f21049e614",
+                  "path" : "config/portablevfx/effects/DodgeFan/vfx.json",
+                  "size" : 106784,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeFan/vfx.json"
+               },
+               "id" : "config/portablevfx/effects/DodgeFan/vfx.json",
+               "name" : "config/portablevfx/effects/DodgeFan/vfx.json",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "085909a9f0ba24074795a6112c5c9267",
+                  "SHA256" : "4d5aa83a2f065b8fc24e10e5c516bc55b99c8b8b780b2e88c4df74abf2cd8391",
+                  "path" : "config/portablevfx/effects/DodgeGauntlet/textures/T_Crack.png",
+                  "size" : 28587,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeGauntlet/textures/T_Crack.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeGauntlet/textures/T_Crack.png",
+               "name" : "config/portablevfx/effects/DodgeGauntlet/textures/T_Crack.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "4c750413f78e7706779bed46b39ae105",
+                  "SHA256" : "3dbc50b58b30cfc8fa0914957f9e7e2312ca2ad3c18c58409469bc8ab9ea73f4",
+                  "path" : "config/portablevfx/effects/DodgeGauntlet/textures/T_Debris.png",
+                  "size" : 2004,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeGauntlet/textures/T_Debris.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeGauntlet/textures/T_Debris.png",
+               "name" : "config/portablevfx/effects/DodgeGauntlet/textures/T_Debris.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "0a10cce8f79bf8ce0b0e09753e885868",
+                  "SHA256" : "4b0d219a9869173035a81c30f775db2e46f17a6fecdb8511f25a11c03a930cc0",
+                  "path" : "config/portablevfx/effects/DodgeGauntlet/textures/T_Dot.png",
+                  "size" : 2521,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeGauntlet/textures/T_Dot.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeGauntlet/textures/T_Dot.png",
+               "name" : "config/portablevfx/effects/DodgeGauntlet/textures/T_Dot.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "f282e2b849d7880ad36b3a3ea8ddc92b",
+                  "SHA256" : "20c49137777cfc2b11604bfabee8976c92da1f9c742a668f17089cf4243ead36",
+                  "path" : "config/portablevfx/effects/DodgeGauntlet/textures/T_Dust_Sheet.png",
+                  "size" : 112473,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeGauntlet/textures/T_Dust_Sheet.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeGauntlet/textures/T_Dust_Sheet.png",
+               "name" : "config/portablevfx/effects/DodgeGauntlet/textures/T_Dust_Sheet.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "223f1337a43963c9dafa447db2dcb99f",
+                  "SHA256" : "2e75e1871c990b3546dcdc0e93269d13bc7e2b7ce96293442847f9e611a12745",
+                  "path" : "config/portablevfx/effects/DodgeGauntlet/textures/T_Glow.png",
+                  "size" : 11117,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeGauntlet/textures/T_Glow.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeGauntlet/textures/T_Glow.png",
+               "name" : "config/portablevfx/effects/DodgeGauntlet/textures/T_Glow.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "eb5a76c29bc67d9a9bfecb04c1ddbb54",
+                  "SHA256" : "3db3552aa900fa75782cc7f55caa14e734b8e29a068109d47a9cda9461677a4b",
+                  "path" : "config/portablevfx/effects/DodgeGauntlet/textures/T_Halo.png",
+                  "size" : 54290,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeGauntlet/textures/T_Halo.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeGauntlet/textures/T_Halo.png",
+               "name" : "config/portablevfx/effects/DodgeGauntlet/textures/T_Halo.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "cacd6e458564fef6115a4d3419e9126d",
+                  "SHA256" : "35c8c52fe3091613c7e70de6c138024ec4d6492dcc7d84c75cc5c5835f5796ee",
+                  "path" : "config/portablevfx/effects/DodgeGauntlet/textures/T_Line.png",
+                  "size" : 295,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeGauntlet/textures/T_Line.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeGauntlet/textures/T_Line.png",
+               "name" : "config/portablevfx/effects/DodgeGauntlet/textures/T_Line.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "d4fe7e84d81b2d7dcad59d6c5ab28587",
+                  "SHA256" : "31f6535901fd3d64820d026f550d2e94f0575d7bc601ded1e7db3981dfba12c9",
+                  "path" : "config/portablevfx/effects/DodgeGauntlet/textures/T_Ring.png",
+                  "size" : 41390,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeGauntlet/textures/T_Ring.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeGauntlet/textures/T_Ring.png",
+               "name" : "config/portablevfx/effects/DodgeGauntlet/textures/T_Ring.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "62c176543aa9f618030f29667a8f0585",
+                  "SHA256" : "e355a7e7aa33d9abdede685839098d4443852c0dcc90883857fc9536231370ec",
+                  "path" : "config/portablevfx/effects/DodgeGauntlet/textures/T_Star4.png",
+                  "size" : 6521,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeGauntlet/textures/T_Star4.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeGauntlet/textures/T_Star4.png",
+               "name" : "config/portablevfx/effects/DodgeGauntlet/textures/T_Star4.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "1243ae9cd9e006ac29f0901c297f109d",
+                  "SHA256" : "5631e9b6aee7c0f4fdf47cdd28703c8ef07a0f735ff771af33b81f8e9b069624",
+                  "path" : "config/portablevfx/effects/DodgeGauntlet/textures/T_Streak.png",
+                  "size" : 3165,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeGauntlet/textures/T_Streak.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeGauntlet/textures/T_Streak.png",
+               "name" : "config/portablevfx/effects/DodgeGauntlet/textures/T_Streak.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "595f54a0b49d1673c826226dbb7919cb",
+                  "SHA256" : "39b8a873c262043d738a6a0df687820aff7e3baa98c6de267d5ddade6c941d57",
+                  "path" : "config/portablevfx/effects/DodgeGauntlet/vfx.json",
+                  "size" : 79366,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeGauntlet/vfx.json"
+               },
+               "id" : "config/portablevfx/effects/DodgeGauntlet/vfx.json",
+               "name" : "config/portablevfx/effects/DodgeGauntlet/vfx.json",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "b26229ffeaa31c53ec224359f35f14a7",
+                  "SHA256" : "de26f429d72a93802cf1e98f55236a6c0f5955eca115c04148ba19c63756e5ff",
+                  "path" : "config/portablevfx/effects/DodgeNeedle/textures/T_Dot.png",
+                  "size" : 2496,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeNeedle/textures/T_Dot.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeNeedle/textures/T_Dot.png",
+               "name" : "config/portablevfx/effects/DodgeNeedle/textures/T_Dot.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "546fc36ceb4e283ce7ab3d7c77345c0f",
+                  "SHA256" : "33e62031e1b9edde8178ea0da837657c3e9922047b9eb68b0234bc32ce8c5589",
+                  "path" : "config/portablevfx/effects/DodgeNeedle/textures/T_Leaf.png",
+                  "size" : 1938,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeNeedle/textures/T_Leaf.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeNeedle/textures/T_Leaf.png",
+               "name" : "config/portablevfx/effects/DodgeNeedle/textures/T_Leaf.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "8bfddf890a363fb01634b6136d190d5c",
+                  "SHA256" : "08ddb5506e6facccb13b0d368d1b5e41fdc171d2913ae665a37bb755602e8275",
+                  "path" : "config/portablevfx/effects/DodgeNeedle/textures/T_Line.png",
+                  "size" : 313,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeNeedle/textures/T_Line.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeNeedle/textures/T_Line.png",
+               "name" : "config/portablevfx/effects/DodgeNeedle/textures/T_Line.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "b50b607fc4c30d33b17e3753dba4965a",
+                  "SHA256" : "bdc3bf71f9382f6fcba5183dc473a93a4ec46efd334364bf67914db52051894e",
+                  "path" : "config/portablevfx/effects/DodgeNeedle/textures/T_Mist_Sheet.png",
+                  "size" : 111548,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeNeedle/textures/T_Mist_Sheet.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeNeedle/textures/T_Mist_Sheet.png",
+               "name" : "config/portablevfx/effects/DodgeNeedle/textures/T_Mist_Sheet.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "ddd58b9ab5d3bc5d437f13b6d7cb3aac",
+                  "SHA256" : "8d4a70dbb6c5fce8c67b520590a4c17e70329e2dedc8ac356511c67026981779",
+                  "path" : "config/portablevfx/effects/DodgeNeedle/textures/T_Needle.png",
+                  "size" : 1142,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeNeedle/textures/T_Needle.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeNeedle/textures/T_Needle.png",
+               "name" : "config/portablevfx/effects/DodgeNeedle/textures/T_Needle.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "a4f2a1dbd35c37f98cd719af6c544856",
+                  "SHA256" : "db9a0451531d6baa1d8302f21fd28fa2b08103b428276d78b0f17e6af0d011f9",
+                  "path" : "config/portablevfx/effects/DodgeNeedle/textures/T_Ring.png",
+                  "size" : 43200,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeNeedle/textures/T_Ring.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeNeedle/textures/T_Ring.png",
+               "name" : "config/portablevfx/effects/DodgeNeedle/textures/T_Ring.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "bdf4b7f21b6b3adc45b6267edfeb3686",
+                  "SHA256" : "4689458cc890c774700d9c00e0dba11bf12f9b12d238466bab7f6e80f6c2ab2a",
+                  "path" : "config/portablevfx/effects/DodgeNeedle/textures/T_Star4.png",
+                  "size" : 7011,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeNeedle/textures/T_Star4.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeNeedle/textures/T_Star4.png",
+               "name" : "config/portablevfx/effects/DodgeNeedle/textures/T_Star4.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "a6f4acd805d065cb7bfd98f83d65380f",
+                  "SHA256" : "b059efcfa051ba50f5ff32b3bc854569382a78f7af9bedb0106cfe1cf5b95578",
+                  "path" : "config/portablevfx/effects/DodgeNeedle/textures/T_Streak.png",
+                  "size" : 3376,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeNeedle/textures/T_Streak.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeNeedle/textures/T_Streak.png",
+               "name" : "config/portablevfx/effects/DodgeNeedle/textures/T_Streak.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "5bea5ace1d2345a0a933f2a1984ff523",
+                  "SHA256" : "ae63735351d6c20a33531ce19b7e2da66fa36c7130022113c8c9db92bb6f8077",
+                  "path" : "config/portablevfx/effects/DodgeNeedle/textures/T_Stroke_Sheet.png",
+                  "size" : 42346,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeNeedle/textures/T_Stroke_Sheet.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeNeedle/textures/T_Stroke_Sheet.png",
+               "name" : "config/portablevfx/effects/DodgeNeedle/textures/T_Stroke_Sheet.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "846fc2315732e35ba5ab35ac2a1e04bb",
+                  "SHA256" : "27924678bfdd6deb1fd2001237e7c8b138e3732c8fc4a9af6bcc823a518bfacc",
+                  "path" : "config/portablevfx/effects/DodgeNeedle/vfx.json",
+                  "size" : 105535,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeNeedle/vfx.json"
+               },
+               "id" : "config/portablevfx/effects/DodgeNeedle/vfx.json",
+               "name" : "config/portablevfx/effects/DodgeNeedle/vfx.json",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "4ea6201e199de2413cbcee2a3a070a3e",
+                  "SHA256" : "c0391f53bc0e74ecbfdb8acafd5a0424735d8f653c9005bba2b3ae505face6b8",
+                  "path" : "config/portablevfx/effects/DodgeSword/textures/T_Glow.png",
+                  "size" : 11040,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeSword/textures/T_Glow.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeSword/textures/T_Glow.png",
+               "name" : "config/portablevfx/effects/DodgeSword/textures/T_Glow.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "d5c7d682c167ce9e7be04f574c1003a6",
+                  "SHA256" : "4dc4212bfa6ef90a7cad65bed02e569d7a895bf9cc65b54f0b3817d5504e777a",
+                  "path" : "config/portablevfx/effects/DodgeSword/textures/T_InkPetal.png",
+                  "size" : 2041,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeSword/textures/T_InkPetal.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeSword/textures/T_InkPetal.png",
+               "name" : "config/portablevfx/effects/DodgeSword/textures/T_InkPetal.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "9df986fc12abb5ba9d6d4f6806b4f10f",
+                  "SHA256" : "cecf82c3da973d993782a4ab508c78c647b8c8f45a8c6a8b7f9134bfbb55f526",
+                  "path" : "config/portablevfx/effects/DodgeSword/textures/T_Line.png",
+                  "size" : 309,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeSword/textures/T_Line.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeSword/textures/T_Line.png",
+               "name" : "config/portablevfx/effects/DodgeSword/textures/T_Line.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "358a8ffa8818d1b0c2dbe53247cddad6",
+                  "SHA256" : "3b114348293de810727ed0a604191abac68a86c1d428b24b42583e82afa3f2c9",
+                  "path" : "config/portablevfx/effects/DodgeSword/textures/T_Petal.png",
+                  "size" : 2648,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeSword/textures/T_Petal.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeSword/textures/T_Petal.png",
+               "name" : "config/portablevfx/effects/DodgeSword/textures/T_Petal.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "70c6b054b437688345d87e96e6b093e1",
+                  "SHA256" : "e7bf1c2d56af16d67a4ee2cb4534d9986d35be200df6c30143451c5d9b2134a6",
+                  "path" : "config/portablevfx/effects/DodgeSword/textures/T_Plum.png",
+                  "size" : 8295,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeSword/textures/T_Plum.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeSword/textures/T_Plum.png",
+               "name" : "config/portablevfx/effects/DodgeSword/textures/T_Plum.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "41591b6a92a231cd03feaefffcf2418b",
+                  "SHA256" : "f8da78d320e9bf85644d1d139116c1bdc12e6a2ca74d00bd8736c02715282369",
+                  "path" : "config/portablevfx/effects/DodgeSword/textures/T_Star4.png",
+                  "size" : 6248,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeSword/textures/T_Star4.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeSword/textures/T_Star4.png",
+               "name" : "config/portablevfx/effects/DodgeSword/textures/T_Star4.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "1f972df57feb1440fcabee598fb226e8",
+                  "SHA256" : "8fbb8c5ef04b2c23014aa35609fc5d8d1dbd33f4e5d487d81efac8ea5ad8d7ac",
+                  "path" : "config/portablevfx/effects/DodgeSword/textures/T_Streak.png",
+                  "size" : 3447,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeSword/textures/T_Streak.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeSword/textures/T_Streak.png",
+               "name" : "config/portablevfx/effects/DodgeSword/textures/T_Streak.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "87fccdd0b778c8888bae6b07c512345b",
+                  "SHA256" : "b808ca4946332442aabfa98a5677e7b49afe115d5bdd02e5e456b503a0279993",
+                  "path" : "config/portablevfx/effects/DodgeSword/textures/T_Stroke_Sheet.png",
+                  "size" : 54887,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeSword/textures/T_Stroke_Sheet.png"
+               },
+               "id" : "config/portablevfx/effects/DodgeSword/textures/T_Stroke_Sheet.png",
+               "name" : "config/portablevfx/effects/DodgeSword/textures/T_Stroke_Sheet.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "dd591c0b978b7c284a2e70ae513b718e",
+                  "SHA256" : "bbf8f6e3a7e705bad763a2c05881888c4cae29e4362647c73bb322e8daf4f0a3",
+                  "path" : "config/portablevfx/effects/DodgeSword/vfx.json",
+                  "size" : 109313,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/DodgeSword/vfx.json"
+               },
+               "id" : "config/portablevfx/effects/DodgeSword/vfx.json",
+               "name" : "config/portablevfx/effects/DodgeSword/vfx.json",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "b526df70dfeae76d17bd36a3db772bd9",
+                  "SHA256" : "37af9d09522401b3d8f67729b7ebe0d7bfb7d80e09beb803c5350f5114025cd9",
+                  "path" : "config/portablevfx/effects/EntryAmi/textures/T_Glow.png",
+                  "size" : 10542,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryAmi/textures/T_Glow.png"
+               },
+               "id" : "config/portablevfx/effects/EntryAmi/textures/T_Glow.png",
+               "name" : "config/portablevfx/effects/EntryAmi/textures/T_Glow.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "ed8900073fc8402213bfbca402532d90",
+                  "SHA256" : "b96b3798dac7830e72fe8f78e2ce2231b7a5ca112d6b77f54bf20e178a55c84a",
+                  "path" : "config/portablevfx/effects/EntryAmi/textures/T_Glow_G.png",
+                  "size" : 11850,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryAmi/textures/T_Glow_G.png"
+               },
+               "id" : "config/portablevfx/effects/EntryAmi/textures/T_Glow_G.png",
+               "name" : "config/portablevfx/effects/EntryAmi/textures/T_Glow_G.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "dfbf4f27cc3249aab7ae35dcccd384a4",
+                  "SHA256" : "2c384e4ddda59e9b562cf47bfb7b97d01d94bdd8e52aef85c5cf2836aa597394",
+                  "path" : "config/portablevfx/effects/EntryAmi/textures/T_Halo.png",
+                  "size" : 55395,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryAmi/textures/T_Halo.png"
+               },
+               "id" : "config/portablevfx/effects/EntryAmi/textures/T_Halo.png",
+               "name" : "config/portablevfx/effects/EntryAmi/textures/T_Halo.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "13fd1ff7841b77bb1f16c13af70250c3",
+                  "SHA256" : "936bad9023699c128c1170816ae29c2305d0a90cac06bdfd0d53ab75efb94021",
+                  "path" : "config/portablevfx/effects/EntryAmi/textures/T_Line.png",
+                  "size" : 293,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryAmi/textures/T_Line.png"
+               },
+               "id" : "config/portablevfx/effects/EntryAmi/textures/T_Line.png",
+               "name" : "config/portablevfx/effects/EntryAmi/textures/T_Line.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "492cf8c4b9210d89208aa0ed09030f06",
+                  "SHA256" : "d39b7161ba0e854ab601f3478997a848ad311ab3db4eb48206a43ea353aff4c4",
+                  "path" : "config/portablevfx/effects/EntryAmi/textures/T_Lotus.png",
+                  "size" : 32701,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryAmi/textures/T_Lotus.png"
+               },
+               "id" : "config/portablevfx/effects/EntryAmi/textures/T_Lotus.png",
+               "name" : "config/portablevfx/effects/EntryAmi/textures/T_Lotus.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "7e40f8ffcfe2b88c4811ecd960bbfa7b",
+                  "SHA256" : "6178262db020a2d465b39d8c96c467650c4be38d8936ff30206691d364a3821e",
+                  "path" : "config/portablevfx/effects/EntryAmi/textures/T_Needle.png",
+                  "size" : 1127,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryAmi/textures/T_Needle.png"
+               },
+               "id" : "config/portablevfx/effects/EntryAmi/textures/T_Needle.png",
+               "name" : "config/portablevfx/effects/EntryAmi/textures/T_Needle.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "ad2290d5a3e2511c38c2dc7864ce7523",
+                  "SHA256" : "00a74345058b71359dcf719eaaa1a52f15fe3aa6ff685e8a58c2f2e4dffe9db7",
+                  "path" : "config/portablevfx/effects/EntryAmi/textures/T_Petal.png",
+                  "size" : 2562,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryAmi/textures/T_Petal.png"
+               },
+               "id" : "config/portablevfx/effects/EntryAmi/textures/T_Petal.png",
+               "name" : "config/portablevfx/effects/EntryAmi/textures/T_Petal.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "e4815e3eaa34b77671a002136b5e27ae",
+                  "SHA256" : "09a8906f66884e511e4f66cbdb35038563c8de920fd096fb7441b75b2a18ca0f",
+                  "path" : "config/portablevfx/effects/EntryAmi/textures/T_Star4.png",
+                  "size" : 6402,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryAmi/textures/T_Star4.png"
+               },
+               "id" : "config/portablevfx/effects/EntryAmi/textures/T_Star4.png",
+               "name" : "config/portablevfx/effects/EntryAmi/textures/T_Star4.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "d72ba2f52904c62cd6a0751e5afa9151",
+                  "SHA256" : "66af504927e8f53abf4a92652ff5b9959036697aca511aa5e4c1a8fa8727c057",
+                  "path" : "config/portablevfx/effects/EntryAmi/textures/T_Streak.png",
+                  "size" : 3193,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryAmi/textures/T_Streak.png"
+               },
+               "id" : "config/portablevfx/effects/EntryAmi/textures/T_Streak.png",
+               "name" : "config/portablevfx/effects/EntryAmi/textures/T_Streak.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "5c3f803ab7850881f658e05ecf002ff7",
+                  "SHA256" : "f98a727fe46de193768cd943e1712dea0d43e6fc449a1a502988a2c57dc9e348",
+                  "path" : "config/portablevfx/effects/EntryAmi/textures/T_Stroke_Sheet.png",
+                  "size" : 54021,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryAmi/textures/T_Stroke_Sheet.png"
+               },
+               "id" : "config/portablevfx/effects/EntryAmi/textures/T_Stroke_Sheet.png",
+               "name" : "config/portablevfx/effects/EntryAmi/textures/T_Stroke_Sheet.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "a0055493126e4d0932bb60fdeeba60cb",
+                  "SHA256" : "b02f2d6906c5ca040449348c995b97ee933abbc3f0bb3f1bfe943a3dcb422349",
+                  "path" : "config/portablevfx/effects/EntryAmi/vfx.json",
+                  "size" : 132262,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryAmi/vfx.json"
+               },
+               "id" : "config/portablevfx/effects/EntryAmi/vfx.json",
+               "name" : "config/portablevfx/effects/EntryAmi/vfx.json",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "53580dddf266f1cb4809e6d7b4a9bd21",
+                  "SHA256" : "d40245f6a49f0965c1b081675e89d6bb546178a212ca8b1be3370b940dee390b",
+                  "path" : "config/portablevfx/effects/EntryCheongseong/textures/T_Bolt_Sheet.png",
+                  "size" : 50811,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryCheongseong/textures/T_Bolt_Sheet.png"
+               },
+               "id" : "config/portablevfx/effects/EntryCheongseong/textures/T_Bolt_Sheet.png",
+               "name" : "config/portablevfx/effects/EntryCheongseong/textures/T_Bolt_Sheet.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "5422ef654092f13fca88ecb3fbd1ac87",
+                  "SHA256" : "32dd1d78654174e17a0e77ad206da8fec75e9918f90342aefcf52ca7cf2dd3ff",
+                  "path" : "config/portablevfx/effects/EntryCheongseong/textures/T_Flame_Sheet.png",
+                  "size" : 126586,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryCheongseong/textures/T_Flame_Sheet.png"
+               },
+               "id" : "config/portablevfx/effects/EntryCheongseong/textures/T_Flame_Sheet.png",
+               "name" : "config/portablevfx/effects/EntryCheongseong/textures/T_Flame_Sheet.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "0fbe85e931e16e19185ebf88a4722461",
+                  "SHA256" : "9aab4cf42c2ede41de0f360e3291ea812cd7c3b84a2c873088e87c888bd28c46",
+                  "path" : "config/portablevfx/effects/EntryCheongseong/textures/T_Glow.png",
+                  "size" : 10489,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryCheongseong/textures/T_Glow.png"
+               },
+               "id" : "config/portablevfx/effects/EntryCheongseong/textures/T_Glow.png",
+               "name" : "config/portablevfx/effects/EntryCheongseong/textures/T_Glow.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "ed8900073fc8402213bfbca402532d90",
+                  "SHA256" : "b96b3798dac7830e72fe8f78e2ce2231b7a5ca112d6b77f54bf20e178a55c84a",
+                  "path" : "config/portablevfx/effects/EntryCheongseong/textures/T_Glow_G.png",
+                  "size" : 11850,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryCheongseong/textures/T_Glow_G.png"
+               },
+               "id" : "config/portablevfx/effects/EntryCheongseong/textures/T_Glow_G.png",
+               "name" : "config/portablevfx/effects/EntryCheongseong/textures/T_Glow_G.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "a4a5ecb5df8f92381933d7a509a9de3c",
+                  "SHA256" : "bd86fa963daa87179dc65bb86b5fd0cb9d010511e92eba502914b997d33eda88",
+                  "path" : "config/portablevfx/effects/EntryCheongseong/textures/T_Line.png",
+                  "size" : 297,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryCheongseong/textures/T_Line.png"
+               },
+               "id" : "config/portablevfx/effects/EntryCheongseong/textures/T_Line.png",
+               "name" : "config/portablevfx/effects/EntryCheongseong/textures/T_Line.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "9e7e3717f7da086b8f9af45468f88373",
+                  "SHA256" : "4867b6cb8a13648e9cdb52be15bf8a4de3c2d79d0fdc6e0f1596f11f9e09ad45",
+                  "path" : "config/portablevfx/effects/EntryCheongseong/textures/T_Seal.png",
+                  "size" : 62146,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryCheongseong/textures/T_Seal.png"
+               },
+               "id" : "config/portablevfx/effects/EntryCheongseong/textures/T_Seal.png",
+               "name" : "config/portablevfx/effects/EntryCheongseong/textures/T_Seal.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "2ddcb4691292564cf350e6c6fd14b864",
+                  "SHA256" : "e2b42d9b924e4c0e8e1eefe84253dbc57afee24c2af961095b633d63e44031cc",
+                  "path" : "config/portablevfx/effects/EntryCheongseong/textures/T_Star4.png",
+                  "size" : 6535,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryCheongseong/textures/T_Star4.png"
+               },
+               "id" : "config/portablevfx/effects/EntryCheongseong/textures/T_Star4.png",
+               "name" : "config/portablevfx/effects/EntryCheongseong/textures/T_Star4.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "deeccb6405078d1d2c610808d5a77222",
+                  "SHA256" : "c535f2c91ca6a66c550681ee7a6e22b52aadead3b5309edfc1a4f60561b3083a",
+                  "path" : "config/portablevfx/effects/EntryCheongseong/textures/T_Streak.png",
+                  "size" : 2940,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryCheongseong/textures/T_Streak.png"
+               },
+               "id" : "config/portablevfx/effects/EntryCheongseong/textures/T_Streak.png",
+               "name" : "config/portablevfx/effects/EntryCheongseong/textures/T_Streak.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "7e45141571a0a7bc33374f6e0dea31bf",
+                  "SHA256" : "fde8254d2729a41a15ea1684a3109a0906651fc97e4c510224fe4a4cb7104a8a",
+                  "path" : "config/portablevfx/effects/EntryCheongseong/textures/T_Streak_G.png",
+                  "size" : 3313,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryCheongseong/textures/T_Streak_G.png"
+               },
+               "id" : "config/portablevfx/effects/EntryCheongseong/textures/T_Streak_G.png",
+               "name" : "config/portablevfx/effects/EntryCheongseong/textures/T_Streak_G.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "1a2986730d9c4e3a6ce4892dd003deae",
+                  "SHA256" : "5cc83ef05054618f49d0ad990b13a702232215374e35f2cd7e1579efff5a9661",
+                  "path" : "config/portablevfx/effects/EntryCheongseong/textures/T_Talisman.png",
+                  "size" : 37989,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryCheongseong/textures/T_Talisman.png"
+               },
+               "id" : "config/portablevfx/effects/EntryCheongseong/textures/T_Talisman.png",
+               "name" : "config/portablevfx/effects/EntryCheongseong/textures/T_Talisman.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "287c01b2be6e5b6059bee78f04a7dbee",
+                  "SHA256" : "3d22a68f5d760ce28dbf21b15db88fd8475587471e51554e33f3525f30d73985",
+                  "path" : "config/portablevfx/effects/EntryCheongseong/vfx.json",
+                  "size" : 299275,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryCheongseong/vfx.json"
+               },
+               "id" : "config/portablevfx/effects/EntryCheongseong/vfx.json",
+               "name" : "config/portablevfx/effects/EntryCheongseong/vfx.json",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "aa3409265b81198671d56a81b2f5e1eb",
+                  "SHA256" : "b2310521e70c022ae64a02521731d3a6d8c2eeaf6b3e47655e3e23512d91aa14",
+                  "path" : "config/portablevfx/effects/EntryDang/textures/T_Bubble.png",
+                  "size" : 6367,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryDang/textures/T_Bubble.png"
+               },
+               "id" : "config/portablevfx/effects/EntryDang/textures/T_Bubble.png",
+               "name" : "config/portablevfx/effects/EntryDang/textures/T_Bubble.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "b53f5549bfa83930b24316943445480a",
+                  "SHA256" : "09dee7c79d403458e28053acd55198e5a55cc00675fa2750fae2fdbe414f7f17",
+                  "path" : "config/portablevfx/effects/EntryDang/textures/T_Dot_V.png",
+                  "size" : 2467,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryDang/textures/T_Dot_V.png"
+               },
+               "id" : "config/portablevfx/effects/EntryDang/textures/T_Dot_V.png",
+               "name" : "config/portablevfx/effects/EntryDang/textures/T_Dot_V.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "ed8900073fc8402213bfbca402532d90",
+                  "SHA256" : "b96b3798dac7830e72fe8f78e2ce2231b7a5ca112d6b77f54bf20e178a55c84a",
+                  "path" : "config/portablevfx/effects/EntryDang/textures/T_Glow.png",
+                  "size" : 11850,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryDang/textures/T_Glow.png"
+               },
+               "id" : "config/portablevfx/effects/EntryDang/textures/T_Glow.png",
+               "name" : "config/portablevfx/effects/EntryDang/textures/T_Glow.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "17beac05b188b51dc885ab1d61d800ed",
+                  "SHA256" : "f1e24f49347fded9de05be41b12c11b61be0f9d53cb0dc487f2ee49b2b1e3a76",
+                  "path" : "config/portablevfx/effects/EntryDang/textures/T_Glow_V.png",
+                  "size" : 11799,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryDang/textures/T_Glow_V.png"
+               },
+               "id" : "config/portablevfx/effects/EntryDang/textures/T_Glow_V.png",
+               "name" : "config/portablevfx/effects/EntryDang/textures/T_Glow_V.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "75f588027703477842502c8197d3edc5",
+                  "SHA256" : "a3e8f6dbd527d1bd5fe7c034defee363fb73cb8117d6634b2c24b4916ad379b2",
+                  "path" : "config/portablevfx/effects/EntryDang/textures/T_Line.png",
+                  "size" : 302,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryDang/textures/T_Line.png"
+               },
+               "id" : "config/portablevfx/effects/EntryDang/textures/T_Line.png",
+               "name" : "config/portablevfx/effects/EntryDang/textures/T_Line.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "8ad61bf84dff1c28a110a4e8a06a1bb4",
+                  "SHA256" : "fd3ff0cf896a6aac27d707b4de41510c0883b336d9db37c34a89076c10c33acd",
+                  "path" : "config/portablevfx/effects/EntryDang/textures/T_Line_V.png",
+                  "size" : 301,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryDang/textures/T_Line_V.png"
+               },
+               "id" : "config/portablevfx/effects/EntryDang/textures/T_Line_V.png",
+               "name" : "config/portablevfx/effects/EntryDang/textures/T_Line_V.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "b50b607fc4c30d33b17e3753dba4965a",
+                  "SHA256" : "bdc3bf71f9382f6fcba5183dc473a93a4ec46efd334364bf67914db52051894e",
+                  "path" : "config/portablevfx/effects/EntryDang/textures/T_Mist_Sheet.png",
+                  "size" : 111548,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryDang/textures/T_Mist_Sheet.png"
+               },
+               "id" : "config/portablevfx/effects/EntryDang/textures/T_Mist_Sheet.png",
+               "name" : "config/portablevfx/effects/EntryDang/textures/T_Mist_Sheet.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "7e40f8ffcfe2b88c4811ecd960bbfa7b",
+                  "SHA256" : "6178262db020a2d465b39d8c96c467650c4be38d8936ff30206691d364a3821e",
+                  "path" : "config/portablevfx/effects/EntryDang/textures/T_Needle.png",
+                  "size" : 1127,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryDang/textures/T_Needle.png"
+               },
+               "id" : "config/portablevfx/effects/EntryDang/textures/T_Needle.png",
+               "name" : "config/portablevfx/effects/EntryDang/textures/T_Needle.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "0cf5a7becc34df5b0d94b9fdecbf3855",
+                  "SHA256" : "86398f5d9d8a545360f0f9c745451f8b74ff337536229ab67c92fc92444d802f",
+                  "path" : "config/portablevfx/effects/EntryDang/textures/T_Seal.png",
+                  "size" : 64737,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryDang/textures/T_Seal.png"
+               },
+               "id" : "config/portablevfx/effects/EntryDang/textures/T_Seal.png",
+               "name" : "config/portablevfx/effects/EntryDang/textures/T_Seal.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "f38bd2d06fdd5990a10b767920296e9e",
+                  "SHA256" : "57f04cf95f6065593942906da494f7cdae805f2f280270d49cab3b39a4904388",
+                  "path" : "config/portablevfx/effects/EntryDang/textures/T_Star4.png",
+                  "size" : 6818,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryDang/textures/T_Star4.png"
+               },
+               "id" : "config/portablevfx/effects/EntryDang/textures/T_Star4.png",
+               "name" : "config/portablevfx/effects/EntryDang/textures/T_Star4.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "a187bf53072e7f5991915c3d89ac816f",
+                  "SHA256" : "76d4b4ece80b4de786b450bfbf9ecf0c3da80e84eeb976c70737f50a11150f31",
+                  "path" : "config/portablevfx/effects/EntryDang/textures/T_Streak_V.png",
+                  "size" : 3313,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryDang/textures/T_Streak_V.png"
+               },
+               "id" : "config/portablevfx/effects/EntryDang/textures/T_Streak_V.png",
+               "name" : "config/portablevfx/effects/EntryDang/textures/T_Streak_V.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "66787ca71b217359d4aaf64e61c49903",
+                  "SHA256" : "2f839b54c561158d250ad09ba390c4af33d73b0a8cb8dcf975d4bc18cdc76c7e",
+                  "path" : "config/portablevfx/effects/EntryDang/vfx.json",
+                  "size" : 142340,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryDang/vfx.json"
+               },
+               "id" : "config/portablevfx/effects/EntryDang/vfx.json",
+               "name" : "config/portablevfx/effects/EntryDang/vfx.json",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "9beeba2196ea6af187593e4a0bea8f81",
+                  "SHA256" : "aedee0b3cf6578bee7a12d2f823ec9987fe52edcf0a59c239bc352c34e73cc30",
+                  "path" : "config/portablevfx/effects/EntryGaebang/textures/T_Dust_Sheet.png",
+                  "size" : 69944,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryGaebang/textures/T_Dust_Sheet.png"
+               },
+               "id" : "config/portablevfx/effects/EntryGaebang/textures/T_Dust_Sheet.png",
+               "name" : "config/portablevfx/effects/EntryGaebang/textures/T_Dust_Sheet.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "44cf310bc2635331cd35dade66a2b83b",
+                  "SHA256" : "0b63c5907ebd216940d1e553a13d7d158e545652a5f403c0ab9cc7ea83d10697",
+                  "path" : "config/portablevfx/effects/EntryGaebang/textures/T_Glow.png",
+                  "size" : 11738,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryGaebang/textures/T_Glow.png"
+               },
+               "id" : "config/portablevfx/effects/EntryGaebang/textures/T_Glow.png",
+               "name" : "config/portablevfx/effects/EntryGaebang/textures/T_Glow.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "0f5ed08722cd6286cf487ec574c864de",
+                  "SHA256" : "2e1fc8ab69a938d02f874478307ecb5ac44968cd34bd094c7d103355e3c8ece8",
+                  "path" : "config/portablevfx/effects/EntryGaebang/textures/T_Leaf.png",
+                  "size" : 1590,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryGaebang/textures/T_Leaf.png"
+               },
+               "id" : "config/portablevfx/effects/EntryGaebang/textures/T_Leaf.png",
+               "name" : "config/portablevfx/effects/EntryGaebang/textures/T_Leaf.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "4272fe7981763d56ef8d938a5386141f",
+                  "SHA256" : "1ea7c738368305e013a0485002f88267ab59e2874a85dc45f4ca54e2635e2273",
+                  "path" : "config/portablevfx/effects/EntryGaebang/textures/T_Line.png",
+                  "size" : 309,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryGaebang/textures/T_Line.png"
+               },
+               "id" : "config/portablevfx/effects/EntryGaebang/textures/T_Line.png",
+               "name" : "config/portablevfx/effects/EntryGaebang/textures/T_Line.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "02f86c8c053d3ae16d4adf89ce9a9f21",
+                  "SHA256" : "6ec89b3c131c00cb22ca8010a1190a1c2195090b555d83ef6a18cde58aadb771",
+                  "path" : "config/portablevfx/effects/EntryGaebang/textures/T_Star4.png",
+                  "size" : 7126,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryGaebang/textures/T_Star4.png"
+               },
+               "id" : "config/portablevfx/effects/EntryGaebang/textures/T_Star4.png",
+               "name" : "config/portablevfx/effects/EntryGaebang/textures/T_Star4.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "807e084ee45d6efbb7b67f514ac81dca",
+                  "SHA256" : "216d9da2731427a1164568e49c2e657699d6d28a2b47ac57ad72d900807ae69e",
+                  "path" : "config/portablevfx/effects/EntryGaebang/textures/T_Streak.png",
+                  "size" : 3544,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryGaebang/textures/T_Streak.png"
+               },
+               "id" : "config/portablevfx/effects/EntryGaebang/textures/T_Streak.png",
+               "name" : "config/portablevfx/effects/EntryGaebang/textures/T_Streak.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "4d797cbfca3527631f1671bc215e69f7",
+                  "SHA256" : "6b4c134468abe2de1d84cdf016fde7f43e74476f3e3814b0416f973456ede0b6",
+                  "path" : "config/portablevfx/effects/EntryGaebang/textures/T_Stroke_Sheet.png",
+                  "size" : 57838,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryGaebang/textures/T_Stroke_Sheet.png"
+               },
+               "id" : "config/portablevfx/effects/EntryGaebang/textures/T_Stroke_Sheet.png",
+               "name" : "config/portablevfx/effects/EntryGaebang/textures/T_Stroke_Sheet.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "1f444841468576fae25fc06b75b55a0e",
+                  "SHA256" : "1e68654c1d9ce4278f0353ec8df44517e8d553ebb7e3cf9f3ce0522930b8a78f",
+                  "path" : "config/portablevfx/effects/EntryGaebang/vfx.json",
+                  "size" : 256951,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryGaebang/vfx.json"
+               },
+               "id" : "config/portablevfx/effects/EntryGaebang/vfx.json",
+               "name" : "config/portablevfx/effects/EntryGaebang/vfx.json",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "4ea6201e199de2413cbcee2a3a070a3e",
+                  "SHA256" : "c0391f53bc0e74ecbfdb8acafd5a0424735d8f653c9005bba2b3ae505face6b8",
+                  "path" : "config/portablevfx/effects/EntryHwasan/textures/T_Glow.png",
+                  "size" : 11040,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryHwasan/textures/T_Glow.png"
+               },
+               "id" : "config/portablevfx/effects/EntryHwasan/textures/T_Glow.png",
+               "name" : "config/portablevfx/effects/EntryHwasan/textures/T_Glow.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "d5c7d682c167ce9e7be04f574c1003a6",
+                  "SHA256" : "4dc4212bfa6ef90a7cad65bed02e569d7a895bf9cc65b54f0b3817d5504e777a",
+                  "path" : "config/portablevfx/effects/EntryHwasan/textures/T_InkPetal.png",
+                  "size" : 2041,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryHwasan/textures/T_InkPetal.png"
+               },
+               "id" : "config/portablevfx/effects/EntryHwasan/textures/T_InkPetal.png",
+               "name" : "config/portablevfx/effects/EntryHwasan/textures/T_InkPetal.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "9df986fc12abb5ba9d6d4f6806b4f10f",
+                  "SHA256" : "cecf82c3da973d993782a4ab508c78c647b8c8f45a8c6a8b7f9134bfbb55f526",
+                  "path" : "config/portablevfx/effects/EntryHwasan/textures/T_Line.png",
+                  "size" : 309,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryHwasan/textures/T_Line.png"
+               },
+               "id" : "config/portablevfx/effects/EntryHwasan/textures/T_Line.png",
+               "name" : "config/portablevfx/effects/EntryHwasan/textures/T_Line.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "358a8ffa8818d1b0c2dbe53247cddad6",
+                  "SHA256" : "3b114348293de810727ed0a604191abac68a86c1d428b24b42583e82afa3f2c9",
+                  "path" : "config/portablevfx/effects/EntryHwasan/textures/T_Petal.png",
+                  "size" : 2648,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryHwasan/textures/T_Petal.png"
+               },
+               "id" : "config/portablevfx/effects/EntryHwasan/textures/T_Petal.png",
+               "name" : "config/portablevfx/effects/EntryHwasan/textures/T_Petal.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "70c6b054b437688345d87e96e6b093e1",
+                  "SHA256" : "e7bf1c2d56af16d67a4ee2cb4534d9986d35be200df6c30143451c5d9b2134a6",
+                  "path" : "config/portablevfx/effects/EntryHwasan/textures/T_Plum.png",
+                  "size" : 8295,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryHwasan/textures/T_Plum.png"
+               },
+               "id" : "config/portablevfx/effects/EntryHwasan/textures/T_Plum.png",
+               "name" : "config/portablevfx/effects/EntryHwasan/textures/T_Plum.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "41591b6a92a231cd03feaefffcf2418b",
+                  "SHA256" : "f8da78d320e9bf85644d1d139116c1bdc12e6a2ca74d00bd8736c02715282369",
+                  "path" : "config/portablevfx/effects/EntryHwasan/textures/T_Star4.png",
+                  "size" : 6248,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryHwasan/textures/T_Star4.png"
+               },
+               "id" : "config/portablevfx/effects/EntryHwasan/textures/T_Star4.png",
+               "name" : "config/portablevfx/effects/EntryHwasan/textures/T_Star4.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "1f972df57feb1440fcabee598fb226e8",
+                  "SHA256" : "8fbb8c5ef04b2c23014aa35609fc5d8d1dbd33f4e5d487d81efac8ea5ad8d7ac",
+                  "path" : "config/portablevfx/effects/EntryHwasan/textures/T_Streak.png",
+                  "size" : 3447,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryHwasan/textures/T_Streak.png"
+               },
+               "id" : "config/portablevfx/effects/EntryHwasan/textures/T_Streak.png",
+               "name" : "config/portablevfx/effects/EntryHwasan/textures/T_Streak.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "2924caa1b6f10cb9da093713bd802b76",
+                  "SHA256" : "ff3423e8f5be77f0b44804e7a8faebad10c55413855c1ceffaefe569ef8b4ecb",
+                  "path" : "config/portablevfx/effects/EntryHwasan/textures/T_Streak_S.png",
+                  "size" : 3348,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryHwasan/textures/T_Streak_S.png"
+               },
+               "id" : "config/portablevfx/effects/EntryHwasan/textures/T_Streak_S.png",
+               "name" : "config/portablevfx/effects/EntryHwasan/textures/T_Streak_S.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "94c5f4942283b68ff83e6cab5304bdf6",
+                  "SHA256" : "5267e3ba6b47936668042eab60c38d340f110f8b5ae87890785c3cf293bbf17e",
+                  "path" : "config/portablevfx/effects/EntryHwasan/textures/T_StrokeLo_Sheet.png",
+                  "size" : 38454,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryHwasan/textures/T_StrokeLo_Sheet.png"
+               },
+               "id" : "config/portablevfx/effects/EntryHwasan/textures/T_StrokeLo_Sheet.png",
+               "name" : "config/portablevfx/effects/EntryHwasan/textures/T_StrokeLo_Sheet.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "87fccdd0b778c8888bae6b07c512345b",
+                  "SHA256" : "b808ca4946332442aabfa98a5677e7b49afe115d5bdd02e5e456b503a0279993",
+                  "path" : "config/portablevfx/effects/EntryHwasan/textures/T_Stroke_Sheet.png",
+                  "size" : 54887,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryHwasan/textures/T_Stroke_Sheet.png"
+               },
+               "id" : "config/portablevfx/effects/EntryHwasan/textures/T_Stroke_Sheet.png",
+               "name" : "config/portablevfx/effects/EntryHwasan/textures/T_Stroke_Sheet.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "ec786cb7baa898e9e2f863a785807572",
+                  "SHA256" : "fd67ab683953fdadfc1881b984d3069d9dfff5364f36ea2109a65ecbedea81e6",
+                  "path" : "config/portablevfx/effects/EntryHwasan/vfx.json",
+                  "size" : 284389,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryHwasan/vfx.json"
+               },
+               "id" : "config/portablevfx/effects/EntryHwasan/vfx.json",
+               "name" : "config/portablevfx/effects/EntryHwasan/vfx.json",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "c3fa6d348a0fb4f1207620bab24efe67",
+                  "SHA256" : "9048e651a1c5273b8a4cf575e0277359c78d40d118f47660afd44e0b4097088b",
+                  "path" : "config/portablevfx/effects/EntryJegal/textures/T_Bagua.png",
+                  "size" : 110833,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryJegal/textures/T_Bagua.png"
+               },
+               "id" : "config/portablevfx/effects/EntryJegal/textures/T_Bagua.png",
+               "name" : "config/portablevfx/effects/EntryJegal/textures/T_Bagua.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "8e4dc8afe39edb67853012f8dc49ea84",
+                  "SHA256" : "4c501ae88150d3e1386c2fe43d2f6a5bedacc51e3bf604c71b23d8f878d9e318",
+                  "path" : "config/portablevfx/effects/EntryJegal/textures/T_Glow.png",
+                  "size" : 11901,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryJegal/textures/T_Glow.png"
+               },
+               "id" : "config/portablevfx/effects/EntryJegal/textures/T_Glow.png",
+               "name" : "config/portablevfx/effects/EntryJegal/textures/T_Glow.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "87944529f24136b46d1eb67036d7c6c6",
+                  "SHA256" : "960e614e2cebd4d45a81002a9791bdd15d7e3fe47f4b7b67af4d3664d3178c97",
+                  "path" : "config/portablevfx/effects/EntryJegal/textures/T_Gust_Sheet.png",
+                  "size" : 84355,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryJegal/textures/T_Gust_Sheet.png"
+               },
+               "id" : "config/portablevfx/effects/EntryJegal/textures/T_Gust_Sheet.png",
+               "name" : "config/portablevfx/effects/EntryJegal/textures/T_Gust_Sheet.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "153012338ca856fb7eb3b11d3929ec51",
+                  "SHA256" : "25bb700532cf22047eefd8d1103f97f5224b9067efe5fcea580b4b89e69a194c",
+                  "path" : "config/portablevfx/effects/EntryJegal/textures/T_Leaf.png",
+                  "size" : 1579,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryJegal/textures/T_Leaf.png"
+               },
+               "id" : "config/portablevfx/effects/EntryJegal/textures/T_Leaf.png",
+               "name" : "config/portablevfx/effects/EntryJegal/textures/T_Leaf.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "40dee2487605fe9c5b7535351c6b2143",
+                  "SHA256" : "8d31018e6fe170a793f9d86f0339d32c1233d410affb8ea135eabb5e8ad2f562",
+                  "path" : "config/portablevfx/effects/EntryJegal/textures/T_Line.png",
+                  "size" : 314,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryJegal/textures/T_Line.png"
+               },
+               "id" : "config/portablevfx/effects/EntryJegal/textures/T_Line.png",
+               "name" : "config/portablevfx/effects/EntryJegal/textures/T_Line.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "ba1dcc5707c96f28b6b2f412573a2a94",
+                  "SHA256" : "5bf6aa2ac4f8d8fe14a4d581ffb2828472c51a0e8564c4722ef0224a79965947",
+                  "path" : "config/portablevfx/effects/EntryJegal/textures/T_Star4.png",
+                  "size" : 6705,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryJegal/textures/T_Star4.png"
+               },
+               "id" : "config/portablevfx/effects/EntryJegal/textures/T_Star4.png",
+               "name" : "config/portablevfx/effects/EntryJegal/textures/T_Star4.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "a2cde360b2cbd934fcb360a52881b99e",
+                  "SHA256" : "ce8805ae9597ec8fd93cd243d34f26589cf76839485f4f19d87e090af77e4e84",
+                  "path" : "config/portablevfx/effects/EntryJegal/textures/T_Streak.png",
+                  "size" : 3444,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryJegal/textures/T_Streak.png"
+               },
+               "id" : "config/portablevfx/effects/EntryJegal/textures/T_Streak.png",
+               "name" : "config/portablevfx/effects/EntryJegal/textures/T_Streak.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "78dfd98447f0c72acd266226e30777a2",
+                  "SHA256" : "2ad7b37de31eef9df62d0eedb74040e37fc3efdf6dd02567304089f30acd0072",
+                  "path" : "config/portablevfx/effects/EntryJegal/textures/T_Stroke_Sheet.png",
+                  "size" : 56011,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryJegal/textures/T_Stroke_Sheet.png"
+               },
+               "id" : "config/portablevfx/effects/EntryJegal/textures/T_Stroke_Sheet.png",
+               "name" : "config/portablevfx/effects/EntryJegal/textures/T_Stroke_Sheet.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "8454dede4d887cec10c768abd993539f",
+                  "SHA256" : "68f29b31295c173b3bd30b58cfe400af97f717caaab1afa79d2888919f80d2ec",
+                  "path" : "config/portablevfx/effects/EntryJegal/vfx.json",
+                  "size" : 262489,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryJegal/vfx.json"
+               },
+               "id" : "config/portablevfx/effects/EntryJegal/vfx.json",
+               "name" : "config/portablevfx/effects/EntryJegal/vfx.json",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "f58c1cde4e9ccd189fb9065c9d10a953",
+                  "SHA256" : "26f059ef2a251ef1ebbe24a83ac0ddbc13f3797b6b668e215254b2ed9eda101f",
+                  "path" : "config/portablevfx/effects/EntryMudang/textures/T_Cloud_Sheet.png",
+                  "size" : 70794,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryMudang/textures/T_Cloud_Sheet.png"
+               },
+               "id" : "config/portablevfx/effects/EntryMudang/textures/T_Cloud_Sheet.png",
+               "name" : "config/portablevfx/effects/EntryMudang/textures/T_Cloud_Sheet.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "dc46503b16923c451c439867da07c4d3",
+                  "SHA256" : "1a188f498f20c54e2a77cda5717ceaec995736afac9df510ad764625ada3b3d0",
+                  "path" : "config/portablevfx/effects/EntryMudang/textures/T_Glow.png",
+                  "size" : 10846,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryMudang/textures/T_Glow.png"
+               },
+               "id" : "config/portablevfx/effects/EntryMudang/textures/T_Glow.png",
+               "name" : "config/portablevfx/effects/EntryMudang/textures/T_Glow.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "f29922b89d079cf8f9b230c07c99f8bc",
+                  "SHA256" : "d7a513a452235a546bc8e3c9ce3a2c47dde71e405f6c79784d6a4207b5c94c74",
+                  "path" : "config/portablevfx/effects/EntryMudang/textures/T_Gust_Sheet.png",
+                  "size" : 52184,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryMudang/textures/T_Gust_Sheet.png"
+               },
+               "id" : "config/portablevfx/effects/EntryMudang/textures/T_Gust_Sheet.png",
+               "name" : "config/portablevfx/effects/EntryMudang/textures/T_Gust_Sheet.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "3ee188dc7f32ac9fca80e4b63b8e3edb",
+                  "SHA256" : "63d806ed322e76b12aff03ed0bcd072dfe2a74192d0e3966a9a20f1057210db9",
+                  "path" : "config/portablevfx/effects/EntryMudang/textures/T_Line.png",
+                  "size" : 305,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryMudang/textures/T_Line.png"
+               },
+               "id" : "config/portablevfx/effects/EntryMudang/textures/T_Line.png",
+               "name" : "config/portablevfx/effects/EntryMudang/textures/T_Line.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "553027ce6be23426274cbe40e3f155b9",
+                  "SHA256" : "abd8b90c1d9d9ab2a6fc6e57b5c834bd452f41599618b62e3a85654410307983",
+                  "path" : "config/portablevfx/effects/EntryMudang/textures/T_Star4.png",
+                  "size" : 6281,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryMudang/textures/T_Star4.png"
+               },
+               "id" : "config/portablevfx/effects/EntryMudang/textures/T_Star4.png",
+               "name" : "config/portablevfx/effects/EntryMudang/textures/T_Star4.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "9d255143a2afd16e9997bea4766756b8",
+                  "SHA256" : "f22835ea1ae08a4d5917ec2e83816cc71da60abfe920dcadd6ec182e5072d9a9",
+                  "path" : "config/portablevfx/effects/EntryMudang/textures/T_Streak.png",
+                  "size" : 2986,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryMudang/textures/T_Streak.png"
+               },
+               "id" : "config/portablevfx/effects/EntryMudang/textures/T_Streak.png",
+               "name" : "config/portablevfx/effects/EntryMudang/textures/T_Streak.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "885f0284f7248ed1875205648f028f13",
+                  "SHA256" : "d577e3c9ca5269dfbed902ad53a75fe72ab01a3c815ae64e171a514d5dad7021",
+                  "path" : "config/portablevfx/effects/EntryMudang/textures/T_Stroke_Sheet.png",
+                  "size" : 52807,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryMudang/textures/T_Stroke_Sheet.png"
+               },
+               "id" : "config/portablevfx/effects/EntryMudang/textures/T_Stroke_Sheet.png",
+               "name" : "config/portablevfx/effects/EntryMudang/textures/T_Stroke_Sheet.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "2b67f35c6efa171df0970232abbc0875",
+                  "SHA256" : "1a6d9e6b2d2e1109d8520c2e1dd1b240fd816502e44f45f54e521df0d8232e5f",
+                  "path" : "config/portablevfx/effects/EntryMudang/textures/T_TaijiInk.png",
+                  "size" : 58497,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryMudang/textures/T_TaijiInk.png"
+               },
+               "id" : "config/portablevfx/effects/EntryMudang/textures/T_TaijiInk.png",
+               "name" : "config/portablevfx/effects/EntryMudang/textures/T_TaijiInk.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "b8aca6f62a2792b029f8d592260b511a",
+                  "SHA256" : "b111f7788dbee162540dbbef49fdcec4185971ac9ad0f9a3fc27a872847eed6f",
+                  "path" : "config/portablevfx/effects/EntryMudang/textures/T_TaijiLight.png",
+                  "size" : 64178,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryMudang/textures/T_TaijiLight.png"
+               },
+               "id" : "config/portablevfx/effects/EntryMudang/textures/T_TaijiLight.png",
+               "name" : "config/portablevfx/effects/EntryMudang/textures/T_TaijiLight.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "e77e89e07e07218df4df6518373354ea",
+                  "SHA256" : "e2c87351d8e17f9b98d4c9484a44e6f822dc12c748a18f2c632f96cf3bec75cd",
+                  "path" : "config/portablevfx/effects/EntryMudang/vfx.json",
+                  "size" : 239661,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryMudang/vfx.json"
+               },
+               "id" : "config/portablevfx/effects/EntryMudang/vfx.json",
+               "name" : "config/portablevfx/effects/EntryMudang/vfx.json",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "0339e2dce1bce64133c68bf387b5ffdb",
+                  "SHA256" : "d8fe123d0009c65eaa1ce8cf0d726b7f837a13b4bf26999ef116af33e4d9a1b3",
+                  "path" : "config/portablevfx/effects/EntryNamgung/textures/T_Bolt_Sheet.png",
+                  "size" : 55509,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryNamgung/textures/T_Bolt_Sheet.png"
+               },
+               "id" : "config/portablevfx/effects/EntryNamgung/textures/T_Bolt_Sheet.png",
+               "name" : "config/portablevfx/effects/EntryNamgung/textures/T_Bolt_Sheet.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "ab8ac037bd968615a2d659511ea5e076",
+                  "SHA256" : "c06a54f6d1c88819452f92dc4c5c66a11ee25f250530564eed9c41576427daf2",
+                  "path" : "config/portablevfx/effects/EntryNamgung/textures/T_Crack.png",
+                  "size" : 28642,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryNamgung/textures/T_Crack.png"
+               },
+               "id" : "config/portablevfx/effects/EntryNamgung/textures/T_Crack.png",
+               "name" : "config/portablevfx/effects/EntryNamgung/textures/T_Crack.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "0adff664c7cc6f84297c3dcdf0ae44e2",
+                  "SHA256" : "d0e621da9c06af12edb1aa38620ae20849afa2832d1d1b385fc3df9bd7c79556",
+                  "path" : "config/portablevfx/effects/EntryNamgung/textures/T_Debris.png",
+                  "size" : 2054,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryNamgung/textures/T_Debris.png"
+               },
+               "id" : "config/portablevfx/effects/EntryNamgung/textures/T_Debris.png",
+               "name" : "config/portablevfx/effects/EntryNamgung/textures/T_Debris.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "9beeba2196ea6af187593e4a0bea8f81",
+                  "SHA256" : "aedee0b3cf6578bee7a12d2f823ec9987fe52edcf0a59c239bc352c34e73cc30",
+                  "path" : "config/portablevfx/effects/EntryNamgung/textures/T_Dust_Sheet.png",
+                  "size" : 69944,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryNamgung/textures/T_Dust_Sheet.png"
+               },
+               "id" : "config/portablevfx/effects/EntryNamgung/textures/T_Dust_Sheet.png",
+               "name" : "config/portablevfx/effects/EntryNamgung/textures/T_Dust_Sheet.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "ee7e5af0ac88487a2240c3974cba27e0",
+                  "SHA256" : "4dfc1bd0171bbe4b6a2ff3e9a327dd755dd8f1a505672d2cae6418fd3158e01a",
+                  "path" : "config/portablevfx/effects/EntryNamgung/textures/T_Glow.png",
+                  "size" : 10810,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryNamgung/textures/T_Glow.png"
+               },
+               "id" : "config/portablevfx/effects/EntryNamgung/textures/T_Glow.png",
+               "name" : "config/portablevfx/effects/EntryNamgung/textures/T_Glow.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "50b13e952c282fa661af235ca0d06f43",
+                  "SHA256" : "229ec62c0c50a688acd1df5245ac3ebc7a1a83e95faf53ce9b91683ab3178f52",
+                  "path" : "config/portablevfx/effects/EntryNamgung/textures/T_Line.png",
+                  "size" : 308,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryNamgung/textures/T_Line.png"
+               },
+               "id" : "config/portablevfx/effects/EntryNamgung/textures/T_Line.png",
+               "name" : "config/portablevfx/effects/EntryNamgung/textures/T_Line.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "adab8e65ddf7be22c28ac342957b42ae",
+                  "SHA256" : "aec05cfbc3ab8e3eb35a00d8b03c906edfced41cb2ce004f57397185248ea935",
+                  "path" : "config/portablevfx/effects/EntryNamgung/textures/T_Star4.png",
+                  "size" : 6739,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryNamgung/textures/T_Star4.png"
+               },
+               "id" : "config/portablevfx/effects/EntryNamgung/textures/T_Star4.png",
+               "name" : "config/portablevfx/effects/EntryNamgung/textures/T_Star4.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "de34cf509215870bcd6079aded7d2107",
+                  "SHA256" : "ba0a4ec48242b7493f6ec271cc06019df7ef1b7c018e68a8614d5d90bfa2303e",
+                  "path" : "config/portablevfx/effects/EntryNamgung/textures/T_Streak.png",
+                  "size" : 3228,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryNamgung/textures/T_Streak.png"
+               },
+               "id" : "config/portablevfx/effects/EntryNamgung/textures/T_Streak.png",
+               "name" : "config/portablevfx/effects/EntryNamgung/textures/T_Streak.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "bec511b809da3df2f6c7531d4ca107d9",
+                  "SHA256" : "0d9d9cbd1fa603848ac7deacb446950d8353244053677099ac239ffbadb1d70f",
+                  "path" : "config/portablevfx/effects/EntryNamgung/textures/T_StrokeLo_Sheet.png",
+                  "size" : 39383,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryNamgung/textures/T_StrokeLo_Sheet.png"
+               },
+               "id" : "config/portablevfx/effects/EntryNamgung/textures/T_StrokeLo_Sheet.png",
+               "name" : "config/portablevfx/effects/EntryNamgung/textures/T_StrokeLo_Sheet.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "35e2a70c1b93ae343ae4bb27a93e9bc6",
+                  "SHA256" : "8f3dd3c80cc0a5e079b5de45fd8d8b2590d918ea058b9d169f6ec2a14fc3f9c2",
+                  "path" : "config/portablevfx/effects/EntryNamgung/textures/T_Stroke_Sheet.png",
+                  "size" : 61502,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryNamgung/textures/T_Stroke_Sheet.png"
+               },
+               "id" : "config/portablevfx/effects/EntryNamgung/textures/T_Stroke_Sheet.png",
+               "name" : "config/portablevfx/effects/EntryNamgung/textures/T_Stroke_Sheet.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "362c8e777127fa97a1f0bc78b3260695",
+                  "SHA256" : "d6a74c645240684e9c16c8be38cd28bec73bbd52b255116bb7cd3ddbea99f6d0",
+                  "path" : "config/portablevfx/effects/EntryNamgung/vfx.json",
+                  "size" : 266869,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryNamgung/vfx.json"
+               },
+               "id" : "config/portablevfx/effects/EntryNamgung/vfx.json",
+               "name" : "config/portablevfx/effects/EntryNamgung/vfx.json",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "66e724ecd25db95ab04112bf1e17a3bd",
+                  "SHA256" : "b5127bef568b56cf8cf574870ba0c734a604cb8a9e500bc35cc06c58aa41a391",
+                  "path" : "config/portablevfx/effects/EntryPaeng/textures/T_Crack.png",
+                  "size" : 28675,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryPaeng/textures/T_Crack.png"
+               },
+               "id" : "config/portablevfx/effects/EntryPaeng/textures/T_Crack.png",
+               "name" : "config/portablevfx/effects/EntryPaeng/textures/T_Crack.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "7e1c3efd31006c268fd58a69788a86a1",
+                  "SHA256" : "59425a85dccbc56f6cd9fdf9c6c70fa2a9f9065bd0134bd225a4e76ebc04387e",
+                  "path" : "config/portablevfx/effects/EntryPaeng/textures/T_Debris.png",
+                  "size" : 2010,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryPaeng/textures/T_Debris.png"
+               },
+               "id" : "config/portablevfx/effects/EntryPaeng/textures/T_Debris.png",
+               "name" : "config/portablevfx/effects/EntryPaeng/textures/T_Debris.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "9beeba2196ea6af187593e4a0bea8f81",
+                  "SHA256" : "aedee0b3cf6578bee7a12d2f823ec9987fe52edcf0a59c239bc352c34e73cc30",
+                  "path" : "config/portablevfx/effects/EntryPaeng/textures/T_Dust_Sheet.png",
+                  "size" : 69944,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryPaeng/textures/T_Dust_Sheet.png"
+               },
+               "id" : "config/portablevfx/effects/EntryPaeng/textures/T_Dust_Sheet.png",
+               "name" : "config/portablevfx/effects/EntryPaeng/textures/T_Dust_Sheet.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "45edfe7d4b9f3b66f31e41fe188f5eaf",
+                  "SHA256" : "5d8606df1e2164894c8b7405c6a10070278b0c85d90e0c39d4687c3c19e0acaa",
+                  "path" : "config/portablevfx/effects/EntryPaeng/textures/T_Glow.png",
+                  "size" : 10194,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryPaeng/textures/T_Glow.png"
+               },
+               "id" : "config/portablevfx/effects/EntryPaeng/textures/T_Glow.png",
+               "name" : "config/portablevfx/effects/EntryPaeng/textures/T_Glow.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "46a32f1e14ffbcadc4a7934ea7da6c76",
+                  "SHA256" : "512b11b866f147cae90406837a33b6d406fe1274d7387077a79711058e7b4cb3",
+                  "path" : "config/portablevfx/effects/EntryPaeng/textures/T_Line.png",
+                  "size" : 304,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryPaeng/textures/T_Line.png"
+               },
+               "id" : "config/portablevfx/effects/EntryPaeng/textures/T_Line.png",
+               "name" : "config/portablevfx/effects/EntryPaeng/textures/T_Line.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "42902aff07b65ec606de48411db52fa2",
+                  "SHA256" : "09b01591b8611ca87c55ea503848fbca9c4755b755899d79973d353921be1e6d",
+                  "path" : "config/portablevfx/effects/EntryPaeng/textures/T_Star4.png",
+                  "size" : 6081,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryPaeng/textures/T_Star4.png"
+               },
+               "id" : "config/portablevfx/effects/EntryPaeng/textures/T_Star4.png",
+               "name" : "config/portablevfx/effects/EntryPaeng/textures/T_Star4.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "d096b8357a60e23a36bbfb50cc0421de",
+                  "SHA256" : "115522c3d96ebc108173b165c43592e30305095508e57eb8e05a991a02267e49",
+                  "path" : "config/portablevfx/effects/EntryPaeng/textures/T_Streak.png",
+                  "size" : 3310,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryPaeng/textures/T_Streak.png"
+               },
+               "id" : "config/portablevfx/effects/EntryPaeng/textures/T_Streak.png",
+               "name" : "config/portablevfx/effects/EntryPaeng/textures/T_Streak.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "7e45141571a0a7bc33374f6e0dea31bf",
+                  "SHA256" : "fde8254d2729a41a15ea1684a3109a0906651fc97e4c510224fe4a4cb7104a8a",
+                  "path" : "config/portablevfx/effects/EntryPaeng/textures/T_Streak_G.png",
+                  "size" : 3313,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryPaeng/textures/T_Streak_G.png"
+               },
+               "id" : "config/portablevfx/effects/EntryPaeng/textures/T_Streak_G.png",
+               "name" : "config/portablevfx/effects/EntryPaeng/textures/T_Streak_G.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "17d79a24b015fe6583264bc4d57aa0e0",
+                  "SHA256" : "6c10e65e2a3a55946a932ce9effc074b32d2c0d841cd7de4bcb216cde87f70c8",
+                  "path" : "config/portablevfx/effects/EntryPaeng/textures/T_StrokeLo_Sheet.png",
+                  "size" : 43049,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryPaeng/textures/T_StrokeLo_Sheet.png"
+               },
+               "id" : "config/portablevfx/effects/EntryPaeng/textures/T_StrokeLo_Sheet.png",
+               "name" : "config/portablevfx/effects/EntryPaeng/textures/T_StrokeLo_Sheet.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "6cf32f28267008be3e984f1169e14199",
+                  "SHA256" : "5af6172e83360be69abc5f8227be4c68f16f3afd656ba5cce2e6a156ebc403fc",
+                  "path" : "config/portablevfx/effects/EntryPaeng/textures/T_Stroke_Sheet.png",
+                  "size" : 66409,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryPaeng/textures/T_Stroke_Sheet.png"
+               },
+               "id" : "config/portablevfx/effects/EntryPaeng/textures/T_Stroke_Sheet.png",
+               "name" : "config/portablevfx/effects/EntryPaeng/textures/T_Stroke_Sheet.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "5ebc8d0fcfad6b2ba7b650baed0e8628",
+                  "SHA256" : "b32d80442af9972e5ea10c589da8f4cfa995113da54139e66c68a0cfc017222f",
+                  "path" : "config/portablevfx/effects/EntryPaeng/vfx.json",
+                  "size" : 232208,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntryPaeng/vfx.json"
+               },
+               "id" : "config/portablevfx/effects/EntryPaeng/vfx.json",
+               "name" : "config/portablevfx/effects/EntryPaeng/vfx.json",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "085909a9f0ba24074795a6112c5c9267",
+                  "SHA256" : "4d5aa83a2f065b8fc24e10e5c516bc55b99c8b8b780b2e88c4df74abf2cd8391",
+                  "path" : "config/portablevfx/effects/EntrySorim/textures/T_Crack.png",
+                  "size" : 28587,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntrySorim/textures/T_Crack.png"
+               },
+               "id" : "config/portablevfx/effects/EntrySorim/textures/T_Crack.png",
+               "name" : "config/portablevfx/effects/EntrySorim/textures/T_Crack.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "9beeba2196ea6af187593e4a0bea8f81",
+                  "SHA256" : "aedee0b3cf6578bee7a12d2f823ec9987fe52edcf0a59c239bc352c34e73cc30",
+                  "path" : "config/portablevfx/effects/EntrySorim/textures/T_Dust_Sheet.png",
+                  "size" : 69944,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntrySorim/textures/T_Dust_Sheet.png"
+               },
+               "id" : "config/portablevfx/effects/EntrySorim/textures/T_Dust_Sheet.png",
+               "name" : "config/portablevfx/effects/EntrySorim/textures/T_Dust_Sheet.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "223f1337a43963c9dafa447db2dcb99f",
+                  "SHA256" : "2e75e1871c990b3546dcdc0e93269d13bc7e2b7ce96293442847f9e611a12745",
+                  "path" : "config/portablevfx/effects/EntrySorim/textures/T_Glow.png",
+                  "size" : 11117,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntrySorim/textures/T_Glow.png"
+               },
+               "id" : "config/portablevfx/effects/EntrySorim/textures/T_Glow.png",
+               "name" : "config/portablevfx/effects/EntrySorim/textures/T_Glow.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "eb5a76c29bc67d9a9bfecb04c1ddbb54",
+                  "SHA256" : "3db3552aa900fa75782cc7f55caa14e734b8e29a068109d47a9cda9461677a4b",
+                  "path" : "config/portablevfx/effects/EntrySorim/textures/T_Halo.png",
+                  "size" : 54290,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntrySorim/textures/T_Halo.png"
+               },
+               "id" : "config/portablevfx/effects/EntrySorim/textures/T_Halo.png",
+               "name" : "config/portablevfx/effects/EntrySorim/textures/T_Halo.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "cacd6e458564fef6115a4d3419e9126d",
+                  "SHA256" : "35c8c52fe3091613c7e70de6c138024ec4d6492dcc7d84c75cc5c5835f5796ee",
+                  "path" : "config/portablevfx/effects/EntrySorim/textures/T_Line.png",
+                  "size" : 295,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntrySorim/textures/T_Line.png"
+               },
+               "id" : "config/portablevfx/effects/EntrySorim/textures/T_Line.png",
+               "name" : "config/portablevfx/effects/EntrySorim/textures/T_Line.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "014d84388b39df20f7df41d6130f71cb",
+                  "SHA256" : "876420df2d0385f29fae04f89dca77d0761c123c54e5696a9b2c0b90df17c896",
+                  "path" : "config/portablevfx/effects/EntrySorim/textures/T_Seal.png",
+                  "size" : 64053,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntrySorim/textures/T_Seal.png"
+               },
+               "id" : "config/portablevfx/effects/EntrySorim/textures/T_Seal.png",
+               "name" : "config/portablevfx/effects/EntrySorim/textures/T_Seal.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "62c176543aa9f618030f29667a8f0585",
+                  "SHA256" : "e355a7e7aa33d9abdede685839098d4443852c0dcc90883857fc9536231370ec",
+                  "path" : "config/portablevfx/effects/EntrySorim/textures/T_Star4.png",
+                  "size" : 6521,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntrySorim/textures/T_Star4.png"
+               },
+               "id" : "config/portablevfx/effects/EntrySorim/textures/T_Star4.png",
+               "name" : "config/portablevfx/effects/EntrySorim/textures/T_Star4.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "1243ae9cd9e006ac29f0901c297f109d",
+                  "SHA256" : "5631e9b6aee7c0f4fdf47cdd28703c8ef07a0f735ff771af33b81f8e9b069624",
+                  "path" : "config/portablevfx/effects/EntrySorim/textures/T_Streak.png",
+                  "size" : 3165,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntrySorim/textures/T_Streak.png"
+               },
+               "id" : "config/portablevfx/effects/EntrySorim/textures/T_Streak.png",
+               "name" : "config/portablevfx/effects/EntrySorim/textures/T_Streak.png",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "30438264843c72a409af8bcdaf7a1d86",
+                  "SHA256" : "e7d44eb8ee528e5a834232bf3ff4259daa9304144fa57643129be2a0502ce6e9",
+                  "path" : "config/portablevfx/effects/EntrySorim/vfx.json",
+                  "size" : 184681,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/vfx/EntrySorim/vfx.json"
+               },
+               "id" : "config/portablevfx/effects/EntrySorim/vfx.json",
+               "name" : "config/portablevfx/effects/EntrySorim/vfx.json",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "dbcd45414cff27a6e398b8e6c14c74bf",
+                  "SHA256" : "9b7f5d85ae4cec9bade07a915b15e014f7b213e1d81bef4575c8b20d7a0a085e",
+                  "path" : "options.txt",
+                  "size" : 5138,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/wuxia-launcher-distro/files/options.txt"
+               },
+               "id" : "options.txt",
+               "name" : "options.txt",
+               "seedVersion" : "20261124a",
+               "type" : "File",
+               "updatePolicy" : "seed"
             }
          ],
-         "name" : "레뮤의 썰매라이더",
+         "name" : "무협 RPG 개발",
          "version" : "1.0.0"
       }
    ],
