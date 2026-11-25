@@ -3,7 +3,7 @@
       {
          "address" : "211.53.196.231:25600",
          "autoconnect" : true,
-         "description" : "쌍룡상사 주식서버 (Minecraft 1.21.4 Fabric)",
+         "description" : "쌍도상사 주식서버 (Minecraft 1.21.4 Fabric)",
          "icon" : "https://github.com/mchdistro/zzunwoo/raw/main/server-icon.png",
          "id" : "ssangyong-1.21.4",
          "javaOptions" : {
@@ -249,12 +249,12 @@
             },
             {
                "artifact" : {
-                  "MD5" : "7dc9c786cc5efa55093bd1f12472a27e",
-                  "size" : 13954890,
-                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/ssangyong-launcher-distro/mods/ssangyong-ui-0.7.1+mc1.21.4.jar"
+                  "MD5" : "91a58edf4ff5ee5e3e1241effe313e39",
+                  "size" : 14320213,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/ssangyong-launcher-distro/mods/ssangyong-ui-0.7.2+mc1.21.4.jar"
                },
-               "id" : "com.ssangyong:ssangyong-ui:0.7.1+mc1.21.4@jar",
-               "name" : "쌍룡상사 UI",
+               "id" : "com.ssangyong:ssangyong-ui:0.7.2+mc1.21.4@jar",
+               "name" : "쌍도상사 UI",
                "required" : {
                   "value" : true
                },
@@ -314,7 +314,7 @@
                "type" : "File"
             }
          ],
-         "name" : "쌍룡상사",
+         "name" : "쌍도상사",
          "version" : "1.0.0"
       }
    ],
