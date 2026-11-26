@@ -194,6 +194,16 @@
             },
             {
                "artifact" : {
+                  "MD5" : "3d6b82cb4c5e4e37c9779ab06b599a54",
+                  "size" : 378935,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/build-launcher-distro/mods/linring-ui-0.1.0.jar"
+               },
+               "id" : "kr.chacademi.build:linring-ui:0.1.0@jar",
+               "name" : "린링 전용 화면 (아이템 팝업)",
+               "type" : "FabricMod"
+            },
+            {
+               "artifact" : {
                   "MD5" : "6f33952b92125e98999537e5a5628e0f",
                   "size" : 47072174,
                   "url" : "https://cdn.modrinth.com/data/N6n5dqoA/versions/ItmR0IzD/Axiom-5.4.2-for-MC1.21.4.jar"
