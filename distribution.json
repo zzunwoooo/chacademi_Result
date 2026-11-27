@@ -304,11 +304,11 @@
             },
             {
                "artifact" : {
-                  "MD5" : "9a18f55864f0e88a09d197e48ffb218e",
-                  "SHA256" : "d48253a868f706fe43ffbc32a7f6ffbf1716810fbc42c06ac628d31a650cc36c",
+                  "MD5" : "61b5a3410a9f503b4d90371770a53732",
+                  "SHA256" : "931b52d3fd50e4a7aee5a8ea3484b4b1176e084d5bc1e474ff45e68b68147674",
                   "path" : "shaderpacks/ComplementaryUnbound_r5.5.1.zip.txt",
-                  "size" : 278,
-                  "url" : "https://github.com/zzunwoooo/chacademi-launcher/releases/download/content-shader-rain-light-20261028/ComplementaryUnbound_r5.5.1.zip.txt"
+                  "size" : 417,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/build-launcher-distro/files/ComplementaryUnbound_r5.5.1-931b52d3fd50.zip.txt"
                },
                "id" : "shaderpacks/ComplementaryUnbound_r5.5.1.zip.txt",
                "name" : "shaderpacks/ComplementaryUnbound_r5.5.1.zip.txt",
@@ -339,6 +339,31 @@
                "id" : "chacademia-integrated-20261023.zip",
                "name" : "resourcepacks/chacademia-integrated-20261023.zip",
                "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "b1a3abe95ffd3f2b66aa60909b51ba41",
+                  "SHA256" : "e2173884474ae7ea3625d365d13cc2c24ddabdacf61ec636a0a5457d7a9aaca2",
+                  "path" : "resourcepacks/Yuushya_0.20.0_1.21.11.zip",
+                  "size" : 9462004,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/build-launcher-distro/pack/yuushya-0.20.0-1.21.11-e2173884474a.zip"
+               },
+               "id" : "resourcepacks/Yuushya_0.20.0_1.21.11.zip",
+               "name" : "resourcepacks/Yuushya_0.20.0_1.21.11.zip",
+               "type" : "File"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "8a283d284e6ff18f91bf4c2864d5c597",
+                  "SHA256" : "7be16eba453b073c73918c284261a66d3232482eddd50d7c54fef96643368138",
+                  "path" : "config/magiccodex/launcher/client-defaults.json",
+                  "size" : 1311,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/build-launcher-distro/files/client-defaults-7be16eba453b.json"
+               },
+               "id" : "config/magiccodex/launcher/client-defaults.json",
+               "name" : "config/magiccodex/launcher/client-defaults.json",
+               "type" : "File",
+               "updatePolicy" : "managed"
             }
          ],
          "name" : "사이렌 : 세상의 마지막 경고",

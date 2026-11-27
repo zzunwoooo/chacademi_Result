@@ -1,0 +1,17 @@
+{
+    "revision":  "siren-20261127-shader-yuushya",
+    "note":  "2026-11-27 오너: 쉐이더 기본 + 이 옵션, Yuushya 기본 리소스팩 (처음 설정 한 번 더)",
+    "shader":  {
+                   "pack":  "ComplementaryUnbound_r5.5.1.zip",
+                   "packSha256":  "61d133b24b6a92e46a3d7df791bb2ff163bbba10eed59df979b9bd727c24fbaf",
+                   "replace":  true,
+                   "presetText":  "#Mon Nov 23 17:01:35 KST 2026\r\nATM_FOG_ALTITUDE=300\r\nATM_FOG_DISTANCE=30\r\nBLOCKLIGHT_FLICKERING=2\r\nBLOCK_REFLECT_QUALITY=0\r\nCLOUD_ALT1=352\r\nCLOUD_QUALITY=1\r\nCOLORGRADING=true\r\nDETAIL_QUALITY=0\r\nFXAA_DEFINE=-1\r\nGR_BB=116\r\nGR_GB=8\r\nGR_RR=88\r\nLIGHTSHAFT_QUALI_DEFINE=0\r\nSHADOW_QUALITY=0\r\nT_VIBRANCE=1.10\r\nWATER_REFLECT_QUALITY=1\r\nWEATHER_TEX_OPACITY=25\r\nXLIGHT_B=1.40\r\nXLIGHT_G=0.95\r\nXLIGHT_R=0.65\r\nshadowDistance=64.0\r\n",
+                   "presetSha256":  "931b52d3fd50e4a7aee5a8ea3484b4b1176e084d5bc1e474ff45e68b68147674"
+               },
+    "resourcePacks":  [
+                          {
+                              "file":  "Yuushya_0.20.0_1.21.11.zip",
+                              "sha256":  "e2173884474ae7ea3625d365d13cc2c24ddabdacf61ec636a0a5457d7a9aaca2"
+                          }
+                      ]
+}
