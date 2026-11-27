@@ -4,7 +4,7 @@
       {
          "address" : "211.53.196.235:25690",
          "autoconnect" : true,
-         "description" : "Minecraft 1.21.4 (Fabric)",
+         "description" : "Minecraft 1.21.11 (Fabric)",
          "icon" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/build-launcher-distro/server-icon.png",
          "id" : "build-1.21.4",
          "javaOptions" : {
@@ -23,7 +23,7 @@
             "supported" : "=>21"
          },
          "mainServer" : true,
-         "minecraftVersion" : "1.21.4",
+         "minecraftVersion" : "1.21.11",
          "modules" : [
             {
                "artifact" : {
@@ -37,12 +37,12 @@
                "subModules" : [
                   {
                      "artifact" : {
-                        "MD5" : "852f5b478330dc82a4cf1b5643ddcbbb",
-                        "SHA256" : "ae1a6099a0eabeca79f16ac784346d9a4fa0051055004e47140a0950fc4bdd87",
-                        "size" : 2907,
-                        "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/build-launcher-distro/fabric/fabric-loader-0.18.4-1.21.4.json"
+                        "MD5" : "3b9868a1c9f02eb55f51223250c90a06",
+                        "SHA256" : "962b46a03bb768aef96e2e97d536cbac4d869709deb2f9ee194baa40efa9b3a3",
+                        "size" : 2910,
+                        "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/build-launcher-distro/fabric/fabric-loader-0.18.4-1.21.11.json"
                      },
-                     "id" : "fabric-loader-0.18.4-1.21.4",
+                     "id" : "fabric-loader-0.18.4-1.21.11",
                      "name" : "Official Fabric profile",
                      "type" : "VersionManifest"
                   },
@@ -114,12 +114,12 @@
                   },
                   {
                      "artifact" : {
-                        "MD5" : "d0f4187a62328d4a95f3428434efbd48",
-                        "SHA256" : "6aea9971d72e14f03f2c167ee2c24edd5eb0a59fc3eaedcbdf5c2ad0f0c36786",
-                        "size" : 701826,
-                        "url" : "https://maven.fabricmc.net/net/fabricmc/intermediary/1.21.4/intermediary-1.21.4.jar"
+                        "MD5" : null,
+                        "SHA256" : null,
+                        "size" : null,
+                        "url" : "https://maven.fabricmc.net/net/fabricmc/intermediary/1.21.11/intermediary-1.21.11.jar"
                      },
-                     "id" : "net.fabricmc:intermediary:1.21.4",
+                     "id" : "net.fabricmc:intermediary:1.21.11",
                      "name" : "intermediary",
                      "type" : "Library"
                   }
@@ -128,98 +128,101 @@
             },
             {
                "artifact" : {
-                  "MD5" : "fcf0f59c7f45c751af04527080bc4e28",
-                  "SHA256" : "f9a68b4f43d7ec9ba26cd9e0219b43d36b5e2265f9f850e844d3decd708c8e03",
-                  "size" : 578977,
-                  "url" : "https://cdn.modrinth.com/data/qyulnpBL/versions/Bch8tAuW/koreanpatch-fabric-1.8.5%2Bmc1.21.3.jar"
+                  "MD5" : "aafe45adf49d5888efb061928c5449cc",
+                  "SHA256" : "eebb1e42305d918342617edd4d333352ff91a6ca222c7b8acbee4b02a2e3ee51",
+                  "size" : 716367,
+                  "url" : "https://cdn.modrinth.com/data/qyulnpBL/versions/XVQhHGk3/koreanpatch-fabric-1.9.6%2Bmc1.21.11.jar"
                },
-               "id" : "org.modrinth:koreanpatch:1.8.5+mc1.21.3@jar",
-               "name" : "mods/koreanpatch-1.8.5+mc1.21.3.jar",
+               "id" : "org.modrinth:koreanpatch:1.9.6+mc1.21.11@jar",
+               "name" : "mods/koreanpatch-1.9.6+mc1.21.11.jar",
                "type" : "FabricMod"
             },
             {
                "artifact" : {
-                  "MD5" : "128a8d042180e7c92567342e21a21a6d",
-                  "SHA256" : "d183bacb845167f09264c2f90322b7ecffe8826debda6f60e597889264bef4af",
-                  "size" : 2149128,
-                  "url" : "https://cdn.modrinth.com/data/P7dR8mSH/versions/p96k10UR/fabric-api-0.119.4%2B1.21.4.jar"
+                  "MD5" : "d16a96ba9b0797054a012cfb1f5fd6a8",
+                  "SHA256" : "bdff7fd7e220085cfad2ff9b1f40dde6534ae0b96cf378f97a374bc54cb9ed0f",
+                  "size" : 2426039,
+                  "url" : "https://cdn.modrinth.com/data/P7dR8mSH/versions/6qAuTtLR/fabric-api-0.141.6%2B1.21.11.jar"
                },
-               "id" : "org.modrinth:fabric-api:0.119.4+1.21.4@jar",
-               "name" : "mods/fabric-api-0.119.4+1.21.4.jar",
+               "id" : "org.modrinth:fabric-api:0.141.6+1.21.11@jar",
+               "name" : "mods/fabric-api-0.141.6+1.21.11.jar",
                "type" : "FabricMod"
             },
             {
                "artifact" : {
-                  "MD5" : "59d373e4874efbcb8fb426bdefa588d9",
-                  "SHA256" : "70571b23d4de17ae380515fb4c9dadd82d96f7ec1b573553858a07bb80445da9",
-                  "size" : 2682702,
-                  "url" : "https://cdn.modrinth.com/data/YL57xq9U/versions/Ca054sTe/iris-fabric-1.8.8%2Bmc1.21.4.jar"
+                  "MD5" : "ecb9537a4d3ad512c602b36e32399baa",
+                  "SHA256" : "5b6b5124c74407ffe4945f8da61491731cbf697f0bba4b14257e0ff977dac087",
+                  "size" : 2807718,
+                  "url" : "https://cdn.modrinth.com/data/YL57xq9U/versions/ka9PDlsN/iris-fabric-1.10.8%2Bmc1.21.11.jar"
                },
-               "id" : "org.modrinth:iris:1.8.8+mc1.21.4@jar",
-               "name" : "mods/iris-1.8.8+mc1.21.4.jar",
+               "id" : "org.modrinth:iris:1.10.8+mc1.21.11@jar",
+               "name" : "mods/iris-1.10.8+mc1.21.11.jar",
                "type" : "FabricMod"
             },
             {
                "artifact" : {
-                  "MD5" : "28922a78d1876ee062e3265f10abcc46",
-                  "SHA256" : "92b79623fc00f0f948005a0ae416cb42a51646f2423b4036e27e867e4001a47e",
-                  "size" : 1306799,
-                  "url" : "https://cdn.modrinth.com/data/AANobbMI/versions/c3YkZvne/sodium-fabric-0.6.13%2Bmc1.21.4.jar"
+                  "MD5" : "f2422b7d7a0635b6594a661717965fb3",
+                  "SHA256" : "fd2619eff5da6b9ba6304b8b72ac3fe132c30e0bd5d675e4581eda417a272f5d",
+                  "size" : 1909150,
+                  "url" : "https://cdn.modrinth.com/data/AANobbMI/versions/rkdTcxoT/sodium-fabric-0.8.14%2Bmc1.21.11.jar"
                },
-               "id" : "org.modrinth:sodium:0.6.13+mc1.21.4@jar",
-               "name" : "mods/sodium-0.6.13+mc1.21.4.jar",
+               "id" : "org.modrinth:sodium:0.8.14+mc1.21.11@jar",
+               "name" : "mods/sodium-0.8.14+mc1.21.11.jar",
                "type" : "FabricMod"
             },
             {
                "artifact" : {
-                  "MD5" : "298751ed179b5342b5125d0dbbf5cc0d",
-                  "SHA256" : "b2fa4c9b435427ebc121f12df361c89c270b16dcebb937d6b81b2875ec8d3b89",
-                  "size" : 5363,
-                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/build-launcher-distro/mods/chacademi-axiom-me-dye-compat-1.0.0.jar"
+                  "MD5" : "3e86bb71f184223e2d0ff1f6a32b46b2",
+                  "SHA256" : "2164c96b93110b237b2eb14bbc06e0d7743908505cfb14eb77f8166ad039013d",
+                  "size" : 5111,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/build-launcher-distro/mods/chacademi-axiom-me-dye-compat-1.1.0.jar"
                },
-               "id" : "kr.chacademi.build:chacademi-axiom-me-dye-compat:1.0.0@jar",
-               "name" : "mods/chacademi-axiom-me-dye-compat-1.0.0.jar",
+               "id" : "kr.chacademi.build:chacademi-axiom-me-dye-compat:1.1.0@jar",
+               "name" : "mods/chacademi-axiom-me-dye-compat-1.1.0.jar",
                "type" : "FabricMod"
             },
             {
                "artifact" : {
-                  "MD5" : "ab87f7f6ca9e7b8b14fbd70063834911",
-                  "SHA256" : "4ab5663ce69ea81de7e465ed1fd2c7acd8e38b1e9b572040b97fe0f330144dcb",
-                  "size" : 18041,
-                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/build-launcher-distro/mods/linring-opt-0.1.0.jar"
+                  "MD5" : "2bb955120079f2272f9da51b74482c1f",
+                  "SHA256" : "df9854e8b50a51ec776b7f995e6d92e0d63b09c30d5e54e55e0cefbe48160aed",
+                  "size" : 25109,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/build-launcher-distro/mods/linring-opt-0.2.0.jar"
                },
-               "id" : "kr.chacademi.build:linring-opt:0.1.0@jar",
-               "name" : "mods/linring-opt-0.1.0.jar",
+               "id" : "kr.chacademi.build:linring-opt:0.2.0@jar",
+               "name" : "mods/linring-opt-0.2.0.jar",
                "type" : "FabricMod"
             },
             {
                "artifact" : {
-                  "MD5" : "5883f750a25323ff827d25d8cee4198d",
-                  "size" : 3989899,
-                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/build-launcher-distro/mods/linring-ui-0.6.0.jar"
+                  "MD5" : "ea67b2a046f943bf1947b009d0644857",
+                  "SHA256" : "ead031426c06a4b6c92c18465e56769b8f9e57295da131fe3d94434f87443060",
+                  "size" : 3988741,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/build-launcher-distro/mods/linring-ui-0.7.0.jar"
                },
-               "id" : "kr.chacademi.build:linring-ui:0.6.0@jar",
-               "name" : "린링 전용 화면 (아이템 팝업, 메뉴, 인벤토리, 소리, 파밍)",
+               "id" : "kr.chacademi.build:linring-ui:0.7.0@jar",
+               "name" : "mods/linring-ui-0.7.0.jar",
                "type" : "FabricMod"
             },
             {
                "artifact" : {
-                  "MD5" : "b9a8cd7674d05677871a61d5f1de9f5b",
-                  "size" : 460913,
-                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/build-launcher-distro/mods/linring-zombie-0.1.0.jar"
+                  "MD5" : "f9caf8c4a134395e7d39e47d1e8e7762",
+                  "SHA256" : "c1d47a7f8bdf53659e9100c1e670e816073476383bed00e7a45f57df364d9441",
+                  "size" : 460908,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/build-launcher-distro/mods/linring-zombie-0.2.0.jar"
                },
-               "id" : "kr.chacademi.build:linring-zombie:0.1.0@jar",
-               "name" : "린링 좀비 (좀비 모델·동작·들킴 눈 표시)",
+               "id" : "kr.chacademi.build:linring-zombie:0.2.0@jar",
+               "name" : "mods/linring-zombie-0.2.0.jar",
                "type" : "FabricMod"
             },
             {
                "artifact" : {
-                  "MD5" : "6f33952b92125e98999537e5a5628e0f",
-                  "size" : 47072174,
-                  "url" : "https://cdn.modrinth.com/data/N6n5dqoA/versions/ItmR0IzD/Axiom-5.4.2-for-MC1.21.4.jar"
+                  "MD5" : "94fcdb003126fb45f25d80d7ef8b0e1a",
+                  "SHA256" : "8ffb540ef8d747f01cb2573a33555cc1e959f7a2fb117d30a2c821582627f4b4",
+                  "size" : 47207446,
+                  "url" : "https://cdn.modrinth.com/data/N6n5dqoA/versions/Q2kpeC5q/Axiom-6.1.5-for-MC1.21.11.jar"
                },
-               "id" : "com.moulberry:axiom:5.4.2@jar",
-               "name" : "mods/Axiom-5.4.2-for-MC1.21.4.jar",
+               "id" : "com.moulberry:axiom:6.1.5@jar",
+               "name" : "mods/Axiom-6.1.5-for-MC1.21.11.jar",
                "type" : "FabricMod"
             },
             {
@@ -327,7 +330,7 @@
             }
          ],
          "name" : "사이렌 : 세상의 마지막 경고",
-         "version" : "1.0.0"
+         "version" : "1.1.0"
       }
    ],
    "version" : "1.0.0"
