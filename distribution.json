@@ -204,6 +204,16 @@
             },
             {
                "artifact" : {
+                  "MD5" : "b9a8cd7674d05677871a61d5f1de9f5b",
+                  "size" : 460913,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/build-launcher-distro/mods/linring-zombie-0.1.0.jar"
+               },
+               "id" : "kr.chacademi.build:linring-zombie:0.1.0@jar",
+               "name" : "린링 좀비 (좀비 모델·동작·들킴 눈 표시)",
+               "type" : "FabricMod"
+            },
+            {
+               "artifact" : {
                   "MD5" : "6f33952b92125e98999537e5a5628e0f",
                   "size" : 47072174,
                   "url" : "https://cdn.modrinth.com/data/N6n5dqoA/versions/ItmR0IzD/Axiom-5.4.2-for-MC1.21.4.jar"
