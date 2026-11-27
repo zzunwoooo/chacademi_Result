@@ -341,11 +341,11 @@
             },
             {
                "artifact" : {
-                  "MD5" : "75e09942c8d3d3c2e019c6850e713d48",
-                  "SHA256" : "dc9c8edc42a36ad19bf27bc520e616d9c390102646a73d35b5f489112b27ab04",
+                  "MD5" : "47d67cd51a1171955cfad7d89dbb90c0",
+                  "SHA256" : "23d1ae61017579a29a274ed6a840ae1322b08a3a8103f9c44a5710a6f98c773d",
                   "path" : "resourcepacks/chacademia-integrated-20261023.zip",
-                  "size" : 25111377,
-                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/build-launcher-distro/pack/linring-dc9c8edc42a3.zip"
+                  "size" : 25103788,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/build-launcher-distro/pack/linring-23d1ae610175.zip"
                },
                "id" : "chacademia-integrated-20261023.zip",
                "name" : "resourcepacks/chacademia-integrated-20261023.zip",
