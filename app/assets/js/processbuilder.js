@@ -13,6 +13,7 @@ const PetModels = require('./petmodels')
 const ClientAssets = require('./clientassets')
 const IntegratedContent = require('./integratedcontent')
 const ShaderDefaults = require('./shaderdefaults')
+const ClientDefaults = require('./clientdefaults')
 const CameraCompat = require('./cameracompat')
 const ServerPolicy = require('./serverpolicy')
 const GameSession = require('./gamesession')
@@ -70,6 +71,11 @@ class ProcessBuilder {
         preparationTimer.mark('client-assets-verification-and-install')
         const shaderPolicy = this.server.rawServer.modules.find(module => module.id === ShaderDefaults.MODULE_ID)
         logger.info('One-time shader defaults:', ShaderDefaults.apply(this.gameDir, shaderPolicy))
+        // 처음 설정(쉐이더 켜기·옵션, 기본 리소스팩)을 판마다 한 번 — 실패해도 게임 실행은 막지 않음
+        try{
+            const clientPolicy = this.server.rawServer.modules.find(module => module && module.id === ClientDefaults.MODULE_ID)
+            logger.info('Client defaults:', ClientDefaults.apply(this.gameDir, clientPolicy))
+        }catch(err){ logger.warn('Client defaults skipped:', err && err.message) }
         preparationTimer.mark('shader-defaults-file-only')
         const tempNativePath = path.join(os.tmpdir(), ConfigManager.getTempNativeFolder(), crypto.pseudoRandomBytes(16).toString('hex'))
         process.throwDeprecation = true
