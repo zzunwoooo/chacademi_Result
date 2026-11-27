@@ -327,6 +327,18 @@
                "name" : "options.txt",
                "type" : "File",
                "updatePolicy" : "seed"
+            },
+            {
+               "artifact" : {
+                  "MD5" : "75e09942c8d3d3c2e019c6850e713d48",
+                  "SHA256" : "dc9c8edc42a36ad19bf27bc520e616d9c390102646a73d35b5f489112b27ab04",
+                  "path" : "resourcepacks/chacademia-integrated-20261023.zip",
+                  "size" : 25111377,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/build-launcher-distro/pack/linring-dc9c8edc42a3.zip"
+               },
+               "id" : "chacademia-integrated-20261023.zip",
+               "name" : "resourcepacks/chacademia-integrated-20261023.zip",
+               "type" : "File"
             }
          ],
          "name" : "사이렌 : 세상의 마지막 경고",
