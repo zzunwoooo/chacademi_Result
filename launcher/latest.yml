@@ -1,8 +1,8 @@
-version: 1.0.1
+version: 1.0.2
 files:
-  - url: https://github.com/zzunwoooo/chacademi_Result/releases/download/siren-launcher-1.0.1/Siren-Launcher-setup-1.0.1.exe
-    sha512: Sk5X+3guHdnn1cBqcyYso0XSSmX2e5ER1ARaM+dVGNEzlL+TsEiZvHWY2Lr1kOFSDek+gZk+CqjVqvi5xhxa1A==
-    size: 100872793
-path: https://github.com/zzunwoooo/chacademi_Result/releases/download/siren-launcher-1.0.1/Siren-Launcher-setup-1.0.1.exe
-sha512: Sk5X+3guHdnn1cBqcyYso0XSSmX2e5ER1ARaM+dVGNEzlL+TsEiZvHWY2Lr1kOFSDek+gZk+CqjVqvi5xhxa1A==
-releaseDate: '2026-11-23T12:25:56.812Z'
+  - url: https://github.com/zzunwoooo/chacademi_Result/releases/download/siren-launcher-1.0.2/Siren-Launcher-setup-1.0.2.exe
+    sha512: XphOr4RWnBGpSUBop9rcSy720JxH4yy6z+0TS31CtBjqRY9nPI8unEsgue7nlGddNV8kUZy0NCwMNZ8MaHHEpA==
+    size: 100873781
+path: https://github.com/zzunwoooo/chacademi_Result/releases/download/siren-launcher-1.0.2/Siren-Launcher-setup-1.0.2.exe
+sha512: XphOr4RWnBGpSUBop9rcSy720JxH4yy6z+0TS31CtBjqRY9nPI8unEsgue7nlGddNV8kUZy0NCwMNZ8MaHHEpA==
+releaseDate: '2026-11-27T12:08:31.254Z'
