@@ -172,6 +172,17 @@
             },
             {
                "artifact" : {
+                  "MD5" : "d0011d547cfb5428b25071a2b518a776",
+                  "SHA256" : "1d4d4e86fb20bd0b078fcc518f4641d21985cc8bfaefa6dd49cfa1beff52ac83",
+                  "size" : 997125,
+                  "url" : "https://cdn.modrinth.com/data/1IjD5062/versions/mX1iknM1/continuity-3.0.1-beta.1%2B1.21.11.jar"
+               },
+               "id" : "org.modrinth:continuity:3.0.1-beta.1+1.21.11@jar",
+               "name" : "mods/continuity-3.0.1-beta.1+1.21.11.jar",
+               "type" : "FabricMod"
+            },
+            {
+               "artifact" : {
                   "MD5" : "3e86bb71f184223e2d0ff1f6a32b46b2",
                   "SHA256" : "2164c96b93110b237b2eb14bbc06e0d7743908505cfb14eb77f8166ad039013d",
                   "size" : 5111,
