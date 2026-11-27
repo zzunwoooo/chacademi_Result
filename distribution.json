@@ -194,12 +194,12 @@
             },
             {
                "artifact" : {
-                  "MD5" : "405faf3ae1f2c19b98866eae74eceb08",
-                  "size" : 2623279,
-                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/build-launcher-distro/mods/linring-ui-0.5.0.jar"
+                  "MD5" : "5883f750a25323ff827d25d8cee4198d",
+                  "size" : 3989899,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/build-launcher-distro/mods/linring-ui-0.6.0.jar"
                },
-               "id" : "kr.chacademi.build:linring-ui:0.5.0@jar",
-               "name" : "린링 전용 화면 (아이템 팝업, 메뉴, 인벤토리, 소리)",
+               "id" : "kr.chacademi.build:linring-ui:0.6.0@jar",
+               "name" : "린링 전용 화면 (아이템 팝업, 메뉴, 인벤토리, 소리, 파밍)",
                "type" : "FabricMod"
             },
             {
