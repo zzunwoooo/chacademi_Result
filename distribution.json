@@ -205,13 +205,13 @@
             },
             {
                "artifact" : {
-                  "MD5" : "ea67b2a046f943bf1947b009d0644857",
-                  "SHA256" : "ead031426c06a4b6c92c18465e56769b8f9e57295da131fe3d94434f87443060",
-                  "size" : 3988741,
-                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/build-launcher-distro/mods/linring-ui-0.7.0.jar"
+                  "MD5" : "258a76952a13976472ef325e9f1de86a",
+                  "SHA256" : "76d958a601ac40a85ec2900ce72f7ff6764084a5fea04ac24450162a8ddd64b2",
+                  "size" : 5130879,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/build-launcher-distro/mods/linring-ui-0.8.0.jar"
                },
-               "id" : "kr.chacademi.build:linring-ui:0.7.0@jar",
-               "name" : "mods/linring-ui-0.7.0.jar",
+               "id" : "kr.chacademi.build:linring-ui:0.8.0@jar",
+               "name" : "mods/linring-ui-0.8.0.jar",
                "type" : "FabricMod"
             },
             {
