@@ -242,13 +242,13 @@
             },
             {
                "artifact" : {
-                  "MD5" : "1d6f659960d9336aaa55d4c9df677ebb",
-                  "SHA256" : "bfe5d43795ceb42d1af85e84fb210e1324a838ed2b56c9a7cc20935efae6b370",
-                  "size" : 2588472,
-                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/remyu-launcher-distro/mods/remyu-sled-0.10.5.jar"
+                  "MD5" : "3413ae5fd09c73a8cb6e80287d5dd989",
+                  "SHA256" : "87fbbfe41888ff457c604b7300c90babe97599ba3a62b62df24d05342948d047",
+                  "size" : 2588769,
+                  "url" : "https://raw.githubusercontent.com/zzunwoooo/chacademi_Result/refs/heads/claude/remyu-launcher-distro/mods/remyu-sled-0.10.6.jar"
                },
-               "id" : "kr.remyu:remyu-sled:0.10.5@jar",
-               "name" : "mods/remyu-sled-0.10.5.jar",
+               "id" : "kr.remyu:remyu-sled:0.10.6@jar",
+               "name" : "mods/remyu-sled-0.10.6.jar",
                "type" : "FabricMod"
             },
             {
